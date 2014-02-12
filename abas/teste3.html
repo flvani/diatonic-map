@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CSS3 tabs with beveled corners - demo</title>
+<style>
+html
+{
+    background: #222 url(/wp-content/uploads/2011/09/bg.png);
+}
+
+body
+{
+    width: 600px;
+    margin: 100px auto 0 auto;
+    font-family: 'Trebuchet MS', Arial, Helvetica;
+    font-size: small;
+}
+
+h2, h3, p
+{
+    margin: 0 0 15px 0;
+}
+
+#tabs
+{
+  overflow: auto;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#tabs li
+{
+    margin: 0;
+    padding: 0;
+    float: left;
+}
+
+#tabs a
+{
+    -moz-box-shadow: -4px 4px 3px rgba(0, 0, 0, .2);
+    -webkit-box-shadow:  -4px 4px 3px rgba(0, 0, 0, .2);
+    box-shadow: -4px 4px 3px rgba(0, 0, 0, .2);
+    background: #ad1c1c;
+    background:    -moz-linear-gradient(225deg, transparent 10px, #ad1c1c 10px);
+    background:    -webkit-linear-gradient(225deg, transparent 10px, #ad1c1c 10px);     
+    background:     -ms-linear-gradient(225deg, transparent 10px, #ad1c1c 10px); 
+    background:      -o-linear-gradient(225deg, transparent 10px, #ad1c1c 10px); 
+    background:         linear-gradient(225deg, transparent 10px, #ad1c1c 10px);
+    text-shadow: 0 1px 0 rgba(0,0,0,.5);
+    color: #fff;
+    float: left;
+    font: bold 12px/35px 'Lucida sans', Arial, Helvetica;
+    height: 35px;
+    padding: 0 30px;
+    text-decoration: none;
+}
+
+#tabs a:hover
+{
+    background: #c93434;
+    background:    -moz-linear-gradient(225deg, transparent 10px, #c93434 10px);
+    background:    -webkit-linear-gradient(225deg, transparent 10px, #c93434 10px);     
+    background:     -ms-linear-gradient(225deg, transparent 10px, #c93434 10px); 
+    background:      -o-linear-gradient(225deg, transparent 10px, #c93434 10px); 
+    background:         linear-gradient(225deg, transparent 10px, #c93434 10px);     
+}
+
+#tabs a:focus
+{
+    outline: 0;
+}
+
+#tabs #current a
+{
+    background: #fff;
+    background:    -moz-linear-gradient(225deg, transparent 10px, #fff 10px);
+    background:    -webkit-linear-gradient(225deg, transparent 10px, #fff 10px);     
+    background:     -ms-linear-gradient(225deg, transparent 10px, #fff 10px); 
+    background:      -o-linear-gradient(225deg, transparent 10px, #fff 10px); 
+    background:         linear-gradient(225deg, transparent 10px, #fff 10px);
+    text-shadow: none;    
+    color: #333;
+}
+
+#content
+{
+    background-color: #fff;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd));
+    background-image: -webkit-linear-gradient(top, #fff, #ddd); 
+    background-image:    -moz-linear-gradient(top, #fff, #ddd); 
+    background-image:     -ms-linear-gradient(top, #fff, #ddd); 
+    background-image:      -o-linear-gradient(top, #fff, #ddd); 
+    background-image:         linear-gradient(top, #fff, #ddd);
+    -moz-border-radius: 0 2px 2px 2px;
+    -webkit-border-radius: 0 2px 2px 2px;
+    border-radius: 0 2px 2px 2px;
+    -moz-box-shadow: 0 2px 2px #000, 0 -1px 0 #fff inset;
+    -webkit-box-shadow: 0 2px 2px #000, 0 -1px 0 #fff inset;
+    box-shadow: 0 2px 2px #000, 0 -1px 0 #fff inset;
+    padding: 30px;
+}
+
+/* Remove the rule below if you want the content to be "organic" */
+#content div
+{
+    height: 220px;
+}
+
+/* --- */
+#about
+{
+    color: #999;
+}
+
+#about a
+{
+    color: #eee;
+}
+</style>
+</head>
+
+<body>
+
+<ul id="tabs">
+    <li><a href="#" title="tab1">One</a></li>
+    <li><a href="#" title="tab2">Two</a></li>
+    <li><a href="#" title="tab3">Three</a></li>
+</ul>
+
+<div id="content"> 
+    <div id="tab1">
+        <h2>Lorem ipsum sit amet</h2>
+        <p>Praesent risus nisi, iaculis nec condimentum vel, rhoncus vel dolor. Aenean nisi lectus, varius nec tempus id, dapibus non quam.</p>
+        <p>Suspendisse ac libero mauris. Cras lacinia porttitor urna, vitae molestie libero posuere et. Mauris turpis tortor, mollis non vulputate sit amet, rhoncus vitae purus.</p>
+        <h3>Pellentesque habitant</h3>
+        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae.</p>    
+    </div>
+    <div id="tab2">
+        <h2>Vivamus fringilla suscipit justo</h2>
+        <p>Aenean dui nulla, egestas sit amet auctor vitae, facilisis id odio. Donec dictum gravida feugiat.</p>
+        <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Cras pretium elit et erat condimentum et volutpat lorem vehicula</p>
+        <p>Morbi tincidunt pharetra orci commodo molestie. Praesent ut leo nec dolor tempor eleifend.</p>    
+    </div>
+    <div id="tab3">
+        <h2>Phasellus non nibh</h2>
+        <p>Non erat laoreet ullamcorper. Pellentesque magna metus, feugiat eu elementum sit amet, cursus sed diam. Curabitur posuere porttitor lorem, eu malesuada tortor faucibus sed.</p>
+        <h3>Duis pulvinar nibh vel urna</h3>
+        <p>Donec purus leo, porttitor eu molestie quis, porttitor sit amet ipsum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec accumsan ornare elit id imperdiet. </p>
+        <p>Suspendisse ac libero mauris. Cras lacinia porttitor urna, vitae molestie libero posuere et. </p>
+    </div>
+</div>
+
+<br><br>
+<p id="about">Back to <a href="/css3-tabs-with-beveled-corners">article</a> / Drop me a message on <a href="http://twitter.com/catalinred">Twitter</a>!</p>
+
+
+<script type="text/javascript" src="jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+	$("#content div").hide(); // Initially hide all content
+	$("#tabs li:first").attr("id","current"); // Activate first tab
+	$("#content div:first").fadeIn(); // Show first tab content
+    
+    $('#tabs a').click(function(e) {
+        e.preventDefault();        
+        $("#content div").hide(); //Hide all content
+        $("#tabs li").attr("id",""); //Reset id's
+        $(this).parent().attr("id","current"); // Activate this
+        $('#' + $(this).attr('title')).fadeIn(); // Show content for current tab
+    });
+})();
+</script>
+
+
+</body>
+</html>
