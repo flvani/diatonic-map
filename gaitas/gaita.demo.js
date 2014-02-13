@@ -124,5 +124,5 @@ ESCALA_DEMO_GC=[
 // acordes := array com acordes para o teclado do instrumento (ver ACORDES)
 // escalas := array com escalas para o teclado do instrumento (ver ESCALAS)
 // imagem := imagem ilustrativa do modelo de gaita
-GAITA_DEMO = ['Demonstração - 21/8 botões', ["G","C"], [1,4], KEYBOARD_DEMO_GC, CHORDS_DEMO_GC, ESCALA_DEMO_GC, 'img/demo.jpg' ]
+GAITA_DEMO = ['Demonstração - 21/8 botões', ["G","C"], [1,4], KEYBOARD_DEMO_GC, CHORDS_DEMO_GC, ESCALA_DEMO_GC, 'img/demo.gif' ]
 

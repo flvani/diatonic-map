@@ -59,34 +59,36 @@
 
   gStage = new Kinetic.Stage({ container: 'keyboard', height: nHeight, width: nWidth });
 
-  var circle = new Kinetic.Circle({
-    x: xi,
-    y: yi,
-    radius: c_btnSize / 1.5,
-    fill: 'white',
-    stroke: 'black',
-    strokeWidth: 2,
-    id: 'b_help'
-  });
+  { // desenhar o botão com a legenda abre/fecha
+    var circle = new Kinetic.Circle({
+      x: xi,
+      y: yi,
+      radius: c_btnSize / 1.5,
+      fill: 'white',
+      stroke: 'black',
+      strokeWidth: 2,
+      id: 'b_help'
+    });
 
-  circlePos = circle.getPosition();
-  Dy = (c_btnSize/2 - c_fontSize) / 2;
+    circlePos = circle.getPosition();
+    Dy = (c_btnSize/2 - c_fontSize) / 2;
 
-  var line = new Kinetic.Line({
-    points: [circlePos.x-(c_btnSize/1.5), circlePos.y+5,circlePos.x+(c_btnSize/1.5), circlePos.y-4],
-    stroke: 'black',
-    strokeWidth: 2,
-    lineCap: 'round',
-    lineJoin: 'round'
-  });
+    var line = new Kinetic.Line({
+      points: [circlePos.x-(c_btnSize/1.5), circlePos.y+5,circlePos.x+(c_btnSize/1.5), circlePos.y-4],
+      stroke: 'black',
+      strokeWidth: 2,
+      lineCap: 'round',
+      lineJoin: 'round'
+    });
 
-  textoOpen  = createKinectText( 'abre', 0, 100, c_open, circlePos.x+2, circlePos.y + Dy );
-  textoClose = createKinectText( 'fecha', 0, 100, c_close, circlePos.x+2, circlePos.y - c_fontSize - Dy );
+    textoOpen  = createKinectText( 'abre ', 0, 100, c_open, circlePos.x+2, circlePos.y + Dy );
+    textoClose = createKinectText( 'fecha ', 0, 100, c_close, circlePos.x+2, circlePos.y - c_fontSize - Dy );
 
-  gLayer.add(circle);
-  gLayer.add(line);
-  gLayer.add(textoOpen.key);
-  gLayer.add(textoClose.key);
+    gLayer.add(circle);
+    gLayer.add(line);
+    gLayer.add(textoOpen.key);
+    gLayer.add(textoClose.key);
+  }
 
   for (j=0; j<GAITA.keyboard.length; j++) {
 
@@ -176,8 +178,8 @@
 
       GAITA.minNoteInUse = GAITA.keyboard[j][i].notaOpen.value  < GAITA.minNoteInUse ? GAITA.keyboard[j][i].notaOpen.value  : GAITA.minNoteInUse;
       GAITA.minNoteInUse = GAITA.keyboard[j][i].notaClose.value < GAITA.minNoteInUse ? GAITA.keyboard[j][i].notaClose.value : GAITA.minNoteInUse;
-      GAITA.maxNoteInUse = GAITA.keyboard[j][i].notaOpen.value  > GAITA.maxNoteInUse ? GAITA.keyboard[j][i].notaOpen.value  : GAITA.maxNoteInUse;
-      GAITA.maxNoteInUse = GAITA.keyboard[j][i].notaClose.value > GAITA.maxNoteInUse ? GAITA.keyboard[j][i].notaClose.value : GAITA.maxNoteInUse;
+      GAITA.maxNoteInUse = GAITA.keyboard[j][i].notaOpen.value+12  > GAITA.maxNoteInUse ? GAITA.keyboard[j][i].notaOpen.value+12  : GAITA.maxNoteInUse;
+      GAITA.maxNoteInUse = GAITA.keyboard[j][i].notaClose.value+12 > GAITA.maxNoteInUse ? GAITA.keyboard[j][i].notaClose.value+12 : GAITA.maxNoteInUse;
 
       if (typeof (GAITA.keyboard[j][i].notaClose.key) === "undefined" ) alert( j + ' ' + i );
       setButtonText( GAITA.keyboard[j][i] );
@@ -194,7 +196,7 @@
 
     } 
   }
-
+/*
   imageObj = new Image();
   imageObj.onload = function() {
     gCanvasBackgroundImage = new Kinetic.Image({ x: 0, y: 0, image: imageObj, width: nWidth, height: nHeight });
@@ -203,11 +205,13 @@
   }
 
   imageObj.src = 'img/fole.3.png';
+*/
 
   gStage.add(gLayer);
 
   // mostra o nome e imagem da gaita
-  document.getElementById("div_nome_gaita").innerHTML = '<b>&nbsp;'+gaita[c_nome]+'</b>';
+  document.getElementById("a_nome_gaita").innerHTML = gaita[c_nome];
+  //document.getElementById("div_nome_gaita").innerHTML = '<b>&nbsp;'+gaita[c_nome]+'</b>';
   document.getElementById("div_imagem_gaita").innerHTML = '<img src="'+gaita[c_imagem]+'" />';
 
   mostraAfinacao();

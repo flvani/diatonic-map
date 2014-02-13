@@ -244,8 +244,8 @@ function playSound( noteList ) {
     } else {
       MIDI.noteOn(0, nota.value + gCurrentToneOffset, velocity, 0);	    	
       MIDI.noteOff(0, nota.value + gCurrentToneOffset, delay);
-      MIDI.noteOn(0, nota.value + gCurrentToneOffset - 12, velocity, 0);	    	
-      MIDI.noteOff(0, nota.value + gCurrentToneOffset - 12, delay);
+      MIDI.noteOn(0, nota.value + gCurrentToneOffset +12, velocity, 0);	    	
+      MIDI.noteOff(0, nota.value + gCurrentToneOffset +12, delay);
     }
   }
 }
@@ -308,12 +308,12 @@ function playAcorde( noteList )
     nota += gCurrentToneOffset;
  	MIDI.noteOn(0, nota, velocity, (i-0)*delay);	    	
  	MIDI.noteOff(0, nota, (i-0+1)*delay);
- 	MIDI.noteOn(0, nota-12, velocity, (i-0)*delay);	    	
- 	MIDI.noteOff(0, nota-12, (i-0+1)*delay);
+ 	MIDI.noteOn(0, nota+12, velocity, (i-0)*delay);	    	
+ 	MIDI.noteOff(0, nota+12, (i-0+1)*delay);
  	MIDI.noteOn(0, nota, velocity, (len+1)*delay);	    	
  	MIDI.noteOff(0, nota, (len+3)*delay);
- 	MIDI.noteOn(0, nota-12, velocity, (len+1)*delay);	    	
- 	MIDI.noteOff(0, nota-12, (len+3)*delay);
+ 	MIDI.noteOn(0, nota+12, velocity, (len+1)*delay);	    	
+ 	MIDI.noteOff(0, nota+12, (len+3)*delay);
  }
 }
 

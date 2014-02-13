@@ -1,5 +1,9 @@
 body {
   padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      background: #bbbbaa;
+/*
+  background: #fafafa;
+  background: #fff url(../img/bg.gif) repeat top left; */
 }
 
 .container > header h1{
@@ -39,9 +43,9 @@ body {
   pointer-events: auto;
 }
 .modalWindow > div {
-  width: 640px;
+  width: 700px;
   position: relative;
-  margin: 8% auto;
+  margin: 5% auto;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
@@ -99,7 +103,7 @@ body {
 .close:hover, .cancel:hover { background: #D4482D; }
 .clear { float:none; clear: both; }
 
-
+#faketab,
 #tabs {
   overflow: hidden;
   width: 100%;
@@ -108,62 +112,66 @@ body {
   list-style: none;
 }
 
+#faketab li,
 #tabs li {
   float: left;
   margin: 0 .5em 0 0;
 }
 
+#faketab label,
 #tabs label {
-background: #5ba4a4;
-background: -moz-linear-gradient(top, #5ba4a4 0%, #4e8c8a 100%);
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5ba4a4), color-stop(100%,#4e8c8a));
-background: -webkit-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
-background: -o-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
-background: -ms-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
-background: linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
-position: relative;
-padding: 0 20px;
-float: left;
-display: block;
-width: 80px;
-font-size: 15px;
-color: #385c5b;
-letter-spacing: 1px;
-text-transform: uppercase;
-font-weight: bold;
-text-align: center;
-text-shadow: 1px 1px 1px rgba(255,255,255,0.3);
-border-radius: 3px 3px 0 0;
-box-shadow: 2px 0 2px rgba(0,0,0,0.1), -2px 0 2px rgba(0,0,0,0.1);
+  background: #5ba4a4;
+  background: -moz-linear-gradient(top, #5ba4a4 0%, #4e8c8a 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5ba4a4), color-stop(100%,#4e8c8a));
+  background: -webkit-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
+  background: -o-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
+  background: -ms-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
+  background: linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
+  position: relative;
+  padding: 0 20px;
+  float: left;
+  display: block;
+  width: 80px;
+
+  color: #385c5b;
+  font-size: 15px;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(255,255,255,0.3);
+  letter-spacing: 1px;
+
+  border-radius: 5px 5px 0 0;
+  box-shadow: 2px 0 2px rgba(0,0,0,0.1), -2px 0 2px rgba(0,0,0,0.1);
 }
 
+#faketab a,
 #tabs a {
   position: relative;
-background: #5ba4a4;
-background: -moz-linear-gradient(top, #5ba4a4 0%, #4e8c8a 100%);
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5ba4a4), color-stop(100%,#4e8c8a));
-background: -webkit-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
-background: -o-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
-background: -ms-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
-background: linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
-/*  background: #ddd;
-  background-image: linear-gradient(to bottom, #fff, #ddd);  */
+  background: #5ba4a4;
+  background: -moz-linear-gradient(top, #5ba4a4 0%, #4e8c8a 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5ba4a4), color-stop(100%,#4e8c8a));
+  background: -webkit-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
+  background: -o-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
+  background: -ms-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
+  background: linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
   padding: .4em 1em;
   float: left;
+
+  color: #385c5b;
+  font-size: 15px;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 1px 1px 1px rgba(255,255,255,.8);
   text-decoration: none;
-  color: #444;
+  text-transform: uppercase;
+
+  letter-spacing: 1px;
   border-radius: 5px 0 0 0;
   box-shadow: 0 2px 2px rgba(0,0,0,.4);
-font-size: 15px;
-color: #385c5b;
-letter-spacing: 1px;
-text-transform: uppercase;
-font-weight: bold;
-text-align: center;
-text-shadow: 1px 1px 1px rgba(255,255,255,.8);
   /*text-shadow: 1px 1px 1px rgba(255,255,255,0.3);*/
-
 }
+
 
 #tabs a:hover,
 #tabs a:hover::after,
@@ -176,6 +184,7 @@ text-shadow: 1px 1px 1px rgba(255,255,255,.8);
   outline: 0;
 }
 
+#faketab a::after,
 #tabs a::after {
   content:'';
   position:absolute;
@@ -184,35 +193,43 @@ text-shadow: 1px 1px 1px rgba(255,255,255,.8);
   right: -.5em;  
   bottom: 0;
   width: 1em;
-background: #5ba4a4;
-background: -moz-linear-gradient(top, #5ba4a4 0%, #4e8c8a 100%);
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5ba4a4), color-stop(100%,#4e8c8a));
-background: -webkit-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
-background: -o-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
-background: -ms-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
-background: linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
-/*
-  background: #ddd;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd));
-  background-image: -webkit-linear-gradient(top, #fff, #ddd);
-  background-image: -moz-linear-gradient(top, #fff, #ddd);
-  background-image: -ms-linear-gradient(top, #fff, #ddd);
-  background-image: -o-linear-gradient(top, #fff, #ddd);
-  background-image: linear-gradient(to bottom, #fff, #ddd);  
-*/
+
+  background: #5ba4a4;
+  background: -moz-linear-gradient(top, #5ba4a4 0%, #4e8c8a 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5ba4a4), color-stop(100%,#4e8c8a));
+  background: -webkit-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
+  background: -o-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
+  background: -ms-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
+  background: linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
+
+  box-shadow: 3px 3px 3px rgba(0,0,0,.4);
   -moz-box-shadow: 3px 3px 3px rgba(0,0,0,.4);
   -webkit-box-shadow: 3px 3px 3px rgba(0,0,0,.4);
-  box-shadow: 3px 3px 3px rgba(0,0,0,.4);
 
+  transform: skew(15deg);
   -webkit-transform: skew(15deg);
   -moz-transform: skew(15deg);
   -ms-transform: skew(15deg);
   -o-transform: skew(15deg);
-  transform: skew(15deg);
   
--webkit-border-radius: 0 5px 0 0;
-  -moz-border-radius: 0 5px 0 0;
   border-radius: 0 5px 0 0;  
+  -webkit-border-radius: 0 5px 0 0;
+  -moz-border-radius: 0 5px 0 0;
+}
+
+#faketab a, 
+#faketab a::after {
+  color: #385c5b;
+  color: lightgreen;
+}
+
+#faketab a:hover,
+#faketab a:hover::after,
+#faketab a:focus,
+#faketab a:focus::after {
+  color: #385c5b;
+  color: lightgreen;
+  background: #5ba4a4;
 }
 
 #tabs #current a,
@@ -222,26 +239,34 @@ background: linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
 }
 
 #content {
+  overflow: hidden;
+  background:url(../img/fole.4.png);
+  background-color: #fff;
+  background-size:100% 100%;
+  background-repeat:no-repeat;
+}
+
+#content_detalhes {
     background: #fff;
-    padding: 0.1em 2em;
     height: 220px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#content,
+#content_detalhes {
+    padding: 0.1em 2em;
     position: relative;
     z-index: 2;	
     border-radius: 0 5px 5px 5px;
-    box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, .5), 0 -1px 3px -2px rgba(0, 0, 0, .5);;
+    box-shadow: 1px -1px 1px 1px rgba(0, 0, 0, .3), 2px 2px 1px 1px rgba(0, 0, 0, .3);
+/*
+    height: 220px;
+    box-shadow: 1px -1px 2px 1px rgba(0, 0, 0, .3);
+    box-shadow: 1px -1px 1px 3px rgba(0, 0, 0, .3), 1px 1px 1px 3px rgba(0, 0, 0, .3); */
 }
 
-/*
-#detalhes {
-  overflow: hidden;
-    background: #ccccaa;
-    padding: 2px;
-    height: 257px;
-    width: 757px;
-    position: relative;
-    top: 100px;
-    left: 100px;
-    z-index: 2;	
-    border-radius: 5px 5px 5px 5px;
+.table-final {
+    background: #fff;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, .3);
 }
-*/

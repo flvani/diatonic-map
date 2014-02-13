@@ -98,4 +98,4 @@ ESCALA_HOHNER_GC=[
      ]],
  ];
 
-GAITA_HOHNER_GC = ['Hohner/Hëring - 21/8 botões', ["G","C"], [1,4], KEYBOARD_HOHNER_GC, CHORDS_HOHNER_GC, ESCALA_HOHNER_GC, 'img/Hohner Beija-Flor.jpg' ]
+GAITA_HOHNER_GC = ['Hohner/Hëring - 21/8 botões', ["G","C"], [1,4], KEYBOARD_HOHNER_GC, CHORDS_HOHNER_GC, ESCALA_HOHNER_GC, 'img/Hohner Beija-Flor.gif' ]

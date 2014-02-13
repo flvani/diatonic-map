@@ -155,4 +155,4 @@ ESCALA_HOHNER_CF_br=[
      ]]
  ];
 
-GAITA_CLUB_BR = ['Hohner Club IIIM - 30/8 botões (brasileira)', ["C","F"], [1,5], KEYBOARD_HOHNER_CF_br, CHORDS_HOHNER_CF_br, ESCALA_HOHNER_CF_br, 'img/Hohner.Club IIIM.jpg' ]
+GAITA_CLUB_BR = ['Hohner Club IIIM - 30/8 botões (brasileira)', ["C","F"], [1,5], KEYBOARD_HOHNER_CF_br, CHORDS_HOHNER_CF_br, ESCALA_HOHNER_CF_br, 'img/Hohner.Club IIIM.gif' ]
