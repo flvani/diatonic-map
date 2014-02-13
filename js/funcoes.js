@@ -226,12 +226,12 @@ function stopPlaying() {
 
 }        
 
-function playSound( noteList ) {
+function playSound( noteList, channel ) {
 
   var delay = gIntervalo/1000; 
   var velocity = 127; // how hard the note hits
 
-  MIDI.setVolume(0, 127);
+  MIDI.setVolume(channel, 127);
 
   for (i=0; i < noteList[1].length; i++) {
     if (noteList[0] == c_close) {
@@ -240,17 +240,17 @@ function playSound( noteList ) {
       nota   = GAITA.keyboard[noteList[1][i][0]][noteList[1][i][1]].notaOpen;
     }
     if( nota.isChord ) {
-      playChord(nota);
+      playChord(nota, channel);
     } else {
-      MIDI.noteOn(0, nota.value + gCurrentToneOffset, velocity, 0);	    	
-      MIDI.noteOff(0, nota.value + gCurrentToneOffset, delay);
-      MIDI.noteOn(0, nota.value + gCurrentToneOffset +12, velocity, 0);	    	
-      MIDI.noteOff(0, nota.value + gCurrentToneOffset +12, delay);
+      MIDI.noteOn(channel, nota.value + gCurrentToneOffset, velocity, 0);	    	
+      MIDI.noteOff(channel, nota.value + gCurrentToneOffset, delay);
+      MIDI.noteOn(channel, nota.value + gCurrentToneOffset +12, velocity, 0);	    	
+      MIDI.noteOff(channel, nota.value + gCurrentToneOffset +12, delay);
     }
   }
 }
 
-function playChord( chord ) {
+function playChord( chord, channel ) {
   /* 
      formação de acordes:
         acorde maior   0, 4, 7
@@ -262,23 +262,23 @@ function playChord( chord ) {
   var delay = gIntervalo/1000; 
   var velocity = 127; // how hard the note hits
 
-  MIDI.setVolume(0, 127);
-  MIDI.noteOn(0, nota.value + gCurrentToneOffset, velocity, 0);	    	
-  MIDI.noteOff(0, nota.value + gCurrentToneOffset, delay);
-  MIDI.noteOn(0, nota.value + gCurrentToneOffset+12, velocity, 0);	    	
-  MIDI.noteOff(0, nota.value + gCurrentToneOffset+12, delay);
+  MIDI.setVolume(channel, 127);
+  MIDI.noteOn(channel, nota.value + gCurrentToneOffset, velocity, 0);	    	
+  MIDI.noteOff(channel, nota.value + gCurrentToneOffset, delay);
+  MIDI.noteOn(channel, nota.value + gCurrentToneOffset+12, velocity, 0);	    	
+  MIDI.noteOff(channel, nota.value + gCurrentToneOffset+12, delay);
 
   d = chord.isMenor ? 3 : 4;
  
-  MIDI.noteOn(0, nota.value + gCurrentToneOffset+d, velocity, 0);	    	
-  MIDI.noteOff(0, nota.value + gCurrentToneOffset+d, delay);
-  MIDI.noteOn(0, nota.value + gCurrentToneOffset+d+12, velocity, 0);	    	
-  MIDI.noteOff(0, nota.value + gCurrentToneOffset+d+12, delay);
+  MIDI.noteOn(channel, nota.value + gCurrentToneOffset+d, velocity, 0);	    	
+  MIDI.noteOff(channel, nota.value + gCurrentToneOffset+d, delay);
+  MIDI.noteOn(channel, nota.value + gCurrentToneOffset+d+12, velocity, 0);	    	
+  MIDI.noteOff(channel, nota.value + gCurrentToneOffset+d+12, delay);
 
-  MIDI.noteOn(0, nota.value + gCurrentToneOffset+7, velocity, 0);	    	
-  MIDI.noteOff(0, nota.value + gCurrentToneOffset+7, delay);
-  MIDI.noteOn(0, nota.value + gCurrentToneOffset+7+12, velocity, 0);	    	
-  MIDI.noteOff(0, nota.value + gCurrentToneOffset+7+12, delay);
+  MIDI.noteOn(channel, nota.value + gCurrentToneOffset+7, velocity, 0);	    	
+  MIDI.noteOff(channel, nota.value + gCurrentToneOffset+7, delay);
+  MIDI.noteOn(channel, nota.value + gCurrentToneOffset+7+12, velocity, 0);	    	
+  MIDI.noteOff(channel, nota.value + gCurrentToneOffset+7+12, delay);
 
   if( chord.isSetima ) {
       MIDI.noteOn(0, nota.value + gCurrentToneOffset+10, velocity, 0);	    	
@@ -290,13 +290,13 @@ function playChord( chord ) {
   //( chord.key + ' ' + chord.value + ' ' + chord.isMenor + ' ' + chord.isSetima );
 }
 
-function playAcorde( noteList )
+function playAcorde( noteList, channel )
 {
 
   var delay = gIntervalo/1000; 
   var velocity = 127; // how hard the note hits
   // play the note
-  MIDI.setVolume(0, 127);
+  MIDI.setVolume(channel, 127);
 
   len = noteList[1].length;
   for (i=0; i < len; i++) {
@@ -306,14 +306,14 @@ function playAcorde( noteList )
       nota   = GAITA.keyboard[noteList[1][i][0]][noteList[1][i][1]].notaOpen.value;
     }
     nota += gCurrentToneOffset;
- 	MIDI.noteOn(0, nota, velocity, (i-0)*delay);	    	
- 	MIDI.noteOff(0, nota, (i-0+1)*delay);
- 	MIDI.noteOn(0, nota+12, velocity, (i-0)*delay);	    	
- 	MIDI.noteOff(0, nota+12, (i-0+1)*delay);
- 	MIDI.noteOn(0, nota, velocity, (len+1)*delay);	    	
- 	MIDI.noteOff(0, nota, (len+3)*delay);
- 	MIDI.noteOn(0, nota+12, velocity, (len+1)*delay);	    	
- 	MIDI.noteOff(0, nota+12, (len+3)*delay);
+ 	MIDI.noteOn(channel, nota, velocity, (i-0)*delay);	    	
+ 	MIDI.noteOff(channel, nota, (i-0+1)*delay);
+ 	MIDI.noteOn(channel, nota+12, velocity, (i-0)*delay);	    	
+ 	MIDI.noteOff(channel, nota+12, (i-0+1)*delay);
+ 	MIDI.noteOn(channel, nota, velocity, (len+1)*delay);	    	
+ 	MIDI.noteOff(channel, nota, (len+3)*delay);
+ 	MIDI.noteOn(channel, nota+12, velocity, (len+1)*delay);	    	
+ 	MIDI.noteOff(channel, nota+12, (len+3)*delay);
  }
 }
 
@@ -370,7 +370,8 @@ function setNotes(scale_no, note_no) {
 
   document.getElementById( 'scale_' + scale_no + '_' + note_no ).style.setProperty('background-color', 'gray', 'important');
   gLayer.draw();
-  playSound(noteList);
+  if (checkboxAcordeon.checked) playSound(noteList, 0);
+  if (checkboxPiano.checked) playSound(noteList, 1);
 
 }
 
@@ -403,7 +404,8 @@ function setAcorde(chord_no, var_no) {
     markButton(noteList[1][i][0], noteList[1][i][1]);
   }
    
-  playAcorde(noteList); 
+  if (checkboxAcordeon.checked) playAcorde(noteList, 0);
+  if (checkboxPiano.checked) playAcorde(noteList, 1);
 
   document.getElementById( 'chord_' + chord_no + '_' + var_no ).style.setProperty('background-color', 'gray', 'important');
   gLayer.draw();
