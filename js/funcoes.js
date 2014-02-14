@@ -117,6 +117,7 @@ function set_pop_tone(tone) {
 }
 
 function markButtonClose (row, button) {
+    setModifiedItem( GAITA.keyboard[row][button] );
     GAITA.keyboard[row][button].btn.setFill('#f5b043'); // yellow
     GAITA.keyboard[row][button].notaClose.labels.key.setFill('red');
     GAITA.keyboard[row][button].notaClose.labels.compl.setFill('red');
@@ -127,6 +128,8 @@ function markButtonClose (row, button) {
 }
 
 function markButtonOpen (row, button) {
+    setModifiedItem( GAITA.keyboard[row][button] );
+    GAITA.keyboard[row][button].modified = true;
     GAITA.keyboard[row][button].btn.setFill('#24e3be'); // ligthgreen
     GAITA.keyboard[row][button].notaOpen.labels.key.setFill('red');
     GAITA.keyboard[row][button].notaOpen.labels.compl.setFill('red');
@@ -136,39 +139,35 @@ function markButtonOpen (row, button) {
     GAITA.keyboard[row][button].notaClose.labels.octave.setFill('#24e3be');
 }
 
+function setModifiedItem( item ) {
+  GAITA.modifiedItems[GAITA.modifiedItems.length] = item;
+}
+
+
 function clearKeyboard() {
-  aEscalas = GAITA.gaitas[GAITA.selected][c_escalas];
-  aAcordes = GAITA.gaitas[GAITA.selected][c_acordes];
+
+  for (i=0; i < GAITA.modifiedItems.length; i++) {
+    item = GAITA.modifiedItems[i];
+    if( typeof( item ) === 'object' ) {
+       item.btn.setFill('white');
+       item.notaOpen.labels.key.setFill('black');
+       item.notaOpen.labels.compl.setFill('black');
+       item.notaOpen.labels.octave.setFill('black');
+       item.notaClose.labels.compl.setFill('black');
+       item.notaClose.labels.key.setFill('black');
+       item.notaClose.labels.octave.setFill('black');
+    } else {
+      document.getElementById( item ).style.removeProperty('background-color');
+    }
+  }
 
   $('#acordeAtualVazio').show();
   $('#acordeAtualFoleAbrindo').hide();
   $('#acordeAtualFoleFechando').hide();
 
-  for( j=0; j < GAITA.keyboard.length; j++) {
-    for (i=0; i < GAITA.keyboard[j].length; i++) {
-      GAITA.keyboard[j][i].btn.setFill('white');
-      GAITA.keyboard[j][i].notaOpen.labels.key.setFill('black');
-      GAITA.keyboard[j][i].notaOpen.labels.compl.setFill('black');
-      GAITA.keyboard[j][i].notaOpen.labels.octave.setFill('black');
-      GAITA.keyboard[j][i].notaClose.labels.compl.setFill('black');
-      GAITA.keyboard[j][i].notaClose.labels.key.setFill('black');
-      GAITA.keyboard[j][i].notaClose.labels.octave.setFill('black');
-    }
-  }
+  gLayer.batchDraw();
+  GAITA.modifiedItems = new Array();
 
-  for (var c=0; c < aEscalas.length; c++) {
-    for (var v=0; v < aEscalas[c][c_notas].length; v++) {
-      document.getElementById( 'scale_' + c + '_' + v ).style.removeProperty('background-color');
-    }
-  }
-
-  for (var c=0; c < aAcordes.length; c++) {
-    for (var v=0; v < aAcordes[c][c_variations].length; v++) {
-      document.getElementById( 'chord_' + c + '_' + v ).style.removeProperty('background-color');
-    }
-  }
-
-  gLayer.draw();
 }
 
 function redrawKeyboard () {
@@ -222,6 +221,7 @@ function stopPlaying() {
 
   clearTimeout(gTimeout);  
   clearKeyboard();
+  MIDI.sounding = false;
   gIntervalo = 256;
 
 }        
@@ -231,6 +231,7 @@ function playSound( noteList, channel ) {
   var delay = gIntervalo/1000; 
   var velocity = 127; // how hard the note hits
 
+  MIDI.sounding=true;
   MIDI.setVolume(channel, 127);
 
   for (i=0; i < noteList[1].length; i++) {
@@ -246,6 +247,7 @@ function playSound( noteList, channel ) {
       MIDI.noteOff(channel, nota.value + gCurrentToneOffset, delay);
       MIDI.noteOn(channel, nota.value + gCurrentToneOffset +12, velocity, 0);	    	
       MIDI.noteOff(channel, nota.value + gCurrentToneOffset +12, delay);
+      setTimeout(function(){MIDI.sounding=false;},gIntervalo);
     }
   }
 }
@@ -262,6 +264,7 @@ function playChord( chord, channel ) {
   var delay = gIntervalo/1000; 
   var velocity = 127; // how hard the note hits
 
+  MIDI.sounding=true;
   MIDI.setVolume(channel, 127);
   MIDI.noteOn(channel, nota.value + gCurrentToneOffset, velocity, 0);	    	
   MIDI.noteOff(channel, nota.value + gCurrentToneOffset, delay);
@@ -286,6 +289,7 @@ function playChord( chord, channel ) {
       MIDI.noteOn(0, nota.value + gCurrentToneOffset+10+12, velocity, 0);	    	
       MIDI.noteOff(0, nota.value + gCurrentToneOffset+10+12, delay);
   }
+  setTimeout(function(){MIDI.sounding=false;},gIntervalo);
 
   //( chord.key + ' ' + chord.value + ' ' + chord.isMenor + ' ' + chord.isSetima );
 }
@@ -295,7 +299,9 @@ function playAcorde( noteList, channel )
 
   var delay = gIntervalo/1000; 
   var velocity = 127; // how hard the note hits
+
   // play the note
+  MIDI.sounding=true;
   MIDI.setVolume(channel, 127);
 
   len = noteList[1].length;
@@ -306,6 +312,7 @@ function playAcorde( noteList, channel )
       nota   = GAITA.keyboard[noteList[1][i][0]][noteList[1][i][1]].notaOpen.value;
     }
     nota += gCurrentToneOffset;
+
  	MIDI.noteOn(channel, nota, velocity, (i-0)*delay);	    	
  	MIDI.noteOff(channel, nota, (i-0+1)*delay);
  	MIDI.noteOn(channel, nota+12, velocity, (i-0)*delay);	    	
@@ -315,6 +322,7 @@ function playAcorde( noteList, channel )
  	MIDI.noteOn(channel, nota+12, velocity, (len+1)*delay);	    	
  	MIDI.noteOff(channel, nota+12, (len+3)*delay);
  }
+ setTimeout(function(){MIDI.sounding=false;},(len+3)*delay*1000);
 }
 
 function playEscala(nEscala, intervalo, ascendente, loop ) {
@@ -353,7 +361,8 @@ function playEscala(nEscala, intervalo, ascendente, loop ) {
 }
 
 function setNotes(scale_no, note_no) {
-  //destaca notas do escala selecionada
+
+  //destaca notas da escala selecionada e toca o som correspondente
   noteList = GAITA.gaitas[GAITA.selected][c_escalas][scale_no][c_notas][note_no];
 
   clearKeyboard();
@@ -369,14 +378,19 @@ function setNotes(scale_no, note_no) {
   }
 
   document.getElementById( 'scale_' + scale_no + '_' + note_no ).style.setProperty('background-color', 'gray', 'important');
+  setModifiedItem( 'scale_' + scale_no + '_' + note_no );
   gLayer.draw();
+
+  if( MIDI.sounding ) return;
+
   if (checkboxAcordeon.checked) playSound(noteList, 0);
   if (checkboxPiano.checked) playSound(noteList, 1);
 
 }
 
 function setAcorde(chord_no, var_no) {
-  //destaca notas do acorde selecionado
+  
+  //destaca notas do acorde selecionado e toca o som correspondente
   aChords = GAITA.gaitas[GAITA.selected][c_acordes];
   noteList = aChords[chord_no][c_variations][var_no];
   GAITA.selectedChord = chord_no;
@@ -385,8 +399,8 @@ function setAcorde(chord_no, var_no) {
 
   nota = transporta(parseNote( aChords[GAITA.selectedChord][0] ) );
   acorde_lbl =  nota.key + '<sub>' + nota.complement + '</sub>';
-  substituiHTML( 'acordeAtualFoleAbrindo', '&nbsp;', acorde_lbl  );
-  substituiHTML( 'acordeAtualFoleFechando', '&nbsp;', acorde_lbl  );
+  substituiHTML( 'acordeAtualFoleAbrindo', '&nbsp;', acorde_lbl + 's:' + MIDI.sounding );
+  substituiHTML( 'acordeAtualFoleFechando', '&nbsp;', acorde_lbl + 's:' + MIDI.sounding );
 
   if (noteList[0] == c_close) {
     $('#acordeAtualVazio').hide();
@@ -404,11 +418,16 @@ function setAcorde(chord_no, var_no) {
     markButton(noteList[1][i][0], noteList[1][i][1]);
   }
    
+  document.getElementById( 'chord_' + chord_no + '_' + var_no ).style.setProperty('background-color', 'gray', 'important');
+  setModifiedItem( 'chord_' + chord_no + '_' + var_no );
+
+  gLayer.draw();
+
+  if( MIDI.sounding ) return;
+
   if (checkboxAcordeon.checked) playAcorde(noteList, 0);
   if (checkboxPiano.checked) playAcorde(noteList, 1);
 
-  document.getElementById( 'chord_' + chord_no + '_' + var_no ).style.setProperty('background-color', 'gray', 'important');
-  gLayer.draw();
 }
 
 

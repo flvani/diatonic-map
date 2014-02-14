@@ -20,11 +20,13 @@
 		MIDI.noteToKey
 */
 
+
 if (typeof (MIDI) === "undefined") var MIDI = {};
 
 (function() { "use strict";
 
 var setPlugin = function(root) {
+    MIDI.sounding = false;
 	MIDI.api = root.api;
 	MIDI.setVolume = root.setVolume;
 	MIDI.programChange = root.programChange;
@@ -322,7 +324,7 @@ if (window.Audio) (function () {
 				playChannel(channel, id);
 			}, delay * 1000);
 		} else {
-			playChannel(channel, id);
+  		playChannel(channel, id);
 		}
 	};
 	
@@ -427,13 +429,13 @@ if (window.Audio) (function () {
 	};
 
 	root.noteOff = function (channel, note, delay) {
-
 	};
 
 	root.chordOn = function (channel, chord, velocity, delay) {
 		if (!MIDI.channels[channel]) return;
 		var instrument = MIDI.channels[channel].instrument;
 		var id = MIDI.GeneralMIDI.byId[instrument].number;
+    MIDI.sounding++;
 		for (var key in chord) {
 			var n = chord[key];
 			var note = id + "" + noteReverse[n];
@@ -444,11 +446,9 @@ if (window.Audio) (function () {
 	};
 
 	root.chordOff = function (channel, chord, delay) {
-
 	};
 
 	root.stopAllNotes = function () {
-
 	};
 
 	root.connect = function (instruments, conf) {

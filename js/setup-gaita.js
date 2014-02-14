@@ -17,6 +17,7 @@
 
   GAITA.selected = nGaita;
   GAITA.keyboard = new Array();
+  GAITA.modifiedItems = new Array();
 
   // ilheiras da mao direita
   maiorIlheira = 0;
@@ -34,7 +35,7 @@
   nTotIlheiras = nIlheiras+nIlheirasBaixo+2;
 
   if( bHorizontal ) {
-    nHeight = nTotIlheiras*c_btnSize + nTotIlheiras*c_btnSpace
+    nHeight = nTotIlheiras*(c_btnSize+c_btnSpace)
     nWidth  = (maiorIlheira+1) *c_btnSize + (maiorIlheira+2) * c_btnSpace       
     bassX   = c_btnSpace*4 + (((maiorIlheira-maiorIlheiraBaixo)/2))*(c_btnSize+c_btnSpace);
     trebleX = c_btnSpace*4;
@@ -45,7 +46,7 @@
       var yi = c_btnSpace + (1.5) * (c_btnSize+c_btnSpace);  
     }
   } else {
-    nWidth  = nTotIlheiras*c_btnSize + nTotIlheiras*c_btnSpace
+    nWidth  = nTotIlheiras*(c_btnSize+c_btnSpace)
     nHeight = (maiorIlheira+1) *c_btnSize + (maiorIlheira+2) * c_btnSpace
     bassY   = c_btnSpace*4 + (((maiorIlheira-maiorIlheiraBaixo)/2))*(c_btnSize+c_btnSpace);
     trebleY = c_btnSpace*4;
@@ -164,7 +165,7 @@
 
       GAITA.keyboard[j][i] = {};
       GAITA.keyboard[j][i].btn = circle;
-
+ 
       if(j<nIlheiras) {
         GAITA.keyboard[j][i].notaOpen  = parseNote( gaita[c_teclado][c_keys][c_open ][j][i], false );
         GAITA.keyboard[j][i].notaClose = parseNote( gaita[c_teclado][c_keys][c_close][j][i], false );
