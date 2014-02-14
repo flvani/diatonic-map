@@ -399,8 +399,8 @@ function setAcorde(chord_no, var_no) {
 
   nota = transporta(parseNote( aChords[GAITA.selectedChord][0] ) );
   acorde_lbl =  nota.key + '<sub>' + nota.complement + '</sub>';
-  substituiHTML( 'acordeAtualFoleAbrindo', '&nbsp;', acorde_lbl + 's:' + MIDI.sounding );
-  substituiHTML( 'acordeAtualFoleFechando', '&nbsp;', acorde_lbl + 's:' + MIDI.sounding );
+  substituiHTML( 'acordeAtualFoleAbrindo', '&nbsp;', acorde_lbl  );
+  substituiHTML( 'acordeAtualFoleFechando', '&nbsp;', acorde_lbl );
 
   if (noteList[0] == c_close) {
     $('#acordeAtualVazio').hide();
