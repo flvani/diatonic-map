@@ -143,7 +143,6 @@ function setModifiedItem( item ) {
   GAITA.modifiedItems[GAITA.modifiedItems.length] = item;
 }
 
-
 function clearKeyboard() {
 
   for (i=0; i < GAITA.modifiedItems.length; i++) {
@@ -167,7 +166,6 @@ function clearKeyboard() {
 
   gLayer.batchDraw();
   GAITA.modifiedItems = new Array();
-
 }
 
 function redrawKeyboard () {
@@ -192,7 +190,6 @@ function redrawKeyboard () {
 
     for (var v=0; v < aEscalas[c][c_notas].length; v++) {
       opening = aEscalas[c][c_notas][v][0]  == c_open;
-      //aTeclado = direcao == c_open ? aTecladoOpen : aTecladoClose;
       aNotes = aEscalas[c][c_notas][v][1];
       labelNotas = '';
       for( var n=aNotes.length-1; n > 0;  n-- ) {
@@ -221,17 +218,48 @@ function stopPlaying() {
 
   clearTimeout(gTimeout);  
   clearKeyboard();
-  MIDI.sounding = false;
+  GAITA.sounding = false;
   gIntervalo = 256;
 
-}        
+}     
+   
+function playAcorde( noteList, channel )
+{
+
+  var delay = gIntervalo/1000; 
+  var velocity = 127; // how hard the note hits
+
+  // play the note
+  GAITA.sounding=true;
+  MIDI.setVolume(channel, 127);
+
+  len = noteList[1].length;
+  for (i=0; i < len; i++) {
+    if (noteList[0] == c_close) {
+      nota   = GAITA.keyboard[noteList[1][i][0]][noteList[1][i][1]].notaClose.value;
+    } else {
+      nota   = GAITA.keyboard[noteList[1][i][0]][noteList[1][i][1]].notaOpen.value;
+    }
+    nota += gCurrentToneOffset;
+
+ 	MIDI.noteOn(channel, nota, velocity, (i-0)*delay);	    	
+ 	MIDI.noteOff(channel, nota, (i-0+1)*delay);
+ 	MIDI.noteOn(channel, nota+12, velocity, (i-0)*delay);	    	
+ 	MIDI.noteOff(channel, nota+12, (i-0+1)*delay);
+ 	MIDI.noteOn(channel, nota, velocity, (len+1)*delay);	    	
+ 	MIDI.noteOff(channel, nota, (len+3)*delay);
+ 	MIDI.noteOn(channel, nota+12, velocity, (len+1)*delay);	    	
+ 	MIDI.noteOff(channel, nota+12, (len+3)*delay);
+ }
+ setTimeout(function(){GAITA.sounding=false;},(len+3)*delay*1000);
+}
+
 
 function playSound( noteList, channel ) {
 
   var delay = gIntervalo/1000; 
   var velocity = 127; // how hard the note hits
 
-  MIDI.sounding=true;
   MIDI.setVolume(channel, 127);
 
   for (i=0; i < noteList[1].length; i++) {
@@ -241,18 +269,17 @@ function playSound( noteList, channel ) {
       nota   = GAITA.keyboard[noteList[1][i][0]][noteList[1][i][1]].notaOpen;
     }
     if( nota.isChord ) {
-      playChord(nota, channel);
+      generateAndPlayChord(nota, channel);
     } else {
       MIDI.noteOn(channel, nota.value + gCurrentToneOffset, velocity, 0);	    	
       MIDI.noteOff(channel, nota.value + gCurrentToneOffset, delay);
       MIDI.noteOn(channel, nota.value + gCurrentToneOffset +12, velocity, 0);	    	
       MIDI.noteOff(channel, nota.value + gCurrentToneOffset +12, delay);
-      setTimeout(function(){MIDI.sounding=false;},gIntervalo);
     }
   }
 }
 
-function playChord( chord, channel ) {
+function generateAndPlayChord( chord, channel ) {
   /* 
      formação de acordes:
         acorde maior   0, 4, 7
@@ -264,7 +291,6 @@ function playChord( chord, channel ) {
   var delay = gIntervalo/1000; 
   var velocity = 127; // how hard the note hits
 
-  MIDI.sounding=true;
   MIDI.setVolume(channel, 127);
   MIDI.noteOn(channel, nota.value + gCurrentToneOffset, velocity, 0);	    	
   MIDI.noteOff(channel, nota.value + gCurrentToneOffset, delay);
@@ -289,40 +315,7 @@ function playChord( chord, channel ) {
       MIDI.noteOn(0, nota.value + gCurrentToneOffset+10+12, velocity, 0);	    	
       MIDI.noteOff(0, nota.value + gCurrentToneOffset+10+12, delay);
   }
-  setTimeout(function(){MIDI.sounding=false;},gIntervalo);
 
-  //( chord.key + ' ' + chord.value + ' ' + chord.isMenor + ' ' + chord.isSetima );
-}
-
-function playAcorde( noteList, channel )
-{
-
-  var delay = gIntervalo/1000; 
-  var velocity = 127; // how hard the note hits
-
-  // play the note
-  MIDI.sounding=true;
-  MIDI.setVolume(channel, 127);
-
-  len = noteList[1].length;
-  for (i=0; i < len; i++) {
-    if (noteList[0] == c_close) {
-      nota   = GAITA.keyboard[noteList[1][i][0]][noteList[1][i][1]].notaClose.value;
-    } else {
-      nota   = GAITA.keyboard[noteList[1][i][0]][noteList[1][i][1]].notaOpen.value;
-    }
-    nota += gCurrentToneOffset;
-
- 	MIDI.noteOn(channel, nota, velocity, (i-0)*delay);	    	
- 	MIDI.noteOff(channel, nota, (i-0+1)*delay);
- 	MIDI.noteOn(channel, nota+12, velocity, (i-0)*delay);	    	
- 	MIDI.noteOff(channel, nota+12, (i-0+1)*delay);
- 	MIDI.noteOn(channel, nota, velocity, (len+1)*delay);	    	
- 	MIDI.noteOff(channel, nota, (len+3)*delay);
- 	MIDI.noteOn(channel, nota+12, velocity, (len+1)*delay);	    	
- 	MIDI.noteOff(channel, nota+12, (len+3)*delay);
- }
- setTimeout(function(){MIDI.sounding=false;},(len+3)*delay*1000);
 }
 
 function playEscala(nEscala, intervalo, ascendente, loop ) {
@@ -381,8 +374,6 @@ function setNotes(scale_no, note_no) {
   setModifiedItem( 'scale_' + scale_no + '_' + note_no );
   gLayer.draw();
 
-  if( MIDI.sounding ) return;
-
   if (checkboxAcordeon.checked) playSound(noteList, 0);
   if (checkboxPiano.checked) playSound(noteList, 1);
 
@@ -391,6 +382,8 @@ function setNotes(scale_no, note_no) {
 function setAcorde(chord_no, var_no) {
   
   //destaca notas do acorde selecionado e toca o som correspondente
+  if( GAITA.sounding ) return;
+
   aChords = GAITA.gaitas[GAITA.selected][c_acordes];
   noteList = aChords[chord_no][c_variations][var_no];
   GAITA.selectedChord = chord_no;
@@ -423,8 +416,6 @@ function setAcorde(chord_no, var_no) {
 
   gLayer.draw();
 
-  if( MIDI.sounding ) return;
-
   if (checkboxAcordeon.checked) playAcorde(noteList, 0);
   if (checkboxPiano.checked) playAcorde(noteList, 1);
 
@@ -432,11 +423,9 @@ function setAcorde(chord_no, var_no) {
 
 
 function carregaListaGaitas() {
-   var gaitas_str = '';
-   for (var c=0; c < GAITA.gaitas.length; c++) {
-      gaitas_str += '<li><a href="#" id="pop_gaita_'+ c +'" onclick="setupGaita('+ c +')">' + GAITA.gaitas[c][c_nome] + '</a></li>';
-   }
-   $('#opcoes_gaita').append(gaitas_str);
+  for (var c=0; c < GAITA.gaitas.length; c++) {
+    $('#opcoes_gaita').append('<li><a href="#" id="pop_gaita_'+ c +'" onclick="setupGaita('+ c +')">' + GAITA.gaitas[c][c_nome] + '</a></li>');
+  }
 }
 
 function carregaListaAfinacoesComuns() {
@@ -456,12 +445,10 @@ function carregaTabelaAcordes() {
       opening = aChords[c][c_variations][v][0] == c_open;
       chord_str += '<button id="chord_'+ c +'_'+ v +'" class="btn btn-';
       chord_str += opening ? 'success"' : 'warning"';
-      chord_str += ' title="';
-      chord_str += opening ? 'Abrindo o fole' : 'Fechando o fole';
-      chord_str += '"" onmouseover="setAcorde(' + c + ',' + v + ')" > ' + (v + 1) ;
-      chord_str += ' <i class="';
-      chord_str += opening ? 'icon-resize-full' : 'icon-resize-small';
-      chord_str += ' icon-white"></i>';
+      chord_str += ' title="' + (opening ? 'Abrindo o fole' : 'Fechando o fole') + '"';
+      chord_str += ' onclick="setAcorde(' + c + ',' + v + ')" ';  
+      chord_str += ' onmouseover="setAcorde(' + c + ',' + v + ')" > ' + (v + 1) ;
+      chord_str += ' <i class="' + (opening ? 'icon-resize-full' : 'icon-resize-small' ) + ' icon-white"></i>';
       chord_str += " </button> ";
     }
     chord_str += '</td></tr>';

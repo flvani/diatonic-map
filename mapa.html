@@ -77,10 +77,10 @@
         </ul>
         <div id="content"> 
           <div id="keyboard" onmouseover="stopPlaying();" style="width: 700px; float: left;" ></div>
-          <div id="div_info" style="width: 220px; float: right; margin-top: 30px; margin-right: 5px;">
+          <div id="div_info" style=" float: right; margin-top: 30px; margin-right: 5px;">
             <table class="table table-bordered table-final">
               <tr>
-                <td colspan="4" style="height:22px;" id="div_imagem_gaita" >
+                <td colspan="4" style="height:220px;" id="div_imagem_gaita" >
                     <b>Loading...<b/>
                 </td>
               </tr>
@@ -260,6 +260,8 @@
       GAITA.selected        = 0;
       GAITA.selectedChord   = -1;
       GAITA.keyboard        = {};
+      GAITA.modifiedItems   = {};
+      GAITA.sounding        = false;
 
       // popular arrays com nomes e valores de notas
       (function() { "use strict";

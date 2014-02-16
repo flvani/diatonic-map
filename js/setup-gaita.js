@@ -197,6 +197,7 @@
 
     } 
   }
+
 /*
   imageObj = new Image();
   imageObj.onload = function() {
@@ -212,8 +213,7 @@
 
   // mostra o nome e imagem da gaita
   document.getElementById("a_nome_gaita").innerHTML = gaita[c_nome];
-  //document.getElementById("div_nome_gaita").innerHTML = '<b>&nbsp;'+gaita[c_nome]+'</b>';
-  document.getElementById("div_imagem_gaita").innerHTML = '<img src="'+gaita[c_imagem]+'" />';
+  document.getElementById("div_imagem_gaita").innerHTML = '<img src="'+gaita[c_imagem]+'" alt="'+gaita[c_nome]+'" style="height:220px; width:220px;" />';
 
   mostraAfinacao();
 
