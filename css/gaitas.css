@@ -97,7 +97,7 @@ body {
   pointer-events: auto;
 }
 .modalWindow > div {
-  width: 700px;
+  width: 770px;
   position: relative;
   margin: 5% auto;
   -webkit-border-radius: 5px;
