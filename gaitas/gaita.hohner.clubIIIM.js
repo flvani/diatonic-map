@@ -1,74 +1,87 @@
-	c_close=0;
-	c_open=1;
-/*
+c_close=0;
+c_open=1;
+
+KEYS_HOHNER_CF  = [ 
+  [["F♯3", "E3", "G3", "C4", "E4", "G4", "C5", "E5", "G5", "C6", "E6", "G6"], ["F3",  "A3", "C4", "F4", "A4",  "C5", "F5", "A5",  "C6",  "F6", "A6"], ["E♭4", "B♭4", "F♯4", "E♭5",  "D5", "F♯5", "E♭6"]]
+ ,[["G♯3", "G3", "B3", "D4", "F4", "A4", "B4", "D5", "F5", "A5", "B5", "C6"], ["B♭3", "C4", "E4", "G4", "B♭4", "C5", "E5", "G5", "B♭5", "D6", "E6"], ["C♯4", "F♯4", "G♯4", "C♯5", "E♭5", "G♯5", "C♯6"]]
+];
+
+BASS_HOHNER_CF = [
+   [["a2",   "A2", "e♭2", "E♭2"], ["c3", "C3", "f2", "F2"]]
+  ,[["d3:m", "D3", "b♭2", "B♭2"], ["g2", "G2", "c3", "C3"]]
+];
+
+KEYBOARD_HOHNER_CF = [KEYS_HOHNER_CF, BASS_HOHNER_CF, [ 0, 0.5, 3]]
+
+
 CHORDS_HOHNER_CF = [
-    [F, '', [
+    ["F", [
         [c_close, [[1,0],[1,1],[1,2]]],
         [c_close, [[1,3],[1,4],[1,5]]],
         [c_close, [[1,6],[1,7],[1,8]]],
         [c_open, [[0,4],[0,5],[1,5]]],
         ]],
-    [G, '', [
+    ["G", [
         [c_open, [[0,1],[0,2],[0,3]]],
         [c_open, [[1,3],[0,6],[0,7]]],
         [c_open, [[1,3],[0,2],[0,3]]],
         [c_open, [[1,7],[0,10],[0,11]]],
         [c_open, [[1,7],[0,6],[0,7]]],
         ]],
-    [G, '<sub>m</sub>', [
+    ["G:m", [
         [c_open, [[1,3],[1,4],[0,7]]],
         [c_open, [[1,7],[1,8],[0,11]]],
         [c_close, [[0,2],[2,1],[2,4]]],
         ]],
-    [A, '', [
+    ["A", [
         [c_open, [[0,5],[1,6],[2,3]]],
         [c_open, [[0,9],[1,10],[2,6]]],
         ]],
-    [A, '<sup>7</sup>', [
+    ["A:7", [
         [c_close, [[1,4],[0,4],[0,5]]],
         [c_close, [[1,7],[0,7],[0,8]]],
         [c_close, [[1,10],[0,10],[0,11]]],
         ]],
-    [A, '<sub>m</sub>', [
+    ["A:m", [
         [c_close, [[1,1],[1,2],[0,4]]],
         [c_close, [[1,4],[1,5],[0,7]]],
         [c_open,  [[0,5],[1,5],[1,6]]],
         [c_close, [[1,7],[1,8],[0,10]]],
         ]],
-    [Bb, '', [
+    ["B♭", [
         [c_open,  [[0,3],[0,4],[1,0]]],
         [c_open,  [[0,3],[0,4],[1,4]]],
         [c_open,  [[0,7],[0,8],[1,8]]],
         [c_close,  [[2,1],[2,4],[1,3]]],
         ]],
-    [B, '', [
+    ["B", [
         [c_open,  [[0,2],[2,1],[2,4]]],
         [c_open,  [[0,6],[2,1],[2,4]]],
         ]],
-    [C, '', [
+    ["C", [
         [c_open,  [[1,1],[1,2],[1,3]]],
         [c_close, [[0,3],[0,4],[0,5]]],
         [c_open,  [[1,5],[1,6],[1,7]]],
         [c_close, [[0,6],[0,7],[0,8]]],
         [c_close, [[0,9],[0,10],[0,11]]],
         ]],
-    [D	, '', [
+    ["D", [
         [c_close,  [[2,4],[2,2],[1,4]]],
         [c_open,  [[0,3],[2,1],[0,5]]],
         [c_close,  [[2,4],[2,5],[1,7]]],
         [c_close,  [[2,4],[2,5],[1,10]]],
         ]],
-    [D	, '<sub>m</sub>', [
+    ["D:m", [
         [c_open,  [[0,3],[0,4],[0,5]]],
         [c_open,  [[0,7],[0,8],[0,9]]],
         [c_close, [[2,4],[1,6],[1,7]]],
         ]],
-    [E	, '', [
+    ["E", [
         [c_open,  [[0,0],[0,2],[1,2]]],
         [c_open,  [[0,2],[1,2],[2,2]]],
         [c_open,  [[0,6],[1,6],[2,5]]],
         ]],
-    [E	, '<sub>m</sub>', [
+    ["E:m", [
         [c_open,  [[0,1],[0,2],[1,2]]],
         [c_open,  [[0,2],[1,2],[1,3]]],
         [c_open,  [[0,6],[1,6],[1,7]]],
@@ -77,7 +90,7 @@ CHORDS_HOHNER_CF = [
 
 
 ESCALA_HOHNER_CF=[
-  [ F, ' em terças', [
+  [ "F: em terças", [
       [c_open,[[1,0],[0,3]]],
       [c_open,[[1,1],[1,2]]],
       [c_open,[[0,3],[0,4]]],
@@ -92,10 +105,10 @@ ESCALA_HOHNER_CF=[
       [c_open,[[0,8],[0,9]]],
       [c_open,[[1,7],[1,8]]],
       [c_close,[[1,7],[1,8]]],
-      [c_open,[[1,8],[0,11]]],
+      [c_open,[[1,8],[1,9]]],
       [c_close,[[1,8],[0,10]]]
      ]],
-  [ G, ' em terças', [ 
+  [ "G: em terças", [ 
       [c_close,[[0,0],[1,1]]],
       [c_open,[[0,1],[0,2]]],
       [c_close,[[1,1],[1,2]]],
@@ -107,30 +120,16 @@ ESCALA_HOHNER_CF=[
       [c_open,[[1,3],[0,6]]],
       [c_open,[[0,5],[1,5]]],
       [c_open,[[0,6],[0,7]]],
-      [c_close,[[1,8],[0,10]]], // 12
-      [c_close,[[2,4],[2,5]]]
+      [c_open,[[1,5],[1,6]]],
+      [c_close,[[2,4],[2,5]]],
+      [c_open,[[1,6],[1,7]]],
+      [c_close,[[2,5],[1,7]]],
+      [c_open,[[1,7],[0,10]]],
+      [c_open,[[0,9],[0,11]]],
+      [c_open,[[0,10],[1,9]]],
+      [c_open,[[0,11],[1,10]]],
      ]]
  ];
 
-KEYS_HOHNER_CF_CLOSE = [[Fs, E, G, C, E, G, C, E, G, C, E, G], [F,  A, C, F, A,  C, F, A,  C, F, A], [Eb, Bb, Fs, Eb,  D, Fs, Eb]];
-KEYS_HOHNER_CF_CLOSE8 = [[ 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6], [3,  3, 4, 4, 4,  5, 5, 5,  6, 6, 6], [ 4,  4,  4,  5,  5,  5,  6]];
-KEYS_HOHNER_CF_OPEN =  [[Gs, G, B, D, F, A, B, D, F, A, B, C], [Bb, C, E, G, Bb, C, E, G, Bb, D, E], [Cs, Fs, Gs, Cs, Eb, Gs, Cs]];
-KEYS_HOHNER_CF_OPEN8  = [[ 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5], [ 3, 4, 4, 4,  4, 5, 5, 5,  5, 6, 6], [ 4,  4,  4,  5,  5,  5,  6]];
+GAITA_HOHNER_CLUB = ['Hohner Club IIIM - 30/8 botões', ["C","F"], [1,5], KEYBOARD_HOHNER_CF, CHORDS_HOHNER_CF, ESCALA_HOHNER_CF, 'img/Hohner.Club IIIM.gif' ];
 
-OITAVAS_CF=[KEYS_HOHNER_CF_CLOSE8, KEYS_HOHNER_CF_OPEN8];
-
-BASS_HOHNER_CF = [
-   [[AM, A, EbM, Eb], [CM, C, FM, F]]
-  ,[[Dm, D, BbM, Bb], [GM, G, CM, C]]
-];
-
-BASS_HOHNER_GC = [
-   [[EM, E, FM, F], [GM, G, CM, C]]
-  ,[[Am, A, FM, F], [DM, D, GM, G]]
-];
-
-KEYBOARD_HOHNER_CF = [KEYS_HOHNER_CF_CLOSE, KEYS_HOHNER_CF_OPEN, BASS_HOHNER_CF, OITAVAS_CF, [ 0, 0.5, 3]]
-
-GAITA_HOHNER_CLUB = ['Hohner Club IIIM - 30/8 botões', [C,F], [1,5], KEYBOARD_HOHNER_CF, CHORDS_HOHNER_CF, ESCALA_HOHNER_CF, 'img/Hohner.Club IIIM.gif' ]
-
-*/

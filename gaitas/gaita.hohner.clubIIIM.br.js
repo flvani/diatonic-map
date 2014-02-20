@@ -2,7 +2,7 @@
 c_open=1;
 
 KEYS_HOHNER_CF_br  = [ 
-  [["F♯3", "E3", "G3", "C4", "E4", "G4", "C5", "E5", "G5", "C6", "E6", "G6"], ["F3",   "A3", "C4", "F4", "A4",  "C5", "F5", "A5",  "C6",  "F6", "A6"], ["E♭3", "B♭3", "F♯4", "E♭4",  "D5", "F♯5", "E♭6"]]
+  [["F♯3", "E3", "G3", "C4", "E4", "G4", "C5", "E5", "G5", "C6", "E6", "G6"], ["F3",  "A3", "C4", "F4", "A4",  "C5", "F5", "A5",  "C6",  "F6", "A6"], ["E♭4", "B♭4", "F♯4", "E♭5",  "D5", "F♯5", "E♭6"]]
  ,[["G♯3", "G3", "B3", "D4", "F4", "A4", "B4", "D5", "F5", "A5", "B5", "D6"], ["B♭3", "C4", "E4", "G4", "B♭4", "C5", "E5", "G5", "B♭5", "C6", "E6"], ["C♯4", "F♯4", "G♯4", "C♯5", "E♭5", "G♯5", "C♯6"]]
 ];
 
@@ -155,4 +155,4 @@ ESCALA_HOHNER_CF_br=[
      ]]
  ];
 
-GAITA_CLUB_BR = ['Hohner Club IIIM - 30/8 botões (brasileira)', ["C","F"], [1,5], KEYBOARD_HOHNER_CF_br, CHORDS_HOHNER_CF_br, ESCALA_HOHNER_CF_br, 'img/Hohner.Club IIIM.gif' ]
+GAITA_CLUB_BR = ['Hohner Club IIIM - 30/8 botões (afinação natural brasileira)', ["C","F"], [1,5], KEYBOARD_HOHNER_CF_br, CHORDS_HOHNER_CF_br, ESCALA_HOHNER_CF_br, 'img/Hohner.Club IIIM.gif' ]
