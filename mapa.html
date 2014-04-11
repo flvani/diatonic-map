@@ -76,12 +76,12 @@
             <li><a href="#" name="nomeGaita" id="a_nome_gaita">Gaita</a></li>
         </ul>
         <div id="content"> 
-          <div id="keyboard" onmouseover="stopPlaying();" style="width: 700px; float: left;" ></div>
+          <div id="keyboard" style="width: 700px; float: left;" ></div>
           <div id="div_info" style=" float: right; margin-top: 30px; margin-right: 5px;">
             <table class="table table-bordered table-final">
               <tr>
-                <td colspan="4" style="height:220px;" id="div_imagem_gaita" >
-                    <b>Loading...<b/>
+                <td colspan="4" style="height:220px;" id="td_imagem_gaita" >
+                    <b>Loading...</b>
                 </td>
               </tr>
               <tr>
@@ -111,20 +111,24 @@
             <li><a href="#" name="tabAcordes">Acordes</a></li>
             <li><a href="#" name="tabBaixos">Baixos</a></li>
             <li><a href="#" name="tabEscalas">Escalas</a></li>
+            <li><a href="#" name="tabSongs">Songs</a></li>
         </ul>
-        <div id="content_detalhes" > 
+        <div id= "content_detalhes" > 
             <div id="tabAcordes" >
               <table id="chords_table" class="table table-striped">
               </table>
             </div>
-            <div  id="tabBaixos" >
+            <div id="tabBaixos" >
               <table id="baixos_table" class="table table-striped">
               </table>
             </div>
-            <div  id="tabEscalas" >
+            <div id="tabEscalas" >
               <table id="scales_table" class="table table-striped">
               </table>
             </div>
+            <div id="tabSongs">            </div>
+
+                <div  id="renderCanvas" style="overflow-y: scroll; float:left; display:inline;"></div>
         </div>
       </div>
 
@@ -176,9 +180,7 @@
             </li>
           </ul>
         </div>
-
-
-        
+       
         <div class="modalFooter">
           Esta obra é distribuida sob uma Licença <b rel="license" href="http://creativecommons.org/licenses/by/3.0/br/deed.pt_BR">
 			   Creative Commons Atribuição 3.0 Brasil</b>.
@@ -189,7 +191,11 @@
 
       </div>
     </div>
-
+    
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="proto_noconflict.js" ></script>
+    
+    <script type="text/javascript" src="abcjs/abcjs_tabeditor_nomidi_2.01-min.js" ></script>
 
     <!-- suporte a MIDI -->
     <script type="text/javascript" src="MIDI.js/js/MIDI/AudioDetect.js"></script>
@@ -202,162 +208,89 @@
     <script type="text/javascript" src="MIDI.js/inc/base64binary.js"></script>
 
     <!-- suporte aos mapas de teclados -->
-    <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap-dropdown.js"></script>
     <script type="text/javascript" src="js/kinetic-v5.0.0.min.js"></script>
-    <script type="text/javascript" src="js/setup-gaita.js"></script>
     <script type="text/javascript" src="js/funcoes.js"></script>
 
     <!-- modelos de gaitas disponíveis -->
-    <script type="text/javascript" src="gaitas/gaita.hohner.gc.js"></script>
-    <script type="text/javascript" src="gaitas/gaita.hohner.clubIIIM.js"></script>
-    <script type="text/javascript" src="gaitas/gaita.hohner.clubIIIM.br.js"></script>
-    <script type="text/javascript" src="gaitas/gaita.hohner.coronaII.js"></script>
+    <!-- diatonic accordion map -->
+    <script type="text/javascript" src="diatonic/diatonic-map.js"></script>
+    <script type="text/javascript" src="diatonic/accordion.hohner.gc.js"></script>
+    <script type="text/javascript" src="diatonic/accordion.hohner.clubIIIM.br.js"></script>
+    <script type="text/javascript" src="diatonic/accordion.hohner.clubIIIM.js"></script>
+    <script type="text/javascript" src="diatonic/accordion.hohner.coronaII.js"></script>
 
+    <script type="text/javascript" src="map/map.js"></script>
+    <script type="text/javascript" src="map/gaita.js"></script>
+    
+    <script type="text/javascript" src="player/player.js"></script>
+    
     <script type="text/javascript">
-      
-      // GLOBAIS
-      var gStage;
-      var gLayer;
-      var gTimeout;
-      var gIntervalo=256;
-      var gShowLabel=false;
-      var gCurrentToneOffset=0;
-      var checkboxEspelho = document.getElementById('checkboxEspelho');
-      var checkboxHorizontal = document.getElementById('checkboxHorizontal');
+        var myMap;
+        
+        window.addEventListener('load', initApp, false);
 
-      ﻿// CONSTANTES
-      c_close=0;
-      c_open=1;
-      c_label=0;
-      c_oitava=1;
+        function initApp() {
 
-      // teclado
-      c_keys=0;
-      c_bass=1;
-      c_Xpos=2;
+            myMap = new DIATONIC.map.Map(
+                    'checkboxPiano', 'checkboxAcordeon','checkboxEspelho', 'checkboxHorizontal','a_nome_gaita', 'td_imagem_gaita' );
 
-      // acordeon
-      c_nome=0;
-      c_afinacao=1;
-      c_pedal=2;
-      c_teclado=3;
-      c_acordes=4;
-      c_escalas=5;
-      c_imagem=6;
+            // populas listas drop-down        
+            myMap.carregaListaGaitas();
+            myMap.carregaListaAfinacoesComuns();
 
-      // acordes e escalas
-      c_symbol=0;
-      c_variations=1;
-      c_notas=1;
+            // configura e mostra a gaita inicial
+            myMap.gaita.setup();
 
-      // aspectos do botão
-      c_btnSize=56;
-      c_btnSpace=3;
-      c_fontSize=18; // razoavel ser menor que metade do btnSize
-
-      if (typeof (GAITA) === "undefined") var GAITA = {};
-
-      GAITA.keyToNote       = {}; // C8  == 108
-      GAITA.noteToKey       = {}; // 108 ==  C8
-      GAITA.minNote         = 0x15; //  A0 = first note
-      GAITA.maxNote         = 0x6C; //  C8 = last note
-      GAITA.number2key      = ["C", "C♯", "D", "E♭", "E", "F", "F♯", "G", "G♯", "A", "B♭", "B"]
-      GAITA.number2keyflat  = ["C", "D♭", "D", "D♯", "E", "F", "G♭", "G", "A♭", "A", "A♯", "B"];
-      GAITA.number2key_br   = ["Dó", "Dó♯", "Ré", "Mi♭", "Mi", "Fá", "Fá♯", "Sol", "Sol♯", "Lá", "Si♭", "Si"]
-      GAITA.afinacoesComuns = [ ["C","F"], ["G","C"], ["A","D"], ["A","D","G"] ];
-      GAITA.minNoteInUse    = GAITA.maxNote;
-      GAITA.maxNoteInUse    = GAITA.minNote;
-      GAITA.gaitas          = [GAITA_HOHNER_GC, GAITA_HOHNER_CLUB, GAITA_CLUB_BR, GAITA_HOHNER_CORONA];
-      GAITA.selected        = 0;
-      GAITA.selectedChord   = -1;
-      GAITA.keyboard        = {};
-      GAITA.modifiedItems   = {};
-      GAITA.sounding        = false;
-
-      // popular arrays com nomes e valores de notas
-      (function() { "use strict";
-        for (var n = GAITA.minNote; n <= GAITA.maxNote; n++) {
-          var octave = (n - 12) / 12 >> 0;
-          var name = GAITA.number2key[n % 12] + octave;
-          GAITA.noteToKey[n] = name;
-          GAITA.keyToNote[name] = n;
-          name = GAITA.number2keyflat[n % 12] + octave;
-          GAITA.keyToNote[name] = n;
-        }})();
-
-      $('#change_labels').on('click', function () {
-        gShowLabel = !gShowLabel;
-        redrawKeyboard();
-      });
-
-      $('#sub_half_tone').on('click', function () {
-        if ( gCurrentToneOffset + GAITA.minNoteInUse > GAITA.minNote ) {
-          --gCurrentToneOffset;
-          redrawKeyboard();
-        } else {
-          alert( "Limite mínimo atingido!" );
         }
-      });
+        
+        $(document).ready(function() {
+          $("#content_detalhes").find("[id^='tab']").hide(); // Hide all content
+          $("#tabs li:first").attr("id","current"); // Activate the first tab
+          $("#content_detalhes #tabAcordes").fadeIn(); // Show first tab's content
 
-      $('#add_half_tone').on('click', function () {
-        if ( gCurrentToneOffset + GAITA.maxNoteInUse < GAITA.maxNote ) {
-          ++gCurrentToneOffset;
+          $('#tabs a').click(function(e) {
+              e.preventDefault();
+              if ($(this).closest("li").attr("id") === "current"){ //detection for current tab
+               return;       
+              }
+              else{             
+                $("#content_detalhes").find("[id^='tab']").hide(); // Hide all content
+                $("#tabs li").attr("id",""); //Reset id's
+                var atual = this.innerHTML;
+                $(this).parent().attr("id","current"); // Activate this
+                $('#' + $(this).attr('name')).fadeIn(); // Show content for the current tab
+              }
+          });
+        });
+        
+        $('#keyboard').on('mouseover', function () {
+          if(myMap.gaita.player)
+            myMap.gaita.player.stopPlayingNClear();
+        });
+        
+        $('#change_labels').on('click', function () {
+          myMap.gShowLabel = !myMap.gShowLabel;
           redrawKeyboard();
-        } else {
-          alert( "Limite máximo atingido!" );
-        }
-      });
+        });
 
-      checkboxHorizontal.addEventListener('click', function() {
-         setupGaita( GAITA.selected );
-      }, false );
-
-      checkboxEspelho.addEventListener('click', function() {
-         setupGaita( GAITA.selected );
-      }, false );
-
-      window.onload = function() {
-        MIDI.loadPlugin({
-          targetFormat: "mp3", 
-          soundfontUrl: "MIDI.js/soundfont/",
-          //instrument:  "accordion",
-          //instrument:  "acoustic_grand_piano",
-          instruments:  ["accordion", "acoustic_grand_piano" ],
-          callback: function() {
-            MIDI.programChange( 0, 21 ); // accordion
-            //MIDI.programChange( 0,  0 ); // piano
-            MIDI.programChange( 1,  0 ); // piano
+        $('#sub_half_tone').on('click', function () {
+          if ( myMap.gCurrentToneOffset + myMap.gaita.minNoteInUse > myMap.gaita.minNote ) {
+            --myMap.gCurrentToneOffset;
+            redrawKeyboard();
+          } else {
+            alert( "Limite mínimo atingido!" );
           }
         });
 
-        // populas listas drop-down        
-        carregaListaGaitas();
-        carregaListaAfinacoesComuns();
-
-        // configura e mostra a gaita inicial
-        setupGaita( GAITA.selected );
-
-      }
-
-$(document).ready(function() {
-    $("#content_detalhes").find("[id^='tab']").hide(); // Hide all content
-    $("#tabs li:first").attr("id","current"); // Activate the first tab
-    $("#content_detalhes #tabAcordes").fadeIn(); // Show first tab's content
-    
-    $('#tabs a').click(function(e) {
-        e.preventDefault();
-        if ($(this).closest("li").attr("id") == "current"){ //detection for current tab
-         return;       
-        }
-        else{             
-          $("#content_detalhes").find("[id^='tab']").hide(); // Hide all content
-          $("#tabs li").attr("id",""); //Reset id's
-          $(this).parent().attr("id","current"); // Activate this
-          $('#' + $(this).attr('name')).fadeIn(); // Show content for the current tab
-        }
-    });
-});
+        $('#add_half_tone').on('click', function () {
+          if ( myMap.gCurrentToneOffset + myMap.gaita.maxNoteInUse < myMap.gaita.maxNote ) {
+            ++myMap.gCurrentToneOffset;
+            redrawKeyboard();
+          } else {
+            alert( "Limite máximo atingido!" );
+          }
+        });
 
     </script>
   </body>
