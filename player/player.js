@@ -13,19 +13,6 @@ if (!window.DIATONIC.play)
 
 DIATONIC.play.Player = function(map) {
     this.map = map;
-    MIDI.loadPlugin({
-        targetFormat: "mp3",
-        soundfontUrl: "soundfont/",
-        //instrument:  "accordion",
-        //instrument:  "acoustic_grand_piano",
-        instruments: ["accordion", "acoustic_grand_piano"],
-        callback: function() {
-            MIDI.programChange(0, 21); // accordion
-            //MIDI.programChange( 0,  0 ); // piano
-            MIDI.programChange(1, 0); // piano
-        }
-    });
-
 };
 
 DIATONIC.play.Player.prototype.stopPlayingNClear = function() {  

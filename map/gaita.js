@@ -27,7 +27,7 @@ DIATONIC.map.Gaita = function(map) {
     this.modifiedItems = {};
     this.sounding = false;
     
-    //this.player = new DIATONIC.play.Player(this.map);
+    this.player = new DIATONIC.play.Player(this.map);
 
     if (window.DIATONIC.map.models.length > 0) {
         this.accordions = window.DIATONIC.map.models;
@@ -259,8 +259,8 @@ DIATONIC.map.Gaita.prototype.setup = function() {
 
  this.carregaTabelaAcordes(this.map);
  
- this.renderTune("Maitia, nun zira?", {}, "renderCanvas" );
- this.renderTune("Teste", {}, "renderCanvas" );
+ this.renderTune("Maitia, nun zira?", {}, "tabSongs" );
+ //this.renderTune("Teste", {}, "tabSongs" );
     
 };
 
@@ -405,8 +405,12 @@ DIATONIC.map.Gaita.prototype.renderTune = function(title, params, div) {
   var abcParser = new window.ABCJS.parse.Parse(null, accordionTab);
   abcParser.parse(accordion.getSong(title), params); //TODO handle multiple tunes
   var tune = abcParser.getTune();
-  var paper = Raphael(div, 1100, 700);
+  var vdiv = document.getElementById(div);
+  vdiv.innerHTML = "";
+  vdiv.innerTEXT = "";
+  vdiv.style.display = "inline";
+  var paper = Raphael(div, 700, 400);
   var printer = new ABCJS.write.Printer(paper, {}, accordionTab );// TODO: handle printer params
   printer.printABC(tune);
- 
+  vdiv.style.display = "none";
 };
