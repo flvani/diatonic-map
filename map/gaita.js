@@ -45,7 +45,7 @@ DIATONIC.map.Gaita = function(map) {
     }
 };
 
-DIATONIC.map.Gaita.prototype.setup = function() {
+DIATONIC.map.Gaita.prototype.setup = function(div) {
 
   var nHeight,nWidth,bassX,trebleX,bassY,trebleY,xi,yi,xxi,yyi;
 
@@ -107,7 +107,7 @@ DIATONIC.map.Gaita.prototype.setup = function() {
     }
   }
 
-  this.map.defineStage(nHeight, nWidth);
+  this.map.defineStage(nHeight, nWidth, div);
 
   { // desenhar o botão com a legenda abre/fecha
     var circle = new Kinetic.Circle({
@@ -250,7 +250,6 @@ DIATONIC.map.Gaita.prototype.setup = function() {
     } 
   }
   
-  this.map.draw();
 
   this.map.setGaitaName( gaita );
   this.map.setGaitaImage( gaita );
@@ -259,9 +258,11 @@ DIATONIC.map.Gaita.prototype.setup = function() {
 
  this.carregaTabelaAcordes(this.map);
  
- this.renderTune("Maitia, nun zira?", {}, "tabSongs" );
- //this.renderTune("Teste", {}, "tabSongs" );
-    
+ this.renderTune("Maitia, nun zira?", {}, "songDiv", "tabSongs" );
+ //this.renderTune("Teste", {}, "songDiv", "tabSongs"  );
+ 
+ this.map.draw();
+  
 };
 
 DIATONIC.map.Gaita.prototype.parseNote = function(p_nota, isBass) {
@@ -398,19 +399,21 @@ DIATONIC.map.Gaita.prototype.markButton = function(dir, row, button) {
 };
 
 
-DIATONIC.map.Gaita.prototype.renderTune = function(title, params, div) {
-  var accordion = this.accordions[this.selected];
+DIATONIC.map.Gaita.prototype.renderTune = function(title, params, div, containerDiv ) {
   debug = false;
+  var accordion = this.accordions[this.selected];
   var accordionTab = new window.ABCJS.tablature.Accordion();
   var abcParser = new window.ABCJS.parse.Parse(null, accordionTab);
+  var vdiv = document.getElementById(div);
+  var vContainerDiv = document.getElementById(containerDiv);
   abcParser.parse(accordion.getSong(title), params); //TODO handle multiple tunes
   var tune = abcParser.getTune();
-  var vdiv = document.getElementById(div);
   vdiv.innerHTML = "";
   vdiv.innerTEXT = "";
   vdiv.style.display = "inline";
+  if(vContainerDiv) vContainerDiv.style.display = "inline";
   var paper = Raphael(div, 700, 400);
   var printer = new ABCJS.write.Printer(paper, {}, accordionTab );// TODO: handle printer params
   printer.printABC(tune);
-  vdiv.style.display = "none";
+  if(vContainerDiv) vContainerDiv.style.display = "none";
 };

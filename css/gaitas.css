@@ -293,7 +293,22 @@ body {
   z-index: 3;
 }
 
-#content {
+#selKey,
+#selGaitas {
+  color:buttontext;
+  width:auto;
+  padding: 1px 6px;  
+  border: 1px outset buttonface;
+  margin-bottom: 0;
+  margin-right: 2px;
+  background-color: buttonface;
+  line-height: 20px;
+  height: 26px;
+  box-sizing: border-box;  
+} 
+
+#divEditor, 
+#divContent {
   overflow: hidden;
   background:url(../img/fole.4.png);
   background-color: #fff;
@@ -301,14 +316,21 @@ body {
   background-repeat:no-repeat;
 }
 
-#content_detalhes {
+#content_detalhes_old    {
     background: #fff;
     height: 250px;
     overflow-x: hidden;
     overflow-y: scroll;
 }
 
-#content,
+#content_detalhes, 
+#canvasDiv {
+  background: #fff;
+} 
+
+#canvasDiv, 
+#divEditor,
+#divContent,
 #content_detalhes {
     padding: 0.1em 1em;
     position: relative;

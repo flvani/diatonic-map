@@ -61,7 +61,7 @@ DIATONIC.play.Player.prototype.playAcorde = function(noteList, channel) {
         MIDI.noteOff(channel, nota + 12, (len + 3) * delay);
     }
     var that = this;
-    setTimeout(that.stopPlaying, (len + 3) * delay * 1000);
+    setTimeout(function(){that.stopPlaying();}, (len + 3) * delay * 1000);
 };
 
 

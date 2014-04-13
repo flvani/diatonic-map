@@ -127,8 +127,8 @@ DIATONIC.map.Map.prototype.set_pop_tone = function(tone) {
   redrawKeyboard();
 };
 
-DIATONIC.map.Map.prototype.defineStage = function( h, w )  {
-  this.gStage = new Kinetic.Stage({ container: 'keyboard', height: h, width: w });
+DIATONIC.map.Map.prototype.defineStage = function( h, w, div )  {
+  this.gStage = new Kinetic.Stage({ container: div, height: h, width: w });
   this.gStage.add(this.gLayer);
 };
   
