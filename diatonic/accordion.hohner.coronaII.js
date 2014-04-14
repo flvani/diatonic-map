@@ -22,7 +22,7 @@ DIATONIC.tmp.basses = {
    , open: [["b2:m", "B2", "e2:m", "E2", "c2", "C2"], ["e2", "E2", "a2", "A2", "d2", "D2"]]
 };
 
-DIATONIC.tmp.keyslayout = [0.5, 0, 0.5];
+DIATONIC.tmp.keysLayout = [0.5, 0, 0.5];
 
 DIATONIC.map.models[DIATONIC.map.models.length] = new DIATONIC.map.Accordion(
         "GAITA_HOHNER_CORONA_II"

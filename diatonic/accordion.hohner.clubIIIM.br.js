@@ -22,7 +22,7 @@ DIATONIC.tmp.basses = {
     , open: [["d2:m", "D2", "b♭1", "B♭1"], ["g1", "G1", "c2", "C2"]]
 };
 
-DIATONIC.tmp.keyslayout = [0, 0.5, 3];
+DIATONIC.tmp.keysLayout = [0, 0.5, 3];
 
 DIATONIC.tmp.chords = [
         ["F", [

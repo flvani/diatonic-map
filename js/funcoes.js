@@ -1,24 +1,3 @@
-function setButtonText(p_button) {
-   //transporta( p_button.notaOpen );
-   //transporta( p_button.notaClose );
-
-   p_button.notaOpen.labels.key.setText( p_button.notaOpen.key  );
-   p_button.notaOpen.labels.compl.setText( p_button.notaOpen.complement );
-   p_button.notaOpen.labels.octave.setText( p_button.notaOpen.isBass ? '' : p_button.notaOpen.octave );
-
-   p_button.notaOpen.labels.key.offsetX( p_button.notaOpen.labels.compl.getTextWidth()/2 + p_button.notaOpen.labels.octave.getTextWidth()/2 );
-   p_button.notaOpen.labels.compl.offsetX( -p_button.notaOpen.labels.key.getTextWidth()/2 + p_button.notaOpen.labels.octave.getTextWidth()/2 );
-   p_button.notaOpen.labels.octave.offsetX( -p_button.notaOpen.labels.key.getTextWidth()/2 - p_button.notaOpen.labels.compl.getTextWidth()/2 );
- 
-   p_button.notaClose.labels.key.setText( p_button.notaClose.key  );
-   p_button.notaClose.labels.compl.setText( p_button.notaClose.complement );
-   p_button.notaClose.labels.octave.setText( p_button.notaClose.isBass ? '' : p_button.notaClose.octave );
-
-   p_button.notaClose.labels.key.offsetX( p_button.notaClose.labels.compl.getTextWidth()/2 + p_button.notaClose.labels.octave.getTextWidth()/2  );
-   p_button.notaClose.labels.compl.offsetX( -p_button.notaClose.labels.key.getTextWidth()/2 + p_button.notaClose.labels.octave.getTextWidth()/2 );
-   p_button.notaClose.labels.octave.offsetX( -p_button.notaClose.labels.key.getTextWidth()/2 - p_button.notaClose.labels.compl.getTextWidth()/2 );
-
-}
 
 function substituiHTML( oid, marcador, newText ) {
   // esta função procura o texto do innerHTML de um elemento e substitui do inicio até o marcador com newText
@@ -26,52 +5,6 @@ function substituiHTML( oid, marcador, newText ) {
   pos = str.indexOf(marcador); 
   resto = str.length - pos;
   document.getElementById( oid ).innerHTML = newText + '' +  str.substr( pos, resto );
-}
-
-function redrawKeyboard (map) {
-  aChords = GAITA.gaitas[GAITA.selected][c_acordes];
-  aEscalas = GAITA.gaitas[GAITA.selected][c_escalas];
-
-  for( j=0; j < GAITA.keyboard.length; j++) {
-    for (i=0; i < GAITA.keyboard[j].length; i++) {
-      setButtonText(GAITA.keyboard[j][i]);
-    }
-  }
-
-  for (var c=0; c < aChords.length; c++) {
-	nome = transporta(parseNote(aChords[c][c_symbol]));
-     $('#chord_' + c).html( nome.key + '<sub>' + nome.complement + '</sub>' );
-  }
-
-  for (var c=0; c < aEscalas.length; c++) {
-
-	nome = transporta(parseNote(aScales[c][c_symbol]));
-    substituiHTML( 'scale_' + c, '<br>', nome.key + '<i>' + nome.complement + '</i>' );
-
-    for (var v=0; v < aEscalas[c][c_notas].length; v++) {
-      opening = aEscalas[c][c_notas][v][0]  === c_open;
-      aNotes = aEscalas[c][c_notas][v][1];
-      labelNotas = '';
-      for( var n=aNotes.length-1; n > 0;  n-- ) {
-		 botao = GAITA.keyboard[aNotes[n][0]][aNotes[n][1]];
-         labelNotas = '/' + (opening ? botao.notaOpen.key +'<i>'+ botao.notaOpen.complement+'</i>' : botao.notaClose.key+'<i>'+ botao.notaClose.complement+'</i>') + labelNotas;
-      }   
-      botao = GAITA.keyboard[aNotes[0][0]][aNotes[0][1]];
-      labelNotas = (opening ? botao.notaOpen.key +'<i>'+ botao.notaOpen.complement+'</i>' : botao.notaClose.key+'<i>'+ botao.notaClose.complement+'</i>') + labelNotas;
-      substituiHTML( 'scale_' + c + '_' + v, '<br>', labelNotas );
-    }
-  }
-
-  if (GAITA.selectedChord !== -1) {
-    nota = transporta(parseNote( aChords[GAITA.selectedChord][0] ) );
-    acorde_lbl =  nota.key + '<sub>' + nota.complement + '</sub>';
-    substituiHTML( 'acordeAtualFoleAbrindo', '&nbsp;', acorde_lbl  );
-    substituiHTML( 'acordeAtualFoleFechando', '&nbsp;', acorde_lbl  );
-  }
-  
-  mostraAfinacao();
-  gLayer.draw();
-
 }
 
 function playEscala(nEscala, intervalo, ascendente, loop ) {

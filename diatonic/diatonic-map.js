@@ -34,7 +34,7 @@ DIATONIC.map.Accordion.prototype.getName = function () {
 };
 
 DIATONIC.map.Accordion.prototype.getAfinacao = function () {
-    return this.afinacao;
+    return this.afinacao[0];
 };
 
 DIATONIC.map.Accordion.prototype.getKeyboard = function () {
@@ -56,9 +56,17 @@ DIATONIC.map.Accordion.prototype.getScales = function () {
     return this.scales;
 };
 
-DIATONIC.map.Accordion.prototype.getSong = function (n) {
-    return this.songs[n];
+DIATONIC.map.Accordion.prototype.getSong = function (name) {
+    return this.songs[name];
 };
+
+DIATONIC.map.Accordion.prototype.getFirstSong = function () {
+    for(var s in this.songs ) {
+        return s;
+    }
+    return "";
+};
+
 
 DIATONIC.map.Accordion.prototype.getPathToImage = function () {
     return this.image;
@@ -88,7 +96,7 @@ DIATONIC.map.Accordion.prototype.getBassCloseRow = function (r) {
 };
 
 DIATONIC.map.Accordion.prototype.getKeysLayout = function (r) {
-    return this.keyboard.layout[r];
+    return this.keyboard.layout[r] || 0;
 };
 
 DIATONIC.map.Accordion.prototype.isPedal = function (i,j) {

@@ -129,7 +129,8 @@
             </div>
             <div id="tabSongs">
                <div style="float: left;"> 
-                   <input type="button" id="playerBtn" value="Play" />
+                   <select id="selSongs" > </select>
+                   <input type="button" id="playBtn" value="Play" />
                    <input type="button" id="editorBtn" value="Edit" />
                </div>
                <div id="songDiv"> </div>
@@ -252,21 +253,35 @@
         
         window.addEventListener('load', initApp, false);
         window.editorButton = document.getElementById("editorBtn");
+        window.playButton = document.getElementById("playBtn");
         window.printButton = document.getElementById("printBtn");
         window.closeButton = document.getElementById("closeBtn");
-        window.renderCloseButton = document.getElementById("renderCloseBtn");
 
         function initApp() {
             
             myMap = new DIATONIC.map.Map(
-                    'checkboxPiano', 'checkboxAcordeon','checkboxEspelho', 'checkboxHorizontal','a_nome_gaita', 'td_imagem_gaita' );
+                    { ckPiano: 'checkboxPiano'
+                     ,ckAccordion: 'checkboxAcordeon'
+                     ,ckMirror: 'checkboxEspelho'
+                     ,ckHorizontal: 'checkboxHorizontal'
+                     ,accordionNamePlaceHolder: 'a_nome_gaita'
+                     ,accordionImagePlaceHolder: 'td_imagem_gaita'
+                     ,accordionParams: { 
+                        songDiv: 'songDiv' 
+                       ,songContainerDiv: 'tabSongs'
+                       ,keyboardContentDiv: 'contentKeyboard'
+                       ,songSelector: 'selSongs' }
+                 } );
 
             // populas listas drop-down        
             myMap.carregaListaGaitas();
             myMap.carregaListaAfinacoesComuns();
 
             // configura e mostra a gaita inicial
-            myMap.gaita.setup('contentKeyboard');
+            myMap.gaita.setup( {
+                   accordionId: 'GAITA_HOHNER_GC' 
+                  ,songTitle:"J'ai vu le loup, le renard et la belette"
+                   } );
         }
         
         $(document).ready(function() {
@@ -291,8 +306,9 @@
             
 
 //                  $("#tabs li:first").attr("id","current"); // Activate the first tab
-  //                $("#content_detalhes #tabAcordes" ).fadeIn(); // Show first tab's content
-    //              $("#contentKeyboard" ).fadeIn(); 
+//                  $("#content_detalhes #tabAcordes" ).fadeIn(); // Show first tab's content
+//                  $("#contentKeyboard" ).fadeIn(); 
+
           $('#tabs a').click(function(e) {
               e.preventDefault();
               if ($(this).closest("li").attr("id") === "current"){ //detection for current tab
@@ -311,15 +327,15 @@
             myMap.gaita.player.stopPlayingNClear();
         });
         
-        $('#change_labels').on('click', function () {
+         $('#change_labels').on('click', function () {
           myMap.gShowLabel = !myMap.gShowLabel;
-          redrawKeyboard();
+          myMap.gaita.redrawKeyboard();
         });
 
         $('#sub_half_tone').on('click', function () {
           if ( myMap.gCurrentToneOffset + myMap.gaita.minNoteInUse > myMap.gaita.minNote ) {
             --myMap.gCurrentToneOffset;
-            redrawKeyboard();
+            myMap.gaita.redrawKeyboard();
           } else {
             alert( "Limite mínimo atingido!" );
           }
@@ -328,34 +344,49 @@
         $('#add_half_tone').on('click', function () {
           if ( myMap.gCurrentToneOffset + myMap.gaita.maxNoteInUse < myMap.gaita.maxNote ) {
             ++myMap.gCurrentToneOffset;
-            redrawKeyboard();
+            myMap.gaita.redrawKeyboard();
           } else {
             alert( "Limite máximo atingido!" );
           }
         });
 
-        printButton.addEventListener("click", function() {
-            document.getElementById("divTitulo").style.display = "none";
-            document.getElementById("editControlDiv").style.display = "none";
+        function set_pop_tone(value) {
+            myMap.set_pop_tone(value);
+        };
+
+        function setupGaita(value) {
+            myMap.gaita.setup({accordionId:value});
+        };
+
+    printButton.addEventListener("click", function() {
+            $("#divTitulo").hide();
+            $("#editControlDiv").hide();
             window.print();
-            document.getElementById("divTitulo").style.display = "inline";
-            document.getElementById("editControlDiv").style.display = "inline";
+            $("#divTitulo").fadeIn();
+            $("#editControlDiv").fadeIn();
         }, false);
 
+        playButton.addEventListener("click", function() {
+            if( ! myMap.gaita.renderedTune ) return;
+            myMap.gaita.playRenderedSong();
+        }, false);
+        
         closeButton.addEventListener("click", function() {
-            document.getElementById("divEditor").style.display = "none";
-            document.getElementById("divContainer").style.display = "inline";
+            $("#divEditor").hide();
+            $("#divContainer").fadeIn();
         }, false);
                 
         editorButton.addEventListener("click", function() {
-            document.getElementById("divContainer").style.display = "none";
-            document.getElementById("divEditor").style.display = "inline";
-            var song = myMap.gaita.accordions[myMap.gaita.selected].songs["Maitia, nun zira?"];
+            if( ! myMap.gaita.renderedTune ) return;
+            $("#divContainer").hide();
+            $("#divEditor").fadeIn();
+            var songTitle = myMap.gaita.renderedTune.metaText.title;
+            var song = myMap.gaita.getSelectedAccordion().getSong(songTitle);
 
             myEditor = new ABCJS.Editor(
                     "textareaABC", {
                         canvas_id: "canvasDiv"
-                      //,midi_id: "midi"
+                        //,midi_id: "midi"
                         , warnings_id: "warnings"
                         , refreshController_id: "chkAutoRefresh"
                         , accordionSelector_id: "selGaitas"
@@ -366,7 +397,7 @@
                         , gui: false
                     });
             
-        }, false);
+            }, false);
 
         function doTranspose(value) {
             myEditor.fireChanged(value, "force");

@@ -17,7 +17,7 @@ DIATONIC.map.Units = {
     ,FONTSIZE: 18 // razoavel ser menor que metade do btnSize
 };
 
-DIATONIC.map.Map = function( ckPiano, ckAcordeon, ckEspelho, ckOrientation, gaitaNamePlaceHolder, gaitaImagePlaceHolder ) {
+DIATONIC.map.Map = function( interfaceParams ) {
 
     this.BTNSIZE = DIATONIC.map.Units.BTNSIZE;
     this.BTNSPACE = DIATONIC.map.Units.BTNSPACE;
@@ -27,33 +27,32 @@ DIATONIC.map.Map = function( ckPiano, ckAcordeon, ckEspelho, ckOrientation, gait
     this.gIntervalo = 256;
     this.gShowLabel = false;
     this.gCurrentToneOffset = 0;
-    this.checkboxEspelho = document.getElementById(ckEspelho);
-    this.checkboxHorizontal = document.getElementById(ckOrientation);
-    this.checkboxPiano = document.getElementById(ckPiano);
-    this.checkboxAcordeon = document.getElementById(ckAcordeon);
-    this.gaitaNamePlaceHolder = document.getElementById(gaitaNamePlaceHolder);
-    this.gaitaImagePlaceHolder = document.getElementById(gaitaImagePlaceHolder);
+    this.checkboxEspelho = document.getElementById(interfaceParams.ckMirror);
+    this.checkboxHorizontal = document.getElementById(interfaceParams.ckHorizontal);
+    this.checkboxPiano = document.getElementById(interfaceParams.ckPiano);
+    this.checkboxAcordeon = document.getElementById(interfaceParams.ckAccordion);
+    this.gaitaNamePlaceHolder = document.getElementById(interfaceParams.accordionNamePlaceHolder);
+    this.gaitaImagePlaceHolder = document.getElementById(interfaceParams.accordionImagePlaceHolder);
     this.afinacoesComuns = [["C", "F"], ["G", "C"], ["A", "D"], ["A", "D", "G"]];
 
-    this.gaita = new DIATONIC.map.Gaita(this);
+    this.gaita = new DIATONIC.map.Gaita(this, interfaceParams.accordionParams);
 
     this.gStage;
     this.gLayer;
     
     var that = this;
+    
     this.checkboxHorizontal.addEventListener('click', function() {
-       that.gaita.setup();
+       that.gaita.setupKeyboard();
     }, false );
 
     this.checkboxEspelho.addEventListener('click', function() {
-       that.gaita.setup();
+       that.gaita.setupKeyboard();
     }, false );
-
     
 };
 
-DIATONIC.map.Map.prototype.reset = function() {
-  this.gCurrentToneOffset = 0;
+DIATONIC.map.Map.prototype.resetLayer = function() {
   this.gLayer = new Kinetic.Layer();
 };
   
@@ -68,7 +67,7 @@ DIATONIC.map.Map.prototype.isMirror = function() {
 DIATONIC.map.Map.prototype.carregaListaGaitas  = function() {
   for (var c=0; c < this.gaita.accordions.length; c++) {
     $('#opcoes_gaita').append('<li><a href="#" id="pop_gaita_'+ c 
-            +'" onclick="setupGaita('+ c +')">' + this.gaita.accordions[c].getName() 
+            +'" onclick="setupGaita(\''+ this.gaita.accordions[c].getId() +'\')">' + this.gaita.accordions[c].getName() 
             + '</a></li>');
   }
 };
@@ -122,9 +121,10 @@ DIATONIC.map.Map.prototype.mostraAfinacao = function() {
 
 
 DIATONIC.map.Map.prototype.set_pop_tone = function(tone) {
-  this.gCurrentToneOffset = tone - this.gaita.parseNote( 
-  this.gaita.accordions[this.gaita.selected].getAfinacao()[0] ).value;
-  redrawKeyboard();
+  var nota = this.gaita.parseNote( this.gaita.getSelectedAccordion().getAfinacao() );
+  var afinacao = nota.value;
+  this.gCurrentToneOffset = tone - afinacao;
+  this.gaita.redrawKeyboard();
 };
 
 DIATONIC.map.Map.prototype.defineStage = function( h, w, div )  {
@@ -133,7 +133,6 @@ DIATONIC.map.Map.prototype.defineStage = function( h, w, div )  {
 };
   
 DIATONIC.map.Map.prototype.draw = function() {
-  //this.gStage.draw();
   this.gStage.batchDraw();
 };
 
@@ -171,3 +170,25 @@ DIATONIC.map.Map.prototype.createKinectText= function( p_texto_inicial, param_ro
 
   return labels;
 };
+
+DIATONIC.map.Map.prototype.setButtonText = function (p_button) {
+   this.transporta( p_button.notaOpen );
+   this.transporta( p_button.notaClose );
+
+   p_button.notaOpen.labels.key.setText( p_button.notaOpen.key  );
+   p_button.notaOpen.labels.compl.setText( p_button.notaOpen.complement );
+   p_button.notaOpen.labels.octave.setText( p_button.notaOpen.isBass ? '' : p_button.notaOpen.octave );
+
+   p_button.notaOpen.labels.key.offsetX( p_button.notaOpen.labels.compl.getTextWidth()/2 + p_button.notaOpen.labels.octave.getTextWidth()/2 );
+   p_button.notaOpen.labels.compl.offsetX( -p_button.notaOpen.labels.key.getTextWidth()/2 + p_button.notaOpen.labels.octave.getTextWidth()/2 );
+   p_button.notaOpen.labels.octave.offsetX( -p_button.notaOpen.labels.key.getTextWidth()/2 - p_button.notaOpen.labels.compl.getTextWidth()/2 );
+ 
+   p_button.notaClose.labels.key.setText( p_button.notaClose.key  );
+   p_button.notaClose.labels.compl.setText( p_button.notaClose.complement );
+   p_button.notaClose.labels.octave.setText( p_button.notaClose.isBass ? '' : p_button.notaClose.octave );
+
+   p_button.notaClose.labels.key.offsetX( p_button.notaClose.labels.compl.getTextWidth()/2 + p_button.notaClose.labels.octave.getTextWidth()/2  );
+   p_button.notaClose.labels.compl.offsetX( -p_button.notaClose.labels.key.getTextWidth()/2 + p_button.notaClose.labels.octave.getTextWidth()/2 );
+   p_button.notaClose.labels.octave.offsetX( -p_button.notaClose.labels.key.getTextWidth()/2 - p_button.notaClose.labels.compl.getTextWidth()/2 );
+
+}

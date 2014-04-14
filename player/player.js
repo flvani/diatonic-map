@@ -28,6 +28,27 @@ DIATONIC.play.Player.prototype.stopPlaying = function() {
   this.map.gIntervalo = 256;
 };
    
+DIATONIC.play.Player.prototype.playTabSong = function(tune) {
+    var bpm  = 108.0;
+    var duration = 0.25;
+    var s = -1;
+    var starts = [];
+    
+    if(tune.metaText.tempo) {
+       bpm = tune.metaText.tempo.bpm || bpm;
+       duration = tune.metaText.tempo.duration[0] || duration;
+    }
+    if(tune.hasTablature) {
+      s = tune.tabStaffPos;
+    }
+    for(var l = 0; l < tune.lines.length; l++){
+        for(var v = 0; v < tune.lines[l].staffs[s].voices[0].length; v++){
+
+        }
+    }
+    return tune;
+};
+
 DIATONIC.play.Player.prototype.playAcorde = function(noteList, channel) {
 
     if (this.map.gaita.sounding)

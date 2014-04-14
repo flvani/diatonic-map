@@ -294,6 +294,7 @@ body {
 }
 
 #selKey,
+#selSongs,
 #selGaitas {
   color:buttontext;
   width:auto;
