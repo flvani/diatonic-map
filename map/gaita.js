@@ -85,8 +85,7 @@ DIATONIC.map.Gaita.prototype.setup = function(accordionParams) {
  
   this.loadSongList(accordionParams.songTitle);
  
-  this.renderTune( accordionParams.songTitle, {} );
- 
+  this.renderTune( accordionParams.songTitle, {}, true );
   
 };
 
@@ -332,7 +331,7 @@ DIATONIC.map.Gaita.prototype.playRenderedSong = function() {
     this.player.playTabSong(this.renderedTune);
 };
 
-DIATONIC.map.Gaita.prototype.renderTune = function( title, params, stayOnPage ) {
+DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage ) {
   this.songDiv.innerHTML = "";
   this.songDiv.innerTEXT = "";
   
@@ -346,13 +345,12 @@ DIATONIC.map.Gaita.prototype.renderTune = function( title, params, stayOnPage ) 
   var abcParser = new window.ABCJS.parse.Parse(null, accordionTab);
   abcParser.parse(accordion.getSong(title), params); //TODO handle multiple tunes
   var tune = abcParser.getTune();
-  if (!stayOnPage) this.songDiv.style.display = "inline";
-  if (!stayOnPage) if(this.songContainerDiv) this.songContainerDiv.style.display = "inline";
+  if (!alreadyOnPage) this.songDiv.style.display = "inline";
+  if (!alreadyOnPage) if(this.songContainerDiv) this.songContainerDiv.style.display = "inline";
   var paper = Raphael(this.songDiv, 700, 400);
   var printer = new ABCJS.write.Printer(paper, {}, accordionTab );// TODO: handle printer params
   printer.printABC(tune);
-  //if(this.songContainerDiv) this.songContainerDiv.style.display = "inline";
-  if (!stayOnPage) $("#"+this.songContainerDiv.id).hide();
+  if (!alreadyOnPage) $("#"+this.songContainerDiv.id).hide();
   this.renderedTune = tune;
 };
 
