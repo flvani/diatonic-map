@@ -109,7 +109,6 @@ DIATONIC.play.Player.prototype.startPlay = function() {
   if(this.map.gaita.printer) {
       this.addListener(this.map.gaita.printer);
   }
-
     
   this.playing = true;
   var self = this;
@@ -132,7 +131,6 @@ DIATONIC.play.Player.prototype.pausePlay = function() {
   window.clearInterval(this.playinterval);
   //this.stopAllNotes();
 };
-
 
 
 DIATONIC.play.Player.prototype.doPlay = function() {
