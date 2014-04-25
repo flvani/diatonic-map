@@ -105,6 +105,12 @@ DIATONIC.play.Player.prototype.getElem = function() {
 
 
 DIATONIC.play.Player.prototype.startPlay = function() {
+    
+  if(this.map.gaita.printer) {
+      this.addListener(this.map.gaita.printer);
+  }
+
+    
   this.playing = true;
   var self = this;
   // repeat every 16th note TODO see the min in the piece
@@ -164,7 +170,6 @@ DIATONIC.play.Player.prototype.setTempo = function (qpm) {
 DIATONIC.play.Player.prototype.playTabSong = function(tune) {
     var bpm  = 108.0;
     var duration = 0.25;
-    var s = -1;
     this.baseduration = 480*4; // nice and divisible, equals 1 whole note
     this.baraccidentals = [];
     this.playlist = []; // contains {time:t,funct:f} pairs

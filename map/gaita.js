@@ -27,6 +27,7 @@ DIATONIC.map.Gaita = function(map, interfaceParams ) {
     this.modifiedItems = {};
     this.sounding = false;
     this.renderedTune = undefined;
+    this.printer = undefined;
 
     this.songDiv = document.getElementById(interfaceParams.songDiv);
     this.songContainerDiv = document.getElementById(interfaceParams.songContainerDiv);
@@ -324,11 +325,16 @@ DIATONIC.map.Gaita.prototype.loadSongList = function(tt) {
     
 };
 
-DIATONIC.map.Gaita.prototype.playRenderedSong = function() {
-  if( this.sounding )
-    this.player.stopPlaying();
-  else
-    this.player.playTabSong(this.renderedTune);
+DIATONIC.map.Gaita.prototype.playRenderedSong = function(control) {
+  if( this.sounding ) {
+    this.player.stopPlay();
+    this.sounding = false;
+    control.value = "Play";
+   } else {
+     this.player.playTabSong(this.renderedTune);
+     this.sounding = true;
+    control.value = "Stop";
+   } 
 };
 
 DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage ) {
@@ -348,8 +354,8 @@ DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage
   if (!alreadyOnPage) this.songDiv.style.display = "inline";
   if (!alreadyOnPage) if(this.songContainerDiv) this.songContainerDiv.style.display = "inline";
   var paper = Raphael(this.songDiv, 700, 400);
-  var printer = new ABCJS.write.Printer(paper, {}, accordionTab );// TODO: handle printer params
-  printer.printABC(tune);
+  this.printer = new ABCJS.write.Printer(paper, {}, accordionTab );// TODO: handle printer params
+  this.printer.printABC(tune);
   if (!alreadyOnPage) $("#"+this.songContainerDiv.id).hide();
   this.renderedTune = tune;
 };

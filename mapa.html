@@ -372,7 +372,7 @@
 
         playButton.addEventListener("click", function() {
             if( ! myMap.gaita.renderedTune ) return;
-            myMap.gaita.playRenderedSong();
+            myMap.gaita.playRenderedSong(playButton);
         }, false);
         
         closeButton.addEventListener("click", function() {
