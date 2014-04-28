@@ -156,12 +156,12 @@
                 <input type="checkbox" id="chkAutoRefresh" />Auto refresh 
                 <input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" />Debug
             </div>
+            <div id="warnings" class="span12" style="margin-top:6px; margin-left:0px;"></div>
+            <div id="midi" class="span12" style="margin-top:6px; margin-left:0px;"></div>
+            <div id="canvasDiv" class="span12" style="margin-top:6px; margin-left:0px;" ></div>
         </div>
 
-        <div id="warnings" class="span12" style="margin-top:6px; margin-left:0px;"></div>
-        <div id="midi" class="span12" style="margin-top:6px; margin-left:0px;"></div>
-        <div id="canvasDiv" class="span12" style="margin-top:6px; margin-left:0px;" ></div>
-    </div> <!-- /editor -->  
+    </div> <!-- /divEditor -->  
 
     <div id="openModal" class="modalWindow"> 
       <div>
@@ -225,7 +225,7 @@
     <script type="text/javascript" src="proto_noconflict.js" ></script>
     
     <!-- suporte a arquivos ABC -->
-    <script type="text/javascript" src="abcjs/abcjs_tabeditor_nomidi_2.01-min.js" ></script>
+    <script type="text/javascript" src="abcjs/abcjs_tabeditor_2.01-min.js" ></script>
 
     <!-- suporte a MIDI -->
     <script type="text/javascript" src="MIDI.js/MIDI_2.01-min.js"></script>
@@ -293,14 +293,14 @@
             MIDI.loader = new widgets.Loader;
             MIDI.loadPlugin({
                 soundfontUrl: "./soundfont/"
-               ,instruments: "acoustic_grand_piano"
-               //,instruments: "accordion"
+               //,instruments: "acoustic_grand_piano"
+               ,instruments: "accordion"
                //,instruments: ["accordion", "acoustic_grand_piano"]
                //,targetFormat: "mp3"
                ,callback: function() {
                   MIDI.loader.stop();
-                  MIDI.programChange(0, 0); // piano
-                  //MIDI.programChange(0, 21); // accordion
+                  //MIDI.programChange(0, 0); // piano
+                  MIDI.programChange(0, 21); // accordion
                   //MIDI.programChange(1, 0); // piano
                   $("#tabs li:first").attr("id","current"); // Activate the first tab
                   $("#content_detalhes #tabSongs" ).fadeIn(); // Show first tab's content
@@ -390,15 +390,15 @@
             myEditor = new ABCJS.Editor(
                     "textareaABC", {
                         canvas_id: "canvasDiv"
-                        //,midi_id: "midi"
-                        , warnings_id: "warnings"
-                        , refreshController_id: "chkAutoRefresh"
-                        , accordionSelector_id: "selGaitas"
-                        , keySelector_id: "selKey"
-                        , abcText: song
-                        , midi_options: {program: 21, qpm: 150, type: "qt"}
-                        , render_options: {}
-                        , gui: false
+                        ,midi_id: "midi"
+                        ,warnings_id: "warnings"
+                        ,refreshController_id: "chkAutoRefresh"
+                        ,accordionSelector_id: "selGaitas"
+                        ,keySelector_id: "selKey"
+                        ,abcText: song
+                        ,midi_options: {program: 21, qpm: 150, type: "qt"}
+                        ,render_options: {}
+                        ,gui: false
                     });
             
             }, false);

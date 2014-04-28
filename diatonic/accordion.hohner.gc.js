@@ -113,6 +113,7 @@ DIATONIC.tmp.scales = [
 DIATONIC.tmp.songs = [
     '/diatonic-map/songs/maitia.abcx'
    ,'/diatonic-map/songs/jai.abcx'
+   ,'/diatonic-map/songs/valsa.abcx'
    ,'/diatonic-map/songs/teste.abcx'
 ];
 

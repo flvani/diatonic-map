@@ -326,14 +326,12 @@ DIATONIC.map.Gaita.prototype.loadSongList = function(tt) {
 };
 
 DIATONIC.map.Gaita.prototype.playRenderedSong = function(control) {
-  if( this.sounding ) {
+  if( control.value === "Stop" ) {
     this.player.stopPlay();
     this.sounding = false;
-    control.value = "Play";
    } else {
-     this.player.playTabSong(this.renderedTune);
+     this.player.playTabSong(this.renderedTune, control);
      this.sounding = true;
-    control.value = "Stop";
    } 
 };
 
