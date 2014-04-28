@@ -11,7 +11,9 @@ K:G
 | zB, CD E=F | [B6G6] | [=F2A2] [E2G2] [D2F2] | [E6C6] :|
 V:baixo
 K:G bass
-|: z6 | C,2 [E,G,c,]z [E,G,c,]z | z6 | G,,2 [G,B,d,]z [G,B,d,]z |
+|: z6 | C,2 [C,E,G,]z [C,E,G,]z | z6 | G,,2 [G,B,d,]z [G,B,d,]z |
 | G,,2 [G,B,d,]z [G,B,d,]z | G,,2 [G,B,d,]z [G,B,d,]z | G,,2 [G,B,d,]z [G,B,d,]z | C,2 [E,G,c,]z [E,G,c,]z :|
 V:tablatura
-K:accordionTab
+K:none accordionTab
+|: z+z >+2' >-3 >-2' >-4 >-3' | C+[4'3']2 c+[>>] z+[>>] c+[>>] z+[>>] | z-z z-1' -3 -2' -4 +5 | G+[5x]2 g+[>>] z+ g+ z- |
+| G+z >+4 g+3' z+5 g+4' z-4' | G-[6'5']2 g-[>>] z- g- z+ | G+[xx]2 g+[4'5'] z+[>>] g+[5x] z+[>>] | C+[4'3']2 e+[>>] z- e+ z+ :|
