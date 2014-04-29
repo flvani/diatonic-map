@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 
-
 if (!window.DIATONIC)
     window.DIATONIC = {close: 0, open: 1};
 
@@ -79,8 +78,6 @@ DIATONIC.play.Player.prototype.playTabSong = function(tune, control) {
     return tune;
 };
 
-
-
 DIATONIC.play.Player.prototype.addListener = function(listener) {
     this.listeners.push(listener);
 };
@@ -99,7 +96,7 @@ DIATONIC.play.Player.prototype.getMark = function() {
 DIATONIC.play.Player.prototype.getMarkString = function(mark) {
     mark = mark || this;
     return "line" + mark.line + "staff" + mark.staff +
-            "voice" + mark.voice + "pos" + mark.pos;
+           "voice" + mark.voice + "pos" + mark.pos;
 };
 
 DIATONIC.play.Player.prototype.goToMark = function(mark) {
@@ -137,11 +134,7 @@ DIATONIC.play.Player.prototype.getLine = function() {
 };
 
 DIATONIC.play.Player.prototype.getStaff = function() {
-    try {
-        return this.getLine().staffs[this.staff];
-    } catch (e) {
-
-    }
+    return this.getLine().staffs[this.staff];
 };
 
 DIATONIC.play.Player.prototype.getVoice = function() {
@@ -150,6 +143,19 @@ DIATONIC.play.Player.prototype.getVoice = function() {
 
 DIATONIC.play.Player.prototype.getElem = function() {
     return this.getVoice()[this.pos];
+};
+
+DIATONIC.play.Player.prototype.doPlay = function() {
+    while (this.playlist[this.i] &&
+            this.playlist[this.i].time < this.currenttime) {
+        this.playlist[this.i].funct();
+        this.i++;
+    }
+    if (this.playlist[this.i]) {
+        this.currenttime += this.ticksperinterval;
+    } else {
+        this.stopPlay();
+    }
 };
 
 DIATONIC.play.Player.prototype.startPlay = function() {
@@ -178,93 +184,20 @@ DIATONIC.play.Player.prototype.stopPlay = function() {
 };
 
 DIATONIC.play.Player.prototype.pausePlay = function() {
-    this.playing = false;
-    window.clearInterval(this.playinterval);
     MIDI.stopAllNotes();
-};
-
-
-DIATONIC.play.Player.prototype.doPlay = function() {
-    while (this.playlist[this.i] &&
-            this.playlist[this.i].time <= this.currenttime) {
-        this.playlist[this.i].funct();
-        this.i++;
-    }
-    if (this.playlist[this.i]) {
-        this.currenttime += this.ticksperinterval;
-    } else {
-        this.stopPlay();
-    }
-};
-
-
-
-DIATONIC.play.Player.prototype.stopPlayingNClear = function() {
-    window.clearTimeout(this.map.gTimeout);
-    this.map.gaita.clearKeyboard();
-    this.map.gaita.sounding = false;
-    this.map.gIntervalo = 256;
-};
-
-DIATONIC.play.Player.prototype.stopPlaying = function() {
-    window.clearTimeout(this.map.gTimeout);
-    this.map.gaita.sounding = false;
-    this.map.gIntervalo = 256;
+    window.clearInterval(this.playinterval);
+    this.playing = false;
 };
 
 DIATONIC.play.Player.prototype.setTempo = function(qpm) {
     this.tempo = qpm;
 };
 
-DIATONIC.play.Player.prototype.updatePos = function() {
-    while (this.playlist[this.playlistpos] &&
-            this.playlist[this.playlistpos].time < this.timecount) {
-        this.playlistpos++;
-    }
-};
-
-
-DIATONIC.play.Player.prototype.startNote = function(pitch, loudness, abcelem) {
-    this.timecount += this.silencelength;
-    this.silencelength = 0;
-    if (this.first) {
-        //nothing special if first?
-    }
-    this.updatePos();
-    var self = this;
-    this.playlist.splice(this.playlistpos, 0, {
-        time: this.timecount,
-        funct: function() {
-            MIDI.noteOn(/*channel*/0, pitch, loudness, /*delay*/0);
-//	self.playNote(pitch);
-            self.notifySelect(abcelem);
-        }
-    });
-};
-
-DIATONIC.play.Player.prototype.endNote = function(pitch, length) {
-    this.timecount += length;
-    this.updatePos();
-    this.playlist.splice(this.playlistpos, 0, {
-        time: this.timecount,
-        funct: function() {
-            MIDI.noteOff(/*channel*/0, pitch, 0);
-            //self.stopNote(pitch);
-        }
-    });
-};
-
-DIATONIC.play.Player.prototype.addRest = function(length) {
-    this.silencelength += length;
-};
-
-
 DIATONIC.play.Player.prototype.startTrack = function() {
-    this.silencelength = 0;
     this.trackcount++;
     this.timecount = 0;
     this.playlistpos = 0;
-    this.first = true;
+    this.silencelength = 0;
     if (this.instrument) {
         this.setInstrument(this.instrument);
     }
@@ -277,6 +210,12 @@ DIATONIC.play.Player.prototype.endTrack = function() {
     // need to do anything?
 };
 
+DIATONIC.play.Player.prototype.syncPlayList = function(time) {
+    while (this.playlist[this.playlistpos] &&
+            this.playlist[this.playlistpos].time <= time) {
+        this.playlistpos++;
+    }
+};
 
 DIATONIC.play.Player.prototype.setInstrument = function(number) {
     this.instrument = number;
@@ -287,6 +226,30 @@ DIATONIC.play.Player.prototype.setInstrument = function(number) {
 DIATONIC.play.Player.prototype.setChannel = function(number) {
     this.channel = number;
     this.midiapi.setChannel(number);
+};
+
+DIATONIC.play.Player.prototype.startNote = function(pitch, loudness, abcelem, startTime) {
+    this.syncPlayList(startTime);
+    var self = this;
+    this.playlist.splice(this.playlistpos, 0, {
+        time: startTime,
+        funct: function() {
+            MIDI.noteOn(/*channel*/0, pitch, loudness, /*delay*/0);
+            //	self.playNote(pitch);
+            self.notifySelect(abcelem);
+        }
+    });
+};
+
+DIATONIC.play.Player.prototype.endNote = function(pitch, endTime) {
+    this.syncPlayList(endTime);
+    this.playlist.splice(this.playlistpos, 0, {
+        time: endTime,
+        funct: function() {
+            MIDI.noteOff(/*channel*/0, pitch, 0);
+            //self.stopNote(pitch);
+        }
+    });
 };
 
 DIATONIC.play.Player.prototype.writeABCLine = function() {
@@ -303,7 +266,6 @@ DIATONIC.play.Player.prototype.writeABCVoiceLine = function() {
         if (this.next) {
             this.goToMark(this.next);
             this.next = null;
-//      if (!this.getLine().staffs) return;
         } else {
             this.pos++;
         }
@@ -330,7 +292,6 @@ DIATONIC.play.Player.prototype.writeABCElement = function(elem) {
 
 };
 
-
 DIATONIC.play.Player.prototype.writeNote = function(elem) {
 
     if (elem.startTriplet) {
@@ -341,6 +302,9 @@ DIATONIC.play.Player.prototype.writeNote = function(elem) {
     }
 
     var mididuration = elem.duration * this.baseduration * this.multiplier;
+
+    this.timecount += this.silencelength;
+    this.silencelength = 0;
     
     if (elem.pitches) {
         var midipitches = [];
@@ -348,23 +312,8 @@ DIATONIC.play.Player.prototype.writeNote = function(elem) {
             var note = elem.pitches[i];
             var pitch = note.pitch;
             if (note.accidental) {
-                switch (note.accidental) { // change that pitch (not other octaves) for the rest of the bar
-                    case "sharp":
-                        this.baraccidentals[pitch] = 1;
-                        break;
-                    case "flat":
-                        this.baraccidentals[pitch] = -1;
-                        break;
-                    case "natural":
-                        this.baraccidentals[pitch] = 0;
-                        break;
-                    case "dblsharp":
-                        this.baraccidentals[pitch] = 2;
-                        break;
-                    case "dblflat":
-                        this.baraccidentals[pitch] = -2;
-                        break;
-                }
+              // change that pitch (not other octaves) for the rest of the bar
+              this.baraccidentals[pitch] = this.getAccOffset(note.accidental);
             }
 
             midipitches[i] = 60 + 12 * this.extractOctave(pitch) + this.scale[this.extractNote(pitch)];
@@ -375,20 +324,20 @@ DIATONIC.play.Player.prototype.writeNote = function(elem) {
                 midipitches[i] += this.accidentals[this.extractNote(pitch)];
             }
             midipitches[i] += this.transpose;	// PER
-
-            this.startNote(midipitches[i], 127, elem);
+            
+            this.startNote(midipitches[i], 127, elem, this.timecount);
 
             if (note.startTie) {
                 this.tieduration += mididuration;
             } else if (note.endTie) {
-                this.endNote(midipitches[i], mididuration + this.tieduration);
+                this.endNote(midipitches[i], this.timecount + mididuration + this.tieduration);
                 this.tieduration = 0;
-                mididuration = 0;
             } else {
-                this.endNote(midipitches[i], mididuration);
-                mididuration = 0;
+                this.endNote(midipitches[i], this.timecount + mididuration);
             } 
         }
+        this.timecount += mididuration;
+        
         //mididuration = 0; // put these to zero as we've moved forward in the midi
 //
 //        for (i = 0; i < elem.pitches.length; i++) {
@@ -406,7 +355,7 @@ DIATONIC.play.Player.prototype.writeNote = function(elem) {
 //        }
 
     } else if (elem.rest && elem.rest.type !== 'spacer') {
-        this.addRest(mididuration);
+       this.silencelength += mididuration;
     }
 
     if (elem.endTriplet) {
@@ -456,6 +405,36 @@ DIATONIC.play.Player.prototype.handleBar = function(elem) {
 
 };
 
+DIATONIC.play.Player.prototype.getAccOffset = function(txtAcc) {
+// a partir do nome do acidente, retorna o offset no modelo cromatico
+    var ret = 0;
+
+    switch (txtAcc) {
+        case 'accidentals.dblsharp':
+        case 'dblsharp':
+            ret = 2;
+            break;
+        case 'accidentals.sharp':
+        case 'sharp':
+            ret = 1;
+            break;
+        case 'accidentals.nat':
+        case 'nat':
+        case 'natural':
+            ret = 0;
+            break;
+        case 'accidentals.flat':
+        case 'flat':
+            ret = -1;
+            break;
+        case 'accidentals.dblflat':
+        case 'dblflat':
+            ret = -2;
+            break;
+    }
+    return ret;
+};
+
 DIATONIC.play.Player.prototype.setKeySignature = function(elem) {
     this.accidentals = [0, 0, 0, 0, 0, 0, 0];
     if (this.abctune.formatting.bagpipes) {
@@ -465,7 +444,6 @@ DIATONIC.play.Player.prototype.setKeySignature = function(elem) {
         return;
     window.ABCJS.parse.each(elem.accidentals, function(acc) {
         var d = (acc.acc === "sharp") ? 1 : (acc.acc === "natural") ? 0 : -1;
-
         var lowercase = acc.note.toLowerCase();
         var note = this.extractNote(lowercase.charCodeAt(0) - 'c'.charCodeAt(0));
         this.accidentals[note] += d;
@@ -484,6 +462,19 @@ DIATONIC.play.Player.prototype.extractOctave = function(pitch) {
     return Math.floor(pitch / 7);
 };
 
+
+DIATONIC.play.Player.prototype.stopPlayingNClear = function() {
+    window.clearTimeout(this.map.gTimeout);
+    this.map.gaita.clearKeyboard();
+    this.map.gaita.sounding = false;
+    this.map.gIntervalo = 256;
+};
+
+DIATONIC.play.Player.prototype.stopPlaying = function() {
+    window.clearTimeout(this.map.gTimeout);
+    this.map.gaita.sounding = false;
+    this.map.gIntervalo = 256;
+};
 
 
 DIATONIC.play.Player.prototype.playAcorde = function(noteList, channel) {
@@ -606,8 +597,7 @@ DIATONIC.play.Player.prototype.playEscala = function(nEscala, intervalo, ascende
         nNotaInicial = notaFinal - 1;
         incremento = -1;
         notaFinal = -1;
-    }
-    ;
+    }   ;
 
     setNotes(nEscala, nNotaInicial);
 
