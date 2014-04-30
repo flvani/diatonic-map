@@ -25,7 +25,6 @@ DIATONIC.map.Gaita = function(map, interfaceParams ) {
     this.selectedChord = -1;
     this.keyboard = {};
     this.modifiedItems = {};
-    this.sounding = false;
     this.renderedTune = undefined;
     this.printer = undefined;
 
@@ -328,10 +327,8 @@ DIATONIC.map.Gaita.prototype.loadSongList = function(tt) {
 DIATONIC.map.Gaita.prototype.playRenderedSong = function(control) {
   if( control.value === "Stop" ) {
     this.player.stopPlay();
-    this.sounding = false;
    } else {
-     this.player.playTabSong(this.renderedTune, control);
-     this.sounding = true;
+     this.player.startPlay(control);
    } 
 };
 
@@ -358,6 +355,8 @@ DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage
   this.printer.printABC(tune);
   if (!alreadyOnPage) $("#"+this.songContainerDiv.id).hide();
   this.renderedTune = tune;
+  this.player.parseTabSong(this.renderedTune);
+  
 };
 
 DIATONIC.map.Gaita.prototype.parseNote = function(p_nota, isBass) {
@@ -452,10 +451,11 @@ DIATONIC.map.Gaita.prototype.carregaTabelaAcordes = function(map) {
 
 DIATONIC.map.Gaita.prototype.setAcorde = function(chord_no, var_no) {
   
+  if( this.player.sounding ) return;
+  
   //destaca notas do acorde selecionado e toca o som correspondente
   var accordion = this.accordions[this.selected];
-  if( this.sounding ) return;
-
+  
   var chord = accordion.getChords()[chord_no];
   var noteList = accordion.getChordVariations(chord_no)[var_no];
   this.selectedChord = chord_no;
@@ -486,6 +486,7 @@ DIATONIC.map.Gaita.prototype.setAcorde = function(chord_no, var_no) {
 
   this.map.draw();
 
+  //acertar isso: atualmente, uso dois canais para accordeon (um para cada staff) 
   if(this.player) {
     if (this.map.checkboxAcordeon.checked) this.player.playAcorde(noteList, 0);
     if (this.map.checkboxPiano.checked) this.player.playAcorde(noteList, 1);

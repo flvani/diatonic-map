@@ -11,36 +11,44 @@ if (!window.DIATONIC.play)
     window.DIATONIC.play = {};
 
 DIATONIC.play.Player = function(map, parent, options) {
-    options = options || {};
 
     this.map = map;
+    this.parent = parent;
+    this.scale = [0, 2, 4, 5, 7, 9, 11];
+    this.reset( options );
 
-    this.playlist = []; // contains {time:t,funct:f} pairs
+};
+
+DIATONIC.play.Player.prototype.reset = function(options) {
+    
+    options = options || {};
+    
     this.trackcount = 0;
     this.timecount = 0;
     this.tempo = 60;
     this.i = 0;
     this.currenttime = 0;
 
-    this.parent = parent;
-    this.scale = [0, 2, 4, 5, 7, 9, 11];
     this.restart = {line: 0, staff: 0, voice: 0, pos: 0};
     this.visited = {};
     this.multiplier = 1;
+    this.listeners = [];
     this.next = null;
     this.qpm = options.qpm || 180;
-    this.listeners = [];
-    this.transpose = 0;	// PER
-
+    this.transpose = options.transpose || 0;	// PER
+    this.sounding = false; // usado apenas pelo antigo metodo de tocar acordes
+    
+    this.baseduration = 480 * 4; // nice and divisible, equals 1 whole note
+    this.playlist = []; // contains {time:t,funct:f} pairs
+    this.baraccidentals = [];
+    
 };
 
-DIATONIC.play.Player.prototype.playTabSong = function(tune, control) {
+DIATONIC.play.Player.prototype.parseTabSong = function(tune) {
     var bpm = 108.0;
     var duration = 0.25;
-    this.baseduration = 480 * 4; // nice and divisible, equals 1 whole note
-    this.baraccidentals = [];
-    this.playlist = []; // contains {time:t,funct:f} pairs
-    this.playLink = control;
+    
+    this.reset( );
 
     this.abctune = tune;
 
@@ -48,9 +56,7 @@ DIATONIC.play.Player.prototype.playTabSong = function(tune, control) {
         bpm = tune.metaText.tempo.bpm || bpm;
         duration = tune.metaText.tempo.duration[0] || duration;
     }
-    if (tune.hasTablature) {
-        s = tune.tabStaffPos;
-    }
+
     this.qpm = bpm * duration * 4;
     this.setTempo(this.qpm);
 
@@ -72,9 +78,52 @@ DIATONIC.play.Player.prototype.playTabSong = function(tune, control) {
         }
     }
 
-    this.startPlay();
+    if (this.map.gaita.printer) {
+        this.addListener(this.map.gaita.printer);
+    }
 
     return tune;
+};
+
+DIATONIC.play.Player.prototype.doPlay = function() {
+    while (this.playlist[this.i] &&
+            this.playlist[this.i].time < this.currenttime) {
+        this.playlist[this.i].funct();
+        this.i++;
+    }
+    if (this.playlist[this.i]) {
+        this.currenttime += this.ticksperinterval;
+    } else {
+        this.stopPlay();
+    }
+};
+
+DIATONIC.play.Player.prototype.startPlay = function(control) {
+
+    this.playing = true;
+    this.playLink = control;
+    this.playLink.value = "Stop";
+    
+    var self = this;
+    // repeat every 16th note TODO see the min in the piece
+    this.ticksperinterval = 480 / 4;
+    this.doPlay();
+    this.playinterval = window.setInterval(function() {
+        self.doPlay();
+    }, (60000 / (this.tempo * 4)));
+};
+
+DIATONIC.play.Player.prototype.stopPlay = function() {
+    this.i = 0;
+    this.currenttime = 0;
+    this.pausePlay();
+    this.playLink.value = "Play";
+};
+
+DIATONIC.play.Player.prototype.pausePlay = function() {
+    MIDI.stopAllNotes();
+    window.clearInterval(this.playinterval);
+    this.playing = false;
 };
 
 DIATONIC.play.Player.prototype.addListener = function(listener) {
@@ -142,50 +191,6 @@ DIATONIC.play.Player.prototype.getVoice = function() {
 
 DIATONIC.play.Player.prototype.getElem = function() {
     return this.getVoice()[this.pos];
-};
-
-DIATONIC.play.Player.prototype.doPlay = function() {
-    while (this.playlist[this.i] &&
-            this.playlist[this.i].time < this.currenttime) {
-        this.playlist[this.i].funct();
-        this.i++;
-    }
-    if (this.playlist[this.i]) {
-        this.currenttime += this.ticksperinterval;
-    } else {
-        this.stopPlay();
-    }
-};
-
-DIATONIC.play.Player.prototype.startPlay = function() {
-
-    if (this.map.gaita.printer) {
-        this.addListener(this.map.gaita.printer);
-    }
-
-    this.playing = true;
-    this.playLink.value = "Stop";
-    
-    var self = this;
-    // repeat every 16th note TODO see the min in the piece
-    this.ticksperinterval = 480 / 4;
-    this.doPlay();
-    this.playinterval = window.setInterval(function() {
-        self.doPlay();
-    }, (60000 / (this.tempo * 4)));
-};
-
-DIATONIC.play.Player.prototype.stopPlay = function() {
-    this.i = 0;
-    this.currenttime = 0;
-    this.pausePlay();
-    this.playLink.value = "Play";
-};
-
-DIATONIC.play.Player.prototype.pausePlay = function() {
-    MIDI.stopAllNotes();
-    window.clearInterval(this.playinterval);
-    this.playing = false;
 };
 
 DIATONIC.play.Player.prototype.setTempo = function(qpm) {
@@ -461,13 +466,13 @@ DIATONIC.play.Player.prototype.extractOctave = function(pitch) {
 DIATONIC.play.Player.prototype.stopPlayingNClear = function() {
     window.clearTimeout(this.map.gTimeout);
     this.map.gaita.clearKeyboard();
-    this.map.gaita.sounding = false;
+    this.sounding = false;
     this.map.gIntervalo = 256;
 };
 
 DIATONIC.play.Player.prototype.stopPlaying = function() {
     window.clearTimeout(this.map.gTimeout);
-    this.map.gaita.sounding = false;
+    this.sounding = false;
     this.map.gIntervalo = 256;
 };
 
