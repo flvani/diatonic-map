@@ -300,8 +300,8 @@
                ,callback: function() {
                   MIDI.loader.stop();
                   //MIDI.programChange(0, 0); // piano
-                  MIDI.programChange(0, 21); // accordion
-                  //MIDI.programChange(1, 0); // piano
+                  MIDI.programChange(0, 21); // canais para accordeon
+                  MIDI.programChange(1, 21); // canais para accordeon
                   $("#tabs li:first").attr("id","current"); // Activate the first tab
                   $("#content_detalhes #tabSongs" ).fadeIn(); // Show first tab's content
                   $("#contentKeyboard" ).fadeIn(); 

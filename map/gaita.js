@@ -349,8 +349,10 @@ DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage
   var abcParser = new window.ABCJS.parse.Parse(null, accordionTab);
   abcParser.parse(accordion.getSong(title), params); //TODO handle multiple tunes
   var tune = abcParser.getTune();
-  if (!alreadyOnPage) this.songDiv.style.display = "inline";
-  if (!alreadyOnPage) if(this.songContainerDiv) this.songContainerDiv.style.display = "inline";
+  //if (!alreadyOnPage) 
+      this.songDiv.style.display = "inline";
+  //if (!alreadyOnPage) 
+  if(this.songContainerDiv) this.songContainerDiv.style.display = "inline";
   var paper = Raphael(this.songDiv, 700, 400);
   this.printer = new ABCJS.write.Printer(paper, {}, accordionTab );// TODO: handle printer params
   this.printer.printABC(tune);

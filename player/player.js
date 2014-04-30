@@ -29,8 +29,6 @@ DIATONIC.play.Player = function(map, parent, options) {
     this.multiplier = 1;
     this.next = null;
     this.qpm = options.qpm || 180;
-    this.program = options.program || 2;
-    this.noteOnAndChannel = "%90";
     this.listeners = [];
     this.transpose = 0;	// PER
 
@@ -60,6 +58,7 @@ DIATONIC.play.Player.prototype.playTabSong = function(tune, control) {
     for (this.staff = 0; this.staff < this.staffcount; this.staff++) {
         this.voicecount = 1;
         for (this.voice = 0; this.voice < this.voicecount; this.voice++) {
+            this.setChannel(this.staff);
             this.startTrack();
             this.restart = {line: 0, staff: this.staff, voice: this.voice, pos: 0};
             this.next = null;
@@ -198,12 +197,6 @@ DIATONIC.play.Player.prototype.startTrack = function() {
     this.timecount = 0;
     this.playlistpos = 0;
     this.silencelength = 0;
-    if (this.instrument) {
-        this.setInstrument(this.instrument);
-    }
-    if (this.channel) {
-        this.setChannel(this.channel);
-    }
 };
 
 DIATONIC.play.Player.prototype.endTrack = function() {
@@ -225,16 +218,16 @@ DIATONIC.play.Player.prototype.setInstrument = function(number) {
 
 DIATONIC.play.Player.prototype.setChannel = function(number) {
     this.channel = number;
-    this.midiapi.setChannel(number);
 };
 
 DIATONIC.play.Player.prototype.startNote = function(pitch, loudness, abcelem, startTime) {
     this.syncPlayList(startTime);
     var self = this;
+    var channel = this.channel;
     this.playlist.splice(this.playlistpos, 0, {
         time: startTime,
         funct: function() {
-            MIDI.noteOn(/*channel*/0, pitch, loudness, /*delay*/0);
+            MIDI.noteOn(channel, pitch, loudness, 0);
             //	self.playNote(pitch);
             self.notifySelect(abcelem);
         }
@@ -243,10 +236,11 @@ DIATONIC.play.Player.prototype.startNote = function(pitch, loudness, abcelem, st
 
 DIATONIC.play.Player.prototype.endNote = function(pitch, endTime) {
     this.syncPlayList(endTime);
+    var channel = this.channel;
     this.playlist.splice(this.playlistpos, 0, {
         time: endTime,
         funct: function() {
-            MIDI.noteOff(/*channel*/0, pitch, 0);
+            MIDI.noteOff(channel, pitch, 0);
             //self.stopNote(pitch);
         }
     });
@@ -325,14 +319,15 @@ DIATONIC.play.Player.prototype.writeNote = function(elem) {
             }
             midipitches[i] += this.transpose;	// PER
             
-            this.startNote(midipitches[i], 127, elem, this.timecount);
 
             if (note.startTie) {
-                this.tieduration += mididuration;
+                this.startNote(midipitches[i], 127, elem, this.timecount);
+//                this.tieduration += mididuration;
             } else if (note.endTie) {
-                this.endNote(midipitches[i], this.timecount + mididuration + this.tieduration);
-                this.tieduration = 0;
+                this.endNote(midipitches[i], this.timecount + mididuration /*+ this.tieduration*/);
+  //              this.tieduration = 0;
             } else {
+                this.startNote(midipitches[i], 127, elem, this.timecount);
                 this.endNote(midipitches[i], this.timecount + mididuration);
             } 
         }

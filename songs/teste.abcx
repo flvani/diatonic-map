@@ -1,13 +1,12 @@
+%%scale 1.0
 X:1
-T:Teste
-C:Cezar Ferreira
+T:Maitia, nun zira? TESTE
+C:Folclore Basco
+C:versão de José Uruñuela.
 N:Transcrito por Flávio
 L:1/8
-Q:160
-M:3/4
-V:mell
-K:G 
-[=F6D6] 
-V:baixo
-K:G bass
-G,,2 [G,B,d,]z [G,B,d,]z 
+Q:"Allegro" 1/4=118
+M:6/8
+K:G
+V:melodia
+| G3-Gz A | B2B B2c |
