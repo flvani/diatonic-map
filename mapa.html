@@ -73,14 +73,14 @@
 
       <div id="div_principal" class="span12" style="margin-top:10px; margin-left:0px;" >
         <ul id="faketab">
-            <li><a href="#" name="nomeGaita" id="a_nome_gaita">Gaita</a></li>
+            <li><a href="#" id="a_nome_gaita">Gaita</a></li>
         </ul>
         <div id="divContent"> 
           <div id="contentKeyboard" style="width: 700px; float: left;" ></div>
           <div id="contentInfo" style=" float: right; margin-top: 30px; margin-right: 5px;">
             <table class="table table-bordered table-final">
               <tr>
-                <td colspan="4" style="height:220px;" id="td_imagem_gaita" >
+                <td colspan="2" style="height:220px;" id="td_imagem_gaita" >
                     <b>Loading...</b>
                 </td>
               </tr>
@@ -108,14 +108,13 @@
       
       <div id="div_detalhes" style="float:left; margin-top:10px; margin-left:0px; width:103%;"> 
         <ul id="tabs">
-            <li><a href="#" name="tabSongs">Songs</a>        
-            <li><a href="#" name="tabAcordes">Acordes</a></li>
-            <li><a href="#" name="tabBaixos">Baixos</a></li>
-            <li><a href="#" name="tabEscalas">Escalas</a></li>
-            </li>
+            <li><a href="#" id="tabSongs">Songs</a></li>        
+            <li><a href="#" id="tabAcordes">Acordes</a></li>
+            <li><a href="#" id="tabBaixos">Baixos</a></li>
+            <li><a href="#" id="tabEscalas">Escalas</a></li>
         </ul>
         <div id= "content_detalhes" style="float:left; margin-top:0px; margin-left:0px; width:100%;" > 
-            <div id="tabSongs">
+            <div id="tabSongsDiv">
                <div style="float: left;"> 
                    <select id="selSongs" > </select>
                    <input type="button" id="playBtn" value="Play" />
@@ -123,15 +122,15 @@
                </div>
                <div id="songDiv" style="display: inline"> </div>
             </div>    
-            <div id="tabAcordes" >
+            <div id="tabAcordesDiv" >
               <table id="chords_table" class="table table-striped">
               </table>
             </div>
-            <div id="tabBaixos" >
+            <div id="tabBaixosDiv" >
               <table id="baixos_table" class="table table-striped">
               </table>
             </div>
-            <div id="tabEscalas" >
+            <div id="tabEscalasDiv" >
               <table id="scales_table" class="table table-striped">
               </table>
             </div>
@@ -268,7 +267,7 @@
                      ,accordionImagePlaceHolder: 'td_imagem_gaita'
                      ,accordionParams: { 
                         songDiv: 'songDiv' 
-                       ,songContainerDiv: 'tabSongs'
+                       ,songContainerDiv: 'tabSongsDiv'
                        ,keyboardContentDiv: 'contentKeyboard'
                        ,songSelector: 'selSongs' }
                  } );
@@ -321,7 +320,7 @@
                 $("#content_detalhes").find("[id^='tab']").hide(); // Hide all content
                 $("#tabs li").attr("id",""); //Reset id's
                 $(this).parent().attr("id","current"); // Activate this
-                $('#' + $(this).attr('name')).fadeIn(); // Show content for the current tab
+                $('#' + $(this).attr('id')+"Div").fadeIn(); // Show content for the current tab
               }
           });
         });
