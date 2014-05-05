@@ -7,11 +7,31 @@ Q:160
 M:3/4
 V:melodia
 K:G
-|: zG, A,B, CD | [E6C6] | zG, A,B, CD | [D6=F6] |
-| zB, CD E=F | [B6G6] | [=F2A2] [E2G2] [D2F2] | [E6C6] :|
+|: zG, A,B, CD | [C6E6] | zG, A,B, CD | [D6=F6] |
+| zB, CD E=F | [G6B6] | [=F2A2] [E2G2] [D2F2] | [E6C6] :|
+|z6 | [C6E6] | [E6G6] | [D6=F6] | [B,6D6] |
+|[=F6A6] |[=F2A2] [E2G2] [D2F2] |[E6G6] | [C6E6] | 
+|[C6E6]|[E6G6]| [D6=F6] | [D2=F2] [C2E2] [F2A2] |
+| [G4B4] [=F2A2] | [E4G4] [D2=F2] | [C6E6] |: z6 |
+|[c6e6] | [B4d4] [c2e2] |[d6=f6]-|[d6=f6]|[B6d6] |
+|[A4c4][G2B2] | [c6e6]-|[c6e6]|[c6e6]|
+| [B4d4] [A2c2] | [G3B3] [G1/2B1/2][G1/2B1/2]-[G2B2] | [=F3A3] [F1/2A1/2][F1/2A1/2]-[F2A2] | [E3G3] [E1/2G1/2][E1/2G1/2]-[E2G2] |
+| [D3=F3] [D1/2F1/2][D1/2F1/2]-[D2F2] |1 [C6E6]-|[C6E6] :|2 z CEG EC |
+|: cG, A,B, CD | [C6E6] | z G, A,B, CD | [D6=F6] | z B, CD E=F |
+| [G6B6] | [=F2A2] [E2G2] [D2F2] |1 [E6G6] :|2 [C2E2] z3/2 [D1/2=F1/2] [D2F2] | [CE] z z2 z2 ||
 V:baixo
 K:G bass
 |: z6 | C,2 [C,E,G,]z [C,E,G,]z | z6 | G,,2 [G,B,d,]z [G,B,d,]z |
 | G,,2 [G,B,d,]z [G,B,d,]z | G,,2 [G,B,d,]z [G,B,d,]z | G,,2 [G,B,d,]z [G,B,d,]z | C,2 [E,G,c,]z [E,G,c,]z :|
+| z6 | C,2 [C,E,G,]z [C,E,G,]z | C,2 [C,E,G,]z [C,E,G,]z |G,,2 [G,B,d,]z [G,B,d,]z |G,,2 [G,B,d,]z [G,B,d,]z |
+|G,,2 [G,B,d,]z [G,B,d,]z |G,,2 [G,B,d,]z [G,B,d,]z | C,2 [C,E,G,]z [C,E,G,]z | C,2 [C,E,G,]z [C,E,G,]z |
+| C,2 [C,E,G,]z [C,E,G,]z | C,2 [C,E,G,]z [C,E,G,]z |G,,2 [G,B,d,]z [G,B,d,]z |G,,2 [G,B,d,]z [G,B,d,]z |
+|G,,2 [G,B,d,]z [G,B,d,]z |G,,2 [G,B,d,]z [G,B,d,]z | C,2 [C,E,G,]z [C,E,G,]z |: z6 |
+| C,2 [C,E,G,]z [C,E,G,]z | C,2 [C,E,G,]z [C,E,G,]z |G,,2 [G,B,d,]z [G,B,d,]z |G,,2 [G,B,d,]z [G,B,d,]z |G,,2 [G,B,d,]z [G,B,d,]z |
+|G,,2 [G,B,d,]z [G,B,d,]z | C,2 [C,E,G,]z [C,E,G,]z | C,2 [C,E,G,]z [C,E,G,]z | C,2 [C,E,G,]z [C,E,G,]z |
+| C,2 [C,E,G,]z [C,E,G,]z |G,,2 [G,B,d,]z [G,B,d,]z |G,,2 [G,B,d,]z [G,B,d,]z |G,,2 [G,B,d,]z [G,B,d,]z |
+|G,,2 [G,B,d,]z [G,B,d,]z | C,2 [C,E,G,]z [C,E,G,]z | C,2 [C,E,G,]z [C,E,G,]z :| C,2 [C,E,G,]z [C,E,G,]z |
+|: z6 | C,2 [C,E,G,]z [C,E,G,]z | z6 |G,,2 [G,B,d,]z [G,B,d,]z |G,,2 [G,B,d,]z [G,B,d,]z |
+|G,,2 [G,B,d,]z [G,B,d,]z | G,,2 [G,B,d,]z [G,B,d,]z | C,2 [C,E,G,]z [C,E,G,]z :| C,2 z3/2 [G,,1/2B,,1/2D,1/2] [G,,2B,,2D,2] | C, z z2 z2 ||
 V:tablatura
 K:none accordionTab
