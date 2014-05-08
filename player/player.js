@@ -10,12 +10,12 @@ if (!window.DIATONIC)
 if (!window.DIATONIC.play)
     window.DIATONIC.play = {};
 
-DIATONIC.play.Player = function(map, parent, options) {
+DIATONIC.play.Player = function(map, container, options ) {
 
     this.map = map;
-    this.parent = parent;
     this.scale = [0, 2, 4, 5, 7, 9, 11];
     this.reset( options );
+    this.tuneContainer = document.getElementById(container);
 
 };
 
@@ -23,12 +23,13 @@ DIATONIC.play.Player.prototype.reset = function(options) {
     
     options = options || {};
     
+    this.ja = false;
     this.trackcount = 0;
     this.timecount = 0;
     this.tempo = 60;
     this.i = 0;
     this.currenttime = 0;
-
+    this.ypos = 0;
     this.restart = {line: 0, staff: 0, voice: 0, pos: 0};
     this.visited = {};
     this.multiplier = 1;
@@ -85,9 +86,17 @@ DIATONIC.play.Player.prototype.parseTabSong = function(tune) {
     return tune;
 };
 
+DIATONIC.play.Player.prototype.setScrolling = function(y) {
+    if( !this.tuneContainer) return;
+    if( Math.abs(y - this.ypos) > 200 ) {
+        this.ypos = y;
+        this.tuneContainer.scrollTop = this.ypos -100;    
+    }
+};
+
 DIATONIC.play.Player.prototype.doPlay = function() {
     while (this.playlist[this.i] &&
-            this.playlist[this.i].time < this.currenttime) {
+           this.playlist[this.i].time < this.currenttime) {
         this.playlist[this.i].funct();
         this.i++;
     }
@@ -118,6 +127,7 @@ DIATONIC.play.Player.prototype.stopPlay = function() {
     this.currenttime = 0;
     this.pausePlay();
     this.playLink.value = "Play";
+    this.clearSelection();
 };
 
 DIATONIC.play.Player.prototype.pausePlay = function() {
@@ -130,9 +140,22 @@ DIATONIC.play.Player.prototype.addListener = function(listener) {
     this.listeners.push(listener);
 };
 
+DIATONIC.play.Player.prototype.clearSelection = function() {
+    for (var i = 0; i < this.listeners.length; i++) {
+        this.listeners[i].clearSelection();
+        //this.setScrolling(0);
+    }
+};
 DIATONIC.play.Player.prototype.notifySelect = function(abcelem) {
     for (var i = 0; i < this.listeners.length; i++) {
         this.listeners[i].notifySelect(abcelem.abselem);
+        this.setScrolling(abcelem.y);
+    }
+};
+DIATONIC.play.Player.prototype.notifyClearNSelect = function(abcelem) {
+    for (var i = 0; i < this.listeners.length; i++) {
+        this.listeners[i].notifyClearNSelect(abcelem.abselem);
+        this.setScrolling(abcelem.y);
     }
 };
 
@@ -229,14 +252,25 @@ DIATONIC.play.Player.prototype.startNote = function(pitch, loudness, abcelem, st
     this.syncPlayList(startTime);
     var self = this;
     var channel = this.channel;
-    this.playlist.splice(this.playlistpos, 0, {
-        time: startTime,
-        funct: function() {
-            MIDI.noteOn(channel, pitch, loudness, 0);
-            //	self.playNote(pitch);
-            self.notifySelect(abcelem);
-        }
-    });
+    if( ! self.ja ) {
+        self.ja = true;
+        this.playlist.splice(this.playlistpos, 0, {
+            time: startTime,
+            funct: function() {
+                self.clearSelection();
+                MIDI.noteOn(channel, pitch, loudness, 0);
+                self.notifySelect(abcelem);
+            }
+        });
+    } else {
+        this.playlist.splice(this.playlistpos, 0, {
+            time: startTime,
+            funct: function() {
+                MIDI.noteOn(channel, pitch, loudness, 0);
+                self.notifySelect(abcelem);
+            }
+        });
+    }
 };
 
 DIATONIC.play.Player.prototype.endNote = function(pitch, endTime) {
@@ -327,10 +361,8 @@ DIATONIC.play.Player.prototype.writeNote = function(elem) {
 
             if (note.startTie) {
                 this.startNote(midipitches[i], 127, elem, this.timecount);
-//                this.tieduration += mididuration;
             } else if (note.endTie) {
                 this.endNote(midipitches[i], this.timecount + mididuration /*+ this.tieduration*/);
-  //              this.tieduration = 0;
             } else {
                 this.startNote(midipitches[i], 127, elem, this.timecount);
                 this.endNote(midipitches[i], this.timecount + mididuration);
@@ -338,22 +370,6 @@ DIATONIC.play.Player.prototype.writeNote = function(elem) {
         }
         this.timecount += mididuration;
         
-        //mididuration = 0; // put these to zero as we've moved forward in the midi
-//
-//        for (i = 0; i < elem.pitches.length; i++) {
-//            var note = elem.pitches[i];
-//            var pitch = note.pitch + this.transpose;	// PER
-//            if (note.startTie)
-//                continue; // don't terminate it
-//            if (note.endTie) {
-//                this.endNote(midipitches[i], mididuration + this.tieduration);
-//            } else {
-//                this.endNote(midipitches[i], mididuration);
-//            }
-//            mididuration = 0; // put these to zero as we've moved forward in the midi
-//            this.tieduration = 0;
-//        }
-
     } else if (elem.rest && elem.rest.type !== 'spacer') {
        this.silencelength += mididuration;
     }
@@ -366,7 +382,7 @@ DIATONIC.play.Player.prototype.writeNote = function(elem) {
 
 DIATONIC.play.Player.prototype.handleBar = function(elem) {
     this.baraccidentals = [];
-
+    this.ja = false;
 
     var repeat = (elem.type === "bar_right_repeat" || elem.type === "bar_dbl_repeat");
     var skip = (elem.startEnding) ? true : false;

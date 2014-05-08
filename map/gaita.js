@@ -33,7 +33,7 @@ DIATONIC.map.Gaita = function(map, interfaceParams ) {
     this.keyboardContentDiv = document.getElementById(interfaceParams.keyboardContentDiv);
     this.songSelector = document.getElementById(interfaceParams.songSelector);
     
-    this.player = new DIATONIC.play.Player(this.map);
+    this.player = new DIATONIC.play.Player(this.map, interfaceParams.tabContentDiv);
 
     if (window.DIATONIC.map.models.length > 0) {
         this.accordions = window.DIATONIC.map.models;
