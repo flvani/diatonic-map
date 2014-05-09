@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Mapa para Acordeons Diatônicos</title>
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0">
+    <meta name="description" content="Um mapa de referência para acordeons diatônicos">
+    <meta name="author" content="Flávio Luiz Vani">
+
+    <!-- Estilos para a página e popups -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/gaitas.css" rel="stylesheet">
+
+  </head>
+  <body>
+   
+    <div class="navbar navbar-inverse navbar-fixed-top" >
+      <div style="background-color:#5ba4a4;">
+        <div class="container" id="divTitulo" style="margin-left: 20px;" >
+           <header>
+              <table><tr>
+                <td><h1>Mapa para <span>Acordeons Diatônicos</span></h1></td>
+                <td style="width:5%;"></td>
+                <td><a class="brand" href="#openModal">Sobre</a></td>
+              </tr></table>
+	   </header>
+        </div>
+      </div>
+    </div> <!-- /navbar -->
+   
+    <div id="buttonCanvas" ></div>
+    <div class="container" id="divContainer"  style="margin-left: 20px;" >
+      <div id="divMenu" class="span12" style="height:72px; margin-left: 0px;">
+        <table><tr><td>
+            <table class="table table-bordered table-final">
+              <tr >
+                <td >
+                  <div class="btn-group">
+                    <button class="btn label dropdown-toggle" data-toggle="dropdown">Acordeons&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                    <ul class="dropdown-menu" id="opcoes_gaita"></ul>
+                  </div>
+                </td >
+                <td >
+                  <div class="btn-group">
+                    <button class="btn label dropdown-toggle" data-toggle="dropdown">Afinações&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                    <ul class="dropdown-menu" id="opcoes_afinacao"></ul>
+                  </div>
+                </td >
+                <td >
+                  <button id="sub_half_tone" class="btn label" title="reduzir meio tom"><i class="icon-circle-arrow-down icon-white"></i>&nbsp;&frac12;&nbsp;tom</button>
+                  <button id="add_half_tone" class="btn label" title="aumentar meio tom"><i class="icon-circle-arrow-up icon-white"></i>&nbsp;&frac12;&nbsp;tom</button>
+                </td >
+                <td >
+                  <button id="change_labels" class="btn label"><i class="icon-globe icon-white"></i>&nbsp;Trocar Símbolos</button>
+                </td >
+              </tr>
+              <tr > 
+                <td colspan="2" >
+                    &nbsp;<b>MIDI:</b>&nbsp;<a style="padding: 5px; float:top;" ></a>
+                    <input type="checkbox" id="checkboxAcordeon" checked >&nbsp;Acordeon&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" id="checkboxPiano">&nbsp;Piano
+                </td>
+                <td colspan="2" style="height:22px;">
+                    &nbsp;<b>Layout:</b>&nbsp;<a style="padding: 5px; float:top;" ></a>
+                    <input type="checkbox" id="checkboxHorizontal" checked >&nbsp;Horizontal&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" id="checkboxEspelho">&nbsp;Espelho
+                </td >
+              </tr>
+            </table>
+           </td><td style="padding: 1%"></td><td>
+            </td></tr>
+          </table>
+        </div>
+
+      <div id="div_principal" class="span12" style="margin-top:10px; margin-left:0px;" >
+        <ul id="faketab">
+            <li><a href="#" id="a_nome_gaita">Gaita</a></li>
+        </ul>
+        <div id="divContent"> 
+          <div id="contentKeyboard" style="width: 700px; float: left;" ></div>
+          <div id="contentInfo" style=" float: right; margin-top: 30px; margin-right: 5px;">
+            <table class="table table-bordered table-final">
+              <tr>
+                <td colspan="2" style="height:220px;" id="td_imagem_gaita" >
+                    <b>Loading...</b>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">&nbsp;Afinação Atual</td>
+                <td style="width: 95px;">&nbsp;<span class="label" id="afinacao">?/?</span></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: middle;">&nbsp;Acorde Atual</td>
+                <td>
+                  &nbsp;<span class="label" id="acordeAtualVazio">--
+                  </span>
+                  <span class="label label-success" id="acordeAtualFoleAbrindo" style="display: none" >--&nbsp;
+                     <i id="abre_fole" class="icon-resize-full icon-white"></i>
+                  </span>
+                  <span class="label label-warning" id="acordeAtualFoleFechando" style="display: none" >--&nbsp;
+                      <i id="fecha_fole" class="icon-resize-small icon-white"></i>
+                  </span>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <div id="div_detalhes" style="float:left; margin-top:10px; margin-left:0px; width:103%;"> 
+          <table style="border-width: 0;"><tr><td>
+        <ul id="tabs">
+            <li><a href="#" id="tabSongs">Songs</a></li>        
+            <li><a href="#" id="tabAcordes">Acordes</a></li>
+            <li><a href="#" id="tabBaixos">Baixos</a></li>
+            <li><a href="#" id="tabEscalas">Escalas</a></li>
+        </ul></td>
+        <td>&nbsp;</td>
+        <td>
+            <select id="selSongs" > </select>
+            <input type="button" id="playBtn" value="Play" />
+            <input type="button" id="editorBtn" value="Edit" />
+        </td></tr>
+          </table>
+        <div id= "content_detalhes" style="float:left; margin-top:0px; margin-left:0px; width:100%; height: 400px; overflow-y: scroll;" > 
+            <div id="tabSongsDiv">
+               <div id="songDiv" style="display: inline;"> </div>
+            </div>    
+            <div id="tabAcordesDiv" >
+              <table id="chords_table" class="table table-striped">
+              </table>
+            </div>
+            <div id="tabBaixosDiv" >
+              <table id="baixos_table" class="table table-striped">
+              </table>
+            </div>
+            <div id="tabEscalasDiv" >
+              <table id="scales_table" class="table table-striped">
+              </table>
+            </div>
+        </div>
+      </div>
+
+    </div> <!-- /container -->
+
+    <div id="divEditor" style="float:left; display:none; padding-left: 0px; height: 95%;">
+        <div id="editControlDiv" style="margin-top:0px; margin-left:20px;">  
+            <div id="divEditArea" class="span12" style="margin-top:12px; margin-left:0px;">
+                <textarea id="textareaABC" rows="10" style="width: 98%; color: #000; font-family: monospace"></textarea>
+                <select id="selGaitas" > </select>
+                <select id="selKey" ></select>
+                <input type="submit" id="maisOitava" value="+ Oitava" onclick="javascript:doTranspose(12);" />
+                <!--input type="submit" id="maisMeioTom" value="+ 1/2 Tom" onclick="javascript:doTranspose(1);" />
+                <input type="submit"  id="nenosMeioTom" value="- 1/2 Tom" onclick="javascript:doTranspose(-1);" /-->
+                <input type="submit" id="menosOitava" value="- Oitava" onclick="javascript:doTranspose(-12);" />
+                <input type="button" id="printBtn" value="Print Preview" />
+                <input type="button" id="closeBtn" value="Close" />
+                <input type="submit" id="forceRefresh" value="Refresh" onclick="javascript:doForceRefresh();" />
+                <input type="checkbox" id="chkAutoRefresh" />Auto refresh 
+                <input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" />Debug
+            </div>
+            <div id="warnings" class="span12" style="margin-top:6px; margin-left:0px;"></div>
+            <div id="midi" class="span12" style="margin-top:6px; margin-left:0px;"></div>
+        </div>
+        <div id="canvasDiv" class="span12" style="margin-top:6px; margin-left:0px;" ></div>
+
+    </div> <!-- /divEditor -->  
+
+    
+    <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="proto_noconflict.js" ></script>
+    
+    <!-- suporte a arquivos ABC -->
+    <script type="text/javascript" src="abcjs/abcjs_tabeditor_2.02-min.js" ></script>
+
+    <!-- suporte a MIDI -->
+    <script type="text/javascript" src="MIDI.js/MIDI_2.01-min.js"></script>
+    
+    <!-- modelos de gaitas disponíveis -->
+    <!-- diatonic accordion map -->
+    <script type="text/javascript" src="diatonic/diatonic-map.js"></script>
+    <script type="text/javascript" src="diatonic/accordion.hohner.gc.js"></script>
+    <script type="text/javascript" src="diatonic/accordion.hohner.clubIIIM.br.js"></script>
+    <script type="text/javascript" src="diatonic/accordion.hohner.clubIIIM.js"></script>
+    <script type="text/javascript" src="diatonic/accordion.hohner.coronaII.js"></script>
+
+    <!-- suporte aos mapas de teclados -->
+    <script type="text/javascript" src="js/kinetic-v5.0.0.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap-dropdown.js"></script>
+    <script type="text/javascript" src="js/funcoes.js"></script>
+
+    <script type="text/javascript" src="map/map.js"></script>
+    <script type="text/javascript" src="map/gaita.js"></script>
+    <script type="text/javascript" src="map/button.js"></script>
+    
+    <script type="text/javascript" src="player/player.js"></script>
+    
+    <script type="text/javascript">
+        
+        var paper = Raphael("buttonCanvas", 300, 200 );
+        
+        var b = new DIATONIC.map.Button( paper, 100, 70, 'A', 'F' );
+        
+        b.draw();
+        b.setOpen();
+        b.clear();
+        b.setClose();
+        b.clear();
+
+
+  </script>
+        
+  </body>
+</html>
