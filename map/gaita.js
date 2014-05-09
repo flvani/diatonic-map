@@ -498,13 +498,7 @@ DIATONIC.map.Gaita.prototype.clearKeyboard = function() {
   for (var i=0; i < this.modifiedItems.length; i++) {
     var item = this.modifiedItems[i];
     if( typeof( item ) === 'object' ) {
-       item.btn.setFill('white');
-       item.notaOpen.labels.key.setFill('black');
-       item.notaOpen.labels.compl.setFill('black');
-       item.notaOpen.labels.octave.setFill('black');
-       item.notaClose.labels.compl.setFill('black');
-       item.notaClose.labels.key.setFill('black');
-       item.notaClose.labels.octave.setFill('black');
+       this.clearButton(item);
     } else {
       document.getElementById( item ).style.removeProperty('background-color');
     }
@@ -519,24 +513,38 @@ DIATONIC.map.Gaita.prototype.clearKeyboard = function() {
 };
 
 
+DIATONIC.map.Gaita.prototype.clearButton = function(button) {
+    button.btn.setFill('white');
+    button.notaOpen.labels.key.setFill('black');
+    button.notaOpen.labels.compl.setFill('black');
+    button.notaOpen.labels.octave.setFill('black');
+    button.notaClose.labels.compl.setFill('black');
+    button.notaClose.labels.key.setFill('black');
+    button.notaClose.labels.octave.setFill('black');
+};
+
 DIATONIC.map.Gaita.prototype.markButton = function(dir, row, button) {
-    this.modifiedItems.push( this.keyboard[row][button] );
+    this.selectButton(dir, this.keyboard[row][button]);
+};
+
+DIATONIC.map.Gaita.prototype.selectButton = function(dir, button) {
+
+    this.modifiedItems.push(button);
     if (dir === DIATONIC.close) {
-        this.keyboard[row][button].btn.setFill('#f5b043'); // yellow
-        this.keyboard[row][button].notaClose.labels.key.setFill('red');
-        this.keyboard[row][button].notaClose.labels.compl.setFill('red');
-        this.keyboard[row][button].notaClose.labels.octave.setFill('red');
-        this.keyboard[row][button].notaOpen.labels.key.setFill('#f5b043');
-        this.keyboard[row][button].notaOpen.labels.compl.setFill('#f5b043');
-        this.keyboard[row][button].notaOpen.labels.octave.setFill('#f5b043');
+        button.btn.setFill('#f5b043'); // yellow
+        button.notaClose.labels.key.setFill('red');
+        button.notaClose.labels.compl.setFill('red');
+        button.notaClose.labels.octave.setFill('red');
+        button.notaOpen.labels.key.setFill('#f5b043');
+        button.notaOpen.labels.compl.setFill('#f5b043');
+        button.notaOpen.labels.octave.setFill('#f5b043');
     } else {
-        this.keyboard[row][button].modified = true;
-        this.keyboard[row][button].btn.setFill('#24e3be'); // ligthgreen
-        this.keyboard[row][button].notaOpen.labels.key.setFill('red');
-        this.keyboard[row][button].notaOpen.labels.compl.setFill('red');
-        this.keyboard[row][button].notaOpen.labels.octave.setFill('red');
-        this.keyboard[row][button].notaClose.labels.key.setFill('#24e3be');
-        this.keyboard[row][button].notaClose.labels.compl.setFill('#24e3be');
-        this.keyboard[row][button].notaClose.labels.octave.setFill('#24e3be');
+        button.btn.setFill('#24e3be'); // ligthgreen
+        button.notaOpen.labels.key.setFill('red');
+        button.notaOpen.labels.compl.setFill('red');
+        button.notaOpen.labels.octave.setFill('red');
+        button.notaClose.labels.key.setFill('#24e3be');
+        button.notaClose.labels.compl.setFill('#24e3be');
+        button.notaClose.labels.octave.setFill('#24e3be');
     }
 };

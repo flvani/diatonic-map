@@ -24,6 +24,7 @@ DIATONIC.play.Player.prototype.reset = function(options) {
     options = options || {};
     
     this.startTieElem = [];
+    this.lastTabElem = []
     this.trackcount = 0;
     this.timecount = 0;
     this.tempo = 60;
@@ -119,6 +120,7 @@ DIATONIC.play.Player.prototype.stopPlay = function() {
     this.pausePlay();
     this.playLink.value = "Play";
     this.clearSelection();
+    this.map.gaita.clearKeyboard();
 };
 
 DIATONIC.play.Player.prototype.pausePlay = function() {
@@ -347,17 +349,86 @@ DIATONIC.play.Player.prototype.writeABCElement = function(elem) {
 
 };
 
+DIATONIC.play.Player.prototype.notifyUnSelectButton = function(button) {
+  this.map.gaita.clearButton(button) ;
+  this.map.draw();
+};
+
+DIATONIC.play.Player.prototype.notifySelectButton = function(dir, button) {
+  this.map.gaita.selectButton(dir, button) ;
+  this.map.draw();
+};
+
+
+DIATONIC.play.Player.prototype.selectButton = function( dir, button, startTime ) {
+    this.syncPlayList(startTime);
+    var self = this;
+    this.playlist.splice(this.playlistpos, 0, {
+        time: startTime,
+        funct: function() {
+            self.notifySelectButton(dir, button);
+        }
+    });
+};
+ 
+DIATONIC.play.Player.prototype.unSelectButton = function( button, startTime ) {
+    this.syncPlayList(startTime);
+    var self = this;
+    var channel = this.channel;
+    this.playlist.splice(this.playlistpos, 0, {
+        time: startTime,
+        funct: function() {
+            self.notifyUnSelectButton(button);
+        }
+    });
+ };
+
+DIATONIC.play.Player.prototype.getBassButton = function( b ) {
+    return null;
+//    return this.map.gaita.keyboard[row][button]; 
+};
+
+DIATONIC.play.Player.prototype.getButton = function( b ) {
+    if(b === 'x') return null;
+    var p = parseInt( isNaN(b.substr(0,2)) || b.length === 1 ? 1 : 2 );
+    var button = b.substr(0, p) -1;
+    var row = b.length - p;
+    return this.map.gaita.keyboard[row][button]; 
+};
+
 DIATONIC.play.Player.prototype.selectButtons = function(elem) {
     var mididuration = elem.duration * this.baseduration * this.multiplier;
     if (elem.pitches) {
+        this.selectNote(elem, this.timecount);
+        this.unSelectNote(elem, this.timecount + mididuration);
+        /*
+        var dir = elem.bellows === "+" ? DIATONIC.close : DIATONIC.open;
+        var button;
         for (var i = 0; i < elem.pitches.length; i++) {
-            //this.map.gaita.markButton(dir, row, button) ;
-            this.selectNote(elem, this.timecount);
-            this.unSelectNote(elem, this.timecount + mididuration);
 
-        }            
+            if (elem.pitches[i].type === "rest")
+                continue;
+            if (elem.pitches[i].bass) {
+                if (elem.inTieBass) {
+                    button = this.lastTabElem[i];
+                } else {
+                    button = this.getBassButton(dir, elem.pitches[i].c);
+                    this.lastTabElem[i] = button;
+                }
+            } else {
+                if (elem.inTieTreb) {
+                    button = this.lastTabElem[i];
+                } else {
+                    button = this.getButton(elem.pitches[i].c);
+                    this.lastTabElem[i] = button;
+                }
+            this.selectButton(dir, button, this.timecount);
+            this.unSelectButton(button, this.timecount + mididuration);
+            }
+
+        }*/
         this.timecount += mididuration;
-    }    
+    }
 };
 
 DIATONIC.play.Player.prototype.writeNote = function(elem) {
@@ -657,15 +728,15 @@ DIATONIC.play.Player.prototype.playEscala = function(nEscala, intervalo, ascende
 
     setNotes(nEscala, nNotaInicial);
 
-    (function doPlay(nNota) {
+    (function doPlay2(nNota) {
         gTimeout = setTimeout(function() {
             if (nNota !== notaFinal) {
                 setNotes(nEscala, nNota);
                 nNota += incremento;
-                doPlay(nNota);
+                doPlay2(nNota);
             } else {
                 if (loop) {
-                    doPlay(nNotaInicial);
+                    doPlay2(nNotaInicial);
                 } else {
                     clearKeyboard();
                 }
