@@ -24,7 +24,7 @@ DIATONIC.play.Player.prototype.reset = function(options) {
     options = options || {};
     
     this.startTieElem = [];
-    this.lastTabElem = []
+    this.lastTabElem = [];
     this.trackcount = 0;
     this.timecount = 0;
     this.tempo = 60;
@@ -281,7 +281,7 @@ DIATONIC.play.Player.prototype.selectNote = function(abcelem, startTime) {
 DIATONIC.play.Player.prototype.unSelectNote = function(abcelem, startTime) {
     this.syncPlayList(startTime);
     var self = this;
-    var channel = this.channel;
+    //var channel = this.channel;
     this.playlist.splice(this.playlistpos, 0, {
         time: startTime,
         funct: function() {
@@ -350,28 +350,34 @@ DIATONIC.play.Player.prototype.writeABCElement = function(elem) {
 };
 
 DIATONIC.play.Player.prototype.notifyUnSelectButton = function(button) {
-  this.map.gaita.clearButton(button) ;
-  this.map.draw();
+  if(button === null) return;
+ //console.log(this.currenttime);
+ button.clear() ;
 };
 
 DIATONIC.play.Player.prototype.notifySelectButton = function(dir, button) {
-  this.map.gaita.selectButton(dir, button) ;
-  this.map.draw();
+  if(button === null) return;
+  //console.log(this.currenttime);
+  if(dir === DIATONIC.open)
+    button.setOpen() ;
+  else
+    button.setClose();
 };
 
-
-DIATONIC.play.Player.prototype.selectButton = function( dir, button, startTime ) {
+DIATONIC.play.Player.prototype.selectButton = function( abcelem, dir, button, startTime ) {
     this.syncPlayList(startTime);
     var self = this;
+    var channel = this.channel;
     this.playlist.splice(this.playlistpos, 0, {
         time: startTime,
         funct: function() {
             self.notifySelectButton(dir, button);
+            self.notifySelect(abcelem, channel);
         }
     });
 };
  
-DIATONIC.play.Player.prototype.unSelectButton = function( button, startTime ) {
+DIATONIC.play.Player.prototype.unSelectButton = function( abcelem, button, startTime ) {
     this.syncPlayList(startTime);
     var self = this;
     var channel = this.channel;
@@ -379,11 +385,23 @@ DIATONIC.play.Player.prototype.unSelectButton = function( button, startTime ) {
         time: startTime,
         funct: function() {
             self.notifyUnSelectButton(button);
+            self.notifyUnSelect(abcelem, channel);
         }
     });
  };
 
-DIATONIC.play.Player.prototype.getBassButton = function( b ) {
+DIATONIC.play.Player.prototype.getBassButton = function( dir, b ) {
+    var kb = this.map.gaita.keyboard;
+    for( var j = kb.length; j > kb.length - 2; j-- ) {
+      for( var i = 0; i < kb[j-1].length; i++ ) {
+          var tecla = kb[j-1][i];
+          if(dir === DIATONIC.open) {
+            if(tecla.notaOpen.key === b ) return tecla.btn;
+          } else {
+            if(tecla.notaClose.key === b ) return tecla.btn;
+          }
+      }   
+    }
     return null;
 //    return this.map.gaita.keyboard[row][button]; 
 };
@@ -393,15 +411,15 @@ DIATONIC.play.Player.prototype.getButton = function( b ) {
     var p = parseInt( isNaN(b.substr(0,2)) || b.length === 1 ? 1 : 2 );
     var button = b.substr(0, p) -1;
     var row = b.length - p;
-    return this.map.gaita.keyboard[row][button]; 
+    if(this.map.gaita.keyboard[row][button]) 
+        return this.map.gaita.keyboard[row][button].btn;
+    return null;
 };
 
 DIATONIC.play.Player.prototype.selectButtons = function(elem) {
     var mididuration = elem.duration * this.baseduration * this.multiplier;
     if (elem.pitches) {
-        this.selectNote(elem, this.timecount);
-        this.unSelectNote(elem, this.timecount + mididuration);
-        /*
+        
         var dir = elem.bellows === "+" ? DIATONIC.close : DIATONIC.open;
         var button;
         for (var i = 0; i < elem.pitches.length; i++) {
@@ -422,13 +440,15 @@ DIATONIC.play.Player.prototype.selectButtons = function(elem) {
                     button = this.getButton(elem.pitches[i].c);
                     this.lastTabElem[i] = button;
                 }
-            this.selectButton(dir, button, this.timecount);
-            this.unSelectButton(button, this.timecount + mididuration);
             }
+            this.selectButton(elem, dir, button, this.timecount);
+            this.unSelectButton(elem, button, this.timecount + mididuration);
 
-        }*/
-        this.timecount += mididuration;
+        }
+        //this.selectNote(elem, this.timecount);
+        //this.unSelectNote(elem, this.timecount + mididuration);
     }
+    this.timecount += mididuration;
 };
 
 DIATONIC.play.Player.prototype.writeNote = function(elem) {

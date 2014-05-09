@@ -13,6 +13,7 @@ if (!window.DIATONIC.map)
 DIATONIC.map.Units = {
     // aspectos do botão
      BTNSIZE: 56
+    ,BTNRADIUS: 28
     ,BTNSPACE: 3
     ,FONTSIZE: 18 // razoavel ser menor que metade do btnSize
 };
@@ -131,7 +132,12 @@ DIATONIC.map.Map.prototype.defineStage = function( h, w, div )  {
   this.gStage = new Kinetic.Stage({ container: div, height: h, width: w });
   this.gStage.add(this.gLayer);
 };
-  
+
+DIATONIC.map.Map.prototype.definePaper = function( div, w, h )  {
+  this.paper = Raphael(div, w, h );
+  return this.paper;
+};
+
 DIATONIC.map.Map.prototype.draw = function() {
   this.gStage.batchDraw();
 };

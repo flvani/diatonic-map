@@ -152,8 +152,13 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
     }
   }
 
-  this.map.defineStage(nHeight, nWidth, this.keyboardContentDiv);
-
+  //this.map.defineStage(nHeight, nWidth, this.keyboardContentDiv);
+  var paper = this.map.definePaper(this.keyboardContentDiv, nWidth, nHeight );
+  
+  var b = new DIATONIC.map.Button( paper, xi, yi, 'Abre', 'Fecha', {radius:30, fontsize:12} );
+  b.draw();
+  
+/*
   { // desenhar o botão com a legenda abre/fecha
     var circle = new Kinetic.Circle({
       x: xi,
@@ -184,6 +189,7 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
     this.map.add(textoOpen.key);
     this.map.add(textoClose.key);
   }
+*/
 
   for (var j=0; j<this.keyboard.length; j++) {
 
@@ -238,30 +244,31 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
          xxi = xi;
          yyi = yi + i*(this.BTNSIZE + this.BTNSPACE);
       }
-      var isPedal = gaita.isPedal( i, j );
-      var circle = new Kinetic.Circle({
-        x: xxi,
-        y: yyi,
-        radius: this.BTNSIZE / 2,
-        fill: 'white',
-        stroke: (isPedal ? 'red' : 'black' ),
-        strokeWidth: (isPedal ? 2 : 1 ),
-        id: 'b_'+ j +'_' + i
-      });
+      
+      
+//      var isPedal = gaita.isPedal( i, j );
+//      var circle = new Kinetic.Circle({
+//        x: xxi,
+//        y: yyi,
+//        radius: this.BTNSIZE / 2,
+//        fill: 'white',
+//        stroke: (isPedal ? 'red' : 'black' ),
+//        strokeWidth: (isPedal ? 2 : 1 ),
+//        id: 'b_'+ j +'_' + i
+//      });
 
-      circlePos = circle.getPosition();
-      Dy = (this.BTNSIZE/2 - this.FONTSIZE) / 2;
-
-      var line = new Kinetic.Line({
-        points: [circlePos.x-(this.BTNSIZE/2), circlePos.y+5,circlePos.x+(this.BTNSIZE/2), circlePos.y-4],
-        stroke: (isPedal ? 'red' : 'black' ),
-        strokeWidth: (isPedal ? 2 : 1 ),
-        lineCap: 'round',
-        lineJoin: 'round'
-      });
-
+//      circlePos = circle.getPosition();
+//      Dy = (this.BTNSIZE/2 - this.FONTSIZE) / 2;
+//
+//      var line = new Kinetic.Line({
+//        points: [circlePos.x-(this.BTNSIZE/2), circlePos.y+5,circlePos.x+(this.BTNSIZE/2), circlePos.y-4],
+//        stroke: (isPedal ? 'red' : 'black' ),
+//        strokeWidth: (isPedal ? 2 : 1 ),
+//        lineCap: 'round',
+//        lineJoin: 'round'
+//      });
+//
       this.keyboard[j][i] = {};
-      this.keyboard[j][i].btn = circle;
  
       if(j<nIlheiras) {
         this.keyboard[j][i].notaOpen  = this.parseNote( openKeysRow[i], false );
@@ -271,31 +278,35 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
         this.keyboard[j][i].notaClose = this.parseNote( closeBassRow[i], true );
       }
 
-      this.keyboard[j][i].notaOpen.labels  = this.map.createKinectText( '', j, i, DIATONIC.open, circlePos.x, circlePos.y + Dy );
-      this.keyboard[j][i].notaClose.labels = this.map.createKinectText( '', j, i, DIATONIC.close, circlePos.x, circlePos.y - this.FONTSIZE - Dy );
+      //this.keyboard[j][i].notaOpen.labels  = this.map.createKinectText( '', j, i, DIATONIC.open, circlePos.x, circlePos.y + Dy );
+      //this.keyboard[j][i].notaClose.labels = this.map.createKinectText( '', j, i, DIATONIC.close, circlePos.x, circlePos.y - this.FONTSIZE - Dy );
 
       this.minNoteInUse = Math.min( this.keyboard[j][i].notaOpen.value, this.minNoteInUse );
       this.minNoteInUse = Math.min( this.keyboard[j][i].notaClose.value, this.minNoteInUse );
       this.maxNoteInUse = Math.max( this.keyboard[j][i].notaOpen.value+12, this.maxNoteInUse );
       this.maxNoteInUse = Math.max( this.keyboard[j][i].notaClose.value+12, this.maxNoteInUse );
 
+      this.keyboard[j][i].btn = new DIATONIC.map.Button( paper, xxi, yyi, this.keyboard[j][i].notaOpen.key, this.keyboard[j][i].notaClose.key );
+      this.keyboard[j][i].btn.draw();
+
+
       if (typeof (this.keyboard[j][i].notaClose.key) === "undefined" ) alert( j + ' ' + i );
-      this.map.setButtonText( this.keyboard[j][i] );
+//      this.map.setButtonText( this.keyboard[j][i] );
 
-      this.map.add(circle);
-      this.map.add(line);
+ //     this.map.add(circle);
+//      this.map.add(line);
 
-      this.map.add(this.keyboard[j][i].notaOpen.labels.key);
-      this.map.add(this.keyboard[j][i].notaOpen.labels.compl);
-      this.map.add(this.keyboard[j][i].notaOpen.labels.octave);
-      this.map.add(this.keyboard[j][i].notaClose.labels.key);
-      this.map.add(this.keyboard[j][i].notaClose.labels.compl);
-      this.map.add(this.keyboard[j][i].notaClose.labels.octave);
+//      this.map.add(this.keyboard[j][i].notaOpen.labels.key);
+//      this.map.add(this.keyboard[j][i].notaOpen.labels.compl);
+//      this.map.add(this.keyboard[j][i].notaOpen.labels.octave);
+//      this.map.add(this.keyboard[j][i].notaClose.labels.key);
+//      this.map.add(this.keyboard[j][i].notaClose.labels.compl);
+//      this.map.add(this.keyboard[j][i].notaClose.labels.octave);
 
     } 
   }
   
-  this.map.draw();
+  //this.map.draw();
 };
 
 
@@ -400,7 +411,7 @@ DIATONIC.map.Gaita.prototype.redrawKeyboard = function() {
     }
 
     this.map.mostraAfinacao();
-    this.map.draw();
+    //this.map.draw();
 
 //    aEscalas = GAITA.gaitas[GAITA.selected][c_escalas];
 //    for (var c = 0; c < aEscalas.length; c++) {
@@ -484,7 +495,7 @@ DIATONIC.map.Gaita.prototype.setAcorde = function(chord_no, var_no) {
   document.getElementById( 'chord_' + chord_no + '_' + var_no ).style.setProperty('background-color', 'gray', 'important');
   this.modifiedItems.push( 'chord_' + chord_no + '_' + var_no );
 
-  this.map.draw();
+  //this.map.draw();
 
   //acertar isso: atualmente, uso dois canais para accordeon (um para cada staff) 
   if(this.player) {
@@ -508,7 +519,7 @@ DIATONIC.map.Gaita.prototype.clearKeyboard = function() {
   $('#acordeAtualFoleAbrindo').hide();
   $('#acordeAtualFoleFechando').hide();
 
-  this.map.draw();
+  //this.map.draw();
   this.modifiedItems = new Array();
 };
 
