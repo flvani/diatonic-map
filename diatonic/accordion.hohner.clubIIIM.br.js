@@ -165,6 +165,10 @@ DIATONIC.tmp.scales =[
           [DIATONIC.open,[[1,9],[1,10]]],
          ]]
      ];
+     
+DIATONIC.tmp.songs = [
+    '/diatonic-map/songs/maitia.c.abcx'
+];
 
 DIATONIC.map.models[DIATONIC.map.models.length] = new DIATONIC.map.Accordion(
         "GAITA_HOHNER_CLUB_IIIM_BR"

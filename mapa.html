@@ -119,10 +119,11 @@
         <td>
             <select id="selSongs" > </select>
             <input type="button" id="playBtn" value="Play" />
+            <input type="button" id="stopBtn" value="Stop" />
             <input type="button" id="editorBtn" value="Edit" />
         </td></tr>
           </table>
-        <div id= "content_detalhes" style="float:left; margin-top:0px; margin-left:0px; width:100%; height: 400px; overflow-y: scroll;" > 
+        <div id= "content_detalhes" style="float:left; margin-top:0px; margin-left:0px; width:104%; height: 340px; overflow-y: scroll;" > 
             <div id="tabSongsDiv">
                <div id="songDiv" style="display: inline;"> </div>
             </div>    
@@ -258,6 +259,7 @@
         window.addEventListener('load', initApp, false);
         window.editorButton = document.getElementById("editorBtn");
         window.playButton = document.getElementById("playBtn");
+        window.stopButton = document.getElementById("stopBtn");
         window.printButton = document.getElementById("printBtn");
         window.closeButton = document.getElementById("closeBtn");
 
@@ -332,8 +334,8 @@
         });
         
         $('#contentKeyboard').on('mouseover', function () {
-          if(myMap.gaita.player)
-            myMap.gaita.player.stopPlayingNClear();
+          //if(myMap.gaita.player)
+            //myMap.gaita.player.stopPlayingNClear();
         });
         
          $('#change_labels').on('click', function () {
@@ -378,6 +380,10 @@
         playButton.addEventListener("click", function() {
             if( ! myMap.gaita.renderedTune ) return;
             myMap.gaita.playRenderedSong(playButton);
+        }, false);
+        stopButton.addEventListener("click", function() {
+            if( ! myMap.gaita.renderedTune ) return;
+            myMap.gaita.stopRenderedSong(playButton);
         }, false);
         
         closeButton.addEventListener("click", function() {

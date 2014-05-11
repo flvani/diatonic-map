@@ -27,50 +27,58 @@ DIATONIC.map.Button = function( paper, x, y, labelOpen, labelClose, options ) {
 
     var opt = options || {};
     
-    this.BTNSIZE = DIATONIC.map.Units.BTNSIZE;
-    this.BTNRADIUS = opt.radius || DIATONIC.map.Units.BTNRADIUS;
-    this.BTNSPACE = DIATONIC.map.Units.BTNSPACE;
-    this.FONTSIZE = opt.fontsize || DIATONIC.map.Units.FONTSIZE; 
     this.x = x;
     this.y = y;
+    this.paper = paper;
     this.labelOpen = labelOpen;
     this.labelClose = labelClose;
-    this.paper = paper;
+    this.xLabel = opt.xLabel || -10;
+    this.pedal = opt.pedal || false;
+    this.stroke = this.pedal ? 2 : 1;
+    this.textAnchor = opt.textAnchor || 'start';
+    this.openColor = opt.openColor || '#00ff00';
+    this.closeColor = opt.closeColor || '#00b2ee';
+    this.color = opt.color || (opt.pedal? 'red' :'black');
+    this.BTNRADIUS = opt.radius || DIATONIC.map.Units.BTNRADIUS;
+    this.FONTSIZE = opt.fontsize || DIATONIC.map.Units.FONTSIZE; 
 
 };
 
 DIATONIC.map.Button.prototype.draw = function() {
 
-    this.circle = this.paper.circle(this.x, this.y, this.BTNRADIUS + 2);
-    this.circle.attr({"fill": "white", "stroke": "#000", "stroke-width": 1});
+    //background
+    this.circle = this.paper.circle(this.x, this.y, this.BTNRADIUS);
+    this.circle.attr({"fill": "white", "stroke": "white", "stroke-width": 0});
 
-    this.line = this.paper.path( ["M", this.x-(this.BTNRADIUS+1), this.y+5, "L", this.x+this.BTNRADIUS+1, this.y-5 ] );
-    this.line.attr({"fill": "none", "stroke": "#000", "stroke-width": 1});
+    this.closeSide = this.paper.circularArc(this.x, this.y, this.BTNRADIUS, 170, 350);
+    this.closeSide.attr({"fill": "none", "stroke": "none", "stroke-width": 0});
 
-    this.closeSide = this.paper.circularArc(this.x, this.y - 1, this.BTNRADIUS+1, 170, 350);
-    this.closeSide.attr({"fill": "none", "stroke": "#00f", "stroke-width": 0});
+    this.openSide = this.paper.circularArc(this.x, this.y, this.BTNRADIUS, 350, 170);
+    this.openSide.attr({"fill": "none", "stroke": "none", "stroke-width": 0});
 
-    this.openSide = this.paper.circularArc(this.x, this.y + 1, this.BTNRADIUS+1, 350, 170);
-    this.openSide.attr({"fill": "none", "stroke": "#00f", "stroke-width": 0});
-    
-    this.t1 = this.paper.text(this.x-10, this.y-10, this.labelClose).attr({'text-anchor': 'start'});
+    this.t1 = this.paper.text(this.x + this.xLabel, this.y-12, this.labelClose).attr({'text-anchor': this.textAnchor });
     this.t1.attr({"font-family": "Sans Serif", "font-size": this.FONTSIZE });
     
-    this.t2 = this.paper.text(this.x-10, this.y+12, this.labelOpen).attr({'text-anchor': 'start'});
+    this.t2 = this.paper.text(this.x + this.xLabel, this.y+12, this.labelOpen).attr({'text-anchor': this.textAnchor });
     this.t2.attr({"font-family": "Sans Serif", "font-size": this.FONTSIZE });
-
+    
+    // top circle and line
+    this.paper.circle(this.x, this.y, this.BTNRADIUS)
+            .attr({"fill": "none", "stroke": this.color, "stroke-width": this.stroke});
+    this.paper.path( ["M", this.x-(this.BTNRADIUS), this.y+5, "L", this.x+this.BTNRADIUS, this.y-5 ] )
+            .attr({"fill": "none", "stroke": this.color, "stroke-width": this.stroke});
 };
 
 DIATONIC.map.Button.prototype.clear = function() {
-    this.openSide.attr({"fill": "none", "stroke": "#0f0", "stroke-width": 0});
-    this.closeSide.attr({"fill": "none", "stroke": "#00f", "stroke-width": 0});
+    this.openSide.attr({"fill": "none", "stroke": "none", "stroke-width": 0});
+    this.closeSide.attr({"fill": "none", "stroke": "none", "stroke-width": 0});
 };
 
 DIATONIC.map.Button.prototype.setOpen = function() {
-    this.openSide.attr({"fill": "#0f0", "stroke": "#0f0", "stroke-width": 0});
+    this.openSide.attr({"fill": this.openColor, "stroke": this.openColor, "stroke-width": 0});
 };
 DIATONIC.map.Button.prototype.setClose = function() {
-    this.closeSide.attr({"fill": "#f00", "stroke": "#00f", "stroke-width": 0});
+    this.closeSide.attr({"fill": this.closeColor, "stroke": this.closeColor, "stroke-width": 0});
 };
 
 /*

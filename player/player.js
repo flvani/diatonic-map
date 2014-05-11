@@ -40,12 +40,25 @@ DIATONIC.play.Player.prototype.reset = function(options) {
     this.transpose = options.transpose || 0;	// PER
     this.sounding = false; // usado apenas pelo antigo metodo de tocar acordes
     
-    this.baseduration = 480 * 4; // nice and divisible, equals 1 whole note
+    this.baseduration = 1920; // nice and divisible, equals 1 whole note
+    this.ticksperinterval = this.baseduration / 16; // 16th note - TODO: see the min in the piece
     this.playlist = []; // contains {time:t,funct:f} pairs
     this.baraccidentals = [];
     this.accordion = undefined;
     
 };
+
+DIATONIC.play.Player.prototype.startDebugPlay = function(control) {
+    var i = 0, t = 0;
+    while(i< this.playlist.length) {
+        while(i < this.playlist.length && t >= this.playlist[i].time) {
+            this.playlist[i].funct();
+            i++;
+        }
+        t += this.ticksperinterval;
+    }
+};
+
 
 DIATONIC.play.Player.prototype.parseTabSong = function(tune) {
     var bpm = 108.0;
@@ -61,7 +74,7 @@ DIATONIC.play.Player.prototype.parseTabSong = function(tune) {
         duration = tune.metaText.tempo.duration[0] || duration;
     }
 
-    this.qpm = bpm * duration * 4;
+    this.qpm = bpm * duration * 16; // por que multiplicar por 16??? é fixo?
     this.setTempo(this.qpm);
 
     this.staffcount = 1; // we'll know the actual number once we enter the code
@@ -83,6 +96,7 @@ DIATONIC.play.Player.prototype.parseTabSong = function(tune) {
         this.addListener(this.map.gaita.printer);
     }
 
+    //this.startDebugPlay();
     return tune;
 };
 
@@ -100,18 +114,17 @@ DIATONIC.play.Player.prototype.doPlay = function() {
 };
 
 DIATONIC.play.Player.prototype.startPlay = function(control) {
+    this.ypos = this.tuneContainer.scrollTop + 70;
 
     this.playing = true;
     this.playLink = control;
-    this.playLink.value = "Stop";
+    this.playLink.value = "Pause";
     
     var self = this;
-    // repeat every 16th note TODO see the min in the piece
-    this.ticksperinterval = 480 / 4;
     this.doPlay();
     this.playinterval = window.setInterval(function() {
         self.doPlay();
-    }, (60000 / (this.tempo * 4)));
+    }, (60000 / (this.tempo)));
 };
 
 DIATONIC.play.Player.prototype.stopPlay = function() {
@@ -120,13 +133,16 @@ DIATONIC.play.Player.prototype.stopPlay = function() {
     this.pausePlay();
     this.playLink.value = "Play";
     this.clearSelection();
-    this.map.gaita.clearKeyboard();
+    this.map.gaita.clearKeyboard(true);
 };
 
 DIATONIC.play.Player.prototype.pausePlay = function() {
     MIDI.stopAllNotes();
     window.clearInterval(this.playinterval);
+    this.playLink.value = "Play";
     this.playing = false;
+    //this.clearSelection();
+    //this.map.gaita.clearKeyboard(true);
 };
 
 DIATONIC.play.Player.prototype.addListener = function(listener) {
@@ -144,7 +160,7 @@ DIATONIC.play.Player.prototype.setScrolling = function(y, channel) {
     if( !this.tuneContainer || channel > 0 ) return;
     if( Math.abs(y - this.ypos) > 200 ) {
         this.ypos = y;
-        this.tuneContainer.scrollTop = this.ypos - 100;    
+        this.tuneContainer.scrollTop = this.ypos - 70;    
     }
 };
 
@@ -278,12 +294,12 @@ DIATONIC.play.Player.prototype.selectNote = function(abcelem, startTime) {
         }
     });
 };
-DIATONIC.play.Player.prototype.unSelectNote = function(abcelem, startTime) {
-    this.syncPlayList(startTime);
+DIATONIC.play.Player.prototype.unSelectNote = function(abcelem, endTime) {
+    this.syncPlayList(endTime-1);
     var self = this;
     //var channel = this.channel;
     this.playlist.splice(this.playlistpos, 0, {
-        time: startTime,
+        time: endTime,
         funct: function() {
             self.notifyUnSelect(abcelem);
         }
@@ -292,7 +308,7 @@ DIATONIC.play.Player.prototype.unSelectNote = function(abcelem, startTime) {
 
 
 DIATONIC.play.Player.prototype.endNote = function(pitch, abcelem, endTime) {
-    this.syncPlayList(endTime);
+    this.syncPlayList(endTime-1);
     var channel = this.channel;
     var self = this;
     this.playlist.splice(this.playlistpos, 0, {
@@ -377,12 +393,12 @@ DIATONIC.play.Player.prototype.selectButton = function( abcelem, dir, button, st
     });
 };
  
-DIATONIC.play.Player.prototype.unSelectButton = function( abcelem, button, startTime ) {
-    this.syncPlayList(startTime);
+DIATONIC.play.Player.prototype.unSelectButton = function( abcelem, button, endTime ) {
+    this.syncPlayList(endTime-1);
     var self = this;
     var channel = this.channel;
     this.playlist.splice(this.playlistpos, 0, {
-        time: startTime,
+        time: endTime,
         funct: function() {
             self.notifyUnSelectButton(button);
             self.notifyUnSelect(abcelem, channel);
@@ -486,7 +502,7 @@ DIATONIC.play.Player.prototype.writeNote = function(elem) {
             
 
             if (note.startTie) {
-                this.startNote(midipitch, 127, elem, this.timecount);
+                this.startNote(midipitch, 256, elem, this.timecount);
                 this.startTieElem[midipitch] = elem;
             } else if (note.endTie) {
                 this.selectNote(elem, this.timecount);
@@ -494,7 +510,7 @@ DIATONIC.play.Player.prototype.writeNote = function(elem) {
                 this.endNote(midipitch, this.startTieElem[midipitch], this.timecount + mididuration );
                 delete this.startTieElem[midipitch];
             } else {
-                this.startNote(midipitch, 127, elem, this.timecount);
+                this.startNote(midipitch, 256, elem, this.timecount);
                 this.endNote(midipitch, elem, this.timecount + mididuration);
             } 
         }
@@ -610,14 +626,14 @@ DIATONIC.play.Player.prototype.extractOctave = function(pitch) {
 };
 
 
-DIATONIC.play.Player.prototype.stopPlayingNClear = function() {
+DIATONIC.play.Player.prototype.stoipPlayingNClear = function() {
     window.clearTimeout(this.map.gTimeout);
     this.map.gaita.clearKeyboard();
     this.sounding = false;
     this.map.gIntervalo = 256;
 };
 
-DIATONIC.play.Player.prototype.stopPlaying = function() {
+DIATONIC.play.Player.prototype.stoipPlaying = function() {
     window.clearTimeout(this.map.gTimeout);
     this.sounding = false;
     this.map.gIntervalo = 256;
@@ -658,7 +674,7 @@ DIATONIC.play.Player.prototype.playAcorde = function(noteList, channel) {
     }
     var that = this;
     setTimeout(function() {
-        that.stopPlaying();
+        that.stoipPlaying();
     }, (len + 3) * delay * 1000);
 };
 
@@ -733,7 +749,7 @@ DIATONIC.play.Player.prototype.generateAndPlayChord = function(chord, channel) {
 
 DIATONIC.play.Player.prototype.playEscala = function(nEscala, intervalo, ascendente, loop) {
 
-    stopPlaying();
+    stoipPlaying();
 
     gIntervalo = intervalo;
     nNotaInicial = 0;

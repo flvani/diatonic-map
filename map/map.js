@@ -134,7 +134,12 @@ DIATONIC.map.Map.prototype.defineStage = function( h, w, div )  {
 };
 
 DIATONIC.map.Map.prototype.definePaper = function( div, w, h )  {
-  this.paper = Raphael(div, w, h );
+  if(this.paper) {
+      this.paper.clear();
+      this.paper.setSize(w,h);
+  } else {
+     this.paper = Raphael(div, w, h );
+  }  
   return this.paper;
 };
 
@@ -197,4 +202,4 @@ DIATONIC.map.Map.prototype.setButtonText = function (p_button) {
    p_button.notaClose.labels.compl.offsetX( -p_button.notaClose.labels.key.getTextWidth()/2 + p_button.notaClose.labels.octave.getTextWidth()/2 );
    p_button.notaClose.labels.octave.offsetX( -p_button.notaClose.labels.key.getTextWidth()/2 - p_button.notaClose.labels.compl.getTextWidth()/2 );
 
-}
+};
