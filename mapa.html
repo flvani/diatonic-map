@@ -13,6 +13,21 @@
 
   </head>
   <body>
+      
+    <!--
+    
+    TODO:
+        Acertar a transposição (preferir o acidente junto da nota, ignorando o da pauta; manter o acidente por todo o compasso)
+        Gerar informação no parse e inferencia da tablatura sobre a duracao total de uma nota ou manter tie info
+        Melhorar a forma de pintar a tela durante geração do midi
+        Usar a informação das barras de repeticao da primeira linha em todas as vozes (no gerador de midi)
+        Tratar adequadamente os subtitulos - sempre fazer parte da primeira voz?
+        Implementar uma forma de diminuir a velocidade de uma canção (modo didático)
+        done: Eliminar o uso do Kinetic
+    
+      
+    
+    -->  
    
     <div class="navbar navbar-inverse navbar-fixed-top" >
       <div style="background-color:#5ba4a4;">
@@ -94,10 +109,10 @@
                 <td>
                   &nbsp;<span class="label" id="acordeAtualVazio">--
                   </span>
-                  <span class="label label-success" id="acordeAtualFoleAbrindo" style="display: none" >--&nbsp;
+                  <span class="label label-success" id="acordeAtualFoleAbrindo" style="display: none; background-color: #00ff00" >--&nbsp;
                      <i id="abre_fole" class="icon-resize-full icon-white"></i>
                   </span>
-                  <span class="label label-warning" id="acordeAtualFoleFechando" style="display: none" >--&nbsp;
+                  <span class="label label-warning" id="acordeAtualFoleFechando" style="display: none; background-color: #00b2ee" >--&nbsp;
                       <i id="fecha_fole" class="icon-resize-small icon-white"></i>
                   </span>
                 </td>
@@ -243,7 +258,6 @@
     <script type="text/javascript" src="diatonic/accordion.hohner.coronaII.js"></script>
 
     <!-- suporte aos mapas de teclados -->
-    <script type="text/javascript" src="js/kinetic-v5.0.0.min.js"></script>
     <script type="text/javascript" src="js/bootstrap-dropdown.js"></script>
     <script type="text/javascript" src="js/funcoes.js"></script>
 

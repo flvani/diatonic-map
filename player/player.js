@@ -642,7 +642,7 @@ DIATONIC.play.Player.prototype.stoipPlaying = function() {
 
 DIATONIC.play.Player.prototype.playAcorde = function(noteList, channel) {
 
-    if (this.map.gaita.sounding)
+    if (this.sounding)
         return;
 
     var delay = this.map.gIntervalo / 1000;
@@ -650,7 +650,7 @@ DIATONIC.play.Player.prototype.playAcorde = function(noteList, channel) {
     var nota;
 
     // play the note
-    this.map.gaita.sounding = true;
+    this.sounding = true;
     MIDI.setVolume(channel, 127);
 
     var len = noteList[1].length;

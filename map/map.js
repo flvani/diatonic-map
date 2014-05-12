@@ -38,9 +38,6 @@ DIATONIC.map.Map = function( interfaceParams ) {
 
     this.gaita = new DIATONIC.map.Gaita(this, interfaceParams.accordionParams);
 
-    this.gStage;
-    this.gLayer;
-    
     var that = this;
     
     this.checkboxHorizontal.addEventListener('click', function() {
@@ -53,10 +50,6 @@ DIATONIC.map.Map = function( interfaceParams ) {
     
 };
 
-DIATONIC.map.Map.prototype.resetLayer = function() {
-  this.gLayer = new Kinetic.Layer();
-};
-  
 DIATONIC.map.Map.prototype.isHorizontal = function() {
     return this.checkboxHorizontal.checked;
 };
@@ -143,63 +136,24 @@ DIATONIC.map.Map.prototype.definePaper = function( div, w, h )  {
   return this.paper;
 };
 
-DIATONIC.map.Map.prototype.draw = function() {
-  this.gStage.batchDraw();
-};
-
-DIATONIC.map.Map.prototype.add = function( kinItem ) {
-  this.gLayer.add(kinItem);
-}; 
-  
-DIATONIC.map.Map.prototype.createKinectText= function( p_texto_inicial, param_row, param_column, param_open_close, param_x, param_y)  {
-
-  labels = {};
-
-  labels.key = new Kinetic.Text({
-    x: param_x - (this.BTNSIZE * 0.5),
-    y: param_y - 1,
-    text: p_texto_inicial, fontSize: this.FONTSIZE, fontFamily: 'Arial',
-    id: 'l_' + param_row + '_' + param_column + '_' + param_open_close,
-    fill: 'black', width: this.BTNSIZE, align: 'center'
-  });
-
-  labels.compl = new Kinetic.Text({
-    x: param_x - (this.BTNSIZE * 0.5),
-    y: param_y + 2,
-    text: p_texto_inicial, fontSize: this.FONTSIZE-4, fontFamily: 'Arial', fontStyle: 'italic',
-    id: 'l_' + param_row + '_' + param_column + '_' + param_open_close,
-    fill: 'black', width: this.BTNSIZE, align: 'center'
-  });
-
-  labels.octave = new Kinetic.Text({
-    x: param_x - (this.BTNSIZE * 0.5),
-    y: param_y + 8,
-    text: "", fontSize: this.FONTSIZE-8, fontFamily: 'Arial',
-    id: 'l8_' + param_row + '_' + param_column + '_' + param_open_close,
-    fill: 'black', width: this.BTNSIZE, align: 'center'
-  });
-
-  return labels;
-};
-
 DIATONIC.map.Map.prototype.setButtonText = function (p_button) {
    this.transporta( p_button.notaOpen );
    this.transporta( p_button.notaClose );
 
-   p_button.notaOpen.labels.key.setText( p_button.notaOpen.key  );
-   p_button.notaOpen.labels.compl.setText( p_button.notaOpen.complement );
-   p_button.notaOpen.labels.octave.setText( p_button.notaOpen.isBass ? '' : p_button.notaOpen.octave );
+   p_button.btn.setTextOpen( p_button.notaOpen.key  );
+   //p_button.notaOpen.labels.compl.setText( p_button.notaOpen.complement );
+   //p_button.notaOpen.labels.octave.setText( p_button.notaOpen.isBass ? '' : p_button.notaOpen.octave );
 
-   p_button.notaOpen.labels.key.offsetX( p_button.notaOpen.labels.compl.getTextWidth()/2 + p_button.notaOpen.labels.octave.getTextWidth()/2 );
-   p_button.notaOpen.labels.compl.offsetX( -p_button.notaOpen.labels.key.getTextWidth()/2 + p_button.notaOpen.labels.octave.getTextWidth()/2 );
-   p_button.notaOpen.labels.octave.offsetX( -p_button.notaOpen.labels.key.getTextWidth()/2 - p_button.notaOpen.labels.compl.getTextWidth()/2 );
+   //p_button.notaOpen.labels.key.offsetX( p_button.notaOpen.labels.compl.getTextWidth()/2 + p_button.notaOpen.labels.octave.getTextWidth()/2 );
+   //p_button.notaOpen.labels.compl.offsetX( -p_button.notaOpen.labels.key.getTextWidth()/2 + p_button.notaOpen.labels.octave.getTextWidth()/2 );
+   //p_button.notaOpen.labels.octave.offsetX( -p_button.notaOpen.labels.key.getTextWidth()/2 - p_button.notaOpen.labels.compl.getTextWidth()/2 );
  
-   p_button.notaClose.labels.key.setText( p_button.notaClose.key  );
-   p_button.notaClose.labels.compl.setText( p_button.notaClose.complement );
-   p_button.notaClose.labels.octave.setText( p_button.notaClose.isBass ? '' : p_button.notaClose.octave );
+   p_button.btn.setTextClose( p_button.notaClose.key  );
+   //p_button.notaClose.labels.compl.setText( p_button.notaClose.complement );
+   //p_button.notaClose.labels.octave.setText( p_button.notaClose.isBass ? '' : p_button.notaClose.octave );
 
-   p_button.notaClose.labels.key.offsetX( p_button.notaClose.labels.compl.getTextWidth()/2 + p_button.notaClose.labels.octave.getTextWidth()/2  );
-   p_button.notaClose.labels.compl.offsetX( -p_button.notaClose.labels.key.getTextWidth()/2 + p_button.notaClose.labels.octave.getTextWidth()/2 );
-   p_button.notaClose.labels.octave.offsetX( -p_button.notaClose.labels.key.getTextWidth()/2 - p_button.notaClose.labels.compl.getTextWidth()/2 );
+   //p_button.notaClose.labels.key.offsetX( p_button.notaClose.labels.compl.getTextWidth()/2 + p_button.notaClose.labels.octave.getTextWidth()/2  );
+   //p_button.notaClose.labels.compl.offsetX( -p_button.notaClose.labels.key.getTextWidth()/2 + p_button.notaClose.labels.octave.getTextWidth()/2 );
+   //p_button.notaClose.labels.octave.offsetX( -p_button.notaClose.labels.key.getTextWidth()/2 - p_button.notaClose.labels.compl.getTextWidth()/2 );
 
 };

@@ -32,10 +32,10 @@ DIATONIC.map.Button = function( paper, x, y, labelOpen, labelClose, options ) {
     this.paper = paper;
     this.labelOpen = labelOpen;
     this.labelClose = labelClose;
-    this.xLabel = opt.xLabel || -10;
+    this.xLabel = opt.xLabel || 0;
     this.pedal = opt.pedal || false;
     this.stroke = this.pedal ? 2 : 1;
-    this.textAnchor = opt.textAnchor || 'start';
+    this.textAnchor = opt.textAnchor || 'middle';
     this.openColor = opt.openColor || '#00ff00';
     this.closeColor = opt.closeColor || '#00b2ee';
     this.color = opt.color || (opt.pedal? 'red' :'black');
@@ -56,11 +56,11 @@ DIATONIC.map.Button.prototype.draw = function() {
     this.openSide = this.paper.circularArc(this.x, this.y, this.BTNRADIUS, 350, 170);
     this.openSide.attr({"fill": "none", "stroke": "none", "stroke-width": 0});
 
-    this.t1 = this.paper.text(this.x + this.xLabel, this.y-12, this.labelClose).attr({'text-anchor': this.textAnchor });
-    this.t1.attr({"font-family": "Sans Serif", "font-size": this.FONTSIZE });
+    this.notaCloseKey = this.paper.text(this.x + this.xLabel, this.y-12, this.labelClose).attr({'text-anchor': this.textAnchor });
+    this.notaCloseKey.attr({"font-family": "Sans Serif", "font-size": this.FONTSIZE });
     
-    this.t2 = this.paper.text(this.x + this.xLabel, this.y+12, this.labelOpen).attr({'text-anchor': this.textAnchor });
-    this.t2.attr({"font-family": "Sans Serif", "font-size": this.FONTSIZE });
+    this.notaOpenKey = this.paper.text(this.x + this.xLabel, this.y+12, this.labelOpen).attr({'text-anchor': this.textAnchor });
+    this.notaOpenKey.attr({"font-family": "Sans Serif", "font-size": this.FONTSIZE });
     
     // top circle and line
     this.paper.circle(this.x, this.y, this.BTNRADIUS)
@@ -79,6 +79,14 @@ DIATONIC.map.Button.prototype.setOpen = function() {
 };
 DIATONIC.map.Button.prototype.setClose = function() {
     this.closeSide.attr({"fill": this.closeColor, "stroke": this.closeColor, "stroke-width": 0});
+};
+
+DIATONIC.map.Button.prototype.setTextClose = function(t) {
+    this.notaCloseKey.attr('text',t );
+};
+
+DIATONIC.map.Button.prototype.setTextOpen = function(t) {
+    this.notaOpenKey.attr('text',t );
 };
 
 /*

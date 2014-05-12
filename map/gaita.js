@@ -99,8 +99,6 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
   var nIlheiras = gaita.getNumKeysRows();
   var nIlheirasBaixo = gaita.getNumBassesRows();
   
-  this.map.resetLayer();
-   
   var bHorizontal = this.map.isHorizontal();
   var bEspelho = this.map.isMirror();
 
@@ -157,7 +155,7 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
 
   // desenha o botão de legenda  
   var legenda = new DIATONIC.map.Button( paper, xi, yi, 'Abre', 'Fecha', 
-                { radius:36, pedal: true, fontsize:14, xLabel: 1
+                { radius:36, pedal: true, fontsize:14, xLabel: 0
                  ,textAnchor:'middle', color: '#828282'} );
   legenda.draw();
   legenda.setOpen();
@@ -217,30 +215,6 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
          yyi = yi + i*(this.BTNSIZE + this.BTNSPACE);
       }
       
-      
-//      var isPedal = gaita.isPedal( i, j );
-      
-//      var circle = new Kinetic.Circle({
-//        x: xxi,
-//        y: yyi,
-//        radius: this.BTNSIZE / 2,
-//        fill: 'white',
-//        stroke: (isPedal ? 'red' : 'black' ),
-//        strokeWidth: (isPedal ? 2 : 1 ),
-//        id: 'b_'+ j +'_' + i
-//      });
-
-//      circlePos = circle.getPosition();
-//      Dy = (this.BTNSIZE/2 - this.FONTSIZE) / 2;
-//
-//      var line = new Kinetic.Line({
-//        points: [circlePos.x-(this.BTNSIZE/2), circlePos.y+5,circlePos.x+(this.BTNSIZE/2), circlePos.y-4],
-//        stroke: (isPedal ? 'red' : 'black' ),
-//        strokeWidth: (isPedal ? 2 : 1 ),
-//        lineCap: 'round',
-//        lineJoin: 'round'
-//      });
-//
       this.keyboard[j][i] = {};
  
       if(j<nIlheiras) {
@@ -250,9 +224,6 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
         this.keyboard[j][i].notaOpen  = this.parseNote( openBassRow[i], true );
         this.keyboard[j][i].notaClose = this.parseNote( closeBassRow[i], true );
       }
-
-      //this.keyboard[j][i].notaOpen.labels  = this.map.createKinectText( '', j, i, DIATONIC.open, circlePos.x, circlePos.y + Dy );
-      //this.keyboard[j][i].notaClose.labels = this.map.createKinectText( '', j, i, DIATONIC.close, circlePos.x, circlePos.y - this.FONTSIZE - Dy );
 
       this.minNoteInUse = Math.min( this.keyboard[j][i].notaOpen.value, this.minNoteInUse );
       this.minNoteInUse = Math.min( this.keyboard[j][i].notaClose.value, this.minNoteInUse );
@@ -266,25 +237,10 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
       );
       
       this.keyboard[j][i].btn.draw();
-
-      if (typeof (this.keyboard[j][i].notaClose.key) === "undefined" ) alert( j + ' ' + i );
-      
-//      this.map.setButtonText( this.keyboard[j][i] );
-
- //     this.map.add(circle);
-//      this.map.add(line);
-
-//      this.map.add(this.keyboard[j][i].notaOpen.labels.key);
-//      this.map.add(this.keyboard[j][i].notaOpen.labels.compl);
-//      this.map.add(this.keyboard[j][i].notaOpen.labels.octave);
-//      this.map.add(this.keyboard[j][i].notaClose.labels.key);
-//      this.map.add(this.keyboard[j][i].notaClose.labels.compl);
-//      this.map.add(this.keyboard[j][i].notaClose.labels.octave);
+      this.map.setButtonText( this.keyboard[j][i] );
 
     } 
   }
-  
-  //this.map.draw();
 };
 
 
@@ -429,12 +385,12 @@ DIATONIC.map.Gaita.prototype.carregaTabelaAcordes = function(map) {
       var variations = accordion.getChordVariations(c);
     for (var v=0; v < variations.length; v++) {
       var opening = variations[v][0] === DIATONIC.open;
-      chord_str += '<button id="chord_'+ c +'_'+ v +'" class="btn btn-';
-      chord_str += opening ? 'success"' : 'warning"';
+      chord_str += '<button id="chord_'+ c +'_'+ v +'" class="btn" style="color:black; background-color:';
+      chord_str += opening ? '#00ff00"' : '#00b2ee"';
       chord_str += ' title="' + (opening ? 'Abrindo o fole' : 'Fechando o fole') + '"';
       chord_str += ' onclick="myMap.gaita.setAcorde(' + c + ',' + v + ')" ';  
       chord_str += ' onmouseover="myMap.gaita.setAcorde(' + c + ',' + v + ')" > ' + (v + 1) ;
-      chord_str += ' <i class="' + (opening ? 'icon-resize-full' : 'icon-resize-small' ) + ' icon-white"></i>';
+      chord_str += ' <i class="' + (opening ? 'icon-resize-full' : 'icon-resize-small' ) + ' icon-black"></i>';
       chord_str += " </button> ";
     }
     chord_str += '</td></tr>';
@@ -473,11 +429,11 @@ DIATONIC.map.Gaita.prototype.setAcorde = function(chord_no, var_no) {
   for (i=0; i < noteList[1].length; i++) {
     this.markButton(noteList[0], noteList[1][i][0], noteList[1][i][1]);
   }
-   
+
+  //acertar isso... não posso simplemente setar uma cor  
   document.getElementById( 'chord_' + chord_no + '_' + var_no ).style.setProperty('background-color', 'gray', 'important');
   this.modifiedItems.push( 'chord_' + chord_no + '_' + var_no );
 
-  //this.map.draw();
 
   //acertar isso: atualmente, uso dois canais para accordeon (um para cada staff) 
   if(this.player) {
@@ -491,8 +447,9 @@ DIATONIC.map.Gaita.prototype.clearKeyboard = function(full) {
   for (var i=0; i < this.modifiedItems.length; i++) {
     var item = this.modifiedItems[i];
     if( typeof( item ) === 'object' ) {
-       if(!full) item.clear();
+       if(!full) item.btn.clear();
     } else {
+      //acertar isso... não posso simplemente remover a cor
       document.getElementById( item ).style.removeProperty('background-color');
     }
   }
@@ -515,13 +472,14 @@ DIATONIC.map.Gaita.prototype.clearKeyboard = function(full) {
 
 
 DIATONIC.map.Gaita.prototype.clearButton = function(button) {
-    button.btn.setFill('white');
-    button.notaOpen.labels.key.setFill('black');
-    button.notaOpen.labels.compl.setFill('black');
-    button.notaOpen.labels.octave.setFill('black');
-    button.notaClose.labels.compl.setFill('black');
-    button.notaClose.labels.key.setFill('black');
-    button.notaClose.labels.octave.setFill('black');
+    button.btn.clear();
+    //button.btn.setFill('white');
+    //button.notaOpen.labels.key.setFill('black');
+    //button.notaOpen.labels.compl.setFill('black');
+    //button.notaOpen.labels.octave.setFill('black');
+    //button.notaClose.labels.compl.setFill('black');
+    //button.notaClose.labels.key.setFill('black');
+    //button.notaClose.labels.octave.setFill('black');
 };
 
 DIATONIC.map.Gaita.prototype.markButton = function(dir, row, button) {
@@ -532,20 +490,22 @@ DIATONIC.map.Gaita.prototype.selectButton = function(dir, button) {
 
     this.modifiedItems.push(button);
     if (dir === DIATONIC.close) {
-        button.btn.setFill('#f5b043'); // yellow
-        button.notaClose.labels.key.setFill('red');
-        button.notaClose.labels.compl.setFill('red');
-        button.notaClose.labels.octave.setFill('red');
-        button.notaOpen.labels.key.setFill('#f5b043');
-        button.notaOpen.labels.compl.setFill('#f5b043');
-        button.notaOpen.labels.octave.setFill('#f5b043');
+        button.btn.setClose();
+        //button.btn.setFill('#f5b043'); // yellow
+        //button.notaClose.labels.key.setFill('red');
+        //button.notaClose.labels.compl.setFill('red');
+        //button.notaClose.labels.octave.setFill('red');
+        //button.notaOpen.labels.key.setFill('#f5b043');
+        //button.notaOpen.labels.compl.setFill('#f5b043');
+        //button.notaOpen.labels.octave.setFill('#f5b043');
     } else {
-        button.btn.setFill('#24e3be'); // ligthgreen
-        button.notaOpen.labels.key.setFill('red');
-        button.notaOpen.labels.compl.setFill('red');
-        button.notaOpen.labels.octave.setFill('red');
-        button.notaClose.labels.key.setFill('#24e3be');
-        button.notaClose.labels.compl.setFill('#24e3be');
-        button.notaClose.labels.octave.setFill('#24e3be');
+        button.btn.setOpen();
+        //button.btn.setFill('#24e3be'); // ligthgreen
+        //button.notaOpen.labels.key.setFill('red');
+        //button.notaOpen.labels.compl.setFill('red');
+        //button.notaOpen.labels.octave.setFill('red');
+        //button.notaClose.labels.key.setFill('#24e3be');
+        //button.notaClose.labels.compl.setFill('#24e3be');
+        //button.notaClose.labels.octave.setFill('#24e3be');
     }
 };
