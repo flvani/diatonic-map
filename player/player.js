@@ -115,6 +115,7 @@ DIATONIC.play.Player.prototype.doPlay = function() {
 
 DIATONIC.play.Player.prototype.startPlay = function(control) {
     this.ypos = this.tuneContainer.scrollTop + 70;
+    this.map.gaita.clearKeyboard();
 
     this.playing = true;
     this.playLink = control;
@@ -407,19 +408,20 @@ DIATONIC.play.Player.prototype.unSelectButton = function( abcelem, button, endTi
  };
 
 DIATONIC.play.Player.prototype.getBassButton = function( dir, b ) {
+    if(b === '--->') return null;
     var kb = this.map.gaita.keyboard;
+    var nota = this.map.gaita.parseNote(b, true );
     for( var j = kb.length; j > kb.length - 2; j-- ) {
       for( var i = 0; i < kb[j-1].length; i++ ) {
           var tecla = kb[j-1][i];
           if(dir === DIATONIC.open) {
-            if(tecla.notaOpen.key === b ) return tecla.btn;
-          } else {
-            if(tecla.notaClose.key === b ) return tecla.btn;
+            if(tecla.notaOpen.key === nota.key ) return tecla.btn;
+          } else {  
+            if(tecla.notaClose.key === nota.key ) return tecla.btn;
           }
       }   
     }
     return null;
-//    return this.map.gaita.keyboard[row][button]; 
 };
 
 DIATONIC.play.Player.prototype.getButton = function( b ) {
@@ -660,7 +662,7 @@ DIATONIC.play.Player.prototype.playAcorde = function(noteList, channel) {
         } else {
             nota = this.map.gaita.keyboard[noteList[1][i][0]][noteList[1][i][1]].notaOpen.value;
         }
-        nota += this.map.gCurrentToneOffset;
+        nota += this.map.toneOffSet;
 
         MIDI.noteOn(channel, nota, velocity, (i - 0) * delay);
         MIDI.noteOff(channel, nota, (i - 0 + 1) * delay);

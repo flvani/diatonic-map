@@ -67,7 +67,7 @@ DIATONIC.map.Gaita.prototype.setup = function(accordionParams) {
 
   var gaita = this.selectAccordion(accordionParams.accordionId);
   
-  this.map.gCurrentToneOffset = 0;
+  this.map.toneOffSet = 0;
   
   this.setupKeyboard();
 
@@ -150,7 +150,6 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
     }
   }
 
-  //this.map.defineStage(nHeight, nWidth, this.keyboardContentDiv);
   var paper = this.map.definePaper(this.keyboardContentDiv, nWidth, nHeight );
 
   // desenha o botão de legenda  
@@ -200,6 +199,7 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
         }
       }
     }
+    
     var openKeysRow   = gaita.getKeysOpenRow(j); 
     var closeKeysRow  = gaita.getKeysCloseRow(j);
     var openBassRow  = gaita.getBassOpenRow(j-nIlheiras);
@@ -237,7 +237,6 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
       );
       
       this.keyboard[j][i].btn.draw();
-      this.map.setButtonText( this.keyboard[j][i] );
 
     } 
   }
@@ -308,6 +307,20 @@ DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage
   
 };
 
+DIATONIC.map.Gaita.prototype.transporta = function(nota) {
+
+  var note = (nota.value + this.map.toneOffSet) % 12;
+
+  nota.octave = (nota.value + this.map.toneOffSet - 12) / 12 >> 0;
+  nota.key    = this.map.gShowLabel ? this.number2key_br[note] : this.number2key[note];
+  
+  if( nota.isChord )  {
+    nota.key = this.number2key_br[note].toLowerCase();
+  }
+
+  return nota;
+};
+
 DIATONIC.map.Gaita.prototype.parseNote = function(p_nota, isBass) {
 
   var nota = {};
@@ -318,28 +331,29 @@ DIATONIC.map.Gaita.prototype.parseNote = function(p_nota, isBass) {
   nota.key        = parseInt(nota.key.charAt(nota.key.length-1)) ? nota.key.substr( 0, nota.key.length-1 ) : nota.key;
   nota.value      =  this.keyToNote[ nota.key.toUpperCase() + nota.octave ];
 
-  if (typeof (nota.value) === "undefined" ) alert( 'Nota inválida: ' + p_nota );
+  if (typeof (nota.value) === "undefined" ) 
+      alert( 'Nota inválida: ' + p_nota );
 
   nota.isChord    = ( p_nota.charAt(0) === p_nota.charAt(0).toLowerCase() );
   nota.isBass     = isBass;
   nota.isMenor    = nota.complement.substr(0,2).indexOf( 'm' ) >= 0;
   nota.isSetima   = nota.complement.substr(0,2).indexOf( '7' ) >= 0;
-  nota.labels     = {};
 
-  return nota;
+  return this.transporta(nota);
 };
+
 
 DIATONIC.map.Gaita.prototype.redrawKeyboard = function() {
     var accordion = this.getSelectedAccordion();
 
     for (j = 0; j < this.keyboard.length; j++) {
         for (i = 0; i < this.keyboard[j].length; i++) {
-            this.map.setButtonText(this.keyboard[j][i]);
+            this.setButtonText(this.keyboard[j][i]);
         }
     }
 
     for (var c = 0; c < accordion.getChords().length; c++) {
-        var nome = this.map.transporta(this.parseNote(accordion.getChordSymbol(c)));
+        var nome = this.parseNote(accordion.getChordSymbol(c));
         var acorde_lbl = nome.key + '<sub>' + nome.complement + '</sub>';
         $('#chord_' + c).html( acorde_lbl );
         if (this.selectedChord === c) {
@@ -354,7 +368,7 @@ DIATONIC.map.Gaita.prototype.redrawKeyboard = function() {
 //    aEscalas = GAITA.gaitas[GAITA.selected][c_escalas];
 //    for (var c = 0; c < aEscalas.length; c++) {
 //
-//        nome = transporta(parseNote(aScales[c][c_symbol]));
+//        nome = parseNote(aScales[c][c_symbol]);
 //        substituiHTML('scale_' + c, '<br>', nome.key + '<i>' + nome.complement + '</i>');
 //
 //        for (var v = 0; v < aEscalas[c][c_notas].length; v++) {
@@ -411,7 +425,7 @@ DIATONIC.map.Gaita.prototype.setAcorde = function(chord_no, var_no) {
 
   this.clearKeyboard();
 
-  var nota = this.map.transporta( this.parseNote( chord[0] ) );
+  var nota = this.parseNote( chord[0] );
   var acorde_lbl =  nota.key + '<sub>' + nota.complement + '</sub>';
   substituiHTML( 'acordeAtualFoleAbrindo', '&nbsp;', acorde_lbl  );
   substituiHTML( 'acordeAtualFoleFechando', '&nbsp;', acorde_lbl );
@@ -508,4 +522,26 @@ DIATONIC.map.Gaita.prototype.selectButton = function(dir, button) {
         //button.notaClose.labels.compl.setFill('#24e3be');
         //button.notaClose.labels.octave.setFill('#24e3be');
     }
+};
+
+DIATONIC.map.Gaita.prototype.setButtonText = function (p_button) {
+   this.transporta( p_button.notaOpen );
+   this.transporta( p_button.notaClose );
+
+   p_button.btn.setTextOpen( p_button.notaOpen.key  );
+   //p_button.notaOpen.labels.compl.setText( p_button.notaOpen.complement );
+   //p_button.notaOpen.labels.octave.setText( p_button.notaOpen.isBass ? '' : p_button.notaOpen.octave );
+
+   //p_button.notaOpen.labels.key.offsetX( p_button.notaOpen.labels.compl.getTextWidth()/2 + p_button.notaOpen.labels.octave.getTextWidth()/2 );
+   //p_button.notaOpen.labels.compl.offsetX( -p_button.notaOpen.labels.key.getTextWidth()/2 + p_button.notaOpen.labels.octave.getTextWidth()/2 );
+   //p_button.notaOpen.labels.octave.offsetX( -p_button.notaOpen.labels.key.getTextWidth()/2 - p_button.notaOpen.labels.compl.getTextWidth()/2 );
+ 
+   p_button.btn.setTextClose( p_button.notaClose.key  );
+   //p_button.notaClose.labels.compl.setText( p_button.notaClose.complement );
+   //p_button.notaClose.labels.octave.setText( p_button.notaClose.isBass ? '' : p_button.notaClose.octave );
+
+   //p_button.notaClose.labels.key.offsetX( p_button.notaClose.labels.compl.getTextWidth()/2 + p_button.notaClose.labels.octave.getTextWidth()/2  );
+   //p_button.notaClose.labels.compl.offsetX( -p_button.notaClose.labels.key.getTextWidth()/2 + p_button.notaClose.labels.octave.getTextWidth()/2 );
+   //p_button.notaClose.labels.octave.offsetX( -p_button.notaClose.labels.key.getTextWidth()/2 - p_button.notaClose.labels.compl.getTextWidth()/2 );
+
 };

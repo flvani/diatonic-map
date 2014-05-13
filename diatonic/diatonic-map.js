@@ -34,7 +34,7 @@ DIATONIC.map.Accordion.prototype.getName = function () {
 };
 
 DIATONIC.map.Accordion.prototype.getAfinacao = function () {
-    return this.afinacao[0];
+    return this.afinacao;
 };
 
 DIATONIC.map.Accordion.prototype.getKeyboard = function () {

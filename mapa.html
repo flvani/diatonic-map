@@ -358,8 +358,8 @@
         });
 
         $('#sub_half_tone').on('click', function () {
-          if ( myMap.gCurrentToneOffset + myMap.gaita.minNoteInUse > myMap.gaita.minNote ) {
-            --myMap.gCurrentToneOffset;
+          if ( myMap.toneOffSet + myMap.gaita.minNoteInUse > myMap.gaita.minNote ) {
+            --myMap.toneOffSet;
             myMap.gaita.redrawKeyboard();
           } else {
             alert( "Limite mínimo atingido!" );
@@ -367,8 +367,8 @@
         });
 
         $('#add_half_tone').on('click', function () {
-          if ( myMap.gCurrentToneOffset + myMap.gaita.maxNoteInUse < myMap.gaita.maxNote ) {
-            ++myMap.gCurrentToneOffset;
+          if ( myMap.toneOffSet + myMap.gaita.maxNoteInUse < myMap.gaita.maxNote ) {
+            ++myMap.toneOffSet;
             myMap.gaita.redrawKeyboard();
           } else {
             alert( "Limite máximo atingido!" );

@@ -56,11 +56,11 @@ DIATONIC.map.Button.prototype.draw = function() {
     this.openSide = this.paper.circularArc(this.x, this.y, this.BTNRADIUS, 350, 170);
     this.openSide.attr({"fill": "none", "stroke": "none", "stroke-width": 0});
 
-    this.notaCloseKey = this.paper.text(this.x + this.xLabel, this.y-12, this.labelClose).attr({'text-anchor': this.textAnchor });
-    this.notaCloseKey.attr({"font-family": "Sans Serif", "font-size": this.FONTSIZE });
+    this.notaCloseKey = this.paper.text(this.x + this.xLabel, this.y-12, this.labelClose)
+            .attr({'text-anchor': this.textAnchor, "font-family": "Sans Serif", "font-size": this.FONTSIZE });
     
-    this.notaOpenKey = this.paper.text(this.x + this.xLabel, this.y+12, this.labelOpen).attr({'text-anchor': this.textAnchor });
-    this.notaOpenKey.attr({"font-family": "Sans Serif", "font-size": this.FONTSIZE });
+    this.notaOpenKey = this.paper.text(this.x + this.xLabel, this.y+12, this.labelOpen)
+            .attr({'text-anchor': this.textAnchor, "font-family": "Sans Serif", "font-size": this.FONTSIZE });
     
     // top circle and line
     this.paper.circle(this.x, this.y, this.BTNRADIUS)
