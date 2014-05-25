@@ -536,7 +536,9 @@ DIATONIC.play.Player.prototype.handleBar = function(elem) {
     var repeat = (elem.type === "bar_right_repeat" || elem.type === "bar_dbl_repeat");
     var skip = (elem.startEnding) ? true : false;
     var setvisited = (repeat || skip);
-    var setrestart = (elem.type === "bar_left_repeat" || elem.type === "bar_dbl_repeat" || elem.type === "bar_thick_thin" || elem.type === "bar_thin_thick" || elem.type === "bar_thin_thin" || elem.type === "bar_right_repeat");
+    var setrestart = (elem.type === "bar_left_repeat" || elem.type === "bar_dbl_repeat" || 
+                      elem.type === "bar_thick_thin" || elem.type === "bar_thin_thick" || 
+                      elem.type === "bar_thin_thin" || elem.type === "bar_right_repeat");
 
     var next = null;
 
