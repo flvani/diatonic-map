@@ -290,10 +290,7 @@ DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage
   }
   
   var accordion = this.getSelectedAccordion();
-  //TODO: acertar isso -- ao instanciar um acordion para tablatura,
-  // ja deve ser o que está carregado na pagina
-  var accordionTab = new window.ABCJS.tablature.Accordion();
-  accordionTab.loadById(accordion.id);
+  var accordionTab = new window.ABCJS.tablature.Accordion(accordion.id);
   var abcParser = new window.ABCJS.parse.Parse(null, accordionTab);
   abcParser.parse(accordion.getSong(title), params); //TODO handle multiple tunes
   var tune = abcParser.getTune();
