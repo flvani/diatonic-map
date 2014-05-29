@@ -17,14 +17,15 @@
     <!--
     
     TODO:
-        Acertar a transposição (preferir o acidente junto da nota, ignorando o da pauta; manter o acidente por todo o compasso)
         Gerar informação no parse e inferencia da tablatura sobre a duracao total de uma nota ou manter tie info
-        Melhorar a forma de pintar a tela durante geração do midi
         Usar a informação das barras de repeticao da primeira linha em todas as vozes (no gerador de midi)
-        Tratar adequadamente os subtitulos - sempre fazer parte da primeira voz?
         Implementar uma forma de diminuir a velocidade de uma canção (modo didático)
         done: Eliminar o uso do Kinetic
-    
+        done:Acertar a transposição (preferir o acidente junto da nota, ignorando o da pauta; 
+        done:manter o acidente por todo o compasso)
+        done:Melhorar a forma de pintar a tela durante geração do midi
+        done:Tratar adequadamente os subtitulos - sempre fazer parte da primeira voz?
+
       
     
     -->  
@@ -274,20 +275,39 @@
 
         function initApp() {
             
+            var myEditor = new ABCJS.Editor(
+                         "textareaABC"
+                      ,{
+                         canvas_id: "canvasDiv"
+                        ,midi_id: "midi"
+                        ,warnings_id: "warnings"
+                        ,refreshController_id: "chkAutoRefresh"
+                        ,accordionSelector_id: "selGaitas"
+                        ,keySelector_id: "selKey"
+                        ,midi_options: {program: 21, qpm: 150, type: "qt"}
+                        ,render_options: {}
+                        ,gui: false
+                      });
+                    
             myMap = new DIATONIC.map.Map(
-                    { ckPiano: 'checkboxPiano'
-                     ,ckAccordion: 'checkboxAcordeon'
-                     ,ckMirror: 'checkboxEspelho'
-                     ,ckHorizontal: 'checkboxHorizontal'
-                     ,accordionNamePlaceHolder: 'a_nome_gaita'
-                     ,accordionImagePlaceHolder: 'td_imagem_gaita'
-                     ,accordionParams: { 
-                        songDiv: 'songDiv' 
-                       ,songContainerDiv: 'tabSongsDiv'
-                       ,keyboardContentDiv: 'contentKeyboard'
-                       ,tabContentDiv: 'content_detalhes'
-                       ,songSelector: 'selSongs' }
-                 } );
+                    myEditor
+                    ,
+                    { 
+                       ckPiano: 'checkboxPiano'
+                      ,ckAccordion: 'checkboxAcordeon'
+                      ,ckMirror: 'checkboxEspelho'
+                      ,ckHorizontal: 'checkboxHorizontal'
+                      ,accordionNamePlaceHolder: 'a_nome_gaita'
+                      ,accordionImagePlaceHolder: 'td_imagem_gaita'
+                      ,accordionParams: { 
+                         songDiv: 'songDiv' 
+                        ,songContainerDiv: 'tabSongsDiv'
+                        ,keyboardContentDiv: 'contentKeyboard'
+                        ,tabContentDiv: 'content_detalhes'
+                        ,songSelector: 'selSongs' 
+                      }
+                    } 
+                 );
 
             // populas listas drop-down        
             myMap.carregaListaGaitas();
@@ -378,7 +398,7 @@
             myMap.gaita.setup({accordionId:value});
         };
 
-    printButton.addEventListener("click", function() {
+        printButton.addEventListener("click", function() {
             $("#divTitulo").hide();
             $("#editControlDiv").hide();
             window.print();
@@ -390,6 +410,7 @@
             if( ! myMap.gaita.renderedTune ) return;
             myMap.gaita.playRenderedSong(playButton);
         }, false);
+        
         stopButton.addEventListener("click", function() {
             if( ! myMap.gaita.renderedTune ) return;
             myMap.gaita.stopRenderedSong(playButton);
@@ -397,43 +418,33 @@
         
         closeButton.addEventListener("click", function() {
             $("#divEditor").hide();
+            myMap.gaita.songDiv.innerHTML = myMap.editor.div.innerHTML;
+            myMap.gaita.renderedTune = myMap.editor.tunes[0]
+            myMap.gaita.player.parseTabSong(myMap.gaita.renderedTune);
             $("#divContainer").fadeIn();
+            //myMap.gaita.printer.printABC(myMap.editor.tunes[0]);
+
         }, false);
                 
         editorButton.addEventListener("click", function() {
             if( ! myMap.gaita.renderedTune ) return;
             $("#divContainer").hide();
+            myMap.editor.div.innerHTML = myMap.gaita.songDiv.innerHTML;
             $("#divEditor").fadeIn();
-            var songTitle = myMap.gaita.renderedTune.metaText.title;
-            var song = myMap.gaita.getSelectedAccordion().getSong(songTitle);
-
-            myEditor = new ABCJS.Editor(
-                    "textareaABC", {
-                        canvas_id: "canvasDiv"
-                        ,midi_id: "midi"
-                        ,warnings_id: "warnings"
-                        ,refreshController_id: "chkAutoRefresh"
-                        ,accordionSelector_id: "selGaitas"
-                        ,keySelector_id: "selKey"
-                        ,abcText: song
-                        ,midi_options: {program: 21, qpm: 150, type: "qt"}
-                        ,render_options: {}
-                        ,gui: false
-                    });
-            
-            }, false);
+            //myMap.editor.showUp();
+             }, false);
 
         function doTranspose(value) {
-            myEditor.fireChanged(value, "force");
+            myMap.editor.fireChanged(value, "force");
         };
 
         function doForceRefresh() {
-            myEditor.fireChanged(0, "force");
+            myMap.editor.fireChanged(0, "force");
         };
 
         function doCheckDebug() {
             debug = document.getElementById("chkDebug").checked;
-            myEditor.fireChanged(0, "force");
+            myMap.Editor.fireChanged(0, "force");
         };
 
   </script>

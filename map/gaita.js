@@ -288,18 +288,23 @@ DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage
       this.renderedTune = undefined;
       return;
   }
+  this.map.editor.setString( this.getSelectedAccordion().getSong(title), "noRefresh" );
+  this.map.editor.parseABC(0, "force" );
+  var tune = this.map.editor.tunes[0];
   
-  var accordion = this.getSelectedAccordion();
-  var accordionTab = new window.ABCJS.tablature.Accordion(accordion.id);
-  var abcParser = new window.ABCJS.parse.Parse(null, accordionTab);
-  abcParser.parse(accordion.getSong(title), params); //TODO handle multiple tunes
-  var tune = abcParser.getTune();
+//  var accordion = this.getSelectedAccordion();
+//  var accordionTab = new window.ABCJS.tablature.Accordion(accordion.id);
+//  var abcParser = new window.ABCJS.parse.Parse(null, accordionTab);
+//  abcParser.parse(accordion.getSong(title), params); //TODO handle multiple tunes
+//  var tune = abcParser.getTune();
+
+
   //if (!alreadyOnPage) 
       this.songDiv.style.display = "inline";
   //if (!alreadyOnPage) 
   if(this.songContainerDiv) this.songContainerDiv.style.display = "inline";
   var paper = Raphael(this.songDiv, 700, 400);
-  this.printer = new ABCJS.write.Printer(paper, {}, accordionTab );// TODO: handle printer params
+  this.printer = new ABCJS.write.Printer(paper, {} );// TODO: handle printer params
   this.printer.printABC(tune);
   if (!alreadyOnPage) $("#"+this.songContainerDiv.id).hide();
   this.renderedTune = tune;

@@ -18,7 +18,7 @@ DIATONIC.map.Units = {
     ,FONTSIZE: 18 // razoavel ser menor que metade do btnSize
 };
 
-DIATONIC.map.Map = function( interfaceParams ) {
+DIATONIC.map.Map = function( editor, interfaceParams ) {
 
     this.BTNSIZE = DIATONIC.map.Units.BTNSIZE;
     this.BTNSPACE = DIATONIC.map.Units.BTNSPACE;
@@ -28,6 +28,9 @@ DIATONIC.map.Map = function( interfaceParams ) {
     this.toneOffSet = 0;
     this.gIntervalo = 256;
     this.gShowLabel = false;
+    
+    this.editor = editor;
+    
     this.checkboxEspelho = document.getElementById(interfaceParams.ckMirror);
     this.checkboxHorizontal = document.getElementById(interfaceParams.ckHorizontal);
     this.checkboxPiano = document.getElementById(interfaceParams.ckPiano);
