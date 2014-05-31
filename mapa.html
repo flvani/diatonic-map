@@ -92,11 +92,11 @@
             <li><a href="#" id="a_nome_gaita">Gaita</a></li>
         </ul>
         <div id="divContent"> 
-          <div id="contentKeyboard" style="width: 700px; float: left;" ></div>
-          <div id="contentInfo" style=" float: right; margin-top: 30px; margin-right: 5px;">
-            <table class="table table-bordered table-final">
+          <div id="contentKeyboard" style="width: auto; float: left;" ></div>
+          <div id="contentInfo" style=" float: right; margin-top: 5px; margin-right: 5px;">
+              <table class="table table-bordered table-final" style="height: 260px">
               <tr>
-                <td colspan="2" style="height:220px;" id="td_imagem_gaita" >
+                <td colspan="2" style="height:200px;" id="td_imagem_gaita" >
                     <b>Loading...</b>
                 </td>
               </tr>
@@ -122,7 +122,7 @@
         </div>
       </div>
       
-      <div id="div_detalhes" style="float:left; margin-top:10px; margin-left:0px; width:103%;"> 
+      <div id="div_detalhes" style="float:left; margin-top:10px; margin-left:0px; width:105%;"> 
           <table style="border-width: 0;"><tr><td>
         <ul id="tabs">
             <li><a href="#" id="tabSongs">Músicas</a></li>        
@@ -137,7 +137,7 @@
             <input type="button" id="editorBtn" value="Edit" />
         </td></tr>
           </table>
-        <div id= "content_detalhes" style="float:left; margin-top:0px; margin-left:1px; width:104%; height: 340px; overflow-y: scroll;" > 
+        <div id= "content_detalhes" style="float:left; margin-top:0px; margin-left:1px; width:105%; height: 340px; overflow-y: scroll;" > 
             <div id="tabSongsDiv">
                <div id="songDiv" style="display: inline;"> </div>
             </div>    
@@ -173,8 +173,10 @@
             <div id="warnings" class="span12" style="margin-top:6px; margin-left:0px;"></div>
             <div id="midi" class="span12" style="margin-top:6px; margin-left:0px;"></div>
         </div>
-        <div id="canvasDiv" class="span12" style="margin-top:6px; margin-left:0px;" ></div>
-
+        <div id="canvasDivOuter" class="span12" style="margin-top:6px; margin-left:20px; width:96%" >
+        <div id="canvasDiv"></div>
+        </div>
+        
     </div> <!-- /divEditor -->  
 
     <div id="openModal" class="modalWindow"> 
@@ -417,21 +419,34 @@
         }, false);
         
         closeButton.addEventListener("click", function() {
+    var d = new Date();
+    console.log("close"+d.getTime() );
             $("#divEditor").hide();
-            myMap.gaita.songDiv.innerHTML = myMap.editor.div.innerHTML;
-            myMap.gaita.renderedTune = myMap.editor.tunes[0]
-            myMap.gaita.player.parseTabSong(myMap.gaita.renderedTune);
+    var d = new Date();
+    console.log("hide"+d.getTime() );
             $("#divContainer").fadeIn();
-            //myMap.gaita.printer.printABC(myMap.editor.tunes[0]);
-
+    var d = new Date();
+    console.log("fade"+d.getTime() );
+            
+  myMap.gaita.renderedTune = myMap.editor.tunes[0];         
+  myGap.gaita.paper.clear();
+  myMap.gaita.paper = Raphael(myMap.gaita.songDiv, 700, 400);
+  myMap.gaita.printer = new ABCJS.write.Printer(myMap.gaita.paper, {} );// TODO: handle printer params
+  myMap.gaita.printer.printABC(myMap.gaita.renderedTune);
+  myMap.gaita.player.parseTabSong(myMap.gaita.renderedTune);
+ 
+            
+            //myMap.gaita.songDiv.innerHTML = myMap.editor.div.innerHTML;
+            //myMap.gaita.songDiv.innerHTML = "myMap.editor.div.innerHTML";
+  
         }, false);
                 
         editorButton.addEventListener("click", function() {
             if( ! myMap.gaita.renderedTune ) return;
             $("#divContainer").hide();
-            myMap.editor.div.innerHTML = myMap.gaita.songDiv.innerHTML;
             $("#divEditor").fadeIn();
-            //myMap.editor.showUp();
+            myMap.editor.div.innerHTML = myMap.gaita.songDiv.innerHTML;
+            //myMap.editor.div.style.width = "10";
              }, false);
 
         function doTranspose(value) {

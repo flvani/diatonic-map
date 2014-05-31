@@ -69,6 +69,11 @@ DIATONIC.map.Button.prototype.draw = function() {
             .attr({"fill": "none", "stroke": this.color, "stroke-width": this.stroke});
 };
 
+DIATONIC.map.Button.prototype.drawLine = function(xi,yi,xf,yf) {
+    this.paper.path( ["M", xi, yi, "L", xf, yf ] )
+            .attr({"fill": "none", "stroke": "black", "stroke-width": 1});
+};
+
 DIATONIC.map.Button.prototype.clear = function() {
     this.openSide.attr({"fill": "none", "stroke": "none", "stroke-width": 0});
     this.closeSide.attr({"fill": "none", "stroke": "none", "stroke-width": 0});

@@ -123,30 +123,30 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
     this.keyboard[i] = new Array( gaita.getBassOpenRow(i-nIlheiras).length );
   }
  
-  var nTotIlheiras = nIlheiras+nIlheirasBaixo+2;
+  var nTotIlheiras = nIlheiras+nIlheirasBaixo+1;
 
   if( bHorizontal ) {
-    nHeight = nTotIlheiras*(this.BTNSIZE+this.BTNSPACE);
-    nWidth  = (maiorIlheira+1) *this.BTNSIZE + (maiorIlheira+2) * this.BTNSPACE;
+    nHeight = nTotIlheiras*(this.BTNSIZE+this.BTNSPACE) + this.BTNSPACE;
+    nWidth  = (maiorIlheira)*(this.BTNSIZE+this.BTNSPACE) + this.BTNSIZE/2;
     bassX   = this.BTNSPACE*4 + (((maiorIlheira-maiorIlheiraBaixo)/2))*(this.BTNSIZE+this.BTNSPACE);
     trebleX = this.BTNSPACE*4;
     xi = bassX -1.5 * (this.BTNSIZE+this.BTNSPACE); 
     if( bEspelho ) {
-       yi = this.BTNSPACE + (nTotIlheiras-1.5) * (this.BTNSIZE+this.BTNSPACE);  
+       yi = this.BTNSPACE + (nTotIlheiras-1.1) * (this.BTNSIZE+this.BTNSPACE);  
     }else {
-       yi = this.BTNSPACE + (1.5) * (this.BTNSIZE+this.BTNSPACE);  
+       yi = this.BTNSPACE + (1.1) * (this.BTNSIZE+this.BTNSPACE);  
     }
   } else {
-     nWidth  = nTotIlheiras*(this.BTNSIZE+this.BTNSPACE);
-     nHeight = (maiorIlheira+1) *this.BTNSIZE + (maiorIlheira+2) * this.BTNSPACE;
+     nWidth  = nTotIlheiras*(this.BTNSIZE+this.BTNSPACE) + this.BTNSPACE;
+     nHeight = (maiorIlheira)*(this.BTNSIZE+this.BTNSPACE) + this.BTNSIZE/2;
      bassY   = this.BTNSPACE*4 + (((maiorIlheira-maiorIlheiraBaixo)/2))*(this.BTNSIZE+this.BTNSPACE);
      trebleY = this.BTNSPACE*4;
      yi = bassY -1.5 * (this.BTNSIZE+this.BTNSPACE); 
     
     if( bEspelho ) {
-           xi = this.BTNSPACE + (1.5) * (this.BTNSIZE+this.BTNSPACE) ; 
+           xi = this.BTNSPACE + (1.1) * (this.BTNSIZE+this.BTNSPACE) ; 
     }else {
-           xi = this.BTNSPACE + (nTotIlheiras-1.5) * (this.BTNSIZE+this.BTNSPACE) ; 
+           xi = this.BTNSPACE + (nTotIlheiras-1.1) * (this.BTNSIZE+this.BTNSPACE) ; 
     }
   }
 
@@ -160,41 +160,59 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
   legenda.setOpen();
   legenda.setClose();
   
+    if( bHorizontal ) {
+      if( bEspelho ) {
+        legenda.drawLine(xi+ 0,yi-70,xi+420,yi-70);
+        legenda.drawLine(xi+ 0,yi-80,xi+420,yi-80);
+        legenda.drawLine(xi+ 0,yi-90,xi+420,yi-90);
+      } else {
+        legenda.drawLine(xi+ 0,yi+70,xi+420,yi+70);
+        legenda.drawLine(xi+ 0,yi+80,xi+420,yi+80);
+        legenda.drawLine(xi+ 0,yi+90,xi+420,yi+90);
+      }
+   } else {
+      if( bEspelho ) {
+          
+      } else {
+          
+      }
+   }
+  
   for (var j=0; j<this.keyboard.length; j++) {
 
     if( bHorizontal ) {
       if( bEspelho ) {
         if( j < nIlheiras ) {
            xi = trebleX + (gaita.getKeysLayout(j)+0.5) * (this.BTNSIZE+this.BTNSPACE);
-           yi = this.BTNSPACE + (j+1) * (this.BTNSIZE+this.BTNSPACE); 
+           yi = this.BTNSPACE + (j+.6) * (this.BTNSIZE+this.BTNSPACE); 
         }else {
            xi = bassX + 0.5 * (this.BTNSIZE+this.BTNSPACE); 
-           yi = this.BTNSPACE + (j+2) * (this.BTNSIZE+this.BTNSPACE);  
+           yi = this.BTNSPACE + (j+1.4) * (this.BTNSIZE+this.BTNSPACE);  
         }
       } else { 
         if( j < nIlheiras ) {
            xi = trebleX + (gaita.getKeysLayout(j)+0.5) * (this.BTNSIZE+this.BTNSPACE);
-           yi = this.BTNSPACE + (nTotIlheiras-j-1) * (this.BTNSIZE+this.BTNSPACE); 
+           yi = this.BTNSPACE + (nTotIlheiras-j-.6) * (this.BTNSIZE+this.BTNSPACE); 
         }else {
            xi = bassX + 0.5 * (this.BTNSIZE+this.BTNSPACE); 
-           yi = this.BTNSPACE + (nTotIlheiras-j-2) * (this.BTNSIZE+this.BTNSPACE);  
+           yi = this.BTNSPACE + (nTotIlheiras-j-1.4) * (this.BTNSIZE+this.BTNSPACE);  
         }
       }
     } else {
       if( bEspelho ) {
         if( j < nIlheiras ) {
-           xi = this.BTNSPACE + (nTotIlheiras-j-1) * (this.BTNSIZE+this.BTNSPACE) ; 
+           xi = this.BTNSPACE + (nTotIlheiras-j-.6) * (this.BTNSIZE+this.BTNSPACE) ; 
            yi = trebleY + (gaita.getKeysLayout(j)+0.5) * (this.BTNSIZE+this.BTNSPACE);
         }else {
-           xi = this.BTNSPACE + (nTotIlheiras-j-2) * (this.BTNSIZE+this.BTNSPACE) ; 
+           xi = this.BTNSPACE + (nTotIlheiras-j-1.4) * (this.BTNSIZE+this.BTNSPACE) ; 
            yi = bassY + 0.5 * (this.BTNSIZE+this.BTNSPACE); 
         }
        } else {
         if( j < nIlheiras ) {
-           xi = this.BTNSPACE + (j+1) * (this.BTNSIZE+this.BTNSPACE) ; 
+           xi = this.BTNSPACE + (j+0.6) * (this.BTNSIZE+this.BTNSPACE) ; 
            yi = trebleY + (gaita.getKeysLayout(j)+0.5) * (this.BTNSIZE+this.BTNSPACE);
         }else {
-           xi = this.BTNSPACE + (j+2) * (this.BTNSIZE+this.BTNSPACE) ; 
+           xi = this.BTNSPACE + (j+1.4) * (this.BTNSIZE+this.BTNSPACE) ; 
            yi = bassY + 0.5 * (this.BTNSIZE+this.BTNSPACE); 
         }
       }
@@ -290,25 +308,18 @@ DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage
   }
   this.map.editor.setString( this.getSelectedAccordion().getSong(title), "noRefresh" );
   this.map.editor.parseABC(0, "force" );
-  var tune = this.map.editor.tunes[0];
-  
-//  var accordion = this.getSelectedAccordion();
-//  var accordionTab = new window.ABCJS.tablature.Accordion(accordion.id);
-//  var abcParser = new window.ABCJS.parse.Parse(null, accordionTab);
-//  abcParser.parse(accordion.getSong(title), params); //TODO handle multiple tunes
-//  var tune = abcParser.getTune();
-
+  this.renderedTune = this.map.editor.tunes[0];
+ 
 
   //if (!alreadyOnPage) 
       this.songDiv.style.display = "inline";
   //if (!alreadyOnPage) 
   if(this.songContainerDiv) this.songContainerDiv.style.display = "inline";
-  var paper = Raphael(this.songDiv, 700, 400);
-  this.printer = new ABCJS.write.Printer(paper, {} );// TODO: handle printer params
-  this.printer.printABC(tune);
-  if (!alreadyOnPage) $("#"+this.songContainerDiv.id).hide();
-  this.renderedTune = tune;
+  this.paper = Raphael(this.songDiv, 700, 400);
+  this.printer = new ABCJS.write.Printer(this.paper, {} );// TODO: handle printer params
+  this.printer.printABC(this.renderedTune);
   this.player.parseTabSong(this.renderedTune);
+  if (!alreadyOnPage) $("#"+this.songContainerDiv.id).hide();
   
 };
 
