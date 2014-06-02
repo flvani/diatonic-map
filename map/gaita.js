@@ -75,8 +75,6 @@ DIATONIC.map.Gaita.prototype.setup = function(accordionParams) {
   
   this.map.setGaitaImage( gaita );
 
-  this.map.mostraAfinacao();
-
   this.carregaTabelaAcordes(this.map);
   
   if(!accordionParams.songTitle){
@@ -258,6 +256,9 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
 
     } 
   }
+  if(this.renderedTune)
+    this.player.parseTabSong(this.renderedTune);
+
 };
 
 
@@ -298,27 +299,36 @@ DIATONIC.map.Gaita.prototype.playRenderedSong = function(control) {
    } 
 };
 
+
+
+DIATONIC.map.Gaita.prototype.printTune = function( params ) {
+    this.map.editor.parseABC(0, "force" );
+    this.renderedTune = this.map.editor.tunes[0];
+    if(this.paper)
+       this.paper.clear();
+    this.paper = Raphael(this.songDiv, 700, 400);
+    this.printer = new ABCJS.write.Printer(this.paper, params || {} );// TODO: handle printer params
+    this.printer.printABC(this.renderedTune);
+    this.player.parseTabSong(this.renderedTune);
+    
+};
+
 DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage ) {
-  this.songDiv.innerHTML = "";
-  this.songDiv.innerTEXT = "";
   
   if(title === "" ) {
       this.renderedTune = undefined;
       return;
   }
   this.map.editor.setString( this.getSelectedAccordion().getSong(title), "noRefresh" );
-  this.map.editor.parseABC(0, "force" );
-  this.renderedTune = this.map.editor.tunes[0];
- 
 
   //if (!alreadyOnPage) 
-      this.songDiv.style.display = "inline";
   //if (!alreadyOnPage) 
-  if(this.songContainerDiv) this.songContainerDiv.style.display = "inline";
-  this.paper = Raphael(this.songDiv, 700, 400);
-  this.printer = new ABCJS.write.Printer(this.paper, {} );// TODO: handle printer params
-  this.printer.printABC(this.renderedTune);
-  this.player.parseTabSong(this.renderedTune);
+
+  if(this.songContainerDiv)$("#"+this.songContainerDiv.id).fadeIn();//this.songContainerDiv.style.display = "inline";
+  $("#"+this.songDiv.id).fadeIn();//this.songDiv.style.display = "inline";
+  
+  this.printTune(params);
+
   if (!alreadyOnPage) $("#"+this.songContainerDiv.id).hide();
   
 };
@@ -331,11 +341,24 @@ DIATONIC.map.Gaita.prototype.transporta = function(nota) {
   nota.key    = this.map.gShowLabel ? this.number2key_br[note] : this.number2key[note];
   
   if( nota.isChord )  {
-    nota.key = this.number2key_br[note].toLowerCase();
+    //nota.key = this.number2key_br[note].toLowerCase();
+    nota.key = this.number2key[note].toLowerCase() + (nota.isMinor?'-':'');
+    
   }
 
   return nota;
 };
+
+DIATONIC.map.Accordion.prototype.g = function() {
+  var v_afinacao = this.gaita.accordions[this.gaita.selected].getAfinacao();
+  var str_label = '';
+  for (var c = v_afinacao.length-1; c > 0 ; c--) {
+    str_label = '/' + this.gaita.parseNote( v_afinacao[c] ).key + str_label;
+  }
+  $('#afinacao').text( this.gaita.parseNote( v_afinacao[0] ).key + str_label );
+};
+
+
 
 DIATONIC.map.Gaita.prototype.parseNote = function(p_nota, isBass) {
 
@@ -352,7 +375,7 @@ DIATONIC.map.Gaita.prototype.parseNote = function(p_nota, isBass) {
 
   nota.isChord    = ( p_nota.charAt(0) === p_nota.charAt(0).toLowerCase() );
   nota.isBass     = isBass;
-  nota.isMenor    = nota.complement.substr(0,2).indexOf( 'm' ) >= 0;
+  nota.isMinor    = nota.complement.substr(0,2).indexOf( 'm' ) >= 0;
   nota.isSetima   = nota.complement.substr(0,2).indexOf( '7' ) >= 0;
 
   return this.transporta(nota);

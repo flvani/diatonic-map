@@ -97,21 +97,22 @@ DIATONIC.map.Map.prototype.geraLabelListaAfinacao = function(v_afinacao) {
 };
 
 DIATONIC.map.Map.prototype.setGaitaName = function(gaita) {
-  this.gaitaNamePlaceHolder.innerHTML = gaita.getName();
-};  
-
-DIATONIC.map.Map.prototype.setGaitaImage = function(gaita) {
-  this.gaitaImagePlaceHolder.innerHTML = '<img src="'+gaita.getPathToImage()
-          +'" alt="'+gaita.getName()+'" style="height:200px; width:200px;" />';
+  this.gaitaNamePlaceHolder.innerHTML = gaita.getName() + " - " + this.getTxtAfinacao();
 };
 
-DIATONIC.map.Map.prototype.mostraAfinacao = function() {
+DIATONIC.map.Map.prototype.getTxtAfinacao = function() {
   var v_afinacao = this.gaita.accordions[this.gaita.selected].getAfinacao();
   var str_label = '';
   for (var c = v_afinacao.length-1; c > 0 ; c--) {
     str_label = '/' + this.gaita.parseNote( v_afinacao[c] ).key + str_label;
   }
-  $('#afinacao').text( this.gaita.parseNote( v_afinacao[0] ).key + str_label );
+  return this.gaita.parseNote( v_afinacao[0] ).key + str_label;
+};
+
+
+DIATONIC.map.Map.prototype.setGaitaImage = function(gaita) {
+  this.gaitaImagePlaceHolder.innerHTML = '<img src="'+gaita.getPathToImage()
+          +'" alt="'+gaita.getName()+'" style="height:200px; width:200px;" />';
 };
 
 

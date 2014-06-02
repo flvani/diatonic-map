@@ -32,7 +32,7 @@
    
     <div class="navbar navbar-inverse navbar-fixed-top" >
       <div style="background-color:#5ba4a4;">
-        <div class="container" id="divTitulo" style="margin-left: 20px;" >
+        <div class="container" id="divTitulo" style="margin-left: 10px;" >
            <header>
               <table><tr>
                 <td><h1>Mapa para <span>Acordeons Diatônicos</span></h1></td>
@@ -44,8 +44,8 @@
       </div>
     </div> <!-- /navbar -->
    
-    <div class="container" id="divContainer"  style="margin-left: 20px;" >
-      <div id="divMenu" class="span12" style="height:72px; margin-left: 1px;">
+    <div class="container" id="divContainer"  style="margin-top: 0; margin-left: 10px;" >
+      <div id="divMenu" class="span12" style="height:40px; margin-left: 1px;">
         <table><tr><td>
             <table class="table table-bordered table-final">
               <tr >
@@ -56,6 +56,12 @@
                   </div>
                 </td >
                 <td >
+                  <button id="change_labels" class="btn label"><i class="icon-globe icon-white"></i>&nbsp;Trocar Símbolos</button>
+                </td >
+                <td >
+                  <a class="brand" href="#teoria"><button id="x" class="btn label">&nbsp;Teoria</button></a>
+                </td >
+                <!--td >
                   <div class="btn-group">
                     <button class="btn label dropdown-toggle" data-toggle="dropdown">Afinações&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
                     <ul class="dropdown-menu" id="opcoes_afinacao"></ul>
@@ -64,22 +70,7 @@
                 <td >
                   <button id="sub_half_tone" class="btn label" title="reduzir meio tom"><i class="icon-circle-arrow-down icon-white"></i>&nbsp;&frac12;&nbsp;tom</button>
                   <button id="add_half_tone" class="btn label" title="aumentar meio tom"><i class="icon-circle-arrow-up icon-white"></i>&nbsp;&frac12;&nbsp;tom</button>
-                </td >
-                <td >
-                  <button id="change_labels" class="btn label"><i class="icon-globe icon-white"></i>&nbsp;Trocar Símbolos</button>
-                </td >
-              </tr>
-              <tr > 
-                <td colspan="2" >
-                    &nbsp;<b>MIDI:</b>&nbsp;<a style="padding: 5px; float:top;" ></a>
-                    <input type="checkbox" id="checkboxAcordeon" checked >&nbsp;Acordeon&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="checkbox" id="checkboxPiano">&nbsp;Piano
-                </td>
-                <td colspan="2" style="height:22px;">
-                    &nbsp;<b>Layout:</b>&nbsp;<a style="padding: 5px; float:top;" ></a>
-                    <input type="checkbox" id="checkboxHorizontal" checked >&nbsp;Horizontal&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="checkbox" id="checkboxEspelho">&nbsp;Espelho
-                </td >
+                </td-->
               </tr>
             </table>
            </td><td style="padding: 1%"></td><td>
@@ -87,24 +78,38 @@
           </table>
         </div>
 
-      <div id="div_principal" class="span12" style="margin-top:10px; margin-left:1px;" >
+      <div id="div_principal" class="span12" style="margin-top:5px; margin-left:1px;" >
         <ul id="faketab">
             <li><a href="#" id="a_nome_gaita">Gaita</a></li>
+            <li style="margin-left: 10px">
+                <div id="divMapControls">
+                    <table class="table-bordered table-final"> 
+                    <tr > 
+                      <!--td  >
+                          <b>MIDI:</b>&nbsp;
+                          <input type="checkbox" id="checkboxAcordeon" checked >&nbsp;Acordeon&nbsp;&nbsp;&nbsp;&nbsp;
+                          <input type="checkbox" id="checkboxPiano">&nbsp;Piano
+                      </td-->
+                      <td >
+                          <b>Layout:</b>&nbsp;
+                          <input type="checkbox" id="checkboxHorizontal" checked >&nbsp;Horizontal&nbsp;&nbsp;&nbsp;&nbsp;
+                          <input type="checkbox" id="checkboxEspelho">&nbsp;Espelho
+                      </td >
+                    </tr>
+                  </table>
+                </div>  
+            </li>
         </ul>
         <div id="divContent"> 
           <div id="contentKeyboard" style="width: auto; float: left;" ></div>
-          <div id="contentInfo" style=" float: right; margin-top: 5px; margin-right: 5px;">
+          <div id="contentInfo" style=" float: right; margin-top: 15px; margin-right: 15px;">
               <table class="table table-bordered table-final" >
               <tr>
                 <td colspan="2" style="height:200px;" id="td_imagem_gaita" >
                     <b>Loading...</b>
                 </td>
               </tr>
-              <tr>
-                <td style="vertical-align: middle;">&nbsp;Afinação Atual</td>
-                <td style="width: 95px;">&nbsp;<span class="label" id="afinacao">?/?</span></td>
-              </tr>
-              <tr>
+              <!tr>
                 <td style="vertical-align: middle;">&nbsp;Acorde Atual</td>
                 <td>
                   &nbsp;<span class="label" id="acordeAtualVazio">--
@@ -123,21 +128,20 @@
       </div>
       
       <div id="div_detalhes" style="float:left; margin-top:10px; margin-left:0px; width:105%;"> 
-          <table style="border-width: 0;"><tr><td>
         <ul id="tabs">
             <li><a href="#" id="tabSongs">Músicas</a></li>        
             <li><a href="#" id="tabAcordes">Acordes</a></li>
             <li><a href="#" id="tabExercicios">Exercícios</a></li>
-        </ul></td>
-        <td style="width: 20px; background-color: transparent;"></td>
-        <td>
-            <select id="selSongs" > </select>
-            <input type="button" id="playBtn" value="Play" />
-            <input type="button" id="stopBtn" value="Stop" />
-            <input type="button" id="editorBtn" value="Edit" />
-        </td></tr>
-          </table>
-        <div id= "content_detalhes" style="float:left; margin-top:0px; margin-left:1px; margin-bottom: 6px; width:105%; height: 340px; overflow-y: scroll;" > 
+            <li style="margin-left: 10px">
+                <div id="divPlayerControls">
+                  <select id="selSongs" > </select>
+                  <input type="button" id="playBtn" value="Play" />
+                  <input type="button" id="stopBtn" value="Stop" />
+                  <input type="button" id="editorBtn" value="Edit" />
+                </div>  
+            </li>
+        </ul>
+        <div id= "content_detalhes" style="float:left; margin-top:0px; margin-left:0px; margin-bottom: 6px; width:105%; height: 340px; overflow-y: scroll;" > 
             <div id="tabSongsDiv">
                <div id="songDiv" style="display: inline;"> </div>
             </div>    
@@ -179,6 +183,23 @@
         
     </div> <!-- /divEditor -->  
 
+    <div id="teoria" class="modalWindow">
+      <div>
+        <div class="modalHeader">
+          <h2>Teoria</h2>
+          <a href="#close" title="Fechar" class="close">X</a>
+        </div>
+        <div class="modalContent">
+          <h3>Sobre tablaturas para acordeons</h3>
+          <p>
+          <h3>Sobre formato ABC</h3>
+          <p>
+          <h3>Sobre editor de partituras</h3>
+          <p>
+        </div>
+      </div>
+    </div>
+    
     <div id="openModal" class="modalWindow"> 
       <div>
         
@@ -319,7 +340,8 @@
             myMap.gaita.setup( {
                    accordionId: 'GAITA_HOHNER_GC' 
                   //,songTitle:"J'ai vu le loup, le renard et la belette"
-                  ,songTitle:"Valsa Sertaneja"
+                  //,songTitle:"Valsa Sertaneja"
+                  ,songTitle:"Didática do Acordeon G/C"
                    } );
         }
         
@@ -360,6 +382,10 @@
                 $("#tabs li").attr("id",""); //Reset id's
                 $(this).parent().attr("id","current"); // Activate this
                 $('#' + $(this).attr('id')+"Div").fadeIn(); // Show content for the current tab
+                if( $(this).attr('id') === "tabSongs" )
+                    $("#divPlayerControls" ).fadeIn();
+                else
+                    $("#divPlayerControls" ).hide();
               }
           });
         });
@@ -417,37 +443,20 @@
             if( ! myMap.gaita.renderedTune ) return;
             myMap.gaita.stopRenderedSong(playButton);
         }, false);
-        
-        closeButton.addEventListener("click", function() {
-    var d = new Date();
-    console.log("close"+d.getTime() );
-            $("#divEditor").hide();
-    var d = new Date();
-    console.log("hide"+d.getTime() );
-            $("#divContainer").fadeIn();
-    var d = new Date();
-    console.log("fade"+d.getTime() );
-            
-  myMap.gaita.renderedTune = myMap.editor.tunes[0];         
-  myGap.gaita.paper.clear();
-  myMap.gaita.paper = Raphael(myMap.gaita.songDiv, 700, 400);
-  myMap.gaita.printer = new ABCJS.write.Printer(myMap.gaita.paper, {} );// TODO: handle printer params
-  myMap.gaita.printer.printABC(myMap.gaita.renderedTune);
-  myMap.gaita.player.parseTabSong(myMap.gaita.renderedTune);
- 
-            
-            //myMap.gaita.songDiv.innerHTML = myMap.editor.div.innerHTML;
-            //myMap.gaita.songDiv.innerHTML = "myMap.editor.div.innerHTML";
-  
-        }, false);
                 
         editorButton.addEventListener("click", function() {
             if( ! myMap.gaita.renderedTune ) return;
             $("#divContainer").hide();
             $("#divEditor").fadeIn();
             myMap.editor.div.innerHTML = myMap.gaita.songDiv.innerHTML;
-            //myMap.editor.div.style.width = "10";
-             }, false);
+        }, false);
+        
+        closeButton.addEventListener("click", function() {
+            $("#divEditor").hide();
+            $("#divContainer").fadeIn();
+            myMap.gaita.printTune();
+  
+        }, false);
 
         function doTranspose(value) {
             myMap.editor.fireChanged(value, "force");

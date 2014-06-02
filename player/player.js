@@ -730,7 +730,7 @@ DIATONIC.play.Player.prototype.generateAndPlayChord = function(chord, channel) {
     MIDI.noteOn(channel, nota.value + offset + 12, velocity, 0);
     MIDI.noteOff(channel, nota.value + offset + 12, delay);
 
-    var d = chord.isMenor ? 3 : 4;
+    var d = chord.isMinor ? 3 : 4;
 
     MIDI.noteOn(channel, nota.value + offset + d, velocity, 0);
     MIDI.noteOff(channel, nota.value + offset + d, delay);
