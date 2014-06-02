@@ -6,11 +6,11 @@ V:botoneira-bass
 %|B,,D,|D,^F,|G,A,|
 V:botoneira
 K:C treble
-|GG|
+%|GG|
 |B,,D,|D,^F,|G,A,|B,C|DE|G^F|BA|dc|ge|b^f|d'a
 |E,G,|G,B,|CD|EF|GG|cB|ed|gf|c'g|e'b|
 V:tablatura
 K:none accordionTab
-| +5' -5' |
+%| +5' -5' |
 | +1 -1 | +2 -2 | +3 -3 | +4 -4 | +5 -5 | +6 -6 | +7 -7 | +8 -8 | +9 -9 | +a -a | +b -b
 | +1' -1' | +2' -2' | +3' -3' | +4' -4' | +5' -5' | +6' -6' | +7' -7' | +8' -8' | +9' -9' | +a' -a'

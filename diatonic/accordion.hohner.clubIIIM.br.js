@@ -170,6 +170,7 @@ DIATONIC.tmp.songs = [
      '/diatonic-map/songs/jai.c.abcx'
     ,'/diatonic-map/songs/maitia.c.abcx'
     ,'/diatonic-map/songs/valsa.f.abcx'
+    ,'/diatonic-map/songs/hg.club.abcx'
 ];
 
 DIATONIC.map.models[DIATONIC.map.models.length] = new DIATONIC.map.Accordion(
