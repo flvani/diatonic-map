@@ -69,6 +69,10 @@ DIATONIC.map.Gaita.prototype.setup = function(accordionParams) {
   
   this.map.toneOffSet = 0;
   
+  //o ideal seria ajustar o acordion do editor e seletor pelo id
+  this.map.editor.accordion.load( this.selected );
+  this.map.editor.accordionSelector.set(this.selected);
+  
   this.setupKeyboard();
 
   this.map.setGaitaName( gaita );
@@ -302,10 +306,10 @@ DIATONIC.map.Gaita.prototype.playRenderedSong = function(control) {
 
 
 DIATONIC.map.Gaita.prototype.printTune = function( params ) {
-    this.map.editor.parseABC(0, "force" );
-    this.renderedTune = this.map.editor.tunes[0];
     if(this.paper)
        this.paper.clear();
+    this.map.editor.parseABC(0, "force" );
+    this.renderedTune = this.map.editor.tunes[0];
     this.paper = Raphael(this.songDiv, 700, 400);
     this.printer = new ABCJS.write.Printer(this.paper, params || {} );// TODO: handle printer params
     this.printer.printABC(this.renderedTune);
@@ -314,6 +318,8 @@ DIATONIC.map.Gaita.prototype.printTune = function( params ) {
 };
 
 DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage ) {
+  if(this.paper)
+    this.paper.clear();
   
   if(title === "" ) {
       this.renderedTune = undefined;
