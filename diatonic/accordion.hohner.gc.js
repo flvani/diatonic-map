@@ -111,10 +111,10 @@ DIATONIC.tmp.scales = [
  ];
 
 DIATONIC.tmp.songs = [
-    '/diatonic-map/songs/jai.abcx'
-   ,'/diatonic-map/songs/valsa.abcx'
-   ,'/diatonic-map/songs/didatica.abcx'
-   ,'/diatonic-map/songs/hg.g.abcx'
+    'songs/jai.abcx'
+   ,'songs/valsa.abcx'
+   ,'songs/didatica.abcx'
+   ,'songs/hg.g.abcx'
 ];
 
 DIATONIC.map.models[DIATONIC.map.models.length] = new DIATONIC.map.Accordion(

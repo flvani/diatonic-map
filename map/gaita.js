@@ -251,8 +251,8 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
       this.maxNoteInUse = Math.max( this.keyboard[j][i].notaClose.value+12, this.maxNoteInUse );
 
       this.keyboard[j][i].btn = new DIATONIC.map.Button( paper, xxi, yyi
-            , this.keyboard[j][i].notaOpen.key
-            , this.keyboard[j][i].notaClose.key
+            , this.keyboard[j][i].notaOpen.key + (this.keyboard[j][i].notaOpen.isMinor?'-':'')
+            , this.keyboard[j][i].notaClose.key  + (this.keyboard[j][i].notaClose.isMinor?'-':'')
             , {pedal: gaita.isPedal( i, j )} 
       );
       
@@ -348,7 +348,7 @@ DIATONIC.map.Gaita.prototype.transporta = function(nota) {
   
   if( nota.isChord )  {
     //nota.key = this.number2key_br[note].toLowerCase();
-    nota.key = this.number2key[note].toLowerCase() + (nota.isMinor?'-':'');
+    nota.key = this.number2key[note].toLowerCase() ;
     
   }
 
@@ -407,7 +407,7 @@ DIATONIC.map.Gaita.prototype.redrawKeyboard = function() {
         }
     }
 
-    this.map.mostraAfinacao();
+    //this.map.mostraAfinacao();
     //this.map.draw();
 
 //    aEscalas = GAITA.gaitas[GAITA.selected][c_escalas];
@@ -573,7 +573,7 @@ DIATONIC.map.Gaita.prototype.setButtonText = function (p_button) {
    this.transporta( p_button.notaOpen );
    this.transporta( p_button.notaClose );
 
-   p_button.btn.setTextOpen( p_button.notaOpen.key  );
+   p_button.btn.setTextOpen( p_button.notaOpen.key + (p_button.notaOpen.isMinor?'-':'')  );
    //p_button.notaOpen.labels.compl.setText( p_button.notaOpen.complement );
    //p_button.notaOpen.labels.octave.setText( p_button.notaOpen.isBass ? '' : p_button.notaOpen.octave );
 
@@ -581,7 +581,7 @@ DIATONIC.map.Gaita.prototype.setButtonText = function (p_button) {
    //p_button.notaOpen.labels.compl.offsetX( -p_button.notaOpen.labels.key.getTextWidth()/2 + p_button.notaOpen.labels.octave.getTextWidth()/2 );
    //p_button.notaOpen.labels.octave.offsetX( -p_button.notaOpen.labels.key.getTextWidth()/2 - p_button.notaOpen.labels.compl.getTextWidth()/2 );
  
-   p_button.btn.setTextClose( p_button.notaClose.key  );
+   p_button.btn.setTextClose( p_button.notaClose.key + (p_button.notaClose.isMinor?'-':'')  );
    //p_button.notaClose.labels.compl.setText( p_button.notaClose.complement );
    //p_button.notaClose.labels.octave.setText( p_button.notaClose.isBass ? '' : p_button.notaClose.octave );
 
