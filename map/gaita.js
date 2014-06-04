@@ -296,7 +296,7 @@ DIATONIC.map.Gaita.prototype.stopRenderedSong = function(control) {
 };
 
 DIATONIC.map.Gaita.prototype.playRenderedSong = function(control) {
-  if( control.value === "Pause" ) {
+  if( control.value === "Pausar" ) {
     this.player.pausePlay();
    } else {
      this.player.startPlay(control);
@@ -306,11 +306,15 @@ DIATONIC.map.Gaita.prototype.playRenderedSong = function(control) {
 
 
 DIATONIC.map.Gaita.prototype.printTune = function( params ) {
-    if(this.paper)
+    if(this.paper) {
        this.paper.clear();
+       this.paper.height = 300;
+    } else {
+      this.paper = Raphael(this.songDiv, 700, 400);
+    }
+    
     this.map.editor.parseABC(0, "force" );
     this.renderedTune = this.map.editor.tunes[0];
-    this.paper = Raphael(this.songDiv, 700, 400);
     this.printer = new ABCJS.write.Printer(this.paper, params || {} );// TODO: handle printer params
     this.printer.printABC(this.renderedTune);
     this.player.parseTabSong(this.renderedTune);
@@ -318,8 +322,12 @@ DIATONIC.map.Gaita.prototype.printTune = function( params ) {
 };
 
 DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage ) {
-  if(this.paper)
+  if(this.paper) {
     this.paper.clear();
+    this.paper.height = 300;
+  } else {
+    this.paper = Raphael(this.songDiv, 700, 400);
+  } 
   
   if(title === "" ) {
       this.renderedTune = undefined;
