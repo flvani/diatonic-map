@@ -305,7 +305,10 @@ DIATONIC.map.Gaita.prototype.playRenderedSong = function(control) {
 
 
 
-DIATONIC.map.Gaita.prototype.printTune = function( params ) {
+DIATONIC.map.Gaita.prototype.printTune = function( params, alreadyOnPage ) {
+    
+    alreadyOnPage = alreadyOnPage || true;
+    
     if(this.paper) {
        this.paper.clear();
        this.paper.height = 300;
@@ -313,12 +316,42 @@ DIATONIC.map.Gaita.prototype.printTune = function( params ) {
       this.paper = Raphael(this.songDiv, 700, 400);
     }
     
+    
+	var loader = new myWidget.Loader({
+		id: "songLoader",
+		bars: 0,
+		radius: 0,
+		lineWidth: 20,
+		lineHeight: 70,
+		timeout: 1, // maximum timeout in seconds.
+		background: "rgba(0,0,0,0.5)",
+		container: this.songContainerDiv,
+		oncomplete: function() {
+			// call function once loader has completed
+		},
+		onstart: function() {
+			// call function once loader has started	
+		}
+	});
+        
+    //var d = new Date();
+    //console.log(d.getMilliseconds());
     this.map.editor.parseABC(0, "force" );
+    //console.log(d.getMilliseconds());
+    //loader.update(null, "Wait...");
     this.renderedTune = this.map.editor.tunes[0];
     this.printer = new ABCJS.write.Printer(this.paper, params || {} );// TODO: handle printer params
-    this.printer.printABC(this.renderedTune);
+    if(this.songContainerDiv)$("#"+this.songContainerDiv.id).fadeIn();
+    $("#"+this.songDiv.id).fadeIn();
+    this.printer.printABC(this.renderedTune, loader);
+    $("#"+this.songDiv.id).hide();
+    //loader.update(null,"Generating MIDI...",95);
     this.player.parseTabSong(this.renderedTune);
-    
+    //console.log(d.getMilliseconds());
+    //loader.update(null,"Printing","...");
+    loader.stop();
+    $("#"+this.songDiv.id).fadeIn();
+    if (!alreadyOnPage) $("#"+this.songContainerDiv.id).hide();
 };
 
 DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage ) {
@@ -335,15 +368,12 @@ DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage
   }
   this.map.editor.setString( this.getSelectedAccordion().getSong(title), "noRefresh" );
 
-  //if (!alreadyOnPage) 
-  //if (!alreadyOnPage) 
-
-  if(this.songContainerDiv)$("#"+this.songContainerDiv.id).fadeIn();//this.songContainerDiv.style.display = "inline";
-  $("#"+this.songDiv.id).fadeIn();//this.songDiv.style.display = "inline";
+//  if(this.songContainerDiv)$("#"+this.songContainerDiv.id).fadeIn();
+//  $("#"+this.songDiv.id).fadeIn();
   
-  this.printTune(params);
+  this.printTune(params, alreadyOnPage);
 
-  if (!alreadyOnPage) $("#"+this.songContainerDiv.id).hide();
+//  if (!alreadyOnPage) $("#"+this.songContainerDiv.id).hide();
   
 };
 

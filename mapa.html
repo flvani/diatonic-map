@@ -285,6 +285,7 @@
     <script type="text/javascript" src="map/button.js"></script>
     
     <script type="text/javascript" src="player/player.js"></script>
+    <script type="text/javascript" src="Loader.js"></script>
     
     <script type="text/javascript">
         var myMap;
@@ -341,7 +342,7 @@
                    accordionId: 'GAITA_HOHNER_GC' 
                   //,songTitle:"J'ai vu le loup, le renard et la belette"
                   //,songTitle:"Valsa Sertaneja"
-                  ,songTitle:"Didática do Acordeon G/C"
+                  ,songTitle:"Hino do Grêmio"
                    } );
         }
         
@@ -350,7 +351,7 @@
           $("#content_detalhes").find("[id^='tab']").hide(); // Hide all content
           //$("#contentKeyboard").hide(); 
           
-            MIDI.loader = new widgets.Loader;
+            MIDI.loader = new widgets.Loader();
             MIDI.loadPlugin({
                 soundfontUrl: "./soundfont/"
                //,instruments: "acoustic_grand_piano"
