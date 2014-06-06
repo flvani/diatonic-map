@@ -48,6 +48,27 @@ DIATONIC.play.Player.prototype.reset = function(options) {
     
 };
 
+DIATONIC.play.Player.prototype.waitForKey = function() {
+  var pause = true;
+  while(pause) {
+      $(window.document).bind('keypress', function(e) {if(e.keyCode === 13) pause = false;});
+  }
+};
+
+DIATONIC.play.Player.prototype.pause = function() {
+    var that = this;
+    setTimeout(function() {
+        that.waitForKey();
+    }, 1000);
+};;
+
+DIATONIC.play.Player.prototype.waitForKey2 = function() {
+  var pause = true;
+  while(pause) {
+      $(window.document).bind('keydown', function(e) {if(e.keyCode === 13 && pause ) pause = false;});
+  }
+};
+
 DIATONIC.play.Player.prototype.startDebugPlay = function(control) {
     var i = 0, t = 0;
     while(i< this.playlist.length) {
@@ -56,6 +77,7 @@ DIATONIC.play.Player.prototype.startDebugPlay = function(control) {
             i++;
         }
         t += this.ticksperinterval;
+        this.pause();
     }
 };
 

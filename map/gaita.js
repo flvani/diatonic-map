@@ -303,6 +303,13 @@ DIATONIC.map.Gaita.prototype.playRenderedSong = function(control) {
    } 
 };
 
+DIATONIC.map.Gaita.prototype.didaticPlayRenderedSong = function(control) {
+  if( control.value === "Pausar" ) {
+    this.player.pausePlay();
+   } else {
+     this.player.startDebugPlay(control);
+   } 
+};
 
 
 DIATONIC.map.Gaita.prototype.printTune = function( params, alreadyOnPage ) {

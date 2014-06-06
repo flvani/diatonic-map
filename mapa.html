@@ -138,6 +138,7 @@
                   <input type="button" id="playBtn" value="Executar" />
                   <input type="button" id="stopBtn" value="Parar" />
                   <input type="button" id="editorBtn" value="Editar" />
+                  <input type="button" id="didaticoBtn" value="Passo a passo" />
                 </div>  
             </li>
         </ul>
@@ -293,6 +294,7 @@
         window.addEventListener('load', initApp, false);
         window.editorButton = document.getElementById("editorBtn");
         window.playButton = document.getElementById("playBtn");
+        window.didaticoButton = document.getElementById("didaticoBtn");
         window.stopButton = document.getElementById("stopBtn");
         window.printButton = document.getElementById("printBtn");
         window.closeButton = document.getElementById("closeBtn");
@@ -438,6 +440,11 @@
         playButton.addEventListener("click", function() {
             if( ! myMap.gaita.renderedTune ) return;
             myMap.gaita.playRenderedSong(playButton);
+        }, false);
+        
+        didaticoButton.addEventListener("click", function() {
+            if( ! myMap.gaita.renderedTune ) return;
+            myMap.gaita.didaticPlayRenderedSong(didaticoButton);
         }, false);
         
         stopButton.addEventListener("click", function() {
