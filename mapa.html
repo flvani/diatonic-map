@@ -32,13 +32,25 @@
    
     <div class="navbar navbar-inverse navbar-fixed-top" >
       <div style="background-color:#5ba4a4;">
-        <div class="container" id="divTitulo" style="margin-left: 10px;" >
+        <div class="container" id="divTitulo" style="margin-left: 10px; width: 100%;" >
            <header>
+              <div  style="float: left; width: auto;">
               <table><tr>
-                <td><h1>Mapa para <span>Acordeons Diatônicos</span></h1></td>
+                <td id="DR_title"><h1>DR_title</span></h1></td>
                 <td style="width:5%;"></td>
-                <td><a class="brand" href="#openModal">Sobre</a></td>
+                <td><a class="brand" href="#openModal" id="DR_about" >DR_about</a></td>
               </tr></table>
+              </div>
+              <div  style="float: right; margin-right: 20px; margin-top: 0px;">
+                  <div class="btn-group">
+                    <!--img src="img/brasil_80x80.png"-->
+                    
+                    <!--select id="selIdioma" > </select-->
+                    <button class="btn label dropdown-toggle" data-toggle="dropdown" id="btn_idioma" style="padding: 2px; background-color: white">xxx</button>
+                    <ul class="dropdown-menu" id="opcoes_idioma" style="padding: 1px; min-width: 32px; background-color: white">
+                    </ul>
+                  </div>
+              </div>
 	   </header>
         </div>
       </div>
@@ -147,12 +159,14 @@
                <div id="songDiv" style="display: inline;"> </div>
             </div>    
             <div id="tabAcordesDiv" >
-              <table id="chords_table" class="table table-striped">
-              </table>
+              Em construção...
+              <!--table id="chords_table" class="table table-striped">
+              </table-->
             </div>
             <div id="tabExerciciosDiv" >
-              <table id="baixos_table" class="table table-striped">
-              </table>
+              Em construção...
+              <!--table id="baixos_table" class="table table-striped">
+              </table-->
             </div>
         </div>
       </div>
@@ -288,8 +302,24 @@
     <script type="text/javascript" src="player/player.js"></script>
     <script type="text/javascript" src="Loader.js"></script>
     
+    <script type="text/javascript" src="js/resource.js"></script>
+    
     <script type="text/javascript">
+        
         var myMap;
+        
+        DR_carregaIdiomas();
+        
+        DR_translate( "DR_title" );        
+        DR_translate( "DR_about" );        
+        DR_translate( "tabSongs" );        
+        DR_translate( "tabAcordes" );        
+        DR_translate( "tabExercicios" );        
+        
+        DR_translate( "editorBtn" );        
+        DR_translate( "playBtn" );        
+        DR_translate( "didaticoBtn" );        
+        DR_translate( "stopBtn" );        
         
         window.addEventListener('load', initApp, false);
         window.editorButton = document.getElementById("editorBtn");

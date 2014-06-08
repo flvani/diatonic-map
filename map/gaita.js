@@ -79,7 +79,7 @@ DIATONIC.map.Gaita.prototype.setup = function(accordionParams) {
   
   this.map.setGaitaImage( gaita );
 
-  this.carregaTabelaAcordes(this.map);
+  //this.carregaTabelaAcordes(this.map);
   
   if(!accordionParams.songTitle){
       accordionParams.songTitle = this.getSelectedAccordion().getFirstSong();
