@@ -61,7 +61,6 @@ DIATONIC.map.Map.prototype.isMirror = function() {
     return this.checkboxEspelho.checked;
 };
 
-
 DIATONIC.map.Map.prototype.definePaper = function( div, w, h )  {
   if(this.paper) {
       this.paper.clear();
@@ -109,12 +108,10 @@ DIATONIC.map.Map.prototype.getTxtAfinacao = function() {
   return this.gaita.parseNote( v_afinacao[0] ).key + str_label;
 };
 
-
 DIATONIC.map.Map.prototype.setGaitaImage = function(gaita) {
   this.gaitaImagePlaceHolder.innerHTML = '<img src="'+gaita.getPathToImage()
           +'" alt="'+gaita.getName()+'" style="height:200px; width:200px;" />';
 };
-
 
 DIATONIC.map.Map.prototype.set_pop_tone = function(tone) {
   var nota = this.gaita.parseNote( this.gaita.getSelectedAccordion().getAfinacao()[0] );

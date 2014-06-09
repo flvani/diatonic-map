@@ -12,6 +12,7 @@ if (!window.DR.resource)
 
 DR.language = DR.en_US; 
 DR.resources = [];
+DR.listeneres = [];
 
 function DR_carregaIdiomas() {
     
@@ -34,21 +35,30 @@ function DR_setIdioma( id ) {
       else
         document.getElementById( res ).innerHTML = DR.resource[res][DR.language]; 
     }
+    for( var i = 0; i < DR.listeneres.length; i++) {
+      var res = DR.listeneres[i].res;
+      var f  = DR.listeneres[i].listener;
+      f( DR.resource[res][DR.language] );
+    }
 };
     
-function DR_translate( res ) {
-   DR.resources.push(res); 
-   if(res.indexOf('Btn') >= 0 )
-     document.getElementById( res ).value = DR.resource[res][DR.language]; 
-   else
-     document.getElementById( res ).innerHTML = DR.resource[res][DR.language]; 
+function DR_translate( res, listener ) {
+   if(listener) {
+         DR.listeneres.push({listener:listener, res:res});
+   } else {
+        DR.resources.push(res); 
+        if(res.indexOf('Btn') >= 0 )
+          document.getElementById( res ).value = DR.resource[res][DR.language]; 
+        else
+          document.getElementById( res ).innerHTML = DR.resource[res][DR.language]; 
+   }
 };
 
 DR.resource["image"] = ['<img src="img/brasil_80x80.png" width="32" height="32">','<img src="img/eua_80x80.png" width="32" height="32">'];
-DR.resource["DR_title"] = ['<h1>Mapa para <span>Acordeons Diatônicos</span></h1>', '<h1><span>Diatonic Accordion</span> Map</h1>'];
+DR.resource["DR_title"] = ['<h1>Mapa para <span>Acordeons Diatônicos</span></h1>', '<h1><span>Diatonic Accordions\'</span> Map</h1>'];
 DR.resource["DR_about"] = ['Sobre', 'About'];
 DR.resource["DR_push"]  = ['Fecha', 'Push'];
-DR.resource["DR_draw"]  = ['Abre' , 'Draw'];
+DR.resource["DR_pull"]  = ['Abre' , 'Pull'];
 DR.resource["tabSongs"] = ['Músicas', 'Songs'];
 DR.resource["tabAcordes"] = ['Acordes', 'Chords'];
 DR.resource["tabExercicios"] = ['Exercícios', 'Practices'];

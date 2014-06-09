@@ -155,12 +155,17 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
   var paper = this.map.definePaper(this.keyboardContentDiv, nWidth, nHeight );
 
   // desenha o botão de legenda  
-  var legenda = new DIATONIC.map.Button( paper, xi, yi, 'Abre', 'Fecha', 
+  var legenda = new DIATONIC.map.Button( paper, xi, yi, DR.resource["DR_pull"][DR.language], DR.resource["DR_push"][DR.language], 
                 { radius:36, pedal: true, fontsize:14, xLabel: 0
                  ,textAnchor:'middle', color: '#828282'} );
+             
   legenda.draw();
   legenda.setOpen();
   legenda.setClose();
+  
+  // COMO TRATAR ISSO?
+  //DR_translate( "DR_pull", legenda.setTextOpen  );
+  //DR_translate( "DR_push", legenda.setTextClose  );
   
     if( bHorizontal ) {
       if( bEspelho ) {
@@ -385,7 +390,8 @@ DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage
 };
 
 DIATONIC.map.Gaita.prototype.transporta = function(nota) {
-
+  if(! nota) return;
+  
   var note = (nota.value + this.map.toneOffSet) % 12;
 
   nota.octave = (nota.value + this.map.toneOffSet - 12) / 12 >> 0;
@@ -617,21 +623,7 @@ DIATONIC.map.Gaita.prototype.selectButton = function(dir, button) {
 DIATONIC.map.Gaita.prototype.setButtonText = function (p_button) {
    this.transporta( p_button.notaOpen );
    this.transporta( p_button.notaClose );
-
    p_button.btn.setTextOpen( p_button.notaOpen.key + (p_button.notaOpen.isMinor?'-':'')  );
-   //p_button.notaOpen.labels.compl.setText( p_button.notaOpen.complement );
-   //p_button.notaOpen.labels.octave.setText( p_button.notaOpen.isBass ? '' : p_button.notaOpen.octave );
-
-   //p_button.notaOpen.labels.key.offsetX( p_button.notaOpen.labels.compl.getTextWidth()/2 + p_button.notaOpen.labels.octave.getTextWidth()/2 );
-   //p_button.notaOpen.labels.compl.offsetX( -p_button.notaOpen.labels.key.getTextWidth()/2 + p_button.notaOpen.labels.octave.getTextWidth()/2 );
-   //p_button.notaOpen.labels.octave.offsetX( -p_button.notaOpen.labels.key.getTextWidth()/2 - p_button.notaOpen.labels.compl.getTextWidth()/2 );
- 
    p_button.btn.setTextClose( p_button.notaClose.key + (p_button.notaClose.isMinor?'-':'')  );
-   //p_button.notaClose.labels.compl.setText( p_button.notaClose.complement );
-   //p_button.notaClose.labels.octave.setText( p_button.notaClose.isBass ? '' : p_button.notaClose.octave );
-
-   //p_button.notaClose.labels.key.offsetX( p_button.notaClose.labels.compl.getTextWidth()/2 + p_button.notaClose.labels.octave.getTextWidth()/2  );
-   //p_button.notaClose.labels.compl.offsetX( -p_button.notaClose.labels.key.getTextWidth()/2 + p_button.notaClose.labels.octave.getTextWidth()/2 );
-   //p_button.notaClose.labels.octave.offsetX( -p_button.notaClose.labels.key.getTextWidth()/2 - p_button.notaClose.labels.compl.getTextWidth()/2 );
 
 };
