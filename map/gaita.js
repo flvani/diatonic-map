@@ -92,6 +92,11 @@ DIATONIC.map.Gaita.prototype.setup = function(accordionParams) {
 };
 
 
+DIATONIC.map.Gaita.prototype.translate = function() {
+  this.keyboard.legenda.setTextOpen( DR.resource["DR_pull"][DR.language]);
+  this.keyboard.legenda.setTextClose( DR.resource["DR_push"][DR.language]);
+};
+
 DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
 
   var nHeight,nWidth,bassX,trebleX,bassY,trebleY,xi,yi,xxi,yyi;
@@ -155,27 +160,23 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
   var paper = this.map.definePaper(this.keyboardContentDiv, nWidth, nHeight );
 
   // desenha o botão de legenda  
-  var legenda = new DIATONIC.map.Button( paper, xi, yi, DR.resource["DR_pull"][DR.language], DR.resource["DR_push"][DR.language], 
-                { radius:36, pedal: true, fontsize:14, xLabel: 0
-                 ,textAnchor:'middle', color: '#828282'} );
+  this.keyboard.legenda = new DIATONIC.map.Button( 
+          paper, xi, yi, DR.resource["DR_pull"][DR.language], DR.resource["DR_push"][DR.language], 
+             { radius:36, pedal: true, fontsize:14, xLabel: 0,textAnchor:'middle', color: '#828282'} );
              
-  legenda.draw();
-  legenda.setOpen();
-  legenda.setClose();
-  
-  // COMO TRATAR ISSO?
-  //DR_translate( "DR_pull", legenda.setTextOpen  );
-  //DR_translate( "DR_push", legenda.setTextClose  );
+  this.keyboard.legenda.draw();
+  this.keyboard.legenda.setOpen();
+  this.keyboard.legenda.setClose();
   
     if( bHorizontal ) {
       if( bEspelho ) {
-        legenda.drawLine(xi+ 0,yi-70,xi+420,yi-70);
-        legenda.drawLine(xi+ 0,yi-80,xi+420,yi-80);
-        legenda.drawLine(xi+ 0,yi-90,xi+420,yi-90);
+        this.keyboard.legenda.drawLine(xi+ 0,yi-70,xi+420,yi-70);
+        this.keyboard.legenda.drawLine(xi+ 0,yi-80,xi+420,yi-80);
+        this.keyboard.legenda.drawLine(xi+ 0,yi-90,xi+420,yi-90);
       } else {
-        legenda.drawLine(xi+ 0,yi+70,xi+420,yi+70);
-        legenda.drawLine(xi+ 0,yi+80,xi+420,yi+80);
-        legenda.drawLine(xi+ 0,yi+90,xi+420,yi+90);
+        this.keyboard.legenda.drawLine(xi+ 0,yi+70,xi+420,yi+70);
+        this.keyboard.legenda.drawLine(xi+ 0,yi+80,xi+420,yi+80);
+        this.keyboard.legenda.drawLine(xi+ 0,yi+90,xi+420,yi+90);
       }
    } else {
       if( bEspelho ) {
@@ -301,7 +302,7 @@ DIATONIC.map.Gaita.prototype.stopRenderedSong = function(control) {
 };
 
 DIATONIC.map.Gaita.prototype.playRenderedSong = function(control) {
-  if( control.value === "Pausar" ) {
+  if( control.value === DR.resource["DR_pause"][DR.language] ) {
     this.player.pausePlay();
    } else {
      this.player.startPlay(control);
@@ -309,7 +310,7 @@ DIATONIC.map.Gaita.prototype.playRenderedSong = function(control) {
 };
 
 DIATONIC.map.Gaita.prototype.didaticPlayRenderedSong = function(control) {
-  if( control.value === "Pausar" ) {
+  if( control.value === DR.resource["DR_pause"][DR.language] ) {
     this.player.pausePlay();
    } else {
      this.player.startDebugPlay(control);

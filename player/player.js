@@ -141,7 +141,7 @@ DIATONIC.play.Player.prototype.startPlay = function(control) {
 
     this.playing = true;
     this.playLink = control;
-    this.playLink.value = "Pausar";
+    this.playLink.value = DR.resource["DR_pause"][DR.language];
     
     var self = this;
     this.doPlay();
@@ -154,7 +154,7 @@ DIATONIC.play.Player.prototype.stopPlay = function() {
     this.i = 0;
     this.currenttime = 0;
     this.pausePlay();
-    this.playLink.value = "Executar";
+    this.playLink.value = DR.resource["playBtn"][DR.language];
     this.clearSelection();
     this.map.gaita.clearKeyboard(true);
 };
@@ -162,7 +162,7 @@ DIATONIC.play.Player.prototype.stopPlay = function() {
 DIATONIC.play.Player.prototype.pausePlay = function() {
     MIDI.stopAllNotes();
     window.clearInterval(this.playinterval);
-    this.playLink.value = "Executar";
+    this.playLink.value = DR.resource["playBtn"][DR.language];
     this.playing = false;
     //this.clearSelection();
     //this.map.gaita.clearKeyboard(true);

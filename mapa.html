@@ -10,7 +10,7 @@
     <!-- Estilos para a página e popups -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/gaitas.css" rel="stylesheet">
-
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png">
   </head>
   <body>
       
@@ -36,9 +36,9 @@
            <header>
               <div  style="float: left; width: auto;">
               <table><tr>
-                <td id="DR_title"><h1>DR_title</span></h1></td>
+                <td id="DR_title"><h1>Mapa para <span>Acordeons Diatônicos</span></h1></td>
                 <td style="width:5%;"></td>
-                <td><a class="brand" href="#openModal" id="DR_about" >DR_about</a></td>
+                <td><a class="brand" href="#openModal" id="DR_about" >Sobre</a></td>
               </tr></table>
               </div>
               <div  style="float: right; margin-right: 20px; margin-top: 0px;">
@@ -63,15 +63,15 @@
               <tr >
                 <td >
                   <div class="btn-group">
-                    <button class="btn label dropdown-toggle" data-toggle="dropdown">Acordeons&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                      <button class="btn label dropdown-toggle" data-toggle="dropdown"><span id="DR_acordeons">Acordeons</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
                     <ul class="dropdown-menu" id="opcoes_gaita"></ul>
                   </div>
                 </td >
                 <td >
-                  <button id="change_labels" class="btn label"><i class="icon-globe icon-white"></i>&nbsp;Trocar Símbolos</button>
+                    <button id="change_labels" class="btn label"><i class="icon-globe icon-white"></i>&nbsp;<span id="DR_chlabel">Mudar notação</span></button>
                 </td >
                 <td >
-                  <a class="brand" href="#teoria"><button id="x" class="btn label" disabled>&nbsp;Teoria</button></a>
+                    <a class="brand" href="#teoria"><button id="x" class="btn label" disabled>&nbsp;<span id="DR_teoria">Teoria</span></button></a>
                 </td >
                 <!--td >
                   <div class="btn-group">
@@ -103,9 +103,10 @@
                           <input type="checkbox" id="checkboxPiano">&nbsp;Piano
                       </td-->
                       <td >
-                          <b>Layout:</b>&nbsp;
-                          <input type="checkbox" id="checkboxHorizontal" checked >&nbsp;Horizontal&nbsp;&nbsp;&nbsp;&nbsp;
-                          <input type="checkbox" id="checkboxEspelho">&nbsp;Espelho
+                          &nbsp;<b id="DR_layout">Layout:</b>&nbsp;&nbsp;
+                          <input type="checkbox" id="checkboxHorizontal" checked >&nbsp;<span id="DR_horizontal">Horizontal</span>
+                          &nbsp;&nbsp;
+                          <input type="checkbox" id="checkboxEspelho">&nbsp;<span id="DR_espelho">Espelho</span>&nbsp;
                       </td >
                     </tr>
                   </table>
@@ -115,13 +116,13 @@
         <div id="divContent"> 
           <div id="contentKeyboard" style="width: auto; float: left;" ></div>
           <div id="contentInfo" style=" float: right; margin-top: 15px; margin-right: 15px;">
-              <table class="table table-bordered table-final" >
+              <table class="table table-bordered table-final" style="min-width: 220px;">
               <tr>
                 <td colspan="2" style="height:200px;" id="td_imagem_gaita" >
                     <b>Loading...</b>
                 </td>
               </tr>
-              <!tr>
+              <!--tr>
                 <td style="vertical-align: middle;">&nbsp;Acorde Atual</td>
                 <td>
                   &nbsp;<span class="label" id="acordeAtualVazio">--
@@ -133,7 +134,7 @@
                       <i id="fecha_fole" class="icon-resize-small icon-white"></i>
                   </span>
                 </td>
-              </tr>
+              </tr-->
             </table>
           </div>
         </div>
@@ -150,7 +151,7 @@
                   <input type="button" id="playBtn" value="Executar" />
                   <input type="button" id="stopBtn" value="Parar" />
                   <input type="button" id="editorBtn" value="Editar" />
-                  <input type="button" id="didaticoBtn" value="Passo a passo" />
+                  <input type="button" id="didaticoBtn" value="Passo a passo" disabled />
                 </div>  
             </li>
         </ul>
@@ -173,21 +174,20 @@
 
     </div> <!-- /container -->
 
-    <div id="divEditor" style="float:left; display:none; padding-left: 0px; height: 95%;">
+    <div id="divEditor" style="float:left; display:none; padding-left: 0px; height: 95%; width:100%">
         <div id="editControlDiv" style="margin-top:0px; margin-left:20px;">  
-            <div id="divEditArea" class="span12" style="margin-top:12px; margin-left:0px;">
-                <textarea id="textareaABC" rows="10" style="width: 98%; color: #000; font-family: monospace"></textarea>
+            <div id="divEditArea" class="span12" style="margin-top:12px; margin-left:0px;width: 96%;">
+                <textarea id="textareaABC" rows="10" style="width: 100%; color: #000; font-family: monospace"></textarea>
                 <select id="selGaitas" > </select>
                 <select id="selKey" ></select>
-                <input type="submit" id="maisOitava" value="+ Oitava" onclick="javascript:doTranspose(12);" />
-                <!--input type="submit" id="maisMeioTom" value="+ 1/2 Tom" onclick="javascript:doTranspose(1);" />
-                <input type="submit"  id="nenosMeioTom" value="- 1/2 Tom" onclick="javascript:doTranspose(-1);" /-->
-                <input type="submit" id="menosOitava" value="- Oitava" onclick="javascript:doTranspose(-12);" />
-                <input type="button" id="printBtn" value="Print Preview" />
-                <input type="button" id="closeBtn" value="Close" />
-                <input type="submit" id="forceRefresh" value="Refresh" onclick="javascript:doForceRefresh();" />
-                <input type="checkbox" id="chkAutoRefresh" />Auto refresh 
-                <input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" />Debug
+                <input type="submit" id="octaveUpBtn" value="+ Oitava" onclick="javascript:doTranspose(12);" />
+                <input type="submit" id="octaveDwBtn" value="- Oitava" onclick="javascript:doTranspose(-12);" />
+                <input type="button" id="printBtn" value="Ver impressão" />
+                <input type="button" id="saveBtn" value="Salvar Local" disabled />
+                <input type="button" id="closeBtn" value="Fechar" />
+                <input type="submit" id="forceRefresh" value="Atualizar" onclick="javascript:doForceRefresh();" />
+                <input type="checkbox" id="chkAutoRefresh" /><span id="DR_refresh">Auto atualização</span> 
+                <input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span>
             </div>
             <div id="warnings" class="span12" style="margin-top:6px; margin-left:0px;"></div>
             <div id="midi" class="span12" style="margin-top:6px; margin-left:0px;"></div>
@@ -310,17 +310,34 @@
         
         DR_carregaIdiomas();
         
-        DR_translate( "DR_title" );        
-        DR_translate( "DR_about" );        
-        DR_translate( "tabSongs" );        
-        DR_translate( "tabAcordes" );        
-        DR_translate( "tabExercicios" );        
+        DR_register( "DR_title" );        
+        DR_register( "DR_about" );        
+        DR_register( "tabSongs" );        
+        DR_register( "tabAcordes" );        
+        DR_register( "tabExercicios" );        
         
-        DR_translate( "editorBtn" );        
-        DR_translate( "playBtn" );        
-        DR_translate( "didaticoBtn" );        
-        DR_translate( "stopBtn" );        
-        
+        DR_register( "editorBtn" );        
+        DR_register( "playBtn" );        
+        DR_register( "didaticoBtn" );        
+        DR_register( "stopBtn" );        
+
+        DR_register("DR_layout")
+        DR_register("DR_espelho");
+        DR_register("DR_horizontal");
+        DR_register("DR_acordeons");
+        DR_register("DR_chlabel");
+        DR_register("DR_teoria");
+
+        DR_register("octaveUpBtn");
+        DR_register("octaveDwBtn");
+        DR_register("printBtn");
+        DR_register("saveBtn");
+        DR_register("closeBtn");
+        DR_register("forceRefresh");
+        DR_register("DR_refresh");
+        DR_register("DR_debug");
+
+    
         window.addEventListener('load', initApp, false);
         window.editorButton = document.getElementById("editorBtn");
         window.playButton = document.getElementById("playBtn");

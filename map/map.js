@@ -41,6 +41,8 @@ DIATONIC.map.Map = function( editor, interfaceParams ) {
 
     this.gaita = new DIATONIC.map.Gaita(this, interfaceParams.accordionParams);
 
+    DR_register( this.gaita );
+
     var that = this;
     
     this.checkboxHorizontal.addEventListener('click', function() {

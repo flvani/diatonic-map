@@ -11,8 +11,7 @@ if (!window.DR.resource)
     window.DR.resource =  { };
 
 DR.language = DR.en_US; 
-DR.resources = [];
-DR.listeneres = [];
+DR.agents = [];
 
 function DR_carregaIdiomas() {
     
@@ -23,35 +22,29 @@ function DR_carregaIdiomas() {
  
 };
 
-
-function DR_setIdioma( id ) {
+function DR_setIdioma(id) {
     DR.language = id;
-    var ed = document.getElementById( 'btn_idioma' );
+
+    var ed = document.getElementById('btn_idioma');
     ed.innerHTML = DR.resource["image"][DR.language];
-    for( var i = 0; i < DR.resources.length; i++) {
-      var res = DR.resources[i];
-      if(res.indexOf('Btn') >= 0 )
-        document.getElementById( res ).value = DR.resource[res][DR.language]; 
-      else
-        document.getElementById( res ).innerHTML = DR.resource[res][DR.language]; 
-    }
-    for( var i = 0; i < DR.listeneres.length; i++) {
-      var res = DR.listeneres[i].res;
-      var f  = DR.listeneres[i].listener;
-      f( DR.resource[res][DR.language] );
+
+    for (var i = 0; i < DR.agents.length; i++) {
+        var agent = DR.agents[i];
+        if (typeof (agent) === 'object') {
+            agent.translate();
+        } else {
+            var res = document.getElementById(agent);
+            if (res.value) {
+                res.value = DR.resource[agent][DR.language];
+            } else {
+                res.innerHTML = DR.resource[agent][DR.language];
+            }
+        }
     }
 };
-    
-function DR_translate( res, listener ) {
-   if(listener) {
-         DR.listeneres.push({listener:listener, res:res});
-   } else {
-        DR.resources.push(res); 
-        if(res.indexOf('Btn') >= 0 )
-          document.getElementById( res ).value = DR.resource[res][DR.language]; 
-        else
-          document.getElementById( res ).innerHTML = DR.resource[res][DR.language]; 
-   }
+
+function DR_register(res) {
+    DR.agents.push(res);
 };
 
 DR.resource["image"] = ['<img src="img/brasil_80x80.png" width="32" height="32">','<img src="img/eua_80x80.png" width="32" height="32">'];
@@ -67,5 +60,17 @@ DR.resource["stopBtn"] = ['Parar', 'Stop'];
 DR.resource["editorBtn"] = ['Editar', 'Edit'];
 DR.resource["didaticoBtn"] = ['Passo a passo', 'Step by step'];
 DR.resource["DR_pause"] = ['Pausar', 'Pause'];
+DR.resource["DR_layout"] = ['Layout:', 'Layout:'];
+DR.resource["DR_espelho"] = ['Espelho', 'Mirrored'];
+DR.resource["DR_horizontal"] = ['Horizontal', 'Horizontal'];
+DR.resource["DR_acordeons"] = ['Acordeons', 'Accordions'];
 DR.resource["DR_chlabel"] = ['Mudar Notação', 'Change Notation'];
-
+DR.resource["DR_teoria"] = ['Teoria', 'Theory'];
+DR.resource["octaveUpBtn"] = ['+ Oitava', '+ Octave'];
+DR.resource["octaveDwBtn"] = ['- Oitava', '- Octave'];
+DR.resource["printBtn"] = ['Ver impressão', 'Print preview'];
+DR.resource["saveBtn"] = ['Salvar local', 'Local save'];
+DR.resource["closeBtn"] = ['Fechar', 'Close'];
+DR.resource["forceRefresh"] = ['Atualizar', 'Refresh'];
+DR.resource["DR_refresh"] = ['Auto atualização', 'Auto refresh'];
+DR.resource["DR_debug"] = ['Depurar', 'Debug'];
