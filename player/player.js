@@ -10,12 +10,13 @@ if (!window.DIATONIC)
 if (!window.DIATONIC.play)
     window.DIATONIC.play = {};
 
-DIATONIC.play.Player = function(map, container, options ) {
+DIATONIC.play.Player = function(map, container, playButton, options ) {
 
     this.map = map;
     this.scale = [0, 2, 4, 5, 7, 9, 11];
     this.reset( options );
     this.tuneContainer = document.getElementById(container);
+    this.playLink = playButton;
 
 };
 
@@ -48,39 +49,60 @@ DIATONIC.play.Player.prototype.reset = function(options) {
     
 };
 
-DIATONIC.play.Player.prototype.waitForKey = function() {
-  var pause = true;
-  while(pause) {
-      $(window.document).bind('keypress', function(e) {if(e.keyCode === 13) pause = false;});
-  }
+DIATONIC.play.Player.prototype.keydownHandler = function (e) {
+  this.pressed = true;
+  this.key = e.keyCode;
 };
 
-DIATONIC.play.Player.prototype.pause = function() {
+DIATONIC.play.Player.prototype.mousedownHandler = function () {
+  this.key = 'mousedown';
+  this.pressed = true;
+};
+
+DIATONIC.play.Player.prototype.startDebugPlay = function(container) {
     var that = this;
-    setTimeout(function() {
-        that.waitForKey();
-    }, 1000);
-};;
+    if(!this.playing){
+      this.key = '';
+      this.pressed = false;
+      this.i = 0;
+      this.t = 0;
+      this.playing = true;
+    }
+    // register your handler method for the keydown event
+//    console.log('retrying');
+    //container.addEventListener('keydown', that.keydownHandler, false);
+    //container.addEventListener('mousedown', that.mousedownHandler, false);
+    this.doDebugPlay(container);
+};
 
-DIATONIC.play.Player.prototype.waitForKey2 = function() {
-  var pause = true;
-  while(pause) {
-      $(window.document).bind('keydown', function(e) {if(e.keyCode === 13 && pause ) pause = false;});
+DIATONIC.play.Player.prototype.doDebugPlay = function(container) {
+    var that = this;
+    this.pressed = false;
+    while(this.i < this.playlist.length && this.t >= this.playlist[this.i].time) {
+        this.playlist[this.i].funct();
+        this.i++;
+    }
+    this.t = this.playlist[this.i].time;
+    setTimeout(that.waitForIt(container),1);
+};
+
+
+DIATONIC.play.Player.prototype.waitForIt = function(container) {
+  var that = this;
+  if (!this.pressed && this.key !== 27 ) {
+    setTimeout(that.waitForIt,1);
+  } else {
+    if(this.key !== 27 && this.i < this.playlist.length) {
+      this.doDebugPlay(); 
+    } else {
+        //console.log('saindo');
+        this.playing = false;
+        // unregister your handler method for the keydown event
+        //container.removeEventListener('keydown', that.keydownHandler, false);
+        //container.removeEventListener('mousedown', that.mousedownHandler, false);
+    }
   }
 };
-
-DIATONIC.play.Player.prototype.startDebugPlay = function(control) {
-    var i = 0, t = 0;
-    while(i< this.playlist.length) {
-        while(i < this.playlist.length && t >= this.playlist[i].time) {
-            this.playlist[i].funct();
-            i++;
-        }
-        t += this.ticksperinterval;
-        this.pause();
-    }
-};
-
 
 DIATONIC.play.Player.prototype.parseTabSong = function(tune) {
     var bpm = 108.0;
@@ -135,14 +157,14 @@ DIATONIC.play.Player.prototype.doPlay = function() {
     }
 };
 
-DIATONIC.play.Player.prototype.startPlay = function(control) {
+DIATONIC.play.Player.prototype.startPlay = function() {
     this.ypos = this.tuneContainer.scrollTop + 70;
     this.map.gaita.clearKeyboard();
 
     this.playing = true;
-    this.playLink = control;
+    //this.playLink = control;
     this.playLink.value = DR.resource["DR_pause"][DR.language];
-    
+  
     var self = this;
     this.doPlay();
     this.playinterval = window.setInterval(function() {

@@ -151,7 +151,7 @@
                   <input type="button" id="playBtn" value="Executar" />
                   <input type="button" id="stopBtn" value="Parar" />
                   <input type="button" id="editorBtn" value="Editar" />
-                  <input type="button" id="didaticoBtn" value="Passo a passo" disabled />
+                  <input type="button" id="didaticoBtn" value="Passo a passo" />
                 </div>  
             </li>
         </ul>
@@ -281,7 +281,7 @@
     <script type="text/javascript" src="abcjs/abcjs_tabeditor_2.03-min.js" ></script>
 
     <!-- suporte a MIDI -->
-    <script type="text/javascript" src="MIDI.js/MIDI_2.01-min.js"></script>
+    <script type="text/javascript" src="MIDI.js/MIDI_2.02-min.js"></script>
     
     <!-- modelos de gaitas disponíveis -->
     <!-- diatonic accordion map -->
@@ -300,7 +300,6 @@
     <script type="text/javascript" src="map/button.js"></script>
     
     <script type="text/javascript" src="player/player.js"></script>
-    <script type="text/javascript" src="Loader.js"></script>
     
     <script type="text/javascript" src="js/resource.js"></script>
     
@@ -377,7 +376,9 @@
                         ,songContainerDiv: 'tabSongsDiv'
                         ,keyboardContentDiv: 'contentKeyboard'
                         ,tabContentDiv: 'content_detalhes'
-                        ,songSelector: 'selSongs' 
+                        ,songSelector: 'selSongs'
+                        ,playButton: window.playButton
+                        
                       }
                     } 
                  );

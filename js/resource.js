@@ -74,3 +74,4 @@ DR.resource["closeBtn"] = ['Fechar', 'Close'];
 DR.resource["forceRefresh"] = ['Atualizar', 'Refresh'];
 DR.resource["DR_refresh"] = ['Auto atualização', 'Auto refresh'];
 DR.resource["DR_debug"] = ['Depurar', 'Debug'];
+DR.resource["DR_wait"] = ['Aguarde...', 'Wait...'];

@@ -33,7 +33,7 @@ DIATONIC.map.Gaita = function(map, interfaceParams ) {
     this.keyboardContentDiv = document.getElementById(interfaceParams.keyboardContentDiv);
     this.songSelector = document.getElementById(interfaceParams.songSelector);
     
-    this.player = new DIATONIC.play.Player(this.map, interfaceParams.tabContentDiv);
+    this.player = new DIATONIC.play.Player(this.map, interfaceParams.tabContentDiv, interfaceParams.playButton);
 
     if (window.DIATONIC.map.models.length > 0) {
         this.accordions = window.DIATONIC.map.models;
@@ -297,74 +297,73 @@ DIATONIC.map.Gaita.prototype.loadSongList = function(tt) {
     
 };
 
-DIATONIC.map.Gaita.prototype.stopRenderedSong = function(control) {
+DIATONIC.map.Gaita.prototype.stopRenderedSong = function() {
     this.player.stopPlay();
 };
 
-DIATONIC.map.Gaita.prototype.playRenderedSong = function(control) {
-  if( control.value === DR.resource["DR_pause"][DR.language] ) {
+DIATONIC.map.Gaita.prototype.playRenderedSong = function() {
+  if( this.player.playing ) {
     this.player.pausePlay();
    } else {
-     this.player.startPlay(control);
+     this.player.startPlay();
    } 
 };
 
-DIATONIC.map.Gaita.prototype.didaticPlayRenderedSong = function(control) {
-  if( control.value === DR.resource["DR_pause"][DR.language] ) {
-    this.player.pausePlay();
-   } else {
-     this.player.startDebugPlay(control);
-   } 
+DIATONIC.map.Gaita.prototype.didaticPlayRenderedSong = function() {
+  this.player.startDebugPlay();
 };
 
+DIATONIC.map.Gaita.prototype.printTune = function(params, alreadyOnPage) {
 
-DIATONIC.map.Gaita.prototype.printTune = function( params, alreadyOnPage ) {
-    
     alreadyOnPage = alreadyOnPage || true;
-    
-    if(this.paper) {
-       this.paper.clear();
-       this.paper.height = 300;
+
+    if (this.paper) {
+        this.paper.clear();
+        this.paper.height = 300;
     } else {
-      this.paper = Raphael(this.songDiv, 700, 400);
+        this.paper = Raphael(this.songDiv, 700, 400);
     }
-    
-    
-	var loader = new myWidget.Loader({
-		id: "songLoader",
-		bars: 0,
-		radius: 0,
-		lineWidth: 20,
-		lineHeight: 70,
-		timeout: 1, // maximum timeout in seconds.
-		background: "rgba(0,0,0,0.5)",
-		container: this.songContainerDiv,
-		oncomplete: function() {
-			// call function once loader has completed
-		},
-		onstart: function() {
-			// call function once loader has started	
-		}
-	});
-        
+
+
+    var loader = new window.widgets.Loader({
+        id: "songLoader",
+        bars: 0,
+        radius: 0,
+        lineWidth: 20,
+        lineHeight: 70,
+        timeout: 1, // maximum timeout in seconds.
+        background: "rgba(0,0,0,0.5)",
+        container: this.songContainerDiv,
+        oncomplete: function() {
+            // call function once loader has completed
+        },
+        onstart: function() {
+            // call function once loader has started	
+        }
+    });
+
     //var d = new Date();
     //console.log(d.getMilliseconds());
-    this.map.editor.parseABC(0, "force" );
+    this.map.editor.parseABC(0, "force");
     //console.log(d.getMilliseconds());
     //loader.update(null, "Wait...");
     this.renderedTune = this.map.editor.tunes[0];
-    this.printer = new ABCJS.write.Printer(this.paper, params || {} );// TODO: handle printer params
-    if(this.songContainerDiv)$("#"+this.songContainerDiv.id).fadeIn();
-    $("#"+this.songDiv.id).fadeIn();
-    this.printer.printABC(this.renderedTune, loader);
-    $("#"+this.songDiv.id).hide();
+    this.printer = new ABCJS.write.Printer(this.paper, params || {});// TODO: handle printer params
+    if (this.songContainerDiv)
+        $("#" + this.songContainerDiv.id).fadeIn();
+    $("#" + this.songDiv.id).fadeIn();
+        loader.update( null, DR.resource["DR_wait"][DR.language] );
+
+    this.printer.printABC(this.renderedTune);
+    $("#" + this.songDiv.id).hide();
     //loader.update(null,"Generating MIDI...",95);
     this.player.parseTabSong(this.renderedTune);
     //console.log(d.getMilliseconds());
     //loader.update(null,"Printing","...");
     loader.stop();
-    $("#"+this.songDiv.id).fadeIn();
-    if (!alreadyOnPage) $("#"+this.songContainerDiv.id).hide();
+    $("#" + this.songDiv.id).fadeIn();
+    if (!alreadyOnPage)
+        $("#" + this.songContainerDiv.id).hide();
 };
 
 DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage ) {
