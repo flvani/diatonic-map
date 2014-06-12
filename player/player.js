@@ -17,14 +17,14 @@ DIATONIC.play.Player = function(map, container, playButton, options ) {
     this.reset( options );
     this.tuneContainer = document.getElementById(container);
     this.playLink = playButton;
-
+    this.startTieElem= {};
 };
 
 DIATONIC.play.Player.prototype.reset = function(options) {
     
     options = options || {};
     
-    this.startTieElem = [];
+tTieElem = [];
     this.lastTabElem = [];
     this.trackcount = 0;
     this.timecount = 0;
@@ -553,8 +553,9 @@ DIATONIC.play.Player.prototype.writeNote = function(elem) {
             } else if (note.endTie) {
                 this.selectNote(elem, this.timecount);
                 this.unSelectNote(elem, this.timecount + mididuration);
-                this.endNote(midipitch, this.startTieElem[midipitch], this.timecount + mididuration );
-                delete this.startTieElem[midipitch];
+                this.endTies( midipitch, mididuration );
+                //this.endNote(midipitch, this.startTieElem[midipitch], this.timecount + mididuration );
+                //delete this.startTieElem[midipitch];
             } else {
                 this.startNote(midipitch, 256, elem, this.timecount);
                 this.endNote(midipitch, elem, this.timecount + mididuration);
@@ -572,6 +573,22 @@ DIATONIC.play.Player.prototype.writeNote = function(elem) {
         this.multiplier = 1;
     }
 
+};
+
+DIATONIC.play.Player.prototype.endTies = function(midipitch, mididuration ) {
+    var dur = mididuration || 0;
+    if( midipitch ) {
+       this.unSelectNote(this.startTieElem[midipitch], this.timecount + dur);
+       this.endNote(midipitch, this.startTieElem[midipitch], this.timecount + dur );
+       delete this.startTieElem[midipitch];
+    } else {
+        for (var index in this.startTieElem) {
+            var elem = this.startTieElem[index];
+            this.unSelectNote( elem, this.timecount);
+            this.endNote(index, elem, this.timecount);
+        }
+        this.startTieElem = {};
+    }
 };
 
 DIATONIC.play.Player.prototype.handleBar = function(elem) {
@@ -592,6 +609,7 @@ DIATONIC.play.Player.prototype.handleBar = function(elem) {
 
         if (skip || repeat) {
             if (this.visited[this.lastmark] === true) {
+                this.endTies();
                 this.setJumpMark(this.getMark());
             }
         }
@@ -602,6 +620,7 @@ DIATONIC.play.Player.prototype.handleBar = function(elem) {
 
         if (repeat) {
             next = this.restart;
+            this.endTies();
             this.setJumpMark(this.getMark());
         }
     }
