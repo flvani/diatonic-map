@@ -112,6 +112,7 @@ DIATONIC.tmp.scales = [
 
 DIATONIC.tmp.songs = [
     'songs/jai.abcx'
+   ,'songs/mercedita.abcx'
    ,'songs/primeira.valsinha.abcx'
    ,'songs/valsa.abcx'
    ,'songs/didatica.abcx'
