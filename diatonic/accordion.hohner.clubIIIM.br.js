@@ -167,10 +167,10 @@ DIATONIC.tmp.scales =[
      ];
      
 DIATONIC.tmp.songs = [
-     'songs/jai.c.abcx'
-    ,'songs/maitia.c.abcx'
-    ,'songs/valsa.f.abcx'
-    ,'songs/hg.club.abcx'
+     'songs/jai.vu.le.loup.club.abcx'
+    ,'songs/maitia.nun.zira.club.abcx'
+    ,'songs/valsa.sertaneja.club.abcx'
+    ,'songs/hino.do.gremio.club.abcx'
 ];
 
 DIATONIC.map.models[DIATONIC.map.models.length] = new DIATONIC.map.Accordion(
