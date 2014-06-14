@@ -2,19 +2,20 @@
 X:1
 T:Mercedita
 C:Ramón Sixto Rios
+Q:160
 L:1/8
 M:3/4
 V:Melodia
 K:C treble
-|A2 ce [fa] [eg] |: [d2f2] [eg][df]- [df][eg] | [d2f2] [eg][fa]- [fa][df] | [c2e2] [df] [ce]-[ce] [df] |
-| [c2e2] [df][eg]- [eg][ce] | [B2d2] [ce][Bd]- [Bd][ce] | [B2d2] [ce][df]- [df][Bd] |1 [c6e6] | z A ce [fa] [eg] :|
-|: [Ac] z [ce][df] z [df] | [ce] z [ce] [df] z [ce]  | [Bd] z [Bd] [ce] z [ce] |
-| [Bd] z [Bd] [ce] z [Bd] | [ce] z [ce] [df] z [df] | [ce] z [ce] [df] z [df] | [B2e2^g2] [Beg][Adf]- [Adf][Adf] |
-| [G2c2e2] [=Gce] [^Gce]-[Gce] [Gce] |1 [Ac] z [ce][df] z [df] :|2 [G6c6e6] |   
+|A,2 CE [FA] [EG] |: [D2F2] [EG][DF]- [DF][EG] | [D2F2] [EG][FA]- [FA][DF] | [C2E2] [DF] [CE]-[CE] [DF] |
+| [C2E2] [DF][EG]- [EG][CE] | [B,2D2] [CE][B,D]- [B,D][CE] | [B,2D2] [CE][DF]- [DF][B,D] |1 [C6E6] | z A, CE [FA] [EG] :|
+|: [A,C] z [CE][DF] z [DF] | [CE] z [CE] [DF] z [CE]  | [B,D] z [B,D] [CE] z [CE] |
+| [B,D] z [B,D] [CE] z [B,D] | [CE] z [CE] [DF] z [DF] | [CE] z [CE] [DF] z [DF] | [B,2E2^G2] [B,EG][A,DF]- [A,DF][A,DF] |
+| [G,2C2E2] [G,CE] [^G,CE]-[G,CE] [G,CE] |1 [A,C] z [CE][DF] z [DF] :|2 [G,6C6E6] |
 V:Baixo
 K:C bass
-| z6 |: D, [F,A,c,] D, [F,A,c,] D, z | G,, [G,B,d,] G,, [G,B,d,] G,, z | C, [C,E,G,] F,, [F,A,c,] F,, z | 
-| F,, [F,A,c,] F,, [F,A,c,] F,, z | E, [E,^G,B,] E, [E,^G,B,] E, z | E, [E,^G,B,] E, z E, z |1 A,, [A,,C,E,] A,, [A,,C,E,] A,, z | A,, [A,,C,E,] A,, [A,,C,E,] A,, z :|
+| z6 |: D, [F,,A,,C,] D, [F,,A,,C,] D, z | G,, [G,B,d,] G,, [G,B,d,] G,, z | C, [C,E,G,] F,, [F,,A,,C,] F,, z | 
+| F,, [F,,A,,C,] F,, [F,,A,,C,] F,, z | E, [E,^G,B,] E, [E,^G,B,] E, z | E, [E,^G,B,] E, z E, z |1 A,, [A,,C,E,] A,, [A,,C,E,] A,, z | A,, [A,,C,E,] A,, [A,,C,E,] A,, z :|
 |: A,, [A,,C,E,] A,, [A,,C,E,] A,, z | A,, [A,,C,E,] A,, [A,,C,E,] A,, z | E, [E,^G,B,] E, z E, z |
 | E, [E,^G,B,] E, z E, z | A,, [A,,C,E,] A,, [A,,C,E,] A,, z | A,, [A,,C,E,] A,, [A,,C,E,] A,, z | D,3 E,3 |
 | C,3 E,3 |1 A,, [A,,C,E,] A,, [A,,C,E,] A,, z :|2 A,, [A,,C,E,] A,, [A,,C,E,] A,, z |
