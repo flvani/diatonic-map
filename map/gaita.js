@@ -95,6 +95,10 @@ DIATONIC.map.Gaita.prototype.setup = function(accordionParams) {
 DIATONIC.map.Gaita.prototype.translate = function() {
   this.keyboard.legenda.setTextOpen( DR.resource["DR_pull"][DR.language]);
   this.keyboard.legenda.setTextClose( DR.resource["DR_push"][DR.language]);
+
+  document.title = DR.resource["DR_title"][DR.language];  
+  document.getElementById("DR_description").setAttribute("content",DR.resource["DR_description"][DR.language]);
+  
 };
 
 DIATONIC.map.Gaita.prototype.setupKeyboard = function() {

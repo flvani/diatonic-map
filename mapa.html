@@ -1,12 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8">
     <title>Mapa para Acordeons Diatônicos</title>
-    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=0.6, minimum-scale=0.5, maximum-scale=2.0">
-    <meta name="description" content="Um mapa de referência para acordeons diatônicos">
+    
     <meta name="author" content="Flávio Luiz Vani">
+    <meta name="viewport" content="width=device-width, minimum-scale=0.5, maximum-scale=2.0">
+    <meta name="description" content="Um mapa de referência para a aprendizagem de acordeons diatônicos" id="DR_description"/>
 
+    <meta name="robots" content="index,follow"/>
+    <meta name="revisit-after" content="7 days"/>
+       
+    <meta name="keywords" content="diatonic accordion, notation, learning, practice, repertoire, abc tunes, midi, tablature
+acordeon diatônico, gaita de oito baixos, gaita ponto, notação musical, aprendizagem, prática, repertorio, 
+notação abc, tablatura "/>
+    
     <!-- Estilos para a página e popups -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/gaitas.css" rel="stylesheet">
@@ -25,8 +33,6 @@
         done:manter o acidente por todo o compasso)
         done:Melhorar a forma de pintar a tela durante geração do midi
         done:Tratar adequadamente os subtitulos - sempre fazer parte da primeira voz?
-
-      
     
     -->  
    
@@ -36,17 +42,14 @@
            <header>
               <div  style="float: left; width: auto;">
               <table><tr>
-                <td id="DR_title"><h1>Mapa para <span>Acordeons Diatônicos</span></h1></td>
+                <td id="DR_appName"><h1>Mapa para <span>Acordeons Diatônicos</span></h1></td>
                 <td style="width:5%;"></td>
                 <td><a class="brand" href="#openModal" id="DR_about" >Sobre</a></td>
               </tr></table>
               </div>
               <div  style="float: right; margin-right: 20px; margin-top: 0px;">
                   <div class="btn-group">
-                    <!--img src="img/brasil_80x80.png"-->
-                    
-                    <!--select id="selIdioma" > </select-->
-                    <button class="btn label dropdown-toggle" data-toggle="dropdown" id="btn_idioma" style="padding: 2px; background-color: white">xxx</button>
+                    <button class="btn label dropdown-toggle" data-toggle="dropdown" id="btn_idioma" style="padding: 2px; background-color: white"></button>
                     <ul class="dropdown-menu" id="opcoes_idioma" style="padding: 1px; min-width: 32px; background-color: white">
                     </ul>
                   </div>
@@ -206,7 +209,7 @@
         </div>
         <div class="modalContent">
           <h4>Sobre tablaturas para acordeons</h4>
-          <p><a href="img/p1.html">Introdução</a>
+          <p><a href="html/tablatura.pt_BR.html">Introdução</a>
           <h4>Sobre formato ABC</h4>
           <p>adfadf
           <h4>Sobre editor de partituras</h4>
@@ -309,7 +312,7 @@
         
         DR_carregaIdiomas();
         
-        DR_register( "DR_title" );        
+        DR_register( "DR_appName" );        
         DR_register( "DR_about" );        
         DR_register( "tabSongs" );        
         DR_register( "tabAcordes" );        

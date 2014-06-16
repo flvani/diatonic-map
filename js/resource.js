@@ -15,18 +15,22 @@ DR.agents = [];
 
 function DR_carregaIdiomas() {
     
-    $('#opcoes_idioma').append('<li><a style="padding: 2px; width: 34px;" href="#" id="pt_BR" onclick="DR_setIdioma(DR.pt_BR);"><img src="img/brasil_80x80.png" width="32" height="32"></img></a></li>');
-    $('#opcoes_idioma').append('<li><a style="padding: 2px; width: 34px;"href="#" id="us_EN" onclick="DR_setIdioma(DR.en_US);"><img src="img/eua_80x80.png" width="32" height="32"></img></a></li>');
+    $('#opcoes_idioma')
+            .append('<li><a style="padding: 2px; width: 34px;" onclick="DR_setIdioma(DR.pt_BR);">'
+                +DR.resource["DR_image"][DR.pt_BR]+'</a></li>');
+    $('#opcoes_idioma')
+            .append('<li><a style="padding: 2px; width: 34px;" onclick="DR_setIdioma(DR.en_US);">'
+                +DR.resource["DR_image"][DR.en_US]+'</a></li>');
 
     DR_setIdioma(DR.pt_BR);
  
 };
 
 function DR_setIdioma(id) {
+    
     DR.language = id;
 
-    var ed = document.getElementById('btn_idioma');
-    ed.innerHTML = DR.resource["image"][DR.language];
+    document.getElementById('btn_idioma').innerHTML = DR.resource["DR_image"][DR.language];
 
     for (var i = 0; i < DR.agents.length; i++) {
         var agent = DR.agents[i];
@@ -47,8 +51,22 @@ function DR_register(res) {
     DR.agents.push(res);
 };
 
-DR.resource["image"] = ['<img src="img/brasil_80x80.png" width="32" height="32">','<img src="img/eua_80x80.png" width="32" height="32">'];
-DR.resource["DR_title"] = ['<h1>Mapa para <span>Acordeons Diatônicos</span></h1>', '<h1><span>Diatonic Accordions\'</span> Map</h1>'];
+DR.resource["DR_title"] = 
+        ['Mapa para Acordeons Diatônicos'
+        ,'Diatonic Accordion Map' ];
+
+DR.resource["DR_description"]= 
+        ['Um guia para a aprendizagem de acordeons diatônicos'
+        ,'A guide to Diatonic Accordion learning' ];
+  
+DR.resource["DR_appName"] = 
+        ['<h1>Mapa para <span>Acordeons Diatônicos</span></h1>'
+        ,'<h1><span>Diatonic Accordion</span> Map</h1>'];
+
+DR.resource["DR_image"] = 
+        ['<img src="img/brasil_80x80.png" width="32" height="32"></img>'
+        ,'<img src="img/eua_80x80.png" width="32" height="32"></img>'];
+    
 DR.resource["DR_about"] = ['Sobre', 'About'];
 DR.resource["DR_push"]  = ['Fecha', 'Push'];
 DR.resource["DR_pull"]  = ['Abre' , 'Pull'];
