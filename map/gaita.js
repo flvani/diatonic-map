@@ -30,8 +30,17 @@ DIATONIC.map.Gaita = function(map, interfaceParams ) {
 
     this.songDiv = document.getElementById(interfaceParams.songDiv);
     this.songContainerDiv = document.getElementById(interfaceParams.songContainerDiv);
-    this.keyboardContentDiv = document.getElementById(interfaceParams.keyboardContentDiv);
     this.songSelector = document.getElementById(interfaceParams.songSelector);
+
+    this.practiceDiv = document.getElementById(interfaceParams.practiceDiv);
+    this.practiceContainerDiv = document.getElementById(interfaceParams.practiceContainerDiv);
+    //this.practiceSelector = document.getElementById(interfaceParams.practiceSelector);
+
+    this.chordDiv = document.getElementById(interfaceParams.chordDiv);
+    this.chordContainerDiv = document.getElementById(interfaceParams.chordContainerDiv);
+    //this.chordSelector = document.getElementById(interfaceParams.chordSelector);
+    
+    this.keyboardContentDiv = document.getElementById(interfaceParams.keyboardContentDiv);
     
     this.player = new DIATONIC.play.Player(this.map, interfaceParams.tabContentDiv, interfaceParams.playButton);
 
@@ -76,19 +85,26 @@ DIATONIC.map.Gaita.prototype.setup = function(accordionParams) {
   this.setupKeyboard();
 
   this.map.setGaitaName( gaita );
-  
   this.map.setGaitaImage( gaita );
 
-  //this.carregaTabelaAcordes(this.map);
-  
+  if(!accordionParams.practiceTitle){
+      accordionParams.practiceTitle = this.getSelectedAccordion().getFirstPractice();
+  }
+  //this.loadPracticeList(accordionParams.practiceTitle);
+  this.renderPractice( accordionParams.practiceTitle, {}, true );
+
+  if(!accordionParams.chordTitle){
+      accordionParams.chordTitle = this.getSelectedAccordion().getFirstChord();
+  }
+  //this.loadChordList(accordionParams.chordTitle);
+  this.renderChord( accordionParams.chordTitle, {}, true );
+
   if(!accordionParams.songTitle){
       accordionParams.songTitle = this.getSelectedAccordion().getFirstSong();
   }
- 
   this.loadSongList(accordionParams.songTitle);
- 
   this.renderTune( accordionParams.songTitle, {}, true );
-  
+
 };
 
 
@@ -321,11 +337,11 @@ DIATONIC.map.Gaita.prototype.printTune = function(params, alreadyOnPage) {
 
     alreadyOnPage = alreadyOnPage || true;
 
-    if (this.paper) {
-        this.paper.clear();
-        this.paper.height = 300;
+    if (this.songPaper) {
+        this.songPaper.clear();
+        this.songPaper.height = 300;
     } else {
-        this.paper = Raphael(this.songDiv, 700, 400);
+        this.songPaper = Raphael(this.songDiv, 700, 400);
     }
 
 
@@ -352,7 +368,7 @@ DIATONIC.map.Gaita.prototype.printTune = function(params, alreadyOnPage) {
     //console.log(d.getMilliseconds());
     //loader.update(null, "Wait...");
     this.renderedTune = this.map.editor.tunes[0];
-    this.printer = new ABCJS.write.Printer(this.paper, params || {});// TODO: handle printer params
+    this.printer = new ABCJS.write.Printer(this.songPaper, params || {});// TODO: handle printer params
     if (this.songContainerDiv)
         $("#" + this.songContainerDiv.id).fadeIn();
     $("#" + this.songDiv.id).fadeIn();
@@ -367,15 +383,15 @@ DIATONIC.map.Gaita.prototype.printTune = function(params, alreadyOnPage) {
     loader.stop();
     $("#" + this.songDiv.id).fadeIn();
     if (!alreadyOnPage)
-        $("#" + this.songContainerDiv.id).hide();
+    $("#" + this.songContainerDiv.id).hide();
 };
 
 DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage ) {
-  if(this.paper) {
-    this.paper.clear();
-    this.paper.height = 300;
+  if(this.songPaper) {
+    this.songPaper.clear();
+    this.songPaper.height = 300;
   } else {
-    this.paper = Raphael(this.songDiv, 700, 400);
+    this.songPaper = Raphael(this.songDiv, 700, 400);
   } 
   
   if(title === "" ) {
@@ -392,6 +408,162 @@ DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage
 //  if (!alreadyOnPage) $("#"+this.songContainerDiv.id).hide();
   
 };
+
+DIATONIC.map.Gaita.prototype.printPractice = function(params, alreadyOnPage) {
+
+    alreadyOnPage = alreadyOnPage || true;
+
+    if (this.practicePaper) {
+        this.practicePaper.clear();
+        this.practicePaper.height = 300;
+    } else {
+        this.practicePaper = Raphael(this.practiceDiv, 700, 400);
+    }
+
+
+    var loader = new window.widgets.Loader({
+        id: "practiceLoader",
+        bars: 0,
+        radius: 0,
+        lineWidth: 20,
+        lineHeight: 70,
+        timeout: 1, // maximum timeout in seconds.
+        background: "rgba(0,0,0,0.5)",
+        container: this.practiceContainerDiv,
+        oncomplete: function() {
+            // call function once loader has completed
+        },
+        onstart: function() {
+            // call function once loader has started	
+        }
+    });
+
+    //var d = new Date();
+    //console.log(d.getMilliseconds());
+    this.map.editor.parseABC(0, "force");
+    //console.log(d.getMilliseconds());
+    //loader.update(null, "Wait...");
+    this.renderedPractice = this.map.editor.tunes[0];
+    this.printer = new ABCJS.write.Printer(this.practicePaper, params || {});// TODO: handle printer params
+    if (this.practiceContainerDiv)
+        $("#" + this.practiceContainerDiv.id).fadeIn();
+    $("#" + this.practiceDiv.id).fadeIn();
+        loader.update( null, DR.resource["DR_wait"][DR.language] );
+
+    this.printer.printABC(this.renderedPractice);
+    $("#" + this.practiceDiv.id).hide();
+    //loader.update(null,"Generating MIDI...",95);
+    this.player.parseTabSong(this.renderedPractice);
+    //console.log(d.getMilliseconds());
+    //loader.update(null,"Printing","...");
+    loader.stop();
+    $("#" + this.practiceDiv.id).fadeIn();
+    if (!alreadyOnPage)
+    $("#" + this.practiceContainerDiv.id).hide();
+};
+
+
+
+DIATONIC.map.Gaita.prototype.renderPractice = function( title, params, alreadyOnPage ) {
+  if(this.practicePaper) {
+    this.practicePaper.clear();
+    this.practicePaper.height = 300;
+  } else {
+    this.practicePaper = Raphael(this.practiceDiv, 700, 400);
+  } 
+  
+  if(title === "" ) {
+      this.renderedPractice = undefined;
+      return;
+  }
+  this.map.editor.setString( this.getSelectedAccordion().getPractice(title), "noRefresh" );
+
+//  if(this.practiceContainerDiv)$("#"+this.practiceContainerDiv.id).fadeIn();
+//  $("#"+this.practiceDiv.id).fadeIn();
+  
+  this.printPractice(params, alreadyOnPage);
+
+//  if (!alreadyOnPage) $("#"+this.practiceContainerDiv.id).hide();
+  
+};
+
+
+DIATONIC.map.Gaita.prototype.printChord = function(params, alreadyOnPage) {
+
+    alreadyOnPage = alreadyOnPage || true;
+
+    if (this.chordPaper) {
+        this.chordPaper.clear();
+        this.chordPaper.height = 300;
+    } else {
+        this.chordPaper = Raphael(this.chordDiv, 700, 400);
+    }
+
+
+    var loader = new window.widgets.Loader({
+        id: "chordLoader",
+        bars: 0,
+        radius: 0,
+        lineWidth: 20,
+        lineHeight: 70,
+        timeout: 1, // maximum timeout in seconds.
+        background: "rgba(0,0,0,0.5)",
+        container: this.chordContainerDiv,
+        oncomplete: function() {
+            // call function once loader has completed
+        },
+        onstart: function() {
+            // call function once loader has started	
+        }
+    });
+
+    //var d = new Date();
+    //console.log(d.getMilliseconds());
+    this.map.editor.parseABC(0, "force");
+    //console.log(d.getMilliseconds());
+    //loader.update(null, "Wait...");
+    this.renderedChord = this.map.editor.tunes[0];
+    this.printer = new ABCJS.write.Printer(this.chordPaper, params || {});// TODO: handle printer params
+    if (this.chordContainerDiv)
+        $("#" + this.chordContainerDiv.id).fadeIn();
+    $("#" + this.chordDiv.id).fadeIn();
+        loader.update( null, DR.resource["DR_wait"][DR.language] );
+
+    this.printer.printABC(this.renderedChord);
+    $("#" + this.chordDiv.id).hide();
+    //loader.update(null,"Generating MIDI...",95);
+    this.player.parseTabSong(this.renderedChord);
+    //console.log(d.getMilliseconds());
+    //loader.update(null,"Printing","...");
+    loader.stop();
+    $("#" + this.chordDiv.id).fadeIn();
+    if (!alreadyOnPage)
+    $("#" + this.chordContainerDiv.id).hide();
+};
+
+DIATONIC.map.Gaita.prototype.renderChord = function( title, params, alreadyOnPage ) {
+  if(this.chordPaper) {
+    this.chordPaper.clear();
+    this.chordPaper.height = 300;
+  } else {
+    this.chordPaper = Raphael(this.chordDiv, 700, 400);
+  } 
+  
+  if(title === "" ) {
+      this.renderedChord = undefined;
+      return;
+  }
+  this.map.editor.setString( this.getSelectedAccordion().getChord(title), "noRefresh" );
+
+//  if(this.chordContainerDiv)$("#"+this.chordContainerDiv.id).fadeIn();
+//  $("#"+this.chordDiv.id).fadeIn();
+  
+  this.printChord(params, alreadyOnPage);
+
+//  if (!alreadyOnPage) $("#"+this.chordContainerDiv.id).hide();
+  
+};
+
 
 DIATONIC.map.Gaita.prototype.transporta = function(nota) {
   if(! nota) return;
@@ -410,14 +582,14 @@ DIATONIC.map.Gaita.prototype.transporta = function(nota) {
   return nota;
 };
 
-DIATONIC.map.Accordion.prototype.g = function() {
-  var v_afinacao = this.gaita.accordions[this.gaita.selected].getAfinacao();
-  var str_label = '';
-  for (var c = v_afinacao.length-1; c > 0 ; c--) {
-    str_label = '/' + this.gaita.parseNote( v_afinacao[c] ).key + str_label;
-  }
-  $('#afinacao').text( this.gaita.parseNote( v_afinacao[0] ).key + str_label );
-};
+//DIATONIC.map.Accordion.prototype.g = function() {
+//  var v_afinacao = this.gaita.accordions[this.gaita.selected].getAfinacao();
+//  var str_label = '';
+//  for (var c = v_afinacao.length-1; c > 0 ; c--) {
+//    str_label = '/' + this.gaita.parseNote( v_afinacao[c] ).key + str_label;
+//  }
+//  $('#afinacao').text( this.gaita.parseNote( v_afinacao[0] ).key + str_label );
+//};
 
 
 
@@ -444,7 +616,7 @@ DIATONIC.map.Gaita.prototype.parseNote = function(p_nota, isBass) {
 
 
 DIATONIC.map.Gaita.prototype.redrawKeyboard = function() {
-    var accordion = this.getSelectedAccordion();
+    //var accordion = this.getSelectedAccordion();
 
     for (j = 0; j < this.keyboard.length; j++) {
         for (i = 0; i < this.keyboard[j].length; i++) {
@@ -452,15 +624,15 @@ DIATONIC.map.Gaita.prototype.redrawKeyboard = function() {
         }
     }
 
-    for (var c = 0; c < accordion.getChords().length; c++) {
-        var nome = this.parseNote(accordion.getChordSymbol(c));
-        var acorde_lbl = nome.key + '<sub>' + nome.complement + '</sub>';
-        $('#chord_' + c).html( acorde_lbl );
-        if (this.selectedChord === c) {
-            substituiHTML('acordeAtualFoleAbrindo', '&nbsp;', acorde_lbl);
-            substituiHTML('acordeAtualFoleFechando', '&nbsp;', acorde_lbl);
-        }
-    }
+//    for (var c = 0; c < accordion.getChords().length; c++) {
+//        var nome = this.parseNote(accordion.getChordSymbol(c));
+//        var acorde_lbl = nome.key + '<sub>' + nome.complement + '</sub>';
+//        $('#chord_' + c).html( acorde_lbl );
+//        if (this.selectedChord === c) {
+//            substituiHTML('acordeAtualFoleAbrindo', '&nbsp;', acorde_lbl);
+//            substituiHTML('acordeAtualFoleFechando', '&nbsp;', acorde_lbl);
+//        }
+//    }
 
     //this.map.mostraAfinacao();
     //this.map.draw();
@@ -489,72 +661,72 @@ DIATONIC.map.Gaita.prototype.redrawKeyboard = function() {
 };
 
 
-DIATONIC.map.Gaita.prototype.carregaTabelaAcordes = function(map) {
-  var accordion = this.getSelectedAccordion();
-  var chord_str = '<tr><td><strong>Acorde</strong></td><td><strong>Variação</strong></td></tr>';
+//DIATONIC.map.Gaita.prototype.carregaTabelaAcordes = function(map) {
+//  var accordion = this.getSelectedAccordion();
+//  var chord_str = '<tr><td><strong>Acorde</strong></td><td><strong>Variação</strong></td></tr>';
+//
+//  for (var c=0; c < accordion.getChords().length; c++) {
+//      var nome = this.parseNote(accordion.getChordSymbol(c));
+//      chord_str +=  '<tr><td id="chord_'+ c +'">' + nome.key + '<sub>' + nome.complement + '</sub>' + '</td><td>';
+//      var variations = accordion.getChordVariations(c);
+//    for (var v=0; v < variations.length; v++) {
+//      var opening = variations[v][0] === DIATONIC.open;
+//      chord_str += '<button id="chord_'+ c +'_'+ v +'" class="btn" style="color:black; background-color:';
+//      chord_str += opening ? '#00ff00"' : '#00b2ee"';
+//      chord_str += ' title="' + (opening ? 'Abrindo o fole' : 'Fechando o fole') + '"';
+//      chord_str += ' onclick="myMap.gaita.setAcorde(' + c + ',' + v + ')" ';  
+//      chord_str += ' onmouseover="myMap.gaita.setAcorde(' + c + ',' + v + ')" > ' + (v + 1) ;
+//      chord_str += ' <i class="' + (opening ? 'icon-resize-full' : 'icon-resize-small' ) + ' icon-black"></i>';
+//      chord_str += " </button> ";
+//    }
+//    chord_str += '</td></tr>';
+//  }
+//  document.getElementById("chords_table").innerHTML = chord_str;
+//};
 
-  for (var c=0; c < accordion.getChords().length; c++) {
-      var nome = this.parseNote(accordion.getChordSymbol(c));
-      chord_str +=  '<tr><td id="chord_'+ c +'">' + nome.key + '<sub>' + nome.complement + '</sub>' + '</td><td>';
-      var variations = accordion.getChordVariations(c);
-    for (var v=0; v < variations.length; v++) {
-      var opening = variations[v][0] === DIATONIC.open;
-      chord_str += '<button id="chord_'+ c +'_'+ v +'" class="btn" style="color:black; background-color:';
-      chord_str += opening ? '#00ff00"' : '#00b2ee"';
-      chord_str += ' title="' + (opening ? 'Abrindo o fole' : 'Fechando o fole') + '"';
-      chord_str += ' onclick="myMap.gaita.setAcorde(' + c + ',' + v + ')" ';  
-      chord_str += ' onmouseover="myMap.gaita.setAcorde(' + c + ',' + v + ')" > ' + (v + 1) ;
-      chord_str += ' <i class="' + (opening ? 'icon-resize-full' : 'icon-resize-small' ) + ' icon-black"></i>';
-      chord_str += " </button> ";
-    }
-    chord_str += '</td></tr>';
-  }
-  document.getElementById("chords_table").innerHTML = chord_str;
-};
-
-DIATONIC.map.Gaita.prototype.setAcorde = function(chord_no, var_no) {
-  
-  if( this.player.sounding ) return;
-  
-  //destaca notas do acorde selecionado e toca o som correspondente
-  var accordion = this.accordions[this.selected];
-  
-  var chord = accordion.getChords()[chord_no];
-  var noteList = accordion.getChordVariations(chord_no)[var_no];
-  this.selectedChord = chord_no;
-
-  this.clearKeyboard();
-
-  var nota = this.parseNote( chord[0] );
-  var acorde_lbl =  nota.key + '<sub>' + nota.complement + '</sub>';
-  substituiHTML( 'acordeAtualFoleAbrindo', '&nbsp;', acorde_lbl  );
-  substituiHTML( 'acordeAtualFoleFechando', '&nbsp;', acorde_lbl );
-
-  if (noteList[0] === DIATONIC.close) {
-    $('#acordeAtualVazio').hide();
-    $('#acordeAtualFoleAbrindo').hide();
-    $('#acordeAtualFoleFechando').show();
-  } else {
-    $('#acordeAtualVazio').hide();
-    $('#acordeAtualFoleFechando').hide();
-    $('#acordeAtualFoleAbrindo').show();
-  }
-
-  for (i=0; i < noteList[1].length; i++) {
-    this.markButton(noteList[0], noteList[1][i][0], noteList[1][i][1]);
-  }
-
-  //acertar isso... não posso simplemente setar uma cor  
-  document.getElementById( 'chord_' + chord_no + '_' + var_no ).style.setProperty('background-color', 'gray', 'important');
-  this.modifiedItems.push( 'chord_' + chord_no + '_' + var_no );
-
-
-  //acertar isso: atualmente, uso dois canais para accordeon (um para cada staff) 
-  if(this.player) {
-    if (this.map.checkboxAcordeon.checked) this.player.playAcorde(noteList, 0);
-    if (this.map.checkboxPiano.checked) this.player.playAcorde(noteList, 1);
-  }
-};
+//DIATONIC.map.Gaita.prototype.setAcorde = function(chord_no, var_no) {
+//  
+//  if( this.player.sounding ) return;
+//  
+//  //destaca notas do acorde selecionado e toca o som correspondente
+//  var accordion = this.accordions[this.selected];
+//  
+//  var chord = accordion.getChords()[chord_no];
+//  var noteList = accordion.getChordVariations(chord_no)[var_no];
+//  this.selectedChord = chord_no;
+//
+//  this.clearKeyboard();
+//
+//  var nota = this.parseNote( chord[0] );
+//  var acorde_lbl =  nota.key + '<sub>' + nota.complement + '</sub>';
+//  substituiHTML( 'acordeAtualFoleAbrindo', '&nbsp;', acorde_lbl  );
+//  substituiHTML( 'acordeAtualFoleFechando', '&nbsp;', acorde_lbl );
+//
+//  if (noteList[0] === DIATONIC.close) {
+//    $('#acordeAtualVazio').hide();
+//    $('#acordeAtualFoleAbrindo').hide();
+//    $('#acordeAtualFoleFechando').show();
+//  } else {
+//    $('#acordeAtualVazio').hide();
+//    $('#acordeAtualFoleFechando').hide();
+//    $('#acordeAtualFoleAbrindo').show();
+//  }
+//
+//  for (i=0; i < noteList[1].length; i++) {
+//    this.markButton(noteList[0], noteList[1][i][0], noteList[1][i][1]);
+//  }
+//
+//  //acertar isso... não posso simplemente setar uma cor  
+//  document.getElementById( 'chord_' + chord_no + '_' + var_no ).style.setProperty('background-color', 'gray', 'important');
+//  this.modifiedItems.push( 'chord_' + chord_no + '_' + var_no );
+//
+//
+//  //acertar isso: atualmente, uso dois canais para accordeon (um para cada staff) 
+//  if(this.player) {
+//    if (this.map.checkboxAcordeon.checked) this.player.playAcorde(noteList, 0);
+//    if (this.map.checkboxPiano.checked) this.player.playAcorde(noteList, 1);
+//  }
+//};
 
 DIATONIC.map.Gaita.prototype.clearKeyboard = function(full) {
 
@@ -576,9 +748,9 @@ DIATONIC.map.Gaita.prototype.clearKeyboard = function(full) {
     }
   }
 
-  $('#acordeAtualVazio').show();
-  $('#acordeAtualFoleAbrindo').hide();
-  $('#acordeAtualFoleFechando').hide();
+//  $('#acordeAtualVazio').show();
+//  $('#acordeAtualFoleAbrindo').hide();
+//  $('#acordeAtualFoleFechando').hide();
 
   //this.map.draw();
   this.modifiedItems = new Array();

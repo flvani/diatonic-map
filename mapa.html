@@ -146,8 +146,8 @@ notação abc, tablatura "/>
       <div id="div_detalhes" style="float:left; margin-top:10px; margin-left:0px; width:105%;"> 
         <ul id="tabs">
             <li><a href="#" id="tabSongs">Músicas</a></li>        
-            <li><a href="#" id="tabAcordes">Acordes</a></li>
-            <li><a href="#" id="tabExercicios">Exercícios</a></li>
+            <li><a href="#" id="tabChords">Acordes</a></li>
+            <li><a href="#" id="tabPractices">Exercícios</a></li>
             <li style="margin-left: 10px">
                 <div id="divPlayerControls">
                   <select id="selSongs" > </select>
@@ -162,15 +162,11 @@ notação abc, tablatura "/>
             <div id="tabSongsDiv">
                <div id="songDiv" style="display: inline;"> </div>
             </div>    
-            <div id="tabAcordesDiv" >
-              Em construção...
-              <!--table id="chords_table" class="table table-striped">
-              </table-->
+            <div id="tabChordsDiv" >
+               <div id="chordDiv" style="display: inline;"> </div>
             </div>
-            <div id="tabExerciciosDiv" >
-              Em construção...
-              <!--table id="baixos_table" class="table table-striped">
-              </table-->
+            <div id="tabPracticesDiv" >
+               <div id="practiceDiv" style="display: inline;"> </div>
             </div>
         </div>
       </div>
@@ -208,12 +204,9 @@ notação abc, tablatura "/>
           <a href="#close" title="Fechar" class="close">X</a>
         </div>
         <div class="modalContent">
-          <h4>Sobre tablaturas para acordeons</h4>
-          <p><a href="html/tablatura.pt_BR.html">Introdução</a>
-          <h4>Sobre formato ABC</h4>
-          <p>adfadf
-          <h4>Sobre editor de partituras</h4>
-          <p>afafddf
+          <a href="html/tablatura.pt_BR.html" target="_blank"><h4>Tablaturas para acordeons</h4></a>
+          <h4>Formato ABC</h4>
+          <h4>Editor de partituras</h4>
         </div>
       </div>
     </div>
@@ -227,7 +220,8 @@ notação abc, tablatura "/>
         </div>
         
         <div class="modalContent">
-        <div id="clustrmaps-widget" style="float:right;   margin-left:1em;"></div><script type="text/javascript">
+        <div id="clustrmaps-widget" style="float:right;   margin-left:1em;"></div>
+        <script type="text/javascript">
 	   var _clustrmaps = {'url' : 'http://flvani.github.io', 'user' : 1132824, 
 	   'server' : '2', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2014-02-19', 'lang' : 'pt', 
 	   'corners' : 'square' };(function (){ var s = document.createElement('script'); 
@@ -378,6 +372,10 @@ notação abc, tablatura "/>
                       ,accordionParams: { 
                          songDiv: 'songDiv' 
                         ,songContainerDiv: 'tabSongsDiv'
+                        ,chordDiv: 'chordDiv' 
+                        ,chordContainerDiv: 'tabChordsDiv'
+                        ,practiceDiv: 'practiceDiv' 
+                        ,practiceContainerDiv: 'tabPracticesDiv'
                         ,keyboardContentDiv: 'contentKeyboard'
                         ,tabContentDiv: 'content_detalhes'
                         ,songSelector: 'selSongs'

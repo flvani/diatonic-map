@@ -10,7 +10,7 @@ if (!window.DIATONIC)
 if (!window.DIATONIC.map)
     window.DIATONIC.map = {models: []};
 
-window.DIATONIC.tmp = {keys: {}, basses: {}, keysLayout: [], chords: [], scales: [], songs:[] };
+window.DIATONIC.tmp = {keys: {}, basses: {}, keysLayout: [], chords: [], practices: [], songs:[] };
 
 DIATONIC.tmp.keys = {
     close: [["E♭3", "A3", "C♯4", "E4", "A4", "C♯5", "E5", "A5", "C♯6", "E6"], ["G♯3", "A3", "D4", "F♯4", "A4", "D5", "F♯5", "A5", "D6", "F♯6", "A6"], ["F4", "D4", "G4", "B4", "D5", "G5", "B5", "D6", "G6", "B6"]]
@@ -31,7 +31,7 @@ DIATONIC.map.models[DIATONIC.map.models.length] = new DIATONIC.map.Accordion(
         , []
         , {keys: DIATONIC.tmp.keys, basses: DIATONIC.tmp.basses, layout: DIATONIC.tmp.keysLayout}
         , DIATONIC.tmp.chords
-        , DIATONIC.tmp.scales
+        , DIATONIC.tmp.practices
         , DIATONIC.tmp.songs
         , 'img/Hohner.Corona.gif'
         );
