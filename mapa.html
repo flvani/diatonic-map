@@ -512,6 +512,7 @@ notação abc, tablatura "/>
         closeButton.addEventListener("click", function() {
             $("#divEditor").hide();
             $("#divContainer").fadeIn();
+            myMap.gaita.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
             myMap.gaita.printTune();
   
         }, false);
