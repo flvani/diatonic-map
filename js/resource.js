@@ -38,7 +38,9 @@ function DR_setIdioma(id) {
             agent.translate();
         } else {
             var res = document.getElementById(agent);
-            if (res.value) {
+            if (res.title) {
+                res.title = DR.resource[agent][DR.language];
+            } else if (res.value) {
                 res.value = DR.resource[agent][DR.language];
             } else {
                 res.innerHTML = DR.resource[agent][DR.language];
