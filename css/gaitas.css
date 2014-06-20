@@ -310,12 +310,12 @@ body {
 
 #divEditor {
   padding: 10px; 
-  width:98%; 
+  width: 98%; 
   align-items: center;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
   justify-content: center;
+  display: flex;
+  //flex-direction: row;
+  //flex-wrap: wrap;
 }
 
 #divContent {

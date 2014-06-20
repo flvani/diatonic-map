@@ -473,8 +473,9 @@ notação abc, tablatura "/>
             $("#divContainer").hide();
             document.body.style.paddingTop = '280px';
             $("#editControlDiv").fadeIn();
-            $("#divEditor").fadeIn();
             myMap.editor.div.innerHTML = myMap.gaita.songDiv.innerHTML;
+            myMap.editor.div.width = myMap.gaita.songDiv.width;
+            $("#divEditor").fadeIn();
         }, false);
         
         closeButton.addEventListener("click", function() {
