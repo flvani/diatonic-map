@@ -27,6 +27,13 @@ body {
   text-indent: 50px;
 }    
     
+.helpContent h3 {
+  text-indent: 50px;
+}    
+.helpContent h4 {
+  text-indent: 50px;
+}    
+
 .helpContent p {
   text-indent: 50px;
   text-align: justify;
