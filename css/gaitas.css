@@ -308,7 +308,7 @@ body {
   box-sizing: border-box;  
 } 
 
-#divEditor {
+#divEditorUnused {
   padding: 10px; 
   align-items: center;
   justify-content: center;
@@ -334,11 +334,11 @@ body {
 }
 
 #content_detalhes, 
-#canvasDiv {
+#canvasDivUnused {
   background: #fff;
 } 
 
-#canvasDiv, 
+#canvasDivUnused, 
 #divContent,
 #content_detalhes {
     padding: 0;
@@ -353,7 +353,7 @@ body {
 */
 }
 
-#canvasDiv {
+#canvasDivUnused {
     border-radius: 5px;
     width: 98%;
 } 
