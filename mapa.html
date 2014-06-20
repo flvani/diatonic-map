@@ -38,7 +38,7 @@ notação abc, tablatura "/>
    
     <div class="navbar navbar-inverse navbar-fixed-top" >
       <div style="background-color:#5ba4a4;">
-        <div class="container" id="divTitulo" style="margin-left: 10px; width: 100%;" >
+        <div class="container" id="divTitulo" style="margin-left: 4px; width: 100%;" >
            <header>
               <div  style="float: left; width: auto;">
               <table><tr>
@@ -59,8 +59,8 @@ notação abc, tablatura "/>
       </div>
     </div> <!-- /navbar -->
    
-    <div class="container" id="divContainer"  style="margin-top: 0; margin-left: 10px;" >
-      <div id="divMenu" class="span12" style="height:40px; margin-left: 1px;">
+    <div class="container" id="divContainer"  style="margin-top: 0; margin-left: 4px;" >
+      <div id="divMenu" class="span12" style="height:36px; margin-left: 1px; margin-top: 4px;">
         <table><tr><td>
             <table class="table table-bordered table-final">
               <tr >
@@ -90,18 +90,13 @@ notação abc, tablatura "/>
           </table>
         </div>
 
-      <div id="div_principal" class="span12" style="margin-top:5px; margin-left:1px;" >
+      <div id="div_principal" class="span12" style="margin-top:6px; margin-left:1px;" >
         <ul id="faketab">
             <li><a href="#" id="a_nome_gaita">Gaita</a></li>
-            <li style="margin-left: 10px">
-                <div id="divMapControls">
-                    <table class="table-bordered table-final" style="height: 22px"> 
+            <li>
+                <div id="divMapControls" style="margin-left: 8px; margin-top:1px;" >
+                    <table class="table-bordered table-final" style="height: 23px"> 
                     <tr > 
-                      <!--td  >
-                          <b>MIDI:</b>&nbsp;
-                          <input type="checkbox" id="checkboxAcordeon" checked >&nbsp;Acordeon&nbsp;&nbsp;&nbsp;&nbsp;
-                          <input type="checkbox" id="checkboxPiano">&nbsp;Piano
-                      </td-->
                       <td >
                           &nbsp;<b id="DR_layout">Layout:</b>&nbsp;&nbsp;
                           <input type="checkbox" id="checkboxHorizontal" checked >&nbsp;<span id="DR_horizontal">Horizontal</span>
@@ -114,33 +109,20 @@ notação abc, tablatura "/>
             </li>
         </ul>
         <div id="divContent"> 
-          <div id="contentKeyboard" style="width: auto; float: left;" ></div>
+          <div id="contentKeyboard" style="width: auto; float: left; min-height: 302px;" ></div>
           <div id="contentInfo" style=" float: right; margin-top: 15px; margin-right: 15px;">
-              <table class="table table-bordered table-final" style="min-width: 220px;">
+              <table class="table table-bordered table-final" style="min-width: 200px;">
               <tr>
                 <td colspan="2" style="height:200px;" id="td_imagem_gaita" >
                     <b>Loading...</b>
                 </td>
               </tr>
-              <!--tr>
-                <td style="vertical-align: middle;">&nbsp;Acorde Atual</td>
-                <td>
-                  &nbsp;<span class="label" id="acordeAtualVazio">--
-                  </span>
-                  <span class="label label-success" id="acordeAtualFoleAbrindo" style="display: none; background-color: #00ff00" >--&nbsp;
-                     <i id="abre_fole" class="icon-resize-full icon-white"></i>
-                  </span>
-                  <span class="label label-warning" id="acordeAtualFoleFechando" style="display: none; background-color: #00b2ee" >--&nbsp;
-                      <i id="fecha_fole" class="icon-resize-small icon-white"></i>
-                  </span>
-                </td>
-              </tr-->
             </table>
           </div>
         </div>
       </div>
       
-      <div id="div_detalhes" style="float:left; margin-top:10px; margin-left:0px; width:105%;"> 
+      <div id="div_detalhes" style="float:left; margin-top:6px; margin-left:0px; width:105%;"> 
         <ul id="tabs">
             <li><a href="#" id="tabSongs">Músicas</a></li>        
             <li><a href="#" id="tabChords">Acordes</a></li>
@@ -150,14 +132,13 @@ notação abc, tablatura "/>
                   <select id="selSongs" > </select>
                   <button id="playBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
                   <button id="stopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
-                  <!--input type="button" id="playBtn" value="Executar" />
-                  <input type="button" id="stopBtn" value="Parar" /-->
-                  <input type="button" id="editorBtn" value="Editar" />
-                  <input type="button" id="didaticoBtn" value="Passo a passo" />
+                  <button id="editorBtn" class="btn" title="Editar" onclick="">Editar</button>
+                  <button id="didaticoBtn" class="btn" title="Passo a passo" onclick="">Passo a passo</button>
                 </div>  
             </li>
         </ul>
-        <div id= "content_detalhes" style="float:left; margin-top:0px; margin-left:0px; margin-bottom: 6px; width:105%; height: 340px; overflow-y: scroll;" > 
+        <div id= "content_detalhes" style="float:left; margin-top:0px; margin-left:0px; margin-bottom: 6px; 
+                                            width:105%; height: 300px; overflow-y: scroll;" > 
             <div id="tabSongsDiv">
                <div id="songDiv" style="display: inline;"> </div>
             </div>    
@@ -172,30 +153,28 @@ notação abc, tablatura "/>
 
     </div> <!-- /container -->
 
-    <div id="divEditor" style="float:left; display:none; padding-left: 0px; height: 95%;">
-        <div id="editControlDiv" style="margin-top:0px; margin-left:20px;">  
-            <div id="divEditArea" class="span12" style="margin-top:12px; margin-left:0px;">
-                <textarea id="textareaABC" rows="10" style="width: 98%; color: #000; font-family: monospace"></textarea>
-                <select id="selGaitas" > </select>
-                <select id="selKey" ></select>
-                <input type="submit" id="octaveUpBtn" value="+ Oitava" onclick="javascript:doTranspose(12);" />
-                <input type="submit" id="octaveDwBtn" value="- Oitava" onclick="javascript:doTranspose(-12);" />
-                <input type="button" id="printBtn" value="Ver impressão" />
-                <input type="button" id="saveBtn" value="Salvar Local" disabled />
-                <input type="button" id="closeBtn" value="Fechar" />
-                <input type="submit" id="forceRefresh" value="Atualizar" onclick="javascript:doForceRefresh();" />
-                <input type="checkbox" id="chkAutoRefresh" /><span id="DR_refresh">Auto atualização</span> 
-                <input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span>
-            </div>
-            <div id="warnings" class="span12" style="margin-top:6px; margin-left:0px;"></div>
-            <div id="midi" class="span12" style="margin-top:6px; margin-left:0px;"></div>
+    <div id="editControlDiv" style=" background-color: #5ba4a4; display:none; margin:0px; width:100%; top: 50px; position: fixed; z-index: 1000;">  
+        <div id="divEditArea" style="">
+            <textarea id="textareaABC" rows="8" style="width: 97%; margin: 8px; color: #000; font-family: monospace;"></textarea>
+            <span style="margin-left: 8px;"></span>
+            <select id="selGaitas" > </select>
+            <select id="selKey" ></select>
+            <input type="submit" id="octaveUpBtn" value="+ Oitava" onclick="javascript:doTranspose(12);" />
+            <input type="submit" id="octaveDwBtn" value="- Oitava" onclick="javascript:doTranspose(-12);" />
+            <input type="button" id="printBtn" value="Ver impressão" />
+            <input type="button" id="saveBtn" value="Salvar Local" disabled />
+            <input type="button" id="closeBtn" value="Fechar" />
+            <input type="submit" id="forceRefresh" value="Atualizar" onclick="javascript:doForceRefresh();" />
+            <input type="checkbox" id="chkAutoRefresh" /><span id="DR_refresh">Auto atualização</span> 
+            <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
         </div>
-        <div id="canvasDivOuter" class="span12" style="margin-top:6px; margin-bottom: 6px; margin-left:20px; width:96%" >
-        <div id="canvasDiv"></div>
-        </div>
-        
-    </div> <!-- /divEditor -->  
+        <div id="warnings" class="span12" style="margin-top:6px; margin-left:0px;"></div>
+    </div>
 
+    <div id="divEditor" >
+        <div id="canvasDiv" style="margin: 6px; align-items: center;"></div>
+    </div>
+        
     <div id="openModal" class="modalWindow"> 
       <div>
         
@@ -303,7 +282,7 @@ notação abc, tablatura "/>
         DR_register( "didaticoBtn" );        
         DR_register( "stopBtn" );        
 
-        DR_register("DR_layout")
+        DR_register("DR_layout");
         DR_register("DR_espelho");
         DR_register("DR_horizontal");
         DR_register("DR_acordeons");
@@ -317,7 +296,7 @@ notação abc, tablatura "/>
         DR_register("closeBtn");
         DR_register("forceRefresh");
         DR_register("DR_refresh");
-        DR_register("DR_debug");
+        //DR_register("DR_debug");
 
     
         window.addEventListener('load', initApp, false);
@@ -467,7 +446,9 @@ notação abc, tablatura "/>
         printButton.addEventListener("click", function() {
             $("#divTitulo").hide();
             $("#editControlDiv").hide();
+            document.body.style.paddingTop = '0px';
             window.print();
+            document.body.style.paddingTop = '280px';
             $("#divTitulo").fadeIn();
             $("#editControlDiv").fadeIn();
         }, false);
@@ -490,12 +471,16 @@ notação abc, tablatura "/>
         editorButton.addEventListener("click", function() {
             if( ! myMap.gaita.renderedTune ) return;
             $("#divContainer").hide();
+            document.body.style.paddingTop = '280px';
+            $("#editControlDiv").fadeIn();
             $("#divEditor").fadeIn();
             myMap.editor.div.innerHTML = myMap.gaita.songDiv.innerHTML;
         }, false);
         
         closeButton.addEventListener("click", function() {
             $("#divEditor").hide();
+            $("#editControlDiv").hide();
+            document.body.style.paddingTop = '50px';
             $("#divContainer").fadeIn();
             myMap.gaita.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
             myMap.gaita.printTune();

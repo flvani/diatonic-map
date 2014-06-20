@@ -353,7 +353,7 @@ DIATONIC.map.Gaita.prototype.printTune = function(params, alreadyOnPage) {
         lineHeight: 70,
         timeout: 1, // maximum timeout in seconds.
         background: "rgba(0,0,0,0.5)",
-        container: this.songContainerDiv,
+        container: document.body,
         oncomplete: function() {
             // call function once loader has completed
         },
@@ -372,7 +372,7 @@ DIATONIC.map.Gaita.prototype.printTune = function(params, alreadyOnPage) {
     if (this.songContainerDiv)
         $("#" + this.songContainerDiv.id).fadeIn();
     $("#" + this.songDiv.id).fadeIn();
-        loader.update( null, DR.resource["DR_wait"][DR.language] );
+        loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.resource["DR_wait"][DR.language]+'<br><br>' );
 
     this.printer.printABC(this.renderedTune);
     $("#" + this.songDiv.id).hide();
@@ -429,7 +429,7 @@ DIATONIC.map.Gaita.prototype.printPractice = function(params, alreadyOnPage) {
         lineHeight: 70,
         timeout: 1, // maximum timeout in seconds.
         background: "rgba(0,0,0,0.5)",
-        container: this.practiceContainerDiv,
+        container: document.body,
         oncomplete: function() {
             // call function once loader has completed
         },
@@ -448,7 +448,7 @@ DIATONIC.map.Gaita.prototype.printPractice = function(params, alreadyOnPage) {
     if (this.practiceContainerDiv)
         $("#" + this.practiceContainerDiv.id).fadeIn();
     $("#" + this.practiceDiv.id).fadeIn();
-        loader.update( null, DR.resource["DR_wait"][DR.language] );
+        loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.resource["DR_wait"][DR.language]+'<br><br>' );
 
     this.printer.printABC(this.renderedPractice);
     $("#" + this.practiceDiv.id).hide();
@@ -508,7 +508,7 @@ DIATONIC.map.Gaita.prototype.printChord = function(params, alreadyOnPage) {
         lineHeight: 70,
         timeout: 1, // maximum timeout in seconds.
         background: "rgba(0,0,0,0.5)",
-        container: this.chordContainerDiv,
+        container: document.body,
         oncomplete: function() {
             // call function once loader has completed
         },
@@ -527,7 +527,7 @@ DIATONIC.map.Gaita.prototype.printChord = function(params, alreadyOnPage) {
     if (this.chordContainerDiv)
         $("#" + this.chordContainerDiv.id).fadeIn();
     $("#" + this.chordDiv.id).fadeIn();
-        loader.update( null, DR.resource["DR_wait"][DR.language] );
+        loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.resource["DR_wait"][DR.language]+'<br><br>' );
 
     this.printer.printABC(this.renderedChord);
     $("#" + this.chordDiv.id).hide();
