@@ -171,8 +171,8 @@ notação abc, tablatura "/>
         <div id="warnings" class="span12" style="margin-top:6px; margin-left:0px;"></div>
     </div>
 
-    <div id="divEditor" style="width: 100%; background-color: #fff; display: none;">
-        <div id="canvasDiv" style="width: 100%; background-color: #fff;"> </div>
+    <div id="divEditor" style="display: none;">
+        <!--div id="canvasDiv" style="width: 100%; background-color: #fff;"> </div-->
     </div>
         
     <div id="openModal" class="modalWindow"> 
@@ -312,7 +312,7 @@ notação abc, tablatura "/>
             var myEditor = new ABCJS.Editor(
                          "textareaABC"
                       ,{
-                         canvas_id: "canvasDiv"
+                         canvas_id: "divEditor"
                         //,midi_id: "midi"
                         ,warnings_id: "warnings"
                         ,refreshController_id: "chkAutoRefresh"
@@ -472,6 +472,8 @@ notação abc, tablatura "/>
             if( ! myMap.gaita.renderedTune ) return;
             $("#divContainer").hide();
             document.body.style.paddingTop = '280px';
+            savedBackgroundColor = document.body.style.backgroundColor;
+            document.body.style.backgroundColor = '#fff';
             $("#editControlDiv").fadeIn();
             myMap.editor.div.innerHTML = myMap.gaita.songDiv.innerHTML;
             //myMap.editor.div.width = myMap.gaita.songDiv.width;
@@ -481,6 +483,7 @@ notação abc, tablatura "/>
         closeButton.addEventListener("click", function() {
             $("#divEditor").hide();
             $("#editControlDiv").hide();
+            document.body.style.backgroundColor = savedBackgroundColor;
             document.body.style.paddingTop = '50px';
             $("#divContainer").fadeIn();
             myMap.gaita.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
