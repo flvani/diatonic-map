@@ -355,6 +355,7 @@ body {
 
 #canvasDiv {
     border-radius: 5px;
+    width: 98%;
 } 
 
 .table-final {
