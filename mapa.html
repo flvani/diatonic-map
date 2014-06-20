@@ -475,11 +475,11 @@ notação abc, tablatura "/>
             $("#editControlDiv").fadeIn();
             myMap.editor.div.innerHTML = myMap.gaita.songDiv.innerHTML;
             //myMap.editor.div.width = myMap.gaita.songDiv.width;
-            $("#canvasDiv").fadeIn();
+            $("#divEditor").fadeIn();
         }, false);
         
         closeButton.addEventListener("click", function() {
-            $("#canvasDiv").hide();
+            $("#divEditor").hide();
             $("#editControlDiv").hide();
             document.body.style.paddingTop = '50px';
             $("#divContainer").fadeIn();
