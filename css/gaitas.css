@@ -312,8 +312,8 @@ body {
   padding: 10px; 
   align-items: center;
   justify-content: center;
-  width: 98%; 
-  display: block;
+  width: auto; 
+  display: none;
   flex-direction: row;
   flex-wrap: wrap;
 }
