@@ -66,8 +66,8 @@ DR.resource["DR_appName"] =
         ,'<h1><span>Diatonic Accordion</span> Map</h1>'];
 
 DR.resource["DR_image"] = 
-        ['<img src="img/brasil_80x80.png" width="32" height="32"></img>'
-        ,'<img src="img/eua_80x80.png" width="32" height="32"></img>'];
+        ['<img src="img/brasil_80x80.png" width="32" height="32" alt="Português do Brasil" title="Português do Brasil" ></img>'
+        ,'<img src="img/eua_80x80.png" width="32" height="32" alt="US English" title="US English" ></img>'];
     
 DR.resource["DR_about"] = ['Sobre', 'About'];
 DR.resource["DR_push"]  = ['Fecha', 'Push'];

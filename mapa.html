@@ -49,6 +49,13 @@ notação abc, tablatura "/>
               </div>
               <div  style="float: right; margin-right: 20px; margin-top: 0px;">
                   <div class="btn-group">
+                      <span class="btn label dropdown-toggle" style="padding: 2px; background-color: white;">
+                    <a target="_blank" href="mailto:flavio.vani@gmail.com?Subject=Comentário sobre o site Diatonic-Map">
+                         <img src="img/mail_80x80.png" width="32" height="32" alt="Deixe uma mensagem" title="Deixe uma mensagem">
+                    </a>                          
+                      </span>
+                  </div>
+                  <div class="btn-group">
                     <button class="btn label dropdown-toggle" data-toggle="dropdown" id="btn_idioma" style="padding: 2px; background-color: white"></button>
                     <ul class="dropdown-menu" id="opcoes_idioma" style="padding: 1px; min-width: 32px; background-color: white">
                     </ul>
@@ -273,7 +280,7 @@ notação abc, tablatura "/>
     <script type="text/javascript" src="proto_noconflict.js" ></script>
     
     <!-- suporte a arquivos ABC -->
-    <script type="text/javascript" src="abcjs/abcjs_tabeditor_2.06-min.js" ></script>
+    <script type="text/javascript" src="abcjs/abcjs_tabeditor_2.07-min.js" ></script>
 
     <!-- suporte a MIDI -->
     <script type="text/javascript" src="MIDI.js/MIDI_2.02-min.js"></script>
@@ -445,7 +452,7 @@ notação abc, tablatura "/>
           myMap.gShowLabel = !myMap.gShowLabel;
           myMap.gaita.redrawKeyboard();
         }, false);
-
+        
         printButton.addEventListener("click", function() {
             $("#divTitulo").hide();
             $("#editControlDiv").hide();
