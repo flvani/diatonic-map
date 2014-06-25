@@ -59,6 +59,7 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams ) {
     
     //criar impressoras e folhas de papel para cada aba    
 
+    DR_register( this );
     DR_register( this.gaita );
 
     var that = this;
@@ -72,6 +73,13 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams ) {
     }, false );
     
 };
+
+DIATONIC.map.Map.prototype.translate = function() {
+  document.getElementById("editorBtn").innerHTML = DR.resource["editorBtn"][DR.language];
+  document.getElementById("didaticoBtn").innerHTML = DR.resource["didaticoBtn"][DR.language];
+  
+};
+
 
 DIATONIC.map.Map.prototype.isHorizontal = function() {
     return this.checkboxHorizontal.checked;
