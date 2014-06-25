@@ -10,21 +10,19 @@ if (!window.DIATONIC)
 if (!window.DIATONIC.play)
     window.DIATONIC.play = {};
 
-DIATONIC.play.Player = function(map, container, playButton, options ) {
+DIATONIC.play.Player = function(map, playButton, options ) {
 
     this.map = map;
     this.scale = [0, 2, 4, 5, 7, 9, 11];
     this.reset( options );
-    this.tuneContainer = document.getElementById(container);
     this.playLink = playButton;
-    this.startTieElem= {};
 };
 
 DIATONIC.play.Player.prototype.reset = function(options) {
     
     options = options || {};
     
-tTieElem = [];
+    this.startTieElem= {};
     this.lastTabElem = [];
     this.trackcount = 0;
     this.timecount = 0;
@@ -158,12 +156,12 @@ DIATONIC.play.Player.prototype.doPlay = function() {
 };
 
 DIATONIC.play.Player.prototype.startPlay = function() {
-    this.ypos = this.tuneContainer.scrollTop + 70;
+    this.ypos = 1000;
     this.map.gaita.clearKeyboard();
 
     this.playing = true;
     this.playLink.title = DR.resource["DR_pause"][DR.language];
-    this.playLink.innerHTML = '&nbsp;<i class="icon-pause"></i>&nbsp;'
+    this.playLink.innerHTML = '&nbsp;<i class="icon-pause"></i>&nbsp;';
   
     var self = this;
     this.doPlay();
@@ -204,10 +202,10 @@ DIATONIC.play.Player.prototype.clearSelection = function() {
 };
 
 DIATONIC.play.Player.prototype.setScrolling = function(y, channel) {
-    if( !this.tuneContainer || channel > 0 ) return;
+    if( !this.map.tuneContainerDiv || channel > 0 ) return;
     if( Math.abs(y - this.ypos) > 200 ) {
         this.ypos = y;
-        this.tuneContainer.scrollTop = this.ypos - 70;    
+        this.map.tuneContainerDiv.scrollTop = this.ypos - 40;    
     }
 };
 
@@ -509,8 +507,6 @@ DIATONIC.play.Player.prototype.selectButtons = function(elem) {
             this.unSelectButton(elem, button, this.timecount + mididuration);
 
         }
-        //this.selectNote(elem, this.timecount);
-        //this.unSelectNote(elem, this.timecount + mididuration);
     }
     this.timecount += mididuration;
 };
@@ -556,8 +552,6 @@ DIATONIC.play.Player.prototype.writeNote = function(elem) {
                 this.selectNote(elem, this.timecount);
                 this.unSelectNote(elem, this.timecount + mididuration);
                 this.endTies( midipitch, mididuration );
-                //this.endNote(midipitch, this.startTieElem[midipitch], this.timecount + mididuration );
-                //delete this.startTieElem[midipitch];
             } else {
                 this.startNote(midipitch, 256, elem, this.timecount);
                 this.endNote(midipitch, elem, this.timecount + mididuration);

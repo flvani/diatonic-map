@@ -6,6 +6,10 @@ body {
   background: #fff url(../img/bg.gif) repeat top left; */
 }
 
+.container {
+    width: 1160px;
+}
+
 .container > header h1{
 	font-size: 28px;
 	line-height: 28px;
@@ -326,21 +330,21 @@ body {
   background-repeat:no-repeat;
 }
 
-#content_detalhes_old    {
+#tuneContainerDiv_old    {
     background: #fff;
     height: 250px;
     overflow-x: hidden;
     overflow-y: scroll;
 }
 
-#content_detalhes, 
+#tuneContainerDiv, 
 #canvasDivUnused {
   background: #fff;
 } 
 
 #canvasDivUnused, 
 #divContent,
-#content_detalhes {
+#tuneContainerDiv {
     padding: 0;
     position: relative;
     z-index: 2;	

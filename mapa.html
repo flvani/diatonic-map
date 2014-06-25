@@ -44,7 +44,7 @@ notação abc, tablatura "/>
               <table><tr>
                 <td id="DR_appName"><h1>Mapa para <span>Acordeons Diatônicos</span></h1></td>
                 <td style="width:5%;"></td>
-                <td><a class="brand" href="#openModal" id="DR_about" >Sobre</a></td>
+                <td><a class="brand" href="#modalAbout" id="DR_about" >Sobre</a></td>
               </tr></table>
               </div>
               <div  style="float: right; margin-right: 20px; margin-top: 0px;">
@@ -59,7 +59,7 @@ notação abc, tablatura "/>
       </div>
     </div> <!-- /navbar -->
    
-    <div class="container" id="divContainer"  style="margin-top: 0; margin-left: 4px;" >
+    <div class="container" id="mapContainerDiv"  style="margin-top: 0; margin-left: 4px;" >
       <div id="divMenu" class="span12" style="height:36px; margin-left: 1px; margin-top: 4px;">
         <table><tr><td>
             <table class="table table-bordered table-final">
@@ -71,7 +71,7 @@ notação abc, tablatura "/>
                   </div>
                 </td >
                 <td >
-                    <button id="change_labels" class="btn label"><i class="icon-globe icon-white"></i>&nbsp;<span id="DR_chlabel">Mudar notação</span></button>
+                    <button id="changeNotationBtn" class="btn label"><i class="icon-globe icon-white"></i>&nbsp;<span id="DR_chlabel">Mudar notação</span></button>
                 </td >
                 <td >
                   <div class="btn-group">
@@ -90,7 +90,7 @@ notação abc, tablatura "/>
           </table>
         </div>
 
-      <div id="div_principal" class="span12" style="margin-top:6px; margin-left:1px;" >
+      <div id="div_principal" class="span12" style="margin-top:6px; margin-left:1px; width: 904px;" >
         <ul id="faketab">
             <li><a href="#" id="a_nome_gaita">Gaita</a></li>
             <li>
@@ -108,12 +108,12 @@ notação abc, tablatura "/>
                 </div>  
             </li>
         </ul>
-        <div id="divContent"> 
+        <div id="divContent" > 
           <div id="contentKeyboard" style="width: auto; float: left; min-height: 302px;" ></div>
-          <div id="contentInfo" style=" float: right; margin-top: 15px; margin-right: 15px;">
+          <div id="contentInfo" style=" float: right; margin-top: 8px; margin-right: 8px;">
               <table class="table table-bordered table-final" style="min-width: 200px;">
               <tr>
-                <td colspan="2" style="height:200px;" id="td_imagem_gaita" >
+                <td style="height:200px;" id="td_imagem_gaita" >
                     <b>Loading...</b>
                 </td>
               </tr>
@@ -121,8 +121,24 @@ notação abc, tablatura "/>
           </div>
         </div>
       </div>
+      <div id="divAD" style="width: 200px; float: right; margin-top: 34px; margin-right: 15px;"> 
+              <table class="table table-bordered table-final" style="min-width: 200px;">
+              <tr>
+                <td >
+                    <center style="color: #189CDA;"><b>Divulgação...</b></center>
+                </td>
+              </tr>
+              <tr>
+                <td >
+                    <a href="#modalAD">
+                    <img src="img/oficina.mini.png" alt="Oficina de Gaita Ponto" title="Oficina de Gaita Ponto">
+                    </a>
+                </td>
+              </tr>
+            </table>
+      </div>
       
-      <div id="div_detalhes" style="float:left; margin-top:6px; margin-left:0px; width:105%;"> 
+      <div id="div_detalhes" style="float:left; margin-top:6px; margin-left:0px; width:100%;"> 
         <ul id="tabs">
             <li><a href="#" id="tabSongs">Músicas</a></li>        
             <li><a href="#" id="tabChords">Acordes</a></li>
@@ -137,16 +153,16 @@ notação abc, tablatura "/>
                 </div>  
             </li>
         </ul>
-        <div id= "content_detalhes" style="float:left; margin-top:0px; margin-left:0px; margin-bottom: 6px; 
-                                            width:105%; height: 300px; overflow-y: scroll;" > 
+        <div id= "tuneContainerDiv" style="float:left; margin-top:0px; margin-left:0px; margin-bottom: 6px; 
+                                            width:100%; height: 330px; overflow-y: scroll;" > 
             <div id="tabSongsDiv">
-               <div id="songDiv" style="display: inline;"> </div>
+               <!--div id="songDiv" style="display: inline;"> </div-->
             </div>    
             <div id="tabChordsDiv" >
-               <div id="chordDiv" style="display: inline;"> </div>
+               <!--div id="chordDiv" style="display: inline;"> </div-->
             </div>
             <div id="tabPracticesDiv" >
-               <div id="practiceDiv" style="display: inline;"> </div>
+               <!--div id="practiceDiv" style="display: inline;"> </div-->
             </div>
         </div>
       </div>
@@ -154,7 +170,7 @@ notação abc, tablatura "/>
     </div> <!-- /container -->
 
     <div id="editControlDiv" style=" background-color: #5ba4a4; display:none; margin:0px; width:100%; top: 50px; position: fixed; z-index: 1000;">  
-        <div id="divEditArea" style="">
+        <div id="editAreaDiv" style="">
             <textarea id="textareaABC" rows="8" style="width: 97%; margin: 8px; color: #000; font-family: monospace;"></textarea>
             <span style="margin-left: 8px;"></span>
             <select id="selGaitas" > </select>
@@ -168,79 +184,94 @@ notação abc, tablatura "/>
             <input type="checkbox" id="chkAutoRefresh" /><span id="DR_refresh">Auto atualização</span> 
             <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
         </div>
-        <div id="warnings" class="span12" style="margin-top:6px; margin-left:0px;"></div>
-    </div>
+        <div id="warningsDiv" class="span12" style="margin-top:6px; margin-left:0px;"></div>
+    </div>  <!-- /editControlDiv -->
 
-    <div id="divEditor" style="display: none;">
-        <!--div id="canvasDiv" style="width: 100%; background-color: #fff;"> </div-->
+    <div id="editorDiv" style="display: none;"></div>
+    
+    <script type="text/javascript">
+        var _clustrmaps = {'url' : 'http://flvani.github.io', 'user' : 1132824, 
+        'server' : '2', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2014-02-19', 'lang' : 'pt', 
+        'corners' : 'square' };(function (){ var s = document.createElement('script'); 
+         s.type = 'text/javascript'; s.async = true; s.src = 'http://www2.clustrmaps.com/counter/map.js';
+         var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();
+    </script>
+    <noscript>
+        <a href="http://www2.clustrmaps.com/user/617114918" target="_blank">
+             <img src="http://www2.clustrmaps.com/stats/maps-no_clusters/flvani.github.io-thumb.jpg" alt="Localização dos visitantes desta página." />
+        </a>
+    </noscript>
+      
+    <div id="modalAD" class="modalWindow" style="display: none;">
+        <div>
+          <div class="modalHeader">
+            <h2>Sobre...</h2>
+            <a href="#close" title="Fechar" class="close">X</a>
+          </div>
+            <div class="modalContent" style="height: 500px; overflow-y: scroll;">
+            <img width="800px" src="img/oficina.png" alt="Oficina de Gaita Ponto" title="Oficina de Gaita Ponto">
+          </div>
+          <div class="modalFooter">
+            <a href="#cancel" title="Fechar a janela" class="cancel">Fechar</a>
+            <div class="clear"></div>
+          </div>
+        </div>
     </div>
-        
-    <div id="openModal" class="modalWindow"> 
-      <div>
-        
-        <div class="modalHeader">
-          <h2>Sobre...</h2>
-          <a href="#close" title="Fechar" class="close">X</a>
-        </div>
-        
-        <div class="modalContent">
-        <div id="clustrmaps-widget" style="float:right;   margin-left:1em;"></div>
-        <script type="text/javascript">
-	   var _clustrmaps = {'url' : 'http://flvani.github.io', 'user' : 1132824, 
-	   'server' : '2', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2014-02-19', 'lang' : 'pt', 
-	   'corners' : 'square' };(function (){ var s = document.createElement('script'); 
-	   s.type = 'text/javascript'; s.async = true; s.src = 'http://www2.clustrmaps.com/counter/map.js';
-	    var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script>
-	    <noscript><a href="http://www2.clustrmaps.com/user/617114918" target="_blank">
-			<img src="http://www2.clustrmaps.com/stats/maps-no_clusters/flvani.github.io-thumb.jpg" alt="Localização dos visitantes desta página." />
-			</a></noscript>
-          <h3>Diatonic-Map <i>v0.93</i><br><span>Desenvolvido por <a href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
-          <p>Este projeto pretende ser um mapa de referência para acordeons diatônicos. 
-             Com ele é possível configurar -- e mostrar -- o layout de qualquer gaita de botões, nos seus mais diversos modelos.
-             Quero deixar aqui, meus especiais agradecimentos ao 
-                 <a href="mailto:prof.cezar.ferreira@gmail.com"><strong>Prof. Cezar Ferreira</strong></a> - (<a href="http://www.youtube.com/watch?v=6_moobqpyyY">YouTube</a>), 
-             que forneceu o material necessário para criação dos layouts e as essenciais informações sobre tablaturas para acordeons, 
-             bem como, músicas e exercícios para praticar diretamente na gaita.   
-          <p>Para transformar o projeto em uma ferramenta de aprendizagem, juntamos uma biblioteca  
-             que permite editar partituras no formato ABC (<b>abjcs</b>) diretamente no browser. 
-             O editor foi estendido para incluir uma ferramenta de transposição de tonalidades 
-             e, principalmente, ampliamos a notação ABC (<i>non-standard</i>) para incluir 
-             uma sintaxe para produção de tablaturas para acordeons,
-             juntando o modelo ABC com os mapas de acordeons aqui apresentados.
-          <p>Por fim, através da implementação das bibliotecas de MIDI para browsers (<b>MIDI.js</b>), 
-             tornou-se possível ouvir os sons produzidos pelo acordeon, na forma de canções e exercícios.
-             Este recurso funciona inclusive em dispositivos móveis, tais como celulares Android.  
-          <p>O objetivo final é proporcionar uma experiência visual e interativa para aqueles que estão iniciando 
-              seus estudos na "Gaita Ponto".
-          
-          <p>
-          <h5>Ainda, meus sinceros agradecimentos aos autores destas bibliotecas:</h5>
-          <ul>
-            <li><b><a href="https://github.com/leandron/accordion-map" target="_blank">accordion-map</a> by Leandro Nunes: "An interactive reference map for diatonic accordion chords".</b> This is where all started.
-            </li>
-            <li><b><a href="https://github.com/paulrosen/abcjs" target="_blank">abcjs</a> by Paul Rosen: "Javascript for rendering ABC music notation".</b> A really, really great idea and a powerfull project.
-            </li>
-            <li><b><a href="https://github.com/mudcube/MIDI.js" target="_blank">MIDI.js</a> by Michael Deal: "Making life easy to create a MIDI-app on the web. Includes a library that convert soundfonts for Accordion into code that can be read by the browser".</b> Another great project, made of good people contributing to it.
-            </li>
-          </ul>
-        </div>
-       
-        <div class="modalFooter">
-          Esta obra é distribuída sob uma Licença <b rel="license" href="http://creativecommons.org/licenses/by/3.0/br/deed.pt_BR">
-			   Creative Commons Atribuição 3.0 Brasil</b>.
-          <a href="#cancel" title="Fechar a janela" class="cancel">Fechar</a>
-          <a href="http://creativecommons.org/licenses/by/3.0/br/deed.pt_BR" target="_blank" title="Ver a licença" class="ok">Ver</a>
-          <div class="clear"></div>
-        </div>
+    
+    <div id="modalAbout" class="modalWindow" style="display: none;">
+        <div>
+          <div class="modalHeader">
+            <h2>Divulgacao...</h2>
+            <a href="#close" title="Fechar" class="close">X</a>
+          </div>
+          <div class="modalContent">
+            <div id="clustrmaps-widget" style="float:right;   margin-left:1em;"></div>
+            <h3>Diatonic-Map <i>v0.93</i><br><span>Desenvolvido por <a href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
+            <p>Este projeto pretende ser um mapa de referência para acordeons diatônicos. 
+               Com ele é possível configurar -- e mostrar -- o layout de qualquer gaita de botões, nos seus mais diversos modelos.
+               Quero deixar aqui, meus especiais agradecimentos ao 
+                   <a href="mailto:prof.cezar.ferreira@gmail.com"><strong>Prof. Cezar Ferreira</strong></a> - (<a href="http://www.youtube.com/watch?v=6_moobqpyyY">YouTube</a>), 
+               que forneceu o material necessário para criação dos layouts e as essenciais informações sobre tablaturas para acordeons, 
+               bem como, músicas e exercícios para praticar diretamente na gaita.   
+            <p>Para transformar o projeto em uma ferramenta de aprendizagem, juntamos uma biblioteca  
+               que permite editar partituras no formato ABC (<b>abjcs</b>) diretamente no browser. 
+               O editor foi estendido para incluir uma ferramenta de transposição de tonalidades 
+               e, principalmente, ampliamos a notação ABC (<i>non-standard</i>) para incluir 
+               uma sintaxe para produção de tablaturas para acordeons,
+               juntando o modelo ABC com os mapas de acordeons aqui apresentados.
+            <p>Por fim, através da implementação das bibliotecas de MIDI para browsers (<b>MIDI.js</b>), 
+               tornou-se possível ouvir os sons produzidos pelo acordeon, na forma de canções e exercícios.
+               Este recurso funciona inclusive em dispositivos móveis, tais como celulares Android.  
+            <p>O objetivo final é proporcionar uma experiência visual e interativa para aqueles que estão iniciando 
+                seus estudos na "Gaita Ponto".
 
-      </div>
+            <p>
+            <h5>Ainda, meus sinceros agradecimentos aos autores destas bibliotecas:</h5>
+            <ul>
+              <li><b><a href="https://github.com/leandron/accordion-map" target="_blank">accordion-map</a> by Leandro Nunes: "An interactive reference map for diatonic accordion chords".</b> This is where all started.
+              </li>
+              <li><b><a href="https://github.com/paulrosen/abcjs" target="_blank">abcjs</a> by Paul Rosen: "Javascript for rendering ABC music notation".</b> A really, really great idea and a powerfull project.
+              </li>
+              <li><b><a href="https://github.com/mudcube/MIDI.js" target="_blank">MIDI.js</a> by Michael Deal: "Making life easy to create a MIDI-app on the web. Includes a library that convert soundfonts for Accordion into code that can be read by the browser".</b> Another great project, made of good people contributing to it.
+              </li>
+            </ul>
+          </div>
+
+          <div class="modalFooter">
+              Esta obra é distribuída sob uma Licença <b><a rel="license" href="http://creativecommons.org/licenses/by/3.0/br/deed.pt_BR">
+                             Creative Commons Atribuição 3.0 Brasil</a></b>.
+            <a href="#cancel" title="Fechar a janela" class="cancel">Fechar</a>
+            <a href="http://creativecommons.org/licenses/by/3.0/br/deed.pt_BR" target="_blank" title="Ver a licença" class="ok">Ver</a>
+            <div class="clear"></div>
+          </div>
+        </div>
     </div> <!-- /about -->
     
     <script type="text/javascript" src="jquery-1.10.2.min.js"></script>
     <script type="text/javascript" src="proto_noconflict.js" ></script>
     
     <!-- suporte a arquivos ABC -->
-    <script type="text/javascript" src="abcjs/abcjs_tabeditor_2.05-min.js" ></script>
+    <script type="text/javascript" src="abcjs/abcjs_tabeditor_2.06-min.js" ></script>
 
     <!-- suporte a MIDI -->
     <script type="text/javascript" src="MIDI.js/MIDI_2.02-min.js"></script>
@@ -261,7 +292,8 @@ notação abc, tablatura "/>
     <script type="text/javascript" src="map/gaita.js"></script>
     <script type="text/javascript" src="map/button.js"></script>
     
-    <script type="text/javascript" src="player/player.js"></script>
+    <script type="text/javascript" src="abc2midi/midiparser.js"></script>
+    <script type="text/javascript" src="abc2midi/midiplayer.js"></script>
     
     <script type="text/javascript" src="js/resource.js"></script>
     
@@ -298,60 +330,48 @@ notação abc, tablatura "/>
         DR_register("DR_refresh");
         //DR_register("DR_debug");
 
-    
         window.addEventListener('load', initApp, false);
+        
         window.editorButton = document.getElementById("editorBtn");
         window.playButton = document.getElementById("playBtn");
         window.didaticoButton = document.getElementById("didaticoBtn");
         window.stopButton = document.getElementById("stopBtn");
         window.printButton = document.getElementById("printBtn");
         window.closeButton = document.getElementById("closeBtn");
+        window.changeNotationButton = document.getElementById("changeNotationBtn");
 
         function initApp() {
             
-            var myEditor = new ABCJS.Editor(
-                         "textareaABC"
-                      ,{
-                         canvas_id: "divEditor"
-                        //,midi_id: "midi"
-                        ,warnings_id: "warnings"
-                        ,refreshController_id: "chkAutoRefresh"
-                        ,accordionSelector_id: "selGaitas"
-                        ,keySelector_id: "selKey"
-                        ,midi_options: {program: 21, qpm: 150, type: "qt"}
-                        ,render_options: {}
-                        ,gui: false
-                      });
-                    
             myMap = new DIATONIC.map.Map(
-                    myEditor
-                    ,
-                    { 
-                       ckPiano: 'checkboxPiano'
-                      ,ckAccordion: 'checkboxAcordeon'
-                      ,ckMirror: 'checkboxEspelho'
-                      ,ckHorizontal: 'checkboxHorizontal'
-                      ,accordionNamePlaceHolder: 'a_nome_gaita'
-                      ,accordionImagePlaceHolder: 'td_imagem_gaita'
-                      ,accordionParams: { 
-                         songDiv: 'songDiv' 
-                        ,songContainerDiv: 'tabSongsDiv'
-                        ,chordDiv: 'chordDiv' 
-                        ,chordContainerDiv: 'tabChordsDiv'
-                        ,practiceDiv: 'practiceDiv' 
-                        ,practiceContainerDiv: 'tabPracticesDiv'
-                        ,keyboardContentDiv: 'contentKeyboard'
-                        ,tabContentDiv: 'content_detalhes'
-                        ,songSelector: 'selSongs'
-                        ,playButton: window.playButton
-                        
-                      }
-                    } 
-                 );
-
-            // populas listas drop-down        
+                {   // interfaceParams
+                    ckPiano: 'checkboxPiano'
+                  , ckAccordion: 'checkboxAcordeon'
+                  , ckMirror: 'checkboxEspelho'
+                  , ckHorizontal: 'checkboxHorizontal'
+                  , accordionNamePlaceHolder: 'a_nome_gaita'
+                  , accordionImagePlaceHolder: 'td_imagem_gaita'
+                  , tuneContainerDiv: 'tuneContainerDiv'
+              }
+              , {   // accordionParams
+                    playButton: window.playButton
+                  , keyboardContentDiv: 'contentKeyboard'
+                  , songSelector: 'selSongs'
+                  , songDiv: 'tabSongsDiv'
+                  , chordDiv: 'tabChordsDiv'
+                  , practiceDiv: 'tabPracticesDiv'
+              }
+              , {   // editorParams
+                    textArea: "textareaABC"
+                  , canvas_id: "editorDiv"
+                  , refreshController_id: "chkAutoRefresh"
+                  , accordionSelector_id: "selGaitas"
+                  , keySelector_id: "selKey"
+                  , warnings_id: "warningsDiv"
+              } 
+            );
+            
+            // popula lista drop-down        
             myMap.carregaListaGaitas();
-            myMap.carregaListaAfinacoesComuns();
 
             // configura e mostra a gaita inicial
             myMap.gaita.setup( {
@@ -364,8 +384,7 @@ notação abc, tablatura "/>
         
         $(document).ready(function() {
             
-          $("#content_detalhes").find("[id^='tab']").hide(); // Hide all content
-          //$("#contentKeyboard").hide(); 
+          $("#tuneContainerDiv").find("[id^='tab']").hide(); // Hide all content
           
             MIDI.loader = new widgets.Loader();
             MIDI.loadPlugin({
@@ -380,22 +399,18 @@ notação abc, tablatura "/>
                   MIDI.programChange(0, 21); // canais para accordeon
                   MIDI.programChange(1, 21); // canais para accordeon
                   $("#tabs li:first").attr("id","current"); // Activate the first tab
-                  $("#content_detalhes #tabSongs" ).fadeIn(); // Show first tab's content
-                  $("#contentKeyboard" ).fadeIn(); 
+                  $("#tuneContainerDiv #tabSongsDiv" ).fadeIn(); // Show first tab's content
+                  document.getElementById("modalAbout").style.display = 'inline';
+                  document.getElementById("modalAD").style.display = 'inline';
                 }
             });
-            
-
-//                  $("#tabs li:first").attr("id","current"); // Activate the first tab
-//                  $("#content_detalhes #tabAcordes" ).fadeIn(); // Show first tab's content
-//                  $("#contentKeyboard" ).fadeIn(); 
 
           $('#tabs a').click(function(e) {
               e.preventDefault();
               if ($(this).closest("li").attr("id") === "current"){ //detection for current tab
                 return;       
               } else{             
-                $("#content_detalhes").find("[id^='tab']").hide(); // Hide all content
+                $("#tuneContainerDiv").find("[id^='tab']").hide(); // Hide all content
                 $("#tabs li").attr("id",""); //Reset id's
                 $(this).parent().attr("id","current"); // Activate this
                 $('#' + $(this).attr('id')+"Div").fadeIn(); // Show content for the current tab
@@ -407,89 +422,9 @@ notação abc, tablatura "/>
           });
         });
         
-        $('#contentKeyboard').on('mouseover', function () {
-          //if(myMap.gaita.player)
-            //myMap.gaita.player.stopPlayingNClear();
-        });
-        
-         $('#change_labels').on('click', function () {
-          myMap.gShowLabel = !myMap.gShowLabel;
-          myMap.gaita.redrawKeyboard();
-        });
-
-        $('#sub_half_tone').on('click', function () {
-          if ( myMap.toneOffSet + myMap.gaita.minNoteInUse > myMap.gaita.minNote ) {
-            --myMap.toneOffSet;
-            myMap.gaita.redrawKeyboard();
-          } else {
-            alert( "Limite mínimo atingido!" );
-          }
-        });
-
-        $('#add_half_tone').on('click', function () {
-          if ( myMap.toneOffSet + myMap.gaita.maxNoteInUse < myMap.gaita.maxNote ) {
-            ++myMap.toneOffSet;
-            myMap.gaita.redrawKeyboard();
-          } else {
-            alert( "Limite máximo atingido!" );
-          }
-        });
-
-        function set_pop_tone(value) {
-            myMap.set_pop_tone(value);
-        };
-
         function setupGaita(value) {
             myMap.gaita.setup({accordionId:value});
         };
-
-        printButton.addEventListener("click", function() {
-            $("#divTitulo").hide();
-            $("#editControlDiv").hide();
-            document.body.style.paddingTop = '0px';
-            window.print();
-            document.body.style.paddingTop = '280px';
-            $("#divTitulo").fadeIn();
-            $("#editControlDiv").fadeIn();
-        }, false);
-
-        playButton.addEventListener("click", function() {
-            if( ! myMap.gaita.renderedTune ) return;
-            myMap.gaita.playRenderedSong(playButton);
-        }, false);
-        
-        didaticoButton.addEventListener("click", function() {
-            if( ! myMap.gaita.renderedTune ) return;
-            myMap.gaita.didaticPlayRenderedSong(didaticoButton);
-        }, false);
-        
-        stopButton.addEventListener("click", function() {
-            if( ! myMap.gaita.renderedTune ) return;
-            myMap.gaita.stopRenderedSong(playButton);
-        }, false);
-                
-        editorButton.addEventListener("click", function() {
-            if( ! myMap.gaita.renderedTune ) return;
-            $("#divContainer").hide();
-            document.body.style.paddingTop = '280px';
-            savedBackgroundColor = document.body.style.backgroundColor;
-            document.body.style.backgroundColor = '#fff';
-            $("#editControlDiv").fadeIn();
-            myMap.editor.div.innerHTML = myMap.gaita.songDiv.innerHTML;
-            //myMap.editor.div.width = myMap.gaita.songDiv.width;
-            $("#divEditor").fadeIn();
-        }, false);
-        
-        closeButton.addEventListener("click", function() {
-            $("#divEditor").hide();
-            $("#editControlDiv").hide();
-            document.body.style.backgroundColor = savedBackgroundColor;
-            document.body.style.paddingTop = '50px';
-            $("#divContainer").fadeIn();
-            myMap.gaita.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
-            myMap.gaita.printTune();
-  
-        }, false);
 
         function doTranspose(value) {
             myMap.editor.fireChanged(value, "force");
@@ -503,6 +438,58 @@ notação abc, tablatura "/>
             debug = document.getElementById("chkDebug").checked;
             myMap.Editor.fireChanged(0, "force");
         };
+
+        changeNotationButton.addEventListener("click", function() {
+          myMap.gShowLabel = !myMap.gShowLabel;
+          myMap.gaita.redrawKeyboard();
+        }, false);
+
+        printButton.addEventListener("click", function() {
+            $("#divTitulo").hide();
+            $("#editControlDiv").hide();
+            document.body.style.paddingTop = '0px';
+            window.print();
+            document.body.style.paddingTop = '280px';
+            $("#divTitulo").fadeIn();
+            $("#editControlDiv").fadeIn();
+        }, false);
+
+        playButton.addEventListener("click", function() {
+            if( ! myMap.gaita.renderedTune ) return;
+            myMap.playRenderedSong(playButton);
+        }, false);
+        
+        didaticoButton.addEventListener("click", function() {
+            if( ! myMap.gaita.renderedTune ) return;
+            myMap.didaticPlayRenderedSong(didaticoButton);
+        }, false);
+        
+        stopButton.addEventListener("click", function() {
+            if( ! myMap.gaita.renderedTune ) return;
+            myMap.stopRenderedSong(playButton);
+        }, false);
+                
+        editorButton.addEventListener("click", function() {
+            if( ! myMap.gaita.renderedTune ) return;
+            $("#mapContainerDiv").hide();
+            document.body.style.paddingTop = '280px';
+            savedBackgroundColor = document.body.style.backgroundColor;
+            document.body.style.backgroundColor = '#fff';
+            $("#editControlDiv").fadeIn();
+            myMap.editor.div.innerHTML = myMap.gaita.songDiv.innerHTML;
+            $("#editorDiv").fadeIn();
+        }, false);
+        
+        closeButton.addEventListener("click", function() {
+            $("#editorDiv").hide();
+            $("#editControlDiv").hide();
+            document.body.style.backgroundColor = savedBackgroundColor;
+            document.body.style.paddingTop = '50px';
+            $("#mapContainerDiv").fadeIn();
+            myMap.gaita.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
+            myMap.gaita.printTune(true);
+  
+        }, false);
 
   </script>
         
