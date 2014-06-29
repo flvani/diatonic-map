@@ -75,7 +75,7 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams ) {
 };
 
 DIATONIC.map.Map.prototype.translate = function() {
-  document.getElementById("editorBtn").innerHTML = DR.resource["editorBtn"][DR.language];
+  document.getElementById("toolsBtn").innerHTML = DR.resource["toolsBtn"][DR.language];
   document.getElementById("didaticoBtn").innerHTML = DR.resource["didaticoBtn"][DR.language];
   
 };
