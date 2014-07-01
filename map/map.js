@@ -51,14 +51,14 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams ) {
     this.gaitaNamePlaceHolder = document.getElementById(interfaceParams.accordionNamePlaceHolder);
     this.gaitaImagePlaceHolder = document.getElementById(interfaceParams.accordionImagePlaceHolder);
 
+    this.ypos = 0; // esta variável é usada para ajustar o scroll durante a execução do midi
 
     this.midiParser = new DIATONIC.midi.Parse(this);
     this.midiPlayer = new DIATONIC.midi.Player(this, accordionParams.playButton);
+    
   
     this.gaita = new DIATONIC.map.Gaita(this, accordionParams);
     
-    //criar impressoras e folhas de papel para cada aba    
-
     DR_register( this );
     DR_register( this.gaita );
 
@@ -77,6 +77,13 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams ) {
 DIATONIC.map.Map.prototype.translate = function() {
   document.getElementById("toolsBtn").innerHTML = DR.resource["toolsBtn"][DR.language];
   document.getElementById("didaticoBtn").innerHTML = DR.resource["didaticoBtn"][DR.language];
+  document.getElementById("octaveUpBtn").innerHTML = DR.resource["octaveUpBtn"][DR.language];
+  document.getElementById("octaveDwBtn").innerHTML = DR.resource["octaveDwBtn"][DR.language];
+  document.getElementById("printBtn").innerHTML = DR.resource["printBtn"][DR.language];
+  document.getElementById("saveBtn").innerHTML = DR.resource["saveBtn"][DR.language];
+  document.getElementById("closeBtn").innerHTML = DR.resource["closeBtn"][DR.language];
+  document.getElementById("forceRefresh").innerHTML = DR.resource["forceRefresh"][DR.language];
+  document.getElementById("DR_message").alt = DR.resource["DR_message"][DR.language];
   
 };
 
@@ -107,6 +114,32 @@ DIATONIC.map.Map.prototype.carregaListaGaitas  = function() {
   }
 };
 
+DIATONIC.map.Map.prototype.carregaRepertorio = function(original, files) {
+    var that = this;
+    var accordion = that.gaita.getSelectedAccordion();
+    if (original) {
+        accordion.loadSongs( function() {  // devido à falta de sincronismo, preciso usar o call back;
+            var songTitle = accordion.getFirstSong();
+            that.gaita.loadSongList(songTitle);
+            that.gaita.renderTune( songTitle, {}, true );
+            
+        });
+    } else {
+        accordion.songs = {};
+        for (var s = 0; s < files.length; s++) {
+            var tunebook = new ABCJS.TuneBook(files[s].content);
+            for (var t = 0; t < tunebook.tunes.length; t++) {
+                accordion.songs[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
+
+            }
+        }
+        var songTitle = accordion.getFirstSong();
+        that.gaita.loadSongList(songTitle);
+        that.gaita.renderTune( songTitle, {}, true );
+    }
+    
+};
+
 DIATONIC.map.Map.prototype.setGaitaImage = function(gaita) {
   this.gaitaImagePlaceHolder.innerHTML = '<img src="'+gaita.getPathToImage()
           +'" alt="'+gaita.getName()+'" style="height:200px; width:200px;" />';
@@ -130,16 +163,42 @@ DIATONIC.map.Map.prototype.stopRenderedSong = function() {
 };
 
 DIATONIC.map.Map.prototype.playRenderedSong = function() {
-  if( this.midiPlayer.playing ) {
-    this.midiPlayer.pausePlay();
-   } else {
-     this.gaita.clearKeyboard();
-     this.midiPlayer.startPlay(this.gaita.tuneMidi, this.midiParser.tempo);
-   } 
+    if (this.midiPlayer.playing) {
+        this.midiPlayer.pausePlay();
+    } else {
+        this.gaita.clearKeyboard();
+        var midi;
+        switch (myMap.currentTab) {
+            case "tabTunes":
+                midi = this.gaita.midiTune;
+                break;
+            case "tabChords":
+                midi = this.gaita.midiChord;
+                break;
+            case "tabPractices":
+                midi = this.gaita.midiPractice;
+                break;
+        }
+
+        this.midiPlayer.startPlay(midi);
+    }
 };
 
 DIATONIC.map.Map.prototype.didaticPlayRenderedSong = function() {
-  this.gaita.clearKeyboard();
-  this.midiPlayer.startDebugPlay(this.gaita.tuneMidi, this.midiParser.tempo);
+    this.gaita.clearKeyboard();
+    var midi;
+    switch (myMap.currentTab) {
+        case "tabTunes":
+            midi = this.gaita.midiTune;
+            break;
+        case "tabChords":
+            midi = this.gaita.midiChord;
+            break;
+        case "tabPractices":
+            midi = this.gaita.midiPractice;
+            break;
+    }
+
+    this.midiPlayer.startDebugPlay(midi);
 };
 

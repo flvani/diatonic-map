@@ -25,9 +25,9 @@ notação abc, tablatura "/>
     <!--
     
     TODO:
-        Gerar informação no parse e inferencia da tablatura sobre a duracao total de uma nota ou manter tie info
         Usar a informação das barras de repeticao da primeira linha em todas as vozes (no gerador de midi)
         Implementar uma forma de diminuir a velocidade de uma canção (modo didático)
+        done:Gerar informação no parse e inferencia da tablatura sobre a duracao total de uma nota ou manter tie info
         done: Eliminar o uso do Kinetic
         done:Acertar a transposição (preferir o acidente junto da nota, ignorando o da pauta; 
         done:manter o acidente por todo o compasso)
@@ -51,7 +51,7 @@ notação abc, tablatura "/>
                   <div class="btn-group">
                       <span class="btn label dropdown-toggle" style="padding: 2px; background-color: white;">
                     <a target="_blank" href="mailto:flavio.vani@gmail.com?Subject=Comentário sobre o site Diatonic-Map">
-                         <img src="img/mail_80x80.png" width="32" height="32" alt="Deixe uma mensagem" title="Deixe uma mensagem">
+                         <img id="DR_message" src="img/mail_80x80.png" width="32" height="32" alt="Deixe uma mensagem" title="Deixe uma mensagem">
                     </a>                          
                       </span>
                   </div>
@@ -73,8 +73,18 @@ notação abc, tablatura "/>
               <tr >
                 <td >
                   <div class="btn-group">
-                      <button class="btn label dropdown-toggle" data-toggle="dropdown"><span id="DR_acordeons">Acordeons</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                      <button class="btn label dropdown-toggle" data-toggle="dropdown"><span id="DR_accordions">Acordeons</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
                     <ul class="dropdown-menu" id="opcoes_gaita"></ul>
+                  </div>
+                </td >
+                <td >
+                  <div class="btn-group">
+                      <button class="btn label dropdown-toggle" data-toggle="dropdown"><span id="DR_repertoire">Repertório</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                      <input id="fileLoadRepertoire" type="file" style="display: none;" multiple />
+                      <ul class="dropdown-menu" id="opcoes_repertorio">
+                          <li><a href="#" id="DR_original" onclick="reloadRepertoire()">Restaurar o original</a></li>
+                          <li><a href="#" id="DR_localLoad" onclick="document.getElementById('fileLoadRepertoire').click()">Carregar do drive local</a></li>
+                      </ul>
                   </div>
                 </td >
                 <td >
@@ -82,9 +92,9 @@ notação abc, tablatura "/>
                 </td >
                 <td >
                   <div class="btn-group">
-                      <button class="btn label dropdown-toggle" data-toggle="dropdown"><span id="DR_teoria">Teoria</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                      <button class="btn label dropdown-toggle" data-toggle="dropdown"><span id="DR_theory">Teoria</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
                       <ul class="dropdown-menu" id="opcoes_teoria">
-                        <li><a href="html/tablatura.pt_BR.html" target="_blank">Tablaturas para acordeons   </a></li>
+                        <li><a href="html/tablatura.pt_BR.html" target="_blank">Tablaturas para acordeons</a></li>
                         <li><a target="_blank">Formato ABC</a></li>
                         <li><a target="_blank" >Editor de partituras</a></li>
                       </ul>
@@ -147,7 +157,7 @@ notação abc, tablatura "/>
       
       <div id="div_detalhes" style="float:left; margin-top:6px; margin-left:0px; width:100%;"> 
         <ul id="tabs">
-            <li><a href="#" id="tabSongs">Músicas</a></li>        
+            <li><a href="#" id="tabTunes">Músicas</a></li>        
             <li><a href="#" id="tabChords">Acordes</a></li>
             <li><a href="#" id="tabPractices">Exercícios</a></li>
             <li style="margin-left: 10px">
@@ -162,15 +172,9 @@ notação abc, tablatura "/>
         </ul>
         <div id= "tuneContainerDiv" style="float:left; margin-top:0px; margin-left:0px; margin-bottom: 6px; 
                                             width:100%; height: 330px; overflow-y: scroll;" > 
-            <div id="tabSongsDiv">
-               <!--div id="songDiv" style="display: inline;"> </div-->
-            </div>    
-            <div id="tabChordsDiv" >
-               <!--div id="chordDiv" style="display: inline;"> </div-->
-            </div>
-            <div id="tabPracticesDiv" >
-               <!--div id="practiceDiv" style="display: inline;"> </div-->
-            </div>
+            <div id="tabTunesDiv"></div>    
+            <div id="tabChordsDiv" ></div>
+            <div id="tabPracticesDiv" ></div>
         </div>
       </div>
 
@@ -182,32 +186,19 @@ notação abc, tablatura "/>
             <span style="margin-left: 8px;"></span>
             <select id="selGaitas" > </select>
             <select id="selKey" ></select>
-            <input type="submit" id="octaveUpBtn" value="+ Oitava" onclick="javascript:doTranspose(12);" />
-            <input type="submit" id="octaveDwBtn" value="- Oitava" onclick="javascript:doTranspose(-12);" />
-            <input type="button" id="printBtn" value="Ver impressão" />
-            <input type="button" id="saveBtn" value="Salvar Local" />
-            <input type="button" id="closeBtn" value="Fechar" />
-            <input type="submit" id="forceRefresh" value="Atualizar" onclick="javascript:doForceRefresh();" />
-            <input type="checkbox" id="chkAutoRefresh" /><span id="DR_refresh">Auto atualização</span> 
+            <button id="octaveUpBtn" class="btn" title="+ Oitava" onclick="javascript:doTranspose(12);" >+ Oitava</button>
+            <button id="octaveDwBtn" class="btn" title="- Oitava" onclick="javascript:doTranspose(-12);" >- Oitava</button>
+            <button id="printBtn" class="btn" title="Ver impressão" >Ver impressão</button>
+            <button id="saveBtn" class="btn" title="Salvar Local" >Salvar Local</button>
+            <button id="closeBtn" class="btn" title="Fechar" >Fechar</button>
+            <button id="forceRefresh" class="btn" title="Atualizar" onclick="javascript:doForceRefresh();" >Atualizar</button>
+            <input type="checkbox" id="chkAutoRefresh" ><span id="DR_refresh">Auto atualização</span> 
             <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
         </div>
         <div id="warningsDiv" class="span12" style="margin-top:6px; margin-left:0px;"></div>
     </div>  <!-- /editControlDiv -->
 
     <div id="editorDiv" style="display: none;"></div>
-    
-    <script type="text/javascript">
-        var _clustrmaps = {'url' : 'http://flvani.github.io', 'user' : 1132824, 
-        'server' : '2', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2014-02-19', 'lang' : 'pt', 
-        'corners' : 'square' };(function (){ var s = document.createElement('script'); 
-         s.type = 'text/javascript'; s.async = true; s.src = 'http://www2.clustrmaps.com/counter/map.js';
-         var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();
-    </script>
-    <noscript>
-        <a href="http://www2.clustrmaps.com/user/617114918" target="_blank">
-             <img src="http://www2.clustrmaps.com/stats/maps-no_clusters/flvani.github.io-thumb.jpg" alt="Localização dos visitantes desta página." />
-        </a>
-    </noscript>
       
     <div id="modalAD" class="modalWindow" style="display: none;">
         <div>
@@ -234,12 +225,24 @@ notação abc, tablatura "/>
             <a href="#close" title="Fechar" class="close">X</a>
           </div>
           <div class="modalContent">
+            <script type="text/javascript">
+                var _clustrmaps = {'url' : 'http://flvani.github.io', 'user' : 1132824, 
+                'server' : '2', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2014-02-19', 'lang' : 'pt', 
+                'corners' : 'square' };(function (){ var s = document.createElement('script'); 
+                 s.type = 'text/javascript'; s.async = true; s.src = 'http://www2.clustrmaps.com/counter/map.js';
+                 var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();
+            </script>
+            <noscript>
+                <a href="http://www2.clustrmaps.com/user/617114918" target="_blank">
+                     <img src="http://www2.clustrmaps.com/stats/maps-no_clusters/flvani.github.io-thumb.jpg" alt="Localização dos visitantes desta página." />
+                </a>
+            </noscript>
             <div id="clustrmaps-widget" style="float:right;   margin-left:1em;"></div>
-            <h3>Diatonic-Map <i>v0.93</i><br><span>Desenvolvido por <a href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
+            <h3>Diatonic-Map <i>v0.98</i><br><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
             <p>Este projeto pretende ser um mapa de referência para acordeons diatônicos. 
                Com ele é possível configurar -- e mostrar -- o layout de qualquer gaita de botões, nos seus mais diversos modelos.
                Quero deixar aqui, meus especiais agradecimentos ao 
-                   <a href="mailto:prof.cezar.ferreira@gmail.com"><strong>Prof. Cezar Ferreira</strong></a> - (<a href="http://www.youtube.com/watch?v=6_moobqpyyY">YouTube</a>), 
+                   <a target="_blank" href="mailto:prof.cezar.ferreira@gmail.com"><strong>Prof. Cezar Ferreira</strong></a> - (<a href="http://www.youtube.com/watch?v=6_moobqpyyY">YouTube</a>), 
                que forneceu o material necessário para criação dos layouts e as essenciais informações sobre tablaturas para acordeons, 
                bem como, músicas e exercícios para praticar diretamente na gaita.   
             <p>Para transformar o projeto em uma ferramenta de aprendizagem, juntamos uma biblioteca  
@@ -253,7 +256,6 @@ notação abc, tablatura "/>
                Este recurso funciona inclusive em dispositivos móveis, tais como celulares Android.  
             <p>O objetivo final é proporcionar uma experiência visual e interativa para aqueles que estão iniciando 
                 seus estudos na "Gaita Ponto".
-
             <p>
             <h5>Ainda, meus sinceros agradecimentos aos autores destas bibliotecas:</h5>
             <ul>
@@ -280,7 +282,7 @@ notação abc, tablatura "/>
     <script type="text/javascript" src="proto_noconflict.js" ></script>
     
     <!-- suporte a arquivos ABC -->
-    <script type="text/javascript" src="abcjs/abcjs_tabeditor_2.07-min.js" ></script>
+    <script type="text/javascript" src="abcjs/abcjs_tabeditor_2.08-min.js" ></script>
 
     <!-- suporte a MIDI -->
     <script type="text/javascript" src="MIDI.js/MIDI_2.02-min.js"></script>
@@ -315,21 +317,27 @@ notação abc, tablatura "/>
         
         DR_register( "DR_appName" );        
         DR_register( "DR_about" );        
-        DR_register( "tabSongs" );        
-        DR_register( "tabChords" );        
-        DR_register( "tabPractices" );        
         
-        DR_register( "toolsBtn" );        
-        DR_register( "playBtn" );        
-        DR_register( "didaticoBtn" );        
-        DR_register( "stopBtn" );        
-
         DR_register("DR_layout");
         DR_register("DR_espelho");
         DR_register("DR_horizontal");
-        DR_register("DR_acordeons");
+        DR_register("DR_accordions");
+        DR_register("DR_repertoire");
         DR_register("DR_chlabel");
-        DR_register("DR_teoria");
+        DR_register("DR_theory");
+        
+        DR_register("DR_message");
+        DR_register("DR_original");
+        DR_register("DR_localLoad");
+        
+        DR_register( "tabTunes" );        
+        DR_register( "tabChords" );        
+        DR_register( "tabPractices" );        
+        
+        DR_register( "playBtn" );        
+        DR_register( "stopBtn" );        
+        DR_register( "didaticoBtn" );        
+        DR_register( "toolsBtn" );        
 
         DR_register("octaveUpBtn");
         DR_register("octaveDwBtn");
@@ -341,6 +349,8 @@ notação abc, tablatura "/>
         //DR_register("DR_debug");
 
         window.addEventListener('load', initApp, false);
+        
+	document.getElementById('fileLoadRepertoire').addEventListener('change', handleFileSelect, false);        
         
         window.toolsButton = document.getElementById("toolsBtn");
         window.playButton = document.getElementById("playBtn");
@@ -367,7 +377,7 @@ notação abc, tablatura "/>
                     playButton: window.playButton
                   , keyboardContentDiv: 'contentKeyboard'
                   , songSelector: 'selSongs'
-                  , songDiv: 'tabSongsDiv'
+                  , songDiv: 'tabTunesDiv'
                   , chordDiv: 'tabChordsDiv'
                   , practiceDiv: 'tabPracticesDiv'
               }
@@ -380,6 +390,8 @@ notação abc, tablatura "/>
                   , warnings_id: "warningsDiv"
               } 
             );
+    
+            myMap.currentTab = "tabTunes";
             
             // popula lista drop-down        
             myMap.carregaListaGaitas();
@@ -410,7 +422,7 @@ notação abc, tablatura "/>
                   MIDI.programChange(0, 21); // canais para accordeon
                   MIDI.programChange(1, 21); // canais para accordeon
                   $("#tabs li:first").attr("id","current"); // Activate the first tab
-                  $("#tuneContainerDiv #tabSongsDiv" ).fadeIn(); // Show first tab's content
+                  $("#tuneContainerDiv #tabTunesDiv" ).fadeIn(); // Show first tab's content
                   document.getElementById("modalAbout").style.display = 'inline';
                   document.getElementById("modalAD").style.display = 'inline';
                 }
@@ -425,13 +437,26 @@ notação abc, tablatura "/>
                 $("#tabs li").attr("id",""); //Reset id's
                 $(this).parent().attr("id","current"); // Activate this
                 $('#' + $(this).attr('id')+"Div").fadeIn(); // Show content for the current tab
-                if( $(this).attr('id') === "tabSongs" )
-                    $("#divPlayerControls" ).fadeIn();
-                else
-                    $("#divPlayerControls" ).hide();
+                myMap.currentTab = $(this).attr('id') ;
+
+                //if( $(this).attr('id') === "tabTunes" )
+                //    $("#divPlayerControls" ).fadeIn();
+                //else
+                //    $("#divPlayerControls" ).hide();
               }
           });
         });
+        
+        function reloadRepertoire() {
+            myMap.carregaRepertorio(true);
+        };
+        
+        function handleFileSelect(evt) {
+          FILEMANAGER.loadLocalFiles(evt, function() {
+            myMap.carregaRepertorio(false, FILEMANAGER.files);
+            evt.target.value = "";
+          });
+        };
         
         function setupGaita(value) {
             myMap.gaita.setup({accordionId:value});

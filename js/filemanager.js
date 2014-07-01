@@ -5,7 +5,7 @@
  */
 
 /*
- * SOME calls examples
+ * SOME example calls
  
     if (FILEMANAGER.requiredFeaturesAvailable()) {
         document.getElementById('files').addEventListener('change', fileSelected, false);
@@ -55,31 +55,33 @@ if (! window.FILEMANAGER) {
     };
     
     FILEMANAGER.reader.onload = function(progressEvent) {
-       FILEMANAGER.toLoad --;
+       FILEMANAGER.loaded ++;
+       FILEMANAGER.now = true;
        FILEMANAGER.files.push( {fileName: FILEMANAGER.currName, content: progressEvent.target.result });
     };
 
 }
 
-FILEMANAGER.handleSelectedFiles = function(evt, cb) {
+FILEMANAGER.loadLocalFiles = function(evt, cb) {
 
     var files = evt.target.files; // FileList object
     
+    FILEMANAGER.now = true;
+    FILEMANAGER.loaded = 0;
     FILEMANAGER.files = [];
-    
-    for (var i = 0; i < files.length; i++) {
-        FILEMANAGER.toLoad ++;
-        FILEMANAGER.currName = files[i].name;
-        FILEMANAGER.reader.readAsText(files[i]);
-    }
-    
-    FILEMANAGER.interval = window.setInterval(function() {FILEMANAGER.waitForLoad(cb);},100);
+    FILEMANAGER.interval = window.setInterval(function() {FILEMANAGER.doLoad(cb, files);},100);
 };
 
-FILEMANAGER.waitForLoad = function(cb) {
-    if( FILEMANAGER.toLoad === 0 ) {
+FILEMANAGER.doLoad = function(cb, files) {
+    if( FILEMANAGER.loaded === files.length ) {
       window.clearInterval(FILEMANAGER.interval);
       cb();        
+    } else {
+        if(FILEMANAGER.now) {
+            FILEMANAGER.currName = files[FILEMANAGER.loaded].name;
+            FILEMANAGER.reader.readAsText(files[FILEMANAGER.loaded]);
+            FILEMANAGER.now = false;
+        }   
     }
 };
 

@@ -69,10 +69,13 @@ DR.resource["DR_image"] =
         ['<img src="img/brasil_80x80.png" width="32" height="32" alt="Português do Brasil" title="Português do Brasil" ></img>'
         ,'<img src="img/eua_80x80.png" width="32" height="32" alt="US English" title="US English" ></img>'];
     
+
+DR.resource["DR_repertoire"] = ['Repertório', 'Repertoire'];
+
 DR.resource["DR_about"] = ['Sobre', 'About'];
 DR.resource["DR_push"]  = ['Fecha', 'Push'];
 DR.resource["DR_pull"]  = ['Abre' , 'Pull'];
-DR.resource["tabSongs"] = ['Músicas', 'Songs'];
+DR.resource["tabTunes"] = ['Músicas', 'Tunes'];
 DR.resource["tabChords"] = ['Acordes', 'Chords'];
 DR.resource["tabPractices"] = ['Exercícios', 'Practices'];
 DR.resource["playBtn"] = ['Executar', 'Play'];
@@ -83,9 +86,9 @@ DR.resource["DR_pause"] = ['Pausar', 'Pause'];
 DR.resource["DR_layout"] = ['Layout:', 'Layout:'];
 DR.resource["DR_espelho"] = ['Espelho', 'Mirrored'];
 DR.resource["DR_horizontal"] = ['Horizontal', 'Horizontal'];
-DR.resource["DR_acordeons"] = ['Acordeons', 'Accordions'];
+DR.resource["DR_accordions"] = ['Acordeons', 'Accordions'];
 DR.resource["DR_chlabel"] = ['Mudar Notação', 'Change Notation'];
-DR.resource["DR_teoria"] = ['Teoria', 'Theory'];
+DR.resource["DR_theory"] = ['Teoria', 'Theory'];
 DR.resource["octaveUpBtn"] = ['+ Oitava', '+ Octave'];
 DR.resource["octaveDwBtn"] = ['- Oitava', '- Octave'];
 DR.resource["printBtn"] = ['Ver impressão', 'Print preview'];
@@ -95,3 +98,7 @@ DR.resource["forceRefresh"] = ['Atualizar', 'Refresh'];
 DR.resource["DR_refresh"] = ['Auto atualização', 'Auto refresh'];
 DR.resource["DR_debug"] = ['Depurar', 'Debug'];
 DR.resource["DR_wait"] = ['Aguarde...', 'Wait...'];
+
+DR.resource["DR_message"] = ['Deixe uma mensagem', 'Leave a message'];
+DR.resource["DR_original"] = ['Restaurar o original', 'Restore initial'];
+DR.resource["DR_localLoad"] = ['Carregar do drive local', 'Load from local drive'];

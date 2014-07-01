@@ -7,8 +7,8 @@
 if (!window.DIATONIC)
     window.DIATONIC = {close: 0, open: 1};
 
-if (!window.DIATONIC.midi)
-    window.DIATONIC.midi = {};
+if (!window.DIATONIC.midi) 
+    window.DIATONIC.midi = {baseduration: 1920 }; // nice and divisible, equals 1 whole note
 
 DIATONIC.midi.Player = function(map, playButton, options ) {
 
@@ -23,12 +23,11 @@ DIATONIC.midi.Player.prototype.reset = function(options) {
     options = options || {};
     
     this.i = 0;
-    this.ypos = 1000;
     this.tempo = 60;
-    this.playlist = []; // contains {time:t,funct:f} pairs
+    this.playing = false;
     this.currenttime = 0;
-    this.baseduration = 1920; // nice and divisible, equals 1 whole note
-    this.ticksperinterval = this.baseduration / 16; // 16th note - TODO: see the min in the piece
+    this.playlist = []; // contains {time:t,funct:f} pairs
+    this.ticksperinterval = DIATONIC.midi.baseduration / 16; // 16th note - TODO: see the min in the piece
     
 };
 
@@ -45,13 +44,14 @@ DIATONIC.midi.Player.prototype.doPlay = function() {
     }
 };
 
-DIATONIC.midi.Player.prototype.startPlay = function(what, tempo) {
+DIATONIC.midi.Player.prototype.startPlay = function(what) {
 
     if(this.playing) return;
     
-    this.playlist = what;
-    this.tempo  = tempo;
-    this.ypos = 1000;
+    this.playlist = what.notes;
+    this.tempo  = what.tempo;
+    this.printer = what.printer;
+    this.map.ypos = 1000;
 
     this.playing = true;
     this.playLink.title = DR.resource["DR_pause"][DR.language];
@@ -59,9 +59,7 @@ DIATONIC.midi.Player.prototype.startPlay = function(what, tempo) {
   
     var self = this;
     this.doPlay();
-    this.playinterval = window.setInterval(function() {
-        self.doPlay();
-    }, (60000 / (this.tempo)));
+    this.playinterval = window.setInterval(function() { self.doPlay(); }, 60000/this.tempo);
 };
 
 DIATONIC.midi.Player.prototype.stopPlay = function() {
@@ -69,9 +67,8 @@ DIATONIC.midi.Player.prototype.stopPlay = function() {
     this.currenttime = 0;
     this.pausePlay();
     this.playLink.title = DR.resource["playBtn"][DR.language];
-    this.playLink.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;'
-    //this.clearSelection(); resolver a questão dos listeners
-    this.map.gaita.printer.clearSelection();
+    this.playLink.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
+    this.printer.clearSelection();
     this.map.gaita.clearKeyboard(true);
 };
 
@@ -79,11 +76,9 @@ DIATONIC.midi.Player.prototype.pausePlay = function() {
     MIDI.stopAllNotes();
     window.clearInterval(this.playinterval);
     this.playLink.title = DR.resource["playBtn"][DR.language];
-    this.playLink.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;'
+    this.playLink.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
     this.playing = false;
-    this.ypos = 1000;
-    //this.clearSelection();
-    //this.map.gaita.clearKeyboard(true);
+    this.map.ypos = 1000;
 };
 
 DIATONIC.midi.Player.prototype.doDebugPlay = function(container) {
@@ -97,7 +92,7 @@ DIATONIC.midi.Player.prototype.doDebugPlay = function(container) {
     setTimeout(that.waitForIt(container),1);
 };
 
-DIATONIC.midi.Player.prototype.startDebugPlay = function(what, tempo, container) {
+DIATONIC.midi.Player.prototype.startDebugPlay = function(what,container) {
     var that = this;
     
     if(!this.playing){
@@ -106,8 +101,9 @@ DIATONIC.midi.Player.prototype.startDebugPlay = function(what, tempo, container)
       this.i = 0;
       this.t = 0;
       this.playing = true;
-      this.playlist = what;
-      this.tempo  = tempo;
+      this.playlist = what.notes;
+      this.tempo  = what.tempo;
+      this.printer = what.printer;
     }
     
     //container.addEventListener('keydown', that.keydownHandler, false);

@@ -20,9 +20,6 @@ DIATONIC.map.Accordion = function (id, nome, afinacao, pedal, keyboard, chordPat
     this.practicePathList = practicePathList;
     this.chordPathList = chordPathList;
     this.image = image;
-    this.songs = {};
-    this.practices = {};
-    this.chords = {};
     
     this.loadSongs();
     this.loadChords();
@@ -113,37 +110,47 @@ DIATONIC.map.Accordion.prototype.getFirstChord = function () {
     return "";
 };
 DIATONIC.map.Accordion.prototype.loadPractices = function() {
-   var that = this;
+    var that = this;
+    this.practices = {};
     for (var s = 0; s < this.practicePathList.length; s++) {
-        $.get( this.practicePathList[s], function(r) {
+        $.get(this.practicePathList[s], function(r) {
             var tunebook = new ABCJS.TuneBook(r);
-            for(var t = 0; t < tunebook.tunes.length; t ++ )
-              that.practices[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
-            
+            for (var t = 0; t < tunebook.tunes.length; t ++)
+                that.practices[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
+
         });
     }
 };
 
 DIATONIC.map.Accordion.prototype.loadChords = function() {
-   var that = this;
+    this.chords = {};
+    var that = this;
     for (var s = 0; s < this.chordPathList.length; s++) {
-        $.get( this.chordPathList[s], function(r) {
+        $.get(this.chordPathList[s], function(r) {
             var tunebook = new ABCJS.TuneBook(r);
-            for(var t = 0; t < tunebook.tunes.length; t ++ )
-              that.chords[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
-            
+            for (var t = 0; t < tunebook.tunes.length; t ++)
+                that.chords[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
+
         });
     }
 };
 
-DIATONIC.map.Accordion.prototype.loadSongs = function() {
-   var that = this;
-    for (var s = 0; s < this.songPathList.length; s++) {
-        $.get( this.songPathList[s], function(r) {
+DIATONIC.map.Accordion.prototype.loadSongs = function(cb) {
+    var that = this;
+    that.songs = {};
+    var toLoad = 0;
+    for (var s = 0; s < that.songPathList.length; s++) {
+        toLoad ++;
+        $.get(that.songPathList[s], function(r) {
             var tunebook = new ABCJS.TuneBook(r);
-            for(var t = 0; t < tunebook.tunes.length; t ++ )
-              that.songs[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
-            
+            for (var t = 0; t < tunebook.tunes.length; t ++)  {
+                that.songs[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
+            }    
+            toLoad --;
+            if(toLoad === 0 && cb ) { // call back in the last pass
+               cb();
+            }
+
         });
     }
 };

@@ -25,8 +25,8 @@ DIATONIC.map.Gaita = function(map, interfaceParams ) {
     this.selectedChord = -1;
     this.keyboard = {};
     this.modifiedItems = {};
-    this.renderedTune = undefined;
-    this.printer = undefined;
+    //this.renderedTune = undefined; // um para cada aba
+    //this.songPrinter = undefined; // um para cada aba
 
     this.songDiv = document.getElementById(interfaceParams.songDiv);
     //this.songContainerDiv = document.getElementById(interfaceParams.songContainerDiv);
@@ -283,8 +283,13 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
 
     } 
   }
+  
   if(this.renderedTune)
-    this.tuneMidi = this.map.midiParser.parseTabSong(this.renderedTune);
+    this.midiTune = this.map.midiParser.parseTabSong(this.renderedTune, this.songPrinter);
+  if(this.renderedPractice)
+    this.midiPractice = this.map.midiParser.parseTabSong(this.renderedPractice, this.practicePrinter);
+  if(this.renderedChord)
+    this.midiChord = this.map.midiParser.parseTabSong(this.renderedChord, this.chordPrinter);
 
 };
 
@@ -295,7 +300,6 @@ DIATONIC.map.Gaita.prototype.addChangeListenerToSongSelector = function(gaita) {
     gaita.map.tuneContainerDiv.scrollTop = 0;    
   };
 };
-
 
 DIATONIC.map.Gaita.prototype.loadSongList = function(tt) {
     
@@ -326,44 +330,20 @@ DIATONIC.map.Gaita.prototype.printTune = function(alreadyOnPage, params ) {
     }
 
 
-    var loader = new window.widgets.Loader({
-        id: "songLoader",
-        bars: 0,
-        radius: 0,
-        lineWidth: 20,
-        lineHeight: 70,
-        timeout: 1, // maximum timeout in seconds.
-        background: "rgba(0,0,0,0.5)",
-        container: document.body,
-        oncomplete: function() {
-            // call function once loader has completed
-        },
-        onstart: function() {
-            // call function once loader has started	
-        }
-    });
-
-    //var d = new Date();
-    //console.log(d.getMilliseconds());
+    var loader = this.startLoader("songLoader");
+    
     this.map.editor.parseABC(0, "force");
-    //console.log(d.getMilliseconds());
-    //loader.update(null, "Wait...");
     this.renderedTune = this.map.editor.tunes[0];
-    this.printer = new ABCJS.write.Printer(this.songPaper, params || {});// TODO: handle printer params
-//    if (this.songContainerDiv)
-//        $("#" + this.songContainerDiv.id).fadeIn();
+    this.songPrinter = new ABCJS.write.Printer(this.songPaper, params || {});
+    this.songPrinter.name = 'songPrinter';
     $("#" + this.songDiv.id).fadeIn();
     loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.resource["DR_wait"][DR.language]+'<br><br>' );
-    this.printer.printABC(this.renderedTune);
+    this.songPrinter.printABC(this.renderedTune);
     $("#" + this.songDiv.id).hide();
-    //loader.update(null,"Generating MIDI...",95);
-    this.tuneMidi = this.map.midiParser.parseTabSong(this.renderedTune);
-    //console.log(d.getMilliseconds());
-    //loader.update(null,"Printing","...");
+    this.midiTune = this.map.midiParser.parseTabSong(this.renderedTune, this.songPrinter);
     loader.stop();
     if (alreadyOnPage)
       $("#" + this.songDiv.id).fadeIn();
-//    $("#" + this.songContainerDiv.id).hide();
 };
 
 DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage ) {
@@ -379,14 +359,7 @@ DIATONIC.map.Gaita.prototype.renderTune = function( title, params, alreadyOnPage
       return;
   }
   this.map.editor.setString( this.getSelectedAccordion().getSong(title), "noRefresh" );
-
-//  if(this.songContainerDiv)$("#"+this.songContainerDiv.id).fadeIn();
-//  $("#"+this.songDiv.id).fadeIn();
-  
   this.printTune(alreadyOnPage, params);
-
-//  if (!alreadyOnPage) $("#"+this.songContainerDiv.id).hide();
-  
 };
 
 DIATONIC.map.Gaita.prototype.printPractice = function(alreadyOnPage, params) {
@@ -399,46 +372,22 @@ DIATONIC.map.Gaita.prototype.printPractice = function(alreadyOnPage, params) {
     }
 
 
-    var loader = new window.widgets.Loader({
-        id: "practiceLoader",
-        bars: 0,
-        radius: 0,
-        lineWidth: 20,
-        lineHeight: 70,
-        timeout: 1, // maximum timeout in seconds.
-        background: "rgba(0,0,0,0.5)",
-        container: document.body,
-        oncomplete: function() {
-            // call function once loader has completed
-        },
-        onstart: function() {
-            // call function once loader has started	
-        }
-    });
-
-    //var d = new Date();
-    //console.log(d.getMilliseconds());
+    var loader = this.startLoader("practiceLoader");
     this.map.editor.parseABC(0, "force");
-    //console.log(d.getMilliseconds());
-    //loader.update(null, "Wait...");
     this.renderedPractice = this.map.editor.tunes[0];
-    this.printer = new ABCJS.write.Printer(this.practicePaper, params || {});// TODO: handle printer params
-//    if (this.practiceContainerDiv)
-//        $("#" + this.practiceContainerDiv.id).fadeIn();
+    this.practicePrinter = new ABCJS.write.Printer(this.practicePaper, params || {});
+    this.practicePrinter.name = 'practicePrinter';
+
     $("#" + this.practiceDiv.id).fadeIn();
     loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.resource["DR_wait"][DR.language]+'<br><br>' );
-    this.printer.printABC(this.renderedPractice);
+    this.practicePrinter.printABC(this.renderedPractice);
     $("#" + this.practiceDiv.id).hide();
-    //loader.update(null,"Generating MIDI...",95);
     
-    this.practiceMidi = this.map.midiParser.parseTabSong(this.renderedPractice);
+    this.midiPractice = this.map.midiParser.parseTabSong(this.renderedPractice, this.practicePrinter);
 
-    //console.log(d.getMilliseconds());
-    //loader.update(null,"Printing","...");
     loader.stop();
     if (alreadyOnPage)
       $("#" + this.practiceDiv.id).fadeIn();
-//    $("#" + this.practiceContainerDiv.id).hide();
 };
 
 
@@ -457,13 +406,8 @@ DIATONIC.map.Gaita.prototype.renderPractice = function( title, params, alreadyOn
   }
   this.map.editor.setString( this.getSelectedAccordion().getPractice(title), "noRefresh" );
 
-//  if(this.practiceContainerDiv)$("#"+this.practiceContainerDiv.id).fadeIn();
-//  $("#"+this.practiceDiv.id).fadeIn();
-  
   this.printPractice(alreadyOnPage, params);
 
-//  if (!alreadyOnPage) $("#"+this.practiceContainerDiv.id).hide();
-  
 };
 
 
@@ -476,47 +420,22 @@ DIATONIC.map.Gaita.prototype.printChord = function(alreadyOnPage, params) {
         this.chordPaper = Raphael(this.chordDiv, 700, 400);
     }
 
-
-    var loader = new window.widgets.Loader({
-        id: "chordLoader",
-        bars: 0,
-        radius: 0,
-        lineWidth: 20,
-        lineHeight: 70,
-        timeout: 1, // maximum timeout in seconds.
-        background: "rgba(0,0,0,0.5)",
-        container: document.body,
-        oncomplete: function() {
-            // call function once loader has completed
-        },
-        onstart: function() {
-            // call function once loader has started	
-        }
-    });
-
-    //var d = new Date();
-    //console.log(d.getMilliseconds());
+    var loader = this.startLoader("chordLoader");
     this.map.editor.parseABC(0, "force");
-    //console.log(d.getMilliseconds());
-    //loader.update(null, "Wait...");
     this.renderedChord = this.map.editor.tunes[0];
-    this.printer = new ABCJS.write.Printer(this.chordPaper, params || {});// TODO: handle printer params
-//    if (this.chordContainerDiv)
-//        $("#" + this.chordContainerDiv.id).fadeIn();
+    this.chordPrinter = new ABCJS.write.Printer(this.chordPaper, params || {});
+    this.chordPrinter.name = 'chordPrinter';
+
     $("#" + this.chordDiv.id).fadeIn();
     loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.resource["DR_wait"][DR.language]+'<br><br>' );
-    this.printer.printABC(this.renderedChord);
+    this.chordPrinter.printABC(this.renderedChord);
     $("#" + this.chordDiv.id).hide();
-    //loader.update(null,"Generating MIDI...",95);
     
-    this.chordMidi = this.map.midiParser.parseTabSong(this.renderedChord);
+    this.midiChord = this.map.midiParser.parseTabSong(this.renderedChord, this.chordPrinter);
     
-    //console.log(d.getMilliseconds());
-    //loader.update(null,"Printing","...");
     loader.stop();
     if (alreadyOnPage)
       $("#" + this.chordDiv.id).fadeIn();
-    //$("#" + this.chordContainerDiv.id).hide();
 };
 
 DIATONIC.map.Gaita.prototype.renderChord = function( title, params, alreadyOnPage ) {
@@ -533,13 +452,30 @@ DIATONIC.map.Gaita.prototype.renderChord = function( title, params, alreadyOnPag
   }
   this.map.editor.setString( this.getSelectedAccordion().getChord(title), "noRefresh" );
 
-//  if(this.chordContainerDiv)$("#"+this.chordContainerDiv.id).fadeIn();
-//  $("#"+this.chordDiv.id).fadeIn();
-  
   this.printChord(alreadyOnPage,params);
 
-//  if (!alreadyOnPage) $("#"+this.chordContainerDiv.id).hide();
-  
+};
+
+DIATONIC.map.Gaita.prototype.startLoader = function(id) {
+
+    var loader = new window.widgets.Loader({
+        id: id,
+        bars: 0,
+        radius: 0,
+        lineWidth: 20,
+        lineHeight: 70,
+        timeout: 1, // maximum timeout in seconds.
+        background: "rgba(0,0,0,0.5)",
+        container: document.body,
+        oncomplete: function() {
+            // call function once loader has completed
+        },
+        onstart: function() {
+            // call function once loader has started	
+        }
+    });
+    return loader;
+
 };
 
 

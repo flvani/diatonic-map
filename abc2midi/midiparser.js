@@ -7,8 +7,10 @@
 if (!window.DIATONIC)
     window.DIATONIC = {close: 0, open: 1};
 
-if (!window.DIATONIC.midi)
-    window.DIATONIC.midi = {};
+if (!window.DIATONIC.midi) 
+    window.DIATONIC.midi = {baseduration: 1920 }; // nice and divisible, equals 1 whole note
+
+
 
 // Porque preciso conhecer o mapa?
 //   - Por que durante a execução, vai afetar elementos de tela:
@@ -25,38 +27,35 @@ DIATONIC.midi.Parse.prototype.reset = function(options) {
     
     options = options || {};
     
-    this.startTieElem= {};
-    this.lastTabElem = [];
-    this.trackcount = 0;
-    this.timecount = 0;
-    this.tempo = 60;
     this.i = 0;
-    this.currenttime = 0;
-    this.ypos = 1000;
-    this.restart = {line: 0, staff: 0, voice: 0, pos: 0};
-    this.visited = {};
-    this.multiplier = 1;
-    this.listeners = [];
     this.next = null;
+    this.timecount = 0;
+    this.trackcount = 0;
+    this.multiplier = 1;
     this.qpm = options.qpm || 180;
     this.transpose = options.transpose || 0;	// PER
-    this.sounding = false; // usado apenas pelo antigo metodo de tocar acordes
     
-    this.baseduration = 1920; // nice and divisible, equals 1 whole note
-    this.ticksperinterval = this.baseduration / 16; // 16th note - TODO: see the min in the piece
-    this.playlist = []; // contains {time:t,funct:f} pairs
+    this.visited = {};
+    this.startTieElem= {};
+    this.restart = {line: 0, staff: 0, voice: 0, pos: 0};
+    
+    this.lastTabElem = [];
     this.baraccidentals = [];
-    this.accordion = undefined;
+    
+    this.midiTune = { tempo: 60, notes : [] }; // each note contains  a {time:t,funct:f} pair
     
 };
 
-DIATONIC.midi.Parse.prototype.parseTabSong = function(tune) {
+DIATONIC.midi.Parse.prototype.parseTabSong = function(tune, printer) {
     var bpm = 108.0;
     var duration = 0.25;
     
-    this.reset( );
-    this.accordion = this.map.gaita.getSelectedAccordion();
-
+    this.reset();
+    
+    if (printer) {
+        this.setPrinter(printer);
+    }    
+    
     this.abctune = tune;
 
     if (tune.metaText.tempo) {
@@ -64,7 +63,7 @@ DIATONIC.midi.Parse.prototype.parseTabSong = function(tune) {
         duration = tune.metaText.tempo.duration[0] || duration;
     }
 
-    this.qpm = bpm * duration * 16; // por que multiplicar por 16??? é fixo?
+    this.qpm = bpm * duration * 16; 
     this.setTempo(this.qpm);
 
     this.staffcount = 1; // we'll know the actual number once we enter the code
@@ -82,11 +81,7 @@ DIATONIC.midi.Parse.prototype.parseTabSong = function(tune) {
         }
     }
 
-    if (this.map.gaita.printer) {
-        this.addListener(this.map.gaita.printer);
-    }
-
-    return this.playlist;
+    return this.midiTune;
 };
 
 DIATONIC.midi.Parse.prototype.writeABCLine = function() {
@@ -112,8 +107,7 @@ DIATONIC.midi.Parse.prototype.writeABCVoiceLine = function() {
 DIATONIC.midi.Parse.prototype.writeABCElement = function(elem) {
     switch (elem.el_type) {
         case "note":
-            var s = this.getStaff();
-            if (s.clef.type !== "accordionTab") {
+            if (this.getStaff().clef.type !== "accordionTab") {
               this.writeNote(elem);
             } else {
               this.selectButtons(elem);
@@ -143,7 +137,7 @@ DIATONIC.midi.Parse.prototype.writeNote = function(elem) {
             this.multiplier = (elem.startTriplet - 1) / elem.startTriplet;
     }
 
-    var mididuration = elem.duration * this.baseduration * this.multiplier;
+    var mididuration = elem.duration * DIATONIC.midi.baseduration * this.multiplier;
 
     this.timecount += this.silencelength;
     this.silencelength = 0;
@@ -254,10 +248,6 @@ DIATONIC.midi.Parse.prototype.handleBar = function(elem) {
 
 };
 
-DIATONIC.midi.Parse.prototype.addListener = function(listener) {
-    this.listeners.push(listener);
-};
-
 DIATONIC.midi.Parse.prototype.getMark = function() {
     return {line: this.line, staff: this.staff,
         voice: this.voice, pos: this.pos};
@@ -316,7 +306,11 @@ DIATONIC.midi.Parse.prototype.getElem = function() {
 };
 
 DIATONIC.midi.Parse.prototype.setTempo = function(qpm) {
-    this.tempo = qpm;
+    this.midiTune.tempo = qpm;
+};
+
+DIATONIC.midi.Parse.prototype.setPrinter = function(pt) {
+    this.midiTune.printer = pt;
 };
 
 DIATONIC.midi.Parse.prototype.startTrack = function() {
@@ -331,8 +325,8 @@ DIATONIC.midi.Parse.prototype.endTrack = function() {
 };
 
 DIATONIC.midi.Parse.prototype.syncPlayList = function(time) {
-    while (this.playlist[this.playlistpos] &&
-            this.playlist[this.playlistpos].time <= time) {
+    while (this.midiTune.notes[this.playlistpos] &&
+            this.midiTune.notes[this.playlistpos].time <= time) {
         this.playlistpos++;
     }
 };
@@ -344,12 +338,13 @@ DIATONIC.midi.Parse.prototype.setChannel = function(number) {
 DIATONIC.midi.Parse.prototype.startNote = function(pitch, loudness, abcelem, startTime) {
     this.syncPlayList(startTime);
     var self = this;
-    var channel = this.channel;
-    this.playlist.splice(this.playlistpos, 0, {
+    var channel = self.channel;
+    var printer = self.midiTune.printer;
+    this.midiTune.notes.splice(this.playlistpos, 0, {
         time: startTime,
         funct: function() {
             MIDI.noteOn(channel, pitch, loudness, 0);
-            self.notifySelect(abcelem, channel);
+            self.notifySelect(abcelem, channel, printer);
         }
     });
 };
@@ -358,7 +353,7 @@ DIATONIC.midi.Parse.prototype.endNote = function(pitch, abcelem, endTime) {
     this.syncPlayList(endTime-1);
     var channel = this.channel;
     var self = this;
-    this.playlist.splice(this.playlistpos, 0, {
+    this.midiTune.notes.splice(this.playlistpos, 0, {
         time: endTime,
         funct: function() {
             MIDI.noteOff(channel, pitch, 0);
@@ -402,8 +397,8 @@ DIATONIC.midi.Parse.prototype.setKeySignature = function(elem) {
     if (this.abctune.formatting.bagpipes) {
         elem.accidentals = [{acc: 'natural', note: 'g'}, {acc: 'sharp', note: 'f'}, {acc: 'sharp', note: 'c'}];
     }
-    if (!elem.accidentals)
-        return;
+    if (!elem.accidentals)  return;
+    
     window.ABCJS.parse.each(elem.accidentals, function(acc) {
         var d = (acc.acc === "sharp") ? 1 : (acc.acc === "natural") ? 0 : -1;
         var lowercase = acc.note.toLowerCase();
@@ -424,19 +419,11 @@ DIATONIC.midi.Parse.prototype.extractOctave = function(pitch) {
     return Math.floor(pitch / 7);
 };
 
-// resolver a questão dos listeners... fazem parte da canção???
-//DIATONIC.midi.Parse.prototype.clearSelection = function() {
-//    for (var i = 0; i < this.listeners.length; i++) {
-//        this.listeners[i].clearSelection();
-//        //this.setScrolling(0);
-//    }
-//};
-
 DIATONIC.midi.Parse.prototype.setScrolling = function(y, channel) {
     if( !this.map.tuneContainerDiv || channel > 0 ) return;
-    if( Math.abs(y - this.ypos) > 200 ) {
-        this.ypos = y;
-        this.map.tuneContainerDiv.scrollTop = this.ypos - 60;    
+    if( Math.abs(y - this.map.ypos) > 200 ) {
+        this.map.ypos = y;
+        this.map.tuneContainerDiv.scrollTop = this.map.ypos - 60;    
     }
 };
 
@@ -444,28 +431,20 @@ DIATONIC.midi.Parse.prototype.notifyUnSelect = function(abcelem) {
     abcelem.abselem.unhighlight();
 };
 
-DIATONIC.midi.Parse.prototype.notifySelect = function(abcelem,channel) {
+DIATONIC.midi.Parse.prototype.notifySelect = function(abcelem,channel, printer) {
     this.setScrolling(abcelem.abselem.y,channel);
-    for (var i = 0; i < this.listeners.length; i++) {
-        this.listeners[i].notifySelect(abcelem.abselem);
-    }
+    printer.notifySelect(abcelem.abselem);
 };
-
-//DIATONIC.midi.Parse.prototype.notifyClearNSelect = function(abcelem,channel) {
-//    for (var i = 0; i < this.listeners.length; i++) {
-//        this.listeners[i].notifyClearNSelect(abcelem.abselem);
-//        this.setScrolling(abcelem.abselem.y,channel);
-//    }
-//};
 
 DIATONIC.midi.Parse.prototype.selectNote = function(abcelem, startTime) {
     this.syncPlayList(startTime);
     var self = this;
-    var channel = this.channel;
-    this.playlist.splice(this.playlistpos, 0, {
+    var channel = self.channel;
+    var printer = self.midiTune.printer;
+    this.midiTune.notes.splice(this.playlistpos, 0, {
         time: startTime,
         funct: function() {
-            self.notifySelect(abcelem, channel);
+            self.notifySelect(abcelem, channel, printer);
         }
     });
 };
@@ -473,7 +452,7 @@ DIATONIC.midi.Parse.prototype.unSelectNote = function(abcelem, endTime) {
     this.syncPlayList(endTime-1);
     var self = this;
     //var channel = this.channel;
-    this.playlist.splice(this.playlistpos, 0, {
+    this.midiTune.notes.splice(this.playlistpos, 0, {
         time: endTime,
         funct: function() {
             self.notifyUnSelect(abcelem);
@@ -485,12 +464,13 @@ DIATONIC.midi.Parse.prototype.unSelectNote = function(abcelem, endTime) {
 DIATONIC.midi.Parse.prototype.selectButton = function( abcelem, dir, button, startTime ) {
     this.syncPlayList(startTime);
     var self = this;
-    var channel = this.channel;
-    this.playlist.splice(this.playlistpos, 0, {
+    var channel = self.channel;
+    var printer = self.midiTune.printer;
+    this.midiTune.notes.splice(this.playlistpos, 0, {
         time: startTime,
         funct: function() {
             self.notifySelectButton(dir, button);
-            self.notifySelect(abcelem, channel);
+            self.notifySelect(abcelem, channel,  printer);
         }
     });
 };
@@ -499,7 +479,7 @@ DIATONIC.midi.Parse.prototype.unSelectButton = function( abcelem, button, endTim
     this.syncPlayList(endTime-1);
     var self = this;
     var channel = this.channel;
-    this.playlist.splice(this.playlistpos, 0, {
+    this.midiTune.notes.splice(this.playlistpos, 0, {
         time: endTime,
         funct: function() {
             self.notifyUnSelectButton(button);
@@ -509,14 +489,12 @@ DIATONIC.midi.Parse.prototype.unSelectButton = function( abcelem, button, endTim
  };
 
 DIATONIC.midi.Parse.prototype.notifyUnSelectButton = function(button) {
-  if(button === null) return;
- //console.log(this.currenttime);
- button.clear() ;
+    if (button === null) return;
+    button.clear();
 };
 
 DIATONIC.midi.Parse.prototype.notifySelectButton = function(dir, button) {
   if(button === null) return;
-  //console.log(this.currenttime);
   if(dir === DIATONIC.open)
     button.setOpen() ;
   else
@@ -551,7 +529,7 @@ DIATONIC.midi.Parse.prototype.getButton = function( b ) {
 };
 
 DIATONIC.midi.Parse.prototype.selectButtons = function(elem) {
-    var mididuration = elem.duration * this.baseduration * this.multiplier;
+    var mididuration = elem.duration * DIATONIC.midi.baseduration * this.multiplier;
     if (elem.pitches) {
         
         var dir = elem.bellows === "+" ? DIATONIC.close : DIATONIC.open;
