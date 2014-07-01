@@ -313,41 +313,6 @@ notação abc, tablatura "/>
         
         var myMap;
         
-        DR_carregaIdiomas();
-        
-        DR_register( "DR_appName" );        
-        DR_register( "DR_about" );        
-        
-        DR_register("DR_layout");
-        DR_register("DR_espelho");
-        DR_register("DR_horizontal");
-        DR_register("DR_accordions");
-        DR_register("DR_repertoire");
-        DR_register("DR_chlabel");
-        DR_register("DR_theory");
-        
-        DR_register("DR_message");
-        DR_register("DR_original");
-        DR_register("DR_localLoad");
-        
-        DR_register( "tabTunes" );        
-        DR_register( "tabChords" );        
-        DR_register( "tabPractices" );        
-        
-        DR_register( "playBtn" );        
-        DR_register( "stopBtn" );        
-        DR_register( "didaticoBtn" );        
-        DR_register( "toolsBtn" );        
-
-        DR_register("octaveUpBtn");
-        DR_register("octaveDwBtn");
-        DR_register("printBtn");
-        DR_register("saveBtn");
-        DR_register("closeBtn");
-        DR_register("forceRefresh");
-        DR_register("DR_refresh");
-        //DR_register("DR_debug");
-
         window.addEventListener('load', initApp, false);
         
 	document.getElementById('fileLoadRepertoire').addEventListener('change', handleFileSelect, false);        
@@ -363,6 +328,36 @@ notação abc, tablatura "/>
 
         function initApp() {
             
+            DR.initializeTranslator([
+                'DR_appName'
+               ,'DR_about'
+               ,'DR_layout'
+               ,'DR_espelho'
+               ,'DR_horizontal'
+               ,'DR_accordions'
+               ,'DR_repertoire'
+               ,'DR_chlabel'
+               ,'DR_theory'
+               ,'DR_message'
+               ,'DR_original'
+               ,'DR_localLoad'
+               ,'tabTunes'
+               ,'tabChords'
+               ,'tabPractices'
+               ,'playBtn'
+               ,'stopBtn'
+               ,'didaticoBtn'
+               ,'toolsBtn'
+               ,'octaveUpBtn'
+               ,'octaveDwBtn'
+               ,'printBtn'
+               ,'saveBtn'
+               ,'closeBtn'
+               ,'forceRefresh'
+               ,'DR_refresh'
+               //,'DR_debug'
+            ]);
+
             myMap = new DIATONIC.map.Map(
                 {   // interfaceParams
                     ckPiano: 'checkboxPiano'

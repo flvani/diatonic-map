@@ -59,8 +59,8 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams ) {
   
     this.gaita = new DIATONIC.map.Gaita(this, accordionParams);
     
-    DR_register( this );
-    DR_register( this.gaita );
+    DR.register( this );
+    DR.register( this.gaita );
 
     var that = this;
     
