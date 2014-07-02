@@ -6,6 +6,14 @@ body {
   background: #fff url(../img/bg.gif) repeat top left; */
 }
 
+.btn {
+  border: 1px outset buttonface;
+  color: buttontext;
+  background-color: buttonface;
+  height: 26px;
+  padding: 1px 6px;
+}
+
 .container {
     width: 1160px;
 }

@@ -12,17 +12,20 @@ DR.initializeTranslator = function ( strResources ) {
     DR.resource =  {}; // translation resources
     DR.language = DR.pt_BR; // initial/current language
    
+    // create the translatable resources
     DR.createResources(strResources);
-    DR.setMenuOption("pt_BR", "Português do Brasil" );
+
+    // create and select the menu option for the inicial language
+    DR.createMenuOption("pt_BR", "Português do Brasil" );
     DR.showSelectedOption();
-    
+
+    //load each avaliable languague resource file
     DR.loadLang("js/en_US.lang");
     DR.loadLang("js/de_DE.lang");
     //DR.loadLang("js/es_ES.lang");
     //DR.loadLang("js/it_IT.lang");
     //DR.loadLang("js/fr_FR.lang");
     //DR.loadLang("js/ru_RU.lang");
-    
 
 };
 
@@ -50,7 +53,8 @@ DR.translate = function (id) {
     }
 };
 
-DR.setMenuOption = function (id, langName ) {
+// create the menu item
+DR.createMenuOption = function( id, langName ) {
     var v = DR[id];
 
     DR.resource["DR_image"][v] = '<img src="img/'+id+'.png" width="32" height="32" alt="'+langName+'" title="'+langName+'" >';
@@ -60,11 +64,13 @@ DR.setMenuOption = function (id, langName ) {
                 +DR.resource["DR_image"][v]+'</a></li>');
 };
 
-DR.showSelectedOption = function (res) {
+// show the current language 
+DR.showSelectedOption = function () {
     document.getElementById('btn_idioma').innerHTML = DR.resource["DR_image"][DR.language];
 };
 
 
+//create the initial resources (brazilian portuguese)
 DR.createResources = function (strResources) {
     //some of the translation resources need to be manually adjusted as they are not simply HTML elements
     DR.resource["DR_image"] = []; // create DR_image empty array;
@@ -75,41 +81,15 @@ DR.createResources = function (strResources) {
     DR.resource["DR_pause"] = ['Pausar'];
     DR.resource["DR_wait"] = ['Aguarde...'];
     DR.resource["DR_debug"] = ['Depurar'];
+    DR.resource["DR_didatic"] = ['Modo didático'];
     
     // all others are automatically created
     for( var r = 0; r < strResources.length; r ++ ) {
         DR.createResource(strResources[r]);
     }
-    
-//    DR.resource["DR_appName"] = ['<h1>Mapa para <span>Acordeons Diatônicos</span></h1>'];
-//    DR.resource["DR_about"] = ['Sobre'];
-//    DR.resource["tabTunes"] = ['Músicas'];
-//    DR.resource["tabChords"] = ['Acordes'];
-//    DR.resource["tabPractices"] = ['Exercícios'];
-//    DR.resource["playBtn"] = ['Executar'];
-//    DR.resource["stopBtn"] = ['Parar'];
-//    DR.resource["toolsBtn"] = ['Ferramentas'];
-//    DR.resource["didaticoBtn"] = ['Passo a passo'];
-//    DR.resource["DR_layout"] = ['Layout:'];
-//    DR.resource["DR_espelho"] = ['Espelho'];
-//    DR.resource["DR_horizontal"] = ['Horizontal'];
-//    DR.resource["DR_accordions"] = ['Acordeons'];
-//    DR.resource["DR_chlabel"] = ['Mudar Notação'];
-//    DR.resource["DR_theory"] = ['Teoria'];
-//    DR.resource["octaveUpBtn"] = ['+ Oitava'];
-//    DR.resource["octaveDwBtn"] = ['- Oitava'];
-//    DR.resource["printBtn"] = ['Ver impressão'];
-//    DR.resource["saveBtn"] = ['Salvar local'];
-//    DR.resource["closeBtn"] = ['Fechar'];
-//    DR.resource["forceRefresh"] = ['Atualizar'];
-//    DR.resource["DR_refresh"] = ['Auto atualização'];
-//    DR.resource["DR_message"] = ['Deixe uma mensagem'];
-//    DR.resource["DR_repertoire"] = ['Repertório'];
-//    DR.resource["DR_original"] = ['Restaurar o original'];
-//    DR.resource["DR_localLoad"] = ['Carregar do drive local'];
-  };
+    //var lang = JSON.stringify( DR.resource );
+};    
 
-//create the initial resource (brazilian portuguese)
 DR.createResource = function (id) {
     
     var res = document.getElementById(id);
@@ -135,7 +115,7 @@ DR.register = function (res) {
 DR.loadLang = function(file){
   $.getJSON( file, {  format: "json"  })
     .done(function( data ) {
-        DR.setMenuOption(data.id, data.langName);
+        DR.createMenuOption(data.id, data.langName);
         for(var res in data.resources ) {
             var lang = DR[data.id];
             var text = data.resources[res];

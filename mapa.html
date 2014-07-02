@@ -49,14 +49,16 @@ notação abc, tablatura "/>
               </div>
               <div  style="float: right; margin-right: 20px; margin-top: 0px;">
                   <div class="btn-group">
-                      <span class="btn label dropdown-toggle" style="padding: 2px; background-color: white;">
-                    <a target="_blank" href="mailto:flavio.vani@gmail.com?Subject=Comentário sobre o site Diatonic-Map">
-                         <img id="DR_message" src="img/mail_80x80.png" width="32" height="32" alt="Deixe uma mensagem" title="Deixe uma mensagem">
-                    </a>                          
+                      <span class="btn label dropdown-toggle" style="padding: 2px; height: 34px; width: 34px; background-color: white;">
+                        <a target="_blank" href="mailto:flavio.vani@gmail.com?Subject=Comentário sobre o site Diatonic-Map">
+                            <img id="DR_message" src="img/mail_80x80.png" width="32" height="32" alt="Deixe uma mensagem" title="Deixe uma mensagem">
+                        </a>                          
                       </span>
                   </div>
                   <div class="btn-group">
-                    <button class="btn label dropdown-toggle" data-toggle="dropdown" id="btn_idioma" style="padding: 2px; background-color: white"></button>
+                      <button class="btn label dropdown-toggle" data-toggle="dropdown" id="btn_idioma" style="padding: 2px; height: 40px; width: 40px; background-color: white">
+                        <img id="DR_message" src="img/pt_BR.png" width="32" height="32">                          
+                      </button>
                     <ul class="dropdown-menu" id="opcoes_idioma" style="padding: 1px; min-width: 32px; background-color: white">
                     </ul>
                   </div>
@@ -73,30 +75,31 @@ notação abc, tablatura "/>
               <tr >
                 <td >
                   <div class="btn-group">
-                      <button class="btn label dropdown-toggle" data-toggle="dropdown"><span id="DR_accordions">Acordeons</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                      <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_accordions">Acordeons</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
                     <ul class="dropdown-menu" id="opcoes_gaita"></ul>
                   </div>
                 </td >
                 <td >
                   <div class="btn-group">
-                      <button class="btn label dropdown-toggle" data-toggle="dropdown"><span id="DR_repertoire">Repertório</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                      <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_repertoire">Repertório</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
                       <input id="fileLoadRepertoire" type="file" style="display: none;" multiple />
                       <ul class="dropdown-menu" id="opcoes_repertorio">
-                          <li><a href="#" id="DR_original" onclick="reloadRepertoire()">Restaurar o original</a></li>
+                          <li><a href="#" id="DR_original" onclick="reloadRepertoire();">Restaurar o original</a></li>
                           <li><a href="#" id="DR_localLoad" onclick="document.getElementById('fileLoadRepertoire').click()">Carregar do drive local</a></li>
+                          <li><a href="#" id="DR_localSave" onclick="saveRepertoire();">Exportar para drive local</a></li>
                       </ul>
                   </div>
                 </td >
                 <td >
-                    <button id="changeNotationBtn" class="btn label"><i class="icon-globe icon-white"></i>&nbsp;<span id="DR_chlabel">Mudar notação</span></button>
+                    <button id="changeNotationBtn" class="btn"><i class="icon-globe icon-white"></i>&nbsp;<span id="DR_chlabel">Mudar notação</span></button>
                 </td >
                 <td >
                   <div class="btn-group">
-                      <button class="btn label dropdown-toggle" data-toggle="dropdown"><span id="DR_theory">Teoria</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                      <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_theory">Teoria</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
                       <ul class="dropdown-menu" id="opcoes_teoria">
-                        <li><a href="html/tablatura.pt_BR.html" target="_blank">Tablaturas para acordeons</a></li>
-                        <li><a target="_blank">Formato ABC</a></li>
-                        <li><a target="_blank" >Editor de partituras</a></li>
+                        <li><a id="DR_tablature" target="_blank" href="html/tablatura.pt_BR.html" >Tablaturas para acordeons</a></li>
+                        <li><a id="DR_abc_format" target="_blank" >Formato ABC</a></li>
+                        <li><a id="DR_abc_editor" target="_blank" >Editor de partituras</a></li>
                       </ul>
                   </div>
                 </td >
@@ -162,11 +165,26 @@ notação abc, tablatura "/>
             <li><a href="#" id="tabPractices">Exercícios</a></li>
             <li style="margin-left: 10px">
                 <div id="divPlayerControls">
-                  <select id="selSongs" > </select>
-                  <button id="playBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
-                  <button id="stopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
-                  <button id="didaticoBtn" class="btn" title="Passo a passo" onclick="">Passo a passo</button>
-                  <button id="toolsBtn" class="btn" title="Ferramentas" onclick="">Ferramentas</button>
+                  <div id="divSelectPlayControls" style="display: inline; float:left; margin-right: 2px;">
+                  <select id="selSongs" ></select>
+                  <button id="modeBtn" class="btn" title="Modo normal" onclick="changePlayMode();">&nbsp;<i class="icon-music"></i>&nbsp;</button>
+                  </div>
+                  <div id="divNormalPlayControls" style="display: inline; float:left; margin-right: 2px;">
+                    <button id="playBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
+                    <button id="stopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
+                  </div>
+                  <div id="divDidaticPlayControls" style="display: none; float:left; margin-right: 2px;" >
+                    <button id="stepBackBtn" class="btn" title="Compasso anterior" onclick="">&nbsp;<i class="icon-step-backward"></i>&nbsp;</button>
+                    <button id="stepBtn" class="btn" title="Passo a passo" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
+                    <button id="StepMeasureBtn" class="btn" title="Executar compasso" onclick="">&nbsp;<i class="icon-forward"></i>&nbsp;</button>
+                    <button id="repeatBtn" class="btn" title="Repetir compasso" onclick="">&nbsp;<i class="icon-repeat"></i>&nbsp;</button>
+                    <button id="stepForwardBtn" class="btn" title="Próximo compasso" onclick="">&nbsp;<i class="icon-step-forward"></i>&nbsp;</button>
+                    <button id="clearBtn" class="btn" title="Limpar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
+                    <input id="gotoMeasureBtn" title="Ir para o compasso" type="text" value="Ir para..." onclick="" style="width: 4em; height:22px; padding: 0; margin: 0;">
+                  </div>
+                  <div id="divToolsControls" style="display: inline; float:right;">
+                    <button id="toolsBtn" class="btn" title="Ferramentas" onclick=""><i class="icon-wrench"></i>&nbsp;Ferramentas</button>
+                  </div>
                 </div>  
             </li>
         </ul>
@@ -287,6 +305,9 @@ notação abc, tablatura "/>
     <!-- suporte a MIDI -->
     <script type="text/javascript" src="MIDI.js/MIDI_2.02-min.js"></script>
     
+    <script type="text/javascript" src="abc2midi/midiparser.js"></script>
+    <script type="text/javascript" src="abc2midi/midiplayer.js"></script>
+    
     <!-- modelos de gaitas disponíveis -->
     <!-- diatonic accordion map -->
     <script type="text/javascript" src="diatonic/diatonic-map.js"></script>
@@ -295,19 +316,14 @@ notação abc, tablatura "/>
     <script type="text/javascript" src="diatonic/accordion.hohner.clubIIIM.js"></script>
     <script type="text/javascript" src="diatonic/accordion.hohner.coronaII.js"></script>
 
-    <!-- suporte aos mapas de teclados -->
-    <script type="text/javascript" src="js/bootstrap-dropdown.js"></script>
-    <script type="text/javascript" src="js/filemanager.js"></script>
-    <script type="text/javascript" src="js/funcoes.js"></script>
-
     <script type="text/javascript" src="map/map.js"></script>
     <script type="text/javascript" src="map/gaita.js"></script>
     <script type="text/javascript" src="map/button.js"></script>
     
-    <script type="text/javascript" src="abc2midi/midiparser.js"></script>
-    <script type="text/javascript" src="abc2midi/midiplayer.js"></script>
-    
+    <script type="text/javascript" src="js/bootstrap-dropdown.js"></script>
+    <script type="text/javascript" src="js/filemanager.js"></script>
     <script type="text/javascript" src="js/resource.js"></script>
+    <script type="text/javascript" src="js/funcoes.js"></script>
     
     <script type="text/javascript">
         
@@ -319,8 +335,10 @@ notação abc, tablatura "/>
         
         window.toolsButton = document.getElementById("toolsBtn");
         window.playButton = document.getElementById("playBtn");
-        window.didaticoButton = document.getElementById("didaticoBtn");
+        window.modeButton = document.getElementById("modeBtn");
         window.stopButton = document.getElementById("stopBtn");
+        window.clearButton = document.getElementById("clearBtn");
+        window.stepButton = document.getElementById("stepBtn");
         window.saveButton = document.getElementById("saveBtn");
         window.printButton = document.getElementById("printBtn");
         window.closeButton = document.getElementById("closeBtn");
@@ -341,12 +359,23 @@ notação abc, tablatura "/>
                ,'DR_message'
                ,'DR_original'
                ,'DR_localLoad'
+               ,'DR_localSave'
+               ,'DR_tablature' 
+               ,'DR_abc_format'
+               ,'DR_abc_editor'
                ,'tabTunes'
                ,'tabChords'
                ,'tabPractices'
+               ,'modeBtn'
                ,'playBtn'
                ,'stopBtn'
-               ,'didaticoBtn'
+               ,'stepBackBtn'
+               ,'stepBtn'
+               ,'StepMeasureBtn'
+               ,'repeatBtn'
+               ,'clearBtn'
+               ,'stepForwardBtn'
+               ,'gotoMeasureBtn'
                ,'toolsBtn'
                ,'octaveUpBtn'
                ,'octaveDwBtn'
@@ -387,16 +416,16 @@ notação abc, tablatura "/>
             );
     
             myMap.currentTab = "tabTunes";
-            
+            myMap.currentMode = "normal";
             // popula lista drop-down        
             myMap.carregaListaGaitas();
 
             // configura e mostra a gaita inicial
             myMap.gaita.setup( {
-                   accordionId: 'GAITA_HOHNER_GC' 
+                  accordionId: 'GAITA_HOHNER_GC' 
                   //,songTitle:"J'ai vu le loup, le renard et la belette"
                   //,songTitle:"Valsa Sertaneja"
-                  ,songTitle:"Hino do Grêmio"
+                  //,songTitle:"Hino do Grêmio"
                    } );
         }
         
@@ -433,15 +462,29 @@ notação abc, tablatura "/>
                 $(this).parent().attr("id","current"); // Activate this
                 $('#' + $(this).attr('id')+"Div").fadeIn(); // Show content for the current tab
                 myMap.currentTab = $(this).attr('id') ;
-
-                //if( $(this).attr('id') === "tabTunes" )
-                //    $("#divPlayerControls" ).fadeIn();
-                //else
-                //    $("#divPlayerControls" ).hide();
               }
           });
         });
-        
+
+        function changePlayMode() {
+            if( myMap.currentMode === "normal" ) {
+                $("#divNormalPlayControls" ).hide();
+                myMap.currentMode  = "didatic";
+                modeButton.title = DR.resource["DR_didatic"][DR.language];
+                modeButton.innerHTML = '&nbsp;<i class="icon-pencil"></i>&nbsp;';
+                $("#divDidaticPlayControls" ).fadeIn();
+            } else {
+                $("#divDidaticPlayControls" ).hide();
+                myMap.currentMode  = "normal";
+                modeButton.title = DR.resource["modeBtn"][DR.language];
+                modeButton.innerHTML = '&nbsp;<i class="icon-music"></i>&nbsp;';
+                $("#divNormalPlayControls" ).fadeIn();
+            }
+        }
+    
+        function saveRepertoire() {
+            //myMap.carregaRepertorio(true);
+        };
         function reloadRepertoire() {
             myMap.carregaRepertorio(true);
         };
@@ -490,12 +533,17 @@ notação abc, tablatura "/>
             myMap.playRenderedSong(playButton);
         }, false);
         
-        didaticoButton.addEventListener("click", function() {
+        stopButton.addEventListener("click", function() {
             if( ! myMap.gaita.renderedTune ) return;
-            myMap.didaticPlayRenderedSong(didaticoButton);
+            myMap.stopRenderedSong(playButton);
         }, false);
         
-        stopButton.addEventListener("click", function() {
+        stepButton.addEventListener("click", function() {
+            if( ! myMap.gaita.renderedTune ) return;
+            myMap.didaticPlayRenderedSong(stepButton);
+        }, false);
+        
+        clearButton.addEventListener("click", function() {
             if( ! myMap.gaita.renderedTune ) return;
             myMap.stopRenderedSong(playButton);
         }, false);
