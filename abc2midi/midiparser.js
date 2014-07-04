@@ -9,9 +9,7 @@ if (!window.DIATONIC)
 
 if (!window.DIATONIC.midi) 
     window.DIATONIC.midi = {baseduration: 1920 }; // nice and divisible, equals 1 whole note
-
-
-
+//
 // Porque preciso conhecer o mapa?
 //   - Por que durante a execução, vai afetar elementos de tela:
 //       vai destacar as notas que estão impressas na pauta
@@ -41,9 +39,13 @@ DIATONIC.midi.Parse.prototype.reset = function(options) {
     
     this.lastTabElem = [];
     this.baraccidentals = [];
-    
-    this.midiTune = { tempo: 60, notes : [] }; // each note contains  a {time:t,funct:f} pair
-    
+    this.currBarNumber = 0;
+        
+    this.midiTune = { 
+        tempo: 60
+       ,notes : [] // each note contains a {time:t,funct:f} pair
+       ,measures: [] // marks the start time for each measure - used for didatic playing
+    }; 
 };
 
 DIATONIC.midi.Parse.prototype.parseTabSong = function(tune, printer) {
@@ -141,6 +143,13 @@ DIATONIC.midi.Parse.prototype.writeNote = function(elem) {
 
     this.timecount += this.silencelength;
     this.silencelength = 0;
+    
+    if(this.staff === 0 && elem.barNumber && this.currBarNumber !== elem.barNumber) {
+      if( this.midiTune.measures[elem.barNumber] === undefined ) {
+         this.midiTune.measures[elem.barNumber] =  this.timecount;
+      }   
+      this.currBarNumber = elem.barNumber;
+    }
     
     if (elem.pitches) {
         var midipitch;
@@ -341,8 +350,9 @@ DIATONIC.midi.Parse.prototype.startNote = function(pitch, loudness, abcelem, sta
     var channel = self.channel;
     var printer = self.midiTune.printer;
     this.midiTune.notes.splice(this.playlistpos, 0, {
-        time: startTime,
-        funct: function() {
+         time: startTime
+        ,barNumber : abcelem.barNumber
+        ,funct: function() {
             MIDI.noteOn(channel, pitch, loudness, 0);
             self.notifySelect(abcelem, channel, printer);
         }

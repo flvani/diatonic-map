@@ -57,7 +57,7 @@ notação abc, tablatura "/>
                   </div>
                   <div class="btn-group">
                       <button class="btn label dropdown-toggle" data-toggle="dropdown" id="btn_idioma" style="padding: 2px; height: 40px; width: 40px; background-color: white">
-                        <img id="DR_message" src="img/pt_BR.png" width="32" height="32">                          
+                        <img src="img/pt_BR.png" width="32" height="32" alt="idiomas">                          
                       </button>
                     <ul class="dropdown-menu" id="opcoes_idioma" style="padding: 1px; min-width: 32px; background-color: white">
                     </ul>
@@ -174,11 +174,11 @@ notação abc, tablatura "/>
                     <button id="stopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
                   </div>
                   <div id="divDidaticPlayControls" style="display: none; float:left; margin-right: 2px;" >
+                    <button id="velocityBtn" class="btn" title="Andamento" onclick="">&nbsp;&#188;&nbsp;</button>
                     <button id="stepBackBtn" class="btn" title="Compasso anterior" onclick="">&nbsp;<i class="icon-step-backward"></i>&nbsp;</button>
                     <button id="stepBtn" class="btn" title="Passo a passo" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
-                    <button id="StepMeasureBtn" class="btn" title="Executar compasso" onclick="">&nbsp;<i class="icon-forward"></i>&nbsp;</button>
+                    <button id="stepMeasureBtn" class="btn" title="Executar compasso" onclick="">&nbsp;<i class="icon-forward"></i>&nbsp;</button>
                     <button id="repeatBtn" class="btn" title="Repetir compasso" onclick="">&nbsp;<i class="icon-repeat"></i>&nbsp;</button>
-                    <button id="stepForwardBtn" class="btn" title="Próximo compasso" onclick="">&nbsp;<i class="icon-step-forward"></i>&nbsp;</button>
                     <button id="clearBtn" class="btn" title="Limpar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
                     <input id="gotoMeasureBtn" title="Ir para o compasso" type="text" value="Ir para..." onclick="" style="width: 4em; height:22px; padding: 0; margin: 0;">
                   </div>
@@ -338,7 +338,11 @@ notação abc, tablatura "/>
         window.modeButton = document.getElementById("modeBtn");
         window.stopButton = document.getElementById("stopBtn");
         window.clearButton = document.getElementById("clearBtn");
+        window.stepBackButton = document.getElementById("stepBackBtn");
+        window.repeatButton = document.getElementById("repeatBtn");
         window.stepButton = document.getElementById("stepBtn");
+        window.velocityButton = document.getElementById("velocityBtn");
+        window.stepMeasureButton = document.getElementById("stepMeasureBtn");
         window.saveButton = document.getElementById("saveBtn");
         window.printButton = document.getElementById("printBtn");
         window.closeButton = document.getElementById("closeBtn");
@@ -369,12 +373,12 @@ notação abc, tablatura "/>
                ,'modeBtn'
                ,'playBtn'
                ,'stopBtn'
+               ,'velocityBtn'
                ,'stepBackBtn'
                ,'stepBtn'
-               ,'StepMeasureBtn'
+               ,'stepMeasureBtn'
                ,'repeatBtn'
                ,'clearBtn'
-               ,'stepForwardBtn'
                ,'gotoMeasureBtn'
                ,'toolsBtn'
                ,'octaveUpBtn'
@@ -538,10 +542,20 @@ notação abc, tablatura "/>
             myMap.stopRenderedSong(playButton);
         }, false);
         
+        velocityButton.addEventListener("click", function() {
+            myMap.midiPlayer.adjustAndamento();
+        }, false);
+
         stepButton.addEventListener("click", function() {
             if( ! myMap.gaita.renderedTune ) return;
-            myMap.didaticPlayRenderedSong(stepButton);
+            myMap.didaticPlayRenderedSong('note');
         }, false);
+        
+        stepMeasureButton.addEventListener("click", function() {
+            if( ! myMap.gaita.renderedTune ) return;
+            myMap.didaticPlayRenderedSong('measure');
+        }, false);
+        
         
         clearButton.addEventListener("click", function() {
             if( ! myMap.gaita.renderedTune ) return;
