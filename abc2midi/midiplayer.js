@@ -35,6 +35,13 @@ DIATONIC.midi.Player.prototype.reset = function(options) {
     
 };
 
+DIATONIC.midi.Player.prototype.resetAndamento = function(mode) {
+    if(mode==="normal"){
+        this.currentTime = this.currentTime * this.currentAndamento;
+    } else {
+        this.currentTime = this.currentTime * (1/this.currentAndamento);
+    }
+};
 DIATONIC.midi.Player.prototype.adjustAndamento = function(bt) {
     
     if(this.currentAndamento === 1 ) {

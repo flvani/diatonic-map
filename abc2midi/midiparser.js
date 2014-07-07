@@ -77,7 +77,9 @@ DIATONIC.midi.Parse.prototype.parseTabSong = function(tune, printer) {
             this.restart = {line: 0, staff: this.staff, voice: this.voice, pos: 0};
             this.next = null;
             for (this.line = 0; this.line < this.abctune.lines.length; this.line++) {
-              this.writeABCLine();
+              if(this.abctune.lines[this.line].staffs){
+                this.writeABCLine();
+              }
             }
             this.endTrack();
         }

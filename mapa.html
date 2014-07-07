@@ -91,7 +91,7 @@ notação abc, tablatura "/>
                   </div>
                 </td >
                 <td >
-                    <button id="changeNotationBtn" class="btn"><i class="icon-globe icon-white"></i>&nbsp;<span id="DR_chlabel">Mudar notação</span></button>
+                    <button id="changeNotationBtn" class="btn"><i class="icon-globe"></i>&nbsp;<span id="DR_chlabel">Mudar notação</span></button>
                 </td >
                 <td >
                   <div class="btn-group">
@@ -185,8 +185,8 @@ notação abc, tablatura "/>
                     <button id="tempoBtn" class="btn" title="Andamento" onclick=""><b>&nbsp;1&nbsp;</b></button>
                   </div>
                   <div style="float:left; margin-right: 2px;" >
-                    <button id="print2Btn" class="btn" title="Imprimir" onclick="">Imprimir</button>
-                    <button id="pdfBtn" class="btn" title="Salvar em PDF" onclick="">PDF</button>
+                    <button id="print2Btn" class="btn" title="Imprimir" onclick=""><i class="icon-print"></i>&nbsp;Imprimir</button>
+                    <!--button id="pdfBtn" class="btn" title="Salvar em PDF" onclick="">PDF</button-->
                   </div>
                 </div>  
             </li>
@@ -207,8 +207,8 @@ notação abc, tablatura "/>
             <span style="margin-left: 8px;"></span>
             <select id="selGaitas" > </select>
             <select id="selKey" ></select>
-            <button id="octaveUpBtn" class="btn" title="+ Oitava" onclick="javascript:doTranspose(12);" >+ Oitava</button>
-            <button id="octaveDwBtn" class="btn" title="- Oitava" onclick="javascript:doTranspose(-12);" >- Oitava</button>
+            <button id="octaveUpBtn" class="btn" title="+ Oitava" onclick="javascript:doTranspose(12);" ><i class="icon-arrow-up"></i>&nbsp;Oitava</button>
+            <button id="octaveDwBtn" class="btn" title="- Oitava" onclick="javascript:doTranspose(-12);" ><i class="icon-arrow-down"></i>&nbsp;Oitava</button>
             <button id="printBtn" class="btn" title="Ver impressão" >Ver impressão</button>
             <button id="saveBtn" class="btn" title="Salvar Local" >Salvar Local</button>
             <button id="closeBtn" class="btn" title="Fechar" >Fechar</button>
@@ -259,7 +259,7 @@ notação abc, tablatura "/>
                 </a>
             </noscript>
             <div id="clustrmaps-widget" style="float:right;   margin-left:1em;"></div>
-            <h3>Diatonic-Map <i>v0.98</i><br><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
+            <h3>Diatonic-Map <i>v1.00</i><br><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
             <p>Este projeto pretende ser um mapa de referência para acordeons diatônicos. 
                Com ele é possível configurar -- e mostrar -- o layout de qualquer gaita de botões, nos seus mais diversos modelos.
                Quero deixar aqui, meus especiais agradecimentos ao 
@@ -303,7 +303,7 @@ notação abc, tablatura "/>
     <script type="text/javascript" src="proto_noconflict.js" ></script>
     
     <!-- suporte a arquivos ABC -->
-    <script type="text/javascript" src="abcjs/abcjs_tabeditor_2.08-min.js" ></script>
+    <script type="text/javascript" src="abcjs/abcjs_tabeditor_2.09-min.js" ></script>
 
     <!-- suporte a MIDI -->
     <script type="text/javascript" src="MIDI.js/MIDI_2.02-min.js"></script>
@@ -480,12 +480,14 @@ notação abc, tablatura "/>
                 myMap.currentMode  = "learning";
                 modeButton.title = DR.resource["DR_didactic"][DR.language];
                 modeButton.innerHTML = '<img src="img/learning5.png" alt="" width="20" height="20">';
+                myMap.midiPlayer.resetAndamento(myMap.currentMode);
                 $("#divDidacticPlayControls" ).fadeIn();
             } else {
                 $("#divDidacticPlayControls" ).hide();
                 myMap.currentMode  = "normal";
                 modeButton.title = DR.resource["modeBtn"][DR.language];
                 modeButton.innerHTML = '<img src="img/listening3.png" alt="" width="20" height="20">';
+                myMap.midiPlayer.resetAndamento(myMap.currentMode);
                 $("#divNormalPlayControls" ).fadeIn();
             }
         }
