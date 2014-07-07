@@ -20,8 +20,8 @@ DR.initializeTranslator = function ( strResources ) {
     DR.showSelectedOption();
 
     //load each avaliable languague resource file
-    DR.loadLang("js/en_US.lang");
-    DR.loadLang("js/de_DE.lang");
+    DR.loadLang("languages/en_US.lang");
+    DR.loadLang("languages/de_DE.lang");
     //DR.loadLang("js/es_ES.lang");
     //DR.loadLang("js/it_IT.lang");
     //DR.loadLang("js/fr_FR.lang");
@@ -81,7 +81,7 @@ DR.createResources = function (strResources) {
     DR.resource["DR_pause"] = ['Pausar'];
     DR.resource["DR_wait"] = ['Aguarde...'];
     DR.resource["DR_debug"] = ['Depurar'];
-    DR.resource["DR_didatic"] = ['Modo didático'];
+    DR.resource["DR_didactic"] = ['Modo didático'];
     
     // all others are automatically created
     for( var r = 0; r < strResources.length; r ++ ) {

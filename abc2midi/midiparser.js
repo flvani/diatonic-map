@@ -39,12 +39,12 @@ DIATONIC.midi.Parse.prototype.reset = function(options) {
     
     this.lastTabElem = [];
     this.baraccidentals = [];
-    this.currBarNumber = 0;
+    //this.currBarNumber = 0;
         
     this.midiTune = { 
         tempo: 60
        ,notes : [] // each note contains a {time:t,funct:f} pair
-       ,measures: [] // marks the start time for each measure - used for didatic playing
+       ,measures: [] // marks the start time for each measure - used for learning mode playing
     }; 
 };
 
@@ -82,6 +82,26 @@ DIATONIC.midi.Parse.prototype.parseTabSong = function(tune, printer) {
             this.endTrack();
         }
     }
+    // varre a lista de notas procurando a primeira ocorrencia de cada compasso.
+    for(var i = 0; i < this.midiTune.notes.length; i++ ) {
+      if( this.midiTune.notes[i].barNumber && this.midiTune.measures[this.midiTune.notes[i].barNumber] === undefined ) {
+         if(this.midiTune.notes[i].barNumber === 20 ) {
+             var n = this.playlistpos;
+         }
+         this.midiTune.measures[this.midiTune.notes[i].barNumber] =  i;
+      }   
+    }
+//    if(this.staff === 0 && abcelem.barNumber && this.currBarNumber !== abcelem.barNumber) {
+//      if( this.midiTune.measures[abcelem.barNumber] === undefined ) {
+//         if(abcelem.barNumber === 11 ) {
+//             var n = this.playlistpos;
+//         }
+//         this.midiTune.measures[abcelem.barNumber] =  this.playlistpos;
+//      }   
+//      this.currBarNumber = abcelem.barNumber;
+//    }
+    
+    
 
     return this.midiTune;
 };
@@ -143,13 +163,6 @@ DIATONIC.midi.Parse.prototype.writeNote = function(elem) {
 
     this.timecount += this.silencelength;
     this.silencelength = 0;
-    
-    if(this.staff === 0 && elem.barNumber && this.currBarNumber !== elem.barNumber) {
-      if( this.midiTune.measures[elem.barNumber] === undefined ) {
-         this.midiTune.measures[elem.barNumber] =  this.timecount;
-      }   
-      this.currBarNumber = elem.barNumber;
-    }
     
     if (elem.pitches) {
         var midipitch;
@@ -349,9 +362,14 @@ DIATONIC.midi.Parse.prototype.startNote = function(pitch, loudness, abcelem, sta
     var self = this;
     var channel = self.channel;
     var printer = self.midiTune.printer;
+    var b;
+    if(this.staff === 0 && abcelem.barNumber ) {
+        b = abcelem.barNumber;
+    }
+    
     this.midiTune.notes.splice(this.playlistpos, 0, {
          time: startTime
-        ,barNumber : abcelem.barNumber
+        ,barNumber : b
         ,funct: function() {
             MIDI.noteOn(channel, pitch, loudness, 0);
             self.notifySelect(abcelem, channel, printer);
@@ -451,11 +469,17 @@ DIATONIC.midi.Parse.prototype.selectNote = function(abcelem, startTime) {
     var self = this;
     var channel = self.channel;
     var printer = self.midiTune.printer;
+    var b;
+    if(this.staff === 0 && abcelem.barNumber ) {
+        b = abcelem.barNumber;
+    }
+    
     this.midiTune.notes.splice(this.playlistpos, 0, {
-        time: startTime,
-        funct: function() {
+        time: startTime
+       ,barNumber : b
+       ,funct: function() {
             self.notifySelect(abcelem, channel, printer);
-        }
+       }
     });
 };
 DIATONIC.midi.Parse.prototype.unSelectNote = function(abcelem, endTime) {

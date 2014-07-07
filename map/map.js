@@ -183,7 +183,7 @@ DIATONIC.map.Map.prototype.playRenderedSong = function() {
     }
 };
 
-DIATONIC.map.Map.prototype.didaticPlayRenderedSong = function(type) {
+DIATONIC.map.Map.prototype.didacticPlayRenderedSong = function(type, value) {
     this.gaita.clearKeyboard();
     var midi;
     switch (myMap.currentTab) {
@@ -197,7 +197,7 @@ DIATONIC.map.Map.prototype.didaticPlayRenderedSong = function(type) {
             midi = this.gaita.midiPractice;
             break;
     }
-    this.midiPlayer.startDidaticPlay(midi, type);
+    this.midiPlayer.startDidacticPlay(midi, type, value);
 
     //this.midiPlayer.startDebugPlay(midi,type);
 };

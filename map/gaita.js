@@ -310,7 +310,7 @@ DIATONIC.map.Gaita.prototype.loadSongList = function(tt) {
     var songs = this.getSelectedAccordion().songs;
     for( var title in songs) {
         var opt = document.createElement('option');
-        opt.innerHTML = title;
+        opt.innerHTML = (title.length>43 ? title.substr(0,40) + "..." : title);
         opt.value = title;
         this.songSelector.appendChild(opt);
     }   
