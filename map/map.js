@@ -75,14 +75,20 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams ) {
 };
 
 DIATONIC.map.Map.prototype.translate = function() {
-  document.getElementById("toolsBtn").innerHTML = '<i class="icon-wrench"></i>&nbsp;'+DR.resource["toolsBtn"][DR.language]+'</button>';
-  document.getElementById("octaveUpBtn").innerHTML = DR.resource["octaveUpBtn"][DR.language];
-  document.getElementById("octaveDwBtn").innerHTML = DR.resource["octaveDwBtn"][DR.language];
-  document.getElementById("printBtn").innerHTML = DR.resource["printBtn"][DR.language];
+  document.getElementById("toolsBtn").innerHTML = '<i class="icon-wrench"></i>&nbsp;'+DR.resource["toolsBtn"][DR.language];
+  document.getElementById("octaveUpBtn").title = DR.resource["DR_octave"][DR.language];
+  document.getElementById("octaveUpBtn").innerHTML = '<i class="icon-arrow-up"></i>&nbsp;'+DR.resource["DR_octave"][DR.language];
+  document.getElementById("octaveDwBtn").title = DR.resource["DR_octave"][DR.language];
+  document.getElementById("octaveDwBtn").innerHTML = '<i class="icon-arrow-down"></i>&nbsp;'+DR.resource["DR_octave"][DR.language];
+  document.getElementById("pdfBtn").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.resource["pdfBtn"][DR.language];
+  document.getElementById("printBtn").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.resource["printBtn"][DR.language];
+  document.getElementById("printPreviewBtn").innerHTML = DR.resource["printPreviewBtn"][DR.language];
   document.getElementById("saveBtn").innerHTML = DR.resource["saveBtn"][DR.language];
   document.getElementById("closeBtn").innerHTML = DR.resource["closeBtn"][DR.language];
   document.getElementById("forceRefresh").innerHTML = DR.resource["forceRefresh"][DR.language];
   document.getElementById("DR_message").alt = DR.resource["DR_message"][DR.language];
+  document.getElementById("gotoMeasureBtn").value = DR.resource["DR_goto"][DR.language];
+  document.getElementById("modeBtn").title = DR.resource[this.currentMode === "normal"?"modeBtn":"DR_didactic"][DR.language];
   
 };
 

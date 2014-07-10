@@ -81,7 +81,10 @@ DR.createResources = function (strResources) {
     DR.resource["DR_pause"] = ['Pausar'];
     DR.resource["DR_wait"] = ['Aguarde...'];
     DR.resource["DR_debug"] = ['Depurar'];
+    DR.resource["DR_octave"] = ['Oitava'];
+    DR.resource["DR_goto"] = ['Ir para...'];
     DR.resource["DR_didactic"] = ['Modo didático'];
+    DR.resource["modeBtn"] = ['Modo Normal'];
     
     // all others are automatically created
     for( var r = 0; r < strResources.length; r ++ ) {
