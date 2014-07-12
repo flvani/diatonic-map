@@ -302,7 +302,7 @@ notação abc, tablatura "/>
     <script type="text/javascript" src="proto_noconflict.js" ></script>
     
     <!-- suporte a arquivos ABC -->
-    <script type="text/javascript" src="abcjs/abcjs_tabeditor_2.09-min.js" ></script>
+    <script type="text/javascript" src="abcjs/abcjs_tabeditor_nomidi_2.10-min.js" ></script>
 
     <!-- suporte a MIDI -->
     <script type="text/javascript" src="MIDI.js/MIDI_2.02-min.js"></script>
@@ -452,6 +452,9 @@ notação abc, tablatura "/>
                   //MIDI.programChange(0, 0); // piano
                   MIDI.programChange(0, 21); // canais para accordeon
                   MIDI.programChange(1, 21); // canais para accordeon
+                  MIDI.programChange(2, 21); // canais para accordeon
+                  MIDI.programChange(3, 21); // canais para accordeon
+                  MIDI.programChange(4, 21); // canais para accordeon
                   $("#tabs li:first").attr("id","current"); // Activate the first tab
                   $("#tuneContainerDiv #tabTunesDiv" ).fadeIn(); // Show first tab's content
                   document.getElementById("modalAbout").style.display = 'inline';
