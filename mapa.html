@@ -86,7 +86,7 @@ notação abc, tablatura "/>
                       <ul class="dropdown-menu" id="opcoes_repertorio">
                           <li><a href="#" id="DR_original" onclick="reloadRepertoire();">Restaurar o original</a></li>
                           <li><a href="#" id="DR_localLoad" onclick="document.getElementById('fileLoadRepertoire').click()">Carregar do drive local</a></li>
-                          <li style="display:none;"><a href="#" id="DR_localSave" onclick="saveRepertoire();">Exportar para drive local</a></li>
+                          <li style="display:inline;"><a href="#" id="DR_localSave" onclick="saveRepertoire();">Exportar para drive local</a></li>
                       </ul>
                   </div>
                 </td >
@@ -258,7 +258,7 @@ notação abc, tablatura "/>
                 </a>
             </noscript>
             <div id="clustrmaps-widget" style="float:right;   margin-left:1em;"></div>
-            <h3>Diatonic-Map <i>v1.00</i><br><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
+            <h3>Diatonic-Map <i>v1.01</i><br><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
             <p>Este projeto pretende ser um mapa de referência para acordeons diatônicos. 
                Com ele é possível configurar -- e mostrar -- o layout de qualquer gaita de botões, nos seus mais diversos modelos.
                Quero deixar aqui, meus especiais agradecimentos ao 
@@ -495,7 +495,7 @@ notação abc, tablatura "/>
         }
     
         function saveRepertoire() {
-            //myMap.carregaRepertorio(true);
+            myMap.salvaRepertorio();
         };
         function reloadRepertoire() {
             myMap.carregaRepertorio(true);
@@ -613,15 +613,8 @@ notação abc, tablatura "/>
         }, false);
         
         saveButton.addEventListener("click", function() {
-            if ( FILEMANAGER.requiredFeaturesAvailable() ) {
-                var name = myMap.editor.tunes[0].metaText.title + ".abcx";
-                var conteudo = myMap.editor.editarea.getString();
-                FILEMANAGER.download( name, conteudo );    
-            } else {
-                alert( "Impossível salvar!");
-            }    
+            myMap.salvaMusica();
         }, false);
-        
                 
         toolsButton.addEventListener("click", function() {
             if( ! myMap.gaita.renderedTune ) return;

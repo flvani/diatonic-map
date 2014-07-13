@@ -119,6 +119,31 @@ DIATONIC.map.Map.prototype.carregaListaGaitas  = function() {
   }
 };
 
+DIATONIC.map.Map.prototype.salvaMusica = function() {
+    if ( FILEMANAGER.requiredFeaturesAvailable() ) {
+        var name = this.editor.tunes[0].metaText.title + ".abcx";
+        var conteudo = this.editor.editarea.getString();
+        FILEMANAGER.download( name, conteudo );    
+    } else {
+        alert( DR.resource["DR_err_saving"][DR.language]);
+    }    
+};
+
+DIATONIC.map.Map.prototype.salvaRepertorio = function() {
+    if ( FILEMANAGER.requiredFeaturesAvailable() ) {
+        var accordion = this.gaita.getSelectedAccordion();
+        var name = accordion.name + ".abcx";
+        var conteudo = "";
+        for( var title in accordion.songs) {
+          conteudo += accordion.songs[title] + '\n\n';
+        }
+        FILEMANAGER.download( name, conteudo );    
+    } else {
+        alert( DR.resource["DR_err_saving"][DR.language]);
+    }    
+    
+};
+
 DIATONIC.map.Map.prototype.carregaRepertorio = function(original, files) {
     var that = this;
     var accordion = that.gaita.getSelectedAccordion();

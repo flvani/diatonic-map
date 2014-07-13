@@ -16,6 +16,7 @@
         ,"DR_goto" : "Go to..."
         ,"DR_didactic" : "Learning mode"
         ,"modeBtn" : "Normal Mode"
+        ,"DR_err_saving" : "Error saving file"
         ,"DR_layout" : "Layout: "
         ,"DR_espelho" : "Mirrored"
         ,"DR_horizontal" : "Horizontal"
