@@ -54,7 +54,7 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams ) {
     this.ypos = 0; // esta variável é usada para ajustar o scroll durante a execução do midi
 
     this.midiParser = new DIATONIC.midi.Parse(this);
-    this.midiPlayer = new DIATONIC.midi.Player(this, accordionParams.playButton);
+    this.midiPlayer = new DIATONIC.midi.Player(this, interfaceParams.playButton);
     
   
     this.gaita = new DIATONIC.map.Gaita(this, accordionParams);

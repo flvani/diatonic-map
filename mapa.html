@@ -26,7 +26,7 @@ notação abc, tablatura "/>
     
     TODO:
         Usar a informação das barras de repeticao da primeira linha em todas as vozes (no gerador de midi)
-        Implementar uma forma de diminuir a velocidade de uma canção (modo didático)
+        done: Implementar uma forma de diminuir a velocidade de uma canção (modo didático)
         done:Gerar informação no parse e inferencia da tablatura sobre a duracao total de uma nota ou manter tie info
         done: Eliminar o uso do Kinetic
         done:Acertar a transposição (preferir o acidente junto da nota, ignorando o da pauta; 
@@ -325,7 +325,6 @@ notação abc, tablatura "/>
     <script type="text/javascript" src="js/bootstrap-dropdown.js"></script>
     <script type="text/javascript" src="js/filemanager.js"></script>
     <script type="text/javascript" src="js/resource.js"></script>
-    <script type="text/javascript" src="js/funcoes.js"></script>
     
     <script type="text/javascript">
         
@@ -402,10 +401,10 @@ notação abc, tablatura "/>
                   , accordionNamePlaceHolder: 'a_nome_gaita'
                   , accordionImagePlaceHolder: 'td_imagem_gaita'
                   , tuneContainerDiv: 'tuneContainerDiv'
+                  , playButton: window.playButton
               }
               , {   // accordionParams
-                    playButton: window.playButton
-                  , keyboardContentDiv: 'contentKeyboard'
+                    keyboardContentDiv: 'contentKeyboard'
                   , songSelector: 'selSongs'
                   , songDiv: 'tabTunesDiv'
                   , chordDiv: 'tabChordsDiv'
@@ -494,18 +493,19 @@ notação abc, tablatura "/>
             }
         }
     
-        function saveRepertoire() {
-            myMap.salvaRepertorio();
-        };
-        function reloadRepertoire() {
-            myMap.carregaRepertorio(true);
-        };
-        
         function handleFileSelect(evt) {
           FILEMANAGER.loadLocalFiles(evt, function() {
             myMap.carregaRepertorio(false, FILEMANAGER.files);
             evt.target.value = "";
           });
+        };
+        
+        function reloadRepertoire() {
+            myMap.carregaRepertorio(true);
+        };
+        
+        function saveRepertoire() {
+            myMap.salvaRepertorio();
         };
         
         function setupGaita(value) {
@@ -522,7 +522,7 @@ notação abc, tablatura "/>
 
         function doCheckDebug() {
             debug = document.getElementById("chkDebug").checked;
-            myMap.Editor.fireChanged(0, "force");
+            myMap.editor.fireChanged(0, "force");
         };
 
         changeNotationButton.addEventListener("click", function() {
@@ -530,6 +530,62 @@ notação abc, tablatura "/>
           myMap.gaita.redrawKeyboard();
         }, false);
         
+        playButton.addEventListener("click", function() {
+            if( ! myMap.gaita.renderedTune ) return;
+            myMap.playRenderedSong(playButton);
+        }, false);
+        
+        stopButton.addEventListener("click", function() {
+            if( ! myMap.gaita.renderedTune ) return;
+            myMap.stopRenderedSong(playButton);
+        }, false);
+        
+        gotoMeasureButton.addEventListener("focus", function() {
+            if (gotoMeasureButton.value === DR.resource["DR_goto"][DR.language]) {
+               gotoMeasureButton.value = "";
+            }
+        }, false);
+
+        gotoMeasureButton.addEventListener("blur", function() {
+            if (gotoMeasureButton.value === "") {
+               gotoMeasureButton.value = DR.resource["DR_goto"][DR.language];
+            }
+        }, false);
+    
+        gotoMeasureButton.addEventListener("keypress", function(e) {
+            if (e.keyCode === 13) {
+               myMap.didacticPlayRenderedSong('goto', this.value);
+            }
+        }, false);
+
+        stepButton.addEventListener("click", function() {
+            if( ! myMap.gaita.renderedTune ) return;
+            myMap.didacticPlayRenderedSong('note');
+        }, false);
+        
+        stepMeasureButton.addEventListener("click", function() {
+            if( ! myMap.gaita.renderedTune ) return;
+            myMap.didacticPlayRenderedSong('measure');
+        }, false);
+        
+        repeatButton.addEventListener("click", function() {
+            if( ! myMap.gaita.renderedTune ) return;
+            myMap.didacticPlayRenderedSong('repeat');
+        }, false);
+        
+        clearButton.addEventListener("click", function() {
+            if( ! myMap.gaita.renderedTune ) return;
+            myMap.midiPlayer.clearDidacticPlay();
+        }, false);
+        
+        tempoButton.addEventListener("click", function() {
+            myMap.midiPlayer.adjustAndamento(tempoButton);
+        }, false);
+        
+        saveButton.addEventListener("click", function() {
+            myMap.salvaMusica();
+        }, false);
+                
         printPreviewButton.addEventListener("click", function() {
             $("#divTitulo").hide();
             $("#editControlDiv").hide();
@@ -558,64 +614,6 @@ notação abc, tablatura "/>
             myMap.gaita.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
         }, false);
 
-        playButton.addEventListener("click", function() {
-            if( ! myMap.gaita.renderedTune ) return;
-            myMap.playRenderedSong(playButton);
-        }, false);
-        
-        stopButton.addEventListener("click", function() {
-            if( ! myMap.gaita.renderedTune ) return;
-            myMap.stopRenderedSong(playButton);
-        }, false);
-        
-        tempoButton.addEventListener("click", function() {
-            myMap.midiPlayer.adjustAndamento(tempoButton);
-        }, false);
-        
-        gotoMeasureButton.addEventListener("focus", function() {
-            if (gotoMeasureButton.value === DR.resource["DR_goto"][DR.language]) {
-               gotoMeasureButton.value = "";
-            }
-        }, false);
-
-        gotoMeasureButton.addEventListener("blur", function() {
-            if (gotoMeasureButton.value === "") {
-               gotoMeasureButton.value = DR.resource["DR_goto"][DR.language];
-            }
-        }, false);
-
-    
-        gotoMeasureButton.addEventListener("keypress", function(e) {
-            if (e.keyCode === 13) {
-               myMap.didacticPlayRenderedSong('goto', this.value);
-            }
-        }, false);
-
-        stepButton.addEventListener("click", function() {
-            if( ! myMap.gaita.renderedTune ) return;
-            myMap.didacticPlayRenderedSong('note');
-        }, false);
-        
-        stepMeasureButton.addEventListener("click", function() {
-            if( ! myMap.gaita.renderedTune ) return;
-            myMap.didacticPlayRenderedSong('measure');
-        }, false);
-        
-        repeatButton.addEventListener("click", function() {
-            if( ! myMap.gaita.renderedTune ) return;
-            myMap.didacticPlayRenderedSong('repeat');
-        }, false);
-        
-        
-        clearButton.addEventListener("click", function() {
-            if( ! myMap.gaita.renderedTune ) return;
-            myMap.midiPlayer.clearDidacticPlay();
-        }, false);
-        
-        saveButton.addEventListener("click", function() {
-            myMap.salvaMusica();
-        }, false);
-                
         toolsButton.addEventListener("click", function() {
             if( ! myMap.gaita.renderedTune ) return;
             $("#mapContainerDiv").hide();
