@@ -10,18 +10,22 @@ DR.initializeTranslator = function ( strResources ) {
     
     DR.agents = []; // items registered for translation
     DR.resource =  {}; // translation resources
-    DR.language = DR.pt_BR; // initial/current language
+    
+    // initial/current language
+    var lang = FILEMANAGER.loadLocal( 'property.language');
+    DR.language = (lang? parseInt(lang):DR.pt_BR);
    
     // create the translatable resources
     DR.createResources(strResources);
 
     // create and select the menu option for the inicial language
     DR.createMenuOption("pt_BR", "Português do Brasil" );
-    DR.showSelectedOption();
 
     //load each avaliable languague resource file
-    DR.loadLang("languages/en_US.lang");
-    DR.loadLang("languages/de_DE.lang");
+    DR.loadLang("languages/en_US.lang", DR.firstTranslation);
+    DR.loadLang("languages/de_DE.lang", DR.firstTranslation);
+    
+    DR.showSelectedOption();
     //DR.loadLang("js/es_ES.lang");
     //DR.loadLang("js/it_IT.lang");
     //DR.loadLang("js/fr_FR.lang");
@@ -29,10 +33,18 @@ DR.initializeTranslator = function ( strResources ) {
 
 };
 
+DR.firstTranslation = function () {
+    if(DR.language !== DR.pt_BR && DR.resource['DR_appName'][DR.language]) {
+       DR.translate(DR.language);
+    }
+};
+
 // do the translation
 DR.translate = function (id) {
     
     DR.language = id;
+    
+    FILEMANAGER.saveLocal( 'property.language', id);
 
     document.getElementById('btn_idioma').innerHTML = DR.resource["DR_image"][DR.language];
 
@@ -68,7 +80,6 @@ DR.createMenuOption = function( id, langName ) {
 DR.showSelectedOption = function () {
     document.getElementById('btn_idioma').innerHTML = DR.resource["DR_image"][DR.language];
 };
-
 
 //create the initial resources (brazilian portuguese)
 DR.createResources = function (strResources) {
@@ -116,7 +127,7 @@ DR.register = function (res) {
 };
 
 //load de language resource file
-DR.loadLang = function(file){
+DR.loadLang = function(file, cb ){
   $.getJSON( file, {  format: "json"  })
     .done(function( data ) {
         DR.createMenuOption(data.id, data.langName);
@@ -128,6 +139,7 @@ DR.loadLang = function(file){
             else
                 console.log(res);
         }
+        if( cb ) cb();
     });
      //var jsonText = JSON.stringify(LANG);
 };

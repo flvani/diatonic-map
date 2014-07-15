@@ -85,19 +85,22 @@ DIATONIC.map.Gaita.prototype.setup = function(accordionParams) {
   this.map.setGaitaImage( gaita );
 
   if(!accordionParams.practiceTitle){
-      accordionParams.practiceTitle = this.getSelectedAccordion().getFirstPractice();
+    var tit = FILEMANAGER.loadLocal( 'property.practice.title');
+    accordionParams.practiceTitle = tit || this.getSelectedAccordion().getFirstPractice();
   }
   this.loadPracticeList(accordionParams.practiceTitle);
   this.renderPractice( accordionParams.practiceTitle, {}, this.map.currentTab === "tabPractices" );
 
   if(!accordionParams.chordTitle){
-      accordionParams.chordTitle = this.getSelectedAccordion().getFirstChord();
+    var tit = FILEMANAGER.loadLocal( 'property.chord.title');
+    accordionParams.chordTitle = tit || this.getSelectedAccordion().getFirstChord();
   }
   this.loadChordList(accordionParams.chordTitle);
   this.renderChord( accordionParams.chordTitle, {}, this.map.currentTab === "tabChords" );
 
   if(!accordionParams.songTitle){
-      accordionParams.songTitle = this.getSelectedAccordion().getFirstSong();
+      var tit = FILEMANAGER.loadLocal( 'property.song.title');
+      accordionParams.songTitle = tit || this.getSelectedAccordion().getFirstSong();
   }
   this.loadSongList(accordionParams.songTitle);
   this.renderTune( accordionParams.songTitle, {}, this.map.currentTab === "tabTunes" );
@@ -291,6 +294,7 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
 
 DIATONIC.map.Gaita.prototype.addChangeListenerToChordSelector = function(gaita) {
     this.chordSelector.onchange = function() {
+    FILEMANAGER.saveLocal( 'property.chord.title', this.value );
     gaita.renderChord( this.value, {}, true );
     gaita.map.tuneContainerDiv.scrollTop = 0;    
   };
@@ -298,6 +302,7 @@ DIATONIC.map.Gaita.prototype.addChangeListenerToChordSelector = function(gaita) 
 
 DIATONIC.map.Gaita.prototype.addChangeListenerToPracticeSelector = function(gaita) {
     this.practiceSelector.onchange = function() {
+    FILEMANAGER.saveLocal( 'property.practice.title', this.value );
     gaita.renderPractice( this.value, {}, true );
     gaita.map.tuneContainerDiv.scrollTop = 0;    
   };
@@ -305,6 +310,7 @@ DIATONIC.map.Gaita.prototype.addChangeListenerToPracticeSelector = function(gait
 
 DIATONIC.map.Gaita.prototype.addChangeListenerToSongSelector = function(gaita) {
     this.songSelector.onchange = function() {
+    FILEMANAGER.saveLocal( 'property.song.title', this.value );
     gaita.renderTune( this.value, {}, true );
     gaita.map.tuneContainerDiv.scrollTop = 0;    
   };

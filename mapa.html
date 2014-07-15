@@ -260,7 +260,7 @@ notação abc, tablatura "/>
                 </a>
             </noscript>
             <div id="clustrmaps-widget" style="float:right;   margin-left:1em;"></div>
-            <h3>Diatonic-Map <i>v1.02</i><br><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
+            <h3>Diatonic-Map <i>v1.03</i><br><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
             <p>Este projeto pretende ser um mapa de referência para acordeons diatônicos. 
                Com ele é possível configurar -- e mostrar -- o layout de qualquer gaita de botões, nos seus mais diversos modelos.
                Quero deixar aqui, meus especiais agradecimentos ao 
@@ -428,14 +428,17 @@ notação abc, tablatura "/>
             myMap.carregaListaGaitas();
 
             // configura e mostra a gaita inicial
+            var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_HOHNER_GC';
+            
             myMap.gaita.setup( {
-                  accordionId: 'GAITA_HOHNER_GC' 
+                  accordionId: accordion
                   //,songTitle:"J'ai vu le loup, le renard et la belette"
                   //,songTitle:"Valsa Sertaneja"
                   //,songTitle:"Hino do Grêmio"
                    } );
                    
             myMap.defineActiveTab( 'tabTunes' );
+            
         }
         
         $(document).ready(function() {
@@ -482,6 +485,7 @@ notação abc, tablatura "/>
         };
         
         function setupGaita(value) {
+            FILEMANAGER.saveLocal( 'property.accordion', value );
             myMap.gaita.setup({accordionId:value});
         };
 
