@@ -201,7 +201,7 @@ DIATONIC.map.Map.prototype.carregaRepertorio = function(original, files) {
         accordion.loadSongs( function() {  // devido à falta de sincronismo, preciso usar o call back;
             var songTitle = accordion.getFirstSong();
             that.gaita.loadSongList(songTitle);
-            that.gaita.renderTune( songTitle, {}, this.currentTab === "tabTunes" );
+            that.gaita.renderTune( songTitle, {}, that.currentTab === "tabTunes" );
             
         });
     } else {
