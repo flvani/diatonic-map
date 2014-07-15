@@ -318,6 +318,8 @@ body {
 
 #selKey,
 #selSongs,
+#selChords,
+#selPractices,
 #selGaitas {
   color:buttontext;
   width:auto;

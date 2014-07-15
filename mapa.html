@@ -91,7 +91,7 @@ notação abc, tablatura "/>
                   </div>
                 </td >
                 <td >
-                    <button id="changeNotationBtn" class="btn"><i class="icon-globe"></i>&nbsp;<span id="DR_chlabel">Mudar notação</span></button>
+                    <button id="changeNotationBtn" class="btn" onclick="changeNotation();"><i class="icon-globe"></i>&nbsp;<span id="DR_chlabel">Mudar notação</span></button>
                 </td >
                 <td >
                   <div class="btn-group">
@@ -167,8 +167,10 @@ notação abc, tablatura "/>
             <li style="margin-left: 10px">
                 <div id="divPlayerControls">
                   <div id="divSelectPlayControls" style="display: inline; float:left; margin-right: 2px;">
-                  <select id="selSongs" style="width: 20em;" ></select>
-                  <button id="modeBtn" class="btn" title="Modo normal" onclick="changePlayMode();"><img src="img/listening3.png" alt="" width="20" height="20"></button>
+                    <select id="selSongs" style="width: 20em;" ></select>
+                    <select id="selChords" style="width: 20em; ; display:none;" ></select>
+                    <select id="selPractices" style="width: 20em; display:none;" ></select>
+                    <button id="modeBtn" class="btn" title="Modo normal" onclick=""><img src="img/listening3.png" alt="" width="20" height="20"></button>
                   </div>
                   <div id="divNormalPlayControls" style="display: inline; float:left; margin-right: 2px;">
                     <button id="playBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
@@ -258,7 +260,7 @@ notação abc, tablatura "/>
                 </a>
             </noscript>
             <div id="clustrmaps-widget" style="float:right;   margin-left:1em;"></div>
-            <h3>Diatonic-Map <i>v1.01</i><br><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
+            <h3>Diatonic-Map <i>v1.02</i><br><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
             <p>Este projeto pretende ser um mapa de referência para acordeons diatônicos. 
                Com ele é possível configurar -- e mostrar -- o layout de qualquer gaita de botões, nos seus mais diversos modelos.
                Quero deixar aqui, meus especiais agradecimentos ao 
@@ -334,21 +336,11 @@ notação abc, tablatura "/>
         
 	document.getElementById('fileLoadRepertoire').addEventListener('change', handleFileSelect, false);        
         
+        window.printButton = document.getElementById("printBtn");
         window.toolsButton = document.getElementById("toolsBtn");
-        window.playButton = document.getElementById("playBtn");
-        window.modeButton = document.getElementById("modeBtn");
-        window.stopButton = document.getElementById("stopBtn");
-        window.clearButton = document.getElementById("clearBtn");
-        window.gotoMeasureButton = document.getElementById("gotoMeasureBtn");
-        window.repeatButton = document.getElementById("repeatBtn");
-        window.stepButton = document.getElementById("stepBtn");
-        window.tempoButton = document.getElementById("tempoBtn");
-        window.stepMeasureButton = document.getElementById("stepMeasureBtn");
         window.saveButton = document.getElementById("saveBtn");
         window.printPreviewButton = document.getElementById("printPreviewBtn");
-        window.printButton = document.getElementById("printBtn");
         window.closeButton = document.getElementById("closeBtn");
-        window.changeNotationButton = document.getElementById("changeNotationBtn");
 
         function initApp() {
             
@@ -401,13 +393,14 @@ notação abc, tablatura "/>
                   , accordionNamePlaceHolder: 'a_nome_gaita'
                   , accordionImagePlaceHolder: 'td_imagem_gaita'
                   , tuneContainerDiv: 'tuneContainerDiv'
-                  , playButton: window.playButton
               }
               , {   // accordionParams
                     keyboardContentDiv: 'contentKeyboard'
                   , songSelector: 'selSongs'
                   , songDiv: 'tabTunesDiv'
+                  , chordSelector: 'selChords'
                   , chordDiv: 'tabChordsDiv'
+                  , practiceSelector: 'selPractices'
                   , practiceDiv: 'tabPracticesDiv'
               }
               , {   // editorParams
@@ -418,11 +411,19 @@ notação abc, tablatura "/>
                   , keySelector_id: "selKey"
                   , warnings_id: "warningsDiv"
               } 
+              , {   // playerParams
+                    modeBtn: "modeBtn"
+                  , playBtn: "playBtn"
+                  , stopBtn: "stopBtn"
+                  , clearBtn: "clearBtn"
+                  , gotoMeasureBtn: "gotoMeasureBtn"
+                  , stepBtn: "stepBtn"
+                  , repeatBtn: "repeatBtn"
+                  , stepMeasureBtn: "stepMeasureBtn"
+                  , tempoBtn: "tempoBtn"
+              } 
             );
     
-            myMap.currentTab = "tabTunes";
-            myMap.currentMode = "normal";
-            
             // popula lista drop-down        
             myMap.carregaListaGaitas();
 
@@ -433,6 +434,8 @@ notação abc, tablatura "/>
                   //,songTitle:"Valsa Sertaneja"
                   //,songTitle:"Hino do Grêmio"
                    } );
+                   
+            myMap.defineActiveTab( 'tabTunes' );
         }
         
         $(document).ready(function() {
@@ -442,18 +445,14 @@ notação abc, tablatura "/>
             MIDI.loader = new widgets.Loader();
             MIDI.loadPlugin({
                 soundfontUrl: "./soundfont/"
-               //,instruments: "acoustic_grand_piano"
                ,instruments: "accordion"
-               //,instruments: ["accordion", "acoustic_grand_piano"]
-               //,targetFormat: "mp3"
                ,callback: function() {
                   MIDI.loader.stop();
-                  //MIDI.programChange(0, 0); // piano
                   MIDI.programChange(0, 21); // canais para accordeon
-                  MIDI.programChange(1, 21); // canais para accordeon
-                  MIDI.programChange(2, 21); // canais para accordeon
-                  MIDI.programChange(3, 21); // canais para accordeon
-                  MIDI.programChange(4, 21); // canais para accordeon
+                  MIDI.programChange(1, 21); // 
+                  MIDI.programChange(2, 21); // 
+                  MIDI.programChange(3, 21); // 
+                  MIDI.programChange(4, 21); // 
                   $("#tabs li:first").attr("id","current"); // Activate the first tab
                   $("#tuneContainerDiv #tabTunesDiv" ).fadeIn(); // Show first tab's content
                   document.getElementById("modalAbout").style.display = 'inline';
@@ -470,29 +469,11 @@ notação abc, tablatura "/>
                 $("#tabs li").attr("id",""); //Reset id's
                 $(this).parent().attr("id","current"); // Activate this
                 $('#' + $(this).attr('id')+"Div").fadeIn(); // Show content for the current tab
-                myMap.currentTab = $(this).attr('id') ;
+                myMap.defineActiveTab( $(this).attr('id') );
               }
           });
         });
 
-        function changePlayMode() {
-            if( myMap.currentMode === "normal" ) {
-                $("#divNormalPlayControls" ).hide();
-                myMap.currentMode  = "learning";
-                modeButton.title = DR.resource["DR_didactic"][DR.language];
-                modeButton.innerHTML = '<img src="img/learning5.png" alt="" width="20" height="20">';
-                myMap.midiPlayer.resetAndamento(myMap.currentMode);
-                $("#divDidacticPlayControls" ).fadeIn();
-            } else {
-                $("#divDidacticPlayControls" ).hide();
-                myMap.currentMode  = "normal";
-                modeButton.title = DR.resource["modeBtn"][DR.language];
-                modeButton.innerHTML = '<img src="img/listening3.png" alt="" width="20" height="20">';
-                myMap.midiPlayer.resetAndamento(myMap.currentMode);
-                $("#divNormalPlayControls" ).fadeIn();
-            }
-        }
-    
         function handleFileSelect(evt) {
           FILEMANAGER.loadLocalFiles(evt, function() {
             myMap.carregaRepertorio(false, FILEMANAGER.files);
@@ -500,6 +481,10 @@ notação abc, tablatura "/>
           });
         };
         
+        function setupGaita(value) {
+            myMap.gaita.setup({accordionId:value});
+        };
+
         function reloadRepertoire() {
             myMap.carregaRepertorio(true);
         };
@@ -508,10 +493,6 @@ notação abc, tablatura "/>
             myMap.salvaRepertorio();
         };
         
-        function setupGaita(value) {
-            myMap.gaita.setup({accordionId:value});
-        };
-
         function doTranspose(value) {
             myMap.editor.fireChanged(value, "force");
         };
@@ -525,62 +506,10 @@ notação abc, tablatura "/>
             myMap.editor.fireChanged(0, "force");
         };
 
-        changeNotationButton.addEventListener("click", function() {
+        function changeNotation() {
           myMap.gShowLabel = !myMap.gShowLabel;
           myMap.gaita.redrawKeyboard();
-        }, false);
-        
-        playButton.addEventListener("click", function() {
-            if( ! myMap.gaita.renderedTune ) return;
-            myMap.playRenderedSong(playButton);
-        }, false);
-        
-        stopButton.addEventListener("click", function() {
-            if( ! myMap.gaita.renderedTune ) return;
-            myMap.stopRenderedSong(playButton);
-        }, false);
-        
-        gotoMeasureButton.addEventListener("focus", function() {
-            if (gotoMeasureButton.value === DR.resource["DR_goto"][DR.language]) {
-               gotoMeasureButton.value = "";
-            }
-        }, false);
-
-        gotoMeasureButton.addEventListener("blur", function() {
-            if (gotoMeasureButton.value === "") {
-               gotoMeasureButton.value = DR.resource["DR_goto"][DR.language];
-            }
-        }, false);
-    
-        gotoMeasureButton.addEventListener("keypress", function(e) {
-            if (e.keyCode === 13) {
-               myMap.didacticPlayRenderedSong('goto', this.value);
-            }
-        }, false);
-
-        stepButton.addEventListener("click", function() {
-            if( ! myMap.gaita.renderedTune ) return;
-            myMap.didacticPlayRenderedSong('note');
-        }, false);
-        
-        stepMeasureButton.addEventListener("click", function() {
-            if( ! myMap.gaita.renderedTune ) return;
-            myMap.didacticPlayRenderedSong('measure');
-        }, false);
-        
-        repeatButton.addEventListener("click", function() {
-            if( ! myMap.gaita.renderedTune ) return;
-            myMap.didacticPlayRenderedSong('repeat');
-        }, false);
-        
-        clearButton.addEventListener("click", function() {
-            if( ! myMap.gaita.renderedTune ) return;
-            myMap.midiPlayer.clearDidacticPlay();
-        }, false);
-        
-        tempoButton.addEventListener("click", function() {
-            myMap.midiPlayer.adjustAndamento(tempoButton);
-        }, false);
+        };
         
         saveButton.addEventListener("click", function() {
             myMap.salvaMusica();
@@ -597,13 +526,14 @@ notação abc, tablatura "/>
         }, false);
         
         printButton.addEventListener("click", function() {
-            if( ! myMap.gaita.renderedTune ) return;
+            var tune = myMap.getTabTune();
+            if( ! tune ) return;
             $("#divTitulo").hide();
             $("#mapContainerDiv").hide();
             document.body.style.paddingTop = '0px';
             savedBackgroundColor = document.body.style.backgroundColor;
             document.body.style.backgroundColor = '#fff';
-            myMap.editor.div.innerHTML = myMap.gaita.songDiv.innerHTML;
+            myMap.editor.div.innerHTML = tune;
             $("#editorDiv").show();
             window.print();
             $("#editorDiv").hide();
@@ -611,17 +541,18 @@ notação abc, tablatura "/>
             document.body.style.paddingTop = '50px';
             $("#divTitulo").fadeIn();
             $("#mapContainerDiv").fadeIn();
-            myMap.gaita.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
+            //myMap.gaita.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
         }, false);
 
         toolsButton.addEventListener("click", function() {
-            if( ! myMap.gaita.renderedTune ) return;
+            var tune = myMap.getTabTune();
+            if( ! tune ) return;
             $("#mapContainerDiv").hide();
             document.body.style.paddingTop = '280px';
             savedBackgroundColor = document.body.style.backgroundColor;
             document.body.style.backgroundColor = '#fff';
             $("#editControlDiv").fadeIn();
-            myMap.editor.div.innerHTML = myMap.gaita.songDiv.innerHTML;
+            myMap.editor.div.innerHTML = tune;
             $("#editorDiv").fadeIn();
         }, false);
         
@@ -632,8 +563,8 @@ notação abc, tablatura "/>
             document.body.style.paddingTop = '50px';
             $("#mapContainerDiv").fadeIn();
             myMap.gaita.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
-            myMap.gaita.printTune(true);
-  
+            myMap.setTabTune();
+ 
         }, false);
 
   </script>
