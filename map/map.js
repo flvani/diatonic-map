@@ -201,21 +201,22 @@ DIATONIC.map.Map.prototype.carregaRepertorio = function(original, files) {
         accordion.loadSongs( function() {  // devido à falta de sincronismo, preciso usar o call back;
             var songTitle = accordion.getFirstSong();
             that.gaita.loadSongList(songTitle);
-            that.gaita.renderTune( songTitle, {}, true );
+            that.gaita.renderTune( songTitle, {}, this.currentTab === "tabTunes" );
             
         });
     } else {
-        accordion.songs = {};
+        accordion.songs = { items:{}, sortedIndex: [] };
         for (var s = 0; s < files.length; s++) {
             var tunebook = new ABCJS.TuneBook(files[s].content);
             for (var t = 0; t < tunebook.tunes.length; t++) {
-                accordion.songs[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
-
-            }
+                accordion.songs.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
+                accordion.songs.sortedIndex.push(tunebook.tunes[t].title);
+            }    
         }
+        accordion.songs.sortedIndex.sort();
         var songTitle = accordion.getFirstSong();
         that.gaita.loadSongList(songTitle);
-        that.gaita.renderTune( songTitle, {}, true );
+        that.gaita.renderTune( songTitle, {}, this.currentTab === "tabTunes" );
     }
 };
 
