@@ -27,8 +27,7 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
     var that = this;
     this.currentTab = '';
     this.currentMode = "normal";
-    this.gShowLabel = false;
-
+    
     DR.register( this ); // register for translate
     
     this.midiParser = new DIATONIC.midi.Parse(this);
@@ -120,37 +119,37 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
     }, false);
 
     this.gotoMeasureButton.addEventListener("focus", function() {
-        if (that.gotoMeasureButton.value === DR.resource["DR_goto"][DR.language]) {
+        if (that.gotoMeasureButton.value === DR.getResource("DR_goto")) {
            that.gotoMeasureButton.value = "";
         }
     }, false);
 
     this.gotoMeasureButton.addEventListener("blur", function() {
         if (that.gotoMeasureButton.value === "") {
-           that.gotoMeasureButton.value = DR.resource["DR_goto"][DR.language];
+           that.gotoMeasureButton.value = DR.getResource("DR_goto");
         }
     }, false);
 };
 
 DIATONIC.map.Map.prototype.translate = function() {
     
-  document.title = DR.resource["DR_title"][DR.language];  
+  document.title = DR.getResource("DR_title");  
   
-  document.getElementById("DR_description").setAttribute("content",DR.resource["DR_description"][DR.language]);
-  document.getElementById("toolsBtn").innerHTML = '<i class="icon-wrench"></i>&nbsp;'+DR.resource["toolsBtn"][DR.language];
-  document.getElementById("octaveUpBtn").title = DR.resource["DR_octave"][DR.language];
-  document.getElementById("octaveUpBtn").innerHTML = '<i class="icon-arrow-up"></i>&nbsp;'+DR.resource["DR_octave"][DR.language];
-  document.getElementById("octaveDwBtn").title = DR.resource["DR_octave"][DR.language];
-  document.getElementById("octaveDwBtn").innerHTML = '<i class="icon-arrow-down"></i>&nbsp;'+DR.resource["DR_octave"][DR.language];
-  document.getElementById("pdfBtn").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.resource["pdfBtn"][DR.language];
-  document.getElementById("printBtn").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.resource["printBtn"][DR.language];
-  document.getElementById("printPreviewBtn").innerHTML = DR.resource["printPreviewBtn"][DR.language];
-  document.getElementById("saveBtn").innerHTML = DR.resource["saveBtn"][DR.language];
-  document.getElementById("closeBtn").innerHTML = DR.resource["closeBtn"][DR.language];
-  document.getElementById("forceRefresh").innerHTML = DR.resource["forceRefresh"][DR.language];
-  document.getElementById("DR_message").alt = DR.resource["DR_message"][DR.language];
-  document.getElementById("gotoMeasureBtn").value = DR.resource["DR_goto"][DR.language];
-  document.getElementById("modeBtn").title = DR.resource[this.currentMode === "normal"?"modeBtn":"DR_didactic"][DR.language];
+  document.getElementById("DR_description").setAttribute("content",DR.getResource("DR_description"));
+  document.getElementById("toolsBtn").innerHTML = '<i class="icon-wrench"></i>&nbsp;'+DR.getResource("toolsBtn");
+  document.getElementById("octaveUpBtn").title = DR.getResource("DR_octave");
+  document.getElementById("octaveUpBtn").innerHTML = '<i class="icon-arrow-up"></i>&nbsp;'+DR.getResource("DR_octave");
+  document.getElementById("octaveDwBtn").title = DR.getResource("DR_octave");
+  document.getElementById("octaveDwBtn").innerHTML = '<i class="icon-arrow-down"></i>&nbsp;'+DR.getResource("DR_octave");
+  document.getElementById("pdfBtn").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.getResource("pdfBtn");
+  document.getElementById("printBtn").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.getResource("printBtn");
+  document.getElementById("printPreviewBtn").innerHTML = DR.getResource("printPreviewBtn");
+  document.getElementById("saveBtn").innerHTML = DR.getResource("saveBtn");
+  document.getElementById("closeBtn").innerHTML = DR.getResource("closeBtn");
+  document.getElementById("forceRefresh").innerHTML = DR.getResource("forceRefresh");
+  document.getElementById("DR_message").alt = DR.getResource("DR_message");
+  document.getElementById("gotoMeasureBtn").value = DR.getResource("DR_goto");
+  document.getElementById("modeBtn").title = DR.getResource(this.currentMode === "normal"?"modeBtn":"DR_didactic");
   
 };
 
@@ -176,7 +175,7 @@ DIATONIC.map.Map.prototype.salvaMusica = function() {
         var conteudo = this.editor.editarea.getString();
         FILEMANAGER.download( name, conteudo );    
     } else {
-        alert( DR.resource["DR_err_saving"][DR.language]);
+        alert( DR.getResource("DR_err_saving"));
     }    
 };
 
@@ -190,7 +189,7 @@ DIATONIC.map.Map.prototype.salvaRepertorio = function() {
         }
         FILEMANAGER.download( name, conteudo );    
     } else {
-        alert( DR.resource["DR_err_saving"][DR.language]);
+        alert( DR.getResource("DR_err_saving"));
     }    
 };
 
@@ -266,14 +265,14 @@ DIATONIC.map.Map.prototype.changePlayMode = function() {
     if( this.currentMode === "normal" ) {
         $("#divNormalPlayControls" ).hide();
         this.currentMode  = "learning";
-        this.modeButton.title = DR.resource["DR_didactic"][DR.language];
+        this.modeButton.title = DR.getResource("DR_didactic");
         this.modeButton.innerHTML = '<img src="img/learning5.png" alt="" width="20" height="20">';
         this.midiPlayer.resetAndamento(this.currentMode);
         $("#divDidacticPlayControls" ).fadeIn();
     } else {
         $("#divDidacticPlayControls" ).hide();
         this.currentMode  = "normal";
-        this.modeButton.title = DR.resource["modeBtn"][DR.language];
+        this.modeButton.title = DR.getResource("modeBtn");
         this.modeButton.innerHTML = '<img src="img/listening3.png" alt="" width="20" height="20">';
         this.midiPlayer.resetAndamento(this.currentMode);
         $("#divNormalPlayControls" ).fadeIn();

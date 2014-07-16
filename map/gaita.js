@@ -22,6 +22,7 @@ DIATONIC.map.Gaita = function(map, interfaceParams ) {
     this.maxNoteInUse = this.minNote;
     this.accordions = [];
     this.selected = -1;
+    this.showLabel = false;
     this.keyboard = {};
     this.modifiedItems = {};
     this.paper = undefined;
@@ -108,9 +109,8 @@ DIATONIC.map.Gaita.prototype.setup = function(accordionParams) {
 };
 
 DIATONIC.map.Gaita.prototype.translate = function() {
-  this.keyboard.legenda.setTextOpen( DR.resource["DR_pull"][DR.language]);
-  this.keyboard.legenda.setTextClose( DR.resource["DR_push"][DR.language]);
-  
+  this.keyboard.legenda.setTextOpen( DR.getResource('DR_pull') );
+  this.keyboard.legenda.setTextClose( DR.getResource('DR_push') );
 };
 
 DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
@@ -177,7 +177,7 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
 
   // desenha o botão de legenda  
   this.keyboard.legenda = new DIATONIC.map.Button( 
-          this.paper, xi, yi, DR.resource["DR_pull"][DR.language], DR.resource["DR_push"][DR.language], 
+          this.paper, xi, yi, DR.getResource("DR_pull"), DR.getResource("DR_push"), 
              { radius:36, pedal: true, fontsize:14, xLabel: 0,textAnchor:'middle', color: '#828282'} );
              
   this.keyboard.legenda.draw();
@@ -389,7 +389,7 @@ DIATONIC.map.Gaita.prototype.printTune = function(alreadyOnPage, params ) {
     this.renderedTune.abc = this.map.editor.tunes[0];
     this.songPrinter = new ABCJS.write.Printer(this.songPaper, params || {});
     $("#" + this.songDiv.id).fadeIn();
-    loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.resource["DR_wait"][DR.language]+'<br><br>' );
+    loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
     this.songPrinter.printABC(this.renderedTune.abc);
     $("#" + this.songDiv.id).hide();
     this.renderedTune.midi = this.map.midiParser.parseTabSong(this.renderedTune.abc, this.songPrinter);
@@ -431,7 +431,7 @@ DIATONIC.map.Gaita.prototype.printPractice = function(alreadyOnPage, params) {
     this.practicePrinter = new ABCJS.write.Printer(this.practicePaper, params || {});
 
     $("#" + this.practiceDiv.id).fadeIn();
-    loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.resource["DR_wait"][DR.language]+'<br><br>' );
+    loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
     this.practicePrinter.printABC(this.renderedPractice.abc);
     $("#" + this.practiceDiv.id).hide();
     
@@ -479,7 +479,7 @@ DIATONIC.map.Gaita.prototype.printChord = function(alreadyOnPage, params) {
     this.chordPrinter = new ABCJS.write.Printer(this.chordPaper, params || {});
 
     $("#" + this.chordDiv.id).fadeIn();
-    loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.resource["DR_wait"][DR.language]+'<br><br>' );
+    loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
     this.chordPrinter.printABC(this.renderedChord.abc);
     $("#" + this.chordDiv.id).hide();
     
@@ -549,10 +549,25 @@ DIATONIC.map.Gaita.prototype.parseNote = function(p_nota, isBass) {
   nota.isMinor    = nota.complement.substr(0,2).indexOf( 'm' ) >= 0;
   nota.isSetima   = nota.complement.substr(0,2).indexOf( '7' ) >= 0;
 
+  return this.setKeyLabel( nota );
+};
+
+DIATONIC.map.Gaita.prototype.setKeyLabel = function(nota) {
   if( nota.isChord )  {
     nota.key = this.number2key[nota.value % 12].toLowerCase() ;
+  } else {
+      if( this.showLabel) {
+        nota.key = this.number2key_br[nota.value % 12] ;
+      } else {
+        nota.key = this.number2key[nota.value % 12];
+      }
   }
   return nota;
+};
+
+DIATONIC.map.Gaita.prototype.changeNotation = function() {
+    this.showLabel = !this.showLabel;
+    myMap.gaita.redrawKeyboard();
 };
 
 DIATONIC.map.Gaita.prototype.redrawKeyboard = function() {
@@ -561,6 +576,14 @@ DIATONIC.map.Gaita.prototype.redrawKeyboard = function() {
             this.setButtonText(this.keyboard[j][i]);
         }
     }
+};
+
+DIATONIC.map.Gaita.prototype.setButtonText = function (p_button) {
+   this.setKeyLabel( p_button.notaOpen );
+   this.setKeyLabel( p_button.notaClose );
+   p_button.btn.setTextOpen( p_button.notaOpen.key + (p_button.notaOpen.isMinor?'-':'')  );
+   p_button.btn.setTextClose( p_button.notaClose.key + (p_button.notaClose.isMinor?'-':'')  );
+
 };
 
 DIATONIC.map.Gaita.prototype.clearKeyboard = function(full) {
@@ -591,14 +614,6 @@ DIATONIC.map.Gaita.prototype.selectButton = function(dir, button) {
     } else {
         button.btn.setOpen();
     }
-};
-
-DIATONIC.map.Gaita.prototype.setButtonText = function (p_button) {
-   this.transporta( p_button.notaOpen );
-   this.transporta( p_button.notaClose );
-   p_button.btn.setTextOpen( p_button.notaOpen.key + (p_button.notaOpen.isMinor?'-':'')  );
-   p_button.btn.setTextClose( p_button.notaClose.key + (p_button.notaClose.isMinor?'-':'')  );
-
 };
 
 DIATONIC.map.Gaita.prototype.definePaper = function( div, w, h )  {

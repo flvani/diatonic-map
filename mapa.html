@@ -330,6 +330,7 @@ notação abc, tablatura "/>
     
     <script type="text/javascript">
         
+        
         var myMap;
         
         window.addEventListener('load', initApp, false);
@@ -511,8 +512,7 @@ notação abc, tablatura "/>
         };
 
         function changeNotation() {
-          myMap.gShowLabel = !myMap.gShowLabel;
-          myMap.gaita.redrawKeyboard();
+            myMap.gaita.changeNotation();
         };
         
         saveButton.addEventListener("click", function() {

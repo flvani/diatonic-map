@@ -22,17 +22,21 @@ DR.initializeTranslator = function ( strResources ) {
     DR.createMenuOption("pt_BR", "Português do Brasil" );
 
     //load each avaliable languague resource file
-    DR.loadLang("languages/en_US.lang", DR.firstTranslation);
-    DR.loadLang("languages/de_DE.lang", DR.firstTranslation);
-    
-    DR.showSelectedOption();
-    //DR.loadLang("js/es_ES.lang");
-    //DR.loadLang("js/it_IT.lang");
-    //DR.loadLang("js/fr_FR.lang");
-    //DR.loadLang("js/ru_RU.lang");
-
+    DR.loadLang(
+        [ 
+            "languages/en_US.lang"
+           ,"languages/de_DE.lang"
+           //,languages/es_ES.lang"
+           //,languages/it_IT.lang"
+           //,languages/fr_FR.lang"
+           //,languages/ru_RU.lang"         
+        ]
+        , DR.firstTranslation 
+    );
+        
 };
 
+//called if the initial language is other than Portuguese
 DR.firstTranslation = function () {
     if(DR.language !== DR.pt_BR && DR.resource['DR_appName'][DR.language]) {
        DR.translate(DR.language);
@@ -46,7 +50,8 @@ DR.translate = function (id) {
     
     FILEMANAGER.saveLocal( 'property.language', id);
 
-    document.getElementById('btn_idioma').innerHTML = DR.resource["DR_image"][DR.language];
+    //document.getElementById('btn_idioma').innerHTML = DR.resource["DR_image"][DR.language];
+    DR.showSelectedOption();
 
     for (var i = 0; i < DR.agents.length; i++) {
         var agent = DR.agents[i];
@@ -79,6 +84,11 @@ DR.createMenuOption = function( id, langName ) {
 // show the current language 
 DR.showSelectedOption = function () {
     document.getElementById('btn_idioma').innerHTML = DR.resource["DR_image"][DR.language];
+};
+
+//returns the resource value in the current idiom
+DR.getResource = function(res) {
+  return DR.resource[res][DR.language]?DR.resource[res][DR.language]:DR.resource[res][DR.pt_BR];
 };
 
 //create the initial resources (brazilian portuguese)
@@ -126,21 +136,24 @@ DR.register = function (res) {
     DR.agents.push(res);
 };
 
-//load de language resource file
-DR.loadLang = function(file, cb ){
-  $.getJSON( file, {  format: "json"  })
-    .done(function( data ) {
-        DR.createMenuOption(data.id, data.langName);
-        for(var res in data.resources ) {
-            var lang = DR[data.id];
-            var text = data.resources[res];
-            if(DR.resource[res])
-                DR.resource[res][lang] = text;
-            else
-                console.log(res);
-        }
-        if( cb ) cb();
-    });
-     //var jsonText = JSON.stringify(LANG);
+//load de language resource files
+DR.loadLang = function(files, cb ){
+    var toLoad = 0;
+    for( var f = 0; f <  files.length; f ++) {
+        toLoad ++;
+        $.getJSON( files[f], {  format: "json"  })
+          .done(function( data ) {
+              toLoad --;
+              DR.createMenuOption(data.id, data.langName);
+              for(var res in data.resources ) {
+                  var lang = DR[data.id];
+                  var text = data.resources[res];
+                  if(DR.resource[res])
+                      DR.resource[res][lang] = text;
+                  else
+                      console.log(res); // resource does not exist in the system
+              }
+              if( toLoad === 0 && cb ) cb();
+          });
+    }
 };
-
