@@ -78,79 +78,90 @@ DIATONIC.map.Accordion.prototype.isPedal = function (i,j) {
 };
 
 DIATONIC.map.Accordion.prototype.getChord = function (name) {
-    return this.chords[name];
+    return this.chords.items[name];
 };
 
 DIATONIC.map.Accordion.prototype.getSong = function (name) {
-    return this.songs[name];
+    return this.songs.items[name];
 };
 
 DIATONIC.map.Accordion.prototype.getPractice = function (name) {
-    return this.practices[name];
+    return this.practices.items[name];
 };
 
 DIATONIC.map.Accordion.prototype.getFirstSong = function () {
-    for(var s in this.songs ) {
-        return s;
-    }
-    return "";
+    var ret = this.songs.sortedIndex[0] || "";
+    return ret;
 };
 
 DIATONIC.map.Accordion.prototype.getFirstPractice = function () {
-    for(var s in this.practices ) {
-        return s;
-    }
-    return "";
+    var ret = this.practices.sortedIndex[0] || "";
+    return ret;
 };
 
 DIATONIC.map.Accordion.prototype.getFirstChord = function () {
-    for(var s in this.chords ) {
-        return s;
-    }
-    return "";
+    var ret = this.chords.sortedIndex[0] || "";
+    return ret;
 };
-DIATONIC.map.Accordion.prototype.loadPractices = function() {
+DIATONIC.map.Accordion.prototype.loadPractices = function(cb) {
     var that = this;
-    this.practices = {};
+    var toLoad = 0;
+    this.practices = { items:{}, sortedIndex: [] };
     for (var s = 0; s < this.practicePathList.length; s++) {
+        toLoad ++;
         $.get(this.practicePathList[s], function(r) {
             var tunebook = new ABCJS.TuneBook(r);
-            for (var t = 0; t < tunebook.tunes.length; t ++)
-                that.practices[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
-
+            for (var t = 0; t < tunebook.tunes.length; t ++) {
+                that.practices.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
+                that.practices.sortedIndex.push(tunebook.tunes[t].title);
+            }
+            toLoad --;
+            if(toLoad === 0 ) { 
+               that.practices.sortedIndex.sort();
+               if(cb) cb(); // call back in the last pass
+            }
         });
     }
 };
 
-DIATONIC.map.Accordion.prototype.loadChords = function() {
-    this.chords = {};
+DIATONIC.map.Accordion.prototype.loadChords = function(cb) {
     var that = this;
+    var toLoad = 0;
+    this.chords = { items:{}, sortedIndex: [] };
     for (var s = 0; s < this.chordPathList.length; s++) {
+        toLoad ++;
         $.get(this.chordPathList[s], function(r) {
             var tunebook = new ABCJS.TuneBook(r);
-            for (var t = 0; t < tunebook.tunes.length; t ++)
-                that.chords[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
-
+            for (var t = 0; t < tunebook.tunes.length; t ++) {
+                that.chords.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
+                that.chords.sortedIndex.push(tunebook.tunes[t].title);
+            }
+            toLoad --;
+            if(toLoad === 0 ) { 
+               that.chords.sortedIndex.sort();
+               if(cb) cb(); // call back in the last pass
+            }
         });
     }
 };
 
 DIATONIC.map.Accordion.prototype.loadSongs = function(cb) {
     var that = this;
-    that.songs = {};
     var toLoad = 0;
+    that.songs = { items:{}, sortedIndex: [] };
     for (var s = 0; s < that.songPathList.length; s++) {
         toLoad ++;
         $.get(that.songPathList[s], function(r) {
             var tunebook = new ABCJS.TuneBook(r);
             for (var t = 0; t < tunebook.tunes.length; t ++)  {
-                that.songs[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
+                that.songs.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
+                that.songs.sortedIndex.push(tunebook.tunes[t].title);
             }    
             toLoad --;
-            if(toLoad === 0 && cb ) { // call back in the last pass
-               cb();
+            if(toLoad === 0 ) { 
+               that.songs.sortedIndex.sort();
+               if(cb) cb(); // call back in the last pass
             }
-
         });
     }
 };

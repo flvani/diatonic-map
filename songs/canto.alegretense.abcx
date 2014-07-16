@@ -1,0 +1,33 @@
+%%barnumbers 0
+%%papersize A4
+X:1006
+T:Canto Alegretense
+C:Antônio Augusto Fagundes
+M:3/4
+L:1/8
+Q:120
+V:Melodia
+K:C
+P:Parte I
+|: z2 G2 G2 | "G"[FB]2 [FA] [FB]2 [FA] | [FB]2 [FA] [FA]2 [EG] | "C"[EG]6 |
+| z2 G2 G2 | "G"[FB]2 [FA] [FB]2 [FA] | [FB]2 [FA] [FA]2 [EG] | "C"[EG]6  |
+| z2 G2 G2 | "F"F2 F F2 G | A2 A G2 G | "C"E6  |
+| z2 F2 E2 | "G"[D]2 [GB] [GB]2 [FA] | [FA]2 [EG] [EG]2 [DF] | [CE]6 :|
+%%newpage
+P:Parte II
+|: z2 C2 C2 | C2 E E2 E | E2 E D2 D | "G"C2 B,3 z |
+|  z2 D2 D2 | D2 F F2 E | E2 D D2 E | "C"E6 |
+|  z2 E2 E2 | "F" F2 F F2 G | A2 A G2 G | "C"E6 | 
+|  z2 F2 E2 | D2 [GB] [GB]2 [FA] | [FA]2 [EG] [EG]2 [DF] | "C"[CE]6 :|
+V:Bass 
+K:C bass
+|: C, [CEG] C, [CEG] C, z | G,, [G,B,d,] G,, [G,B,d,] G,, z | G,, [G,B,d,] G,, [G,B,d,] G,, z | C, [CEG] C, [CEG] C, z |
+|  C, [CEG] C, [CEG] C, z | G,, [G,B,d,] G,, [G,B,d,] G,, z | G,, [G,B,d,] G,, [G,B,d,] G,, z | C, [CEG] C, [CEG] C, z |
+|  C, [CEG] C, [CEG] C, z | F,, [F,A,c,] F,, [F,A,c,] F,, z | F,, [F,A,c,] F,, [F,A,c,] F,, z | C, [CEG] C, [CEG] C, z |
+|  A,, [A,c,e,] A,, [A,c,e,] A,, z | G,, [G,B,d,] G,, [G,B,d,] G,, z | G,, [G,B,d,] G,, [G,B,d,] G,, z | C, [CEG] C, [CEG] C, z :|
+|: C, [CEG] C, [CEG] C, z  | C, [CEG] C, [CEG] C, z  | C, [CEG] C, [CEG] C, z | G,, [G,B,d,] G,, [G,B,d,] G,, z |
+|  G,, [G,B,d,] G,, [G,B,d,] G,, z | G,, [G,B,d,] G,, [G,B,d,] G,, z | G,, [G,B,d,] G,, [G,B,d,] G,, z | C, [CEG] C, [CEG] C, z |
+|  C, [CEG] C, [CEG] C, z | F,, [F,A,c,] F,, [F,A,c,] F,, z | F,, [F,A,c,] F,, [F,A,c,] F,, z | C, [CEG] C, [CEG] C, z |
+|  A,, [A,c,e,] A,, [A,c,e,] A,, z | G,, [G,B,d,] G,, [G,B,d,] G,, z | G,, [G,B,d,] G,, [G,B,d,] G,, z | C, [CEG] C, [CEG] C, z :|
+V:Tab
+K:none accordionTab
