@@ -1,6 +1,6 @@
+X:1000
 %%papersize A4
 %%scale 1.0
-X:1000
 T:J'ai vu le loup, le renard et la belette
 T:Eu vi o lobo, a raposa e a doninha
 C:Tradicional 
@@ -29,9 +29,9 @@ w:Je les ai vue taper leurs mains Je les ai vue ta-per le-urs ma-ins pieds
 %Merci bon dieu c'était pas la mienne
 V:baixo
 K:G bass
-|: G,,2[G,2B,2d,2] | G,,2[D,2F,2A,2] | D,2[D,2F,2A,2] | G,,2[G,2B,2d,2] | G,,2[G,2B,2d,2]| \
+|: G,,2[G,2B,2d,2] | G,,2[D,2F,2A,2] | D,2[D,2F,2A,2] | G,,2[G,2B,2d,2] | G,,2[G,2B,2d,2] | \
 C,2[C,2E,2G,2] | D,2[D,2F,2A,2] | G,,2[G,2B,2d,2] :|
-|: G,,2[G,2B,2d,2] | C,2[C,2E,2G,2] | D,2[D,2F,2A,2] | G,,2[G,2B,2d,2] | G,,2[G,2B,2d,2]| \
+|: G,,2[G,2B,2d,2] | C,2[C,2E,2G,2] | D,2[D,2F,2A,2] | G,,2[G,2B,2d,2] | G,,2[G,2B,2d,2] | \
 C,2[C,2E,2G,2] | C,2[C,2E,2G,2] |1 D,2[D,2F,2A,2] :|2 G,,2[G,2B,2d,2] |
 V:tablatura
 K:none accordionTab

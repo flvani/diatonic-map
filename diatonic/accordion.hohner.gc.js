@@ -29,7 +29,7 @@ DIATONIC.tmp.songs = [
     ,'songs/primeira.valsinha.abcx'
     ,'songs/hino.do.gremio.abcx'
     ,'songs/valsa.sertaneja.abcx'
-    ,'songs/jai.vu.le.loup.abcx'
+    ,'songs/canto.alegretense.abcx'
 ];
 
 DIATONIC.tmp.chords = [
