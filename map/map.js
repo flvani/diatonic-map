@@ -35,7 +35,6 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
   
     this.gaita = new DIATONIC.map.Gaita(this, accordionParams);
     
-    
     this.editor =  new ABCJS.Editor(
                          editorParams.textArea
                       ,{

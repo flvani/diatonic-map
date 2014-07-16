@@ -93,18 +93,7 @@ DIATONIC.midi.Parse.prototype.parseTabSong = function(tune, printer) {
          this.midiTune.measures[this.midiTune.notes[i].barNumber] =  i;
       }   
     }
-//    if(this.staff === 0 && abcelem.barNumber && this.currBarNumber !== abcelem.barNumber) {
-//      if( this.midiTune.measures[abcelem.barNumber] === undefined ) {
-//         if(abcelem.barNumber === 11 ) {
-//             var n = this.playlistpos;
-//         }
-//         this.midiTune.measures[abcelem.barNumber] =  this.playlistpos;
-//      }   
-//      this.currBarNumber = abcelem.barNumber;
-//    }
     
-    
-
     return this.midiTune;
 };
 

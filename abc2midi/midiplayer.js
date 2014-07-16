@@ -64,7 +64,7 @@ DIATONIC.midi.Player.prototype.stopPlay = function() {
     this.i = 0;
     this.currentTime = 0;
     this.pausePlay();
-    this.map.playButton.title = DR.resource["playBtn"][DR.language];
+    this.map.playButton.title = DR.getResource("playBtn");
     this.map.playButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
     this.printer.clearSelection();
     this.map.gaita.clearKeyboard(true);
@@ -73,7 +73,7 @@ DIATONIC.midi.Player.prototype.stopPlay = function() {
 DIATONIC.midi.Player.prototype.pausePlay = function() {
     MIDI.stopAllNotes();
     window.clearInterval(this.playinterval);
-    this.map.playButton.title = DR.resource["playBtn"][DR.language];
+    this.map.playButton.title = DR.getResource("playBtn");
     this.map.playButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
     this.playing = false;
     this.map.ypos = 1000;
@@ -89,7 +89,7 @@ DIATONIC.midi.Player.prototype.startPlay = function(what) {
     this.map.ypos = 1000;
 
     this.playing = true;
-    this.map.playButton.title = DR.resource["DR_pause"][DR.language];
+    this.map.playButton.title = DR.getResource("DR_pause");
     this.map.playButton.innerHTML = '&nbsp;<i class="icon-pause"></i>&nbsp;';
   
     var self = this;
