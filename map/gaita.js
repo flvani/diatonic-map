@@ -329,8 +329,10 @@ DIATONIC.map.Gaita.prototype.loadSongList = function(tt) {
         opt.innerHTML = (title.length>43 ? title.substr(0,40) + "..." : title);
         opt.value = title;
         this.songSelector.appendChild(opt);
+        if(title === tt) {
+            this.songSelector.value = tt;
+        }    
     }   
-    this.songSelector.value = tt;
     this.addChangeListenerToSongSelector(this);
     
 };
@@ -348,8 +350,10 @@ DIATONIC.map.Gaita.prototype.loadPracticeList = function(tt) {
         opt.innerHTML = (title.length>43 ? title.substr(0,40) + "..." : title);
         opt.value = title;
         this.practiceSelector.appendChild(opt);
+        if(title === tt) {
+            this.practiceSelector.value = tt;
+        }    
     }   
-    this.practiceSelector.value = tt;
     this.addChangeListenerToPracticeSelector(this);
     
 };
@@ -367,8 +371,10 @@ DIATONIC.map.Gaita.prototype.loadChordList = function(tt) {
         opt.innerHTML = (title.length>43 ? title.substr(0,40) + "..." : title);
         opt.value = title;
         this.chordSelector.appendChild(opt);
+        if(title === tt) {
+            this.chordSelector.value = tt;
+        }    
     }   
-    this.chordSelector.value = tt;
     this.addChangeListenerToChordSelector(this);
     
 };

@@ -80,13 +80,25 @@ DIATONIC.map.Accordion.prototype.isPedal = function (i,j) {
 DIATONIC.map.Accordion.prototype.getChord = function (name) {
     return this.chords.items[name];
 };
+DIATONIC.map.Accordion.prototype.setChord = function (name,content, addSort) {
+    this.chords.items[name] = content;
+    if(addSort) this.chords.sortedIndex.push( name );
+};
 
 DIATONIC.map.Accordion.prototype.getSong = function (name) {
     return this.songs.items[name];
 };
+DIATONIC.map.Accordion.prototype.setSong = function (name,content, addSort) {
+    this.songs.items[name] = content;
+    if(addSort) this.songs.sortedIndex.push( name );
+};
 
 DIATONIC.map.Accordion.prototype.getPractice = function (name) {
     return this.practices.items[name];
+};
+DIATONIC.map.Accordion.prototype.setPractice = function (name,content, addSort) {
+    this.practices.items[name] = content;
+    if(addSort) this.practices.sortedIndex.push( name );
 };
 
 DIATONIC.map.Accordion.prototype.getFirstSong = function () {
@@ -112,8 +124,7 @@ DIATONIC.map.Accordion.prototype.loadPractices = function(cb) {
         $.get(this.practicePathList[s], function(r) {
             var tunebook = new ABCJS.TuneBook(r);
             for (var t = 0; t < tunebook.tunes.length; t ++) {
-                that.practices.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
-                that.practices.sortedIndex.push(tunebook.tunes[t].title);
+                that.setPractice(tunebook.tunes[t].title, tunebook.tunes[t].abc, true);
             }
             toLoad --;
             if(toLoad === 0 ) { 
@@ -133,8 +144,7 @@ DIATONIC.map.Accordion.prototype.loadChords = function(cb) {
         $.get(this.chordPathList[s], function(r) {
             var tunebook = new ABCJS.TuneBook(r);
             for (var t = 0; t < tunebook.tunes.length; t ++) {
-                that.chords.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
-                that.chords.sortedIndex.push(tunebook.tunes[t].title);
+                that.setChord(tunebook.tunes[t].title, tunebook.tunes[t].abc, true);
             }
             toLoad --;
             if(toLoad === 0 ) { 
@@ -154,8 +164,7 @@ DIATONIC.map.Accordion.prototype.loadSongs = function(cb) {
         $.get(that.songPathList[s], function(r) {
             var tunebook = new ABCJS.TuneBook(r);
             for (var t = 0; t < tunebook.tunes.length; t ++)  {
-                that.songs.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
-                that.songs.sortedIndex.push(tunebook.tunes[t].title);
+                that.setSong(tunebook.tunes[t].title, tunebook.tunes[t].abc, true);
             }    
             toLoad --;
             if(toLoad === 0 ) { 

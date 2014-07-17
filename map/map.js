@@ -304,23 +304,24 @@ DIATONIC.map.Map.prototype.defineActiveTab = function( which ) {
 
 DIATONIC.map.Map.prototype.getTabTune = function( ) {
     var tune = undefined;
+    var accordion = this.gaita.getSelectedAccordion();
     switch (this.currentTab) {
         case "tabTunes":
             if(this.gaita.renderedTune) {
               tune = this.gaita.songDiv.innerHTML;
-              this.editor.setString( this.gaita.getSelectedAccordion().getSong(this.gaita.renderedTune.title), "noRefresh" );
+              this.editor.setString( accordion.getSong(this.gaita.renderedTune.title), "noRefresh" );
             }  
             break;
         case "tabChords":
             if(this.gaita.renderedChord) {
               tune = this.gaita.chordDiv.innerHTML;
-              this.editor.setString( this.gaita.getSelectedAccordion().getChord(this.gaita.renderedChord.title), "noRefresh" );
+              this.editor.setString( accordion.getChord(this.gaita.renderedChord.title), "noRefresh" );
             }  
             break;
         case "tabPractices":
             if(this.gaita.renderedPractice) {
               tune = this.gaita.practiceDiv.innerHTML;
-              this.editor.setString( this.gaita.getSelectedAccordion().getPractice(this.gaita.renderedPractice.title), "noRefresh" );
+              this.editor.setString( accordion.getPractice(this.gaita.renderedPractice.title), "noRefresh" );
             }  
             break;
     }
@@ -328,14 +329,18 @@ DIATONIC.map.Map.prototype.getTabTune = function( ) {
 };
 
 DIATONIC.map.Map.prototype.setTabTune = function( ) {
+    var accordion = this.gaita.getSelectedAccordion();
     switch (this.currentTab) {
         case "tabTunes":
+            accordion.setSong(this.gaita.renderedTune.title, this.editor.getString() );
             this.gaita.printTune(true);
             break;
         case "tabChords":
+            accordion.setChord(this.gaita.renderedChord.title, this.editor.getString() );
             this.gaita.printChord(true);
             break;
         case "tabPractices":
+            accordion.setPractice(this.gaita.renderedPractice.title, this.editor.getString() );
             this.gaita.printPractice(true);
             break;
     }
