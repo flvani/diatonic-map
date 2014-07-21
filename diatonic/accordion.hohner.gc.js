@@ -30,6 +30,7 @@ DIATONIC.tmp.songs = [
     ,'songs/hino.do.gremio.abcx'
     ,'songs/valsa.sertaneja.abcx'
     ,'songs/canto.alegretense.abcx'
+    ,'songs/parabens.crioulo.abcx'
 ];
 
 DIATONIC.tmp.chords = [
