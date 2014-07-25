@@ -48,16 +48,23 @@
 if (! window.FILEMANAGER) {
     
     window.FILEMANAGER = {
-        reader : new FileReader(),
-        files : [],
-        currName : null,
-        toLoad : 0
+         reader : new FileReader()
+        ,files : []
+        ,currName : null
+        ,currExtension: 'abc'
+        ,type: 'text'
+        ,toLoad : 0
     };
     
     FILEMANAGER.reader.onload = function(progressEvent) {
        FILEMANAGER.loaded ++;
        FILEMANAGER.now = true;
-       FILEMANAGER.files.push( {fileName: FILEMANAGER.currName, content: progressEvent.target.result });
+       FILEMANAGER.files.push( {
+            fileName: FILEMANAGER.currName
+           ,extension: FILEMANAGER.currExtension
+           ,type: FILEMANAGER.type
+           ,content: progressEvent.target.result
+       });
     };
 
 }
@@ -79,7 +86,15 @@ FILEMANAGER.doLoad = function(cb, files) {
     } else {
         if(FILEMANAGER.now) {
             FILEMANAGER.currName = files[FILEMANAGER.loaded].name;
-            FILEMANAGER.reader.readAsText(files[FILEMANAGER.loaded]);
+            var p = files[FILEMANAGER.loaded].name.split(".");
+            FILEMANAGER.currExtension = p[p.length-1];
+            if(files[FILEMANAGER.loaded].type.substr(0,5) === "image" ) {
+              FILEMANAGER.reader.readAsDataURL(files[FILEMANAGER.loaded]);
+              FILEMANAGER.type = 'image';
+            } else {
+              FILEMANAGER.reader.readAsText(files[FILEMANAGER.loaded]);
+              FILEMANAGER.type = 'text';
+            }
             FILEMANAGER.now = false;
         }   
     }

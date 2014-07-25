@@ -76,13 +76,14 @@ notação abc, tablatura "/>
                 <td >
                   <div class="btn-group">
                       <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_accordions">Acordeons</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                    <ul class="dropdown-menu" id="opcoes_gaita"></ul>
+                      <input id="fileLoadMap" type="file" accept="text/abc" style="display: none;" multiple/>
+                      <ul class="dropdown-menu" id="opcoes_gaita"></ul>
                   </div>
                 </td >
                 <td >
                   <div class="btn-group">
                       <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_repertoire">Repertório</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                      <input id="fileLoadRepertoire" type="file" style="display: none;" multiple />
+                      <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" style="display: none;" multiple />
                       <ul class="dropdown-menu" id="opcoes_repertorio">
                           <li><a href="#" id="DR_original" onclick="reloadRepertoire();">Restaurar o original</a></li>
                           <li><a href="#" id="DR_localLoad" onclick="document.getElementById('fileLoadRepertoire').click()">Carregar do drive local</a></li>
@@ -97,10 +98,11 @@ notação abc, tablatura "/>
                   <div class="btn-group">
                       <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_info">Informações</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
                       <ul class="dropdown-menu" id="opcoes_teoria">
+                        <li><a id="DR_accordion_maps" target="_blank" href="html/mapas.pt_BR.html" >Mapas para acordeons</a></li>
                         <li><a id="DR_tablature" target="_blank" href="html/tablatura.pt_BR.html" >Tablaturas para acordeons</a></li>
-                        <li><a id="DR_abc_format" target="_blank" >Formato ABC</a></li>
-                        <li><a id="DR_abc_editor" target="_blank" >Editor de partituras</a></li>
-                        <li><a id="DR_didactic_mode" target="_blank" >Modo didático</a></li>
+                        <li><a id="DR_abc_format" target="_blank" href="html/formatoABCX.pt_BR.html" >Formato ABCX</a></li>
+                        <li><a id="DR_abc_editor" target="_blank" href="html/editorABCX.pt_BR.html" >Editor de partituras</a></li>
+                        <li><a id="DR_didactic_mode" target="_blank" href="html/modoDidatico.pt_BR.html" >Modo didático</a></li>
                       </ul>
                   </div>
                 </td >
@@ -113,7 +115,7 @@ notação abc, tablatura "/>
 
       <div id="div_principal" class="span12" style="margin-top:6px; margin-left:1px; width: 904px;" >
         <ul id="faketab">
-            <li><a href="#" id="a_nome_gaita">Gaita</a></li>
+            <li><a href="#" id="a_nome_gaita">LOADING...</a></li>
             <li>
                 <div id="divMapControls" style="margin-left: 8px; margin-top:1px;" >
                     <table class="table-bordered table-final" style="height: 23px"> 
@@ -260,7 +262,7 @@ notação abc, tablatura "/>
                 </a>
             </noscript>
             <div id="clustrmaps-widget" style="float:right;   margin-left:1em;"></div>
-            <h3>Diatonic-Map <i>v1.05</i><br><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
+            <h3>Diatonic-Map <i>v1.10</i><br><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
             <p>Este projeto pretende ser um mapa de referência para acordeons diatônicos. 
                Com ele é possível configurar -- e mostrar -- o layout de qualquer gaita de botões, nos seus mais diversos modelos.
                Quero deixar aqui, meus especiais agradecimentos ao 
@@ -275,7 +277,7 @@ notação abc, tablatura "/>
                juntando o modelo ABC com os mapas de acordeons aqui apresentados.
             <p>Por fim, através da implementação das bibliotecas de MIDI para browsers (<b>MIDI.js</b>), 
                tornou-se possível ouvir os sons produzidos pelo acordeon, na forma de canções e exercícios.
-               Este recurso funciona inclusive em dispositivos móveis, tais como celulares Android.  
+               Este recurso funciona inclusive em dispositivos móveis, tais como, celulares Android.  
             <p>O objetivo final é proporcionar uma experiência visual e interativa para aqueles que estão iniciando 
                 seus estudos na "Gaita Ponto".
             <p>
@@ -304,7 +306,7 @@ notação abc, tablatura "/>
     <script type="text/javascript" src="proto_noconflict.js" ></script>
     
     <!-- suporte a arquivos ABC -->
-    <script type="text/javascript" src="abcjs/abcjs_tabeditor_nomidi_2.13-min.js" ></script>
+    <script type="text/javascript" src="abcjs/abcjs_tabeditor_nomidi_2.15-min.js" ></script>
 
     <!-- suporte a MIDI -->
     <script type="text/javascript" src="MIDI.js/MIDI_2.03-min.js"></script>
@@ -315,10 +317,10 @@ notação abc, tablatura "/>
     <!-- modelos de gaitas disponíveis -->
     <!-- diatonic accordion map -->
     <script type="text/javascript" src="diatonic/diatonic-map.js"></script>
-    <script type="text/javascript" src="diatonic/accordion.hohner.gc.js"></script>
+    <!--script type="text/javascript" src="diatonic/accordion.hohner.gc.js"></script>
     <script type="text/javascript" src="diatonic/accordion.hohner.clubIIIM.br.js"></script>
     <script type="text/javascript" src="diatonic/accordion.hohner.clubIIIM.js"></script>
-    <script type="text/javascript" src="diatonic/accordion.hohner.coronaII.js"></script>
+    <script type="text/javascript" src="diatonic/accordion.hohner.coronaII.js"></script-->
 
     <script type="text/javascript" src="map/map.js"></script>
     <script type="text/javascript" src="map/gaita.js"></script>
@@ -330,60 +332,20 @@ notação abc, tablatura "/>
     
     <script type="text/javascript">
         
-        
         var myMap;
         
-        window.addEventListener('load', initApp, false);
-        
-	document.getElementById('fileLoadRepertoire').addEventListener('change', handleFileSelect, false);        
+	document.getElementById('fileLoadMap').addEventListener('change', loadMap, false);        
+	document.getElementById('fileLoadRepertoire').addEventListener('change', loadRepertoire, false);        
         
         window.printButton = document.getElementById("printBtn");
         window.toolsButton = document.getElementById("toolsBtn");
         window.saveButton = document.getElementById("saveBtn");
         window.printPreviewButton = document.getElementById("printPreviewBtn");
         window.closeButton = document.getElementById("closeBtn");
-
+        
+        window.addEventListener('load', initApp, false);
+        
         function initApp() {
-            
-            DR.initializeTranslator([
-                'DR_appName'
-               ,'DR_about'
-               ,'DR_layout'
-               ,'DR_espelho'
-               ,'DR_horizontal'
-               ,'DR_accordions'
-               ,'DR_repertoire'
-               ,'DR_chlabel'
-               ,'DR_info'
-               ,'DR_message'
-               ,'DR_original'
-               ,'DR_localLoad'
-               ,'DR_localSave'
-               ,'DR_tablature' 
-               ,'DR_abc_format'
-               ,'DR_abc_editor'
-               ,'DR_didactic_mode'
-               ,'tabTunes'
-               ,'tabChords'
-               ,'tabPractices'
-               ,'playBtn'
-               ,'stopBtn'
-               ,'tempoBtn'
-               ,'stepBtn'
-               ,'stepMeasureBtn'
-               ,'repeatBtn'
-               ,'clearBtn'
-               ,'gotoMeasureBtn'
-               ,'toolsBtn'
-               ,'pdfBtn'
-               ,'printBtn'
-               ,'printPreviewBtn'
-               ,'saveBtn'
-               ,'closeBtn'
-               ,'forceRefresh'
-               ,'DR_refresh'
-               //,'DR_debug'
-            ]);
 
             myMap = new DIATONIC.map.Map(
                 {   // interfaceParams
@@ -425,12 +387,10 @@ notação abc, tablatura "/>
               } 
             );
     
-            // popula lista drop-down        
-            myMap.carregaListaGaitas();
-
             // configura e mostra a gaita inicial
             var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_HOHNER_GC';
             
+
             myMap.gaita.setup( {
                   accordionId: accordion
                   //,songTitle:"J'ai vu le loup, le renard et la belette"
@@ -446,12 +406,64 @@ notação abc, tablatura "/>
             
           $("#tuneContainerDiv").find("[id^='tab']").hide(); // Hide all content
           
+            DR.initializeTranslator([
+                'DR_appName'
+               ,'DR_about'
+               ,'DR_layout'
+               ,'DR_espelho'
+               ,'DR_horizontal'
+               ,'DR_accordions'
+               ,'DR_repertoire'
+               ,'DR_chlabel'
+               ,'DR_info'
+               ,'DR_message'
+               ,'DR_original'
+               ,'DR_localLoad'
+               ,'DR_localSave'
+               ,'DR_accordion_maps'
+               ,'DR_tablature' 
+               ,'DR_abc_format'
+               ,'DR_abc_editor'
+               ,'DR_didactic_mode'
+               ,'tabTunes'
+               ,'tabChords'
+               ,'tabPractices'
+               ,'playBtn'
+               ,'stopBtn'
+               ,'tempoBtn'
+               ,'stepBtn'
+               ,'stepMeasureBtn'
+               ,'repeatBtn'
+               ,'clearBtn'
+               ,'gotoMeasureBtn'
+               ,'toolsBtn'
+               ,'pdfBtn'
+               ,'printBtn'
+               ,'printPreviewBtn'
+               ,'saveBtn'
+               ,'closeBtn'
+               ,'forceRefresh'
+               ,'DR_refresh'
+               //,'DR_debug'
+            ]);
+            
             MIDI.loader = new widgets.Loader();
+            
+            DIATONIC.map.loadAccordionMaps(
+               [
+                 'accordions/hohner.gc.accordion'
+                ,'accordions/hohner.cf.club.br.accordion'
+                //,'accordions/hohner.adg.corona.accordion'
+                //,'accordions/hohner.cf.club.accordion'
+               ]
+            );
+    
             MIDI.loadPlugin({
                 soundfontUrl: "./soundfont/"
                ,instruments: "accordion"
                ,callback: function() {
                   MIDI.loader.stop();
+                  DR.firstTranslation(); // garante que todos os itens de tela estejam traduzidos
                   MIDI.programChange(0, 21); // canais para accordeon
                   MIDI.programChange(1, 21); // 
                   MIDI.programChange(2, 21); // 
@@ -478,7 +490,7 @@ notação abc, tablatura "/>
           });
         });
 
-        function handleFileSelect(evt) {
+        function loadRepertoire(evt) {
           FILEMANAGER.loadLocalFiles(evt, function() {
             myMap.carregaRepertorio(false, FILEMANAGER.files);
             evt.target.value = "";
@@ -486,10 +498,20 @@ notação abc, tablatura "/>
         };
         
         function setupGaita(value) {
-            FILEMANAGER.saveLocal( 'property.accordion', value );
             myMap.gaita.setup({accordionId:value});
         };
 
+        function loadMap(evt) {
+          FILEMANAGER.loadLocalFiles(evt, function() {
+            myMap.load(FILEMANAGER.files);
+            evt.target.value = "";
+          });
+        };
+        
+        function saveMap() {
+            myMap.save();
+        };
+        
         function reloadRepertoire() {
             myMap.carregaRepertorio(true);
         };

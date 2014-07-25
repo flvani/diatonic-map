@@ -5,25 +5,57 @@
  */
 
 if (!window.DIATONIC)
-	window.DIATONIC = {close:0, open:1};
+	window.DIATONIC = {};
 
 if (!window.DIATONIC.map)
-	window.DIATONIC.map = { models: [] };
+	window.DIATONIC.map = {};
 
-DIATONIC.map.Accordion = function (id, nome, afinacao, pedal, keyboard, chordPathList, practicePathList, songPathList, image) {
-    this.id = id;
-    this.name = nome;
-    this.afinacao = afinacao;
-    this.pedal = pedal;
-    this.keyboard = keyboard;
-    this.songPathList = songPathList;
-    this.practicePathList = practicePathList;
-    this.chordPathList = chordPathList;
-    this.image = image;
+DIATONIC.map.accordionMaps = [];
+
+DIATONIC.map.loadAccordionMaps = function ( files, cb )  {
+            var toLoad = 0;
+            for( var f = 0; f <  files.length; f ++ ) {
+                toLoad ++;
+                $.getJSON( files[f], {  format: "json"  })
+                    .done(function( data ) {
+                        DIATONIC.map.accordionMaps.push( new DIATONIC.map.Accordion(data) );
+                    })
+                    .fail(function( data, textStatus, error ) {
+                        var err = textStatus + ", " + error;
+                        console.log( "Accordion Load Failed:\nLoading: " + data.responseText.substr(1,40) + '...\nError:\n ' + err );
+                    })
+                    .always(function() {
+                        toLoad --;
+                        if( toLoad === 0 && cb ) cb();
+                    });
+            }
+        };
+
+DIATONIC.map.Accordion = function (res, local) {
+    this.id = res.id;
+    this.menuOrder = res.menuOrder;
+    this.model = res.model;
+    this.tuning = res.tuning;
+    this.buttons = res.buttons;
+    this.pedal = res.pedal;
+    this.image = res.image;
+    this.keyboard = res.keyboard;
+    this.songPathList = res.songPathList;
+    this.practicePathList = res.practicePathList;
+    this.chordPathList = res.chordPathList;
+    this.localResource = local || false;
+    this.songs = { items:{}, sortedIndex: [] };
+    this.practices = { items:{}, sortedIndex: [] };
+    this.chords = { items:{}, sortedIndex: [] };
     
-    this.loadSongs();
-    this.loadChords();
-    this.loadPractices();
+    if( ! this.localResource ) {
+      this.songs = this.loadABCX( this.songPathList );
+      this.chords = this.loadABCX( this.chordPathList );
+      this.practices = this.loadABCX( this.practicePathList );
+    } else {
+        
+    }
+    
 };
 
 DIATONIC.map.Accordion.prototype.getId = function () {
@@ -31,11 +63,29 @@ DIATONIC.map.Accordion.prototype.getId = function () {
 };
 
 DIATONIC.map.Accordion.prototype.getName = function () {
-    return this.name;
+ return this.getModel() + " " + this.getTxtTuning() + " - " + this.getTxtNumButtons();
 };
 
-DIATONIC.map.Accordion.prototype.getAfinacao = function () {
-    return this.afinacao;
+DIATONIC.map.Accordion.prototype.getModel = function () {
+    return this.model;
+};
+
+DIATONIC.map.Accordion.prototype.getTxtNumButtons = function() {
+  var a = this.buttons;
+  var str_label = '';
+  for (var c = a.length-1; c > 0 ; c--) {
+    str_label = '/' + a[c] + str_label;
+  }
+  return a[0] + str_label;
+};
+
+DIATONIC.map.Accordion.prototype.getTxtTuning = function() {
+  var a = this.tuning;
+  var str_label = '';
+  for (var c = a.length-1; c > 0 ; c--) {
+    str_label = '/' +  a[c] + str_label;
+  }
+  return  a[0] + str_label;
 };
 
 DIATONIC.map.Accordion.prototype.getKeyboard = function () {
@@ -74,7 +124,7 @@ DIATONIC.map.Accordion.prototype.getKeysLayout = function (r) {
 };
 
 DIATONIC.map.Accordion.prototype.isPedal = function (i,j) {
-    return this.pedal[1] === i && this.pedal[0] === j;
+    return (this.pedal[1]-1) === i && (this.pedal[0]-1) === j;
 };
 
 DIATONIC.map.Accordion.prototype.getChord = function (name) {
@@ -115,62 +165,33 @@ DIATONIC.map.Accordion.prototype.getFirstChord = function () {
     var ret = this.chords.sortedIndex[0] || "";
     return ret;
 };
-DIATONIC.map.Accordion.prototype.loadPractices = function(cb) {
-    var that = this;
-    var toLoad = 0;
-    this.practices = { items:{}, sortedIndex: [] };
-    for (var s = 0; s < this.practicePathList.length; s++) {
-        toLoad ++;
-        $.get(this.practicePathList[s], function(r) {
-            var tunebook = new ABCJS.TuneBook(r);
-            for (var t = 0; t < tunebook.tunes.length; t ++) {
-                that.setPractice(tunebook.tunes[t].title, tunebook.tunes[t].abc, true);
-            }
-            toLoad --;
-            if(toLoad === 0 ) { 
-               that.practices.sortedIndex.sort();
-               if(cb) cb(); // call back in the last pass
-            }
-        });
-    }
-};
 
-DIATONIC.map.Accordion.prototype.loadChords = function(cb) {
-    var that = this;
+DIATONIC.map.Accordion.prototype.loadABCX = function(pathList, cb ) {
     var toLoad = 0;
-    this.chords = { items:{}, sortedIndex: [] };
-    for (var s = 0; s < this.chordPathList.length; s++) {
+    var path;
+    var objRet = { items:{}, sortedIndex: [] };
+    for (var s = 0; s < pathList.length; s++) {
         toLoad ++;
-        $.get(this.chordPathList[s], function(r) {
-            var tunebook = new ABCJS.TuneBook(r);
-            for (var t = 0; t < tunebook.tunes.length; t ++) {
-                that.setChord(tunebook.tunes[t].title, tunebook.tunes[t].abc, true);
-            }
-            toLoad --;
-            if(toLoad === 0 ) { 
-               that.chords.sortedIndex.sort();
-               if(cb) cb(); // call back in the last pass
-            }
-        });
+        path = pathList[s];
+        $.get( path )
+            .done( function( data ) {
+                var tunebook = new ABCJS.TuneBook(data);
+                for (var t = 0; t < tunebook.tunes.length; t ++)  {
+                    objRet.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
+                    objRet.sortedIndex.push( tunebook.tunes[t].title );
+                }    
+            })
+            .fail(function( data, textStatus, error ) {
+                var err = textStatus + ", " + error;
+                console.log( "ABCX Load Failed:\nLoading: " + data.responseText.substr(1,40) + '...\nError:\n ' + err );
+            })
+            .always(function() {
+                toLoad --;
+                if(toLoad === 0 ) { 
+                   objRet.sortedIndex.sort();
+                   if(cb) cb(); // call back in the last pass
+                }
+            });
     }
-};
-
-DIATONIC.map.Accordion.prototype.loadSongs = function(cb) {
-    var that = this;
-    var toLoad = 0;
-    that.songs = { items:{}, sortedIndex: [] };
-    for (var s = 0; s < that.songPathList.length; s++) {
-        toLoad ++;
-        $.get(that.songPathList[s], function(r) {
-            var tunebook = new ABCJS.TuneBook(r);
-            for (var t = 0; t < tunebook.tunes.length; t ++)  {
-                that.setSong(tunebook.tunes[t].title, tunebook.tunes[t].abc, true);
-            }    
-            toLoad --;
-            if(toLoad === 0 ) { 
-               that.songs.sortedIndex.sort();
-               if(cb) cb(); // call back in the last pass
-            }
-        });
-    }
+    return objRet;
 };

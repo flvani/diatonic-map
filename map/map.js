@@ -5,10 +5,10 @@
  */
 
 if (!window.DIATONIC)
-    window.DIATONIC = {close: 0, open: 1};
+    window.DIATONIC = {};
 
 if (!window.DIATONIC.map)
-    window.DIATONIC.map = {models: []};
+    window.DIATONIC.map = {};
 
 DIATONIC.map.Units = {
     // aspectos do botão
@@ -35,12 +35,14 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
   
     this.gaita = new DIATONIC.map.Gaita(this, accordionParams);
     
+    
     this.editor =  new ABCJS.Editor(
                          editorParams.textArea
                       ,{
                          canvas_id: editorParams.canvas_id
                         ,refreshController_id: editorParams.refreshController_id
                         ,accordionSelector_id: editorParams.accordionSelector_id
+                        ,accordionMaps: this.gaita.accordions
                         ,keySelector_id: editorParams.keySelector_id
                         ,warnings_id: editorParams.warnings_id
                         //,midi_id: "midi"
@@ -150,6 +152,7 @@ DIATONIC.map.Map.prototype.translate = function() {
   document.getElementById("gotoMeasureBtn").value = DR.getResource("DR_goto");
   document.getElementById("modeBtn").title = DR.getResource(this.currentMode === "normal"?"modeBtn":"DR_didactic");
   
+  this.carregaListaGaitas();
 };
 
 DIATONIC.map.Map.prototype.isHorizontal = function() {
@@ -160,12 +163,26 @@ DIATONIC.map.Map.prototype.isMirror = function() {
     return this.checkboxEspelho.checked;
 };
 
-DIATONIC.map.Map.prototype.carregaListaGaitas  = function() {
-  for (var c=0; c < this.gaita.accordions.length; c++) {
-    $('#opcoes_gaita').append('<li><a href="#" id="pop_gaita_'+ c 
-            +'" onclick="setupGaita(\''+ this.gaita.accordions[c].getId() +'\')">' + this.gaita.accordions[c].getName() 
-            + '</a></li>');
-  }
+DIATONIC.map.Map.prototype.carregaListaGaitas  = function(g) {
+    var gaita = g || this.gaita;
+    var ord = [];
+    for (var c=0; c < gaita.accordions.length; c++) {
+       ord.push( [ gaita.accordions[c].menuOrder, gaita.accordions[c].getName() , gaita.accordions[c].getId() ] );
+    }
+
+    ord.sort();
+
+    $('#opcoes_gaita').empty();
+
+    for (var c=0; c < ord.length; c++) {
+        $('#opcoes_gaita').append('<li><a href="#" id="pop_gaita_' +
+            c  +'" onclick="setupGaita(\''+ ord[c][2] +'\')">' + ord[c][1] + ' ' + DR.getResource('DR_keys')  + '</a></li>');
+    }
+
+    $('#opcoes_gaita')
+        .append('<hr style="height: 3px; margin: 5px;">')
+        .append('<li><a id="extra1" href="#" onclick="saveMap();">' + DR.getResource('DR_save_map') + '</a></li>')
+        .append('<li><a id="extra2" href="#" onclick="document.getElementById(\'fileLoadMap\').click();">' + DR.getResource('DR_load_map') + '</a></li>');
 };
 
 DIATONIC.map.Map.prototype.salvaMusica = function() {
@@ -192,11 +209,142 @@ DIATONIC.map.Map.prototype.salvaRepertorio = function() {
     }    
 };
 
+//  ,"menuOrder" : 0
+//  ,"model":"Hohner Corona II"
+//  ,"tuning":["A","D","G"]
+//  ,"buttons":["31","8"]
+//  ,"pedal":[]
+//  ,"keyboard": 
+//    {
+//       "layout": [0.5, 0, 0.5]
+//      ,"keys":
+//      {
+//        "close": [["E♭3", "A3", "C♯4", "E4", "A4", "C♯5", "E5", "A5", "C♯6", "E6"], ["G♯3", "A3", "D4", "F♯4", "A4", "D5", "F♯5", "A5", "D6", "F♯6", "A6"], ["F4", "D4", "G4", "B4", "D5", "G5", "B5", "D6", "G6", "B6"]]
+//       , "open": [["F3", "B3", "D4", "F♯4", "G♯4", "B4", "D5", "F♯5", "G♯5", "B5"], ["B♭3", "C♯4", "E4", "G4", "B4", "C♯5", "E5", "G5", "B5", "C♯6", "E6"], ["E♭4", "F♯4", "A4", "C5", "E5", "F♯5", "A5", "C6", "E6", "F♯6"]]
+//      }
+//      ,"basses":
+//      {
+//        "close": [["f♯2", "F♯2", "b2", "B2", "c2", "C2"], ["a2", "A2", "d2", "D2", "g2", "G2"]]
+//       , "open": [["b2:m", "B2", "e2:m", "E2", "c2", "C2"], ["e2", "E2", "a2", "A2", "d2", "D2"]]
+//      }
+//    }
+//}
+
+DIATONIC.map.Map.prototype.save = function() {
+    var accordion = this.gaita.getSelectedAccordion();
+    var txtAccordion = 
+            '{\n'+
+            '   "id":'+JSON.stringify(accordion.id)+'\n'+
+            '  ,"menuOrder":'+JSON.stringify(accordion.menuOrder+100)+'\n'+
+            '  ,"model":'+JSON.stringify(accordion.model)+'\n'+
+            '  ,"tuning":'+JSON.stringify(accordion.tuning)+'\n'+
+            '  ,"buttons":'+JSON.stringify(accordion.buttons)+'\n'+
+            '  ,"pedal":'+JSON.stringify(accordion.pedal)+'\n'+
+            '  ,"keyboard":\n'+
+            '  {\n'+
+            '     "layout":'+JSON.stringify(accordion.keyboard.layout)+'\n'+
+            '     ,"keys":\n'+
+            '     {\n'+
+            '        "close":'+JSON.stringify(accordion.keyboard.keys.close)+'\n'+
+            '       ,"open":'+JSON.stringify(accordion.keyboard.keys.open)+'\n'+
+            '     }\n'+
+            '     ,"basses":\n'+
+            '     {\n'+
+            '        "close":'+JSON.stringify(accordion.keyboard.basses.close)+'\n'+
+            '       ,"open":'+JSON.stringify(accordion.keyboard.basses.open)+'\n'+
+            '     }\n'+
+            '  }\n'+
+            '}\n';
+    
+    FILEMANAGER.download( accordion.getName() + '.accordion', txtAccordion );
+};
+
+DIATONIC.map.Map.prototype.load = function(files) {
+    
+    var newAccordion, newAccordionJSON, newImage;
+    var newTunes = "", newChords = "", newPractices = "";
+    
+    for(var f = 0; f < files.length; f++ ){
+        if( files[f].type === 'image' ) {
+           newImage = files[f].content;
+        } else {
+             switch(files[f].extension.toLowerCase()) {
+                 case 'accordion':
+                    newAccordionJSON = JSON.parse( files[f].content );
+                    break;
+                 case 'tunes':
+                    newTunes = files[f].content;
+                    break;
+                 case 'chords':
+                    newChords = files[f].content;
+                    break;
+                 case 'practices':
+                    newPractices = files[f].content;
+                    break;
+             }
+        }
+    }
+            
+    newAccordionJSON.image = newImage || 'img/accordion.default.gif';
+    
+    if( ! this.gaita.accordionExists(newAccordionJSON.id) ) {
+        newAccordion = new DIATONIC.map.Accordion( newAccordionJSON, true );
+        
+        DIATONIC.map.accordionMaps.push( newAccordion  );
+        this.carregaListaGaitas(this.gaita);
+        this.editor.accordionSelector.updateAccordionList();
+    }   
+    
+    if( ! this.gaita.accordionCurrent(newAccordion.id) ) {
+        this.gaita.setup({accordionId:newAccordion.id});
+    }   
+    
+    var accordion = this.gaita.getSelectedAccordion();
+    
+    if( newTunes ) {
+        var tunebook = new ABCJS.TuneBook(newTunes);
+        for (var t = 0; t < tunebook.tunes.length; t++) {
+            accordion.songs.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
+            accordion.songs.sortedIndex.push(tunebook.tunes[t].title);
+        }    
+        accordion.songs.sortedIndex.sort();
+        var tt = accordion.getFirstSong();
+        this.gaita.loadSongList(tt);
+        this.gaita.renderTune( tt, {}, this.currentTab === "tabTunes" );
+    }
+    if( newChords ) {
+        var tunebook = new ABCJS.TuneBook(newChords);
+        for (var t = 0; t < tunebook.tunes.length; t++) {
+            accordion.chords.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
+            accordion.chords.sortedIndex.push(tunebook.tunes[t].title);
+        }    
+        accordion.chords.sortedIndex.sort();
+        var tt = accordion.getFirstChord();
+        this.gaita.loadChordList(tt);
+        this.gaita.renderChord( tt, {}, this.currentTab === "tabChords" );
+    }
+    if( newPractices ) {
+        var tunebook = new ABCJS.TuneBook(newPractices);
+        for (var t = 0; t < tunebook.tunes.length; t++) {
+            accordion.practices.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
+            accordion.practices.sortedIndex.push(tunebook.tunes[t].title);
+        }    
+        accordion.practices.sortedIndex.sort();
+        var tt = accordion.getFirstPractice();
+        this.gaita.loadPracticeList(tt);
+        this.gaita.renderPractice( tt, {}, this.currentTab === "tabChords" );
+    }
+};
+
 DIATONIC.map.Map.prototype.carregaRepertorio = function(original, files) {
     var that = this;
     var accordion = that.gaita.getSelectedAccordion();
     if (original) {
-        accordion.loadSongs( function() {  // devido à falta de sincronismo, preciso usar o call back;
+        if( accordion.localResource ) {
+            console.log( 'Can\'t reload repertoire for local accordion!');
+            return;
+        }
+        accordion.songs = accordion.loadABCX( accordion.songPathList, function() {  // devido à falta de sincronismo, preciso usar o call back;
             var songTitle = accordion.getFirstSong();
             that.gaita.loadSongList(songTitle);
             that.gaita.renderTune( songTitle, {}, that.currentTab === "tabTunes" );
@@ -220,20 +368,11 @@ DIATONIC.map.Map.prototype.carregaRepertorio = function(original, files) {
 
 DIATONIC.map.Map.prototype.setGaitaImage = function(gaita) {
   this.gaitaImagePlaceHolder.innerHTML = '<img src="'+gaita.getPathToImage()
-          +'" alt="'+gaita.getName()+'" style="height:200px; width:200px;" />';
+          +'" alt="'+gaita.getName() + ' ' + DR.getResource('DR_keys') + '" style="height:200px; width:200px;" />';
 };
 
 DIATONIC.map.Map.prototype.setGaitaName = function(gaita) {
-  this.gaitaNamePlaceHolder.innerHTML = gaita.getName() + " - " + this.getTxtAfinacao();
-};
-
-DIATONIC.map.Map.prototype.getTxtAfinacao = function() {
-  var v_afinacao = this.gaita.accordions[this.gaita.selected].getAfinacao();
-  var str_label = '';
-  for (var c = v_afinacao.length-1; c > 0 ; c--) {
-    str_label = '/' + this.gaita.parseNote( v_afinacao[c] ).key + str_label;
-  }
-  return this.gaita.parseNote( v_afinacao[0] ).key + str_label;
+  this.gaitaNamePlaceHolder.innerHTML = gaita.getName() + ' ' + DR.getResource('DR_keys');
 };
 
 DIATONIC.map.Map.prototype.startPlay = function( type, value ) {

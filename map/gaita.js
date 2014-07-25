@@ -1,5 +1,5 @@
 if (!window.DIATONIC)
-    window.DIATONIC = {close: 0, open: 1};
+    window.DIATONIC = {};
 
 if (!window.DIATONIC.map)
     window.DIATONIC.map = {models: []};
@@ -40,10 +40,13 @@ DIATONIC.map.Gaita = function(map, interfaceParams ) {
     
     this.keyboardContentDiv = document.getElementById(interfaceParams.keyboardContentDiv);
     
-    if (window.DIATONIC.map.models.length > 0) {
-        this.accordions = window.DIATONIC.map.models;
-        this.selected = 0;
-    }
+    if( DIATONIC.map.accordionMaps ) {
+        this.accordions = DIATONIC.map.accordionMaps;
+        this.map.carregaListaGaitas(this);
+    } else {
+        throw Error( 'No accordion found!' );
+        return;
+    } 
     
     // popular arrays com nomes e valores de notas
     for (var n = this.minNote; n <= this.maxNote; n++) {
@@ -57,12 +60,29 @@ DIATONIC.map.Gaita = function(map, interfaceParams ) {
 };
 
 DIATONIC.map.Gaita.prototype.selectAccordion = function(id) {
-    this.selected = -1;
+    this.selected = 0;
     for(var a = 0; a < this.accordions.length; a++ ) {
         if( this.accordions[a].id === id) this.selected = a;
     }
     return this.accordions[this.selected];
 };
+
+DIATONIC.map.Gaita.prototype.accordionExists = function(id) {
+    var ret = false;
+    for(var a = 0; a < this.accordions.length; a++ ) {
+        if( this.accordions[a].id === id) ret  = true;
+    }
+    return ret;
+};
+
+DIATONIC.map.Gaita.prototype.accordionCurrent = function(id) {
+    var ret = false;
+    for(var a = 0; a < this.accordions.length; a++ ) {
+        if( this.accordions[a].id === id && this.selected === a) ret  = true;
+    }
+    return ret;
+};
+
 
 DIATONIC.map.Gaita.prototype.getSelectedAccordion = function() {
     return this.accordions[this.selected];
@@ -71,6 +91,10 @@ DIATONIC.map.Gaita.prototype.getSelectedAccordion = function() {
 DIATONIC.map.Gaita.prototype.setup = function(accordionParams) {
 
   var gaita = this.selectAccordion(accordionParams.accordionId);
+  
+  if( ! gaita.localResource) { // não salva informação para acordeon local
+    FILEMANAGER.saveLocal( 'property.accordion', accordionParams.accordionId );
+  }
   
    this.renderedTune = undefined;
    this.renderedPractice = undefined;
@@ -105,12 +129,15 @@ DIATONIC.map.Gaita.prototype.setup = function(accordionParams) {
   }
   this.loadSongList(accordionParams.songTitle);
   this.renderTune( accordionParams.songTitle, {}, this.map.currentTab === "tabTunes" );
+  
+  return gaita;
 
 };
 
 DIATONIC.map.Gaita.prototype.translate = function() {
   this.keyboard.legenda.setTextOpen( DR.getResource('DR_pull') );
   this.keyboard.legenda.setTextClose( DR.getResource('DR_push') );
+  this.map.setGaitaName(this.getSelectedAccordion());
 };
 
 DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
@@ -612,10 +639,10 @@ DIATONIC.map.Gaita.prototype.clearButton = function(button) {
     button.btn.clear();
 };
 
-DIATONIC.map.Gaita.prototype.selectButton = function(dir, button) {
+DIATONIC.map.Gaita.prototype.selectButton = function(abcelem, button) {
 
     this.modifiedItems.push(button);
-    if (dir === DIATONIC.close) {
+    if (abcelem.bellows === '+') {
         button.btn.setClose();
     } else {
         button.btn.setOpen();
@@ -631,4 +658,3 @@ DIATONIC.map.Gaita.prototype.definePaper = function( div, w, h )  {
   }  
   return this.paper;
 };
-

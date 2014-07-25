@@ -5,7 +5,7 @@
  */
 
 if (!window.DIATONIC)
-    window.DIATONIC = {close: 0, open: 1};
+    window.DIATONIC = {};
 
 if (!window.DIATONIC.midi) 
     window.DIATONIC.midi = {baseduration: 1920 }; // nice and divisible, equals 1 whole note

@@ -107,6 +107,9 @@ DR.createResources = function (strResources) {
     DR.resource["DR_didactic"] = ['Modo didático'];
     DR.resource["modeBtn"] = ['Modo Normal'];
     DR.resource["DR_err_saving"] = ['Impossível salvar'];
+    DR.resource["DR_keys"] = ['botões'];
+    DR.resource["DR_save_map"] = ['Salvar mapa corrente'];
+    DR.resource["DR_load_map"] = ['Carregar mapa do disco local'];
     
     // all others are automatically created
     for( var r = 0; r < strResources.length; r ++ ) {
@@ -136,7 +139,7 @@ DR.register = function (res) {
     DR.agents.push(res);
 };
 
-//load de language resource files
+//load the language resource files
 DR.loadLang = function(files, cb ){
     var toLoad = 0;
     for( var f = 0; f <  files.length; f ++) {

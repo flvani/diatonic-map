@@ -5,7 +5,7 @@
  */
 
 if (!window.DIATONIC)
-    window.DIATONIC = {close: 0, open: 1};
+    window.DIATONIC = {};
 
 if (!window.DIATONIC.midi) 
     window.DIATONIC.midi = {baseduration: 1920 }; // nice and divisible, equals 1 whole note
@@ -486,7 +486,7 @@ DIATONIC.midi.Parse.prototype.unSelectNote = function(abcelem, endTime) {
 };
 
 
-DIATONIC.midi.Parse.prototype.selectButton = function( abcelem, dir, button, startTime ) {
+DIATONIC.midi.Parse.prototype.selectButton = function( abcelem, button, startTime ) {
     this.syncPlayList(startTime);
     var self = this;
     var channel = self.channel;
@@ -494,7 +494,7 @@ DIATONIC.midi.Parse.prototype.selectButton = function( abcelem, dir, button, sta
     this.midiTune.notes.splice(this.playlistpos, 0, {
         time: startTime,
         funct: function() {
-            self.notifySelectButton(dir, button);
+            self.notifySelectButton(abcelem, button);
             self.notifySelect(abcelem, channel,  printer);
         }
     });
@@ -518,25 +518,25 @@ DIATONIC.midi.Parse.prototype.notifyUnSelectButton = function(button) {
     button.clear();
 };
 
-DIATONIC.midi.Parse.prototype.notifySelectButton = function(dir, button) {
+DIATONIC.midi.Parse.prototype.notifySelectButton = function(abcelem, button) {
   if(button === null) return;
-  if(dir === DIATONIC.open)
-    button.setOpen() ;
-  else
+  if(abcelem.bellows === '+')
     button.setClose();
+  else
+    button.setOpen() ;
 };
 
-DIATONIC.midi.Parse.prototype.getBassButton = function( dir, b ) {
+DIATONIC.midi.Parse.prototype.getBassButton = function( bellows, b ) {
     if(b === '--->') return null;
     var kb = this.map.gaita.keyboard;
     var nota = this.map.gaita.parseNote(b, true );
     for( var j = kb.length; j > kb.length - 2; j-- ) {
       for( var i = 0; i < kb[j-1].length; i++ ) {
           var tecla = kb[j-1][i];
-          if(dir === DIATONIC.open) {
-            if(tecla.notaOpen.key === nota.key ) return tecla.btn;
-          } else {  
+          if(bellows === '+') {
             if(tecla.notaClose.key === nota.key ) return tecla.btn;
+          } else {  
+            if(tecla.notaOpen.key === nota.key ) return tecla.btn;
           }
       }   
     }
@@ -557,7 +557,6 @@ DIATONIC.midi.Parse.prototype.selectButtons = function(elem) {
     var mididuration = elem.duration * DIATONIC.midi.baseduration * this.multiplier;
     if (elem.pitches) {
         
-        var dir = elem.bellows === "+" ? DIATONIC.close : DIATONIC.open;
         var button;
         for (var i = 0; i < elem.pitches.length; i++) {
 
@@ -567,7 +566,7 @@ DIATONIC.midi.Parse.prototype.selectButtons = function(elem) {
                 if (elem.inTieBass) {
                     button = this.lastTabElem[i];
                 } else {
-                    button = this.getBassButton(dir, elem.pitches[i].c);
+                    button = this.getBassButton(elem.bellows, elem.pitches[i].c);
                     this.lastTabElem[i] = button;
                 }
             } else {
@@ -578,7 +577,7 @@ DIATONIC.midi.Parse.prototype.selectButtons = function(elem) {
                     this.lastTabElem[i] = button;
                 }
             }
-            this.selectButton(elem, dir, button, this.timecount);
+            this.selectButton(elem, button, this.timecount);
             this.unSelectButton(elem, button, this.timecount + mididuration);
 
         }

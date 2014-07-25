@@ -5,7 +5,7 @@
  */
 
 if (!window.DIATONIC)
-    window.DIATONIC = {close: 0, open: 1};
+    window.DIATONIC = {};
 
 if (!window.DIATONIC.map)
     window.DIATONIC.map = {models: []};

@@ -1,19 +1,61 @@
-body {
-  //padding-top: 0px; /* 60px to make the container go all the way to the bottom of the topbar */
-  background: #fff;
-/*
-  background: #fafafa;
-  background: #fff url(../img/bg.gif) repeat top left; */
+@media all {
+	.page-break	{ display: none; }
 }
 
+@media print {
+	.page-break	{ display: block; page-break-before: always; }
+}
+
+body {
+  background: #fff;
+
+}
+
+.btn {
+  border: 1px outset buttonface;
+  color: buttontext;
+  background-color: buttonface;
+  height: 26px;
+  padding: 1px 6px;
+  margin-top: 0px;
+  margin-left: 5px;
+}
+
+.btn:hover { color: #000; }
+.btn:focus{ color: #000; }
+
+.helpTit {
+font-size: 28px;
+line-height: 45px;
+margin-top: 5px;
+margin-left: 15px;
+position: relative;
+font-weight: 700;
+color: #fff;
+text-shadow: 2px 2px 2px rgba(255,255,255,0.7);
+
+}    
+
+.helpHeader {
+    background-color: #5ba4a4; 
+    width:100%; 
+    top: 0px; 
+    left: 0px;
+    padding: 00px;
+    position: fixed; 
+    z-index: 1000;
+    min-height: 50px;
+}
+ 
 .helpContent {
+    padding: 10px;
+    margin-top: 60px;
     width: 1024px; 
     border: #C0C0C0; 
     border-style: double; 
     border-width: 2px; 
-    margin: 10px;
-    padding: 10px;
     font-family: sans-serif;
+    font-size: 18px;
 }
 
 
@@ -21,7 +63,8 @@ body {
     font-size: 18;
     text-align: center;
 }    
-    
+
+
 .helpContent h2 {
   font-size: 14;
   text-indent: 50px;
