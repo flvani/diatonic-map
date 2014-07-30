@@ -144,9 +144,10 @@ DR.loadLang = function(files, cb ){
     var toLoad = 0;
     for( var f = 0; f <  files.length; f ++) {
         toLoad ++;
+        FILEMANAGER.register('LANG');
         $.getJSON( files[f], {  format: "json"  })
           .done(function( data ) {
-              toLoad --;
+              FILEMANAGER.deregister('LANG', true);
               DR.createMenuOption(data.id, data.langName);
               for(var res in data.resources ) {
                   var lang = DR[data.id];
@@ -156,7 +157,15 @@ DR.loadLang = function(files, cb ){
                   else
                       console.log(res); // resource does not exist in the system
               }
-              if( toLoad === 0 && cb ) cb();
-          });
+             })
+            .fail(function( data, textStatus, error ) {
+                FILEMANAGER.deregister('LANG', false);
+                var err = textStatus + ", " + error;
+                console.log( "Language Load Failed:\nLoading: " + data.responseText.substr(1,40) + '...\nError:\n ' + err );
+            })
+            .always(function() {
+                toLoad --;
+                if( toLoad === 0 && cb ) cb();
+            });
     }
 };

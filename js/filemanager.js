@@ -69,6 +69,52 @@ if (! window.FILEMANAGER) {
 
 }
 
+FILEMANAGER.managedResources = {};
+FILEMANAGER.timeouts = 0;
+
+FILEMANAGER.register = function (res) {
+    if(FILEMANAGER.managedResources[res]) {
+       FILEMANAGER.managedResources[res].qtde ++; 
+    } else {
+       FILEMANAGER.managedResources[res] = {qtde:0, succ:0, fail:0}; 
+    }
+};
+
+FILEMANAGER.deregister = function (res, succ) {
+    if(FILEMANAGER.managedResources[res]) {
+       if(succ) {
+            FILEMANAGER.managedResources[res].succ ++;
+       } else {
+            FILEMANAGER.managedResources[res].fail ++; 
+       }
+    }
+};
+
+FILEMANAGER.checkResources = function (cb) {
+  for( var s in FILEMANAGER.managedResources ) {
+      var r = FILEMANAGER.managedResources[s];
+      if( r.qtde > 0 && (r.succ+r.fail) < r.qtde && FILEMANAGER.timeouts < 20 ) {
+          FILEMANAGER.timeouts++;
+          window.setTimeout(function() {FILEMANAGER.checkResources(cb);},100);
+          return;
+      }
+  }
+  var text = "", text2 = "";
+  for( var s in FILEMANAGER.managedResources ) {
+      var r = FILEMANAGER.managedResources[s];
+      if( r.qtde > 0 && ( r.fail > 0 || ((r.succ+r.fail) < r.qtde) ) ) {
+          text += 'Recurso ' + s + 'teve problemas ao carregar.\n';
+      } else {
+          text2 += 'Recurso' + s + ': ok...\n';
+      }
+  }
+  if(text.length > 0) {
+      alert(text+'\n\nPor favor, recarregue (F5) esta página!');
+  }
+  initApp();
+  
+};
+
 FILEMANAGER.loadLocalFiles = function(evt, cb) {
 
     var files = evt.target.files; // FileList object

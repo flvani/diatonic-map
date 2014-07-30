@@ -16,11 +16,15 @@ DIATONIC.map.loadAccordionMaps = function ( files, cb )  {
             var toLoad = 0;
             for( var f = 0; f <  files.length; f ++ ) {
                 toLoad ++;
+                FILEMANAGER.register('MAP');
+
                 $.getJSON( files[f], {  format: "json"  })
                     .done(function( data ) {
+                        FILEMANAGER.deregister('MAP', true);
                         DIATONIC.map.accordionMaps.push( new DIATONIC.map.Accordion(data) );
                     })
                     .fail(function( data, textStatus, error ) {
+                        FILEMANAGER.deregister('MAP', false);
                         var err = textStatus + ", " + error;
                         console.log( "Accordion Load Failed:\nLoading: " + data.responseText.substr(1,40) + '...\nError:\n ' + err );
                     })
@@ -172,9 +176,11 @@ DIATONIC.map.Accordion.prototype.loadABCX = function(pathList, cb ) {
     var objRet = { items:{}, sortedIndex: [] };
     for (var s = 0; s < pathList.length; s++) {
         toLoad ++;
+        FILEMANAGER.register('ABCX');
         path = pathList[s];
         $.get( path )
             .done( function( data ) {
+                FILEMANAGER.deregister('ABCX', true);
                 var tunebook = new ABCJS.TuneBook(data);
                 for (var t = 0; t < tunebook.tunes.length; t ++)  {
                     objRet.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
@@ -182,6 +188,7 @@ DIATONIC.map.Accordion.prototype.loadABCX = function(pathList, cb ) {
                 }    
             })
             .fail(function( data, textStatus, error ) {
+                FILEMANAGER.deregister('ABCX', false);
                 var err = textStatus + ", " + error;
                 console.log( "ABCX Load Failed:\nLoading: " + data.responseText.substr(1,40) + '...\nError:\n ' + err );
             })

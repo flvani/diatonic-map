@@ -342,8 +342,9 @@ notação abc, tablatura "/>
         window.saveButton = document.getElementById("saveBtn");
         window.printPreviewButton = document.getElementById("printPreviewBtn");
         window.closeButton = document.getElementById("closeBtn");
-        
-        window.addEventListener('load', initApp, false);
+
+
+        window.addEventListener('load', FILEMANAGER.checkResources, false);
         
         function initApp() {
 
