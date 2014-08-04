@@ -22,20 +22,6 @@ notação abc, tablatura "/>
   </head>
   <body>
       
-    <!--
-    
-    TODO:
-        Usar a informação das barras de repeticao da primeira linha em todas as vozes (no gerador de midi)
-        done: Implementar uma forma de diminuir a velocidade de uma canção (modo didático)
-        done:Gerar informação no parse e inferencia da tablatura sobre a duracao total de uma nota ou manter tie info
-        done: Eliminar o uso do Kinetic
-        done:Acertar a transposição (preferir o acidente junto da nota, ignorando o da pauta; 
-        done:manter o acidente por todo o compasso)
-        done:Melhorar a forma de pintar a tela durante geração do midi
-        done:Tratar adequadamente os subtitulos - sempre fazer parte da primeira voz?
-    
-    -->  
-   
     <div class="navbar navbar-inverse navbar-fixed-top" >
       <div style="background-color:#5ba4a4;">
         <div class="container" id="divTitulo" style="margin-left: 4px; width: 100%;" >
@@ -314,13 +300,7 @@ notação abc, tablatura "/>
     <script type="text/javascript" src="abc2midi/midiparser.js"></script>
     <script type="text/javascript" src="abc2midi/midiplayer.js"></script>
     
-    <!-- modelos de gaitas disponíveis -->
-    <!-- diatonic accordion map -->
     <script type="text/javascript" src="diatonic/diatonic-map.js"></script>
-    <!--script type="text/javascript" src="diatonic/accordion.hohner.gc.js"></script>
-    <script type="text/javascript" src="diatonic/accordion.hohner.clubIIIM.br.js"></script>
-    <script type="text/javascript" src="diatonic/accordion.hohner.clubIIIM.js"></script>
-    <script type="text/javascript" src="diatonic/accordion.hohner.coronaII.js"></script-->
 
     <script type="text/javascript" src="map/map.js"></script>
     <script type="text/javascript" src="map/gaita.js"></script>
@@ -328,7 +308,7 @@ notação abc, tablatura "/>
     
     <script type="text/javascript" src="js/bootstrap-dropdown.js"></script>
     <script type="text/javascript" src="js/filemanager.js"></script>
-    <script type="text/javascript" src="js/resource.js"></script>
+    <script type="text/javascript" src="js/language.js"></script>
     
     <script type="text/javascript">
         
@@ -343,10 +323,21 @@ notação abc, tablatura "/>
         window.printPreviewButton = document.getElementById("printPreviewBtn");
         window.closeButton = document.getElementById("closeBtn");
 
-
-        window.addEventListener('load', FILEMANAGER.checkResources, false);
+        window.addEventListener('load', initApp, false);
         
         function initApp() {
+            
+            // returns -1 (wait), 0 (success) and 1 (fail)
+            switch( FILEMANAGER.checkResources() ) {
+                case -1: 
+                    window.setTimeout(function(){ initApp() ; },100);
+                    return;
+                case 1:
+                    alert('Timeouts: ' + FILEMANAGER.timeouts + '\n\n' + FILEMANAGER.errors + '\n\nPor favor, verifique o nome dos arquivos e recarregue (F5) esta página!');
+                    return;
+                case 0:    
+                    console.log('Timeouts: ' + FILEMANAGER.timeouts + '\n\n' + FILEMANAGER.success);
+            }
 
             myMap = new DIATONIC.map.Map(
                 {   // interfaceParams
@@ -390,22 +381,21 @@ notação abc, tablatura "/>
     
             // configura e mostra a gaita inicial
             var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_HOHNER_GC';
-            
 
-            myMap.gaita.setup( {
-                  accordionId: accordion
-                  //,songTitle:"J'ai vu le loup, le renard et la belette"
-                  //,songTitle:"Valsa Sertaneja"
-                  //,songTitle:"Hino do Grêmio"
-                   } );
-                   
             myMap.defineActiveTab( 'tabTunes' );
+            
+            myMap.gaita.setup({
+                accordionId: accordion
+                //,songTitle:"J'ai vu le loup, le renard et la belette"
+                //,songTitle:"Valsa Sertaneja"
+                //,songTitle:"Hino do Grêmio"
+            });
             
         }
         
         $(document).ready(function() {
             
-          $("#tuneContainerDiv").find("[id^='tab']").hide(); // Hide all content
+            $("#tuneContainerDiv").find("[id^='tab']").hide(); // Hide all content
           
             DR.initializeTranslator([
                 'DR_appName'
@@ -477,18 +467,18 @@ notação abc, tablatura "/>
                 }
             });
 
-          $('#tabs a').click(function(e) {
-              e.preventDefault();
-              if ($(this).closest("li").attr("id") === "current"){ //detection for current tab
-                return;       
-              } else{             
-                $("#tuneContainerDiv").find("[id^='tab']").hide(); // Hide all content
-                $("#tabs li").attr("id",""); //Reset id's
-                $(this).parent().attr("id","current"); // Activate this
-                $('#' + $(this).attr('id')+"Div").fadeIn(); // Show content for the current tab
-                myMap.defineActiveTab( $(this).attr('id') );
-              }
-          });
+            $('#tabs a').click( function(e) {
+                e.preventDefault();
+                if ($(this).closest("li").attr("id") === "current"){ //detection for current tab
+                  return;       
+                } else{             
+                  $("#tuneContainerDiv").find("[id^='tab']").hide(); // Hide all content
+                  $("#tabs li").attr("id",""); //Reset id's
+                  $(this).parent().attr("id","current"); // Activate this
+                  $('#' + $(this).attr('id')+"Div").fadeIn(); // Show content for the current tab
+                  myMap.defineActiveTab( $(this).attr('id') );
+                }
+            });
         });
 
         function loadRepertoire(evt) {

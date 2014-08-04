@@ -5,35 +5,35 @@
  */
 
 if (!window.DIATONIC)
-	window.DIATONIC = {};
+    window.DIATONIC = {};
 
 if (!window.DIATONIC.map)
-	window.DIATONIC.map = {};
+    window.DIATONIC.map = {};
 
 DIATONIC.map.accordionMaps = [];
 
 DIATONIC.map.loadAccordionMaps = function ( files, cb )  {
-            var toLoad = 0;
-            for( var f = 0; f <  files.length; f ++ ) {
-                toLoad ++;
-                FILEMANAGER.register('MAP');
+    var toLoad = 0;
+    for( var f = 0; f <  files.length; f ++ ) {
+        toLoad ++;
+        FILEMANAGER.register('MAP');
 
-                $.getJSON( files[f], {  format: "json"  })
-                    .done(function( data ) {
-                        FILEMANAGER.deregister('MAP', true);
-                        DIATONIC.map.accordionMaps.push( new DIATONIC.map.Accordion(data) );
-                    })
-                    .fail(function( data, textStatus, error ) {
-                        FILEMANAGER.deregister('MAP', false);
-                        var err = textStatus + ", " + error;
-                        console.log( "Accordion Load Failed:\nLoading: " + data.responseText.substr(1,40) + '...\nError:\n ' + err );
-                    })
-                    .always(function() {
-                        toLoad --;
-                        if( toLoad === 0 && cb ) cb();
-                    });
-            }
-        };
+        $.getJSON( files[f], {  format: "json"  })
+            .done(function( data ) {
+                FILEMANAGER.deregister('MAP', true);
+                DIATONIC.map.accordionMaps.push( new DIATONIC.map.Accordion(data) );
+            })
+            .fail(function( data, textStatus, error ) {
+                FILEMANAGER.deregister('MAP', false);
+                var err = textStatus + ", " + error;
+                console.log( "Accordion Load Failed:\nLoading: " + data.responseText.substr(1,40) + '...\nError:\n ' + err );
+            })
+            .always(function() {
+                toLoad --;
+                if( toLoad === 0 && cb ) cb();
+            });
+    }
+};
 
 DIATONIC.map.Accordion = function (res, local) {
     this.id = res.id;
@@ -51,15 +51,12 @@ DIATONIC.map.Accordion = function (res, local) {
     this.songs = { items:{}, sortedIndex: [] };
     this.practices = { items:{}, sortedIndex: [] };
     this.chords = { items:{}, sortedIndex: [] };
-    
+
     if( ! this.localResource ) {
       this.songs = this.loadABCX( this.songPathList );
       this.chords = this.loadABCX( this.chordPathList );
       this.practices = this.loadABCX( this.practicePathList );
-    } else {
-        
     }
-    
 };
 
 DIATONIC.map.Accordion.prototype.getId = function () {
@@ -67,7 +64,7 @@ DIATONIC.map.Accordion.prototype.getId = function () {
 };
 
 DIATONIC.map.Accordion.prototype.getName = function () {
- return this.getModel() + " " + this.getTxtTuning() + " - " + this.getTxtNumButtons();
+    return this.getModel() + " " + this.getTxtTuning() + " - " + this.getTxtNumButtons();
 };
 
 DIATONIC.map.Accordion.prototype.getModel = function () {
@@ -75,21 +72,21 @@ DIATONIC.map.Accordion.prototype.getModel = function () {
 };
 
 DIATONIC.map.Accordion.prototype.getTxtNumButtons = function() {
-  var a = this.buttons;
-  var str_label = '';
-  for (var c = a.length-1; c > 0 ; c--) {
-    str_label = '/' + a[c] + str_label;
-  }
-  return a[0] + str_label;
+    var a = this.buttons;
+    var str_label = '';
+    for (var c = a.length-1; c > 0 ; c--) {
+      str_label = '/' + a[c] + str_label;
+    }
+    return a[0] + str_label;
 };
 
 DIATONIC.map.Accordion.prototype.getTxtTuning = function() {
-  var a = this.tuning;
-  var str_label = '';
-  for (var c = a.length-1; c > 0 ; c--) {
-    str_label = '/' +  a[c] + str_label;
-  }
-  return  a[0] + str_label;
+    var a = this.tuning;
+    var str_label = '';
+    for (var c = a.length-1; c > 0 ; c--) {
+      str_label = '/' +  a[c] + str_label;
+    }
+    return  a[0] + str_label;
 };
 
 DIATONIC.map.Accordion.prototype.getKeyboard = function () {
