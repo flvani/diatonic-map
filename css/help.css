@@ -83,6 +83,11 @@ text-shadow: 2px 2px 2px rgba(255,255,255,0.7);
   
 }
 
+.helpContent pre {
+  margin-left: 50px;
+}
+
+
 .helpContent li {
   margin-left: 50px;
   font-style: italic;

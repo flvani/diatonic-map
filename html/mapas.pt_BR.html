@@ -1,36 +1,164 @@
 <!DOCTYPE html>
+<html><head>
 <!--
+
 To change this license header, choose License Headers in Project Properties.
+
 To change this template file, choose Tools | Templates
+
 and open the template in the editor.
+
 -->
-<html>
-    <head>
-        <title>Mapas para Acordeon</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width">
-        <link href="../css/help.css" rel="stylesheet">
-        <script type="text/javascript" src="../js/help.js"></script>
-    </head>
-    <body>
-        <div id="helpHeader" class="helpHeader">    
-            <span class="helpTit" >Mapas para Acordeon</span>
-            <button id="printHelp" class="btn" title="Imprimir" onclick="printHelp();" >Imprimir</button>
-            <button id="closeHelp" class="btn" title="Fechar"  onclick="window.close();">Fechar</button>
-        </div>
-        <div id="helpContainer" class="helpContent" >
-            <h1>Mapas para Acordeon</h1>
-            <h2>O que é um mapa de acordeon?</h2>
-                <p>Um mapa de acordeon é o conceito que usamos para descrever um modelo de gaita. Para esta gaita, vamos definir
-                   coisas tais como: o nome, quantidade de botões, identificar a afinação e o botão pedal, além, é claro,
-                   de identificarmos cada botão.</p>
-                <p>Também é possível associar uma imagem à gaita e o criar um repertório específico. O repertório pode ser dividido em 3 partes: canções, 
-                   acordes e exercícios.</p>
-                <p>Caso seja necessário, você criar o seu próprio mapa usando arquivos locais, cadastrando seu instrumento de acordo com suas 
-                   peculiaridades, bem como anexar a imagem da gaita e o seu repertorio. Para isso, use o menu <b>"Acordeons"</b> e as opções
-                   <b>"Salvar mapa corrente"</b> e <b>"Carregar mapa do disco local"</b>.</p>
-                
-            <h3>Em construção...</h3>
-         </div>    
-    </body>
-</html>
+  <title>Mapas para Acordeon</title>
+
+  
+  
+  <meta charset="UTF-8">
+
+  
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link href="../css/help.css" rel="stylesheet">
+
+  
+  <script type="text/javascript" src="../js/help.js"></script>
+</head><body>
+<div id="helpHeader" class="helpHeader"> <span class="helpTit">Mapas
+para Acordeon</span> <button id="printHelp" class="btn" title="Imprimir" onclick="printHelp();">Imprimir</button> <button id="closeHelp" class="btn" title="Fechar" onclick="window.close();">Fechar</button>
+</div>
+
+<div id="helpContainer" class="helpContent">
+<h1>Mapas para Acordeon</h1>
+<h2>O que é um mapa de acordeon?</h2>
+<p>Um mapa de acordeon é o conceito que usamos para descrever um modelo
+de gaita. Para esta gaita, vamos definir coisas tais como: o nome,
+quantidade de botões, identificar a afinação e o botão pedal, além, é
+claro, de identificar cada botão.</p>
+<p>Também é possível associar uma imagem à gaita e o criar um
+repertório específico. O repertório pode ser dividido em 3 partes:
+canções, acordes e exercícios.</p>
+<p>Caso seja necessário, você criar o seu próprio mapa usando arquivos
+locais, cadastrando seu instrumento de acordo com suas peculiaridades,
+bem como anexar a imagem da gaita e o repertorio. Para isso, use o menu
+<b>"Acordeons"</b> e as opções <b>"Salvar mapa corrente"</b> e <b>"Carregar
+mapa do disco local"</b>.</p>
+<h3>Salvando um mapa</h3>
+<p>A opção <b>"Salvar mapa corrente"</b>, no menu <b>"Acordeons", </b>foi
+incluída no menu com o intuito de permitir a geração de um modelo para
+facilitar a criação de um mapa personalizado. O arquivo que será gerado
+ao gravar o mapa é exatamente o arquivo necessário para a posterior
+carga de um mapa personalizado.</p>
+<h3>Modificando um mapa</h3>
+<p>O arquivo do mapa gerado pelo site terá a seguinte aparência:</p>
+<pre>{<br>   "id": "GAITA"<br>  ,"menuOrder": 100<br>  ,"model": "Modelo"<br>  ,"tuning": ["A","D","G"]<br>  ,"buttons": ["31","8"]<br>  ,"pedal": [2,6]<br>  ,"keyboard": <br>    {<br>       "layout": [0.5, 0, 0.5]<br>      ,"keys":<br>      {<br>        "close": [lista-de-botoes]<br>       , "open": [lista-de-botoes]<br>      }<br>      ,"basses":<br>      {<br>        "close": [lista-de-botoes]<br>       , "open": [lista-de-botoes]<br>      }<br>    }<br>}<br><br></pre>
+<p>Este arquivo pode ser modificado, respeitadas algumas regras, por
+exemplo, ele poderá receber qualquer nome, desde que preservada a
+extensão <i>".accordion".</i> Os campos descritores também podem ser
+alterados. Veja o que cada um representa:</p>
+<ul>
+  <li>id: identificador exclusivo de cada gaita. Pode ser livremente
+criado e serve para identificar unicamente o mapa.</li>
+  <li>menuOrder: indicador de ordem no menu Acordeons. Quando o mapa
+for carregado no site, o novo acordeon vai ser listado no menu de
+acordo com este número. Se desejar que o acordeon figure como o
+primeiro item do menu, use um número pequeno, zero, por exemplo.</li>
+  <li>model: descrição do modelo ou nome do acordeon.</li>
+  <li>tuning: afinação da gaita. Contém uma lista das afinações
+suportadas por este modelo de gaita.</li>
+  <li>pedal: localização do botão pedal (ponto). Um par coordenado de
+números, indicando a linha e a coluna onde se encontra o botão pedal da
+gaita. Caso não seja uma gaita ponto, deixe o conjunto vazio, assim: [
+].</li>
+  <li>keyboard: descritivo de todos os botões da gaita. Esta seção é a
+mais importante para a criação do mapa da gaita e está dividida em três
+partes: layout, keys e basses. Veja a descrição de cada um na próxima
+seção.</li>
+</ul>
+<p><b>Nota:</b> ao alterar o arquivo do mapa, certifique-se de
+preservar a sintaxe do mesmo, isto é: aspas, vírgulas, dois-pontos,
+colchetes e chaves devem ser preservados.</p>
+<h4>Descrevendo os botões do teclado</h4>
+<ul>
+  <li>layout: indica a posição de início de cada ilheira de botões no
+desenho do mapa. No exemplo acima, considerando-se uma gaita com três
+ilheiras, significa que a primeira ilheira iniciará com um recuo que
+mede exatamente o tamanho de meio botão, a segunda ilheira começará sem
+recuo e a terceira, terá também um recuo de meio botão (sempre em
+relação ao ponto zero onde se desenhará o teclado). Este item não afeta
+os botões da baixaria, somente os botões da melodia.</li>
+  <li>keys: descritivo dos botões de melodia. Como a gaita ponto é
+bissonora, teremos duas listas: uma para os sons tocados com o fole
+fechando e outra para os sons. O formato da lista de botões será
+descrito abaixo.<br>
+  </li>
+  <li>basses: descritivo dos botões da baixaria.Como a gaita ponto é
+bissonora, teremos duas listas: uma para os sons
+tocados com o fole fechando e outra para os sons. O formato da lista de
+botões será descrito abaixo.</li>
+</ul>
+<h4>Lista de botões</h4>
+<p>Cada lista de botões representa um conjunto de linhas. Cada linha é
+um conjunto de botões. Cada botão é descrito pela nota que ele
+representa, os acidentes (sustenido ou bemol) e pela oitava. Além
+disso, se for um acorde poderá
+ser descrito o modo menor ou sétima.</p>
+<p>A sintaxe é essa:</p>
+<pre>lista-de-botões ==&gt; [[linha 1],[linha 2],...,[linha n]]</pre>
+<pre>linha ==&gt; ["botão 1", "botão 2",...,"botão n"]</pre>
+<pre>botão ==&gt; "nota-acidente-oitava:modo"</pre>
+<p>Onde:</p>
+<ul>
+  <li>nota: letra seguindo a nomenclatura das cifras (C = Dó, D = Ré,
+..., B=Si). Se o botão representar um acorde, usar a letra minúscula<br>
+  </li>
+  <li>acidente: ou bemol (♭) ou sustenido (♯). Se não houver acidente,
+deixar vazio.</li>
+  <li>oitava: numero entre zero (0) e oito (8). Incluir sempre.</li>
+  <li>modo: indica acorde menor (m) ou com sétima (7). Deve ser
+precedido
+pelo sinal de dois-pontos (:).</li>
+</ul>
+<p>Exemplos de botões:</p>
+<ul>
+  <li>A4 - Lá natural, na quarta oitava, isto é, 440Hz.<br>
+  </li>
+  <li>C♯3 - Dó sustenido, na terceira oitava, frequência de 138.6Hz.<br>
+  </li>
+  <li>B♭6 - Si bemol, na sexta oitava, frequência de 1865Hz.</li>
+  <li>a2:m - Acorde de lá menor, na segunda oitava, frequência da nota
+base de 55Hz.</li>
+</ul>
+<p>Exemplo completo de um teclado:</p>
+<pre>,"keyboard": <br>    {<br>       "layout":[0,0.5]<br>      ,"keys":<br>      {<br>         "close":[<br>		   ["B2","D3","G3","B3","D4","G4","B4","D5","G5","B5","D6"]<br>		  ,["E3","G3","C4","E4","G4","C5","E5","G5","C6","E6"]<br>		 ]<br>        ,"open": [<br>		   ["D3","F♯3","A3","C4","E4","F♯4","A4","C5","E5","F♯5","A5"]<br>		  ,["G3","B3","D4","F4","G4","B4","D5","F5","G5","B5"]<br>		 ]<br>      }<br>      ,"basses":<br>      {<br>         "close": [ ["e2","E2","f1","F1"], ["g1","G1","c2","C2"] ]<br>        ,"open":  [ ["a1:m","A1","f1","F1"], ["d2","D2","g1","G1"] ]<br>     }<br>    }</pre>
+<p><b>Nota:</b> Observe que as ilheiras da mão direita (melodia) são
+descritas a partir da linha mais externa (linha 1) para a mais interna
+e, as linhas da baixaria, são descritas da mais interna para a mais
+externa.</p>
+<h3>Carregando um mapa</h3>
+<p>Além do arquivo do mapa do acordeon (visto acima), também é possível
+anexar arquivos para compor o repertório do acordeon, bem como uma
+imagem ilustrativa da gaita. O único arquivo obrigatório é o que
+descreve a gaita em si, os demais arquivos são opcionais.
+O conjunto completo de arquivos é o seguinte:</p>
+<ul>
+  <li>arquivo.accordion - descritor da gaita, conforme sintaxe própria
+apresentado acima</li>
+  <li>arquivo.gif - imagem ilustrativa da gaita;</li>
+  <li>arquivo.tunes - livro de repertório da gaita em formato ABCX (ver
+documentação sobre o formato ABCX)</li>
+  <li> arquivo.chords -&nbsp; arquivo contendo os acordes&nbsp; da gaita, também em formato
+ABCX.</li>
+  <li>aqruivo.practices - arquivo com exercícios práticos para a gaita,
+em formato ABCX.<br>
+  </li>
+</ul>
+<p>De posse destes arquivos (coloque-os todos em uma única pasta para,
+por comodidade) acesse o site, vá ao menu <span style="font-weight: bold;">"Acordeons"</span> e use a opção <b>"Carregar
+mapa do disco local"</b>.
+Na tela de seleção de arquivos, escolha todos os arquivos de uma única
+vez e clique em <span style="font-weight: bold;">"</span><small style="font-weight: bold;">Abrir</small><span style="font-weight: bold;">".</span> O site irá configurar o acordeon mapeado,
+incluindo a imagem da gaita e o repertório (se estiverem presentes).</p>
+</div>
+
+</body></html>
