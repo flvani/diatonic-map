@@ -1,26 +1,64 @@
 <!DOCTYPE html>
+<html><head>
 <!--
+
 To change this license header, choose License Headers in Project Properties.
+
 To change this template file, choose Tools | Templates
+
 and open the template in the editor.
+
 -->
-<html>
-    <head>
-        <title>O modo didático</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width">
-        <link href="../css/help.css" rel="stylesheet">
-        <script type="text/javascript" src="../js/help.js"></script>
-    </head>
-    <body>
-        <div id="helpHeader" class="helpHeader">    
-            <span class="helpTit" >O modo didático</span>
-            <button id="printHelp" class="btn" title="Imprimir" onclick="printHelp();" >Imprimir</button>
-            <button id="closeHelp" class="btn" title="Fechar"  onclick="window.close();">Fechar</button>
-        </div>
-        <div id="helpContainer" class="helpContent" >
-            <h1>O modo didático</h1>
-            <h2>Em construção</h2>
-         </div>    
-    </body>
-</html>
+  <title>O modo didático</title>
+
+  
+  
+  <meta charset="UTF-8">
+
+  
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link href="../css/help.css" rel="stylesheet">
+
+  
+  <script type="text/javascript" src="../js/help.js"></script>
+</head><body>
+<div id="helpHeader" class="helpHeader"> <span class="helpTit">O modo
+didático</span> <button id="printHelp" class="btn" title="Imprimir" onclick="printHelp();">Imprimir</button> <button id="closeHelp" class="btn" title="Fechar" onclick="window.close();">Fechar</button> </div>
+
+<div id="helpContainer" class="helpContent">
+<h1>O modo didático</h1>
+<p>O modo didático foi pensado para quem está aprendendo gaita ponto.
+As funcionalidades
+presentes permitem ao usuário executar detalhadamente trechos da
+partitura. Abaixo detalhamos as funções:<br>
+</p>
+<h2>Barra de botões</h2>
+<div style="margin-left: 50px;"><img src="../img/modo.didatico.png"></div>
+<p>A barra de botões possui dois modos de operação: o modo <span style="font-weight: bold;">normal</span> e
+o modo <span style="font-weight: bold;">didático</span>. No modo <span style="font-weight: bold;">didático</span>,
+estão disponíveis os 8 botões listados acima:</p>
+<ul>
+  <li>Modo normal/didático: Chaveia entre os dois modos. Ao
+chavear de volta ao modo normal é como se a partitura estivesse
+pausada. Se pressionar o botão executar, a partitura será executada do
+ponto onde parou no modo didático.<br>
+</li>
+  <li>Ir para: Permite executar um compasso específico. Para tanto, digite o número do compasso e pressione [Enter].</li>
+  <li>Passo a passo: executa nota por nota do compasso, uma a cada vez que o botão é pressionado.</li>
+  <li>Compasso: executa o compasso corrente até o seu final.</li>
+  <li>Repetir: repete o último compasso executado</li>
+  <li>Parar: para a execução atual e posiciona no primeiro compasso.</li>
+  <li>Andamento: ajusta o andamento em três valores diferentes. O valor "1"
+significa o andamento normal, "1/2" significa que a partitura será
+executada com a metade da velocidade normal e, por fim, "1/4" executará
+a partitura 4 vezes mais lentamente que no andamento normal.
+Pressionando mais uma vez, o andamento voltará para o valor "1".</li>
+  <li>Imprimir: abre a tela para visualizar e imprimir a partitura
+ativa.</li>
+
+</ul>
+</div>
+
+</body></html>

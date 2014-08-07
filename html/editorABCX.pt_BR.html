@@ -1,26 +1,118 @@
 <!DOCTYPE html>
-<!--
+<html><head><!--
+
 To change this license header, choose License Headers in Project Properties.
+
 To change this template file, choose Tools | Templates
+
 and open the template in the editor.
--->
-<html>
-    <head>
-        <title>Editor de Partituras</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width">
-        <link href="../css/help.css" rel="stylesheet">
-        <script type="text/javascript" src="../js/help.js"></script>
-    </head>
-    <body>
-        <div id="helpHeader" class="helpHeader">    
-            <span class="helpTit" >Editor de Partituras</span>
-            <button id="printHelp" class="btn" title="Imprimir" onclick="printHelp();" >Imprimir</button>
-            <button id="closeHelp" class="btn" title="Fechar"  onclick="window.close();">Fechar</button>
-        </div>
-        <div id="helpContainer" class="helpContent" >
-            <h1>Editor de Partituras</h1>
-            <h2>Em construção</h2>
-        </div>    
-    </body>
-</html>
+
+--><title>Editor de Partituras</title>
+
+
+  
+
+  
+  
+  <meta charset="UTF-8">
+
+  
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link href="../css/help.css" rel="stylesheet">
+
+  
+  <script type="text/javascript" src="../js/help.js"></script></head><body>
+<div id="helpHeader" class="helpHeader"> <span class="helpTit">Editor
+de Partituras</span> <button id="printHelp" class="btn" title="Imprimir" onclick="printHelp();">Imprimir</button> <button id="closeHelp" class="btn" title="Fechar" onclick="window.close();">Fechar</button>
+</div>
+
+<div id="helpContainer" class="helpContent">
+<h1>Editor de Partituras</h1>
+<p>As três abas de partituras (Músicas, acordes e exercícios), conforme
+já dissemos, são formadas por peças no formato ABCX (ver documentação).
+Estas três abas possuem algumas funcionalidades que podem ser acessadas
+através da <span style="font-weight: bold;">"Barra de Botões"</span>
+que fica localizada à direita das mesmas. As funcionalidades são:
+imprimir, editar ou executar uma partitura.<br>
+</p>
+<h2>Barra de botões</h2>
+<div style="margin-left: 50px;"><img src="../img/modo.normal.png"></div>
+<p>A barra de botões possui dois modos de operação: o modo <span style="font-weight: bold;">normal</span> e
+o modo <span style="font-weight: bold;">didático</span> (ver
+documentação do modo didático). No modo <span style="font-weight: bold;">normal</span>,
+estão disponíveis os 5 botões listados acima:</p>
+<ul>
+  <li>Modo normal/didático: chaveia entre os dois modos.</li>
+  <li>Executar/Pausar: inicia a execução da partitura que estiver visível ou
+a suspende, caso já esteja em execução.</li>
+  <li>Parar: para a execução atual e posiciona no primeiro compasso.</li>
+  <li>Ferramentas: dá acesso ao editor de partituras (e outras
+funcionalidades).<br>
+  </li>
+  <li>Imprimir: abre a tela para visualizar e imprimir a partitura
+ativa.</li>
+</ul>
+<p>No modo normal, o executor de MIDI não requer explicações
+adicionais, visto que só possui as funcionalidades básicas, isto é,
+executar/pausar/parar. A impressão é realizada com as ferramentas do
+próprio browser. Já o botão "Ferramentas" dá acesso ao Editor de
+Partituras, que é o foco desta página. </p>
+<h2>Ferramentas</h2>
+<p>Ao clicar no menu ferramentas, uma nova página será exibida. Esta
+página é dividida em 3 partes: a primeira delas é uma área de texto que
+expõe o conteúdo do arquivo ABCX. Abaixo desta, fica a "<span style="font-weight: bold;">Barra de botões
+de edição</span>" e, ao final, a área de visualização da partitura
+resultante
+do texto.</p>
+<h3>Barra de botões de edição</h3>
+<div style="margin-left: 50px;"><img src="../img/ferramentas.png"></div>
+<p>Da esquerda para a direita os seguintes botões de funcionalidades são listados:</p>
+<ul>
+  <li>seletor de acordeon: seleciona o acordeon para o qual a tablatura será gerada.<br>
+  </li>
+  <li>seletor de tom: modifica (transpõe) a tonalidade da partitura. <br>
+  </li>
+  <li>oitava acima: transpõe a partitura para uma oitava acima.<br>
+  </li>
+  <li>oitava abaixo: transpõe a partitura para uma oitava abaixo.</li>
+  <li>ver impressão: permite a impressão do estado atual da partitura.<br>
+  </li>
+  <li>salvar local: permite fazer o download do arquivo ABCX do estado atual da partitura.<br>
+  </li>
+  <li>fechar: fecha o editor e retorna a tela de execução, incluindo as alterações feitas na partitura.<br>
+  </li>
+  <li>atualizar: atualiza a partitura a partir das alterações efetuadas no texto ABCX.<br>
+  </li>
+  <li>auto atualização: força a partitura a ser atualizada automaticamente a cada alteração no texto.<br>
+  </li>
+</ul>
+
+<p>O editor é bastante simples mas pressupõe o conhecimento do formato
+ABC, bem como das regras usadas no formato ABCX para gerar a tablatura.
+Para aprender o formato ABC procure documentação na internet.</p>
+<p>Quanto às funcionalidades que este editor provê, destacamos as seguintes características:</p>
+<ul>
+  <li>Sempre que o texto ABCX for alterado e a chave
+"accordionTab" estiver presente, se não houver uma tablatura definida,
+uma nova será criada; se já existir ela ficará desatualizada. Este
+comportamento evita que se perca edições manuais realizadas na
+tablatura.<br>
+</li>
+  <li>Para forçar a atualização da tablatura, apague as linhas após "accordionTab" e clique em "<span style="font-weight: bold;">Atualizar</span>": uma nova tablatura será gerada automaticamente.</li>
+  <li>Usar o seletor de tom ou os botões de oitavas irá modificar o
+arquivo ABCX, mas qualquer tablatura que existir ficará desatualizada,
+pelos motivos expostos acima.</li>
+  <li>O objetivo de transpor a tonalidade é permitir carregar o
+repertório atual em um acordeon com afinação diferente e ainda assim
+produzir a tablatura.<br>
+  </li>
+  <li>Salvar uma partitura não significa que o arquivo original no site
+foi alterado: apenas se está gerando uma cópia no computador local,
+permitindo ao usuário ter um repertório próprio, contendo as alterações
+que foram consideradas convenientes e que podem ser carregadas sempre
+que o site for acessado, usando o menu "<span style="font-weight: bold;">Repertório</span>", opção "<span style="font-weight: bold;">Carregar do drive local</span>"<br>
+  </li>
+</ul></div><br>
+</body></html>
