@@ -1,0 +1,44 @@
+﻿X:1
+%%barnumbers 1
+%%papersize A4
+%%landscape
+T:Alecrim dourado (v1)
+C:Tradicional
+K:C
+L:1/4
+M:C
+V:1 clef=treble melodia
+V:2 clef=bass baixo
+[V:1]| z2 "G7"gf |: "C"e e/2d/2 e g | "F"f/2f/2f/2e/2 fg | 
+w: A-le-crim, A-le-crim dou-ra-do que nas-ceu no
+[V:2]| z4    |: C,, [C,E,G,] C,, [C,E,G,] |  F,, [F,A,C] F,, [F,A,C] |
+[V:1]| "F"f/2f/2f/2e/2 fg | "C"ee  "G7"gf | "C"e e/2d/2 e g |
+w:cam-po sem ser se-me-a-do. A-le-crim, A-le-crim dou-
+[V:2]| F,, [F,A,C] F,, [F,A,C] | C,, [C,E,G,] G,, [G,B,D] | C,, [C,E,G,] C,, [C,E,G,] |
+[V:1]| "F"f/2f/2f/2e/2 f g | "F"f/2f/2f/2e/2 f g | "C"e e z/2 "C7"c/2 [df]/2c/2 |
+w:ra-do que nas-ceu no cam-po sem ser se-me-a-do. Foi meu a
+[V:2]| F,, [F,A,C] F,, [F,A,C] | F,, [F,A,C] F,, [F,A,C] | C,, [C,E,G,] C,, [C,E,G,] |
+[V:1]| "F"[fa] [fa]/2[ea]/2 [db] [fa] | "C"[eg] [eg]/2[dg]/2 [ca] [eg] | "G7"[df]/2[df]/2[df]/2[ca]/2 [Bg] [Bf] |
+w:mor que me dis-se assim que a flor do cam-po é o a-le
+[V:2]| F,, [F,A,C] F,, [F,A,C] |  C,, [C,E,G,] C,, [C,E,G,] |  G,, [G,B,D]  G,, [G,B,D] |
+[V:1]| "C"e e z/2 "C7"c/2 [df]/2c/2 | "F"[fa] [fa]/2[ea]/2 [db] [fa] | "G"[eg] [eg]/2[dg]/2 [ca] [eg] |
+w:crim. * Foi meu a-mor que me dis-se assim que a flor do cam-po é o a-
+[V:2]| C,, [C,E,G,] C,, [C,E,G,] | F,, [F,A,C] F,, [F,A,C] |  C,, [C,E,G,] C,, [C,E,G,] |
+[V:1]| "G7"[df]/2[df]/2[df]/2[ca]/2 [Bg] [Bf] |1 "C"[ce]2 "G7"gf :|2 "C"[ce]4 |
+w:do cam-po é~o a-le-crim. A-le-crim.
+[V:2]|  G,, [G,B,D]  G,, [G,B,D] |1 C,, [C,E,G,] G,, [G,B,D] :|2 C,, [C,E,G,]  C,, [C,E,G,] |
+V:3 tablatura
+K:accordionTab
+
+X:2
+%%barnumbers 1
+%%pagesize A4
+T:Alecrim dourado (v2)
+C:Tradicional
+Q:100
+M:C
+L:1/4
+| z2 gf | e/2e/4d/4 e/2g/2 f/4f/4f/4e/4 f/2g/2 | f/4f/4f/4e/4 f/2g/2 e e 
+| g f e/2e/4d/4 e/2g/2 | f/4f/4f/4e/4 f/2g/2 f/4f/4f/4e/4 f/2g/2 | | e e z/2 c/2 [df]/2c/2 |
+| [fa]2 z/ a/4a/4 a/2b/2 | g/2g/4g/4 g/2a/2 f/2f/4f/4 f/2g/2 | e2 z/2 c/2 [df]/2c/2 |
+| [fa]2 z/ a/4a/4 a/2b/2 | g/2g/4g/4 g/2a/2 f/2f/4f/4 f/2g/2 | e2 z2 |
