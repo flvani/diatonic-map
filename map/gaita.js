@@ -420,7 +420,7 @@ DIATONIC.map.Gaita.prototype.printTune = function(alreadyOnPage, params ) {
     
     this.map.editor.parseABC(0, "force");
     this.renderedTune.abc = this.map.editor.tunes[0];
-    this.songPrinter = new ABCJS.write.Printer(this.songPaper, params || {});
+    this.songPrinter = new ABCXJS.write.Printer(this.songPaper, params || {});
     $("#" + this.songDiv.id).fadeIn();
     loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
     this.songPrinter.printABC(this.renderedTune.abc);
@@ -461,7 +461,7 @@ DIATONIC.map.Gaita.prototype.printPractice = function(alreadyOnPage, params) {
     var loader = this.startLoader("practiceLoader");
     this.map.editor.parseABC(0, "force");
     this.renderedPractice.abc = this.map.editor.tunes[0];
-    this.practicePrinter = new ABCJS.write.Printer(this.practicePaper, params || {});
+    this.practicePrinter = new ABCXJS.write.Printer(this.practicePaper, params || {});
 
     $("#" + this.practiceDiv.id).fadeIn();
     loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
@@ -509,7 +509,7 @@ DIATONIC.map.Gaita.prototype.printChord = function(alreadyOnPage, params) {
     var loader = this.startLoader("chordLoader");
     this.map.editor.parseABC(0, "force");
     this.renderedChord.abc = this.map.editor.tunes[0];
-    this.chordPrinter = new ABCJS.write.Printer(this.chordPaper, params || {});
+    this.chordPrinter = new ABCXJS.write.Printer(this.chordPaper, params || {});
 
     $("#" + this.chordDiv.id).fadeIn();
     loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );

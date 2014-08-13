@@ -418,7 +418,7 @@ DIATONIC.midi.Parse.prototype.setKeySignature = function(elem) {
     }
     if (!elem.accidentals)  return;
     
-    window.ABCJS.parse.each(elem.accidentals, function(acc) {
+    window.ABCXJS.parse.each(elem.accidentals, function(acc) {
         var d = (acc.acc === "sharp") ? 1 : (acc.acc === "natural") ? 0 : -1;
         var lowercase = acc.note.toLowerCase();
         var note = this.extractNote(lowercase.charCodeAt(0) - 'c'.charCodeAt(0));

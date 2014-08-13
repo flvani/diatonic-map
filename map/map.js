@@ -36,7 +36,7 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
     this.gaita = new DIATONIC.map.Gaita(this, accordionParams);
     
     
-    this.editor =  new ABCJS.Editor(
+    this.editor =  new ABCXJS.Editor(
                          editorParams.textArea
                       ,{
                          canvas_id: editorParams.canvas_id
@@ -302,7 +302,7 @@ DIATONIC.map.Map.prototype.load = function(files) {
     var accordion = this.gaita.getSelectedAccordion();
     
     if( newTunes ) {
-        var tunebook = new ABCJS.TuneBook(newTunes);
+        var tunebook = new ABCXJS.TuneBook(newTunes);
         for (var t = 0; t < tunebook.tunes.length; t++) {
             accordion.songs.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
             accordion.songs.sortedIndex.push(tunebook.tunes[t].title);
@@ -313,7 +313,7 @@ DIATONIC.map.Map.prototype.load = function(files) {
         this.gaita.renderTune( tt, {}, this.currentTab === "tabTunes" );
     }
     if( newChords ) {
-        var tunebook = new ABCJS.TuneBook(newChords);
+        var tunebook = new ABCXJS.TuneBook(newChords);
         for (var t = 0; t < tunebook.tunes.length; t++) {
             accordion.chords.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
             accordion.chords.sortedIndex.push(tunebook.tunes[t].title);
@@ -324,7 +324,7 @@ DIATONIC.map.Map.prototype.load = function(files) {
         this.gaita.renderChord( tt, {}, this.currentTab === "tabChords" );
     }
     if( newPractices ) {
-        var tunebook = new ABCJS.TuneBook(newPractices);
+        var tunebook = new ABCXJS.TuneBook(newPractices);
         for (var t = 0; t < tunebook.tunes.length; t++) {
             accordion.practices.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
             accordion.practices.sortedIndex.push(tunebook.tunes[t].title);
@@ -353,7 +353,7 @@ DIATONIC.map.Map.prototype.carregaRepertorio = function(original, files) {
     } else {
         accordion.songs = { items:{}, sortedIndex: [] };
         for (var s = 0; s < files.length; s++) {
-            var tunebook = new ABCJS.TuneBook(files[s].content);
+            var tunebook = new ABCXJS.TuneBook(files[s].content);
             for (var t = 0; t < tunebook.tunes.length; t++) {
                 accordion.songs.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
                 accordion.songs.sortedIndex.push(tunebook.tunes[t].title);

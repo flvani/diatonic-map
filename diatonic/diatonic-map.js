@@ -178,7 +178,7 @@ DIATONIC.map.Accordion.prototype.loadABCX = function(pathList, cb ) {
         $.get( path )
             .done( function( data ) {
                 FILEMANAGER.deregister('ABCX', true);
-                var tunebook = new ABCJS.TuneBook(data);
+                var tunebook = new ABCXJS.TuneBook(data);
                 for (var t = 0; t < tunebook.tunes.length; t ++)  {
                     objRet.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
                     objRet.sortedIndex.push( tunebook.tunes[t].title );
