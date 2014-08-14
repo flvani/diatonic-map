@@ -1,0 +1,36 @@
+X:1008
+%%barnumbers 0
+%%papersize A4
+T:Xote Laranjeira (bertussi)
+C:Tradicional
+C:(recolhido p/ Ir. Bertussi)
+N:Transcrito por Flávio (versão Club)
+M:C
+L:1/8
+Q:120
+V:1 clef=treble
+V:2 clef=bass
+K:C
+P:Parte I
+[V:1]|z GAB|:[ce][ce][ce][ce] [ce][ce][ce][Bd] | [ce]4   z  GAB    | [ce][ce][ce][ce] [ce][ce][ce][Bd] |
+[V:2]|z4   |: C,2 C2 F,2 C2                    | C,2 C2 F,2 F2     | C,2 C2 F,2 C2                     |
+[V:1]|[Bd]2 [Bd]2 z [GB][GB][Ac] | [Bd]2 [Bd]2 [Ac]2 [Ac]2 | [GB]2 [GB]2 [FA]2 [FA]2 | [EG]2 [EG]2 [DF]2 [DF]2 |1 [CE]4 z  GAB  :|     
+[V:2]| G,,2 G,2 D,2 G,2          | G,,2 G,2 D,2 G,2        | G,,2 G,2 D,2 G,2        | G,,2 G,2 D,2 G,2        |1 C,2 C2 F,2 F2 :| 
+[V:1]| [CE]4 z  gfe |: dGgG fGed        | cGaG gGfe      | dGgG fGed        |1 c4 z  gfe     :|
+[V:2]|C,2 C2 F,2 F2 |: G,,2 G,2 D,2 G,2 | C,2 C2 F,2 C2   | G,,2 G,2 D,2 G,2 |1 C,2 C2 F,2 F2 :| 
+P:Parte II
+[V:1]| c4   z  GAB    |: [ce][ce][ce][df] [eg][eg][eg][df] | [ce]4   z  GAB | [ce][ce][ce][df] [eg][eg][eg][eg] | [df]2 [df]2  z [GB][GB][Ac] |
+[V:2]| C,2 C2 F,2 F2  |: C,2 C2 F,2 C2                     | C,2 C2 F,2 F2  |  C,2 C2 F,2 C2                    | G,,2 G,2 D,2 G,2            |
+[V:1]| [Bd]2 [Bd]2 [Ac]2 [Ac]2 |[GB]2 [GB]2 [FA]2 [FA]2 | [EG]2 [EG]2 [DF]2 [DF]2 |1 [CE]4 z  GAB  :|
+[V:2]| G,,2 G,2 D,2 G,2        |G,,2 G,2 D,2 G,2        | G,,2 G,2 D,2 G,2        |1 C,2 C2 F,2 F2 :|
+[V:1]| [CE]4 z  gfe   |: dGgG fGed        | cGaG gGfe     | dGgG fGed        |1 c4 z  gfe     :|
+[V:2]| C,2 C2 F,2 F2  |: G,,2 G,2 D,2 G,2 | C,2 C2 F,2 C2 | G,,2 G,2 D,2 G,2 |1 C,2 C2 F,2 F2 :|
+P:Parte III
+[V:1]| c4   z  GAB   |: [ce]2 [eg]2 [eg]2 [df]2 | [ce]4 z GAB   | [ce]2 [eg]2 [eg]2 [eg]2  |
+[V:2]| C,2 C2 F,2 F2 |: C,2 C2 F,2 C2           | C,2 C2 F,2 F2 | C,2 C2 F,2 C2            |
+[V:1]| [df]2 [df]2 z [GB][GB][Ac] |[Bd]2 [Bd]2 [Ac]2 [Ac]2 | [GB]2 [GB]2 [FA]2 [FA]2 | [EG]2 [EG]2 [DF]2 [DF]2 |1 [CE]4 z  GAB  :|
+[V:2]| G,,2 G,2 D,2 G,2           | G,,2 G,2 D,2 G,2       | G,,2 G,2 D,2 G,2        | G,,2 G,2 D,2 G,2        |1 C,2 C2 F,2 F2 :|
+[V:1]| [CE]4 z  gfe  |: dGgG fGed        | cGaG gGfe       | dGgG fGed        |1 c4 z  gfe     :| c2 [GB]2 [ce]4 |]
+[V:2]| C,2 C2 F,2 F2 |: G,,2 G,2 D,2 G,2 | C,2 C2 F,2 C2   | G,,2 G,2 D,2 G,2 |1 C,2 C2 F,2 F2 :| C,2 G,,2 C,4   |]
+V:Tab
+K:none accordionTab
