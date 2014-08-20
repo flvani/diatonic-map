@@ -30,9 +30,9 @@ DIATONIC.midi.Parse.prototype.reset = function(options) {
     this.timecount = 0;
     this.trackcount = 0;
     this.multiplier = 1;
+    this.loudness = 256;
     this.qpm = options.qpm || 180;
-    this.transpose = options.transpose || 0;	// PER
-    
+
     this.visited = {};
     this.startTieElem= {};
     this.restart = {line: 0, staff: 0, voice: 0, pos: 0};
@@ -51,13 +51,13 @@ DIATONIC.midi.Parse.prototype.reset = function(options) {
 DIATONIC.midi.Parse.prototype.parseTabSong = function(tune, printer) {
     var bpm = 108.0;
     var duration = 0.25;
-    
+
     this.reset();
-    
+
     if (printer) {
         this.setPrinter(printer);
-    }    
-    
+    }
+
     this.abctune = tune;
 
     if (tune.metaText.tempo) {
@@ -65,7 +65,7 @@ DIATONIC.midi.Parse.prototype.parseTabSong = function(tune, printer) {
         duration = tune.metaText.tempo.duration[0] || duration;
     }
 
-    this.qpm = bpm * duration * 16; 
+    this.qpm = bpm * duration * 16;
     this.setTempo(this.qpm);
 
     this.staffcount = 1; // we'll know the actual number once we enter the code
@@ -77,23 +77,20 @@ DIATONIC.midi.Parse.prototype.parseTabSong = function(tune, printer) {
             this.restart = {line: 0, staff: this.staff, voice: this.voice, pos: 0};
             this.next = null;
             for (this.line = 0; this.line < this.abctune.lines.length; this.line++) {
-              if(this.abctune.lines[this.line].staffs){
-                this.writeABCLine();
-              }
+                if (this.abctune.lines[this.line].staffs) {
+                    this.writeABCLine();
+                }
             }
             this.endTrack();
         }
     }
     // varre a lista de notas procurando a primeira ocorrencia de cada compasso.
-    for(var i = 0; i < this.midiTune.notes.length; i++ ) {
-      if( this.midiTune.notes[i].barNumber && this.midiTune.measures[this.midiTune.notes[i].barNumber] === undefined ) {
-         if(this.midiTune.notes[i].barNumber === 20 ) {
-             var n = this.playlistpos;
-         }
-         this.midiTune.measures[this.midiTune.notes[i].barNumber] =  i;
-      }   
+    for (var i = 0; i < this.midiTune.notes.length; i++) {
+        if (this.midiTune.notes[i].barNumber && this.midiTune.measures[this.midiTune.notes[i].barNumber] === undefined) {
+            this.midiTune.measures[this.midiTune.notes[i].barNumber] = i;
+        }
     }
-    
+
     return this.midiTune;
 };
 
@@ -172,18 +169,14 @@ DIATONIC.midi.Parse.prototype.writeNote = function(elem) {
             } else { // use normal accidentals
                 midipitch += this.accidentals[this.extractNote(pitch)];
             }
-            midipitch += this.transpose;	// PER
             
-
             if (note.startTie) {
-                this.startNote(midipitch, 256, elem, this.timecount);
+                this.startNote(midipitch, elem, this.timecount);
                 this.startTieElem[midipitch] = elem;
             } else if (note.endTie) {
-                this.selectNote(elem, this.timecount);
-                this.unSelectNote(elem, this.timecount + mididuration);
-                this.endTies( midipitch, mididuration );
+                this.endTies( midipitch, mididuration, elem );
             } else {
-                this.startNote(midipitch, 256, elem, this.timecount);
+                this.startNote(midipitch, elem, this.timecount);
                 this.endNote(midipitch, elem, this.timecount + mididuration);
             } 
         }
@@ -201,20 +194,26 @@ DIATONIC.midi.Parse.prototype.writeNote = function(elem) {
 
 };
 
-DIATONIC.midi.Parse.prototype.endTies = function(midipitch, mididuration ) {
-    var dur = mididuration || 0;
-    if( midipitch ) {
-       this.unSelectNote(this.startTieElem[midipitch], this.timecount + dur);
-       this.endNote(midipitch, this.startTieElem[midipitch], this.timecount + dur );
-       delete this.startTieElem[midipitch];
+DIATONIC.midi.Parse.prototype.endTies = function(midipitch, mididuration, endElem) {
+    var startElem = this.startTieElem[midipitch];
+    if (startElem) {
+        this.endNote(midipitch, startElem, this.timecount + mididuration);
+        this.selectNote(endElem, this.timecount);
+        this.unSelectNote(endElem, this.timecount + mididuration);
+        delete this.startTieElem[midipitch];
     } else {
-        for (var index in this.startTieElem) {
-            var elem = this.startTieElem[index];
-            this.unSelectNote( elem, this.timecount);
-            this.endNote(index, elem, this.timecount);
-        }
-        this.startTieElem = {};
+        this.startNote(midipitch, endElem, this.timecount);
+        this.endNote(midipitch, endElem, this.timecount + mididuration);
     }
+ };
+ 
+DIATONIC.midi.Parse.prototype.clearTies = function() {
+    for (var index in this.startTieElem) {
+        var startElem = this.startTieElem[index];
+        this.unSelectNote(startElem, this.timecount);
+        this.endNote(index, startElem, this.timecount);
+    }
+    this.startTieElem = {};
 };
 
 DIATONIC.midi.Parse.prototype.handleBar = function(elem) {
@@ -234,8 +233,9 @@ DIATONIC.midi.Parse.prototype.handleBar = function(elem) {
     } else {
 
         if (skip || repeat) {
+            this.clearTies();
             if (this.visited[this.lastmark] === true) {
-                this.endTies();
+                //this.clearTies();
                 this.setJumpMark(this.getMark());
             }
         }
@@ -246,7 +246,7 @@ DIATONIC.midi.Parse.prototype.handleBar = function(elem) {
 
         if (repeat) {
             next = this.restart;
-            this.endTies();
+            //this.clearTies();
             this.setJumpMark(this.getMark());
         }
     }
@@ -348,9 +348,10 @@ DIATONIC.midi.Parse.prototype.setChannel = function(number) {
     this.channel = number;
 };
 
-DIATONIC.midi.Parse.prototype.startNote = function(pitch, loudness, abcelem, startTime) {
+DIATONIC.midi.Parse.prototype.startNote = function(pitch, abcelem, startTime) {
     this.syncPlayList(startTime);
     var self = this;
+    var loudness = self.loudness;
     var channel = self.channel;
     var printer = self.midiTune.printer;
     var b;
@@ -440,7 +441,11 @@ DIATONIC.midi.Parse.prototype.extractOctave = function(pitch) {
 
 DIATONIC.midi.Parse.prototype.setScrolling = function(y, channel) {
     if( !this.map.tuneContainerDiv || channel > 0 ) return;
-    if( Math.abs(y - this.map.ypos) > 200 ) {
+//    if( Math.abs(y - this.map.ypos) > 200 ) {
+//        this.map.ypos = y;
+//        this.map.tuneContainerDiv.scrollTop = this.map.ypos - 60;    
+//    }
+    if( y !== this.map.ypos ) {
         this.map.ypos = y;
         this.map.tuneContainerDiv.scrollTop = this.map.ypos - 60;    
     }
