@@ -1,6 +1,6 @@
 ﻿X:1009
 %%barnumbers 1
-%%papersize a4
+%%papersize legal
 T:Asa Branca
 C:Luiz Gonzaga e Humberto Teixeira
 N:Transcrito por Flávio
@@ -22,7 +22,12 @@ w:Eu per-gun-tei, ai, a Deus do céu, ai
 [V:1]| z F E D                 | D2 E2                   | z D D C                 |1 C4-                       :|
 w:Por que ta-ma-nha ju-di-a-ção
 [V:2]| F,,3/2 [F,A,C]/2 F,, [F,A,C] | G,,3/2 [G,B,D]/2 G,, [G,B,D] | G,,3/2 [G,B,D]/2 G,, [G,B,D] |1 C,,3/2 [C,E,G,]/2 C,, [C,E,G,] :|
-[V:1]|: -C2  _B G                 | AFGE                       | FDEC                    | DCA,C                   :| C4                         |]
+[V:1]|: -C2  c G                 | AFGE                       | FDEC                    | DCA,C                   :| C4                         |]
 [V:2]|:  C,,3/2 [C,E,G,]/2 C,, [C,E,G,] | A,,3/2 [A,,C,E,]/2 A,, [A,,C,E,]  | F,,3/2 [F,A,C]/2 F,, [F,A,C] | G,,3/2 [G,B,D]/2 G,, [G,B,D] :|  C,,3/2 [C,E,G,]/2 C,, [C,E,G,] |]
 V:3
 K:accordionTab
+| z+z2 z+3' z+5 | C+4'1.5 c+>0.5 C+5' c+> | C+5'1.5 c+>0.5 C+4' c+> | F-4'1.5 f->0.5 F-4' f-> |
+| F-z1.5 f-z0.5 F-4 f-3' | C+4'1.5 c+>0.5 C+5' c+> | G-5'1.5 g->0.5 G-4' g-> | C+4'1.5 c+>0.5 C+> c+> |
+|: C+z >+3'0.5 c+>0.5 C+3' c+5 | C+4'1.5 c+>0.5 C+5' c+> | A-z >-5'0.5 a->0.5 A-4' a-5 | F-41.5 f->0.5 F-4' f-> |
+| F-z >-4'0.5 f->0.5 F-5 f-3' | G-3'1.5 g->0.5 G-5 g-> | G-z >-3'0.5 g->0.5 G-3' g-4 |1 C+3'1.5 c+>0.5 C+> c+> :|
+|: C+3'1.5 c+>0.5 C+6' c+5' | A-7 >-4'0.5 a->0.5 A-5' a-5 | F-4' >-3'0.5 f->0.5 F-4 f-5 | G-3' >-40.5 g->0.5 G-3 g-4 :| C+3'1.5 c+>0.5 C+> c+> |]
