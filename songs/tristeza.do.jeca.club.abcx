@@ -1,0 +1,20 @@
+﻿X:1011
+%%barnumbers 1
+%%papersize A4
+%%landscape
+T:Tristeza do Jeca 
+C:Angelino de Oliveira
+N:Transcrito por Flávio (versão Club)
+R:Baião
+K:C
+L:1/8
+M:2/4
+Q:60
+V:1 clef=treble melodia
+V:2 clef=bass baixo
+[V:1]| z [CG] z [CG] | z [DG] z [DG] |  z [CG] z [CG] | z [DG] z [DG] || [GB]3 [GB] |
+[V:2]| C,,3/2[C,/2E,/2G,/2] C,,[C,E,G,] | G,,3/2[G,/2B,/2D/2] G,,[G,B,D] |  C,,3/2[C,/2E,/2G,/2] C,,[C,E,G,] | G,,3/2[G,/2B,/2D/2] G,,[G,B,D] || C,,3/2[C,/2E,/2G,/2] C,,[C,E,G,] |
+[V:1]| [Ac][Ac] [GB][FA] | [EG][EG] [EG][DF] | [FA][FA] [FA][EG] | [CG]4- | [CG]4 |
+[V:2]| G,,3/2[G,/2B,/2D/2] G,,[G,B,D] | C,,3/2[C,/2E,/2G,/2] C,,[C,E,G,] | G,,3/2[G,/2B,/2D/2] G,,[G,B,D] | C,,3/2[C,/2E,/2G,/2] C,,[C,E,G,] | G,,3/2[G,/2B,/2D/2] G,,[G,B,D] |
+V:3
+K:accordionTab
