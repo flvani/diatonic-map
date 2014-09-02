@@ -1,0 +1,33 @@
+﻿X:1011
+%%barnumbers 1
+%%papersize A4
+%%landscape
+T:Tristeza do Jeca 
+C:Angelino de Oliveira
+N:Transcrito por Flávio
+R:Baião
+K:G
+L:1/8
+M:2/4
+Q:60
+V:1 clef=treble melodia
+V:2 clef=bass baixo
+[V:1]| z [G,D] z [G,D] | z [A,D] z [A,D] |  z [G,D] z [G,D] | z [A,D] z [A,D]
+[V:2]| G,,3/2[G,/2B,/2D/2] G,,[G,B,D] | D,,3/2[D,/2F,/2A,/2] D,,[D,F,A,] |  G,,3/2[G,/2B,/2D/2] G,,[G,B,D] | D,,3/2[D,/2F,/2A,/2] D,,[D,F,A,]
+[V:1]|: "G"[Bd]3 [Bd] | "C"[ce]3/2[c/2e/2] [Bd][Ac] | "G"[GB]3/2[G/2B/2] [GB][FA] | "D7"[Ac]3/2[A/2c/2] [Ac][GB] | "G"[Bd]3 z :|  
+w:Nes-tes ver-sos tão sin-ge-los, mi-nha be-la, meu a-mor
+w:Pra vo-cê que-ro con-tar, o meu so-frer, a mi-nha dor
+[V:2]|: G,,3/2[G,/2B,/2D/2] G,,[G,B,D] | C,,3/2[C,/2E,/2G,/2] C,,[A,,C,E,]  |  G,,3/2[G,/2B,/2D/2] G,,[G,B,D] | D,,3/2[D,/2F,/2A,/2] D,,[D,F,A,] | G,,3/2[G,/2B,/2D/2] G,,[G,B,D] :|
+[V:1]| "C"c3 d | e3/2e/2 dc | "G"B2 Bc | "E7"d3/2d/2 cB | "Am"BA  cc | "D7"BB AA |
+w:Sou i-gual ao sa-bi-á Quan-do can-ta é~só tris-te-za Des-de~o ga-lho on-d'ele
+[V:2]| C,,3/2[C,/2E,/2G,/2] C,,[C,E,G,] | C,,3/2[C,/2E,/2G,/2] C,,[C,E,G,] | G,,3/2[G,/2B,/2D/2] G,,[G,B,D] | E,,3/2[E,/2^G,/2B,/2] E,,[E,G,B,]| A,,3/2[A,/2C/2E/2] A,,[A,CE] | D,,3/2[D,/2F,/2A,/2] D,,[D,F,A,] |
+[V:1]| "G"G3 z |: "D7"[FA]3 [GB] | [Ac]3/2[A/2c/2] [ce][ce] | [Bd]3/2[B/2d/2] [Ac][Ac] | "G"[GB]2 [GB]2- | [GB]2 z2 :|
+w: está. Nes-ta viola, eu can-to~e ge-mo de ver-da-de
+w:~. Ca-da toa-da re-pre-sen-ta uma sau-da-de
+[V:2]| G,,3/2[G,/2B,/2D/2] G,,[G,B,D] |: D,,3/2[D,/2F,/2A,/2] D,,[D,F,A,] | D,,3/2[D,/2F,/2A,/2] D,,[D,F,A,] | D,,3/2[D,/2F,/2A,/2] D,,[D,F,A,] | G,,3/2[G,/2B,/2D/2] G,,[G,B,D] | G,,3/2[G,/2B,/2D/2] G,,[G,B,D] :|
+V:3
+K:accordionTab
+| G+z >+[2'5]0.5 g+[>>]0.5 G+z g+[35] | D-z >-[33']0.5 d-[>>]0.5 D-z d-[33'] | G+z >+[35]0.5 g+[>>]0.5 G+z g+[35] | D-z >-[33']0.5 d-[>>]0.5 D-z d-[33']
+|: G+[78]1.5 g+[>>]0.5 G+[>>] g+[78] | C+[6'7']1.5 c+[6'7']0.5 C+[78] a-[78] | G-[5'6']1.5 g-[5'6']0.5 G-[5'6'] g-[67] | D-[78]1.5 d-[78]0.5 D-[78] d-[5'6'] | G+[78]1.5 g+[>>]0.5 G+[>>] g+z :|
+| C+6'1.5 c+>0.5 C+> c+8 | C+7'1.5 c+7'0.5 C+8 c+6' | G-6'1.5 g->0.5 G-6' g-8 | E+81.5 e+80.5 E+6' e+7 | A-6' >-70.5 a->0.5 A-8 a-8 | D-6' >-6'0.5 d->0.5 D-7 d-7 |
+| G+5'1.5 g+>0.5 G+> g+z |: D-[67]1.5 d-[>>]0.5 D-[>>] d-[5'6'] | D-[78]1.5 d-[78]0.5 D-[89] d-[89] | D-[6'7']1.5 d-[6'7']0.5 D-[78] d-[78] | G+[67]1.5 g+[>>]0.5 G+[67] g+[>>] | G+[>>]1.5 g+[>>]0.5 G+z g+z :|

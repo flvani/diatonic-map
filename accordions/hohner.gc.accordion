@@ -22,13 +22,14 @@
     }
   ,"songPathList":
     [
-       "songs/mercedita.abcx"
-      ,"songs/asa.branca.abcx"
-      ,"songs/primeira.valsinha.abcx"
-      ,"songs/hino.do.gremio.abcx"
-      ,"songs/valsa.sertaneja.abcx"
+       "songs/asa.branca.abcx"
       ,"songs/canto.alegretense.abcx"
+      ,"songs/hino.do.gremio.abcx"
+      ,"songs/mercedita.abcx"
       ,"songs/parabens.crioulo.abcx"
+      ,"songs/primeira.valsinha.abcx"
+      ,"songs/tristeza.do.jeca.abcx"
+      ,"songs/valsa.sertaneja.abcx"
       ,"songs/xote.laranjeira.abcx"
     ]
 ,"practicePathList":

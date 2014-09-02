@@ -22,14 +22,15 @@
     }
   ,"songPathList":
     [
-       "songs/jai.vu.le.loup.club.abcx"
-      ,"songs/maitia.nun.zira.club.abcx"
-      ,"songs/valsa.sertaneja.club.abcx"
+       "songs/alecrim.dourado.club.abcx"
       ,"songs/hino.do.gremio.club.abcx"
-      ,"songs/parabens.crioulo.club.abcx"
-      ,"songs/xote.laranjeira.club.abcx"
-      ,"songs/alecrim.dourado.club.abcx"
+      ,"songs/jai.vu.le.loup.club.abcx"
+      ,"songs/maitia.nun.zira.club.abcx"
       ,"songs/noite.feliz.club.abcx"
+      ,"songs/parabens.crioulo.club.abcx"
+      ,"songs/tristeza.do.jeca.club.abcx"
+      ,"songs/valsa.sertaneja.club.abcx"
+      ,"songs/xote.laranjeira.club.abcx"
     ]
   ,"practicePathList":[]
   ,"chordPathList":[]
