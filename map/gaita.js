@@ -31,6 +31,7 @@ DIATONIC.map.Gaita = function(map, interfaceParams ) {
     
     this.songDiv = document.getElementById(interfaceParams.songDiv);
     this.songSelector = document.getElementById(interfaceParams.songSelector);
+    //this.songSelector2 = document.getElementById(interfaceParams.songSelector2);
 
     this.practiceDiv = document.getElementById(interfaceParams.practiceDiv);
     this.practiceSelector = document.getElementById(interfaceParams.practiceSelector);
@@ -335,33 +336,38 @@ DIATONIC.map.Gaita.prototype.addChangeListenerToPracticeSelector = function(gait
   };
 };
 
-DIATONIC.map.Gaita.prototype.addChangeListenerToSongSelector = function(gaita) {
-    this.songSelector.onchange = function() {
-    FILEMANAGER.saveLocal( 'property.'+gaita.getSelectedAccordion().getId()+'.song.title', this.value );
-    gaita.renderTune( this.value, {}, true );
-    gaita.map.tuneContainerDiv.scrollTop = 0;    
-  };
+//DIATONIC.map.Gaita.prototype.addChangeListenerToSongSelector = function(gaita) {
+//    this.songSelector.onchange = function() {
+//    FILEMANAGER.saveLocal( 'property.'+gaita.getSelectedAccordion().getId()+'.song.title', this.value );
+//    gaita.renderTune( this.value, {}, true );
+//    gaita.map.tuneContainerDiv.scrollTop = 0;    
+//  };
+//};
+
+DIATONIC.map.Gaita.prototype.selectSong = function(i) {
+    var value = this.getSelectedAccordion().songs.sortedIndex[i];
+    FILEMANAGER.saveLocal( 'property.'+this.getSelectedAccordion().getId()+'.song.title', value );
+    document.getElementById("spanSongs").innerHTML = (value.length>43 ? value.substr(0,40) + "..." : value);
+    this.renderTune( value, {}, true );
+    this.map.tuneContainerDiv.scrollTop = 0;    
 };
 
 DIATONIC.map.Gaita.prototype.loadSongList = function(tt) {
     
-    while( this.songSelector.options.length > 0 ) {
-        this.songSelector.remove(0);
-    }            
-    
+    $('#ulSongs').empty();
+
     var items = this.getSelectedAccordion().songs.sortedIndex;
     for( var i = 0; i < items.length; i++) {
+        
         var title = items[i];
-        var opt = document.createElement('option');
-        opt.innerHTML = (title.length>43 ? title.substr(0,40) + "..." : title);
-        opt.value = title;
-        this.songSelector.appendChild(opt);
         if(title === tt) {
-            this.songSelector.value = tt;
+            document.getElementById("spanSongs").innerHTML = (title.length>43 ? title.substr(0,40) + "..." : title);
         }    
+        
+        $('#ulSongs').append('<li ><a href="#" id="song' +
+            i  +'" onclick="showSong(\''+ i +'\')">' + (title.length>43 ? title.substr(0,40) + "..." : title)  + '</a></li>');
+        
     }   
-    this.addChangeListenerToSongSelector(this);
-    
 };
 
 DIATONIC.map.Gaita.prototype.loadPracticeList = function(tt) {

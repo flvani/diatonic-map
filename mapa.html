@@ -147,47 +147,61 @@ notação abc, tablatura "/>
             </table>
       </div>
       
-      <div id="div_detalhes" style="float:left; margin-top:6px; margin-left:0px; width:100%;"> 
-        <ul id="tabs">
+      <div id="div_detalhes" style="float:left; margin-top:6px; margin-left:0px; width:100%"> 
+        <div id="div1" style="float:left;  margin-right:0px;" >
+          <ul id="tabs">
             <li><a href="#" id="tabTunes">Músicas</a></li>        
             <li><a href="#" id="tabChords">Acordes</a></li>
             <li><a href="#" id="tabPractices">Exercícios</a></li>
-            <li style="margin-left: 10px">
-                <div id="divPlayerControls">
-                  <div id="divSelectPlayControls" style="display: inline; float:left; margin-right: 2px;">
-                    <select id="selSongs" style="width: 20em;" ></select>
-                    <select id="selChords" style="width: 20em; ; display:none;" ></select>
-                    <select id="selPractices" style="width: 20em; display:none;" ></select>
-                    <button id="modeBtn" class="btn" title="Modo normal" onclick=""><img src="img/listening3.png" alt="" width="20" height="20"></button>
-                  </div>
-                  <div id="divNormalPlayControls" style="display: inline; float:left; margin-right: 2px;">
-                    <button id="playBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
-                    <button id="stopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
-                    <button id="toolsBtn" class="btn" title="Ferramentas" onclick=""><i class="icon-wrench"></i>&nbsp;Ferramentas</button>
-                  </div>
-                  <div id="divDidacticPlayControls" style="display: none; float:left; margin-right: 2px;" >
-                    <input id="gotoMeasureBtn" title="Ir para o compasso" type="text" value="Ir para..." onclick="" style="width: 4em; height:22px; padding: 0; margin: 0;">
-                    <button id="stepBtn" class="btn" title="Passo a passo" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
-                    <button id="stepMeasureBtn" class="btn" title="Executar compasso" onclick="">&nbsp;<i class="icon-forward"></i>&nbsp;</button>
-                    <button id="repeatBtn" class="btn" title="Repetir compasso" onclick="">&nbsp;<i class="icon-repeat"></i>&nbsp;</button>
-                    <button id="clearBtn" class="btn" title="Limpar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
-                    <button id="tempoBtn" class="btn" title="Andamento" onclick=""><b>&nbsp;1&nbsp;</b></button>
-                  </div>
-                  <div style="float:left; margin-right: 2px;" >
-                    <button id="printBtn" class="btn" title="Imprimir" onclick=""><i class="icon-print"></i>&nbsp;Imprimir</button>
-                    <button id="pdfBtn" class="btn" title="Salvar em PDF" onclick="" style="display: none;">PDF</button>
-                  </div>
-                </div>  
-            </li>
-        </ul>
+            <li><!-- apenas para ajustar o espaço --></li>
+          </ul>
+        </div>    
+        <div id="div2" style="float:left; margin-left:5px; display:inline;" >
+            <div id="divPlayerControls" style="position: absolute" >
+              <div id="divSelectPlayControls" style="float:left; margin-right: 2px;">
+                <div class="btn-group"  id="divSongs" style="display: inline;">
+                    <button id="btnSongs" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left; margin-right: 2px;"><span id="spanSongs">...</span>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                    <ul class="dropdown-menu" id="ulSongs" style="text-align: left; margin-left: 5px; margin-top: 12px"></ul>
+                </div>
+                <div class="btn-group" id="divPractices" style="display: none;">
+                    <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="btnPractices">Practices</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                    <ul class="dropdown-menu" id="opcoes_practices"></ul>
+                </div>
+                <div class="btn-group" id="divChords" style="display: none;">
+                    <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="btnChords">Practices</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                    <ul class="dropdown-menu" id="opcoes_chords"></ul>
+                </div>
+                <select id="selSongs" style="width: 20em; display:none" ></select>
+                <select id="selChords" style="width: 20em; display:none;" ></select>
+                <select id="selPractices" style="width: 20em; display:none;" ></select>
+                <button id="modeBtn" class="btn" title="Modo normal" onclick=""><img src="img/listening3.png" alt="" width="20" height="20"></button>
+              </div>
+              <div id="divNormalPlayControls" style="display: inline; float:left; margin-right: 2px;">
+                <button id="playBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
+                <button id="stopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
+                <button id="toolsBtn" class="btn" title="Ferramentas" onclick=""><i class="icon-wrench"></i>&nbsp;Ferramentas</button>
+              </div>
+              <div id="divDidacticPlayControls" style="display: none; float:left; margin-right: 2px;" >
+                <input id="gotoMeasureBtn" title="Ir para o compasso" type="text" value="Ir para..." onclick="" style="width: 4em; height:22px; padding: 0; margin: 0;">
+                <button id="stepBtn" class="btn" title="Passo a passo" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
+                <button id="stepMeasureBtn" class="btn" title="Executar compasso" onclick="">&nbsp;<i class="icon-forward"></i>&nbsp;</button>
+                <button id="repeatBtn" class="btn" title="Repetir compasso" onclick="">&nbsp;<i class="icon-repeat"></i>&nbsp;</button>
+                <button id="clearBtn" class="btn" title="Limpar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
+                <button id="tempoBtn" class="btn" title="Andamento" onclick=""><b>&nbsp;1&nbsp;</b></button>
+              </div>
+              <div style="float:left; margin-right: 2px;" >
+                <button id="printBtn" class="btn" title="Imprimir" onclick=""><i class="icon-print"></i>&nbsp;Imprimir</button>
+                <button id="pdfBtn" class="btn" title="Salvar em PDF" onclick="" style="display: none;">PDF</button>
+              </div>
+            </div>  
+        </div>  
         <div id= "tuneContainerDiv" style="float:left; margin-top:0px; margin-left:0px; margin-bottom: 6px; 
                                             width:100%; height: 330px; overflow-y: scroll;" > 
             <div id="tabTunesDiv"></div>    
             <div id="tabChordsDiv" ></div>
             <div id="tabPracticesDiv" ></div>
         </div>
-      </div>
-
+      </div> <!-- /div_detalhes --> 
     </div> <!-- /container -->
 
     <div id="editControlDiv" style=" background-color: #5ba4a4; display:none; margin:0px; width:100%; top: 50px; position: fixed; z-index: 1000;">  
@@ -352,7 +366,8 @@ notação abc, tablatura "/>
               }
               , {   // accordionParams
                     keyboardContentDiv: 'contentKeyboard'
-                  , songSelector: 'selSongs'
+//                  , songSelector: 'selSongs'
+                  , songSelector: 'divSongs'
                   , songDiv: 'tabTunesDiv'
                   , chordSelector: 'selChords'
                   , chordDiv: 'tabChordsDiv'
@@ -491,6 +506,10 @@ notação abc, tablatura "/>
         
         function setupGaita(value) {
             myMap.gaita.setup({accordionId:value});
+        };
+
+        function showSong(i) {
+            myMap.gaita.selectSong(i);
         };
 
         function loadMap(evt) {
