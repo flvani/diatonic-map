@@ -1,0 +1,16 @@
+X:1012
+%%barnumbers 1
+%%papersize legal
+T:Vanera Grossa teste
+M:2/4
+L:1/16
+Q:80
+K:G
+V:1 treble
+V:2 bass
+[V:1]| D2(FD [DF]2)[CE]2          |
+[V:2]| D,,3z z2[D,F,A,]2 |
+%[V:1]| D2(FD [DF]2)[CE]2          | B,2(DB, [B,D]2)[A,C]2      | G,2(EC [CE]2)[B,D]2      | G,2(EC [CE]2)[B,D]2      |
+%[V:2]| D,,3[D,F,A,] D,,2[D,F,A,]2 | D,,3[D,F,A,] D,,2[D,F,A,]2 | G,,3[G,B,D] G,,2[G,B,D]2 | G,,3[G,B,D] G,,2[G,B,D]2 |
+V:3
+K:accordionTab

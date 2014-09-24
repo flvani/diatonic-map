@@ -170,10 +170,10 @@ DIATONIC.midi.Parse.prototype.writeNote = function(elem) {
                 midipitch += this.accidentals[this.extractNote(pitch)];
             }
             
-            if (note.startTie) {
+            if (note.startTie || note.startSlur || elem.startSlur) {
                 this.startNote(midipitch, elem, this.timecount);
                 this.startTieElem[midipitch] = elem;
-            } else if (note.endTie) {
+            } else if (note.endTie || note.endSlur || elem.endSlur ) {
                 this.endTies( midipitch, mididuration, elem );
             } else {
                 this.startNote(midipitch, elem, this.timecount);
@@ -235,7 +235,6 @@ DIATONIC.midi.Parse.prototype.handleBar = function(elem) {
         if (skip || repeat) {
             this.clearTies();
             if (this.visited[this.lastmark] === true) {
-                //this.clearTies();
                 this.setJumpMark(this.getMark());
             }
         }
@@ -246,7 +245,6 @@ DIATONIC.midi.Parse.prototype.handleBar = function(elem) {
 
         if (repeat) {
             next = this.restart;
-            //this.clearTies();
             this.setJumpMark(this.getMark());
         }
     }
@@ -575,7 +573,7 @@ DIATONIC.midi.Parse.prototype.selectButtons = function(elem) {
                     this.lastTabElem[i] = button;
                 }
             } else {
-                if (elem.inTieTreb) {
+                if (elem.inTieTreb || elem.pitches[i].slur > 1 ) {
                     button = this.lastTabElem[i];
                 } else {
                     button = this.getButton(elem.pitches[i].c);
