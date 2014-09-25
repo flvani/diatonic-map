@@ -573,7 +573,7 @@ DIATONIC.midi.Parse.prototype.selectButtons = function(elem) {
                     this.lastTabElem[i] = button;
                 }
             } else {
-                if (elem.inTieTreb || elem.pitches[i].slur > 1 ) {
+                if (elem.inTieTreb || ( elem.pitches[i].slur && elem.pitches[i].slur > 1 ) ) {
                     button = this.lastTabElem[i];
                 } else {
                     button = this.getButton(elem.pitches[i].c);
