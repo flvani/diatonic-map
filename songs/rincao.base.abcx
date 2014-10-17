@@ -9,49 +9,16 @@ K:G
 | fd'fc' ff'fe' | e'd'c'd' b'2[a'c']2 | [bg']2g'b' g'b'g'b' | g'b'd'g' bd'gb | [dD]2FA d2c2- | cDFA d4- | dDGB d4- | 
 | dDGB d4- | dDGB d2c2- | cDFA d2c2 | B2[dg]2 z Bcd || [db]2[ec']2[db]2d'2-| d'DFA d2c2- |cDFA d2c2- | 
 | cDGB d4- | dDGB d4- | dDGB d2c2- | cDFA d2c2 | B2[dg]2 z Bcd |: [db]2[ec']2[db]2d'2 | [(d'2A2]c2A2c2 |
-| [(d')2d2]c2B2A2 | [(d')2G2]d2B2c2 | [(d')2d2]c2B2A2 | [(d')2A2]c2A2c2 |[d')2d2]c2B2A2 |1 B2[Bdg]2 z Bcd :|2 B2[Bdg]2 z d'bg |
+| [d')2d2]c2B2A2 | [(d'2G2]d2B2c2 | [d')2d2]c2B2A2 | [(d'2A2]c2A2c2 |[d')2d2]c2B2A2 |1 B2[Bdg]2 z Bcd :|2 B2[Bdg]2 z d'bg |
+| [db]2[ec']2[db]2d'2 |
 
-ed cB [d'A]c Ac | 
-dc BA G[g32d32B32][cB]d | 
-[bd][c'e] [db]d' [d'A]c Ac | 
-dc BA [d'G]d Bd | 
-ed cB [d'A]c Ac | 
-dc BA G[g32d32B32][dB]G | 
-
-e'gd' e'gd' ffc' ffe' | 
-ffc' f'fe' e'gd' gb'gg' | 
-ge'gd' e'gd' fd'fc' f'fe' | 
-[d'f][c'f] b[ac'] [bg]g'b' g'b'g'b' | 
-b'd'g' bd'gb ffc' ff'fe' | 
-ffc' ff'fe' e'gd' gb'gg' | 
-ge'gd' e'gd' fd'fc' ff'fe' | 
-e'd'd' b'a'c' bg'b' g'g'b' | 
-b'd'g' d'gb [dD]A dc | 
-zDA d2 zDB d2 | 
-zDGB d2 zDFA dc | 
-zDA dc B[d32g32][cB]d | 
-[db][c'e] [db]d' [d'A]c AAcc | 
-dcc BBAA [d'G]d BBdd | 
-eed cBB [d'A]c AAcc | 
-dc BA G[g32d32B32][cB]d | 
-[db][c'e] [bd]d' [d'A]c Ac | 
-dc BA [d'G]d Bd | 
-ed cB [d'A]c Ac | 
-dc BA G[g32d32B32]c'34b34 | 
-[gb][d'g] [bg][bg] [d'af][fc'] [f'af][ge'] | 
-[fa][c'f] [fa][e'f] [bg][d'g] [bd'g][g'g] | 
-[gb][gd'] [ge'][d'bg] [af][fc'] [f'af][e'g] | 
-d'38e'4d'38c'd' d'[a'=c'] [g'b]g'b' g'b'g'b' | 
-b'd'g' bd'gb ffc' ff'fe' | 
-ffc' ff'fe' e'gd' gb'gg' | 
-ge'gd' e'gd' fd'fc' ff'fe' | 
-[e'd']d'd' b'a'c' bg'b' g'g'b' | 
-b'd'g' d'gb [dD]A dc | 
-zDA dc32DB d2 | 
-zDGB d2 zDFA dc | 
-zDA dc B[g32d32][cB]d | 
-[db][c'e] [bd]d' [d'A]c Ac | 
-dc BA [d'G]d Bd | 
-ed cB [d'A]c Ac | 
-dc BA G[g32B32d32][cB]d | 
-[bd][ec'] [g6B6d6] | 
+ed cB [d'A]c Ac | dc BA G[g32d32B32][cB]d | [bd][c'e] [db]d' [d'A]c Ac | dc BA [d'G]d Bd | ed cB [d'A]c Ac | dc BA G[g32d32B32][dB]G | 
+e'gd' e'gd' | ffc' ffe' | ffc' f'fe' | e'gd' gb'gg' | ge'gd' e'gd'| fd'fc' f'fe' | [d'f][c'f] b[ac'] | [bg]g'b' g'b'g'b' | 
+b'd'g' bd'gb ffc' ff'fe' | ffc' ff'fe' e'gd' gb'gg' | ge'gd' e'gd' fd'fc' ff'fe' | e'd'd' b'a'c' bg'b' g'g'b' | 
+b'd'g' d'gb [dD]A dc | zDA d2 zDB d2 | zDGB d2 zDFA dc | zDA dc B[d32g32][cB]d | [db][c'e] [db]d' [d'A]c AAcc | 
+dcc BBAA [d'G]d BBdd | eed cBB [d'A]c AAcc | dc BA G[g32d32B32][cB]d | [db][c'e] [bd]d' [d'A]c Ac | dc BA [d'G]d Bd | 
+ed cB [d'A]c Ac | dc BA G[g32d32B32]c'34b34 | [gb][d'g] [bg][bg] [d'af][fc'] [f'af][ge'] | [fa][c'f] [fa][e'f] [bg][d'g] [bd'g][g'g] | 
+[gb][gd'] [ge'][d'bg] [af][fc'] [f'af][e'g] | d'38e'4d'38c'd' d'[a'=c'] [g'b]g'b' g'b'g'b' | b'd'g' bd'gb ffc' ff'fe' | 
+ffc' ff'fe' e'gd' gb'gg' | ge'gd' e'gd' fd'fc' ff'fe' | [e'd']d'd' b'a'c' bg'b' g'g'b' | b'd'g' d'gb [dD]A dc | 
+zDA dc32DB d2 | zDGB d2 zDFA dc | zDA dc B[g32d32][cB]d | [db][c'e] [bd]d' [d'A]c Ac | dc BA [d'G]d Bd | ed cB [d'A]c Ac | 
+dc BA G[g32B32d32][cB]d | [bd][ec'] [g6B6d6] | 

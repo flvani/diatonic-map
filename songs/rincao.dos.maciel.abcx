@@ -1,12 +1,23 @@
-X:1
-T:Ricao dos maciel
+﻿X:1
+%%papersize A4
+%%barnumbers 0
+T:Rincão dos Maciel
+C:Reduzino Malaquias
 L:1/16
-Q:200
+Q:80
 M:2/4
+V:1 treble
 K:G
-| [d'bg]4 zd'bg |: ge'gd' ge'gd' | fc'fc' ff'fe' | fc'fc' ff'fe' | ge'gd' gb'gg' | ge'gd' ge'gd' | fd'fc' ff'fe' | 
-|[d'f]2[c'f]2 b2[ac']2 | [bg]2  g'b' g'b'g'b' | g'b'd'g' bd'gb | fd'fc' ff'fe' | fd'fc' ff'fe'| ge'gd' gb'gg' | ge'gd' e'gd' |
-| fd'fc' ff'fe' | e'd'c'd' b'2[a'c']2 | [bg']2g'b' g'b'g'b' | g'b'd'g' bd'gb | [dD]2FA d2c2- | cDFA d4- | dDGB d4- | 
-| dDGB d4- | dDGB d2c2- | cDFA d2c2 | B2[dg]2 z Bcd || [db]2[ec']2[db]2d'2-| d'DFA d2c2- |cDFA d2c2- | 
-| cDGB d4- | dDGB d4- | dDGB d2c2- | cDFA d2c2 | B2[dg]2 z Bcd |: [db]2[ec']2[db]2d'2 | [(d'2A2]c2A2c2 |
-| [(d')2d2]c2B2A2 | [(d')2G2]d2B2c2 | [(d')2d2]c2B2A2 | [(d')2A2]c2A2c2 |[d')2d2]c2B2A2 |1 B2[Bdg]2 z Bcd :|2 B2[Bdg]2 z d'bg |
+| [dBG]4 zdBG |: GeGd GeGd | FcFc FfFe | FcFc FfFe | GeGd GbGg | GeGd GeGd | FdFc FfFe | 
+|[dF]2[cF]2 B2[Ac]2 | [BG]2  gb gbgb | gbdg BdGB | FdFc FfFe | FdFc FfFe| GeGd GbGg | GeGd eGd |
+| FdFc FfFe | edcd b2[ac]2 | [Bg]2gb gbgb | gbdg BdGB | [DD,]2F,A, D2C2- | CD,F,A, D4- | DD,G,B, D4- | 
+| DD,G,B, D4- | DD,G,B, D2C2- | CD,F,A, D2C2 | B,2[DG]2 z B,CD || [DB]2[Ec]2[DB]2d2-| dD,F,A, D2C2- |CD,F,A, D2C2- | 
+| CD,G,B, D4- | DD,G,B, D4- | DD,G,B, D2C2- | CD,F,A, D2C2 | B,2[DG]2 z B,CD |: [DB]2[Ec]2[DB]2d2 | [(d2A,2]C2A,2C2 |
+| [d)2D2]C2B,2A,2 | [(d2G,2]D2B,2C2 | [d)2D2]C2B,2A,2 | [(d2A,2]C2A,2C2 |[d)2D2]C2B,2A,2 |1 B,2[B,DG]2 z B,CD :|2 B,2[B,DG]2 z dBG ||
+| [DB]2[Ec]2[DB]2d2 |[(dA,]2C2 A,A,CC | [d)D]2CC  B,B,A,A, | [(dG,]D B,B,DD | [d)E]ED2 C2B,B, |[(dA,]C A,A,CC | [d)D]2C2B,2A,2  | 
+| B,2[DG]2 z B,CD | [DB]2[Ec]2[DB]2d2 | [(d2A,2]C2A,2C2 | [d)2D2]C2B,2A,2 | [(d2G,2]D2B,2C2 | [d)2D2]C2B,2A,2 | [(d2A,2]C2A,2C2 |
+|[d)2D2]C2B,2A,2 |  B,2[B,DG]2 z gdB | [GBe]2[GBd]2[GBe]2[GBd]2| [FAd]2[Fc]2[FAf]2[Gce]2 | [FAd]2[Fc]2[FAf]2[Gce]2 | [GBe]2[Gd]2[GBd]2[Gdg]2| [GBe]2[GBd]2[GBe]2[GBd]2|
+|[FAd]2[Fc]2[FAf]2[Ge]2 |ded2^cd [db]2[=ca]2 | [Bg]2gb gbgb | gbdg BdGB | FdFc FfFe| FdFc FfFe| GeGd GbGg|
+| GeGd GeGd |  FdFc FfFe| [de]dcd b2[cg]2 | [Bg]2gb gbgb | gbdg BdGB | [DD,]2F,A, D2C2- | CD,F,A, D2C2- |
+| CD,G,B, D4- | DD,G,B, D4- | DD,G,B, D2C2- | CD,F,A, D2C2 | B,2[DG]2 z B,CD | [DB]2[Ec]2[DB]2d2 | [(d2A,2]C2A,2C2 |
+| [d)2D2]C2B,2A,2 | [(d2G,2]D2B,2C2 | [d)2D2]C2B,2A,2 | [(d2A,2]C2A,2C2 |[d)2D2]C2B,2A,2 | B,2[B,DG]2 z B,CD | [DB]2[Ec]2[DGB]2 z2 ||
