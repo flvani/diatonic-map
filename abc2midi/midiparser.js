@@ -599,14 +599,14 @@ DIATONIC.midi.Parse.prototype.selectButtons = function(elem) {
             if (elem.pitches[i].type === "rest")
                 continue;
             if (elem.pitches[i].bass) {
-                if (elem.inTieBass) {
+                if (/*elem.inTieBass ||*/ elem.pitches[i].c === '-->') {
                     button = this.lastTabElem[i];
                 } else {
                     button = this.getBassButton(elem.bellows, elem.pitches[i].c);
                     this.lastTabElem[i] = button;
                 }
             } else {
-                if (elem.inTieTreb || ( elem.pitches[i].c === '--->' /*elem.pitches[i].slur && elem.pitches[i].slur > 1*/ ) ) {
+                if (/*elem.inTieTreb ||*/ ( elem.pitches[i].c === '-->' /*elem.pitches[i].slur && elem.pitches[i].slur > 1*/ ) ) {
                     button = this.lastTabElem[i];
                 } else {
                     button = this.getButton(elem.pitches[i].c);
