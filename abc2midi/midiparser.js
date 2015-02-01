@@ -68,11 +68,12 @@ DIATONIC.midi.Parse.prototype.parseTabSong = function(tune, printer) {
     this.qpm = bpm * duration * 16;
     this.setTempo(this.qpm);
 
-    this.staffcount = 1; // we'll know the actual number once we enter the code
+    var channel = -1;
+    this.staffcount = 1; 
     for (this.staff = 0; this.staff < this.staffcount; this.staff++) {
         this.voicecount = 1;
         for (this.voice = 0; this.voice < this.voicecount; this.voice++) {
-            this.setChannel(this.staff);
+            this.setChannel(++channel);
             this.startTrack();
             this.restart = {line: 0, staff: this.staff, voice: this.voice, pos: 0};
             this.next = null;
@@ -231,10 +232,6 @@ DIATONIC.midi.Parse.prototype.endTies = function(midipitch, mididuration, endEle
                         delete this.startTieElem[pitch];
                     }
                 }
-//                if(s.startSlur) {
-//                    
-//                } else {
-//                }
             }
         }
     }
@@ -472,10 +469,6 @@ DIATONIC.midi.Parse.prototype.extractOctave = function(pitch) {
 
 DIATONIC.midi.Parse.prototype.setScrolling = function(y, channel) {
     if( !this.map.tuneContainerDiv || channel > 0 ) return;
-//    if( Math.abs(y - this.map.ypos) > 200 ) {
-//        this.map.ypos = y;
-//        this.map.tuneContainerDiv.scrollTop = this.map.ypos - 60;    
-//    }
     if( y !== this.map.ypos ) {
         this.map.ypos = y;
         this.map.tuneContainerDiv.scrollTop = this.map.ypos - 60;    
@@ -497,7 +490,7 @@ DIATONIC.midi.Parse.prototype.selectNote = function(abcelem, startTime) {
     var channel = self.channel;
     var printer = self.midiTune.printer;
     var b;
-    if(this.staff === 0 && abcelem.barNumber ) {
+    if(this.staff === 0 && this.voice  === 0 && abcelem.barNumber ) {
         b = abcelem.barNumber;
     }
     
@@ -599,14 +592,14 @@ DIATONIC.midi.Parse.prototype.selectButtons = function(elem) {
             if (elem.pitches[i].type === "rest")
                 continue;
             if (elem.pitches[i].bass) {
-                if (/*elem.inTieBass ||*/ elem.pitches[i].c === '-->') {
+                if (elem.pitches[i].c === '-->') {
                     button = this.lastTabElem[i];
                 } else {
                     button = this.getBassButton(elem.bellows, elem.pitches[i].c);
                     this.lastTabElem[i] = button;
                 }
             } else {
-                if (/*elem.inTieTreb ||*/ ( elem.pitches[i].c === '-->' /*elem.pitches[i].slur && elem.pitches[i].slur > 1*/ ) ) {
+                if ( elem.pitches[i].c === '-->') {
                     button = this.lastTabElem[i];
                 } else {
                     button = this.getButton(elem.pitches[i].c);
