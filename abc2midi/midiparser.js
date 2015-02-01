@@ -289,6 +289,110 @@ DIATONIC.midi.Parse.prototype.handleBar = function(elem) {
 
 };
 
+DIATONIC.midi.Parse.prototype.syncPlayList = function(time) {
+    
+    while (this.midiTune.notes[this.playlistpos] &&
+            this.midiTune.notes[this.playlistpos].time > time) {
+        this.playlistpos--;
+    }
+    
+    while (this.midiTune.notes[this.playlistpos] &&
+            this.midiTune.notes[this.playlistpos].time <= time) {
+        this.playlistpos++;
+    }
+};
+
+DIATONIC.midi.Parse.prototype.startNote = function(pitch, abcelem, startTime) {
+    this.syncPlayList(startTime);
+    var self = this;
+    var loudness = self.loudness;
+    var channel = self.channel;
+    var printer = self.midiTune.printer;
+    var b;
+    if(this.staff === 0 && abcelem.barNumber ) {
+        b = abcelem.barNumber;
+    }
+    
+    this.midiTune.notes.splice(this.playlistpos, 0, {
+         time: startTime
+        ,barNumber : b
+        ,funct: function() {
+            MIDI.noteOn(channel, pitch, loudness, 0);
+            self.notifySelect(abcelem, channel, printer);
+        }
+    });
+};
+
+DIATONIC.midi.Parse.prototype.endNote = function(pitch, abcelem, endTime) {
+    this.syncPlayList(endTime-1);
+    var channel = this.channel;
+    var self = this;
+    this.midiTune.notes.splice(this.playlistpos, 0, {
+        time: endTime,
+        funct: function() {
+            MIDI.noteOff(channel, pitch, 0);
+            self.notifyUnSelect(abcelem);
+        }
+    });
+};
+
+DIATONIC.midi.Parse.prototype.selectNote = function(abcelem, startTime) {
+    this.syncPlayList(startTime);
+    var self = this;
+    var channel = self.channel;
+    var printer = self.midiTune.printer;
+    var b;
+    if(this.staff === 0 && this.voice  === 0 && abcelem.barNumber ) {
+        b = abcelem.barNumber;
+    }
+    
+    this.midiTune.notes.splice(this.playlistpos, 0, {
+        time: startTime
+       ,barNumber : b
+       ,funct: function() {
+            self.notifySelect(abcelem, channel, printer);
+       }
+    });
+};
+DIATONIC.midi.Parse.prototype.unSelectNote = function(abcelem, endTime) {
+    this.syncPlayList(endTime-1);
+    var self = this;
+    //var channel = this.channel;
+    this.midiTune.notes.splice(this.playlistpos, 0, {
+        time: endTime,
+        funct: function() {
+            self.notifyUnSelect(abcelem);
+        }
+    });
+};
+
+DIATONIC.midi.Parse.prototype.selectButton = function( abcelem, button, startTime ) {
+    this.syncPlayList(startTime);
+    var self = this;
+    var channel = self.channel;
+    var printer = self.midiTune.printer;
+    this.midiTune.notes.splice(this.playlistpos, 0, {
+        time: startTime,
+        funct: function() {
+            self.notifySelectButton(abcelem, button);
+            self.notifySelect(abcelem, channel,  printer);
+        }
+    });
+};
+ 
+DIATONIC.midi.Parse.prototype.unSelectButton = function( abcelem, button, endTime ) {
+    this.syncPlayList(endTime-1);
+    var self = this;
+    var channel = this.channel;
+    this.midiTune.notes.splice(this.playlistpos, 0, {
+        time: endTime,
+        funct: function() {
+            self.notifyUnSelectButton(button);
+            self.notifyUnSelect(abcelem, channel);
+        }
+    });
+ };
+
 DIATONIC.midi.Parse.prototype.getMark = function() {
     return {line: this.line, staff: this.staff,
         voice: this.voice, pos: this.pos};
@@ -365,49 +469,8 @@ DIATONIC.midi.Parse.prototype.endTrack = function() {
     // need to do anything?
 };
 
-DIATONIC.midi.Parse.prototype.syncPlayList = function(time) {
-    while (this.midiTune.notes[this.playlistpos] &&
-            this.midiTune.notes[this.playlistpos].time <= time) {
-        this.playlistpos++;
-    }
-};
-
 DIATONIC.midi.Parse.prototype.setChannel = function(number) {
     this.channel = number;
-};
-
-DIATONIC.midi.Parse.prototype.startNote = function(pitch, abcelem, startTime) {
-    this.syncPlayList(startTime);
-    var self = this;
-    var loudness = self.loudness;
-    var channel = self.channel;
-    var printer = self.midiTune.printer;
-    var b;
-    if(this.staff === 0 && abcelem.barNumber ) {
-        b = abcelem.barNumber;
-    }
-    
-    this.midiTune.notes.splice(this.playlistpos, 0, {
-         time: startTime
-        ,barNumber : b
-        ,funct: function() {
-            MIDI.noteOn(channel, pitch, loudness, 0);
-            self.notifySelect(abcelem, channel, printer);
-        }
-    });
-};
-
-DIATONIC.midi.Parse.prototype.endNote = function(pitch, abcelem, endTime) {
-    this.syncPlayList(endTime-1);
-    var channel = this.channel;
-    var self = this;
-    this.midiTune.notes.splice(this.playlistpos, 0, {
-        time: endTime,
-        funct: function() {
-            MIDI.noteOff(channel, pitch, 0);
-            self.notifyUnSelect(abcelem);
-        }
-    });
 };
 
 DIATONIC.midi.Parse.prototype.getAccOffset = function(txtAcc) {
@@ -471,7 +534,7 @@ DIATONIC.midi.Parse.prototype.setScrolling = function(y, channel) {
     if( !this.map.tuneContainerDiv || channel > 0 ) return;
     if( y !== this.map.ypos ) {
         this.map.ypos = y;
-        this.map.tuneContainerDiv.scrollTop = this.map.ypos - 60;    
+        this.map.tuneContainerDiv.scrollTop = this.map.ypos - 40;    
     }
 };
 
@@ -483,64 +546,6 @@ DIATONIC.midi.Parse.prototype.notifySelect = function(abcelem,channel, printer) 
     this.setScrolling(abcelem.abselem.y,channel);
     printer.notifySelect(abcelem.abselem);
 };
-
-DIATONIC.midi.Parse.prototype.selectNote = function(abcelem, startTime) {
-    this.syncPlayList(startTime);
-    var self = this;
-    var channel = self.channel;
-    var printer = self.midiTune.printer;
-    var b;
-    if(this.staff === 0 && this.voice  === 0 && abcelem.barNumber ) {
-        b = abcelem.barNumber;
-    }
-    
-    this.midiTune.notes.splice(this.playlistpos, 0, {
-        time: startTime
-       ,barNumber : b
-       ,funct: function() {
-            self.notifySelect(abcelem, channel, printer);
-       }
-    });
-};
-DIATONIC.midi.Parse.prototype.unSelectNote = function(abcelem, endTime) {
-    this.syncPlayList(endTime-1);
-    var self = this;
-    //var channel = this.channel;
-    this.midiTune.notes.splice(this.playlistpos, 0, {
-        time: endTime,
-        funct: function() {
-            self.notifyUnSelect(abcelem);
-        }
-    });
-};
-
-
-DIATONIC.midi.Parse.prototype.selectButton = function( abcelem, button, startTime ) {
-    this.syncPlayList(startTime);
-    var self = this;
-    var channel = self.channel;
-    var printer = self.midiTune.printer;
-    this.midiTune.notes.splice(this.playlistpos, 0, {
-        time: startTime,
-        funct: function() {
-            self.notifySelectButton(abcelem, button);
-            self.notifySelect(abcelem, channel,  printer);
-        }
-    });
-};
- 
-DIATONIC.midi.Parse.prototype.unSelectButton = function( abcelem, button, endTime ) {
-    this.syncPlayList(endTime-1);
-    var self = this;
-    var channel = this.channel;
-    this.midiTune.notes.splice(this.playlistpos, 0, {
-        time: endTime,
-        funct: function() {
-            self.notifyUnSelectButton(button);
-            self.notifyUnSelect(abcelem, channel);
-        }
-    });
- };
 
 DIATONIC.midi.Parse.prototype.notifyUnSelectButton = function(button) {
     if (button === null) return;
