@@ -561,7 +561,7 @@ DIATONIC.midi.Parse.prototype.notifySelectButton = function(abcelem, button) {
 };
 
 DIATONIC.midi.Parse.prototype.getBassButton = function( bellows, b ) {
-    if(b === '--->') return null;
+    if(b === '-->') return null;
     var kb = this.map.gaita.keyboard;
     var nota = this.map.gaita.parseNote(b, true );
     for( var j = kb.length; j > kb.length - 2; j-- ) {
@@ -592,10 +592,15 @@ DIATONIC.midi.Parse.prototype.selectButtons = function(elem) {
     if (elem.pitches) {
         
         var button;
+        var bassCounter = 0; // gato para resolver o problema de agora ter um ou dois botões de baixos
         for (var i = 0; i < elem.pitches.length; i++) {
-
-            if (elem.pitches[i].type === "rest")
+            
+            if (elem.pitches[i].bass ) 
+                bassCounter++;
+            
+            if (elem.pitches[i].type === "rest") 
                 continue;
+            
             if (elem.pitches[i].bass) {
                 if (elem.pitches[i].c === '-->') {
                     button = this.lastTabElem[i];
@@ -605,10 +610,10 @@ DIATONIC.midi.Parse.prototype.selectButtons = function(elem) {
                 }
             } else {
                 if ( elem.pitches[i].c === '-->') {
-                    button = this.lastTabElem[i];
+                    button = this.lastTabElem[10+i-bassCounter];
                 } else {
                     button = this.getButton(elem.pitches[i].c);
-                    this.lastTabElem[i] = button;
+                    this.lastTabElem[10+i-bassCounter] = button;
                 }
             }
             this.selectButton(elem, button, this.timecount);
