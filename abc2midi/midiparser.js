@@ -4,16 +4,24 @@
  * and open the template in the editor.
  */
 
-if (!window.DIATONIC)
-    window.DIATONIC = {};
-
-if (!window.DIATONIC.midi) 
-    window.DIATONIC.midi = {baseduration: 1920 }; // nice and divisible, equals 1 whole note
 //
 // Porque preciso conhecer o mapa?
 //   - Por que durante a execução, vai afetar elementos de tela:
 //       vai destacar as notas que estão impressas na pauta
 //       vai destacar os botões do acordion caso haja uma tablatura.
+
+/*
+ * TODO:
+ *   - tratar notas longas
+ *   - tratar endings em compassos com repeat bar
+ *   - implementar: segno, coda, capo e fine
+ */
+
+if (!window.DIATONIC)
+    window.DIATONIC = {};
+
+if (!window.DIATONIC.midi) 
+    window.DIATONIC.midi = {baseduration: 1920 }; // nice and divisible, equals 1 whole note
 
 DIATONIC.midi.Parse = function( map, options ) {
     this.map = map;
@@ -208,6 +216,7 @@ DIATONIC.midi.Parse.prototype.writeNote = function(elem) {
 DIATONIC.midi.Parse.prototype.endTies = function(midipitch, mididuration, endElem, slur) {
     var startElem = this.startTieElem[midipitch];
     if (startElem) {
+        this.startNote(midipitch, endElem, this.timecount);
         this.endNote(midipitch, startElem, this.timecount + mididuration);
         this.selectNote(endElem, this.timecount);
         this.unSelectNote(endElem, this.timecount + mididuration);
@@ -254,11 +263,11 @@ DIATONIC.midi.Parse.prototype.handleBar = function(elem) {
     var setvisited = (repeat || skip);
     var setrestart = (elem.type === "bar_left_repeat" || elem.type === "bar_dbl_repeat" || 
                       elem.type === "bar_thick_thin" || elem.type === "bar_thin_thick" || 
-                      elem.type === "bar_thin_thin" || elem.type === "bar_right_repeat");
+                      elem.type === "bar_thin_thin"  /*flavio|| elem.type === "bar_right_repeat"*/);
 
     var next = null;
 
-    if (this.isVisited()) {
+    if (this.isVisited() ) {
         next = this.getJumpMark();
     } else {
 

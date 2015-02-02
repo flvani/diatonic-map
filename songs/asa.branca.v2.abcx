@@ -1,0 +1,18 @@
+﻿X:1009
+%%barnumbers 1
+%%papersize legal
+T:Asa Branca
+C:Luiz Gonzaga e Humberto Teixeira
+N:Transcrito por Flávio
+M:C
+L:1/4
+Q:180
+K:C
+V:1 treble
+%V:2 bass
+%[V:1]|: z D D C |1 C4 :|:2 C2  c G | DCA,C :| C4 |]
+[V:1]|: z D D C |1 C4 :|
+[V:1]|:2 C2  c G | DCA,C :| C4 |]
+%[V:2]|: G,,3/2 [G,B,D]/2 G,, [G,B,D] |1 C,,3/2 [C,E,G,]/2 C,, [C,E,G,] :|
+%[V:2]|:2  C,,3/2 [C,E,G,]/2 C,, [C,E,G,] | G,,3/2 [G,B,D]/2 G,, [G,B,D] :|  C,,3/2 [C,E,G,]/2 C,, [C,E,G,] |]
+%V:3 accordionTab
