@@ -41,14 +41,16 @@ DIATONIC.midi.Parse.prototype.reset = function(options) {
     this.loudness = 256;
     this.qpm = options.qpm || 180;
 
+    this.repeating = false;
     this.visited = {};
-    this.startTieElem= {};
+    this.next = {};
+    this.lastMark = {};       
     this.restart = {line: 0, staff: 0, voice: 0, pos: 0};
     
+    this.startTieElem = {};
     this.lastTabElem = [];
     this.baraccidentals = [];
     this.closedSlurs = {};
-        
     this.midiTune = { 
         tempo: 60
        ,notes : [] // each note contains a {time:t,funct:f} pair
@@ -115,7 +117,10 @@ DIATONIC.midi.Parse.prototype.writeABCVoiceLine = function() {
     while (this.pos < this.getVoice().length) {
         this.writeABCElement(this.getElem());
         if (this.next) {
-            this.goToMark(this.next);
+            this.line = this.next.line;
+            this.staff = this.next.staff;
+            this.voice = this.next.voice;
+            this.pos = this.next.pos;
             this.next = null;
         } else {
             this.pos++;
@@ -142,9 +147,7 @@ DIATONIC.midi.Parse.prototype.writeABCElement = function(elem) {
         case "clef":
             break;
         default:
-
     }
-
 };
 
 DIATONIC.midi.Parse.prototype.writeNote = function(elem) {
@@ -216,8 +219,9 @@ DIATONIC.midi.Parse.prototype.writeNote = function(elem) {
 DIATONIC.midi.Parse.prototype.endTies = function(midipitch, mididuration, endElem, slur) {
     var startElem = this.startTieElem[midipitch];
     if (startElem) {
-        this.startNote(midipitch, endElem, this.timecount);
         this.endNote(midipitch, startElem, this.timecount + mididuration);
+        //this.startNote(midipitch, endElem, this.timecount);
+        //this.endNote(midipitch, endElem, this.timecount + mididuration);
         this.selectNote(endElem, this.timecount);
         this.unSelectNote(endElem, this.timecount + mididuration);
         delete this.startTieElem[midipitch];
@@ -258,44 +262,41 @@ DIATONIC.midi.Parse.prototype.clearTies = function() {
 DIATONIC.midi.Parse.prototype.handleBar = function(elem) {
     this.baraccidentals = [];
 
-    var repeat = (elem.type === "bar_right_repeat" || elem.type === "bar_dbl_repeat");
-    var skip = (elem.startEnding) ? true : false;
-    var setvisited = (repeat || skip);
+    var repeat     = (elem.type === "bar_right_repeat" || elem.type === "bar_dbl_repeat");
+    var skip       = (elem.startEnding) ? true : false;
     var setrestart = (elem.type === "bar_left_repeat" || elem.type === "bar_dbl_repeat" || 
                       elem.type === "bar_thick_thin" || elem.type === "bar_thin_thick" || 
-                      elem.type === "bar_thin_thin"  /*flavio|| elem.type === "bar_right_repeat"*/);
+                      elem.type === "bar_thin_thin" );
 
-    var next = null;
-
-    if (this.isVisited() ) {
-        next = this.getJumpMark();
+    if ( this.isVisited() ) {
+        if( ! this.repeating && this.getMarkString(this.lastMark) !== this.getMarkString() )
+            this.next = this.lastMark;
     } else {
-
-        if (skip || repeat) {
-            this.clearTies();
-            if (this.visited[this.lastmark] === true) {
-                this.setJumpMark(this.getMark());
+        if( this.repeating ) {
+            this.repeating = false;
+        } else {
+            if( repeat || skip ) {
+                this.setVisited();
+                this.clearTies();
+            }
+            if ( repeat ) {
+                this.repeating = true;
+                this.next = this.restart;
+                this.lastMark = this.getMark();
+            }
+            if ( setrestart ) {
+                this.restart = this.getMark();
             }
         }
-
-        if (setvisited) {
-            this.markVisited();
-        }
-
-        if (repeat) {
-            next = this.restart;
-            this.setJumpMark(this.getMark());
-        }
     }
+};
 
-    if (setrestart) {
-        this.restart = this.getMark();
-    }
+DIATONIC.midi.Parse.prototype.setVisited = function() {
+    this.visited[this.getMarkString()] = true;
+};
 
-    if (next && this.getMarkString(next) !== this.getMarkString()) {
-        this.next = next;
-    }
-
+DIATONIC.midi.Parse.prototype.isVisited = function() {
+    return  this.visited[this.getMarkString()];
 };
 
 DIATONIC.midi.Parse.prototype.syncPlayList = function(time) {
@@ -411,32 +412,6 @@ DIATONIC.midi.Parse.prototype.getMarkString = function(mark) {
     mark = mark || this;
     return "line" + mark.line + "staff" + mark.staff +
            "voice" + mark.voice + "pos" + mark.pos;
-};
-
-DIATONIC.midi.Parse.prototype.goToMark = function(mark) {
-    this.line = mark.line;
-    this.staff = mark.staff;
-    this.voice = mark.voice;
-    this.pos = mark.pos;
-};
-
-DIATONIC.midi.Parse.prototype.markVisited = function() {
-    this.lastmark = this.getMarkString();
-    this.visited[this.lastmark] = true;
-};
-
-DIATONIC.midi.Parse.prototype.isVisited = function() {
-    if (this.visited[this.getMarkString()])
-        return true;
-    return false;
-};
-
-DIATONIC.midi.Parse.prototype.setJumpMark = function(mark) {
-    this.visited[this.lastmark] = mark;
-};
-
-DIATONIC.midi.Parse.prototype.getJumpMark = function() {
-    return this.visited[this.getMarkString()];
 };
 
 DIATONIC.midi.Parse.prototype.hasTablature = function() {
