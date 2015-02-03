@@ -34,16 +34,14 @@ DIATONIC.midi.Parse.prototype.reset = function(options) {
     options = options || {};
     
     this.i = 0;
-    this.next = null;
     this.timecount = 0;
-    this.trackcount = 0;
     this.multiplier = 1;
     this.loudness = 256;
     this.qpm = options.qpm || 180;
 
     this.repeating = false;
+    this.next = null;
     this.visited = {};
-    this.next = {};
     this.lastMark = {};       
     this.restart = {line: 0, staff: 0, voice: 0, pos: 0};
     
@@ -51,9 +49,11 @@ DIATONIC.midi.Parse.prototype.reset = function(options) {
     this.lastTabElem = [];
     this.baraccidentals = [];
     this.closedSlurs = {};
+    this.channel = -1;
     this.midiTune = { 
         tempo: 60
        ,notes : [] // each note contains a {time:t,funct:f} pair
+       ,playList: [] // nova strutura, usando um elemento de array por intervalo de tempo 
        ,measures: [] // marks the start time for each measure - used for learning mode playing
     }; 
 };
@@ -78,19 +78,13 @@ DIATONIC.midi.Parse.prototype.parseTabSong = function(tune, printer) {
     this.qpm = bpm * duration * 16;
     this.setTempo(this.qpm);
 
-    var channel = -1;
     this.staffcount = 1; 
     for (this.staff = 0; this.staff < this.staffcount; this.staff++) {
         this.voicecount = 1;
         for (this.voice = 0; this.voice < this.voicecount; this.voice++) {
-            this.setChannel(++channel);
             this.startTrack();
-            this.restart = {line: 0, staff: this.staff, voice: this.voice, pos: 0};
-            this.next = null;
             for (this.line = 0; this.line < this.abctune.lines.length; this.line++) {
-                if (this.abctune.lines[this.line].staffs) {
-                    this.writeABCLine();
-                }
+                this.writeABCLine();
             }
             this.endTrack();
         }
@@ -106,6 +100,9 @@ DIATONIC.midi.Parse.prototype.parseTabSong = function(tune, printer) {
 };
 
 DIATONIC.midi.Parse.prototype.writeABCLine = function() {
+    
+    if (! this.abctune.lines[this.line].staffs) return;
+
     this.staffcount = this.getLine().staffs.length;
     this.voicecount = this.getStaff().voices.length;
     this.setKeySignature(this.getStaff().key);
@@ -114,6 +111,7 @@ DIATONIC.midi.Parse.prototype.writeABCLine = function() {
 
 DIATONIC.midi.Parse.prototype.writeABCVoiceLine = function() {
     this.pos = 0;
+    this.next = null;
     while (this.pos < this.getVoice().length) {
         this.writeABCElement(this.getElem());
         if (this.next) {
@@ -216,6 +214,43 @@ DIATONIC.midi.Parse.prototype.writeNote = function(elem) {
 
 };
 
+DIATONIC.midi.Parse.prototype.selectButtons = function(elem) {
+    var mididuration = elem.duration * DIATONIC.midi.baseduration * this.multiplier;
+    if (elem.pitches) {
+        
+        var button;
+        var bassCounter = 0; // gato para resolver o problema de agora ter um ou dois botões de baixos
+        for (var i = 0; i < elem.pitches.length; i++) {
+            
+            if (elem.pitches[i].bass ) 
+                bassCounter++;
+            
+            if (elem.pitches[i].type === "rest") 
+                continue;
+            
+            if (elem.pitches[i].bass) {
+                if (elem.pitches[i].c === '-->') {
+                    button = this.lastTabElem[i];
+                } else {
+                    button = this.getBassButton(elem.bellows, elem.pitches[i].c);
+                    this.lastTabElem[i] = button;
+                }
+            } else {
+                if ( elem.pitches[i].c === '-->') {
+                    button = this.lastTabElem[10+i-bassCounter];
+                } else {
+                    button = this.getButton(elem.pitches[i].c);
+                    this.lastTabElem[10+i-bassCounter] = button;
+                }
+            }
+            this.selectButton(elem, button, this.timecount);
+            this.unSelectButton(elem, button, this.timecount + mididuration);
+
+        }
+    }
+    this.timecount += mididuration;
+};
+
 DIATONIC.midi.Parse.prototype.endTies = function(midipitch, mididuration, endElem, slur) {
     var startElem = this.startTieElem[midipitch];
     if (startElem) {
@@ -262,11 +297,11 @@ DIATONIC.midi.Parse.prototype.clearTies = function() {
 DIATONIC.midi.Parse.prototype.handleBar = function(elem) {
     this.baraccidentals = [];
 
-    var repeat     = (elem.type === "bar_right_repeat" || elem.type === "bar_dbl_repeat");
     var skip       = (elem.startEnding) ? true : false;
+    var repeat     = (elem.type === "bar_right_repeat" || elem.type === "bar_dbl_repeat");
     var setrestart = (elem.type === "bar_left_repeat" || elem.type === "bar_dbl_repeat" || 
                       elem.type === "bar_thick_thin" || elem.type === "bar_thin_thick" || 
-                      elem.type === "bar_thin_thin" );
+                      elem.type === "bar_thin_thin" || elem.type === "bar_right_repeat");
 
     if ( this.isVisited() ) {
         if( ! this.repeating && this.getMarkString(this.lastMark) !== this.getMarkString() )
@@ -312,14 +347,24 @@ DIATONIC.midi.Parse.prototype.syncPlayList = function(time) {
     }
 };
 
+DIATONIC.midi.Parse.prototype.initPlayListPosition = function(time) {
+    if( ! this.midiTune.playList[time] ) {
+        this.midiTune.playList[time] = {
+            barNumber: null
+           ,start: {pitches:[], abcelems:[], buttons:[]} 
+           ,end:{pitches:[], abcelems:[], buttons:[]}
+        };
+    }
+};
+
 DIATONIC.midi.Parse.prototype.startNote = function(pitch, abcelem, startTime) {
     this.syncPlayList(startTime);
     var self = this;
     var loudness = self.loudness;
     var channel = self.channel;
     var printer = self.midiTune.printer;
-    var b;
-    if(this.staff === 0 && abcelem.barNumber ) {
+    var b = null;
+    if(this.staff === 0 && this.voice === 0 && abcelem.barNumber ) {
         b = abcelem.barNumber;
     }
     
@@ -331,12 +376,18 @@ DIATONIC.midi.Parse.prototype.startNote = function(pitch, abcelem, startTime) {
             self.notifySelect(abcelem, channel, printer);
         }
     });
+
+    this.initPlayListPosition(startTime);
+    this.midiTune.playList[startTime].barNumber = this.midiTune.playList[startTime].barNumber || b;
+    this.midiTune.playList[startTime].start.pitches.push({pitch:pitch,channel:channel});
+    this.midiTune.playList[startTime].start.abcelems.push({abcelem:abcelem,channel:channel});
+    
 };
 
 DIATONIC.midi.Parse.prototype.endNote = function(pitch, abcelem, endTime) {
     this.syncPlayList(endTime-1);
-    var channel = this.channel;
     var self = this;
+    var channel = self.channel;
     this.midiTune.notes.splice(this.playlistpos, 0, {
         time: endTime,
         funct: function() {
@@ -344,6 +395,9 @@ DIATONIC.midi.Parse.prototype.endNote = function(pitch, abcelem, endTime) {
             self.notifyUnSelect(abcelem);
         }
     });
+    this.initPlayListPosition(endTime);
+    this.midiTune.playList[endTime].end.pitches.push({pitch:pitch,channel:channel});
+    this.midiTune.playList[endTime].end.abcelems.push({abcelem:abcelem});
 };
 
 DIATONIC.midi.Parse.prototype.selectNote = function(abcelem, startTime) {
@@ -363,17 +417,20 @@ DIATONIC.midi.Parse.prototype.selectNote = function(abcelem, startTime) {
             self.notifySelect(abcelem, channel, printer);
        }
     });
+    this.initPlayListPosition(startTime);
+    this.midiTune.playList[startTime].start.abcelems.push({abcelem:abcelem,channel:channel});
 };
 DIATONIC.midi.Parse.prototype.unSelectNote = function(abcelem, endTime) {
     this.syncPlayList(endTime-1);
     var self = this;
-    //var channel = this.channel;
     this.midiTune.notes.splice(this.playlistpos, 0, {
         time: endTime,
         funct: function() {
             self.notifyUnSelect(abcelem);
         }
     });
+    this.initPlayListPosition(endTime);
+    this.midiTune.playList[endTime].end.abcelems.push({abcelem:abcelem});
 };
 
 DIATONIC.midi.Parse.prototype.selectButton = function( abcelem, button, startTime ) {
@@ -388,19 +445,24 @@ DIATONIC.midi.Parse.prototype.selectButton = function( abcelem, button, startTim
             self.notifySelect(abcelem, channel,  printer);
         }
     });
+    this.initPlayListPosition(startTime);
+    this.midiTune.playList[startTime].start.abcelems.push({abcelem:abcelem,channel:channel});
+    this.midiTune.playList[startTime].start.buttons.push({button:button,abcelem:abcelem});
 };
  
 DIATONIC.midi.Parse.prototype.unSelectButton = function( abcelem, button, endTime ) {
     this.syncPlayList(endTime-1);
     var self = this;
-    var channel = this.channel;
     this.midiTune.notes.splice(this.playlistpos, 0, {
         time: endTime,
         funct: function() {
             self.notifyUnSelectButton(button);
-            self.notifyUnSelect(abcelem, channel);
+            self.notifyUnSelect(abcelem);
         }
     });
+    this.initPlayListPosition(endTime);
+    this.midiTune.playList[endTime].end.abcelems.push({abcelem:abcelem});
+    this.midiTune.playList[endTime].start.buttons.push({button:button});
  };
 
 DIATONIC.midi.Parse.prototype.getMark = function() {
@@ -443,7 +505,7 @@ DIATONIC.midi.Parse.prototype.setPrinter = function(pt) {
 };
 
 DIATONIC.midi.Parse.prototype.startTrack = function() {
-    this.trackcount++;
+    this.channel ++;
     this.timecount = 0;
     this.playlistpos = 0;
     this.silencelength = 0;
@@ -451,10 +513,6 @@ DIATONIC.midi.Parse.prototype.startTrack = function() {
 
 DIATONIC.midi.Parse.prototype.endTrack = function() {
     // need to do anything?
-};
-
-DIATONIC.midi.Parse.prototype.setChannel = function(number) {
-    this.channel = number;
 };
 
 DIATONIC.midi.Parse.prototype.getAccOffset = function(txtAcc) {
@@ -571,39 +629,3 @@ DIATONIC.midi.Parse.prototype.getButton = function( b ) {
     return null;
 };
 
-DIATONIC.midi.Parse.prototype.selectButtons = function(elem) {
-    var mididuration = elem.duration * DIATONIC.midi.baseduration * this.multiplier;
-    if (elem.pitches) {
-        
-        var button;
-        var bassCounter = 0; // gato para resolver o problema de agora ter um ou dois botões de baixos
-        for (var i = 0; i < elem.pitches.length; i++) {
-            
-            if (elem.pitches[i].bass ) 
-                bassCounter++;
-            
-            if (elem.pitches[i].type === "rest") 
-                continue;
-            
-            if (elem.pitches[i].bass) {
-                if (elem.pitches[i].c === '-->') {
-                    button = this.lastTabElem[i];
-                } else {
-                    button = this.getBassButton(elem.bellows, elem.pitches[i].c);
-                    this.lastTabElem[i] = button;
-                }
-            } else {
-                if ( elem.pitches[i].c === '-->') {
-                    button = this.lastTabElem[10+i-bassCounter];
-                } else {
-                    button = this.getButton(elem.pitches[i].c);
-                    this.lastTabElem[10+i-bassCounter] = button;
-                }
-            }
-            this.selectButton(elem, button, this.timecount);
-            this.unSelectButton(elem, button, this.timecount + mididuration);
-
-        }
-    }
-    this.timecount += mididuration;
-};

@@ -128,6 +128,7 @@ notação abc, tablatura "/>
               </tr>
             </table>
           </div>
+          <div id="divABCXversion" style="position: absolute; bottom: 0; right: 0; margin-right: 5px;"></div>
         </div>
       </div>
       <div id="divAD" style="display: inline; width: 200px; float: right; margin-top: 34px; margin-right: 15px;"> 
@@ -413,6 +414,9 @@ notação abc, tablatura "/>
               } 
             );
     
+            //recupera e mostra na tela a versão em uso da lib ABCX
+            showABCXversion();
+            
             // configura e mostra a gaita inicial
             var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_HOHNER_GC';
 
@@ -621,6 +625,20 @@ notação abc, tablatura "/>
  
         }, false);
 
+        function showABCXversion() {
+            $("script").each(function() {
+                var s = $(this).attr("src");
+                
+                if ( s && s.search('abcxjs') >= 0  ) {
+                    s = s.split( '/');  
+                    s = s[1].split('_');
+                    s[2] = s[2].split('-');
+                    s[2] = s[2][0];
+                    document.getElementById("divABCXversion").innerHTML = '<i>Powered by ' + s[0].toUpperCase() + ' version '  + s[2] + '</i>';
+                }
+            });
+        }
+        
   </script>
         
   </body>
