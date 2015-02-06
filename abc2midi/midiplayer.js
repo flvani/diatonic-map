@@ -13,7 +13,6 @@ if (!window.DIATONIC.midi)
 DIATONIC.midi.Player = function(map, options ) {
 
     this.map = map;
-    
     this.reset( options );
     this.currentAndamento = 1;
 };
@@ -25,13 +24,14 @@ DIATONIC.midi.Player.prototype.reset = function(options) {
     this.i = 0;
     this.tempo = 60;
     this.playing = false;
-    this.playlist = []; // contains {time:t,funct:f} pairs
+    
     this.printer = {};
-    this.ticksperinterval = DIATONIC.midi.baseduration / 16; // 16th note - TODO: see the min in the piece
+    this.playlist = [];
     this.currentTime = 0;
     this.currentMeasure = 1;
-    this.currentMeasurePos = 0;
     this.lastMeasurePos = 0;
+    this.currentMeasurePos = 0;
+    this.ticksperinterval = DIATONIC.midi.baseduration / 16; // 16th note - TODO: see the min in the piece
     
 };
 
@@ -83,7 +83,7 @@ DIATONIC.midi.Player.prototype.startPlay = function(what) {
 
     if(this.playing || !what ) return;
     
-    this.playlist = what.notes;
+    this.playlist = what.playlist;
     this.tempo  = what.tempo;
     this.printer = what.printer;
     this.map.ypos = 1000;
@@ -100,7 +100,7 @@ DIATONIC.midi.Player.prototype.startPlay = function(what) {
 DIATONIC.midi.Player.prototype.doPlay = function() {
     while (this.playlist[this.i] &&
            this.playlist[this.i].time <= this.currentTime) {
-        this.playlist[this.i].funct();
+        this.executa(this.playlist[this.i]);
         this.i++;
     }
     if (this.playlist[this.i]) {
@@ -133,7 +133,7 @@ DIATONIC.midi.Player.prototype.startDidacticPlay = function(what, type, value) {
 
     if(this.playing) return;
     
-    this.playlist = what.notes;
+    this.playlist = what.playlist;
     this.tempo  = what.tempo;
     this.printer = what.printer;
     
@@ -185,7 +185,7 @@ DIATONIC.midi.Player.prototype.startDidacticPlay = function(what, type, value) {
 DIATONIC.midi.Player.prototype.doDidacticPlay = function(criteria) {
     while (this.playlist[this.i] && criteria() &&
             (this.playlist[this.i].time*(1/this.currentAndamento)) < this.currentTime ) {
-        this.playlist[this.i].funct();
+        this.executa(this.playlist[this.i]);
         this.i++;
         if(this.playlist[this.i] && this.playlist[this.i].barNumber) {
             this.lastMeasurePos = this.currentMeasurePos;
@@ -193,11 +193,49 @@ DIATONIC.midi.Player.prototype.doDidacticPlay = function(criteria) {
             this.currentMeasure = this.playlist[this.i].barNumber;
             document.getElementById("gotoMeasureBtn").value = this.currentMeasure;
         }
-        
     }
+    
+   
     if( this.playlist[this.i] && criteria() ) {
         this.currentTime += this.ticksperinterval;
     } else {
         this.pauseDidacticPlay(true);
+    }
+};
+
+DIATONIC.midi.Player.prototype.executa = function(pl) {
+    
+    var map = this.map;
+    var printer = this.printer;
+    var loudness = 256;
+    
+    if( pl.start ) {
+        pl.item.pitches.forEach( function( pitch ) {
+            MIDI.noteOn(pitch.channel, pitch.pitch, loudness, 0);
+        });
+        pl.item.abcelems.forEach( function( elem ) {
+            map.setScrolling(elem.abcelem.abselem.y, elem.channel);
+            printer.notifySelect(elem.abcelem.abselem);
+        });
+        pl.item.buttons.forEach( function( button ) {
+            if(button.button) {
+                if(button.abcelem.bellows === '+')
+                    button.button.setClose();
+                else
+                    button.button.setOpen();
+            }
+        });
+    } else {
+        pl.item.pitches.forEach( function( pitch ) {
+            MIDI.noteOff(pitch.channel, pitch.pitch, 0);
+        });
+        pl.item.abcelems.forEach( function( elem ) {
+            elem.abcelem.abselem.unhighlight();
+        });
+        pl.item.buttons.forEach( function( button ) {
+            if (button.button ) {
+                button.button.clear();
+            }
+        });
     }
 };

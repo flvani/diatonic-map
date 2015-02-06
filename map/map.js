@@ -30,11 +30,11 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
     
     DR.register( this ); // register for translate
     
-    this.midiParser = new DIATONIC.midi.Parse(this);
-    this.midiPlayer = new DIATONIC.midi.Player(this);
-  
     this.gaita = new DIATONIC.map.Gaita(this, accordionParams);
     
+    this.midiParser = new DIATONIC.midi.Parse(this.gaita);
+    this.midiPlayer = new DIATONIC.midi.Player(this);
+  
     
     this.editor =  new ABCXJS.Editor(
                          editorParams.textArea
@@ -130,6 +130,14 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
            that.gotoMeasureButton.value = DR.getResource("DR_goto");
         }
     }, false);
+};
+
+DIATONIC.map.Map.prototype.setScrolling = function(y, channel) {
+    if( !this.tuneContainerDiv || channel > 0 ) return;
+    if( y !== this.ypos ) {
+        this.ypos = y;
+        this.tuneContainerDiv.scrollTop = this.ypos - 40;    
+    }
 };
 
 DIATONIC.map.Map.prototype.translate = function() {

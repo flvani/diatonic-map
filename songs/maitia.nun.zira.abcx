@@ -1,30 +1,29 @@
 X:1001
 %%papersize A4
+%%barnumbers 1
 %%scale 1.0
 T:Maitia, nun zira?
 C:Folclore Basco
 C:versão de José Uruñuela.
 N:Transcrito por Flávio
-L:1/8
-Q:"Allegro" 1/4=118
-M:6/8
-K:G
-V:melodia
-|z4zB |: B2A A2G | G3-Gz A | B2B B2c | d3 d2B | A2A A2B | c3 B2B |
+L:1/4
+Q:"Allegro" 1/4=160
+M:3/4
+K:C
+V:1 treble
+V:2 bass
+[V:1]| z2 E |: E2D | D2C | C3 | C2 D | E2E | E2F | G3 | G2E | D2D | D2E | F3 | E2E |
 w:Mai ti a nun zi ra * Nik et zu tuk i kuz ten ez be ti rik ja ki ten Nu
-| B2A (AG)F |1 G6 | z4 z B :|2 G6 | d3 efg | B3 A3 | G6 | z4zd |
-w:rat gal du * zi ra 
-|: g2g g2f | e3 e3 | fga f2e | d4zc | B2B B2c | d3 d2B | A2A A2B |
-| c3 B2B | B2A AGF |1 G4zd :|2 G6 | d3 efg | B3 A3 | G6 |
-%V:baixo
-%K:G bass
-%|z6  |: z6  | z6  | z6  | z6  | z6  | z6 |
-%| z6 |1 z6  | z6  :|2 z6  | z6  | z6  | z6  | z6  |
-%|: z6  | z6  | z6  | z6  | z6  | z6  | z6  |
-%| z6  | z6  |1 z6  :|2 z6  | z6  | z6  | z6  | 
-V:tablatura
-K:none accordionTab
-| +z4 +z +8 |: +82 -8 -82 -6' | -6'3 -> -z -8 | +82 +8 +82 +7' | +93 -8'2 -7' | -82 +8 +82 +7' | -8'3 -92 -9 |
-| +7'2 +8 +8 +6' +7 |1 -86 | -z4 -z -9 :|2 -86 | +8'3 -b -a' +9' | +7'3 +83 | +6'6 | +z4 -z -9' |
-|: +9'2 +9' +9'2 +a | -b3 -b3 | -a' +9' +b +a2 -b | -9'4 -z -8' | -92 +7' +7'2 -8' | -9'3 -9'2 -9 | -7'2 +8 +82 +7' |
-| -8'3 -92 -9 | -92 -7' +8 +6' +7 |1 +6'4 +z -9' :|2 -86 | -9'3 -b -a' +9' | +7'3 +83 | +6'6 |
+[V:2]| z3 |: C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] | E,, [G,B,D] [G,B,D] | D,, [F,A,C] [F,A,C] |C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] | E,, [E,^G,B,] [E,^G,B,] | E,, [E,^G,B,] [E,^G,B,] | D,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | D,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] |
+[V:1]| E2D |(DC)B, | C3 |1 z2 E :|2 z3 | G3 | ABc | E3 | D3 | C3 | z2 G ||
+w:rat gal du * zi ra * Mai ra Nu-rat * gal-du zi-ra? 
+[V:2]| D,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] |1 C,, z2  :|2 C,, z2 | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] | E,, [E,^G,B,] [E,^G,B,] | D,, [F,A,C] [F,A,C] | C,, [C,E,G,] [C,E,G,] | C,, z2 ||
+[V:1]|: c3 | c2B | A3 | A3 | Bcd | B2A | G3 |z2 F | E2E | E2F | G3 | G2E | D2D | D2E |
+[V:2]|: A,, [A,CE]  [A,CE]  | G,, [A,CE]  [A,CE]  | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | D,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] | C,, z2 | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] | E,, [E,^G,B,] [E,^G,B,] | E,, [E,^G,B,] [E,^G,B,] | D,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] |
+[V:1]| F3 | E2E | E2D | DCB, | C3|1 z2 G :|2 z3 | G3 | ABc | E3 | D3 | C3 | z3 ||
+[V:2]| D,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | D,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] |1 C,, z2 :|2 C,, z2 | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] | E,, [E,^G,B,] [E,^G,B,] | D,, [F,A,C] [F,A,C] | C,, [C,E,G,] [C,E,G,] | C,, z2 ||
+V:tablatura accordionTab
+| z+z2 z+4' |: C+4' c+> c+5 | F-3' f-> f-4 | E+3' g+> g+> | D-4 f-> f-3' | C+4' c+> c+4' | F-5 f-> f-4' | E+5' e+> e+> | E+5' e+> e+4' | D-3' f-> f-3' | F+5 f+> f+4' | D-4' f-> f-> | F+4' f+> f+4' |
+| D-5 f-> f-3' | G-3' g-4 g-2' | C+3' c+> c+> |1 C+z z+z z+4' :|2 C+z z+z2 | C+5' c+> c+> | F-7 f-6' f-8 | E+4' e+> e+> | D-3' f-> f-> | C+3' c+> c+> | C+z z+z z+5' ||
+|: A-8 a-> a-> | G-8 a-> a-6' | F-7 f-> f-> | F-7 f-> f-> | D-6' f-8 f-7' | G-6' g-> g-7 | C+5' c+> c+> | C+z z-z z-4' | C+4' c+> c+4' | F-5 f-> f-4' | E+5' e+> e+> | E+5' e+> e+4' | D-3' f-> f-3' | F+5 f+> f+4' |
+| D-4' f-> f-> | F+4' f+> f+4' | D-5 f-> f-3' | G-3' g-4 g-2' | C+3' c+> c+> |1 C+z z+z z+5' :|2 C+z z+z2 | C+5' c+> c+> | F-7 f-6' f-8 | E+4' e+> e+> | D-3' f-> f-> | C+3' c+> c+> | C+z z-z2 ||

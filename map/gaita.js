@@ -4,7 +4,7 @@ if (!window.DIATONIC)
 if (!window.DIATONIC.map)
     window.DIATONIC.map = {models: []};
 
-DIATONIC.map.Gaita = function(map, interfaceParams ) {
+DIATONIC.map.Gaita = function( map, interfaceParams ) {
     
     this.BTNSIZE = DIATONIC.map.Units.BTNSIZE;
     this.BTNSPACE = DIATONIC.map.Units.BTNSPACE;
@@ -31,7 +31,6 @@ DIATONIC.map.Gaita = function(map, interfaceParams ) {
     
     this.songDiv = document.getElementById(interfaceParams.songDiv);
     this.songSelector = document.getElementById(interfaceParams.songSelector);
-    //this.songSelector2 = document.getElementById(interfaceParams.songSelector2);
 
     this.practiceDiv = document.getElementById(interfaceParams.practiceDiv);
     this.practiceSelector = document.getElementById(interfaceParams.practiceSelector);
@@ -312,11 +311,11 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
   }
   
   if(this.renderedTune)
-    this.renderedTune.midi = this.map.midiParser.parseTabSong(this.renderedTune, this.songPrinter);
+    this.renderedTune.midi = this.map.midiParser.parse(this.renderedTune, this.songPrinter);
   if(this.renderedPractice)
-    this.renderedPractice.midi = this.map.midiParser.parseTabSong(this.renderedPractice, this.practicePrinter);
+    this.renderedPractice.midi = this.map.midiParser.parse(this.renderedPractice, this.practicePrinter);
   if(this.renderedChord)
-    this.renderedChord.midi = this.map.midiParser.parseTabSong(this.renderedChord, this.chordPrinter);
+    this.renderedChord.midi = this.map.midiParser.parse(this.renderedChord, this.chordPrinter);
 
 };
 
@@ -431,7 +430,7 @@ DIATONIC.map.Gaita.prototype.printTune = function(alreadyOnPage, params ) {
     loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
     this.songPrinter.printABC(this.renderedTune.abc);
     $("#" + this.songDiv.id).hide();
-    this.renderedTune.midi = this.map.midiParser.parseTabSong(this.renderedTune.abc, this.songPrinter);
+    this.renderedTune.midi = this.map.midiParser.parse(this.renderedTune.abc, this.songPrinter);
     loader.stop();
     if (alreadyOnPage)
       $("#" + this.songDiv.id).fadeIn();
@@ -474,7 +473,7 @@ DIATONIC.map.Gaita.prototype.printPractice = function(alreadyOnPage, params) {
     this.practicePrinter.printABC(this.renderedPractice.abc);
     $("#" + this.practiceDiv.id).hide();
     
-    this.renderedPractice.midi = this.map.midiParser.parseTabSong(this.renderedPractice.abc, this.practicePrinter);
+    this.renderedPractice.midi = this.map.midiParser.parse(this.renderedPractice.abc, this.practicePrinter, this );
 
     loader.stop();
     if (alreadyOnPage)
@@ -522,7 +521,7 @@ DIATONIC.map.Gaita.prototype.printChord = function(alreadyOnPage, params) {
     this.chordPrinter.printABC(this.renderedChord.abc);
     $("#" + this.chordDiv.id).hide();
     
-    this.renderedChord.midi = this.map.midiParser.parseTabSong(this.renderedChord.abc, this.chordPrinter);
+    this.renderedChord.midi = this.map.midiParser.parse(this.renderedChord.abc, this.chordPrinter);
     
     loader.stop();
     if (alreadyOnPage)
