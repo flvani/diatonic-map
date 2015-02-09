@@ -32,9 +32,7 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
     
     this.gaita = new DIATONIC.map.Gaita(this, accordionParams);
     
-    this.midiParser = new DIATONIC.midi.Parse(this.gaita);
-    this.midiPlayer = new DIATONIC.midi.Player(this);
-  
+    this.midiPlayer = new ABCXJS.midi.Player(this);
     
     this.editor =  new ABCXJS.Editor(
                          editorParams.textArea
@@ -45,7 +43,8 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
                         ,accordionMaps: this.gaita.accordions
                         ,keySelector_id: editorParams.keySelector_id
                         ,warnings_id: editorParams.warnings_id
-                        //,midi_id: "midi"
+                        ,generate_midi: true
+                        ,map: this
                         //,midi_options: {program: 21, qpm: 150, type: "qt"}
                         //,render_options: {}
                         //,gui: false
@@ -73,6 +72,7 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
 
     this.ypos = 0; // esta variável é usada para ajustar o scroll durante a execução do midi
 
+
     this.checkboxHorizontal.addEventListener('click', function() {
         that.gaita.setupKeyboard();
     }, false );
@@ -91,7 +91,20 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
 
     this.stopButton.addEventListener("click", function() {
         that.midiPlayer.stopPlay();
+        that.playButton.title = DR.getResource("playBtn");
+        that.playButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
+        that.printer.clearSelection();
+        that.gaita.clearKeyboard(true);
+        that.ypos = 1000;
     }, false);
+
+    this.clearButton.addEventListener("click", function() {
+        that.printer.clearSelection();
+        that.gaita.clearKeyboard(true);
+        that.midiPlayer.clearDidacticPlay();
+        that.ypos = 1000;
+    }, false);
+
 
     this.stepButton.addEventListener("click", function() {
         that.startPlay('note');
@@ -105,12 +118,19 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
         that.startPlay('repeat');
     }, false);
 
-    this.clearButton.addEventListener("click", function() {
-        that.midiPlayer.clearDidacticPlay();
-    }, false);
-
     this.tempoButton.addEventListener("click", function() {
-        that.midiPlayer.adjustAndamento();
+        var andamento = that.midiPlayer.adjustAndamento();
+        switch( andamento ) {
+            case 1:
+                that.tempoButton.innerHTML = '<b>&nbsp;1&nbsp;<b>';
+                break;
+            case 1/2:
+                that.tempoButton.innerHTML = '<b>&nbsp;&#189;&nbsp;<b>';
+                break;
+            case 1/4:
+                that.tempoButton.innerHTML = '<b>&nbsp;&#188;&nbsp;<b>';
+                break;
+        }
     }, false);
     
     this.gotoMeasureButton.addEventListener("keypress", function(e) {
@@ -130,6 +150,48 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
            that.gotoMeasureButton.value = DR.getResource("DR_goto");
         }
     }, false);
+};
+
+DIATONIC.map.Map.prototype.startPlay = function( type, value ) {
+    if( this.midiPlayer.playing) {
+        
+        this.ypos = 1000;
+        if (type === "normal" ) {
+            this.playButton.title = DR.getResource("playBtn");
+            this.playButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
+            this.midiPlayer.pausePlay();
+        } else {
+            this.midiPlayer.pauseDidacticPlay();
+        }    
+        
+    } else {
+        this.gaita.clearKeyboard();
+        var midi;
+        switch (this.currentTab) {
+            case "tabTunes":
+                midi = this.gaita.renderedTune.abc.midi;
+                break;
+            case "tabChords":
+                midi = this.gaita.renderedChord.abc.midi;
+                break;
+            case "tabPractices":
+                midi = this.gaita.renderedPractice.abc.midi;
+                break;
+        }
+        this.printer = midi.printer;
+        if(type==="normal") {
+            if( this.midiPlayer.startPlay(midi) ) {
+                this.ypos = 1000;
+                this.playButton.title = DR.getResource("DR_pause");
+                this.playButton.innerHTML = '&nbsp;<i class="icon-pause"></i>&nbsp;';
+            }
+            
+        } else {
+            if( this.midiPlayer.startDidacticPlay(midi, type, value) ) {
+                this.ypos = 1000;
+            }
+        }
+    }
 };
 
 DIATONIC.map.Map.prototype.setScrolling = function(y, channel) {
@@ -381,30 +443,6 @@ DIATONIC.map.Map.prototype.setGaitaImage = function(gaita) {
 
 DIATONIC.map.Map.prototype.setGaitaName = function(gaita) {
   this.gaitaNamePlaceHolder.innerHTML = gaita.getName() + ' ' + DR.getResource('DR_keys');
-};
-
-DIATONIC.map.Map.prototype.startPlay = function( type, value ) {
-    if (type === "normal" && this.midiPlayer.playing) {
-        this.midiPlayer.pausePlay();
-    } else {
-        this.gaita.clearKeyboard();
-        var midi;
-        switch (this.currentTab) {
-            case "tabTunes":
-                midi = this.gaita.renderedTune.midi;
-                break;
-            case "tabChords":
-                midi = this.gaita.renderedChord.midi;
-                break;
-            case "tabPractices":
-                midi = this.gaita.renderedPractice.midi;
-                break;
-        }
-        if(type==="normal")
-          this.midiPlayer.startPlay(midi);
-        else
-          this.midiPlayer.startDidacticPlay(midi, type, value);
-    }
 };
 
 DIATONIC.map.Map.prototype.changePlayMode = function() {

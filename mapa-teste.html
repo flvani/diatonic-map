@@ -313,13 +313,10 @@ notação abc, tablatura "/>
     <script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
     
     <!-- suporte a arquivos ABC -->
-    <script type="text/javascript" src="abcjs/abcxjs_nomidi_3.04-min.js" ></script>
+    <script type="text/javascript" src="abcjs/abcxjs_3.05-min.js" ></script>
 
     <!-- suporte a MIDI -->
     <script type="text/javascript" src="MIDI.js/MIDI_2.03-min.js"></script>
-    
-    <script type="text/javascript" src="abc2midi/midiparser.js"></script>
-    <script type="text/javascript" src="abc2midi/midiplayer.js"></script>
     
     <script type="text/javascript" src="diatonic/diatonic-map.js"></script>
 
@@ -483,6 +480,7 @@ notação abc, tablatura "/>
                   MIDI.programChange(2, 21); // 
                   MIDI.programChange(3, 21); // 
                   MIDI.programChange(4, 21); // 
+                  MIDI.programChange(5, 21); // 
                   $("#tabs li:first").attr("id","current"); // Activate the first tab
                   $("#tuneContainerDiv #tabTunesDiv" ).fadeIn(); // Show first tab's content
                   document.getElementById("modalAbout").style.display = 'inline';
@@ -617,9 +615,9 @@ notação abc, tablatura "/>
                 if ( s && s.search('abcxjs') >= 0  ) {
                     s = s.split( '/');  
                     s = s[1].split('_');
-                    s[2] = s[2].split('-');
-                    s[2] = s[2][0];
-                    document.getElementById("divABCXversion").innerHTML = '<i>Powered by ' + s[0].toUpperCase() + ' version '  + s[2] + '</i>';
+                    s[1] = s[1].split('-');
+                    s[1] = s[1][0];
+                    document.getElementById("divABCXversion").innerHTML = '<i>Powered by ' + s[0].toUpperCase() + ' version '  + s[1] + '</i>';
                 }
             });
         }
