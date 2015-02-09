@@ -108,23 +108,25 @@ DIATONIC.map.Gaita.prototype.setup = function(accordionParams) {
 
   this.map.setGaitaName( gaita );
   this.map.setGaitaImage( gaita );
+  
+  var tit;
 
   if(!accordionParams.practiceTitle){
-    var tit = FILEMANAGER.loadLocal( 'property.'+this.getSelectedAccordion().getId()+'.practice.title');
+    //tit = FILEMANAGER.loadLocal( 'property.'+this.getSelectedAccordion().getId()+'.practice.title');
     accordionParams.practiceTitle = tit || this.getSelectedAccordion().getFirstPractice();
   }
   this.loadPracticeList(accordionParams.practiceTitle);
   this.renderPractice( accordionParams.practiceTitle, {}, this.map.currentTab === "tabPractices" );
 
   if(!accordionParams.chordTitle){
-    var tit = FILEMANAGER.loadLocal( 'property.'+this.getSelectedAccordion().getId()+'.chord.title');
+    //tit = FILEMANAGER.loadLocal( 'property.'+this.getSelectedAccordion().getId()+'.chord.title');
     accordionParams.chordTitle = tit || this.getSelectedAccordion().getFirstChord();
   }
   this.loadChordList(accordionParams.chordTitle);
   this.renderChord( accordionParams.chordTitle, {}, this.map.currentTab === "tabChords" );
 
   if(!accordionParams.songTitle){
-      var tit = FILEMANAGER.loadLocal( 'property.'+this.getSelectedAccordion().getId()+'.song.title');
+      //tit = FILEMANAGER.loadLocal( 'property.'+this.getSelectedAccordion().getId()+'.song.title');
       accordionParams.songTitle = tit || this.getSelectedAccordion().getFirstSong();
   }
   this.loadSongList(accordionParams.songTitle);
