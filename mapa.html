@@ -630,9 +630,9 @@ notação abc, tablatura "/>
                 if ( s && s.search('abcxjs') >= 0  ) {
                     s = s.split( '/');  
                     s = s[1].split('_');
-                    s[2] = s[2].split('-');
-                    s[2] = s[2][0];
-                    document.getElementById("divABCXversion").innerHTML = '<i>Powered by ' + s[0].toUpperCase() + ' version '  + s[2] + '</i>';
+                    s[1] = s[1].split('-');
+                    s[1] = s[1][0];
+                    document.getElementById("divABCXversion").innerHTML = '<i>Powered by ' + s[0].toUpperCase() + ' version '  + s[1] + '</i>';
                 }
             });
         }
