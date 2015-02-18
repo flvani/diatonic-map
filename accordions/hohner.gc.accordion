@@ -20,19 +20,20 @@
         ,"open":[["a1:m","A1","f1","F1"],["d2","D2","g1","G1"]]
      }
     }
-  ,"songPathList":
+,"songPathList":
     [
-       "songs/asa.branca.abcx"
+       "songs/asa.branca.v2.abcx"
       ,"songs/canto.alegretense.abcx"
       ,"songs/hino.do.gremio.abcx"
+      ,"songs/maitia.nun.zira.abcx"
       ,"songs/mercedita.abcx"
-      ,"songs/parabens.crioulo.abcx"
+      ,"songs/parabens.crioulo.v2.abcx"
       ,"songs/primeira.valsinha.abcx"
-      ,"songs/rincao.dos.maciel.abcx"
+      ,"songs/rincao.dos.maciel.v2.abcx"
       ,"songs/tristeza.do.jeca.abcx"
       ,"songs/valsa.sertaneja.abcx"
       ,"songs/vanera.grossa.abcx"
-      ,"songs/xote.laranjeira.abcx"
+      ,"songs/xote.laranjeira.v2.abcx"
     ]
 ,"practicePathList":
     [

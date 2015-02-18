@@ -79,11 +79,21 @@ DIATONIC.map.Button.prototype.clear = function() {
     this.closeSide.attr({"fill": "none", "stroke": "none", "stroke-width": 0});
 };
 
-DIATONIC.map.Button.prototype.setOpen = function() {
-    this.openSide.attr({"fill": this.openColor, "stroke": this.openColor, "stroke-width": 0});
+DIATONIC.map.Button.prototype.setOpen = function(delay) {
+    var that = this;
+    if(  delay ) {
+        window.setTimeout(function(){that.openSide.attr({"fill": that.openColor, "stroke": that.openColor, "stroke-width": 0});}, delay );
+    } else {
+        that.openSide.attr({"fill": that.openColor, "stroke": that.openColor, "stroke-width": 0});
+    }
 };
-DIATONIC.map.Button.prototype.setClose = function() {
-    this.closeSide.attr({"fill": this.closeColor, "stroke": this.closeColor, "stroke-width": 0});
+DIATONIC.map.Button.prototype.setClose = function(delay) {
+    var that = this;
+    if(  delay ) {
+        window.setTimeout(function(){that.closeSide.attr({"fill": that.closeColor, "stroke": that.closeColor, "stroke-width": 0});}, delay);
+    } else {
+        that.closeSide.attr({"fill": that.closeColor, "stroke": that.closeColor, "stroke-width": 0});
+    }    
 };
 
 DIATONIC.map.Button.prototype.setTextClose = function(t) {

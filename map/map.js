@@ -4,6 +4,13 @@
  * and open the template in the editor.
  */
 
+/*
+ * TODO:
+ *      Ok - definir callback on end midi    
+ *      Ok - Acertar casa 2 no xote laranjeira    
+ *  
+ */
+
 if (!window.DIATONIC)
     window.DIATONIC = {};
 
@@ -42,8 +49,9 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
                         ,accordionSelector_id: editorParams.accordionSelector_id
                         ,accordionMaps: this.gaita.accordions
                         ,keySelector_id: editorParams.keySelector_id
+                        ,generate_midi: editorParams.generate_midi
+                        ,generate_warnings: editorParams.generate_warnings
                         ,warnings_id: editorParams.warnings_id
-                        ,generate_midi: true
                         ,map: this
                         //,midi_options: {program: 21, qpm: 150, type: "qt"}
                         //,render_options: {}
@@ -64,15 +72,64 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
     this.playButton = document.getElementById(playerParams.playBtn);
     this.stopButton = document.getElementById(playerParams.stopBtn);
     this.gotoMeasureButton = document.getElementById(playerParams.gotoMeasureBtn);
+    this.currentPlayTimeLabel = document.getElementById(playerParams.currentPlayTimeLabel);
     this.stepButton = document.getElementById(playerParams.stepBtn);
     this.stepMeasureButton = document.getElementById(playerParams.stepMeasureBtn);
     this.repeatButton = document.getElementById(playerParams.repeatBtn);
     this.clearButton = document.getElementById(playerParams.clearBtn);
     this.tempoButton = document.getElementById(playerParams.tempoBtn);
-
+    
     this.ypos = 0; // esta variável é usada para ajustar o scroll durante a execução do midi
+    
+    if(editorParams.playBtn) {
+        this.editorHasPlayer = true;
+        
+        this.editorPlayButton = document.getElementById(editorParams.playBtn);
+        this.editorStopButton = document.getElementById(editorParams.stopBtn);
+        this.editorCurrentPlayTimeLabel = document.getElementById(editorParams.currentPlayTimeLabel);
+        
+        this.editorPlayerCallBack = function( playListPos, playTime, currMeasure ) {
+            if(that.editorCurrentPlayTimeLabel)
+                that.editorCurrentPlayTimeLabel.innerHTML = playTime.cTime;
+        };
 
+        this.editorPlayerCallBackOnEnd = function() {
+            that.editorPlayButton.title = DR.getResource("playBtn");
+            that.editorPlayButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
+            that.printer.clearSelection();
+            that.gaita.clearKeyboard(true);
+            var warns = that.midiPlayer.getWarnings() /*|| [that.editorCurrentPlayTimeLabel.innerHTML]*/;
+            that.editorCurrentPlayTimeLabel.innerHTML = "00:00.00";
+            if( warns ) {
+                var wd =  document.getElementById("warningsDiv");
+                var txt = "";
+                warns.forEach(function(msg){ txt += msg + '<br>'; });
+                wd.style.color = 'blue';
+                wd.innerHTML = '<hr>'+txt+'<hr>';
+            }
+        };
 
+        this.editorPlayButton.addEventListener("click", function() {
+            if( that.midiPlayer.playing) {
+                that.editorPlayButton.title = DR.getResource("playBtn");
+                that.editorPlayButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
+                that.midiPlayer.pausePlay();
+            } else {
+                that.midiPlayer.setCallbackOnEnd( that.editorPlayerCallBackOnEnd );
+                var midi = that.editor.tunes[0].midi;
+                that.printer = midi.printer;
+                if( that.midiPlayer.startPlay(that.editor.tunes[0].midi, that.editorPlayerCallBack) ) {
+                    that.editorPlayButton.title = DR.getResource("DR_pause");
+                    that.editorPlayButton.innerHTML = '&nbsp;<i class="icon-pause"></i>&nbsp;';
+                }
+            }    
+        }, false);
+
+        this.editorStopButton.addEventListener("click", function() {
+            that.midiPlayer.stopPlay();
+        }, false);
+    }  
+    
     this.checkboxHorizontal.addEventListener('click', function() {
         that.gaita.setupKeyboard();
     }, false );
@@ -86,23 +143,21 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
     }, false );
     
     this.playButton.addEventListener("click", function() {
+        that.midiPlayer.setCallbackOnEnd( that.playerCallBackOnEnd );
         that.startPlay('normal');
     }, false);
 
     this.stopButton.addEventListener("click", function() {
         that.midiPlayer.stopPlay();
-        that.playButton.title = DR.getResource("playBtn");
-        that.playButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
-        that.printer.clearSelection();
-        that.gaita.clearKeyboard(true);
-        that.ypos = 1000;
     }, false);
 
     this.clearButton.addEventListener("click", function() {
         that.printer.clearSelection();
         that.gaita.clearKeyboard(true);
-        that.midiPlayer.clearDidacticPlay();
         that.ypos = 1000;
+        that.gotoMeasureButton.value = "1";
+        that.currentPlayTimeLabel.innerHTML = "00:00.00";
+        that.midiPlayer.clearDidacticPlay();
     }, false);
 
 
@@ -133,9 +188,10 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
         }
     }, false);
     
+    
     this.gotoMeasureButton.addEventListener("keypress", function(e) {
         if (e.keyCode === 13) {
-           that.startPlay('goto', this.value);
+           that.startPlay('goto', this.value  );
         }
     }, false);
 
@@ -150,7 +206,24 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
            that.gotoMeasureButton.value = DR.getResource("DR_goto");
         }
     }, false);
+    
+    this.playerCallBack = function( playListPos, playTime, currMeasure ) {
+        that.gotoMeasureButton.value = currMeasure;
+        if(that.currentPlayTimeLabel)
+            that.currentPlayTimeLabel.innerHTML = playTime.cTime;
+    };
+    
+    this.playerCallBackOnEnd = function() {
+        that.playButton.title = DR.getResource("playBtn");
+        that.playButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
+        that.printer.clearSelection();
+        that.gaita.clearKeyboard(true);
+        that.ypos = 1000;
+        if(that.currentPlayTimeLabel)
+            that.currentPlayTimeLabel.innerHTML = "00:00.00";
+    };
 };
+
 
 DIATONIC.map.Map.prototype.startPlay = function( type, value ) {
     if( this.midiPlayer.playing) {
@@ -161,7 +234,7 @@ DIATONIC.map.Map.prototype.startPlay = function( type, value ) {
             this.playButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
             this.midiPlayer.pausePlay();
         } else {
-            this.midiPlayer.pauseDidacticPlay();
+            this.midiPlayer.pausePlay(true);
         }    
         
     } else {
@@ -180,14 +253,14 @@ DIATONIC.map.Map.prototype.startPlay = function( type, value ) {
         }
         this.printer = midi.printer;
         if(type==="normal") {
-            if( this.midiPlayer.startPlay(midi) ) {
-                this.ypos = 1000;
+            if( this.midiPlayer.startPlay(midi, this.playerCallBack) ) {
                 this.playButton.title = DR.getResource("DR_pause");
                 this.playButton.innerHTML = '&nbsp;<i class="icon-pause"></i>&nbsp;';
+                this.ypos = 1000;
             }
             
         } else {
-            if( this.midiPlayer.startDidacticPlay(midi, type, value) ) {
+            if( this.midiPlayer.startDidacticPlay(midi, type, value, this.playerCallBack ) ) {
                 this.ypos = 1000;
             }
         }

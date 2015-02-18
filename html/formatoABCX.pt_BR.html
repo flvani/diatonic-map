@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html><head><!--
+<html><head>
+<!--
 
 To change this license header, choose License Headers in Project Properties.
 
@@ -7,10 +8,8 @@ To change this template file, choose Tools | Templates
 
 and open the template in the editor.
 
---><title>O formato ABCX</title>
-
-
-  
+-->
+  <title>O formato ABCX</title>
 
   
   
@@ -23,7 +22,8 @@ and open the template in the editor.
   <link href="../css/help.css" rel="stylesheet">
 
   
-  <script type="text/javascript" src="../js/help.js"></script></head><body>
+  <script type="text/javascript" src="../js/help.js"></script>
+</head><body>
 <div id="helpHeader" class="helpHeader"> <span class="helpTit">O
 formato ABCX</span> <button id="printHelp" class="btn" title="Imprimir" onclick="printHelp();">Imprimir</button> <button id="closeHelp" class="btn" title="Fechar" onclick="window.close();">Fechar</button> </div>
 
@@ -49,10 +49,12 @@ gosta de software livre. Este site é um site livre e não poderia deixar
 de fazer uso deste formato. Porém, o formato ABC é voltado para a
 produção de partituras e este site é voltado para o aprendizado de
 acordeons diatônicos. Também partimos do pressuposto que nem todos
-sabem ler partituras e que gostaríamos de ter à disposição, junto com a
-partitura, de uma tablatura para acordeon. Não é algo muito comum,
-visto que os modelos de acordeons variam muito em configuração de
-região para região. No Brasil mesmo, podemos encontrar muitas variações
+sabem ler partituras e que gostaríamos de ter à disposição, juntamente
+com a
+partitura, uma tablatura para acordeon. Não é algo muito comum,
+visto que os modelos de acordeons variam muito em sua configuração, de
+região para região. No Brasil, mesmo, podemos encontrar muitas
+variações
 do mesmo instrumento.</p>
 <p>Seria inviável ficar reescrevendo a tablatura para cada acordeon
 diferente, então, pensamos em uma forma de unir o formato ABC com o
@@ -93,21 +95,23 @@ partitura que suporte tablaturas.</p>
 <h3>Um exemplo básico</h3>
 <p>Vamos usar um trecho da canção "Oh! Susannah" de Stephen Foster para
 criar uma tablatura. Primeiramente veja o fonte ABC:</p>
-<pre>X:1<br>T:Oh! Susannah<br>M:2/4<br>L:1/4<br>K:G<br>|"C"c c|e/2e/2 -e/2e/2|"G"d/2d/2 B/2G/2|"D7"A3/2G/4A/4|\<br>"G"B/2d/2 d3/4e/4|d/2B/2 G/2A/2|"G"B/2B/2 "D7"A/2A/2|"G"G2<br></pre>
-<p class="page-break">A partitura resultante deste trecho é:</p>
-<img src="../img/susannah.partitura.png">
+<pre>X:1<br>T:Oh! Susannah<br>M:2/4<br>L:1/4<br>Q:100<br>K:G<br>|"C"c c|e/2e/2 -e/2e/2|"G"d/2d/2 B/2G/2|"D7"A3/2G/4A/4|\<br>"G"B/2d/2 d3/4e/4|d/2B/2 G/2A/2|"G"B/2B/2 "D7"A/2A/2|"G"G2<br></pre>
+<p class="page-break"><p>A partitura resultante deste trecho é:</p>
+<img src="../img/susannah.partitura.png" style="width: 980px; height: 158px;">
 <p>Rapidamente podemos identificar os elementos desta peça ABC: a
 entrada <span style="font-weight: bold;">"X:"</span> marca o número da
 peça, trata-se de um sequencial númerico para diferenciar uma peça de
 outra; o elemento <span style="font-weight: bold;">"T:"</span>
 identifica o título da canção; <span style="font-weight: bold;">"M:"</span>
 identifica o compasso e <span style="font-weight: bold;">"L:"</span>
-marca o duração da nota base; <span style="font-weight: bold;">"K:"</span>
+marca o duração da nota base; <span style="font-weight: bold;">"Q:"</span>
+define a quantidade de batidas por minuto (bpm);<span style="font-weight: bold;"> </span><span style="font-weight: bold;">"K:"</span>
 indica a tonalidade em que a canção está registrada. Estes elementos
 são os chamados "<span style="font-style: italic;">metatextos</span>"
 da canção, ou seja, elementos que descrevem características da
 partitura. As notas propriamente ditas estão escritas nas últimas duas
-linhas de texto. A contrabarra "\" ao final da penúltima linha indica a
+linhas de texto. A contrabarra <span style="font-weight: bold;">"\"</span>
+ao final da penúltima linha indica a
 continuação, isto é, efetivamente existe apenas uma linha de partitura.
 <br>
 </p>
@@ -124,31 +128,33 @@ nova linha após o elemento <span style="font-weight: bold;">"L:"</span>,
 da seguinte forma:
 </p>
 <pre>V:melodia</pre>
-<p>E ao final do texto, vamos adicionar outras duas linhas, assim:</p>
-<pre>V:tablatura<br>K:accordionTab<br></pre>
+<p>E ao final do texto, vamos adicionar outra linha, assim:</p>
+<pre>V:tablatura accordionTab<br></pre>
 <p>O arquivo resultante será o seguinte:</p>
-<pre>X: 1<br>T:Oh! Susannah<br>M:2/4<br>L:1/4<br>V:melodia<br>K:G<br>|"C"c c|e/2e/2 -e/2e/2|"G"d/2d/2 B/2G/2|"D7"A3/2G/4A/4|\<br>"G"B/2d/2 d3/4e/4|d/2B/2 G/2A/2|"G"B/2B/2 "D7"A/2A/2|"G"G2<br>V:tablatura<br>K:accordionTab</pre>
+<pre>X: 1<br>T:Oh! Susannah<br>M:2/4<br>L:1/4<br>Q:100<br>K:G<br>V:melodia<br>|"C"c c|e/2e/2 -e/2e/2|"G"d/2d/2 B/2G/2|"D7"A3/2G/4A/4|\<br>"G"B/2d/2 d3/4e/4|d/2B/2 G/2A/2|"G"B/2B/2 "D7"A/2A/2|"G"G2<br>V:tablatura accordionTab</pre>
 <p>E a partitura gerada agora incluirá a seguinte tablatura:</p>
-<img src="../img/susannah.tablatura.png">
+<img src="../img/susannah.tablatura.png" style="width: 947px; height: 234px;">
 <p>Esta tablatura foi gerada para a Gaita Hohner G/C e pode ser
 diferente se for gerada para um acordeon com outra afinação. Como se
-pode notar também, a tablatura ainda não tem informação sobre os baixos da
+pode notar também, a tablatura ainda não tem informação sobre os baixos
+da
 canção.</p>
 <p>Agora podemos definir o que consideramos uma "<span style="font-style: italic;">partitura completa</span>", ou seja,
 apesar da tablatura poder ser gerada com apenas voz, uma partitura
 completa terá duas vozes (uma para melodia e outra para a baixaria) e
 então o site será capaz de gerar a tablatura com toda a informação.</p>
-<p class="page-break">Vamos modificar novamente nosso arquivo de exemplo, incluíndo uma
+<p class="page-break"><p>Vamos modificar novamente nosso arquivo de
+exemplo, incluíndo uma
 nova voz para descrever os baixos, assim:</p>
-<pre>X: 1<br>T:Oh! Susannah<br>M:2/4<br>L:1/4<br>V:melodia<br>K:G<br>|"C"c c|e/2e/2 -e/2e/2|"G"d/2d/2 B/2G/2|"D7"A3/2G/4A/4|\<br>"G"B/2d/2 d3/4e/4|d/2B/2 G/2A/2|"G"B/2B/2 "D7"A/2A/2|"G"G2|<br>V:baixos<br>K:G bass<br>| C, [C,E,G,] |  C, z  |  G,, z |  D, z |  G,, z |  G,, z |  D, [D,^F,A,] |  G,, z |<br>V:tablatura<br>K:accordionTab</pre>
+<pre>X: 1<br>T:Oh! Susannah<br>M:2/4<br>L:1/4<br>Q:100<br>K:G<br>V:melodia treble<br>|"C"c c|e/2e/2 -e/2e/2|"G"d/2d/2 B/2G/2|"D7"A3/2G/4A/4|\<br>"G"B/2d/2 d3/4e/4|d/2B/2 G/2A/2|"G"B/2B/2 "D7"A/2A/2|"G"G2 |<br>V:baixos bass<br>| C, [C,E,G,] | C, z | G,, z | D, z | G,, z | G,, z | D, [D,^F,A,] | G,, z |<br>V:tablatura accordionTab<br></pre>
 <p>Como resultado teremos a seguinte partitura/tablatura:</p>
-<img src="../img/susannah.tablatura.completa.png">
+<img src="../img/susannah.tablatura.completa.png" style="width: 1010px; height: 320px;">
 <h3>Uma pequena variação</h3>
 <p>O formato ABC permite que se declare as vozes previamente e, depois,
 usando o conceito de cabeçalhos <span style="font-style: italic;">inline</span>,
 possamos escrever uma voz abaixo da outra, facilitando a escrita quando
 a canção possuir várias linhas. Assim:</p>
-<pre>X: 1<br>T:Oh! Susannah<br>M:2/4<br>L:1/4<br>V:1 sname=melodia treble<br>V:2 sname=baixos bass<br>K:G<br>[V:1]| "C"c c | e/2e/2 -e/2e/2 | "G"d/2d/2 B/2G/2 | "D7"A3/2G/4A/4 |\<br>      "G"B/2d/2 d3/4e/4 | d/2B/2 G/2A/2 | "G"B/2B/2 "D7"A/2A/2 | "G"G2|<br>[V:2]| C, [C,E,G,] |  C, z  |  G,, z |  D, z |\<br>      &nbsp;G,, z |  G,, z |  D, [D,^F,A,] |  G,, z |<br>V:tablatura<br>K:accordionTab</pre>
+<pre>X: 1<br>T:Oh! Susannah<br>M:2/4<br>L:1/4<br>Q:100<br>K:G<br>V:1 sname=melodia treble<br>V:2 sname=baixos bass<br>[V:1]| "C"c c | e/2e/2 -e/2e/2 | "G"d/2d/2 B/2G/2 | "D7"A3/2G/4A/4 |\<br>       "G"B/2d/2 d3/4e/4 | d/2B/2 G/2A/2 | "G"B/2B/2 "D7"A/2A/2 | "G"G2|<br>[V:2]| C, [C,E,G,] |  C, z  |  G,, z |  D, z |\<br>      &nbsp;G,, z |  G,, z |  D, [D,^F,A,] |  G,, z |<br>V:tablatura accordionTab<br></pre>
 <p>O resultado será o mesmo apresentado acima. Note, contudo, que a voz
 da tablatura, devido a características da
 nossa implementação, continua sendo o último elemento da canção, mas
@@ -169,7 +175,8 @@ estranha para o formato ABC. Este texto não está no padrão ABC e pode
 gerar problemas com outros interpretadores, mas ele foi gerado única e
 exclusivamente para deixar registrada a tablatura gerada e permitir a
 posterior edição da mesma.</p>
-<p class="page-break">O algoritmo de geração de tablatura funciona da seguinte maneira: se
+<p class="page-break"><p>O algoritmo de geração de tablatura funciona da
+seguinte maneira: se
 não houver conteudo após a chave "accordionTab", uma nova tablatura
 será inferida; se já existir, ela será apenas interpretada e desenhada
 na tela. Isso permite o ajuste fino da tablatura através da edição
@@ -184,21 +191,21 @@ uma nova tablatura depois da correção da partitura.</p>
 aleatórios e significativos da melodia e seus correspondentes compassos
 dos baixos do trecho da canção usada como exemplo. São eles (com
 pequenas modificações):</p>
-<pre>[V:1]| c c         | e/2e/2 -e/2e/2 | B/2B/2 A/2A/2 |<br>[V:2]| C, [C,E,G,] | C, z           | D, [D,^F,A,]  |<br>V:tablatura<br>K:accordionTab<br>| C+6' c+6' | C+7'0.5 &gt;+7'0.5 z+&gt;0.5 z+7'0.5 | D-6'0.5 &gt;-6'0.5 d-70.5 &gt;-70.5 |<br><br></pre>
-<img src="../img/tablatura.entendimento.png">
+<pre>[V:1]| c c         | e/2e/2 -e/2e/2 | B/2B/2 A/2A/2 |<br>[V:2]| C, [C,E,G,] | C, z           | D, [D,^F,A,]  |<br>V:tablatura accordionTab<br>| C+6' c+6' | C+7'0.5 &gt;+7'0.5 z+&gt;0.5 z+7'0.5 | D-6'0.5 &gt;-6'0.5 d-70.5 &gt;-70.5 |<br><br></pre>
+<img style="width: 948px; height: 284px;" src="../img/tablatura.entendimento.png">
 <p>No texto ABCX acima, expomos a última linha que é o produto da
 geração da tablatura pelo site. Comparemos, pois, o texto com a
-tablatura gerada:&nbsp; a primeira coisa que se observa é que, um compasso
+tablatura gerada:&nbsp; a primeira coisa que se observa é que, um
+compasso
 da tablatura une (mescla) um compasso da melodia e um compasso dos
 baixos. E podemos definir um elemento da tablatura, assim:</p>
 <pre>{baixo}{fole}{botões}{duração}</pre>
 <p>Onde:</p>
 <ul>
-  <li><span style="font-weight: bold;">baixo</span>: letra única
-indicando o botão de baixo (maiúscula) ou o botão de acorde do baixo
-(minúscula). Pode não existir se não houver a voz do baixo. Por
-deficiência do projeto, não há previsão para a execução simultânea do
-baixo e seu acorde correspondente.<br>
+  <li><span style="font-weight: bold;">baixo</span>: letra(s) indicando
+o(s) botão(ões) da baixaria. Usam-se maiúsculas para representar notas
+simples e minúsculas para os acordes. Podem não existir se não houver a
+voz do baixo.<br>
   </li>
   <li><span style="font-weight: bold;">fole</span>: sinais indicam o
 movimento do fole abrindo (-) ou fechando (+). Este símbolo é sempre
@@ -216,24 +223,27 @@ colchetes.<br>
   </li>
   <li><span style="font-weight: bold;">duração</span>: número indicando
 a duração do elemento como um todo (baixo e melodia). Se a duração for
-igual a duração da nota base, não é necessário escrevê-lo, do contrário,
-deve ser grafado ou na forma de uma fração ou como um número real.<br>
+igual a duração da nota base, não é necessário escrevê-la, do
+contrário,
+deve ser grafada ou na forma de uma fração ou como um número real.<br>
   </li>
 </ul>
-
-<p>Analizemos alguns detalhes da&nbsp; tablatura gerada. O primeiro compasso é bastante simples:<br>
+<p>Analisemos alguns detalhes da&nbsp; tablatura gerada. O primeiro
+compasso é bastante simples:<br>
 </p>
 <pre>C+6' c+6' </pre>
-
 <p>Podemos ver claramente dois elementos da tablatura: no primeiro o
-baixo Dó (C) é tocado com o fole sendo fechado ao mesmo tempo em que se
-pressiona o sexto botão da linha 2; no segundo elemento, o acorde Dó
+<span style="font-weight: bold;">baixo</span> Dó (C) é tocado com o
+fole sendo fechado ao mesmo tempo em que se
+pressiona o sexto botão da linha 2 na melodia; no segundo elemento, o <span style="font-weight: bold;">acorde</span> Dó
 (c) é tocado, ainda fechando o fole e com o mesmo botão do primeiro
 elemento. Note que em nenhum dos elementos foi escrita a sua duração,
-isso porque as notas duram exatamente o tempo base, indicado pela
-entrada <span style="font-weight: bold;">"L:"</span>, nos metatextos da peça.<br>
+isso acontece porque as notas duram exatamente o tempo base, indicado
+pela
+entrada <span style="font-weight: bold;">"L:"</span>, nos metatextos
+da peça.<br>
 </p>
-<p class="page-break">Vamos ao segundo compasso. Há um elemento que
+<p class="page-break"><p>Vamos ao segundo compasso. Há um elemento que
 pode surgir em função da dinâmica dos tempos na
 partitura ou ainda em função das ligaduras. Por exemplo, no segundo
 compasso podemos notar que o tempo baixo é o dobro das notas da
@@ -244,7 +254,8 @@ segundo, onde ele é uma
 continuação, usamos o sinal de maior (&gt;), assim:</p>
 <pre>C+7'0.5 &gt;+7'0.5 </pre>
 <p>Ainda no mesmo compasso, a terceira nota é ligada à segunda, e
-então, agora é a nota da melodia&nbsp; que será continuada com o sinal de maior.</p>
+então, agora é a nota da melodia&nbsp; que será continuada com o sinal
+de maior.</p>
 <pre>C+7'0.5 &gt;+7'0.5 z+&gt;0.5 z+7'0.5 </pre>
 <p>Chamamos ainda a atenção para os tempos que, neste compasso da
 tablatura, são sempre escritos com 1/2 da nota base (ou 0.5) para
@@ -274,7 +285,6 @@ será selecionado mesmo que a nota em execução não seja a mesma.<br>
 </p>
 <p><br>
 </p>
-
 </div>
 
 </body></html>

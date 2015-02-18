@@ -4,12 +4,14 @@ X:1003
 %%barnumbers 1
 T:Mercedita
 C:Ramón Sixto Rios
+C:Adapt. para gaita-ponto por Cezar Ferreira.
 N:Transcrito por Flávio
-Q: 108
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
+Q:108
 L:1/8
 M:3/4
-V:Melodia
-K:C treble
+K:C 
+V:Melodia treble
 P:Parte I
 | zA, CE [FA][EG] |: [D2F2] [EG][DF]- [DF][EG] | [D2F2] [EG][FA]- [FA][DF] | [C2E2] [DF] [CE]-[CE] [DF] |
 w: Que dulce en can to tiene En mi _ re cuer do, Mer _ ce di ta, a _ ro ma
@@ -17,26 +19,19 @@ w: ~ ~ ~ ~ ~  cam po Allí _ mui le jos una _ tar de Don de _ cre
 | [C2E2] [DF][EG]- [EG][CE] | [B,2D2] [CE][B,D]- [B,D][CE] | [B,2D2] [CE][DF]- [DF][B,D] |1 [C6E6] | z A, CE [FA] [EG] :|
 w:ma  da  flo _ re ci  ta  A _  mor mí o de _ una vez  La co no ci en~el
 w:cen los tri _ ga les Pro vin _ ci a de San _ ta ~ ~ ~ ~ ~ ~
-|2 [A,C] z [P:Parte II][CE][DF] z [DF] |: [CE] z [CE] [DF] z [CE]  | [B,D] z [B,D] [CE] z [CE] |
-w:Fe Y así na  ció nues tro que rer   Com i lu 
-w: ~ ~ ~   ~   la  con  lo  co  amor, A sí lle
-| [B,D] z [B,D] [CE] z [B,D] | [CE] z [CE] [DF] z [DF] | [CE] z [CE] [DF] z [DF] | [E2c2e2] [Ece][DBd]- [DBd][DBd] |
-w:sión com mu cha fe Pe ro no sé por que la flor Se mar _ chi
-w: gué a com pren der, Lo que~es que rer, lo que~es su frir Por que _ le 
-| [C2E2c2] [CEc][B,DB]- [B,DB][B,DB] |1 [A,C] z [CE][DF] z [DF] :|2 [A,6C6A6] |
-w:tó y mo rien do fué Y amán do ~
-w:dí mi co ~ ra ~ ~ ~ ~ zón.
-V:Baixo
-K:C bass
+|2 [A,C] z [P:Parte II][CE][DF] z [DF] |: [CE] z [CE] [DF] z [CE]  | [B,D] z [B,D] [CE] z [CE] | [B,D] z [B,D] [CE] z [B,D] | [CE] z [CE] [DF] z [DF] |
+w:Fe Y así na-ció nues-tro que-rer   Com ilu-sión com mu cha fe Pe ro no 
+w: ~ ~ ~   ~   la  con  lo  co  amor, A sí lle-gué a com-pren-der, Lo que~es que 
+| [CE] z [CE] [DF] z [DF] | [E2c2e2] [Ece][DBd]- [DBd][DBd] | [C2E2c2] [CEc][B,DB]- [B,DB][B,DB] |1 [A,C] z [CE][DF] z [DF] :|2 [A,6C6A6] |
+w:sé por que la flor Se mar _ chi-tó y mo rien do fué Y amán do ~
+w:rer, lo que~es su frir Por que _ le dí mi co ~ ra ~ ~ ~ ~ zón.
+V:Baixo bass
 | z6 |: D, [F,A,C] D, [F,A,C] D, z | G,, [G,B,d,] G,, [G,B,d,] G,, z | C, [C,E,G,] F,, [F,A,C] F,, z | 
 | F,, [F,A,C] F,, [F,A,C] F,, z | E,, [E,^G,B,] E,, [E,^G,B,] E,,z | E,, [E,^G,B,] E,,z E,,z |1 A,, [A,,C,E,] A,, [A,,C,E,] A,, z | A,, [A,,C,E,] A,, [A,,C,E,] A,, z :|
-|2 A,, [A,,C,E,] A,, [A,,C,E,] A,, z |: A,, [A,,C,E,] A,, [A,,C,E,] A,, z | E,, [E,^G,B,] E,,z E,,z |
-| E,, [E,^G,B,] E,,z E,,z | A,, [A,,C,E,] A,, [A,,C,E,] A,, z | A,, [A,,C,E,] A,, [A,,C,E,] A,, z | E,3 D,3 |
-| C,3 E,3 |1 A,, [A,,C,E,] A,, [A,,C,E,] A,, z :|2 A,, [A,,C,E,] A,, [A,,C,E,] A,, z |
-V:Tab
-K:accordionTab
+|2 A,, [A,,C,E,] A,, [A,,C,E,] A,, z |: A,, [A,,C,E,] A,, [A,,C,E,] A,, z | E,, [E,^G,B,] E,,z E,,z | E,, [E,^G,B,] E,,z E,,z | A,, [A,,C,E,] A,, [A,,C,E,] A,, z |
+| A,, [A,,C,E,] A,, [A,,C,E,] A,, z | E,3 D,3 | C,3 E,3 |1 A,, [A,,C,E,] A,, [A,,C,E,] A,, z :|2 A,, [A,,C,E,] A,, [A,,C,E,] A,, z |
+V:Tablatura accordionTab
 | z+z z-3 z-4 z-5 z-[4'7] z-[55'] |: D-[3'4'] f-[>>] D-[55'] f-[3'4'] D-[>>] z-[55'] | G-[3'4'] g-[>>] G-[55'] g-[4'7] G-[>>] z-[3'4'] | C+[3'4'] c+[>>] F-[3'4'] f-[45] F-[>>] z-[3'4'] |
 | F-[45] f-[>>] F-[3'4'] f-[55'] F-[>>] z-[45] | E+[45] e+[>>] E+[3'4'] e+[45] E+[>>] z+[3'4'] | E+[45] e+[>>] E+[3'4'] z-[3'4'] E+[z] z-[2'3'] |1 A-[45] a-[>>] A-[>>] a-[>>] A-[>>] z-[>>] | A-z a-3 A-4 a-5 A-[4'7] z-[55'] :|
-|2 A-[34] a-z A-[45] a-[3'4'] A-z z-[3'4'] |: A-[45] a-z A-[45] a-[3'4'] A-z z-[45] | E+[45] e+z E+[45] z+[3'4'] E+z z+[3'4'] |
-| E+[45] e+z E+[45] z+[3'4'] E+z z+[45] | A-[45] a-z A-[45] a-[3'4'] A-z z-[3'4'] | A-[45] a-z A-[45] a-[3'4'] A-z z-[3'4'] | E+[467]2 >+[467] D-[367] >-[>>>] >-[367] |
-| C+[346]2 >+[346] E+[457] >+[>>>] >+[457] |1 A-[34] a-z A-[45] a-[3'4'] A-z z-[3'4'] :|2 A-[347] a-[>>>] A-[>>>] a-[>>>] A-[>>>] z-[>>>] |
+|2 A-[34] a-z A-[45] a-[3'4'] A-z z-[3'4'] |: A-[45] a-z A-[45] a-[3'4'] A-z z-[45] | E+[45] e+z E+[45] z+[3'4'] E+z z+[3'4'] | E+[45] e+z E+[45] z+[3'4'] E+z z+[45] | A-[45] a-z A-[45] a-[3'4'] A-z z-[3'4'] |
+| A-[45] a-z A-[45] a-[3'4'] A-z z-[3'4'] | E+[467]2 >+[467] D-[367] >-[>>>] >-[367] | C+[346]2 >+[346] E+[457] >+[>>>] >+[457] |1 A-[34] a-z A-[45] a-[3'4'] A-z z-[3'4'] :|2 A-[347] a-[>>>] A-[>>>] a-[>>>] A-[>>>] z-[>>>] |
