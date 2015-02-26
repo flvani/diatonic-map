@@ -28,8 +28,43 @@ notação abc, tablatura "/>
                         <table><tr>
                             <td id="DR_appName"><h1>Mapa&nbsp;para&nbsp;<span>Acordeons&nbsp;Diatônicos</span></h1></td>
                             <td style="width:20px;"></td>
-                            <td><a class="brand" href="#modalAbout" id="DR_about" >Sobre</a></td>
-                        </tr></table>
+                            <td>
+                  <table style="height: 36px;">
+                    <tr >
+                      <td >
+                        <div class="btn-group">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_accordions">Acordeons</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                            <input id="fileLoadMap" type="file" accept="text/abc" style="display: none;" multiple/>
+                            <ul class="dropdown-menu" id="opcoes_gaita"></ul>
+                        </div>
+                      </td >
+                      <td >
+                        <div class="btn-group">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_repertoire">Repertório</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                            <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" style="display: none;" multiple />
+                            <ul class="dropdown-menu" id="opcoes_repertorio">
+                                <li><a href="#" id="DR_original" onclick="reloadRepertoire();">Restaurar o original</a></li>
+                                <li><a href="#" id="DR_localLoad" onclick="document.getElementById('fileLoadRepertoire').click()">Carregar do drive local</a></li>
+                                <li style="display:inline;"><a href="#" id="DR_localSave" onclick="saveRepertoire();">Exportar para drive local</a></li>
+                            </ul>
+                        </div>
+                      </td >
+                      <td >
+                        <div class="btn-group">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_info">Informações</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                            <ul class="dropdown-menu" id="opcoes_teoria">
+                              <li><a id="DR_accordion_maps" target="_blank" href="html/mapas.pt_BR.html" >Mapas para acordeons</a></li>
+                              <li><a id="DR_tablature" target="_blank" href="html/tablatura.pt_BR.html" >Tablaturas para acordeons</a></li>
+                              <li><a id="DR_abc_format" target="_blank" href="html/formatoABCX.pt_BR.html" >Formato ABCX</a></li>
+                              <li><a id="DR_abc_editor" target="_blank" href="html/editorABCX.pt_BR.html" >Editor de partituras</a></li>
+                              <li><a id="DR_didactic_mode" target="_blank" href="html/modoDidatico.pt_BR.html" >Modo didático</a></li>
+                              <li><a id="DR_about" href="#modalAbout" >Sobre</a></li>
+                            </ul>
+                        </div>
+                      </td >
+                    </tr>
+                  </table>
+                        </td></tr></table>
                     </div>
                     <div style="position: absolute; top: 0; right:0; margin-top: 5px; margin-right: 5px;">
                         <div class="btn-group" style="margin-top:0;">
@@ -53,65 +88,26 @@ notação abc, tablatura "/>
         
         <div class="container" id="mapContainerDiv"  style="display: inline; float:left; margin-top: 0; margin-left: 0px; width: 95%" >
             
-            <div id="divMenu" class="span12" style="display:inline; width:100%; height:36px; margin-left: 4px; margin-top: 4px;">
-              <table><tr><td>
-                  <table class="table table-bordered table-final">
-                    <tr >
-                      <td >
-                        <div class="btn-group">
-                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_accordions">Acordeons</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                            <input id="fileLoadMap" type="file" accept="text/abc" style="display: none;" multiple/>
-                            <ul class="dropdown-menu" id="opcoes_gaita"></ul>
-                        </div>
-                      </td >
-                      <td >
-                        <div class="btn-group">
-                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_repertoire">Repertório</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                            <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" style="display: none;" multiple />
-                            <ul class="dropdown-menu" id="opcoes_repertorio">
-                                <li><a href="#" id="DR_original" onclick="reloadRepertoire();">Restaurar o original</a></li>
-                                <li><a href="#" id="DR_localLoad" onclick="document.getElementById('fileLoadRepertoire').click()">Carregar do drive local</a></li>
-                                <li style="display:inline;"><a href="#" id="DR_localSave" onclick="saveRepertoire();">Exportar para drive local</a></li>
-                            </ul>
-                        </div>
-                      </td >
-                      <td >
-                          <button id="changeNotationBtn" class="btn" onclick="changeNotation();"><i class="icon-globe"></i>&nbsp;<span id="DR_chlabel">Mudar notação</span></button>
-                      </td >
-                      <td >
-                        <div class="btn-group">
-                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_info">Informações</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                            <ul class="dropdown-menu" id="opcoes_teoria">
-                              <li><a id="DR_accordion_maps" target="_blank" href="html/mapas.pt_BR.html" >Mapas para acordeons</a></li>
-                              <li><a id="DR_tablature" target="_blank" href="html/tablatura.pt_BR.html" >Tablaturas para acordeons</a></li>
-                              <li><a id="DR_abc_format" target="_blank" href="html/formatoABCX.pt_BR.html" >Formato ABCX</a></li>
-                              <li><a id="DR_abc_editor" target="_blank" href="html/editorABCX.pt_BR.html" >Editor de partituras</a></li>
-                              <li><a id="DR_didactic_mode" target="_blank" href="html/modoDidatico.pt_BR.html" >Modo didático</a></li>
-                            </ul>
-                        </div>
-                      </td >
-                    </tr>
-                  </table>
-                 </td><td style="padding: 1%"></td><td>
-                  </td></tr>
-                </table>
-            </div> <!-- /div_menu --> 
-               
             <div id="div_principal" class="span12" style="float:left; margin-left: 4px; margin-top: 6px; width: 920px;" >
               <div style="margin:0; padding:0; width:100%;">  
               <ul id="faketab">
                   <li><a href="#" id="a_nome_gaita">LOADING...</a></li>
                   <li>
                       <div id="divMapControls" style="margin-left: 8px; margin-top:1px;" >
-                          <table class="table-bordered table-final" style="height: 23px"> 
-                          <tr > 
-                            <td >
-                                &nbsp;<b id="DR_layout">Layout:</b>&nbsp;&nbsp;
-                                <input type="checkbox" id="checkboxHorizontal" checked >&nbsp;<span id="DR_horizontal">Horizontal</span>
-                                &nbsp;&nbsp;
-                                <input type="checkbox" id="checkboxEspelho">&nbsp;<span id="DR_espelho">Espelho</span>&nbsp;
-                            </td >
-                          </tr>
+                        <table><tr><td>
+                            <table class="table-bordered table-final" style="height: 23px;"> 
+                            <tr > 
+                              <td >
+                                  &nbsp;<b id="DR_layout">Layout:</b>&nbsp;&nbsp;
+                                  <input type="checkbox" id="checkboxHorizontal" checked >&nbsp;<span id="DR_horizontal">Horizontal</span>
+                                  &nbsp;&nbsp;
+                                  <input type="checkbox" id="checkboxEspelho">&nbsp;<span id="DR_espelho">Espelho</span>&nbsp;
+                              </td >
+                            </tr>
+                            </table>
+                            </td><td>
+                                <button id="changeNotationBtn" class="btn" onclick="changeNotation();" style="background-color: white; margin-top:1px; height: 24px;"><i class="icon-globe"></i>&nbsp;<span id="DR_chlabel">Mudar notação</span></button>
+                            </td></tr>
                         </table>
                       </div>  
                   </li>
@@ -135,7 +131,23 @@ notação abc, tablatura "/>
             
             </div> <!-- /div_principal --> 
             
-            <div id="divAD" style="margin-left: 930px; margin-top: 73px; width: 200px;"> 
+            <div id="divAD" style="margin-left: 935px; margin-top: 33px; width: 220px;"> 
+              <table class="table table-bordered table-final" style="min-width: 200px;">
+                <tr>
+                  <td >
+                      <center style="color: #189CDA;"><b>Dica...</b></center>
+                  </td>
+                </tr>
+                <tr>
+                  <td >
+                <center><b>
+                    <br>O formato ABC é a base para toda a geração das partituras deste site. 
+                    <br><br>Quer saber mais sobre este formato livre? 
+                    <a target="_blank" href="http://pt.wikipedia.org/wiki/ABC_%28nota%C3%A7%C3%A3o_musical%29" >Clique aqui!</a>
+                </b></center>
+                  </td>
+                </tr>
+              </table>
               <table class="table table-bordered table-final" style="min-width: 200px; display:none;">
                 <tr>
                   <td >
@@ -150,7 +162,7 @@ notação abc, tablatura "/>
                   </td>
                 </tr>
               </table>
-              <table class="table table-bordered table-final" style="min-width: 200px;">
+              <table class="table table-bordered table-final" style="min-width: 200px; display:none;">
                 <tr>
                   <td >
                       <center style="color: red;"><b>Lançamento!</b></center>
@@ -224,7 +236,7 @@ notação abc, tablatura "/>
               </div>  
               </div>  
               <div id= "tuneContainerDiv" style="float:left; margin-top:0px; margin-left:0px; margin-bottom: 0px; 
-                                                  width:1150px; height: 330px; overflow-y: auto;" > 
+                                                  width:1150px; height: 350px; overflow-y: auto;" > 
                   <div id="tabTunesDiv"></div>    
                   <div id="tabChordsDiv" ></div>
                   <div id="tabPracticesDiv" ></div>
@@ -292,7 +304,7 @@ notação abc, tablatura "/>
                 <a href="#close" title="Fechar" class="close">X</a>
               </div>
               <div class="modalContent">
-                <h3>Diatonic-Map <i>v2.00</i><br><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
+                <h3>Diatonic-Map <i>v2.01</i><br><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
                 <p>Este projeto pretende ser um mapa de referência para acordeons diatônicos. 
                    Com ele é possível configurar – e mostrar – o layout de qualquer gaita de botões, nos seus mais diversos modelos.
                    Quero deixar aqui, meus especiais agradecimentos ao 
