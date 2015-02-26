@@ -1,15 +1,13 @@
-﻿T:Exercício 4 - Milonga
+X:7
+T:Exercício 4 - Milonga
 Q:72
 L:1/8
 M:2/4
-V:mel
 K:Am
-|: E3/2c1/2 Ec | E3/2c1/2 Ec | E3/2d1/2 Ed | E3/2d1/2 Ed :|
-%|: [E3/2c3/2][E1/2c1/2] [Ec][Ec] | [E3/2c3/2][E1/2c1/2] [Ec][Ec] | E3/2d1/2 Ed | E3/2d1/2 Ed :|
-V:bass
-K:Am bass
-|: A,,3/2[A,,C,E,] 1/2  A,,[A,,C,E,] | A,,3/2[A,,C,E,] 1/2  A,,[A,,C,E,]  \
+V:1 treble
+V:2 bass
+[V:1]|: E3/2c1/2 Ec | E3/2c1/2 Ec | E3/2d1/2 Ed | E3/2d1/2 Ed :|
+[V:2]|: A,,3/2[A,,C,E,] 1/2  A,,[A,,C,E,] | A,,3/2[A,,C,E,] 1/2  A,,[A,,C,E,]  \
 |E,3/2[E,^G,B,] 1/2 E,[E,^G,B,] | E,3/2[E,^G,B,] 1/2 E,[E,^G,B,] :|
-V:tab
-K:none accordionTab
+V:tab accordionTab
 |: A-51.5 a-80.5 A-5 a-8 | A-51.5 a-80.5 A-5 a-8 | E+4'1.5 e+80.5 E+4' e+8 | E+4'1.5 e+80.5 E+4' e+8 :|

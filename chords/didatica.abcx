@@ -3,8 +3,8 @@ T:Didática do Acordeon G/C
 L:1/4   
 K:C 
 V:botoneira treble
-|B,,D,|D,^F,|G,A,|B,C|DE|G^F|BA|dc|ge|b^f|d'a
-|E,G,|G,B,|CD|EF|GG|cB|ed|gf|c'g|e'b|
+|B,,D,|D,^F,|G,A,|B,C|DE|^FG|AB|cd|eg|^fb|ad'|
+|E,G,|G,B,|CD|EF|GG|Bc|de|fg|gc'|be'|
 V:tablatura accordionTab
-| +1 -1 | +2 -2 | +3 -3 | +4 -4 | +5 -5 | +6 -6 | +7 -7 | +8 -8 | +9 -9 | +a -a | +b -b
-| +1' -1' | +2' -2' | +3' -3' | +4' -4' | +5' -5' | +6' -6' | +7' -7' | +8' -8' | +9' -9' | +a' -a'
+| +1 -1 | +2 -2 | +3 -3 | +4 -4 | +5 -5 | -6 +6 | -7 +7 | -8 +8 | -9 +9 | -a +a | -b +b |
+| +1' -1' | +2' -2' | +3' -3' | +4' -4' | +5' -5' | -6'  +6'|-7'  +7' |-8'  +8' | -9' +9' | -a' +a'|

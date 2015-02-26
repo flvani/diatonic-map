@@ -4,11 +4,10 @@ C:Acordes Hohner G/C
 Q:100
 L:1/4
 M:4/4
-V:melo name="Dó maior"
 K:C
+V:melo name="Dó maior"
 | "Dó "C E G [CEG] 2 | "Dó - 1ª inversão"E G c [EGc] 2 | "Dó - 2ª inversão "G c e [Gce] 2 |
-V:tab
-K:none accordionTab
+V:tab accordionTab
 | +3' +4' +5' +[3'4'5']2 | +4' +5' +6' +[4'5'6']2 | +5' +6' +7' +[5'6'7']2 |
 
 X:2
@@ -17,12 +16,11 @@ C:Acordes Hohner G/C
 Q:100
 L:1/4
 M:4/4
-V:melo name="Ré maior"
 K:C
+V:melo name="Ré maior"
 | "Ré "D ^F A [D^FA] 2 | "Ré - 1ª inversão"^F A d [^FAd] 2 | "Ré - 2ª inversão "A d ^f[Ad^f] 2 |
-V:tab
-K:none accordionTab
-| -3' -6 -7 -[3'67]2 | -6 -7 7' -[677']2 | -7 -7' -a -[77'a]2 |
+V:tab accordionTab
+| -3' -6 -7 -[3'67]2 | -6 -7 -7' -[677']2 | -7 -7' -a -[77'a]2 |
 
 X:3
 T:Ré menor
@@ -30,11 +28,10 @@ C:Acordes Hohner G/C
 Q:100
 L:1/4
 M:4/4
-V:melo name="Ré menor"
 K:C
+V:melo name="Ré menor"
 | "Ré menor"D F A [DFA] 2 | "Ré menor - 1ª inversão"F A d [FAd] 2 | "Ré menor - 2ª inversão "A d f  [Adf]2 |
-V:tab
-K:none accordionTab
+V:tab accordionTab
 | -3' -4' -7 -[3'4'7]2 | -4' -7 -7' -[4'77']2 | -7 -7' -8' -[77'8']2 |
 
 X:4 
@@ -43,12 +40,11 @@ C:Acordes Hohner G/C
 Q:100
 L:1/4
 M:4/4
-V:melo "Mi c/ sétima"
 K:C
-| "Mi sétima" [EBd] 2 |
-V:tab
-K:none accordionTab
-| +[4'78] 2 |
+V:melo "Mi c/ sétima"
+| "Mi sétima" E B d [EBd] 2 |
+V:tab accordionTab
+| +4' +7 +8 +[4'78]2 |
 
 X:5
 T:Mi menor
@@ -56,11 +52,10 @@ C:Acordes Hohner G/C
 Q:100
 L:1/4
 M:4/4
-V:melo "Mi menor"
 K:C
+V:melo "Mi menor"
 | "Mi menor"E G B [EGB] 2 | "Mi menor - 1ª inversão"G B e [GBe] 2 | "Mi menor - 2ª inversão"B e g [Beg] 2 |
-V:tab
-K:none accordionTab
+V:tab accordionTab
 | +4' +5' +7 +[4'5'7]2 | +6 +7 +7' +[677']2 | +7 +7' +8' +[77'8']2 |
 
 X:6
@@ -69,11 +64,10 @@ C:Acordes Hohner G/C
 Q:100
 L:1/4
 M:4/4
-V:melo "Fá maior"
 K:C
+V:melo "Fá maior"
 | "Fá maior"F A c [FAc] 2 | "Fá maior - 1ª inversão"A c f [Acf] 2 | "Fá maior - 2ª inversão"c f a[cfa] 2 |
-V:tab
-K:none accordionTab
+V:tab accordionTab
 | -4' -7 -8 -[4'78]2 | -7 -8 -8' -[788']2 | -8 -8' -b -[88'b]2 |
 
 X:7
@@ -82,11 +76,10 @@ C:Acordes Hohner G/C
 Q:100
 L:1/4
 M:4/4
-V:melo "Sol maior"
 K:C
+V:melo "Sol maior"
 | "Sol maior"G B d [GBd]2 | "Sol maior - 1ª inversão"B d g [Bdg]2 | "Sol maior - 2ª inversão"d g b [dgb]2 |
-V:tab
-K:none accordionTab
+V:tab accordionTab
 | +5' +7 +8 +[5'78]2 | +7 +8 +8' +[788']2 | +8 +8' +a +[88'a]2 |
 
 X:8
@@ -95,9 +88,8 @@ C:Acordes Hohner G/C
 Q:100
 L:1/4
 M:4/4
-V:melo "Lá menor"
 K:C
+V:melo "Lá menor"
 | "Lá menor"A, C E [A,CE]2 | "Lá menor - 1ª inversão"C E A [CEA]2 | "Lá menor - 2ª inversão"E A c [EAc]2 |
-V:tab
-K:none accordionTab
+V:tab accordionTab
 | -3 -4 -5 -[345]2 | -4 -5 -7 -[457]2 | -5 -7 -8 -[578]2 |

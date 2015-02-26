@@ -1,15 +1,13 @@
-﻿X:1
+X:6
 T:Exercício 3 - Vanera
 Q:72
 L:1/8
 M:2/4
-V:mel
-K:Am
-|: G3/2G,1/2 EG, | G3/2G,1/2 EG, | G3/2G,1/2 FG, | G3/2G,1/2 FG, :|
-V:bass
-K:Am bass
-|: C,3/2[CEG] 1/2  C,[CEG] | C,3/2[CEG] 1/2 C,[CEG] \
+K:C
+V:1 treble
+V:2 bass
+[V:1]|: G3/2G,1/2 EG, | G3/2G,1/2 EG, | G3/2G,1/2 FG, | G3/2G,1/2 FG, :|
+[V:2]|: C,3/2[CEG] 1/2  C,[CEG] | C,3/2[CEG] 1/2 C,[CEG] \
 |G,,3/2[G,B,d,] 1/2 G,,[G,B,d,] | G,,3/2[G,B,d,] 1/2 G,,[G,B,d,] :|
-V:tab
-K:none accordionTab
+V:tab accordionTab
 |: C+5'1.5 c+2'0.5 C+4' c+2' | C+5'1.5 c+2'0.5 C+4' c+2'|  G-5'1.5 g-1'0.5 G-4' g-1' | G-5'1.5 g-1'0.5 G-4' g-1' :|

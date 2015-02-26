@@ -1,21 +1,43 @@
-﻿X:1
+X:1
 T:Exercício 1b
-V:tab
-K:none accordionTab
+L:1/4
+K:G
+V:1 treble
+V:2 bass
+[V:1]| G G G G | F F F F | G G G G | F F F F |
+[V:2]| G,, [G,B,D]  G,, [G,B,D] | D,, [D,F,A,] D,, [D,F,A,] | G,, [G,B,D]  G,, [G,B,D] | D,, [D,F,A,] D,, [D,F,A,] |
+V:tab accordionTab
 | G+6 g+6 G+6 g+6 | D-6 d-6 D-6 d-6 | G+6 g+6 G+6 g+6 | D-6 d-6 D-6 d-6 |
+
 X:2
 T:Exercício 1c
-V:tab
-K:none accordionTab
+L:1/4
+K:G
+V:1 treble
+V:2 bass
+[V:1]| G G F F | G F G G | G G F F | G F G G |
+[V:2]| G,, [G,B,D]  D,, [D,F,A,] | G,, [D,F,A,] G,, [G,B,D] | G,, [G,B,D]  D,, [D,F,A,] | G,, [D,F,A,] G,, [G,B,D] |
+V:tab accordionTab
 | G+6 g+6 D-6 d-6 | G+6 d-6 G+6 g+6 | G+6 g+6 D-6 d-6 | G+6 d-6 G+6 g+6 | 
+
 X:3
 T:Exercício 1d
-V:tab
-K:none accordionTab
+L:1/4
+K:G
+V:1 treble
+V:2 bass
+[V:1]| G2 F2 | G2 F2 | G2 F2 | G2 F2 |
+[V:2]| G,, [G,B,D]  D,, [D,F,A,] | G,, [G,B,D]  D,, [D,F,A,] | G,, [G,B,D]  D,, [D,F,A,] | G,, [G,B,D]  D,, [D,F,A,] |
+V:tab accordionTab
 | G+6 g+> D-6 d-> | G+6 g+> D-6 d-> | G+6 g+> D-6 d-> | G+6 g+> D-6 d-> |
 
 X:4
 T:Exercício 1e
-V:tab
-K:none accordionTab
+L:1/4
+K:G
+V:1 treble
+V:2 bass
+[V:1]| G2 A2 | G2 A2 | G2 A2 | G2 A2 |
+[V:2]| G,, [G,B,D]  D,, [D,F,A,] | G,, [G,B,D]  D,, [D,F,A,] | G,, [G,B,D]  D,, [D,F,A,] | G,, [G,B,D]  D,, [D,F,A,] |
+V:tab accordionTab
 | G+6 g+> D-7 d-> | G+6 g+> D-7 d-> | G+6 g+> D-7 d-> | G+6 g+> D-7 d-> |
