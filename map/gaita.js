@@ -11,15 +11,14 @@ DIATONIC.map.Gaita = function( map, interfaceParams ) {
     this.FONTSIZE = DIATONIC.map.Units.FONTSIZE; 
     
     this.map = map;
-    this.keyToNote = {}; // C8  == 108
-    this.noteToKey = {}; // 108 ==  C8
-    this.minNote = 0x15; //  A0 = first note
-    this.maxNote = 0x6C; //  C8 = last note
-    this.number2key = ["C", "C♯", "D", "E♭", "E", "F", "F♯", "G", "G♯", "A", "B♭", "B"];
+    this.keyToNote = ABCXJS.midi.keyToNote;
+    this.minNote   = ABCXJS.midi.minNote;
+    this.maxNote   = ABCXJS.midi.maxNote; 
+
+    this.number2keysharp = ["C", "C♯", "D", "E♭", "E", "F", "F♯", "G", "G♯", "A", "B♭", "B"];
     this.number2keyflat = ["C", "D♭", "D", "D♯", "E", "F", "G♭", "G", "A♭", "A", "A♯", "B"];
     this.number2key_br = ["Dó", "Dó♯", "Ré", "Mi♭", "Mi", "Fá", "Fá♯", "Sol", "Sol♯", "Lá", "Si♭", "Si"];
-    this.minNoteInUse = this.maxNote;
-    this.maxNoteInUse = this.minNote;
+    
     this.accordions = [];
     this.selected = -1;
     this.showLabel = false;
@@ -47,16 +46,6 @@ DIATONIC.map.Gaita = function( map, interfaceParams ) {
         throw Error( 'No accordion found!' );
         return;
     } 
-    
-    // popular arrays com nomes e valores de notas
-    for (var n = this.minNote; n <= this.maxNote; n++) {
-        var octave = (n - 12) / 12 >> 0;
-        var name = this.number2key[n % 12] + octave;
-        this.noteToKey[n] = name;
-        this.keyToNote[name] = n;
-        name = this.number2keyflat[n % 12] + octave;
-        this.keyToNote[name] = n;
-    }
 };
 
 DIATONIC.map.Gaita.prototype.selectAccordion = function(id) {
@@ -155,8 +144,8 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
   var bEspelho = this.map.isMirror();
 
   // para localizar as notas extremas
-  this.minNoteInUse   = this.maxNote;
-  this.maxNoteInUse   = this.minNote;
+  //this.minNoteInUse   = this.maxNote;
+  //this.maxNoteInUse   = this.minNote;
 
   //this.selected = nGaita;
   this.keyboard = new Array();
@@ -296,10 +285,10 @@ DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
         this.keyboard[j][i].notaClose = this.parseNote( closeBassRow[i], true );
       }
 
-      this.minNoteInUse = Math.min( this.keyboard[j][i].notaOpen.value, this.minNoteInUse );
-      this.minNoteInUse = Math.min( this.keyboard[j][i].notaClose.value, this.minNoteInUse );
-      this.maxNoteInUse = Math.max( this.keyboard[j][i].notaOpen.value+12, this.maxNoteInUse );
-      this.maxNoteInUse = Math.max( this.keyboard[j][i].notaClose.value+12, this.maxNoteInUse );
+      //this.minNoteInUse = Math.min( this.keyboard[j][i].notaOpen.value, this.minNoteInUse );
+      //this.minNoteInUse = Math.min( this.keyboard[j][i].notaClose.value, this.minNoteInUse );
+      //this.maxNoteInUse = Math.max( this.keyboard[j][i].notaOpen.value+12, this.maxNoteInUse );
+      //this.maxNoteInUse = Math.max( this.keyboard[j][i].notaClose.value+12, this.maxNoteInUse );
 
       this.keyboard[j][i].btn = new DIATONIC.map.Button( this.paper, xxi, yyi
             , this.keyboard[j][i].notaOpen.key + (this.keyboard[j][i].notaOpen.isMinor?'-':'')
@@ -583,12 +572,12 @@ DIATONIC.map.Gaita.prototype.parseNote = function(p_nota, isBass) {
 
 DIATONIC.map.Gaita.prototype.setKeyLabel = function(nota) {
   if( nota.isChord )  {
-    nota.key = this.number2key[nota.value % 12].toLowerCase() ;
+    nota.key = this.number2keysharp[nota.value % 12].toLowerCase() ;
   } else {
       if( this.showLabel) {
         nota.key = this.number2key_br[nota.value % 12] ;
       } else {
-        nota.key = this.number2key[nota.value % 12];
+        nota.key = this.number2keysharp[nota.value % 12];
       }
   }
   return nota;
