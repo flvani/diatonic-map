@@ -106,7 +106,7 @@ notação abc, tablatura "/>
                             </tr>
                             </table>
                             </td><td>
-                                <button id="changeNotationBtn" class="btn" onclick="changeNotation();" style="background-color: white; margin-top:1px; height: 24px;"><i class="icon-globe"></i>&nbsp;<span id="DR_chlabel">Mudar notação</span></button>
+                                <button id="buttonChangeNotation" class="btn" style="background-color: white; margin-top:1px; height: 24px;"><i class="icon-globe"></i>&nbsp;<span id="DR_chlabel">Mudar notação</span></button>
                             </td></tr>
                         </table>
                       </div>  
@@ -352,19 +352,21 @@ notação abc, tablatura "/>
 
         <!-- suporte a MIDI -->
         <script type="text/javascript" src="MIDI.js/MIDI_2.03-min.js"></script>
+        
+        <!-- suporte a arquivos -->
+        <script type="text/javascript" src="file/filemanager_3.20-min.js"></script>
 
         <!-- suporte a arquivos ABC -->
-        <script type="text/javascript" src="abcjs/abcxjs_3.15-min.js" ></script>
+        <script type="text/javascript" src="abcjs/abcxjs.js" ></script>
 
-        <script type="text/javascript" src="diatonic/diatonic-map.js"></script>
+        <!-- suporte mapas de acordeons -->
+        <script type="text/javascript" src="diatonic/diatonic.js"></script>
 
         <script type="text/javascript" src="map/map.js"></script>
         <script type="text/javascript" src="map/gaita.js"></script>
-        <script type="text/javascript" src="map/button.js"></script>
 
-        <script type="text/javascript" src="js/bootstrap-dropdown.js"></script>
-        <script type="text/javascript" src="js/filemanager.js"></script>
-        <script type="text/javascript" src="js/language.js"></script>
+        <script type="text/javascript" src="javascripts/bootstrap-dropdown.js"></script>
+        <script type="text/javascript" src="javascripts/language.js"></script>
 
         <script type="text/javascript">
 
@@ -401,6 +403,7 @@ notação abc, tablatura "/>
                       , ckAccordion: 'checkboxAcordeon'
                       , ckMirror: 'checkboxEspelho'
                       , ckHorizontal: 'checkboxHorizontal'
+                      , btChangeNotation: 'buttonChangeNotation'
                       , accordionNamePlaceHolder: 'a_nome_gaita'
                       , accordionImagePlaceHolder: 'td_imagem_gaita'
                       , tuneContainerDiv: 'tuneContainerDiv'
@@ -417,7 +420,6 @@ notação abc, tablatura "/>
                   , {   // editorParams
                        textArea: "textareaABC"
                       ,canvas_id: "editorDiv"
-                      ,accordionSelector_id: "selGaitas"
                       ,keySelector_id: "selKey"
                       ,refreshController_id: "chkAutoRefresh"
                       ,warnings_id: "warningsDiv"
@@ -426,6 +428,12 @@ notação abc, tablatura "/>
                       ,playBtn: "playBtn2"
                       ,stopBtn: "stopBtn2"
                       ,currentPlayTimeLabel: "currentPlayTimeLabel2"
+                      ,generate_tablature: 'accordion'
+                      ,tablature_options: {
+                             accordionSelector_id: "selGaitas"
+                            ,accordionMaps: DIATONIC.map.accordionMaps
+                            ,keyboardDiv_id:"contentKeyboard"
+                            ,render_keyboard_opts:{transpose:true, mirror: false, scale:1, draggable:false, show:true}}
                   } 
                   , {   // playerParams
                         modeBtn: "modeBtn"
@@ -594,10 +602,6 @@ notação abc, tablatura "/>
                 myMap.editor.fireChanged(0, "force");
             };
 
-            function changeNotation() {
-                myMap.gaita.changeNotation();
-            };
-
             saveButton.addEventListener("click", function() {
                 myMap.salvaMusica();
             }, false);
@@ -658,16 +662,17 @@ notação abc, tablatura "/>
             }, false);
 
             function showABCXversion() {
+                 document.getElementById("divABCXversion").innerHTML = '<i>Powered by ABCXJS debug version.</i>';
                 $("script").each(function() {
-                    var s = $(this).attr("src");
-
-                    if ( s && s.search('abcxjs') >= 0  ) {
-                        s = s.split( '/');  
-                        s = s[1].split('_');
-                        s[1] = s[1].split('-');
-                        s[1] = s[1][0];
-                        document.getElementById("divABCXversion").innerHTML = '<i>Powered by ' + s[0].toUpperCase() + ' version '  + s[1] + '</i>';
-                    }
+//                    var s = $(this).attr("src");
+//
+//                    if ( s && s.search('abcxjs') >= 0  ) {
+//                        s = s.split( '/');  
+//                        s = s[1].split('_');
+//                        s[1] = s[1].split('-');
+//                        s[1] = s[1][0];
+//                        document.getElementById("divABCXversion").innerHTML = '<i>Powered by ' + s[0].toUpperCase() + ' version '  + s[1] + '</i>';
+//                    }
                 });
             }
 

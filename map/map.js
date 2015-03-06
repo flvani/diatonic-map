@@ -17,19 +17,7 @@ if (!window.DIATONIC)
 if (!window.DIATONIC.map)
     window.DIATONIC.map = {};
 
-DIATONIC.map.Units = {
-    // aspectos do botão
-     BTNSIZE: 52
-    ,BTNRADIUS: 26
-    ,BTNSPACE: 3
-    ,FONTSIZE: 18 // razoavel ser menor que metade do btnSize
-};
-
 DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, playerParams ) {
-
-    this.BTNSIZE = DIATONIC.map.Units.BTNSIZE;
-    this.BTNSPACE = DIATONIC.map.Units.BTNSPACE;
-    this.FONTSIZE = DIATONIC.map.Units.FONTSIZE; 
 
     var that = this;
     this.currentTab = '';
@@ -37,32 +25,34 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
     
     DR.register( this ); // register for translate
     
-    this.gaita = new DIATONIC.map.Gaita(this, accordionParams);
-    
     this.midiPlayer = new ABCXJS.midi.Player(this);
     
     this.editor =  new ABCXJS.Editor(
-                         editorParams.textArea
-                      ,{
-                         canvas_id: editorParams.canvas_id
-                        ,refreshController_id: editorParams.refreshController_id
-                        ,accordionSelector_id: editorParams.accordionSelector_id
-                        ,accordionMaps: this.gaita.accordions
-                        ,keySelector_id: editorParams.keySelector_id
-                        ,generate_midi: editorParams.generate_midi
-                        ,generate_warnings: editorParams.generate_warnings
-                        ,warnings_id: editorParams.warnings_id
-                        ,map: this
-                        //,midi_options: {program: 21, qpm: 150, type: "qt"}
-                        //,render_options: {}
-                        //,gui: false
-                      });
+        editorParams.textArea
+     ,{
+        canvas_id: editorParams.canvas_id
+       ,refreshController_id: editorParams.refreshController_id
+       ,keySelector_id: editorParams.keySelector_id
+       ,generate_midi: editorParams.generate_midi
+       ,midi_options: {}
+       ,generate_warnings: editorParams.generate_warnings
+       ,warnings_id: editorParams.warnings_id
+       ,generate_tablature: editorParams.generate_tablature
+       ,tablature_options: editorParams.tablature_options
+       ,map: this
+       //,render_options: {}
+       //,gui: false
+    });
+    
+    this.gaita = new DIATONIC.map.Gaita(this, accordionParams);
     
     // screen control
     this.checkboxEspelho = document.getElementById(interfaceParams.ckMirror);
     this.checkboxHorizontal = document.getElementById(interfaceParams.ckHorizontal);
     this.checkboxPiano = document.getElementById(interfaceParams.ckPiano);
+    this.buttonChangeNotation = document.getElementById(interfaceParams.btChangeNotation);
     this.checkboxAcordeon = document.getElementById(interfaceParams.ckAccordion);
+    
     this.tuneContainerDiv = document.getElementById(interfaceParams.tuneContainerDiv);
     this.gaitaNamePlaceHolder = document.getElementById(interfaceParams.accordionNamePlaceHolder);
     this.gaitaImagePlaceHolder = document.getElementById(interfaceParams.accordionImagePlaceHolder);
@@ -92,7 +82,7 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
 //            that.playButton.title = DR.getResource("playBtn");
 //            that.playButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
 //            that.printer.clearSelection();
-//            that.gaita.clearKeyboard(true);
+//            that.editor.accordion.clearKeyboard(true);
 //            that.ypos = 1000;
 //            if(that.currentPlayTimeLabel)
 //                that.currentPlayTimeLabel.innerHTML = "00:00.00";
@@ -119,7 +109,7 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
             that.editorPlayButton.title = DR.getResource("playBtn");
             that.editorPlayButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
             that.printer.clearSelection();
-            that.gaita.clearKeyboard(true);
+            that.editor.accordion.clearKeyboard(true);
             if(that.currentPlayTimeLabel)
                 that.currentPlayTimeLabel.innerHTML = "00:00.00";
             if(that.editorCurrentPlayTimeLabel)
@@ -157,12 +147,16 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
         }, false);
     }  
     
+    this.buttonChangeNotation.addEventListener("click", function() {
+        that.editor.accordion.changeNotation();
+    }, false );
+    
     this.checkboxHorizontal.addEventListener('click', function() {
-        that.gaita.setupKeyboard();
+        that.editor.accordion.layoutKeyboard( {transpose: this.checked } );
     }, false );
 
     this.checkboxEspelho.addEventListener('click', function() {
-        that.gaita.setupKeyboard();
+        that.editor.accordion.layoutKeyboard( {mirror: this.checked } );
     }, false );
     
     this.modeButton.addEventListener('click', function() {
@@ -179,7 +173,7 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
 
     this.clearButton.addEventListener("click", function() {
         that.printer.clearSelection();
-        that.gaita.clearKeyboard(true);
+        that.editor.accordion.clearKeyboard(true);
         that.ypos = 1000;
         that.gotoMeasureButton.value = "1";
         that.currentPlayTimeLabel.innerHTML = "00:00.00";
@@ -235,6 +229,14 @@ DIATONIC.map.Map = function( interfaceParams, accordionParams, editorParams, pla
     
 };
 
+DIATONIC.map.Map.prototype.rotateKeyboard = function() {
+    this.editor.accordion.rotateKeyboard();
+};
+
+DIATONIC.map.Map.prototype.scaleKeyboard = function() {
+    this.editor.accordion.scaleKeyboard();
+};
+
 DIATONIC.map.Map.prototype.startPlay = function( type, value ) {
     if( this.midiPlayer.playing) {
         
@@ -248,7 +250,7 @@ DIATONIC.map.Map.prototype.startPlay = function( type, value ) {
         }    
         
     } else {
-        this.gaita.clearKeyboard();
+        this.editor.accordion.clearKeyboard();
         var midi;
         switch (this.currentTab) {
             case "tabTunes":
@@ -308,14 +310,6 @@ DIATONIC.map.Map.prototype.translate = function() {
   this.carregaListaGaitas();
 };
 
-DIATONIC.map.Map.prototype.isHorizontal = function() {
-    return this.checkboxHorizontal.checked;
-};
-
-DIATONIC.map.Map.prototype.isMirror = function() {
-    return this.checkboxEspelho.checked;
-};
-
 DIATONIC.map.Map.prototype.carregaListaGaitas  = function(g) {
     var gaita = g || this.gaita;
     var ord = [];
@@ -363,6 +357,7 @@ DIATONIC.map.Map.prototype.salvaRepertorio = function() {
 };
 
 DIATONIC.map.Map.prototype.save = function() {
+    throw new Error ('Rotina em manutenção.');
     var accordion = this.gaita.getSelectedAccordion();
     var txtAccordion = 
             '{\n'+
