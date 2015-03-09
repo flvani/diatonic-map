@@ -10,9 +10,6 @@ DIATONIC.map.Gaita = function( map, interfaceParams ) {
 
     this.accordions = [];
     this.selected = -1;
-    this.keyboard = {};
-    this.modifiedItems = {};
-    this.paper = undefined;
     
     DR.register( this ); // register for translate
     
@@ -114,10 +111,8 @@ DIATONIC.map.Gaita.prototype.setup = function(accordionParams) {
 };
 
 DIATONIC.map.Gaita.prototype.translate = function() {
-  console.log( 'Ajustar tradução de Legenda');
-  return;
-  this.keyboard.legenda.setTextOpen( DR.getResource('DR_pull') );
-  this.keyboard.legenda.setTextClose( DR.getResource('DR_push') );
+  this.getSelectedAccordion().keyboard.legenda.setTextOpen( DR.getResource('DR_pull') );
+  this.getSelectedAccordion().keyboard.legenda.setTextClose( DR.getResource('DR_push') );
   this.map.setGaitaName(this.getSelectedAccordion());
 };
 
@@ -355,15 +350,3 @@ DIATONIC.map.Gaita.prototype.startLoader = function(id) {
     });
     return loader;
 };
-
-//DIATONIC.map.Gaita.prototype.setupKeyboard = function() {
-//
-//  if(this.renderedTune)
-//    this.renderedTune.midi = this.map.editor.midiParser.parse(this.renderedTune.abc/*, this.songPrinter*/);
-//  if(this.renderedPractice)
-//    this.renderedPractice.midi = this.map.editor.midiParser.parse(this.renderedPractice.abc/*, this.practicePrinter*/);
-//  if(this.renderedChord)
-//    this.renderedChord.midi = this.map.editor.midiParser.parse(this.renderedChord.abc/*, this.chordPrinter*/);
-//
-//};
-
