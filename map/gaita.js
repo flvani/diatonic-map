@@ -75,10 +75,8 @@ DIATONIC.map.Gaita.prototype.setup = function(accordionParams) {
    this.renderedChord = undefined;
   
   //o ideal seria ajustar o acordion do editor e seletor pelo id
+  this.map.editor.accordion.render_keyboard_opts.show=true;
   this.map.editor.accordion.load( this.selected );
-  this.map.editor.accordion.selector.set(this.selected);
-  
-  this.map.editor.accordion.printKeyboard();
 
   this.map.setGaitaName( gaita );
   this.map.setGaitaImage( gaita );
@@ -116,22 +114,6 @@ DIATONIC.map.Gaita.prototype.translate = function() {
   this.map.setGaitaName(this.getSelectedAccordion());
 };
 
-DIATONIC.map.Gaita.prototype.addChangeListenerToChordSelector = function(gaita) {
-    this.chordSelector.onchange = function() {
-    FILEMANAGER.saveLocal( 'property.'+gaita.getSelectedAccordion().getId()+'.chord.title', this.value );
-    gaita.renderChord( this.value, {}, true );
-    gaita.map.tuneContainerDiv.scrollTop = 0;    
-  };
-};
-
-DIATONIC.map.Gaita.prototype.addChangeListenerToPracticeSelector = function(gaita) {
-    this.practiceSelector.onchange = function() {
-    FILEMANAGER.saveLocal( 'property.'+gaita.getSelectedAccordion().getId()+'.practice.title', this.value );
-    gaita.renderPractice( this.value, {}, true );
-    gaita.map.tuneContainerDiv.scrollTop = 0;    
-  };
-};
-
 DIATONIC.map.Gaita.prototype.selectSong = function(i) {
     var value = this.getSelectedAccordion().songs.sortedIndex[i];
     FILEMANAGER.saveLocal( 'property.'+this.getSelectedAccordion().getId()+'.song.title', value );
@@ -143,6 +125,7 @@ DIATONIC.map.Gaita.prototype.selectSong = function(i) {
 DIATONIC.map.Gaita.prototype.loadSongList = function(tt) {
     
     $('#ulSongs').empty();
+    $('#spanSongs').empty();
 
     var items = this.getSelectedAccordion().songs.sortedIndex;
     for( var i = 0; i < items.length; i++) {
@@ -158,45 +141,57 @@ DIATONIC.map.Gaita.prototype.loadSongList = function(tt) {
     }   
 };
 
-DIATONIC.map.Gaita.prototype.loadPracticeList = function(tt) {
-    
-    while( this.practiceSelector.options.length > 0 ) {
-        this.practiceSelector.remove(0);
-    }            
-    
-    var items = this.getSelectedAccordion().practices.sortedIndex;
-    for( var i = 0; i < items.length; i++) {
-        var title = items[i];
-        var opt = document.createElement('option');
-        opt.innerHTML = (title.length>43 ? title.substr(0,40) + "..." : title);
-        opt.value = title;
-        this.practiceSelector.appendChild(opt);
-        if(title === tt) {
-            this.practiceSelector.value = tt;
-        }    
-    }   
-    this.addChangeListenerToPracticeSelector(this);
-    
+DIATONIC.map.Gaita.prototype.selectChord = function(i) {
+    var value = this.getSelectedAccordion().chords.sortedIndex[i];
+    FILEMANAGER.saveLocal( 'property.'+this.getSelectedAccordion().getId()+'.chord.title', value );
+    document.getElementById("spanChords").innerHTML = (value.length>43 ? value.substr(0,40) + "..." : value);
+    this.renderTune( value, {}, true );
+    this.map.tuneContainerDiv.scrollTop = 0;    
 };
 
 DIATONIC.map.Gaita.prototype.loadChordList = function(tt) {
     
-    while( this.chordSelector.options.length > 0 ) {
-        this.chordSelector.remove(0);
-    }            
-    
+    $('#ulChords').empty();
+    $('#spanChords').empty();
+
     var items = this.getSelectedAccordion().chords.sortedIndex;
     for( var i = 0; i < items.length; i++) {
+        
         var title = items[i];
-        var opt = document.createElement('option');
-        opt.innerHTML = (title.length>43 ? title.substr(0,40) + "..." : title);
-        opt.value = title;
-        this.chordSelector.appendChild(opt);
         if(title === tt) {
-            this.chordSelector.value = tt;
+            document.getElementById("spanChords").innerHTML = (title.length>43 ? title.substr(0,40) + "..." : title);
         }    
+        
+        $('#ulChords').append('<li ><a href="#" id="chord' +
+            i  +'" onclick="showChord(\''+ i +'\')">' + (title.length>43 ? title.substr(0,40) + "..." : title)  + '</a></li>');
+        
     }   
-    this.addChangeListenerToChordSelector(this);
+};
+
+DIATONIC.map.Gaita.prototype.selectPractice = function(i) {
+    var value = this.getSelectedAccordion().practices.sortedIndex[i];
+    FILEMANAGER.saveLocal( 'property.'+this.getSelectedAccordion().getId()+'.practice.title', value );
+    document.getElementById("spanPractices").innerHTML = (value.length>43 ? value.substr(0,40) + "..." : value);
+    this.renderPractice( value, {}, true );
+    this.map.tuneContainerDiv.scrollTop = 0;    
+};
+
+DIATONIC.map.Gaita.prototype.loadPracticeList = function(tt) {
+    $('#ulPractices').empty();
+    $('#spanPractices').empty();
+
+    var items = this.getSelectedAccordion().practices.sortedIndex;
+    for( var i = 0; i < items.length; i++) {
+        
+        var title = items[i];
+        if(title === tt) {
+            document.getElementById("spanPractices").innerHTML = (title.length>43 ? title.substr(0,40) + "..." : title);
+        }    
+        
+        $('#ulPractices').append('<li ><a href="#" id="practice' +
+            i  +'" onclick="showPractice(\''+ i +'\')">' + (title.length>43 ? title.substr(0,40) + "..." : title)  + '</a></li>');
+        
+    }   
     
 };
 
@@ -217,7 +212,6 @@ DIATONIC.map.Gaita.prototype.printTune = function(alreadyOnPage, params ) {
     $("#" + this.songDiv.id).fadeIn();
     loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
     this.songPrinter.printABC(this.renderedTune.abc);
-    //this.renderedTune.abc.midi.printer = this.songPrinter;
     $("#" + this.songDiv.id).hide();
     loader.stop();
     if (alreadyOnPage)
@@ -260,7 +254,6 @@ DIATONIC.map.Gaita.prototype.printPractice = function(alreadyOnPage, params) {
     loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
     this.practicePrinter.printABC(this.renderedPractice.abc);
     $("#" + this.practiceDiv.id).hide();
-    //this.renderedPractice.abc.midi.printer = this.practicePrinter;
 
     loader.stop();
     if (alreadyOnPage)
@@ -304,7 +297,6 @@ DIATONIC.map.Gaita.prototype.printChord = function(alreadyOnPage, params) {
     loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
     this.chordPrinter.printABC(this.renderedChord.abc);
     $("#" + this.chordDiv.id).hide();
-    //this.renderedChord.abc.midi.printer = this.chordPrinter;
     
     loader.stop();
     if (alreadyOnPage)

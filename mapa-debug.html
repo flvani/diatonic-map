@@ -187,26 +187,23 @@ notação abc, tablatura "/>
                   <li><!-- apenas para ajustar o espaço --></li>
                 </ul>
               </div>    
-              <div id="div2" style="float:left; margin-left:5px; display:inline;" >
+              <div id="div2" style="float:left; margin-left:2px; display:inline;" >
                   <div id="divPlayerControls" style="position: absolute; min-width: 750px;" >
                     <table><tr><td>
                     <div id="divSelectPlayControls" style="float:left; margin-right: 2px;">
-                      <div class="btn-group"  id="divSongs" style="display: inline;">
+                      <div class="btn-group" id="divPractices" style="display: none; margin: 0px;">
+                          <button id="btnPractices" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left; margin-right: 2px;"><span id="spanPractices">...</span>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                          <ul class="dropdown-menu" id="ulPractices" style="text-align: left; margin-left: 5px; margin-top: 12px"></ul>
+                      </div>
+                      <div class="btn-group"  id="divSongs" style="display: inline; margin: 0px;">
                           <button id="btnSongs" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left; margin-right: 2px;"><span id="spanSongs">...</span>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
                           <ul class="dropdown-menu" id="ulSongs" style="text-align: left; margin-left: 5px; margin-top: 12px"></ul>
                       </div>
-                      <div class="btn-group" id="divPractices" style="display: none;">
-                          <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="btnPractices">Practices</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                          <ul class="dropdown-menu" id="opcoes_practices"></ul>
+                      <div class="btn-group" id="divChords" style="display: none; margin: 0px;">
+                          <button id="btnChords" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left; margin-right: 2px;"><span id="spanChords">...</span>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                          <ul class="dropdown-menu" id="ulChords" style="text-align: left; margin-left: 5px; margin-top: 12px"></ul>
                       </div>
-                      <div class="btn-group" id="divChords" style="display: none;">
-                          <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="btnChords">Practices</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                          <ul class="dropdown-menu" id="opcoes_chords"></ul>
-                      </div>
-                      <select id="selSongs" style="width: 20em; display:none" ></select>
-                      <select id="selChords" style="width: 20em; display:none;" ></select>
-                      <select id="selPractices" style="width: 20em; display:none;" ></select>
-                      <button id="modeBtn" class="btn" title="Modo normal" onclick=""><img src="img/listening3.png" alt="" width="20" height="20"></button>
+                      <button id="modeBtn" class="btn" title="Modo normal" onclick="" style="text-align: left; margin-left: 2px;"><img src="img/listening3.png" alt="" width="20" height="20"></button>
                     </div>
                     </td><td>
                     <div id="divNormalPlayControls" style="display: inline; float:none  ; margin-right: 2px;">
@@ -306,14 +303,6 @@ notação abc, tablatura "/>
                 <a href="#close" title="Fechar" class="close">X</a>
               </div>
               <div class="modalContent">
-                <script type="text/javascript">
-                    if( true ) {
-                    var _clustrmaps = {'url' : 'http://flvani.github.io', 'user' : 1132824, 
-                    'server' : '2', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2015-02-18', 'lang' : 'pt', 
-                    'corners' : 'square' };(function (){ var s = document.createElement('script'); 
-                     s.type = 'text/javascript'; s.async = true; s.src = 'http://www2.clustrmaps.com/counter/map.js';
-                     var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();}
-                </script>
                 <noscript>
                     <a href="http://www2.clustrmaps.com/user/617114918" target="_blank">
                          <img src="http://www2.clustrmaps.com/stats/maps-no_clusters/flvani.github.io-thumb.jpg" alt="Localização dos visitantes desta página." />
@@ -361,29 +350,51 @@ notação abc, tablatura "/>
         </div> <!-- /modalAbout -->
         
         <script type="text/javascript" src="proto_noconflict.js" ></script>
-
         <script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
-
-        <!-- suporte a MIDI -->
-        <script type="text/javascript" src="MIDI.js/MIDI_2.03-min.js"></script>
-        
+        <script type="text/javascript" src="javascripts/bootstrap-dropdown.js"></script>
+        <script type="text/javascript" src="raphael/raphael_2.1.3-min.js"></script>
         <!-- suporte a arquivos -->
         <script type="text/javascript" src="file/filemanager_3.20-min.js"></script>
-
+        <script type="text/javascript" src="javascripts/language.js"></script>
+        <!-- suporte a MIDI -->
+        <script type="text/javascript" src="MIDI.js/MIDI_2.04-min.js"></script>
+        
         <!-- suporte a arquivos ABC -->
-        <script type="text/javascript" src="abcjs/abcxjs.js" ></script>
-
+        <!--script id="mainABCX" type="text/javascript" src="abcjs/abcxjs_3.20-min.js" ></script-->
+        <script id="mainABCX" type="text/javascript" src="abcjs/abcxjs.js" ></script>
+        
         <!-- suporte mapas de acordeons -->
         <script type="text/javascript" src="diatonic/diatonic.js"></script>
 
         <script type="text/javascript" src="map/map.js"></script>
         <script type="text/javascript" src="map/gaita.js"></script>
+        
+        <script id="mainScript" type="text/javascript">
+            
+            var producao = getABCXversion();
 
-        <script type="text/javascript" src="javascripts/bootstrap-dropdown.js"></script>
-        <script type="text/javascript" src="javascripts/language.js"></script>
-
-        <script type="text/javascript">
-
+            //var sourceScripts = [ {id:"abcjs/abcxjs", version:producao}];
+            
+            if( producao ) {
+                var _clustrmaps = {
+                     'url' : 'http://flvani.github.io'
+                    ,'user' : 1132824
+                    ,'server' : '2'
+                    ,'id' : 'clustrmaps-widget'
+                    ,'version' : 1
+                    ,'date': '2015-02-18'
+                    ,'lang' : 'pt'
+                    ,'corners' : 'square' };
+                (function (){
+                    var s = document.createElement('script'); 
+                    s.type = 'text/javascript'; 
+                    s.async = true; 
+                    s.src = 'http://www2.clustrmaps.com/counter/map.js';
+                    var x = document.getElementsByTagName('script')[0]; 
+                    x.parentNode.insertBefore(s, x);
+                })();
+            }
+            
             var myMap;
 
             document.getElementById('fileLoadMap').addEventListener('change', loadMap, false);        
@@ -426,9 +437,9 @@ notação abc, tablatura "/>
                         keyboardContentDiv: 'contentKeyboard'
                       , songSelector: 'divSongs'
                       , songDiv: 'tabTunesDiv'
-                      , chordSelector: 'selChords'
+                      , chordSelector: 'divChords'
                       , chordDiv: 'tabChordsDiv'
-                      , practiceSelector: 'selPractices'
+                      , practiceSelector: 'divPractices'
                       , practiceDiv: 'tabPracticesDiv'
                   }
                   , {   // editorParams
@@ -447,7 +458,7 @@ notação abc, tablatura "/>
                              accordionSelector_id: "selGaitas"
                             ,accordionMaps: DIATONIC.map.accordionMaps
                             ,keyboardDiv_id:"contentKeyboard"
-                            ,render_keyboard_opts:{transpose:true, mirror: false, scale:1, draggable:false, show:true}}
+                            ,render_keyboard_opts:{transpose:true, mirror: false, scale:1, draggable:false, show:false}}
                   } 
                   , {   // playerParams
                         modeBtn: "modeBtn"
@@ -462,9 +473,6 @@ notação abc, tablatura "/>
                       , currentPlayTimeLabel: "currentPlayTimeLabel"
                   } 
                 );
-
-                //recupera e mostra na tela a versão em uso da lib ABCX
-                showABCXversion();
 
                 // configura e mostra a gaita inicial
                 var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_HOHNER_GC';
@@ -583,6 +591,12 @@ notação abc, tablatura "/>
             function showSong(i) {
                 myMap.gaita.selectSong(i);
             };
+            function showPractice(i) {
+                myMap.gaita.selectPractice(i);
+            };
+            function showChord(i) {
+                myMap.gaita.selectChord(i);
+            };
 
             function loadMap(evt) {
               FILEMANAGER.loadLocalFiles(evt, function() {
@@ -675,19 +689,17 @@ notação abc, tablatura "/>
 
             }, false);
 
-            function showABCXversion() {
-                 document.getElementById("divABCXversion").innerHTML = '<i>Powered by ABCXJS debug version.</i>';
-                $("script").each(function() {
-//                    var s = $(this).attr("src");
-//
-//                    if ( s && s.search('abcxjs') >= 0  ) {
-//                        s = s.split( '/');  
-//                        s = s[1].split('_');
-//                        s[1] = s[1].split('-');
-//                        s[1] = s[1][0];
-//                        document.getElementById("divABCXversion").innerHTML = '<i>Powered by ' + s[0].toUpperCase() + ' version '  + s[1] + '</i>';
-//                    }
-                });
+            function getABCXversion() {
+                var str = document.getElementById("mainABCX").src;
+                var res = str.match(/[0-9]\.[0-9][0-9]/g);
+                
+                if( res ) {
+                   document.getElementById("divABCXversion").innerHTML = '<i>Powered by ABCXJS version '+res[0]+'.</i>';
+                   return res[0];
+                } else {
+                   document.getElementById("divABCXversion").innerHTML = '<i>Powered by ABCXJS debug version.</i>';
+                   return false;
+               }   
             }
 
       </script>

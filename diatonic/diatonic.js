@@ -516,7 +516,7 @@ DIATONIC.map.Keyboard.prototype.getLayout = function (r) {
 };
 
 DIATONIC.map.Keyboard.prototype.isPedal = function (i,j) {
-    return (this.pedalInfo[1]) === i && (this.pedalInfo[0]) === j;
+    return (this.pedalInfo[1] === (i+1)) && (this.pedalInfo[0] === (j+1));
 };
 
 DIATONIC.map.Keyboard.prototype.parseNote = function(txtNota, isBass) {

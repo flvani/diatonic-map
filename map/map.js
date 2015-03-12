@@ -527,19 +527,19 @@ DIATONIC.map.Map.prototype.defineActiveTab = function( which ) {
     this.changePlayMode();
     switch (this.currentTab) {
         case "tabTunes":
-            this.gaita.songSelector.style.display  = 'inline';
             this.gaita.chordSelector.style.display  = 'none';
             this.gaita.practiceSelector.style.display  = 'none';
+            this.gaita.songSelector.style.display  = 'inline';
             break;
         case "tabChords":
-            this.gaita.chordSelector.style.display  = 'inline';
             this.gaita.practiceSelector.style.display  = 'none';
             this.gaita.songSelector.style.display  = 'none';
+            this.gaita.chordSelector.style.display  = 'inline';
             break;
         case "tabPractices":
-            this.gaita.practiceSelector.style.display  = 'inline';
             this.gaita.chordSelector.style.display  = 'none';
             this.gaita.songSelector.style.display  = 'none';
+            this.gaita.practiceSelector.style.display  = 'inline';
             break;
     }
 };
