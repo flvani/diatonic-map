@@ -13,6 +13,8 @@ SITE.Estudio = function( interfaceParams, editorParams, playerParams ) {
         editorParams.textArea
      ,{
         canvas_id: editorParams.canvas_id
+     //,accordionSelector_id: editorParams.accordionSelector_id
+       ,accordionNameSpan: editorParams.accordionNameSpan
        ,refreshController_id: editorParams.refreshController_id
        ,keySelector_id: editorParams.keySelector_id
        ,generate_midi: editorParams.generate_midi
@@ -66,7 +68,8 @@ SITE.Estudio = function( interfaceParams, editorParams, playerParams ) {
     }, false);
 
     this.clearButton.addEventListener("click", function() {
-        that.printer.clearSelection();
+        if(that.midi.printer)
+            that.midi.printer.clearSelection();
         that.editor.accordion.clearKeyboard(true);
         that.ypos = 1000;
         that.gotoMeasureButton.value = "1";
@@ -152,3 +155,33 @@ SITE.Estudio.prototype.changePlayMode = function() {
     }
 };
 
+SITE.Estudio.prototype.startPlay = function( type, value ) {
+    this.editor.parseABC(0, "force" );
+    this.midi = this.editor.tunes[0].midi;
+    
+    if( this.midiPlayer.playing) {
+        
+        this.ypos = 1000;
+        if (type === "normal" ) {
+            this.playButton.title = DR.getResource("playBtn");
+            this.playButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
+            this.midiPlayer.pausePlay();
+        } else {
+            this.midiPlayer.pausePlay(true);
+        }    
+        
+    } else {
+        this.editor.accordion.clearKeyboard();
+        if(type==="normal") {
+            if( this.midiPlayer.startPlay(this.midi) ) {
+                this.playButton.title = DR.getResource("DR_pause");
+                this.playButton.innerHTML = '&nbsp;<i class="icon-pause"></i>&nbsp;';
+                this.ypos = 1000;
+            }
+        } else {
+            if( this.midiPlayer.startDidacticPlay(this.midi, type, value ) ) {
+                this.ypos = 1000;
+            }
+        }
+    }
+};

@@ -589,20 +589,14 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
             break;
     };
     
-    if (!tab.paper) {
-       tab.paper = Raphael(tab.div, 700, 400);
-       tab.printer = new ABCXJS.write.Printer(tab.paper, params);
-    }
+    tab.div.innerHTML = "";
+    tab.paper = Raphael(tab.div, 700, 200);
+    tab.printer = new ABCXJS.write.Printer(tab.paper, params);
 
     if (tab.title === "") {
         tab.text = undefined;
-        tab.paper.clear();
-        tab.paper.height = 300;
         return;
     }
-    
-    tab.paper.clear();
-    tab.paper.height = 300;
     
     tab.abc = this.parseABC(tab.text);
     
