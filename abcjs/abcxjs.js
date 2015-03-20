@@ -8809,9 +8809,9 @@ if (!window.ABCXJS)
 if (!window.ABCXJS.midi) 
     window.ABCXJS.midi = {}; 
 
-ABCXJS.midi.Parse = function( options  ) {
-    this.options =  options || {};
-    this.keyboard = options.keyboard;
+ABCXJS.midi.Parse = function( options ) {
+    options = options || {};
+    this.keyboard = options.keyboard || null;
     this.vars = { warnings: [] };
     this.scale = [0, 2, 4, 5, 7, 9, 11];
     
@@ -9658,11 +9658,11 @@ ABCXJS.midi.Player.prototype.getTime = function() {
     return {cTime: cTime, time: time };
 };
 // abc_editor.js
-// window.ABCXJS.Editor is the interface class for the area that contains the ABC text. It is responsible for
+// ABCXJS.Editor is the interface class for the area that contains the ABC text. It is responsible for
 // holding the text of the tune and calling the parser and the rendering engines.
 //
 // EditArea is an example of using a textarea as the control that is shown to the user. As long as
-// the same interface is used, window.ABCXJS.Editor can use a different type of object.
+// the same interface is used, ABCXJS.Editor can use a different type of object.
 //
 // EditArea:
 // - constructor(textareaid)
@@ -9691,10 +9691,42 @@ ABCXJS.midi.Player.prototype.getTime = function() {
 if (!window.ABCXJS)
 	window.ABCXJS = {};
 
-if (!window.ABCXJS.edit)
-	window.ABCXJS.edit = {};
+if (!ABCXJS.edit)
+	ABCXJS.edit = {};
 
-window.ABCXJS.edit.KeySelector = function(id) {
+ABCXJS.edit.AccordionSelector = function(id, accordion) {
+  this.selector = document.getElementById(id);
+  this.accordion = accordion;
+};
+
+ABCXJS.edit.AccordionSelector.prototype.updateAccordionList = function() {
+    while(this.selector.options.length > 0){                
+        this.selector.remove(0);
+    }    
+    this.populate();
+};
+
+ABCXJS.edit.AccordionSelector.prototype.addChangeListener = function(editor) {
+  this.selector.onchange = function() {
+    editor.accordion.load(parseInt(this.value));
+    editor.fireChanged( 0, "force" );
+  };
+};
+    
+ABCXJS.edit.AccordionSelector.prototype.populate = function() {
+    for (var i = 0; i < this.accordion.accordions.length; i++) {
+        var opt = document.createElement('option');
+        opt.innerHTML = this.accordion.accordions[i].getName();
+        opt.value = i;
+        this.selector.appendChild(opt);
+    }
+};
+
+ABCXJS.edit.AccordionSelector.prototype.set = function(val) {
+    this.selector.value = val;
+};
+
+ABCXJS.edit.KeySelector = function(id) {
 
     this.selector = document.getElementById(id);
     this.cromaticLength = 12;
@@ -9703,7 +9735,7 @@ window.ABCXJS.edit.KeySelector = function(id) {
     }
 };
 
-window.ABCXJS.edit.KeySelector.prototype.populate = function(offSet) {
+ABCXJS.edit.KeySelector.prototype.populate = function(offSet) {
     
     while( this.selector.options.length > 0 ) {
         this.selector.remove(0);
@@ -9722,31 +9754,31 @@ window.ABCXJS.edit.KeySelector.prototype.populate = function(offSet) {
     this.selector.value = offSet+this.cromaticLength;
 };
 
-window.ABCXJS.edit.KeySelector.prototype.set = function(value) {
+ABCXJS.edit.KeySelector.prototype.set = function(value) {
     this.populate(value);
 };
 
-window.ABCXJS.edit.KeySelector.prototype.addChangeListener = function(editor) {
+ABCXJS.edit.KeySelector.prototype.addChangeListener = function(editor) {
   this.selector.onchange = function() {
     editor.fireChanged( this.value - editor.keySelector.oldValue, "force" );
   };
 };
 
-window.ABCXJS.edit.EditArea = function(textareaid) {
+ABCXJS.edit.EditArea = function(textareaid) {
   this.textarea = document.getElementById(textareaid);
   this.initialText = this.textarea.value;
   this.isDragging = false;
   this.changeListener;
 };
 
-window.ABCXJS.edit.EditArea.prototype.addSelectionListener = function(listener) {
+ABCXJS.edit.EditArea.prototype.addSelectionListener = function(listener) {
   this.textarea.onmousemove = function(ev) {
 	  if (this.isDragging)
 	    listener.fireSelectionChanged();
   };
 };
 
-window.ABCXJS.edit.EditArea.prototype.addChangeListener = function(listener) {
+ABCXJS.edit.EditArea.prototype.addChangeListener = function(listener) {
   this.changelistener = listener;
   this.textarea.onkeyup = function() {
     listener.fireChanged();
@@ -9765,11 +9797,11 @@ window.ABCXJS.edit.EditArea.prototype.addChangeListener = function(listener) {
 };
 
 //TODO won't work under IE?
-window.ABCXJS.edit.EditArea.prototype.getSelection = function() {
+ABCXJS.edit.EditArea.prototype.getSelection = function() {
     return {start: this.textarea.selectionStart, end: this.textarea.selectionEnd};
 };
 
-window.ABCXJS.edit.EditArea.prototype.setSelection = function (start, end) {
+ABCXJS.edit.EditArea.prototype.setSelection = function (start, end) {
     if (this.textarea.setSelectionRange)
         this.textarea.setSelectionRange(start, end);
     else if (this.textarea.createTextRange) {
@@ -9783,11 +9815,11 @@ window.ABCXJS.edit.EditArea.prototype.setSelection = function (start, end) {
     this.textarea.focus();
 };
 
-window.ABCXJS.edit.EditArea.prototype.getString = function() {
+ABCXJS.edit.EditArea.prototype.getString = function() {
   return this.textarea.value;
 };
 
-window.ABCXJS.edit.EditArea.prototype.setString = function(str, noRefresh ) {
+ABCXJS.edit.EditArea.prototype.setString = function(str, noRefresh ) {
   this.textarea.value = str;
   this.textarea.selectionStart = 0;  
   this.textarea.selectionEnd = 0;  
@@ -9797,7 +9829,7 @@ window.ABCXJS.edit.EditArea.prototype.setString = function(str, noRefresh ) {
   }
 };
 
-window.ABCXJS.edit.EditArea.prototype.appendString = function(str, noRefresh ) {
+ABCXJS.edit.EditArea.prototype.appendString = function(str, noRefresh ) {
   //retira \n ao final  
   var t = this.textarea.value;
   while( t.charAt(t.length-1) === '\n' ) {
@@ -9806,12 +9838,12 @@ window.ABCXJS.edit.EditArea.prototype.appendString = function(str, noRefresh ) {
   this.setString(t+str, noRefresh );
 };
 
-window.ABCXJS.edit.EditArea.prototype.getElem = function() {
+ABCXJS.edit.EditArea.prototype.getElem = function() {
   return this.textarea;
 };
 
 //
-// window.ABCXJS.Editor:
+// ABCXJS.Editor:
 //
 // constructor(editarea, params)
 //		if editarea is a string, then it is an HTML id of a textarea control.
@@ -9862,12 +9894,13 @@ window.ABCXJS.edit.EditArea.prototype.getElem = function() {
 //		Stops the automatic rendering when the user is typing.
 //
 
-window.ABCXJS.Editor = function(editarea, params) {
+ABCXJS.Editor = function(editarea, params) {
     
   this.oldt = "";
   this.bReentry = false;
   this.accordion = null;
-  this.map = params.map;
+  this.accordionSelector = null;
+  this.keySelector = null;
   this.indicate_changed = params.indicate_changed;
 
   this.parserparams = params.parser_options || {};
@@ -9876,7 +9909,7 @@ window.ABCXJS.Editor = function(editarea, params) {
   this.defineOnChangeCallback( params.onchange );
 
   if (typeof editarea === "string") {
-    this.editarea = new window.ABCXJS.edit.EditArea(editarea);
+    this.editarea = new ABCXJS.edit.EditArea(editarea);
   } else {
     this.editarea = editarea;
   }
@@ -9893,16 +9926,28 @@ window.ABCXJS.Editor = function(editarea, params) {
 
   if( params.generate_tablature ) {
     if(params.generate_tablature === 'accordion')  {
-        this.accordion = new window.ABCXJS.tablature.Accordion({id: undefined, options: params.tablature_options});
-        if(this.accordion.selector)
-            this.accordion.selector.addChangeListener(this);
+        this.accordion = new ABCXJS.tablature.Accordion(params.accordion_options);
+        
+        if( params.accordionSelector_id ) {
+            this.accordionSelector = new ABCXJS.edit.AccordionSelector(params.accordionSelector_id, this.accordion);
+            this.accordionSelector.populate();
+            this.accordionSelector.addChangeListener(this);
+            this.accordionSelector.set(this.accordion.selected);
+        } else {
+            if( params.accordionNameSpan ) {
+                this.accordionNameSpan = document.getElementById(params.accordionNameSpan);
+                this.accordionNameSpan.innerHTML = this.accordion.getName();
+            }
+        }
     } else {
         throw new Error( 'Tablatura para '+params.generate_tablature+' não suportada!');
     }
+    
+    
   }
 
   if(params.keySelector_id) {  
-    this.keySelector = new window.ABCXJS.edit.KeySelector(params.keySelector_id);
+    this.keySelector = new ABCXJS.edit.KeySelector(params.keySelector_id);
     this.keySelector.addChangeListener(this);
   }  
 
@@ -9927,7 +9972,9 @@ window.ABCXJS.Editor = function(editarea, params) {
   }
   
   if( params.generate_midi ) {
-      params.midi_options.keyboard = this.accordion.getKeyboard();
+      if( this.accordion ) {
+        params.midi_options.keyboard = this.accordion.getKeyboard();
+      }   
       this.midiParser = new ABCXJS.midi.Parse( params.midi_options );
   }
   
@@ -9949,7 +9996,7 @@ window.ABCXJS.Editor = function(editarea, params) {
   };
 
   this.removeClassName = function(element, className) {
-    element.className = window.ABCXJS.parse.strip(element.className.replace(
+    element.className = ABCXJS.parse.strip(element.className.replace(
       new RegExp("(^|\\s+)" + className + "(\\s+|$)"), ' '));
     return element;
   };
@@ -9972,26 +10019,49 @@ window.ABCXJS.Editor = function(editarea, params) {
 
 };
 
-window.ABCXJS.Editor.prototype.defineOnChangeCallback = function( cb ) {
+ABCXJS.Editor.prototype.selectAccordionById = function( id ) {
+    if( this.accordion ) {
+        this.accordion.loadById(id);
+        this.doSelAccordion();
+    }    
+};
+ABCXJS.Editor.prototype.selectAccordion = function( n ) {
+    if( this.accordion ) {
+        this.accordion.load(n);
+        this.doSelAccordion();
+    }    
+};
+
+ABCXJS.Editor.prototype.doSelAccordion = function( ) {
+    if( this.accordionSelector ) {
+        this.accordionSelector.set(this.accordion.selected);
+    } else {
+        if( this.accordionNameSpan ) {
+            this.accordionNameSpan.innerHTML = this.accordion.getName();
+        }
+    }
+};
+
+ABCXJS.Editor.prototype.defineOnChangeCallback = function( cb ) {
     this.onchangeCallback = cb;
 };
 
-window.ABCXJS.Editor.prototype.getString = function() {
+ABCXJS.Editor.prototype.getString = function() {
     return this.editarea.getString();
 };
 
-window.ABCXJS.Editor.prototype.setString = function(text, noRefresh) {
+ABCXJS.Editor.prototype.setString = function(text, noRefresh) {
     this.editarea.setString( text, noRefresh );
 };
 
-window.ABCXJS.Editor.prototype.showUp = function() {
+ABCXJS.Editor.prototype.showUp = function() {
   this.modelChanged();
 };
 
-window.ABCXJS.Editor.prototype.renderTune = function(abc, params, div) {
+ABCXJS.Editor.prototype.renderTune = function(abc, params, div) {
 
   var tunebook = new ABCXJS.TuneBook(abc);
-  var abcParser = new window.ABCXJS.parse.Parse(this.transposer, this.accordion);
+  var abcParser = new ABCXJS.parse.Parse(this.transposer, this.accordion);
   abcParser.parse(tunebook.tunes[0].abc, params); //TODO handle multiple tunes
   var tune = abcParser.getTune();
   var paper = Raphael(div, 800, 400);
@@ -10000,7 +10070,7 @@ window.ABCXJS.Editor.prototype.renderTune = function(abc, params, div) {
  
 };
 
-window.ABCXJS.Editor.prototype.modelChanged = function() {
+ABCXJS.Editor.prototype.modelChanged = function() {
     
     if (this.tunes === undefined) {
         this.div.innerHTML = "";
@@ -10018,7 +10088,7 @@ window.ABCXJS.Editor.prototype.modelChanged = function() {
     this.printer.printABC(this.tunes);
     
     if (this.target) {
-        var textprinter = new window.ABCXJS.transform.TextPrinter(this.target, true);
+        var textprinter = new ABCXJS.transform.TextPrinter(this.target, true);
         textprinter.printABC(this.tunes[0]); //TODO handle multiple tunes
     }
     
@@ -10037,14 +10107,14 @@ window.ABCXJS.Editor.prototype.modelChanged = function() {
 };
 
 // Call this to reparse in response to the printing parameters changing
-window.ABCXJS.Editor.prototype.paramChanged = function(printerparams) {
+ABCXJS.Editor.prototype.paramChanged = function(printerparams) {
 	this.printerparams = printerparams;
 	this.oldt = "";
 	this.fireChanged();
 };
 
 // return true if the model has changed
-window.ABCXJS.Editor.prototype.parseABC = function(transpose, force ) {
+ABCXJS.Editor.prototype.parseABC = function(transpose, force ) {
   var t = this.editarea.getString();
   if ( (t.length === 0 || t===this.oldt ) && typeof(force) === "undefined" ) {
     this.updateSelection();
@@ -10067,11 +10137,11 @@ window.ABCXJS.Editor.prototype.parseABC = function(transpose, force ) {
       if( this.transposer )
         this.transposer.reset(transpose);
       else
-        this.transposer = new window.ABCXJS.parse.Transposer( transpose );
+        this.transposer = new ABCXJS.parse.Transposer( transpose );
   }
   
   for (var i=0; i<tunebook.tunes.length; i++) {
-    var abcParser = new window.ABCXJS.parse.Parse( this.transposer, this.accordion );
+    var abcParser = new ABCXJS.parse.Parse( this.transposer, this.accordion );
     abcParser.parse(tunebook.tunes[i].abc, this.parserparams ); //TODO handle multiple tunes
     this.tunes[i] = abcParser.getTune();
 
@@ -10106,18 +10176,18 @@ window.ABCXJS.Editor.prototype.parseABC = function(transpose, force ) {
   return true;
 };
 
-window.ABCXJS.Editor.prototype.updateSelection = function() {
+ABCXJS.Editor.prototype.updateSelection = function() {
   var selection = this.editarea.getSelection();
   try {
     this.printer.rangeHighlight(selection.start, selection.end);
   } catch (e) {} // maybe printer isn't defined yet?
 };
 
-window.ABCXJS.Editor.prototype.fireSelectionChanged = function() {
+ABCXJS.Editor.prototype.fireSelectionChanged = function() {
   this.updateSelection();
 };
 
-window.ABCXJS.Editor.prototype.setDirtyStyle = function(isDirty) {
+ABCXJS.Editor.prototype.setDirtyStyle = function(isDirty) {
 	if (this.indicate_changed === undefined)
 		return;
   var addClassName = function(element, className) {
@@ -10133,7 +10203,7 @@ window.ABCXJS.Editor.prototype.setDirtyStyle = function(isDirty) {
   };
 
   var removeClassName = function(element, className) {
-    element.className = window.ABCXJS.parse.strip(element.className.replace(
+    element.className = ABCXJS.parse.strip(element.className.replace(
       new RegExp("(^|\\s+)" + className + "(\\s+|$)"), ' '));
     return element;
   };
@@ -10148,7 +10218,7 @@ window.ABCXJS.Editor.prototype.setDirtyStyle = function(isDirty) {
 };
 
 // call when abc text is changed and needs re-parsing
-window.ABCXJS.Editor.prototype.fireChanged = function (transpose, force) {
+ABCXJS.Editor.prototype.fireChanged = function (transpose, force) {
 
     if (typeof (force) === "undefined" && this.refreshController && !this.refreshController.checked)
         return;
@@ -10172,23 +10242,23 @@ window.ABCXJS.Editor.prototype.fireChanged = function (transpose, force) {
     }
 };
 
-window.ABCXJS.Editor.prototype.setNotDirty = function() {
+ABCXJS.Editor.prototype.setNotDirty = function() {
 	this.editarea.initialText = this.editarea.getString();
 	this.wasDirty = false;
 	this.setDirtyStyle(false);
 };
 
-window.ABCXJS.Editor.prototype.isDirty = function() {
+ABCXJS.Editor.prototype.isDirty = function() {
 	if (this.indicate_changed === undefined)
 		return false;
 	return this.editarea.initialText !== this.editarea.getString();
 };
 
-window.ABCXJS.Editor.prototype.highlight = function(abcelem) {
+ABCXJS.Editor.prototype.highlight = function(abcelem) {
   this.editarea.setSelection(abcelem.startChar, abcelem.endChar);
 };
 
-window.ABCXJS.Editor.prototype.pause = function(shouldPause) {
+ABCXJS.Editor.prototype.pause = function(shouldPause) {
 	this.bIsPaused = shouldPause;
 	if (!shouldPause)
 		this.updateRendering();
@@ -10205,57 +10275,23 @@ if (!window.ABCXJS)
 if (!window.ABCXJS.tablature)
 	window.ABCXJS.tablature = {};
 
-window.ABCXJS.tablature.AccordionSelector = function(id, accordion) {
-  this.selector = document.getElementById(id);
-  this.accordion = accordion;
-};
-
-window.ABCXJS.tablature.AccordionSelector.prototype.updateAccordionList = function() {
-    while(this.selector.options.length > 0){                
-        this.selector.remove(0);
-    }    
-    this.populate();
-};
-
-window.ABCXJS.tablature.AccordionSelector.prototype.addChangeListener = function(editor) {
-  this.selector.onchange = function() {
-    editor.accordion.load(parseInt(this.value));
-    editor.fireChanged( 0, "force" );
-  };
-};
-    
-window.ABCXJS.tablature.AccordionSelector.prototype.populate = function() {
-    for (var i = 0; i < this.accordion.accordions.length; i++) {
-        var opt = document.createElement('option');
-        opt.innerHTML = this.accordion.accordions[i].getName();
-        opt.value = i;
-        this.selector.appendChild(opt);
-    }
-};
-
-window.ABCXJS.tablature.AccordionSelector.prototype.set = function(val) {
-    this.selector.value = val;
-};
-
 ABCXJS.tablature.Accordion = function( params ) {
     
-    this.transposer     = new window.ABCXJS.parse.Transposer();
-    this.selected       = -1;
-    this.tabLines       = [];
-    this.paper          = null;
-    this.selector       = null;
-    this.keyboardDiv    = null;
-    this.accordions     = params.options.accordionMaps || [] ;
+    this.transposer   = new window.ABCXJS.parse.Transposer();
+    this.selected     = -1;
+    this.tabLines     = [];
+    this.paper        = null;
+    this.keyboardDiv  = null;
+    this.accordions   = params.accordionMaps || [] ;
     
-    this.render_keyboard_opts = params.options.render_keyboard_opts || {transpose:false, mirror: false, scale:1, draggable:false, show:false};
-
-    if(params.options.keyboardDiv_id) {
-        this.setKeyboardCanvas(params.options.keyboardDiv_id);
+    if( this.accordions.length === 0 ) {
+        throw new Error( 'No accordionMap found!');
     }
     
-    if( params.options.accordionSelector_id ) {
-        this.selector = new window.ABCXJS.tablature.AccordionSelector(params.options.accordionSelector_id, this);
-        this.selector.populate();
+    this.render_keyboard_opts = params.render_keyboard_opts || {transpose:false, mirror: false, scale:1, draggable:false, show:false};
+
+    if(params.keyboardDiv_id) {
+        this.setKeyboardCanvas(params.keyboardDiv_id);
     }
     
     if( params.id )
@@ -10320,27 +10356,49 @@ ABCXJS.tablature.Accordion.prototype.setKeyboardCanvas = function (div_id) {
 ABCXJS.tablature.Accordion.prototype.loadById = function (id) {
     for (var g = 0; g < this.accordions.length; g ++)
         if (this.accordions[g].id === id) {
-            this.load(g);
-            break;
+            return this.load(g);
+            
         }
+    console.log( 'Accordion not found. Loading the first one.');
+    return this.load(0);
 };
 
 ABCXJS.tablature.Accordion.prototype.load = function (sel) {
     this.selected = sel;
-    this.selector.set(this.selected);
     this.printKeyboard();
+    return this.accordions[this.selected];
+};
+
+ABCXJS.tablature.Accordion.prototype.getLoaded = function () {
+    return this.accordions[this.selected];
+};
+
+ABCXJS.tablature.Accordion.prototype.accordionExists = function(id) {
+    var ret = false;
+    for(var a = 0; a < this.accordions.length; a++ ) {
+        if( this.accordions[a].id === id) ret  = true;
+    }
+    return ret;
+};
+
+ABCXJS.tablature.Accordion.prototype.accordionIsCurrent = function(id) {
+    var ret = false;
+    for(var a = 0; a < this.accordions.length; a++ ) {
+        if( this.accordions[a].id === id && this.selected === a) ret  = true;
+    }
+    return ret;
 };
 
 ABCXJS.tablature.Accordion.prototype.changeNotation = function() {
-    this.accordions[this.selected].keyboard.changeNotation();
+    this.getLoaded().keyboard.changeNotation();
 };
 
 ABCXJS.tablature.Accordion.prototype.clearKeyboard = function(full) {
-    this.accordions[this.selected].keyboard.clear(full);
+    this.getLoaded().keyboard.clear(full);
 };
 
 ABCXJS.tablature.Accordion.prototype.redrawKeyboard = function() {
-    this.accordions[this.selected].keyboard.redraw();
+    this.getLoaded().keyboard.redraw();
 };
 
 ABCXJS.tablature.Accordion.prototype.rotateKeyboard = function () {
@@ -10375,7 +10433,7 @@ ABCXJS.tablature.Accordion.prototype.printKeyboard = function() {
     if (this.keyboardDiv) {
         if( this.render_keyboard_opts.show ) {
             this.topDiv.style.display="inline-block";
-            this.accordions[this.selected].keyboard.print(this.paper, this.keyboardDiv, this.render_keyboard_opts);
+            this.getLoaded().keyboard.print(this.paper, this.keyboardDiv, this.render_keyboard_opts);
             if (this.render_keyboard_opts.draggable) {
                 this.topDiv.style.width = this.keyboardDiv.clientWidth + "px";
                 this.topDiv.style.height = (this.keyboardDiv.clientHeight+20) + "px";
@@ -10387,7 +10445,11 @@ ABCXJS.tablature.Accordion.prototype.printKeyboard = function() {
 };
         
 ABCXJS.tablature.Accordion.prototype.getKeyboard = function () {
-    return this.accordions[this.selected].keyboard;
+    return this.getLoaded().keyboard;
+};
+
+ABCXJS.tablature.Accordion.prototype.getName = function () {
+    return this.getLoaded().getName();
 };
 
 ABCXJS.tablature.Accordion.prototype.getNoteName = function( item, keyAcc, barAcc, bass ) {
@@ -10424,8 +10486,8 @@ ABCXJS.tablature.Accordion.prototype.getNoteName = function( item, keyAcc, barAc
 
 ABCXJS.tablature.Accordion.prototype.getButtons = function (note) {
   return {
-       open:this.accordions[this.selected].keyboard.noteToButtonsOpen[note.isBass?note.key:note.key+note.octave]
-      ,close:this.accordions[this.selected].keyboard.noteToButtonsClose[note.isBass?note.key:note.key+note.octave]
+       open:this.getLoaded().keyboard.noteToButtonsOpen[note.isBass?note.key:note.key+note.octave]
+      ,close:this.getLoaded().keyboard.noteToButtonsClose[note.isBass?note.key:note.key+note.octave]
   };    
 };
 

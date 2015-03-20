@@ -1,21 +1,25 @@
-myMap = DIATONIC.map.Map
-    midiPlayer = new ABCXJS.midi.Player
-    editor = new ABCXJS.Editor
-        this.editarea = new window.ABCXJS.edit.EditArea(editarea);
-        this.midiParser = new ABCXJS.midi.Parse( params.midi_options );
-        this.accordion = new window.ABCXJS.tablature.Accordion({id: undefined, options: params.tablature_options});
-            this.transposer     = new window.ABCXJS.parse.Transposer();
-            this.keyboardDiv    = null;
-            this.selector       = new window.ABCXJS.tablature.AccordionSelector(params.options.accordionSelector_id, this);
-            this.accordions     = params.options.accordionMaps;
-                    DIATONIC.map.AccordionMap = function (res, local) {
-                          this.keyboard = new DIATONIC.map.Keyboard( res.keyboard, res.pedal );
-              
-    gaita = new DIATONIC.map.Gaita
-        this.accordions = DIATONIC.map.accordionMaps;
-                    DIATONIC.map.AccordionMap = function (res, local) {
-                          this.keyboard = new DIATONIC.map.Keyboard( res.keyboard, res.pedal );
-    
-    
+Proposta:
+  HTML principal
+    mapa.js
+        3 abas ( musicas, exercicios e acordes ), 
+        1 acordeon (teclado, imagem )
+        1 player (midi player e midi parser)
+        conhece o estúdio.
+        midiPlayer = new ABCXJS.midi.Player
+        midiParser = new ABCXJS.midi.Parse( params.midi_options );
+        accordion  = new window.ABCXJS.tablature.Accordion({id: undefined, options: params.tablature_options});
+            this.transposer  = new window.ABCXJS.parse.Transposer();
+            this.keyboardDiv = null;
+            this.accordions  = params.options.accordionMaps;
 
+    estudio.js
+        area de edição, desenhar a partitura, teclado, executar
+        editor e um midi player
+            midiPlayer = new ABCXJS.midi.Player
+            editor = new ABCXJS.Editor
+                this.canvas
+                this.editarea = new window.ABCXJS.edit.EditArea(editarea);
+                this.midiParser = new ABCXJS.midi.Parse( params.midi_options );
+                this.accordion = new window.ABCXJS.tablature.Accordion({id: undefined, options: params.tablature_options});
+    
 

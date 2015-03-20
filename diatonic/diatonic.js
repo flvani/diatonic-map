@@ -149,7 +149,7 @@ if (!window.DIATONIC)
     window.DIATONIC = {};
 
 if (!window.DIATONIC.map)
-    window.DIATONIC.map = {models: []};
+    window.DIATONIC.map = {};
 
 Raphael.fn.arc = function(startX, startY, endX, endY, radius1, radius2, angle) {
   var arcSVG = [radius1, radius2, angle, 0, 1, endX, endY].join(' ');

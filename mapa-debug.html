@@ -88,7 +88,7 @@ notação abc, tablatura "/>
         
         <div class="container" id="mapContainerDiv"  style="display: inline; float:left; margin-top: 0; margin-left: 0px;" >
             
-            <div id="div_principal" class="span12" style="float:left; margin-left: 8px; margin-top: 8px; width: 920px;" >
+            <div id="div_principal" class="span12" style="float:left; margin-left: 8px; margin-top: 8px; width: 930px;" >
               <div style="margin:0; padding:0; width:100%;">  
               <ul id="faketab">
                   <li><a href="#" id="a_nome_gaita">LOADING...</a></li>
@@ -131,7 +131,7 @@ notação abc, tablatura "/>
             
             </div> <!-- /div_principal --> 
             
-            <div id="divAD" style="margin-left: 935px; margin-top: 35px; width: 220px;"> 
+            <div id="divAD" style="margin-left: 945px; margin-top: 35px; width: 220px;"> 
               <table class="table table-bordered table-final" style="min-width: 200px;">
                 <tr>
                   <td >
@@ -178,66 +178,54 @@ notação abc, tablatura "/>
             </div> <!-- /div_ad --> 
                 
             <div id="div_detalhes" style="float:left; margin-left: 8px; margin-top: 8px; width:100%;"> 
-              <div id="div3" style="float:left;  margin-right:0px; width:100%;" >
-              <div id="div1" style="float:left;  margin-right:0px;" >
-                <ul id="tabs">
-                  <li><a href="#" id="tabTunes">Músicas</a></li>        
-                  <li><a href="#" id="tabChords">Acordes</a></li>
-                  <li><a href="#" id="tabPractices">Exercícios</a></li>
-                  <li><!-- apenas para ajustar o espaço --></li>
-                </ul>
-              </div>    
-              <div id="div2" style="float:left; margin-left:2px; display:inline;" >
-                  <div id="divPlayerControls" style="position: absolute; min-width: 750px;" >
-                    <table><tr><td>
-                    <div id="divSelectPlayControls" style="float:left; margin-right: 2px;">
-                      <div class="btn-group" id="divPractices" style="display: none; margin: 0px;">
-                          <button id="btnPractices" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left; margin-right: 2px;"><span id="spanPractices">...</span>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                          <ul class="dropdown-menu" id="ulPractices" style="text-align: left; margin-left: 5px; margin-top: 12px"></ul>
-                      </div>
-                      <div class="btn-group"  id="divSongs" style="display: inline; margin: 0px;">
-                          <button id="btnSongs" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left; margin-right: 2px;"><span id="spanSongs">...</span>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                          <ul class="dropdown-menu" id="ulSongs" style="text-align: left; margin-left: 5px; margin-top: 12px"></ul>
-                      </div>
-                      <div class="btn-group" id="divChords" style="display: none; margin: 0px;">
-                          <button id="btnChords" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left; margin-right: 2px;"><span id="spanChords">...</span>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                          <ul class="dropdown-menu" id="ulChords" style="text-align: left; margin-left: 5px; margin-top: 12px"></ul>
-                      </div>
-                      <button id="modeBtn" class="btn" title="Modo normal" onclick="" style="text-align: left; margin-left: 2px;"><img src="img/listening3.png" alt="" width="20" height="20"></button>
-                    </div>
-                    </td><td>
-                    <div id="divNormalPlayControls" style="display: inline; float:none  ; margin-right: 2px;">
-                      <button id="playBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
-                      <button id="stopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
-                    </div>
-                    </td><td>
-                    <div id="divDidacticPlayControls" style="display: none; float:none; margin-right: 2px;" >
-                      <input id="gotoMeasureBtn" title="Ir para o compasso" type="text" value="Ir para..." onclick="" style="width: 4em; height:22px; padding: 0; margin: 0;">
-                      <button id="stepBtn" class="btn" title="Passo a passo" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
-                      <button id="stepMeasureBtn" class="btn" title="Executar compasso" onclick="">&nbsp;<i class="icon-forward"></i>&nbsp;</button>
-                      <button id="repeatBtn" class="btn" title="Repetir compasso" onclick="">&nbsp;<i class="icon-repeat"></i>&nbsp;</button>
-                      <button id="clearBtn" class="btn" title="Limpar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
-                      <button id="tempoBtn" class="btn" title="Andamento" onclick=""><b>&nbsp;1&nbsp;</b></button>
-                    </div>
-                    </td><td>
-                    <div style="float:none; margin-right: 2px;" >
-                      <button id="toolsBtn" class="btn" title="Ferramentas" onclick=""><i class="icon-wrench"></i>&nbsp;Ferramentas</button>
-                      <button id="printBtn" class="btn" title="Imprimir" onclick=""><i class="icon-print"></i>&nbsp;Imprimir</button>
-                      <button id="pdfBtn" class="btn" title="Salvar em PDF" onclick="" style="display: none;">PDF</button>
-                    </div>
-                    </td></tr></table>
-                    <div id="divTime" style="position: absolute; bottom: 0; right: 0; margin-right: 0px;">
-                        <label id="currentPlayTimeLabel" style="font-weight: bold; color: orangered; padding-left: 5px; padding-right: 3px;">00:00.00</label>
-                    </div>
-                  </div>  
-              </div>  
-              </div>  
-              <div id= "tuneContainerDiv" style="float:left; margin-top:0px; margin-left:0px; margin-bottom: 0px; 
-                                                  width:1150px; height: 350px; overflow-y: auto;" > 
-                  <div id="tabTunesDiv"></div>    
-                  <div id="tabChordsDiv" ></div>
-                  <div id="tabPracticesDiv" ></div>
-              </div>
+                <div id="div1" style="float:left;  margin-right:0px; width:100%;" >
+                    <div id="div2" style="float:left;  margin-right:0px;" >
+                        <ul id="tabs">
+                          <li><a href="#" id="tabTunes">Músicas</a></li>        
+                          <li><a href="#" id="tabChords">Acordes</a></li>
+                          <li><a href="#" id="tabPractices">Exercícios</a></li>
+                          <li><!-- apenas para ajustar o espaço --></li>
+                        </ul>
+                    </div>    
+                    <div id="divPlayerControls" style="float:left; margin-left:2px; position: absolute; min-width: 750px; display:inline;" >
+                        <table>
+                            <tr><td>
+                                <div id="divSelectPlayControls" style="margin: 0px;">
+                                  <div class="btn-group" id="divPractices" style="display: none; margin: 0px;">
+                                      <button id="btnPractices" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left;"><span id="spanPractices">...</span>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                                      <ul class="dropdown-menu" id="ulPractices" style="text-align: left; margin-left: 5px; margin-top: 12px"></ul>
+                                  </div>
+                                  <div class="btn-group"  id="divSongs" style="display: inline; margin: 0px;">
+                                      <button id="btnSongs" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left;"><span id="spanSongs">...</span>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                                      <ul class="dropdown-menu" id="ulSongs" style="text-align: left; margin-left: 5px; margin-top: 12px"></ul>
+                                  </div>
+                                  <div class="btn-group" id="divChords" style="display: none; margin: 0px;">
+                                      <button id="btnChords" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left;"><span id="spanChords">...</span>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                                      <ul class="dropdown-menu" id="ulChords" style="text-align: left; margin-left: 5px; margin-top: 12px"></ul>
+                                  </div>
+                                </div>
+                            </td><td>
+                                <div style="margin: 0px;" >
+                                  <button id="toolsBtn" class="btn" title="Ferramentas" onclick=""><i class="icon-wrench"></i>&nbsp;Ferramentas</button>
+                                  <button id="printBtn" class="btn" title="Imprimir" onclick=""><i class="icon-print"></i>&nbsp;Imprimir</button>
+                                  <button id="pdfBtn" class="btn" title="Salvar em PDF" onclick="" style="display: none;">PDF</button>
+                                </div>
+                            </td><td>
+                                <div style="margin: 0px;">
+                                  <button id="playBtn2" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
+                                  <button id="stopBtn2" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
+                                  <span id="currentPlayTimeLabel2" style="font-weight: bold; color: orangered; padding-left: 3px; padding-right: 3px;">00:00.00</span>
+                                </div>
+                            </td></tr>
+                        </table>
+                    </div>  
+                </div>  
+                <div id= "tuneContainerDiv" style="float:left; margin-top:0px; margin-left:0px; margin-bottom: 0px; 
+                                                    width:1150px; height: 350px; overflow-y: auto;" > 
+                    <div id="tabTunesDiv"></div>    
+                    <div id="tabChordsDiv" ></div>
+                    <div id="tabPracticesDiv" ></div>
+                </div>
             </div> <!-- /div_detalhes --> 
             <div id= "bottomMargin" style="float:left; margin-top:0px; margin-left:0px; margin-bottom: 0px;  
                  width:1300px; min-height: 40px;" > 
@@ -251,6 +239,7 @@ notação abc, tablatura "/>
                 </div>
                 <div id="controlDiv" style="width: 100%; min-height: 28px;" >
                     <div id="control1" style="float: left; margin-left: 5px;" >
+                        <span id="nomeGaita" >Acordeons: </span>
                         <select id="selGaitas" > </select>
                         <select id="selKey" ></select>
                         <button id="octaveUpBtn" class="btn" title="+ Oitava" onclick="javascript:doTranspose(12);" ><i class="icon-arrow-up"></i>&nbsp;Oitava</button>
@@ -263,20 +252,30 @@ notação abc, tablatura "/>
                         <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
                     </div>
                     <div id="control2" >
-                        <div id="control21" style="float: left; padding-left: 10px; padding-right: 10px;">
-                            <button id="playBtn2" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
-                            <button id="stopBtn2" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
-                        </div>
+                      <button id="modeBtn" class="btn" title="Modo normal" onclick="" style="text-align: left; margin-left: 2px;"><img src="img/listening3.png" alt="" width="20" height="20"></button>
+                      <div id="divDidacticPlayControls" style="display: none; float:none; margin-right: 2px;" >
+                        <input id="gotoMeasureBtn" title="Ir para o compasso" type="text" value="Ir para..." onclick="" style="width: 4em; height:22px; padding: 0; margin: 0;">
+                        <button id="stepBtn" class="btn" title="Passo a passo" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
+                        <button id="stepMeasureBtn" class="btn" title="Executar compasso" onclick="">&nbsp;<i class="icon-forward"></i>&nbsp;</button>
+                        <button id="repeatBtn" class="btn" title="Repetir compasso" onclick="">&nbsp;<i class="icon-repeat"></i>&nbsp;</button>
+                        <button id="clearBtn" class="btn" title="Limpar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
+                        <button id="tempoBtn" class="btn" title="Andamento" onclick=""><b>&nbsp;1&nbsp;</b></button>
+                      </div>
+                      <div id="divNormalPlayControls" style="display: inline; float:none  ; margin-right: 2px;">
+                        <button id="playBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
+                        <button id="stopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
                         <div id="control22">
-                            <label id="currentPlayTimeLabel2" style="font-weight: bold; color: orangered; padding-top: 3px; padding-left: 8px; padding-right: 3px;">00:00.00</label>
+                            <label id="currentPlayTimeLabel" style="font-weight: bold; color: orangered; padding-top: 3px; padding-left: 8px; padding-right: 3px;">00:00.00</label>
                         </div>
-                    </div>
+                      </div>
+                    </div>    
                 </div>    
             </div>    
         </div>  <!-- /editControlDiv -->
         <div style="float: left;">
             <div id="warningsDiv" style="display:none; padding-left: 5px; width: 100%;  background-color: white; color:black;  z-index: 510; "><hr></div>
             <div id="editorDiv" style="display:none; width: 100%; min-height: 400px;  background-color: white; color:black; z-index: 520;" >music</div>
+            <div id="keyboardDiv" style="display:none; position: fixed; top:100px; left:1100px; width:0px; height:0px; z-index: 200;"></div>
         </div>      
         <div id="modalAD" class="modalWindow" style="display: none;">
             <div>
@@ -352,22 +351,24 @@ notação abc, tablatura "/>
         <script type="text/javascript" src="proto_noconflict.js" ></script>
         <script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="javascripts/bootstrap-dropdown.js"></script>
+        <script type="text/javascript" src="javascripts/edit_area_full.js"></script>
         <script type="text/javascript" src="raphael/raphael_2.1.3-min.js"></script>
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_3.20-min.js"></script>
+        <script type="text/javascript" src="file/filemanager_3.21-min.js"></script>
         <script type="text/javascript" src="javascripts/language.js"></script>
         <!-- suporte a MIDI -->
         <script type="text/javascript" src="MIDI.js/MIDI_2.04-min.js"></script>
         
         <!-- suporte a arquivos ABC -->
-        <!--script id="mainABCX" type="text/javascript" src="abcjs/abcxjs_3.20-min.js" ></script-->
+        <!--script id="mainABCX" type="text/javascript" src="abcjs/abcxjs_3.21-min.js" ></script-->
         <script id="mainABCX" type="text/javascript" src="abcjs/abcxjs.js" ></script>
         
         <!-- suporte mapas de acordeons -->
+        <!--script type="text/javascript" src="diatonic/diatonic_3.21-min.js"></script-->
         <script type="text/javascript" src="diatonic/diatonic.js"></script>
 
-        <script type="text/javascript" src="map/map.js"></script>
-        <script type="text/javascript" src="map/gaita.js"></script>
+        <script type="text/javascript" src="map/mapa.js"></script>
+        <script type="text/javascript" src="map/estudio.js"></script>
         
         <script id="mainScript" type="text/javascript">
             
@@ -396,15 +397,10 @@ notação abc, tablatura "/>
             }
             
             var myMap;
+            var myStudio;
 
             document.getElementById('fileLoadMap').addEventListener('change', loadMap, false);        
             document.getElementById('fileLoadRepertoire').addEventListener('change', loadRepertoire, false);        
-
-            window.printButton = document.getElementById("printBtn");
-            window.toolsButton = document.getElementById("toolsBtn");
-            window.saveButton = document.getElementById("saveBtn");
-            window.printPreviewButton = document.getElementById("printPreviewBtn");
-            window.closeButton = document.getElementById("closeBtn");
 
             window.addEventListener('load', initApp, false);
 
@@ -421,43 +417,28 @@ notação abc, tablatura "/>
                     case 0:    
                         console.log('Timeouts: ' + FILEMANAGER.timeouts + '\n\n' + FILEMANAGER.success);
                 }
+                
+                var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_HOHNER_GC';
 
-                myMap = new DIATONIC.map.Map(
+                myStudio = new SITE.Estudio(
                     {   // interfaceParams
-                        ckPiano: 'checkboxPiano'
-                      , ckAccordion: 'checkboxAcordeon'
-                      , ckMirror: 'checkboxEspelho'
-                      , ckHorizontal: 'checkboxHorizontal'
-                      , btChangeNotation: 'buttonChangeNotation'
-                      , accordionNamePlaceHolder: 'a_nome_gaita'
-                      , accordionImagePlaceHolder: 'td_imagem_gaita'
-                      , tuneContainerDiv: 'tuneContainerDiv'
-                  }
-                  , {   // accordionParams
-                        keyboardContentDiv: 'contentKeyboard'
-                      , songSelector: 'divSongs'
-                      , songDiv: 'tabTunesDiv'
-                      , chordSelector: 'divChords'
-                      , chordDiv: 'tabChordsDiv'
-                      , practiceSelector: 'divPractices'
-                      , practiceDiv: 'tabPracticesDiv'
-                  }
-                  , {   // editorParams
+                        printPreviewBtn:'printPreviewBtn'
+                       ,saveBtn:'saveBtn'
+                    },   
+                    {   // editorParams
                        textArea: "textareaABC"
                       ,canvas_id: "editorDiv"
                       ,keySelector_id: "selKey"
+                      ,accordionSelector_id: "selGaitas"
                       ,refreshController_id: "chkAutoRefresh"
                       ,warnings_id: "warningsDiv"
                       ,generate_warnings: true
                       ,generate_midi: true
-                      ,playBtn: "playBtn2"
-                      ,stopBtn: "stopBtn2"
-                      ,currentPlayTimeLabel: "currentPlayTimeLabel2"
                       ,generate_tablature: 'accordion'
-                      ,tablature_options: {
-                             accordionSelector_id: "selGaitas"
+                      ,accordion_options: {
+                             id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps
-                            ,keyboardDiv_id:"contentKeyboard"
+                            ,keyboardDiv_id:"keyboardDiv"
                             ,render_keyboard_opts:{transpose:true, mirror: false, scale:1, draggable:false, show:false}}
                   } 
                   , {   // playerParams
@@ -473,18 +454,50 @@ notação abc, tablatura "/>
                       , currentPlayTimeLabel: "currentPlayTimeLabel"
                   } 
                 );
-
-                // configura e mostra a gaita inicial
-                var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_HOHNER_GC';
+        
+                myMap = new SITE.Mapa(
+                    {   // interfaceParams
+                        ckPiano: 'checkboxPiano'
+                      , ckAccordion: 'checkboxAcordeon'
+                      , ckMirror: 'checkboxEspelho'
+                      , ckHorizontal: 'checkboxHorizontal'
+                      , btChangeNotation: 'buttonChangeNotation'
+                      , accordionNamePlaceHolder: 'a_nome_gaita'
+                      , accordionImagePlaceHolder: 'td_imagem_gaita'
+                      , tuneContainerDiv: 'tuneContainerDiv'
+                      , printBtn: 'printBtn'
+                      , toolsBtn: 'toolsBtn'
+                      , backBtn: 'closeBtn'
+                      ,accordion_options: {
+                             id: accordion
+                            ,accordionMaps: DIATONIC.map.accordionMaps
+                            ,keyboardDiv_id:"contentKeyboard"
+                            ,render_keyboard_opts:{transpose:true, mirror: false, scale:1, draggable:false, show:true}}
+                  }
+                  , {   // tabParams
+                        songSelectorParms: { div: 'divSongs', ul: 'ulSongs', span: 'spanSongs' }
+                      , songDiv: 'tabTunesDiv'
+                      , chordSelectorParms:  { div: 'divChords', ul: 'ulChords', span: 'spanChords' }
+                      , chordDiv: 'tabChordsDiv'
+                      , practiceSelectorParms: { div: 'divPractices', ul: 'ulPractices', span: 'spanPractices' }
+                      , practiceDiv: 'tabPracticesDiv'
+                      , studio: myStudio
+                  }
+                  , {   // playerParams
+                        playBtn: "playBtn2"
+                      , stopBtn: "stopBtn2"
+                      , currentPlayTimeLabel: "currentPlayTimeLabel2"
+                  } 
+                );
 
                 myMap.defineActiveTab( 'tabTunes' );
 
-                myMap.gaita.setup({
-                    accordionId: accordion
-                    //,songTitle:"J'ai vu le loup, le renard et la belette"
-                    //,songTitle:"Valsa Sertaneja"
-                    //,songTitle:"Hino do Grêmio"
-                });
+//                myMap.setup({
+//                    accordionId: 'TESTE_GC'
+//                    //,songTitle:"J'ai vu le loup, le renard et la belette"
+//                    //,songTitle:"Valsa Sertaneja"
+//                    ,songTitle:"Hino do Grêmio"
+//                });
 
             }
 
@@ -563,6 +576,18 @@ notação abc, tablatura "/>
                     }
                 });
 
+//		editAreaLoader.init({
+//			 id: "textareaABC"	// id of the textarea to transform	
+//			,start_highlight: true
+//			,allow_toggle: true
+//			,language: "pt"
+//			,syntax: "html"	
+//			,toolbar: "search, |, undo, redo, |, highlight , reset_highlight "
+//			,allow_resize: "y"
+//			,is_multi_files: false
+//			,show_line_colors: true
+//		});
+                
                 $('#tabs a').click( function(e) {
                     e.preventDefault();
                     if ($(this).closest("li").attr("id") === "current"){ //detection for current tab
@@ -585,17 +610,11 @@ notação abc, tablatura "/>
             };
 
             function setupGaita(value) {
-                myMap.gaita.setup({accordionId:value});
+                myMap.setup({accordionId:value});
             };
 
-            function showSong(i) {
-                myMap.gaita.selectSong(i);
-            };
-            function showPractice(i) {
-                myMap.gaita.selectPractice(i);
-            };
-            function showChord(i) {
-                myMap.gaita.selectChord(i);
+            function showABC(type, i) {
+                myMap.showABC(type, i);
             };
 
             function loadMap(evt) {
@@ -618,76 +637,17 @@ notação abc, tablatura "/>
             };
 
             function doTranspose(value) {
-                myMap.editor.fireChanged(value, "force");
+                myStudio.editor.fireChanged(value, "force");
             };
 
             function doForceRefresh() {
-                myMap.editor.fireChanged(0, "force");
+                myStudio.editor.fireChanged(0, "force");
             };
 
             function doCheckDebug() {
                 debug = document.getElementById("chkDebug").checked;
-                myMap.editor.fireChanged(0, "force");
+                myStudio.editor.fireChanged(0, "force");
             };
-
-            saveButton.addEventListener("click", function() {
-                myMap.salvaMusica();
-            }, false);
-
-            printPreviewButton.addEventListener("click", function() {
-                $("#divTitulo").hide();
-                $("#warningsDiv").hide();
-                $("#editControlDiv").hide();
-                document.body.style.paddingTop = '0px';
-                window.print();
-                document.body.style.paddingTop = '273px';
-                $("#divTitulo").fadeIn();
-                $("#warningsDiv").fadeIn();
-                $("#editControlDiv").fadeIn();
-            }, false);
-
-            printButton.addEventListener("click", function() {
-                var tune = myMap.getTabTune();
-                if( ! tune ) return;
-                $("#divTitulo").hide();
-                $("#mapContainerDiv").hide();
-                document.body.style.paddingTop = '0px';
-                savedBackgroundColor = document.body.style.backgroundColor;
-                document.body.style.backgroundColor = '#fff';
-                myMap.editor.div.innerHTML = tune;
-                $("#editorDiv").show();
-                window.print();
-                $("#editorDiv").hide();
-                document.body.style.backgroundColor = savedBackgroundColor;
-                document.body.style.paddingTop = '50px';
-                $("#divTitulo").fadeIn();
-                $("#mapContainerDiv").fadeIn();
-            }, false);
-
-            toolsButton.addEventListener("click", function() {
-                var tune = myMap.getTabTune();
-                if( ! tune ) return;
-                $("#mapContainerDiv").hide();
-                document.body.style.paddingTop = '273px';
-                savedBackgroundColor = document.body.style.backgroundColor;
-                document.body.style.backgroundColor = '#fff';
-                $("#editControlDiv").fadeIn();
-                myMap.editor.div.innerHTML = tune;
-                $("#editorDiv").fadeIn();
-                $("#warningsDiv").fadeIn();
-            }, false);
-
-            closeButton.addEventListener("click", function() {
-                $("#warningsDiv").hide();
-                $("#editorDiv").hide();
-                $("#editControlDiv").hide();
-                document.body.style.backgroundColor = savedBackgroundColor;
-                document.body.style.paddingTop = '50px';
-                $("#mapContainerDiv").fadeIn();
-                myMap.gaita.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
-                myMap.setTabTune();
-
-            }, false);
 
             function getABCXversion() {
                 var str = document.getElementById("mainABCX").src;
