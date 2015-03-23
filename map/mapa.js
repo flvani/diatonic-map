@@ -86,6 +86,8 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         
         that.studio.editor.setString(  that.currentABC.text, "noRefresh" );
         $("#mapContainerDiv").hide();
+        $("#divMenuAccordions").hide();
+        $("#divMenuRepertoire").hide();
         document.body.style.paddingTop = '273px';
         that.savedBackgroundColor = document.body.style.backgroundColor;
         document.body.style.backgroundColor = '#fff';
@@ -93,6 +95,8 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         that.studio.editor.div.innerHTML = that.currentABC.div.innerHTML;
         $("#editorDiv").fadeIn();
         $("#warningsDiv").fadeIn();
+        $("#divMenuBack").fadeIn();
+        $("#divMenuShowMap").fadeIn();
         
     }, false);
 
@@ -101,9 +105,13 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         $("#warningsDiv").hide();
         $("#editorDiv").hide();
         $("#editControlDiv").hide();
+        $("#divMenuBack").hide();
+        $("#divMenuShowMap").hide();
         document.body.style.backgroundColor = that.savedBackgroundColor;
         document.body.style.paddingTop = '50px';
         $("#mapContainerDiv").fadeIn();
+        $("#divMenuAccordions").fadeIn();
+        $("#divMenuRepertoire").fadeIn();
         that.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
         that.printTab();
 
@@ -299,10 +307,10 @@ SITE.Mapa.prototype.loadAccordionList  = function() {
 SITE.Mapa.prototype.salvaRepertorio = function() {
     if ( FILEMANAGER.requiredFeaturesAvailable() ) {
         var accordion = this.getSelectedAccordion();
-        var name = accordion.name + ".abcx";
+        var name = accordion.id + ".abcx";
         var conteudo = "";
-        for( var title in accordion.songs) {
-          conteudo += accordion.songs[title] + '\n\n';
+        for( var title in accordion.songs.items) {
+          conteudo += accordion.songs.items[title] + '\n\n';
         }
         FILEMANAGER.download( name, conteudo );    
     } else {
@@ -426,9 +434,9 @@ SITE.Mapa.prototype.carregaRepertorio = function(original, files) {
             return;
         }
         accordion.songs = accordion.loadABCX( accordion.songPathList, function() {  // devido à falta de sincronismo, preciso usar o call back;
-            this.renderedTune.title = accordion.getFirstSong();
+            that.renderedTune.title = accordion.getFirstSong();
             that.loadABCList('song');
-            that.gaita.renderTAB( that.currentTab === "tabTunes", 'song' );
+            that.renderTAB( that.currentTab === "tabTunes", 'song' );
             
         });
     } else {
@@ -441,9 +449,9 @@ SITE.Mapa.prototype.carregaRepertorio = function(original, files) {
             }    
         }
         accordion.songs.sortedIndex.sort();
-        this.renderedTune.title = accordion.getFirstSong();
+        that.renderedTune.title = accordion.getFirstSong();
         that.loadABCList('song');
-        that.gaita.renderTAB( this.currentTab === "tabTunes", 'song' );
+        that.renderTAB( this.currentTab === "tabTunes", 'song' );
     }
 };
 
@@ -654,7 +662,7 @@ SITE.Mapa.prototype.translate = function() {
   document.getElementById("printBtn").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.getResource("printBtn");
   document.getElementById("printPreviewBtn").innerHTML = DR.getResource("printPreviewBtn");
   document.getElementById("saveBtn").innerHTML = DR.getResource("saveBtn");
-  document.getElementById("closeBtn").innerHTML = DR.getResource("closeBtn");
+  document.getElementById("backBtn").innerHTML = DR.getResource("backBtn");
   document.getElementById("forceRefresh").innerHTML = DR.getResource("forceRefresh");
   document.getElementById("DR_message").alt = DR.getResource("DR_message");
   document.getElementById("gotoMeasureBtn").value = DR.getResource("DR_goto");

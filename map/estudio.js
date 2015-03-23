@@ -28,6 +28,7 @@ SITE.Estudio = function( interfaceParams, editorParams, playerParams ) {
     });
     
     // player control
+    this.showMapButton = document.getElementById(playerParams.showMapBtn);
     this.modeButton = document.getElementById(playerParams.modeBtn);
     this.playButton = document.getElementById(playerParams.playBtn);
     this.stopButton = document.getElementById(playerParams.stopBtn);
@@ -43,6 +44,13 @@ SITE.Estudio = function( interfaceParams, editorParams, playerParams ) {
         that.salvaMusica();
     }, false);
 
+    this.showMapButton.addEventListener("click", function() {
+        var l = document.getElementById('DR_showMap');
+        that.editor.accordion.render_keyboard_opts.show = !that.editor.accordion.render_keyboard_opts.show;
+        l.innerHTML = that.editor.accordion.render_keyboard_opts.show? 'Hide Map':'Show Map';
+        that.editor.accordion.printKeyboard();
+    }, false);
+    
     this.printPreviewButton.addEventListener("click", function() {
         $("#divTitulo").hide();
         $("#warningsDiv").hide();
@@ -156,8 +164,11 @@ SITE.Estudio.prototype.changePlayMode = function() {
 };
 
 SITE.Estudio.prototype.startPlay = function( type, value ) {
-    this.editor.parseABC(0, "force" );
-    this.midi = this.editor.tunes[0].midi;
+    //this.editor.parseABC(0, "force" );
+    if(this.editor.tunes)
+        this.midi = this.editor.tunes[0].midi;
+    else
+        return;
     
     if( this.midiPlayer.playing) {
         
