@@ -8,7 +8,7 @@ SITE.Estudio = function( interfaceParams, editorParams, playerParams ) {
     
     this.saveButton = document.getElementById(interfaceParams.saveBtn);
     this.printPreviewButton = document.getElementById(interfaceParams.printPreviewBtn);
-
+    
     this.editor =  new ABCXJS.Editor(
         editorParams.textArea
      ,{
@@ -143,6 +143,29 @@ SITE.Estudio.prototype.salvaMusica = function() {
     } else {
         alert( DR.getResource("DR_err_saving"));
     }    
+};
+SITE.Estudio.prototype.hideEditor = function(w) {
+    w.location = "#cancel";
+    w.location = "#map";
+    this.editor.setString( editAreaLoader.getValue("taNewEditor"));
+};
+
+SITE.Estudio.prototype.showEditor = function(w) {
+        	editAreaLoader.setValue("taNewEditor", this.editor.getString());
+                w.location = "#newEditor";
+                return;
+                
+		editAreaLoader.init({
+			 id: "taNewEditor"	// id of the textarea to transform	
+			,start_highlight: true
+			,allow_toggle: false
+			,language: "pt"
+			,syntax: "abc"	
+			,toolbar: "search, |, undo, redo, |, highlight , reset_highlight "
+			,allow_resize: "y"
+			,is_multi_files: false
+			,show_line_colors: true
+		});
 };
 
 SITE.Estudio.prototype.changePlayMode = function() {
