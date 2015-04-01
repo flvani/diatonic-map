@@ -52,7 +52,7 @@
        ,"printBtn" : "Drucken"
        ,"printPreviewBtn" : "Druckvorschau"
        ,"saveBtn" : "Lokal speichern"
-       ,"closeBtn" : "Schliessen"
+       ,"backBtn" : "Back"
        ,"forceRefresh" : "Refresh"
        ,"DR_refresh" : "Auto refresh"
     }

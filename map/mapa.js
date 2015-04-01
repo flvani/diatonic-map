@@ -20,14 +20,13 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.ypos = 0; // esta variável é usada para ajustar o scroll durante a execução do midi
     this.currentTab = '';
     this.currentABC = null;
-    this.currentMode = "normal"; // somente será normal na pagina inicial
     
     this.studio = tabParams.studio;
     
     // tab control
-    this.renderedTune = {text:undefined, abc:undefined, midi:undefined, title:undefined, printer:undefined, paper:undefined, div:undefined, selector:undefined};
-    this.renderedChord = {text:undefined, abc:undefined, midi:undefined, title:undefined, printer:undefined, paper:undefined, div:undefined, selector:undefined};
-    this.renderedPractice = {text:undefined, abc:undefined, midi:undefined, title:undefined, printer:undefined, paper:undefined, div:undefined, selector:undefined};
+    this.renderedTune = {text:undefined, abc:undefined, title:undefined, div:undefined, selector:undefined};
+    this.renderedChord = {text:undefined, abc:undefined, title:undefined, div:undefined, selector:undefined};
+    this.renderedPractice = {text:undefined, abc:undefined, title:undefined, div:undefined, selector:undefined};
     
     this.renderedTune.div = document.getElementById(tabParams.songDiv);
     this.renderedTune.parms = tabParams.songSelectorParms;
@@ -63,13 +62,13 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
 
         if( ! ( that.currentABC.div.innerHTML && that.studio ) ) return;
         
-        that.studio.editor.setString(  that.currentABC.text, "noRefresh" );
         $("#divTitulo").hide();
         $("#mapContainerDiv").hide();
         document.body.style.paddingTop = '0px';
         that.savedBackgroundColor = document.body.style.backgroundColor;
         document.body.style.backgroundColor = '#fff';
-        that.studio.editor.div.innerHTML =  that.currentABC.div.innerHTML;
+        that.studio.renderedTune.text = that.currentABC.text;
+        that.studio.renderedTune.div.innerHTML = that.currentABC.div.innerHTML;
         $("#editorDiv").show();
         window.print();
         $("#editorDiv").hide();
@@ -84,7 +83,6 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         
         if( ! ( that.currentABC.div.innerHTML && that.studio ) ) return;
         
-        that.studio.editor.setString(  that.currentABC.text, "noRefresh" );
         $("#mapContainerDiv").hide();
         $("#divMenuAccordions").hide();
         $("#divMenuRepertoire").hide();
@@ -92,7 +90,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         that.savedBackgroundColor = document.body.style.backgroundColor;
         document.body.style.backgroundColor = '#fff';
         $("#editControlDiv").fadeIn();
-        that.studio.editor.div.innerHTML = that.currentABC.div.innerHTML;
+        that.studio.setABC(that.currentABC);
         $("#editorDiv").fadeIn();
         $("#warningsDiv").fadeIn();
         $("#divMenuBack").fadeIn();
@@ -145,7 +143,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         var warns = that.midiPlayer.getWarnings();
         that.playButton.title = DR.getResource("playBtn");
         that.playButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
-        that.currentABC.printer.clearSelection();
+        that.currentABC.abc.midi.printer.clearSelection();
         that.accordion.clearKeyboard(true);
         if(that.currentPlayTimeLabel)
             that.currentPlayTimeLabel.innerHTML = "00:00.00";
@@ -466,7 +464,6 @@ SITE.Mapa.prototype.showAccordionName = function() {
 
 SITE.Mapa.prototype.defineActiveTab = function( which ) {
     this.currentTab = which;
-    this.currentMode = "learning";
     this.midiPlayer.reset();
     if(this.currentABC)
         this.currentABC.selector.style.display  = 'none';
@@ -486,7 +483,9 @@ SITE.Mapa.prototype.defineActiveTab = function( which ) {
 
 SITE.Mapa.prototype.printTab = function( ) {
     var accordion = this.getSelectedAccordion();
-    this.currentABC.text = this.studio.editor.getString();
+    this.currentABC.text = this.studio.editArea.getString();
+    this.accordion.printKeyboard();
+
     switch (this.currentTab) {
         case "tabTunes":
             accordion.setSong(this.currentABC.title, this.currentABC.text );
@@ -597,19 +596,19 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
             break;
     };
     
-    tab.div.innerHTML = "";
-    tab.paper = Raphael(tab.div, 700, 200);
-    tab.printer = new ABCXJS.write.Printer(tab.paper, params);
-
     if (tab.title === "") {
         tab.text = undefined;
         return;
     }
     
-    tab.abc = this.parseABC(tab.text);
+    this.parseABC(tab);
+    
+    tab.div.innerHTML = "";
+    var paper = Raphael(tab.div, 700, 200);
+    var printer = new ABCXJS.write.Printer(paper, params);
     
     $("#" + tab.div.id).fadeIn();
-    tab.printer.printABC(tab.abc);
+    printer.printABC(tab.abc);
     $("#" + tab.div.id).hide();
     if (alreadyOnPage)
         $("#" + tab.div.id).fadeIn();
@@ -632,16 +631,15 @@ SITE.Mapa.prototype.startLoader = function(id, start, stop) {
     return loader;
 };
 
-SITE.Mapa.prototype.parseABC = function(abc) {
+SITE.Mapa.prototype.parseABC = function(tab) {
     var transposer = null;
     var abcParser = new ABCXJS.parse.Parse( transposer, this.accordion );
-    abcParser.parse(abc, this.parserparams );
-    var tune = abcParser.getTune();
+    abcParser.parse(tab.text, this.parserparams );
+    tab.abc = abcParser.getTune();
 
     if ( this.midiParser ) {
-        this.midiParser.parse( tune, this.accordion.getKeyboard() );
+        this.midiParser.parse( tab.abc, this.accordion.getKeyboard() );
     }
-    return tune;
 };        
 
 SITE.Mapa.prototype.translate = function() {

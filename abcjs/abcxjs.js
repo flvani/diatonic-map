@@ -4515,12 +4515,13 @@ window.ABCXJS.parse.parseKeyVoice = {};
 	//								else if (staffInfo.clef[ii] === "'") oct += 7;
 	//							}
 						if (staffInfo.clef !== undefined) {
-						  staffInfo.clef = staffInfo.clef.replace(/[',]/g, ""); //'//comment for emacs formatting of regexp
-							if (staffInfo.clef.indexOf('+16') !== -1) {
-								oct += 14;
-								staffInfo.clef = staffInfo.clef.replace('+16', '');
-							}
-							staffInfo.verticalPos = calcMiddle(staffInfo.clef, oct);
+                                                    staffInfo.clef = staffInfo.clef.replace(/[',]/g, ""); //'//comment for emacs formatting of regexp
+                                                    if (staffInfo.clef.indexOf('+16') !== -1) {
+                                                        oct += 14;
+                                                        staffInfo.clef = staffInfo.clef.replace('+16', '');
+                                                    }
+                                                    staffInfo.verticalPos = calcMiddle(staffInfo.clef, oct);
+                                                    multilineVars.clef = {type: staffInfo.clef, verticalPos: staffInfo.verticalPos};
 						}
 						break;
                                         case 'accordionTab':
@@ -8741,7 +8742,6 @@ ABCXJS.write.sprintf = function() {
   }
   return o.join('');
 };
-﻿
 if (!window.ABCXJS)
     window.ABCXJS = {};
 
@@ -8786,7 +8786,6 @@ if (!window.ABCXJS.midi)
 
 ABCXJS.midi.Parse = function( options ) {
     options = options || {};
-    this.keyboard = options.keyboard || null;
     this.vars = { warnings: [] };
     this.scale = [0, 2, 4, 5, 7, 9, 11];
     
@@ -8827,8 +8826,7 @@ ABCXJS.midi.Parse.prototype.reset = function() {
     this.parsedElements = [];
     
     this.midiTune = { 
-        tempo: this.oneMinute/ 640 // duração de cada intervalo em mili
-       ,printer: null
+        tempo: this.oneMinute/640 // duração de cada intervalo em mili
        ,playlist: [] // nova strutura, usando 2 elementos de array por intervalo de tempo (um para ends e outro para starts) 
        ,measures: [] // marks the start time for each measure - used for learning mode playing
     }; 
@@ -8843,9 +8841,7 @@ ABCXJS.midi.Parse.prototype.parse = function(tune, keyboard) {
 
     this.abctune = tune;
     
-    this.keyboard = keyboard || this.keyboard;
-    
-    this.midiTune.keyboard = this.keyboard;
+    this.midiTune.keyboard = keyboard;
 
     if ( tune.metaText && tune.metaText.tempo) {
         var bpm = tune.metaText.tempo.bpm || 80;
@@ -9287,8 +9283,8 @@ ABCXJS.midi.Parse.prototype.extractOctave = function(pitch) {
 };
 
 ABCXJS.midi.Parse.prototype.getBassButton = function( bellows, b ) {
-    if( b === '-->' || !this.keyboard ) return null;
-    var kb = this.keyboard;
+    if( b === '-->' || !this.midiTune.keyboard ) return null;
+    var kb = this.midiTune.keyboard;
     var nota = kb.parseNote(b, true );
     for( var j = kb.keyMap.length; j > kb.keyMap.length - 2; j-- ) {
       for( var i = 0; i < kb.keyMap[j-1].length; i++ ) {
@@ -9304,8 +9300,8 @@ ABCXJS.midi.Parse.prototype.getBassButton = function( bellows, b ) {
 };
 
 ABCXJS.midi.Parse.prototype.getButton = function( b ) {
-    if( b === 'x' || !this.keyboard ) return null;
-    var kb = this.keyboard;
+    if( b === 'x' || !this.midiTune.keyboard ) return null;
+    var kb = this.midiTune.keyboard;
     var p = parseInt( isNaN(b.substr(0,2)) || b.length === 1 ? 1 : 2 );
     var button = b.substr(0, p) -1;
     var row = b.length - p;
@@ -9632,612 +9628,6 @@ ABCXJS.midi.Player.prototype.getTime = function() {
     var cTime  = pad(mins,2) + ':' + pad(secs,2) + '.' + pad(ms,2);
     return {cTime: cTime, time: time };
 };
-// abc_editor.js
-// ABCXJS.Editor is the interface class for the area that contains the ABC text. It is responsible for
-// holding the text of the tune and calling the parser and the rendering engines.
-//
-// EditArea is an example of using a textarea as the control that is shown to the user. As long as
-// the same interface is used, ABCXJS.Editor can use a different type of object.
-//
-// EditArea:
-// - constructor(textareaid)
-//		This contains the id of a textarea control that will be used.
-// - addSelectionListener(listener)
-//		A callback class that contains the entry point fireSelectionChanged()
-// - addChangeListener(listener)
-//		A callback class that contains the entry point fireChanged()
-// - getSelection()
-//		returns the object { start: , end: } with the current selection in characters
-// - setSelection(start, end)
-//		start and end are the character positions that should be selected.
-// - getString()
-//		returns the ABC text that is currently displayed.
-// - setString(str)
-//		sets the ABC text that is currently displayed, and resets the initialText variable
-// - getElem()
-//		returns the textarea element
-// - string initialText
-//		Contains the starting text. This can be compared against the current text to see if anything changed.
-//
-
-/*global document, window, clearTimeout, setTimeout */
-/*global Raphael */
-
-if (!window.ABCXJS)
-	window.ABCXJS = {};
-
-if (!ABCXJS.edit)
-	ABCXJS.edit = {};
-
-ABCXJS.edit.AccordionSelector = function(id, accordion) {
-  this.selector = document.getElementById(id);
-  this.accordion = accordion;
-};
-
-ABCXJS.edit.AccordionSelector.prototype.updateAccordionList = function() {
-    while(this.selector.options.length > 0){                
-        this.selector.remove(0);
-    }    
-    this.populate();
-};
-
-ABCXJS.edit.AccordionSelector.prototype.addChangeListener = function(editor) {
-  this.selector.onchange = function() {
-    editor.accordion.load(parseInt(this.value));
-    editor.fireChanged( 0, "force" );
-  };
-};
-    
-ABCXJS.edit.AccordionSelector.prototype.populate = function() {
-    for (var i = 0; i < this.accordion.accordions.length; i++) {
-        var opt = document.createElement('option');
-        opt.innerHTML = this.accordion.accordions[i].getName();
-        opt.value = i;
-        this.selector.appendChild(opt);
-    }
-};
-
-ABCXJS.edit.AccordionSelector.prototype.set = function(val) {
-    this.selector.value = val;
-};
-
-ABCXJS.edit.KeySelector = function(id) {
-
-    this.selector = document.getElementById(id);
-    this.cromaticLength = 12;
-    if (this.selector) {
-        this.populate(0);
-    }
-};
-
-ABCXJS.edit.KeySelector.prototype.populate = function(offSet) {
-    
-    while( this.selector.options.length > 0 ) {
-        this.selector.remove(0);
-    }            
-        
-    for (var i = this.cromaticLength+offSet; i >= -this.cromaticLength+2+offSet; i--) {
-        var opt = document.createElement('option');
-        if(i-1 > offSet) 
-            opt.innerHTML = ABCXJS.parse.number2keysharp[(i+this.cromaticLength-1)%this.cromaticLength] ;
-        else
-            opt.innerHTML = ABCXJS.parse.number2keyflat[(i+this.cromaticLength-1)%this.cromaticLength] ;
-        opt.value = (i+this.cromaticLength-1);
-        this.selector.appendChild(opt);
-    }
-    this.oldValue = offSet+this.cromaticLength;
-    this.selector.value = offSet+this.cromaticLength;
-};
-
-ABCXJS.edit.KeySelector.prototype.set = function(value) {
-    this.populate(value);
-};
-
-ABCXJS.edit.KeySelector.prototype.addChangeListener = function(editor) {
-  this.selector.onchange = function() {
-    editor.fireChanged( this.value - editor.keySelector.oldValue, "force" );
-  };
-};
-
-ABCXJS.edit.EditArea = function(textareaid) {
-  this.textarea = document.getElementById(textareaid);
-  this.initialText = this.textarea.value;
-  this.isDragging = false;
-  this.changeListener;
-};
-
-ABCXJS.edit.EditArea.prototype.addSelectionListener = function(listener) {
-  this.textarea.onmousemove = function(ev) {
-	  if (this.isDragging)
-	    listener.fireSelectionChanged();
-  };
-};
-
-ABCXJS.edit.EditArea.prototype.addChangeListener = function(listener) {
-  this.changelistener = listener;
-  this.textarea.onkeyup = function() {
-    listener.fireChanged();
-  };
-  this.textarea.onmousedown = function() {
-	this.isDragging = true;
-    listener.fireSelectionChanged();
-  };
-  this.textarea.onmouseup = function() {
-	this.isDragging = false;
-    listener.fireChanged();
-  };
-  this.textarea.onchange = function() {
-    listener.fireChanged();
-  };
-};
-
-//TODO won't work under IE?
-ABCXJS.edit.EditArea.prototype.getSelection = function() {
-    return {start: this.textarea.selectionStart, end: this.textarea.selectionEnd};
-};
-
-ABCXJS.edit.EditArea.prototype.setSelection = function (start, end) {
-    if (this.textarea.setSelectionRange)
-        this.textarea.setSelectionRange(start, end);
-    else if (this.textarea.createTextRange) {
-        // For IE8
-        var e = this.textarea.createTextRange();
-        e.collapse(true);
-        e.moveEnd('character', end);
-        e.moveStart('character', start);
-        e.select();
-    }
-    this.textarea.focus();
-};
-
-ABCXJS.edit.EditArea.prototype.getString = function() {
-  return this.textarea.value;
-};
-
-ABCXJS.edit.EditArea.prototype.setString = function(str, noRefresh ) {
-  this.textarea.value = str;
-  this.textarea.selectionStart = 0;  
-  this.textarea.selectionEnd = 0;  
-  this.initialText = this.getString();
-  if (this.changelistener && typeof( noRefresh ) === 'undefined' ) {
-    this.changelistener.fireChanged();
-  }
-};
-
-ABCXJS.edit.EditArea.prototype.appendString = function(str, noRefresh ) {
-  //retira \n ao final  
-  var t = this.textarea.value;
-  while( t.charAt(t.length-1) === '\n' ) {
-    t = t.substr(0,t.length-1);
-  }
-  this.setString(t+str, noRefresh );
-};
-
-ABCXJS.edit.EditArea.prototype.getElem = function() {
-  return this.textarea;
-};
-
-//
-// ABCXJS.Editor:
-//
-// constructor(editarea, params)
-//		if editarea is a string, then it is an HTML id of a textarea control.
-//		Otherwise, it should be an instantiation of an object that expresses the EditArea interface.
-//
-//		params is a hash of:
-//		canvas_id: or paper_id: HTML id to draw in. If not present, then the drawing happens just below the editor.
-//		generate_midi: if present, then midi is generated.
-//		midi_id: if present, the HTML id to place the midi control. Otherwise it is placed in the same div as the paper.
-//		generate_warnings: if present, then parser warnings are displayed on the page.
-//		warnings_id: if present, the HTML id to place the warnings. Otherwise they are placed in the same div as the paper.
-//		onchange: if present, the callback function to call whenever there has been a change.
-//		gui: if present, the paper can send changes back to the editor (presumably because the user changed something directly.)
-//		parser_options: options to send to the parser engine.
-//		midi_options: options to send to the midi engine.
-//		render_options: options to send to the render engine.
-//		indicate_changed: the dirty flag is set if this is true.
-//
-// - setReadOnly(bool)
-//		adds or removes the class abc_textarea_readonly, and adds or removes the attribute readonly=yes
-// - setDirtyStyle(bool)
-//		adds or removes the class abc_textarea_dirty
-// - renderTune(abc, parserparams, div)
-//		Immediately renders the tune. (Useful for creating the SVG output behind the scenes, if div is hidden)
-//		string abc: the ABC text
-//		parserparams: params to send to the parser
-//		div: the HTML id to render to.
-// - modelChanged()
-//		Called when the model has been changed to trigger re-rendering
-// - parseABC()
-//		Called internally by fireChanged()
-//		returns true if there has been a change since last call.
-// - updateSelection()
-//		Called when the user has changed the selection. This calls the printer to show the selection.
-// - fireSelectionChanged()
-//		Called by the textarea object when the user has changed the selection.
-// - paramChanged(printerparams)
-//		Called to signal that the printer params have changed, so re-rendering should occur.
-// - fireChanged()
-//		Called by the textarea object when the user has changed something.
-// - setNotDirty()
-//		Called by the client app to reset the dirty flag
-// - isDirty()
-//		Returns true or false, whether the textarea contains the same text that it started with.
-// - highlight(abcelem)
-//		Called by the printer to highlight an area.
-// - pause(bool)
-//		Stops the automatic rendering when the user is typing.
-//
-
-ABCXJS.Editor = function(editarea, params) {
-    
-  this.oldt = "";
-  this.bReentry = false;
-  this.accordion = null;
-  this.accordionSelector = null;
-  this.keySelector = null;
-  this.indicate_changed = params.indicate_changed;
-
-  this.parserparams = params.parser_options || {};
-  this.printerparams = params.render_options || {};
-  
-  this.defineOnChangeCallback( params.onchange );
-
-  if (typeof editarea === "string") {
-    this.editarea = new ABCXJS.edit.EditArea(editarea);
-  } else {
-    this.editarea = editarea;
-  }
-
-  if (params.abcText && typeof params.abcText === "string") {
-    if(params.abcText !== "demo") 
-        this.editarea.setString(params.abcText, "noRefresh" ) ;
-  } else {
-    this.editarea.setString("", "noRefresh" ) ;
-  }
-  
-  if(params.refreshController_id)  
-    this.refreshController = document.getElementById(params.refreshController_id);
-
-  if( params.generate_tablature ) {
-    if(params.generate_tablature === 'accordion')  {
-        this.accordion = new ABCXJS.tablature.Accordion(params.accordion_options);
-        
-        if( params.accordionSelector_id ) {
-            this.accordionSelector = new ABCXJS.edit.AccordionSelector(params.accordionSelector_id, this.accordion);
-            this.accordionSelector.populate();
-            this.accordionSelector.addChangeListener(this);
-            this.accordionSelector.set(this.accordion.selected);
-        } else {
-            if( params.accordionNameSpan ) {
-                this.accordionNameSpan = document.getElementById(params.accordionNameSpan);
-                this.accordionNameSpan.innerHTML = this.accordion.getName();
-            }
-        }
-    } else {
-        throw new Error( 'Tablatura para '+params.generate_tablature+' não suportada!');
-    }
-    
-    
-  }
-
-  if(params.keySelector_id) {  
-    this.keySelector = new ABCXJS.edit.KeySelector(params.keySelector_id);
-    this.keySelector.addChangeListener(this);
-  }  
-
-  this.editarea.addSelectionListener(this);
-  this.editarea.addChangeListener(this);
-
-  if (params.canvas_id) {
-    this.div = document.getElementById(params.canvas_id);
-  } else if (params.paper_id) {
-    this.div = document.getElementById(params.paper_id);
-  } else {
-    this.div = document.createElement("DIV");
-    this.editarea.getElem().parentNode.insertBefore(this.div, this.editarea.getElem());
-  }
-  
-  if (params.generate_warnings ) {
-    if (params.warnings_id) {
-      this.warningsdiv = document.getElementById(params.warnings_id);
-    } else {
-      this.warningsdiv = this.div;
-    }
-  }
-  
-  if( params.generate_midi ) {
-      if( this.accordion ) {
-        params.midi_options.keyboard = this.accordion.getKeyboard();
-      }   
-      this.midiParser = new ABCXJS.midi.Parse( params.midi_options );
-  }
-  
-  if (params.gui) {
-    this.target = document.getElementById(editarea);
-    this.printerparams.editable = true;
-  } 
-  
-  this.addClassName = function(element, className) {
-    var hasClassName = function(element, className) {
-      var elementClassName = element.className;
-      return (elementClassName.length > 0 && (elementClassName === className ||
-        new RegExp("(^|\\s)" + className + "(\\s|$)").test(elementClassName)));
-    };
-
-    if (!hasClassName(element, className))
-      element.className += (element.className ? ' ' : '') + className;
-    return element;
-  };
-
-  this.removeClassName = function(element, className) {
-    element.className = ABCXJS.parse.strip(element.className.replace(
-      new RegExp("(^|\\s+)" + className + "(\\s+|$)"), ' '));
-    return element;
-  };
-
-  this.setReadOnly = function(readOnly) {
-	  var readonlyClass = 'abc_textarea_readonly';
-	  var el = this.editarea.getElem();
-    if (readOnly) {
-      el.setAttribute('readonly', 'yes');
-	  this.addClassName(el, readonlyClass);
-	} else {
-      el.removeAttribute('readonly');
-	  this.removeClassName(el, readonlyClass);
-    }
-  };
-  
-  if( this.parseABC(0) ) {
-      this.showUp();
-  }
-
-};
-
-ABCXJS.Editor.prototype.selectAccordionById = function( id ) {
-    if( this.accordion ) {
-        this.accordion.loadById(id);
-        this.doSelAccordion();
-    }    
-};
-ABCXJS.Editor.prototype.selectAccordion = function( n ) {
-    if( this.accordion ) {
-        this.accordion.load(n);
-        this.doSelAccordion();
-    }    
-};
-
-ABCXJS.Editor.prototype.doSelAccordion = function( ) {
-    if( this.accordionSelector ) {
-        this.accordionSelector.set(this.accordion.selected);
-    } else {
-        if( this.accordionNameSpan ) {
-            this.accordionNameSpan.innerHTML = this.accordion.getName();
-        }
-    }
-};
-
-ABCXJS.Editor.prototype.defineOnChangeCallback = function( cb ) {
-    this.onchangeCallback = cb;
-};
-
-ABCXJS.Editor.prototype.getString = function() {
-    return this.editarea.getString();
-};
-
-ABCXJS.Editor.prototype.setString = function(text, noRefresh) {
-    this.editarea.setString( text, noRefresh );
-};
-
-ABCXJS.Editor.prototype.showUp = function() {
-  this.modelChanged();
-};
-
-ABCXJS.Editor.prototype.renderTune = function(abc, params, div) {
-
-  var tunebook = new ABCXJS.TuneBook(abc);
-  var abcParser = new ABCXJS.parse.Parse(this.transposer, this.accordion);
-  abcParser.parse(tunebook.tunes[0].abc, params); //TODO handle multiple tunes
-  var tune = abcParser.getTune();
-  var paper = Raphael(div, 800, 400);
-  var printer = new ABCXJS.write.Printer(paper, {});// TODO: handle printer params
-  printer.printABC(tune);
- 
-};
-
-ABCXJS.Editor.prototype.modelChanged = function() {
-    
-    if (this.tunes === undefined) {
-        this.div.innerHTML = "";
-        return;
-    }
-
-    if (this.bReentry)
-        return; // TODO is this likely? maybe, if we rewrite abc immediately w/ abc2abc
-    
-    this.bReentry = true;
-    this.timerId = null;
-    this.div.innerHTML = "";
-    var paper = Raphael(this.div, 1100, 700);
-    this.printer = new ABCXJS.write.Printer(paper, this.printerparams );
-    this.printer.printABC(this.tunes);
-    
-    if (this.target) {
-        var textprinter = new ABCXJS.transform.TextPrinter(this.target, true);
-        textprinter.printABC(this.tunes[0]); //TODO handle multiple tunes
-    }
-    
-    if (this.warningsdiv) {
-        this.warningsdiv.style.color = this.warnings.length > 0 ? "red" : "green";
-        this.warningsdiv.innerHTML = '<hr>' + (this.warnings.length > 0 ? this.warnings.join("<br>") : "No warnings or errors.") + '<hr>';
-    }
-    
-    this.printer.addSelectListener(this);
-    this.updateSelection();
-    this.bReentry = false;
-    
-    if (this.onchangeCallback)
-        this.onchangeCallback(this);
-    
-};
-
-// Call this to reparse in response to the printing parameters changing
-ABCXJS.Editor.prototype.paramChanged = function(printerparams) {
-	this.printerparams = printerparams;
-	this.oldt = "";
-	this.fireChanged();
-};
-
-// return true if the model has changed
-ABCXJS.Editor.prototype.parseABC = function(transpose, force ) {
-  var t = this.editarea.getString();
-  if ( (t.length === 0 || t===this.oldt ) && typeof(force) === "undefined" ) {
-    this.updateSelection();
-    return false;
-  }
-  
-  this.oldt = t;
-  if (t === "") {
-	this.tunes = undefined;
-	this.warnings = [];
-	return true;
-  }
-  
-  var tunebook = new ABCXJS.TuneBook(t);
-  
-  this.tunes = [];
-  this.warnings = [];
-  
-  if(typeof transpose !== "undefined") {
-      if( this.transposer )
-        this.transposer.reset(transpose);
-      else
-        this.transposer = new ABCXJS.parse.Transposer( transpose );
-  }
-  
-  for (var i=0; i<tunebook.tunes.length; i++) {
-    var abcParser = new ABCXJS.parse.Parse( this.transposer, this.accordion );
-    abcParser.parse(tunebook.tunes[i].abc, this.parserparams ); //TODO handle multiple tunes
-    this.tunes[i] = abcParser.getTune();
-
-    if( this.transposer ) { 
-        if( this.transposer.offSet !== 0 ) {
-          var lines = abcParser.tuneHouseKeeping(tunebook.tunes[i].abc);
-          this.editarea.setString( this.transposer.updateEditor( lines ), "norefresh" );
-        }
-        if(this.keySelector) 
-            this.keySelector.set( this.transposer.keyToNumber( this.transposer.getKeyVoice(0) ) );       
-    }
-
-    if( this.accordion ) { 
-        // obtem possiveis linhas inferidas para tablatura
-        this.editarea.appendString( this.accordion.updateEditor() );
-    }
-
-    var warnings = abcParser.getWarnings() || [];
-    for (var j=0; j<warnings.length; j++) {
-      this.warnings.push(warnings[j]);
-    }
-
-    if ( this.midiParser ) {
-        this.midiParser.parse( this.tunes[i], this.accordion.getKeyboard() );
-         var warnings = this.midiParser.getWarnings();
-         for (var j=0; j<warnings.length; j++) {
-           this.warnings.push(warnings[j]);
-         }
-    }
-    
-  }
-  return true;
-};
-
-ABCXJS.Editor.prototype.updateSelection = function() {
-  var selection = this.editarea.getSelection();
-  try {
-    this.printer.rangeHighlight(selection.start, selection.end);
-  } catch (e) {} // maybe printer isn't defined yet?
-};
-
-ABCXJS.Editor.prototype.fireSelectionChanged = function() {
-  this.updateSelection();
-};
-
-ABCXJS.Editor.prototype.setDirtyStyle = function(isDirty) {
-	if (this.indicate_changed === undefined)
-		return;
-  var addClassName = function(element, className) {
-    var hasClassName = function(element, className) {
-      var elementClassName = element.className;
-      return (elementClassName.length > 0 && (elementClassName === className ||
-        new RegExp("(^|\\s)" + className + "(\\s|$)").test(elementClassName)));
-    };
-
-    if (!hasClassName(element, className))
-      element.className += (element.className ? ' ' : '') + className;
-    return element;
-  };
-
-  var removeClassName = function(element, className) {
-    element.className = ABCXJS.parse.strip(element.className.replace(
-      new RegExp("(^|\\s+)" + className + "(\\s+|$)"), ' '));
-    return element;
-  };
-  
-	var readonlyClass = 'abc_textarea_dirty';
-	var el = this.editarea.getElem();
-	if (isDirty) {
-		addClassName(el, readonlyClass);
-	} else {
-		removeClassName(el, readonlyClass);
-    }
-};
-
-// call when abc text is changed and needs re-parsing
-ABCXJS.Editor.prototype.fireChanged = function (transpose, force) {
-
-    if (typeof (force) === "undefined" && this.refreshController && !this.refreshController.checked)
-        return;
-
-    if (this.bIsPaused)
-        return;
-    if (this.parseABC(transpose, force)) {
-        var self = this;
-        if (this.timerId)	// If the user is still typing, cancel the update
-            clearTimeout(this.timerId);
-        this.timerId = setTimeout(function () {
-            self.modelChanged();
-        }, 300);	// Is this a good comprimise between responsiveness and not redrawing too much?  
-        var isDirty = this.isDirty();
-        if (this.wasDirty !== isDirty) {
-            this.wasDirty = isDirty;
-            this.setDirtyStyle(isDirty);
-        }
-//        if (this.onchangeCallback)
-//            this.onchangeCallback(this);
-    }
-};
-
-ABCXJS.Editor.prototype.setNotDirty = function() {
-	this.editarea.initialText = this.editarea.getString();
-	this.wasDirty = false;
-	this.setDirtyStyle(false);
-};
-
-ABCXJS.Editor.prototype.isDirty = function() {
-	if (this.indicate_changed === undefined)
-		return false;
-	return this.editarea.initialText !== this.editarea.getString();
-};
-
-ABCXJS.Editor.prototype.highlight = function(abcelem) {
-  this.editarea.setSelection(abcelem.startChar, abcelem.endChar);
-};
-
-ABCXJS.Editor.prototype.pause = function(shouldPause) {
-	this.bIsPaused = shouldPause;
-	if (!shouldPause)
-		this.updateRendering();
-};
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10498,360 +9888,6 @@ ABCXJS.tablature.Accordion.prototype.definePaper = function(div)  {
   if(!this.paper) {
      this.paper = Raphael(this.keyboardDiv, "100%", "100%");
   }  
-};
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * TODO:
- * - Verificar porque no caso de slur a ordem dos elementos não está sendo respeitada
-*/
-
-/*
- 
-            Definição da sintaxe para tablatura
-        
-           " |: G+5'2g-6>-5 | G-3'2d-5d-[678]1/2 | G+5d-5d-> | G-xd-5d-6 | +{786'}2 | +11/2 | c+ac+b |"
-        
-           Linha de tablatura ::= { <comentario> | <barra> | <coluna> }*
-        
-           comentario := "%[texto]"
-
-           barra ::=  "|", "||", ":|", "|:", ":|:", ":||:", "::", ":||", ":||", "[|", "|]", "|[|", "|]|" [endings]
-        
-           coluna ::=  [<bassNote>]<bellows><note>[<duration>] 
-        
-           bassNote ::=  { "abcdefgABCDEFG>xz" }*
-          
-           bellows ::= "-"|"+" 
-        
-           note ::= <button>[<row>] | chord 
-        
-           chord ::= "[" {<button>[<row>]}* "]" 
-        
-           button ::=  {hexDigit} | "x" | "z" | ">"
-        
-           row ::= { "'" }*
-
-           duration ::=  number|fracao 
-
- */
-
-if (!window.ABCXJS)
-	window.ABCXJS = {};
-
-if (!window.ABCXJS.tablature)
-	window.ABCXJS.tablature = {};
-
-ABCXJS.tablature.Parse = function( str, vars ) {
-    this.invalid = false;
-    this.finished = false;
-    this.line = str;
-    this.vars = vars || {} ;
-    this.bassNoteSyms = "abcdefgABCDEFG>xz";
-    this.trebNoteSyms = "0123456789abcdefABCDEF>xz";
-    this.durSyms = "0123456789/.";
-    this.belSyms = "+-";
-    this.barSyms = ":]|";
-    this.accSyms = "♭♯";
-    this.i = 0;
-    this.xi = 0;
-    this.offset = 8.9;
-    
-    this.warn = function(str) {
-        var bad_char = this.line.charAt(this.i);
-        if (bad_char === ' ')
-            bad_char = "SPACE";
-        var clean_line = this.encode(this.line.substring(0, this.i)) +
-                '<span style="text-decoration:underline;font-size:1.3em;font-weight:bold;">' + bad_char + '</span>' +
-                this.encode(this.line.substring(this.i + 1));
-        this.addWarning("Music Line:" + /*line*/ 0 + ":" + /*column*/(this.i + 1) + ': ' + str + ": " + clean_line);
-    };
-    
-    this.addWarning = function(str) {
-        if (!this.vars.warnings) this.vars.warnings = [];
-        this.vars.warnings.push(str);
-    };
-
-    this.encode = function(str) {
-        var ret = window.ABCXJS.parse.gsub(str, '\x12', ' ');
-        ret = window.ABCXJS.parse.gsub(ret, '&', '&amp;');
-        ret = window.ABCXJS.parse.gsub(ret, '<', '&lt;');
-        return window.ABCXJS.parse.gsub(ret, '>', '&gt;');
-    };
-
-};
-
-ABCXJS.tablature.Parse.prototype.parseTabVoice = function( ) {
-    var voice  = [];
-    this.i = 0;
-    var token = { el_type: "unrecognized" };
-    
-    while (this.i < this.line.length && !this.finished) {
-        token = this.getToken();
-        switch (token.el_type) {
-            case "bar":
-                token.startChar = this.xi;
-                token.endChar = this.i;
-                if( ! this.invalid )
-                  voice[voice.length] = token;
-                break;
-            case "note":
-                if( ! this.invalid )
-                  voice[voice.length] = this.formatChild(token);
-                break;
-            case "comment":
-            case "unrecognized":
-            default:
-                break;
-        }
-    }
-    return voice;
-};
-
-ABCXJS.tablature.Parse.prototype.formatChild = function(token) {
-  var child = {
-        el_type: token.el_type 
-        ,startChar:this.xi 
-        ,endChar:this.i
-        ,pitches: []
-        ,duration: token.duration * this.vars.default_length
-        ,bellows: token.bellows
-  };
-  
-  var pitchBase = 18;
-  var tt = "tabText";
-  
-  if(token.bassNote.length>1) {
-     pitchBase = 21.3;
-     tt = "tabText2";
-  }
-  for( var b = 0; b < token.bassNote.length; ++ b ) {
-    if(token.bassNote[b] === "z")
-      child.pitches[b] = { bass:true, type: "rest", c: '', pitch: 0.7 + pitchBase - (b*3)};
-    else
-      child.pitches[b] = { bass:true, type: tt, c: this.getTabSymbol(token.bassNote[b]), pitch: pitchBase -(b*3) - 0.5};
-  }
-
-  var qtd = token.buttons.length;
-  
-  for(var i = 0; i < token.buttons.length; i ++ ) {
-    var n = child.pitches.length;
-    if(token.buttons[i] === "z")
-      child.pitches[n] = { c: "", type: "rest", pitch: token.bellows === "+"? 13.2 : 13.2-this.offset };
-    else {
-      var offset = (qtd>=3?-(this.offset-(2.8*(qtd-2))):-this.offset);
-      var p = (qtd === 1 ? 11.7 : 13.4 - ( i * 2.8)) + (token.bellows === "+"? 0 : offset);
-      child.pitches[n] = { c: this.getTabSymbol(token.buttons[i]), type: "tabText"+(qtd>1?"2":""), pitch: p };
-    } 
-    
-  }
-  
-  return child;
-};
-
-ABCXJS.tablature.Parse.prototype.getTabSymbol = function(text) {
-    switch(text) {
-        case '>': return '-->';
-        default: return text;
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getToken = function() {
-    this.invalid = false;
-    this.parseMultiCharToken( ' \t' );
-    this.xi = this.i;
-    switch(this.line.charAt(this.i)) {
-        case '%':
-          this.finished = true;  
-          return { el_type:"comment",  token: this.line.substr( this.i+1 ) };
-        case '|':
-        case ':':
-          return this.getBarLine();
-        case '[': // se o proximo caracter não for um pipe, deve ser tratado como uma coluna de notas
-          if( this.line.charAt(this.i+1) === '|' ) {
-            return this.getBarLine();
-          }
-        default:    
-          return this.getColumn();
-    }
-   
-};
-
-ABCXJS.tablature.Parse.prototype.parseMultiCharToken = function( syms ) {
-    while (this.i < this.line.length && syms.indexOf(this.line.charAt(this.i)) >= 0) {
-        this.i++;
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getBarLine = function() {
-  var endings  =   '1234567890,'; // due syntax conflict I will not consider the  dash '-'.
-  var validBars = { 
-        "|"   : "bar_thin"
-      , "||"  : "bar_thin_thin"
-      , "[|"  : "bar_thick_thin"
-      , "|]"  : "bar_thin_thick"
-      , ":|:" : "bar_dbl_repeat"
-      , ":||:": "bar_dbl_repeat"
-      , "::"  : "bar_dbl_repeat" 
-      , "|:"  : "bar_left_repeat"
-      , "||:" : "bar_left_repeat"
-      , "[|:" : "bar_left_repeat"
-      , ":|"  : "bar_right_repeat"
-      , ":||" : "bar_right_repeat"
-      , ":|]" : "bar_right_repeat"
-  };
-  
-  var token = { el_type:"bar", type:"bar", token: undefined };
-  var p = this.i;
-  
-  this.parseMultiCharToken(this.barSyms);
-  
-  token.token = this.line.substr( p, this.i-p );
-  this.finished =  this.i >= this.line.length;
-  
-  // validar o tipo de barra
-  token.type = validBars[token.token];
-  this.invalid = !token.type;
-
-  if(! this.invalid) {
-    this.parseMultiCharToken( ' \t' );
-    if (this.vars.inEnding ) {
-            token.endDrawEnding = true;
-            if( token.type !== 'bar_thin') {
-                token.endEnding = true;
-                this.vars.inEnding = false;
-            }    
-    }
-    if(endings.indexOf(this.line.charAt(this.i))>=0) {
-        token.startEnding = this.line.charAt(this.i);
-        if (this.vars.inEnding) {
-            token.endDrawEnding = true;
-            token.endEnding = true;
-        }    
-        this.vars.inEnding = true;
-        this.i++;
-    }
-  }
-  return token;
-};
-
-ABCXJS.tablature.Parse.prototype.getColumn = function() {
-    var token = {el_type: "note", type: "note", bassNote: undefined, bellows: "", buttons: [], duration: 1};
-    token.bassNote = [];
-    
-    while (this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-      token.bassNote[token.bassNote.length] = this.getBassNote();
-    }
-    token.bellows = this.getBelows();
-    token.buttons = this.getNote();
-    token.duration = this.getDuration();
-    this.finished = this.i >= this.line.length;
-    return token;
-
-};
-
-ABCXJS.tablature.Parse.prototype.getBassNote = function() {
-  var note = "";
-  if( this.bassNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-    this.warn( "Expected Bass Note but found " + this.line.charAt(this.i) );
-    this.i++;
-  } else {
-    note = this.line.charAt(this.i);
-    this.i++;
-    if( this.accSyms.indexOf(this.line.charAt(this.i)) >= 0 ) {
-      note += this.line.charAt(this.i);
-      this.i++;
-    }
-  }
-  return note;
-};
-
-ABCXJS.tablature.Parse.prototype.getDuration = function() {
-    var dur = 1;
-    var p = this.i;
-
-    this.parseMultiCharToken(this.durSyms);
-    
-    if (p !== this.i) {
-        dur = this.line.substr(p, this.i - p);
-        if (isNaN(eval(dur))) {
-          this.warn( "Expected numeric or fractional note duration, but found " + dur);
-        } else {
-            dur = eval(dur);
-        }
-    }
-    return dur;
-};
-
-ABCXJS.tablature.Parse.prototype.getBelows = function() {
-    if(this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-       this.warn( "Expected belows information, but found " + this.line.charAt(this.i) );
-       this.invalid = true;
-       return '+';
-    } else {
-        this.i++;
-        return this.line.charAt(this.i-1);
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getNote = function() {
-  var b = [];
-  switch( this.line.charAt(this.i) ) {
-      case '[':
-         this.i++;
-         b = this.getChord();
-         break;
-      default: 
-         b[b.length] = this.getButton();
-  }
-  return b;
-};
-
-ABCXJS.tablature.Parse.prototype.getChord = function( token ) {
-    var b = [];
-    while (this.i < this.line.length && this.line.charAt(this.i) !== ']' ) {
-        b[b.length] = this.getButton();
-    }
-    if( this.line.charAt(this.i) !== ']' ) {
-       this.warn( "Expected end of chord - ']'");
-       this.invalid = true;
-    } else {
-        this.i++;
-    }
-    return b;
-};
-
-ABCXJS.tablature.Parse.prototype.getButton = function() {
-    var c = "x";
-    var row = "";
-    
-    if(this.trebNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-       this.warn( "Expected button number, but found " + this.line.charAt(this.i));
-    } else {
-        c = this.line.charAt(this.i);
-        switch(c) {
-            case '>':
-            case 'x':
-            case 'z':
-               break;
-            default:   
-                c = isNaN(parseInt(c, 16))? 'x': parseInt(c, 16).toString();
-        }
-    }
-    this.i++;
-    
-    var p = this.i;
-
-    this.parseMultiCharToken("'");
-    
-    if (p !== this.i) 
-        row = this.line.substr(p, this.i - p);
-        
-    return c + row;
 };
 /* 
  * To change this license header, choose License Headers in Project Properties.
@@ -11565,4 +10601,358 @@ ABCXJS.tablature.Layout.prototype.printBarLine = function (elem) {
 
   return abselem;	
 
+};
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * TODO:
+ * - Verificar porque no caso de slur a ordem dos elementos não está sendo respeitada
+*/
+
+/*
+ 
+            Definição da sintaxe para tablatura
+        
+           " |: G+5'2g-6>-5 | G-3'2d-5d-[678]1/2 | G+5d-5d-> | G-xd-5d-6 | +{786'}2 | +11/2 | c+ac+b |"
+        
+           Linha de tablatura ::= { <comentario> | <barra> | <coluna> }*
+        
+           comentario := "%[texto]"
+
+           barra ::=  "|", "||", ":|", "|:", ":|:", ":||:", "::", ":||", ":||", "[|", "|]", "|[|", "|]|" [endings]
+        
+           coluna ::=  [<bassNote>]<bellows><note>[<duration>] 
+        
+           bassNote ::=  { "abcdefgABCDEFG>xz" }*
+          
+           bellows ::= "-"|"+" 
+        
+           note ::= <button>[<row>] | chord 
+        
+           chord ::= "[" {<button>[<row>]}* "]" 
+        
+           button ::=  {hexDigit} | "x" | "z" | ">"
+        
+           row ::= { "'" }*
+
+           duration ::=  number|fracao 
+
+ */
+
+if (!window.ABCXJS)
+	window.ABCXJS = {};
+
+if (!window.ABCXJS.tablature)
+	window.ABCXJS.tablature = {};
+
+ABCXJS.tablature.Parse = function( str, vars ) {
+    this.invalid = false;
+    this.finished = false;
+    this.line = str;
+    this.vars = vars || {} ;
+    this.bassNoteSyms = "abcdefgABCDEFG>xz";
+    this.trebNoteSyms = "0123456789abcdefABCDEF>xz";
+    this.durSyms = "0123456789/.";
+    this.belSyms = "+-";
+    this.barSyms = ":]|";
+    this.accSyms = "♭♯";
+    this.i = 0;
+    this.xi = 0;
+    this.offset = 8.9;
+    
+    this.warn = function(str) {
+        var bad_char = this.line.charAt(this.i);
+        if (bad_char === ' ')
+            bad_char = "SPACE";
+        var clean_line = this.encode(this.line.substring(0, this.i)) +
+                '<span style="text-decoration:underline;font-size:1.3em;font-weight:bold;">' + bad_char + '</span>' +
+                this.encode(this.line.substring(this.i + 1));
+        this.addWarning("Music Line:" + /*line*/ 0 + ":" + /*column*/(this.i + 1) + ': ' + str + ": " + clean_line);
+    };
+    
+    this.addWarning = function(str) {
+        if (!this.vars.warnings) this.vars.warnings = [];
+        this.vars.warnings.push(str);
+    };
+
+    this.encode = function(str) {
+        var ret = window.ABCXJS.parse.gsub(str, '\x12', ' ');
+        ret = window.ABCXJS.parse.gsub(ret, '&', '&amp;');
+        ret = window.ABCXJS.parse.gsub(ret, '<', '&lt;');
+        return window.ABCXJS.parse.gsub(ret, '>', '&gt;');
+    };
+
+};
+
+ABCXJS.tablature.Parse.prototype.parseTabVoice = function( ) {
+    var voice  = [];
+    this.i = 0;
+    var token = { el_type: "unrecognized" };
+    
+    while (this.i < this.line.length && !this.finished) {
+        token = this.getToken();
+        switch (token.el_type) {
+            case "bar":
+                token.startChar = this.xi;
+                token.endChar = this.i;
+                if( ! this.invalid )
+                  voice[voice.length] = token;
+                break;
+            case "note":
+                if( ! this.invalid )
+                  voice[voice.length] = this.formatChild(token);
+                break;
+            case "comment":
+            case "unrecognized":
+            default:
+                break;
+        }
+    }
+    return voice;
+};
+
+ABCXJS.tablature.Parse.prototype.formatChild = function(token) {
+  var child = {
+        el_type: token.el_type 
+        ,startChar:this.xi 
+        ,endChar:this.i
+        ,pitches: []
+        ,duration: token.duration * this.vars.default_length
+        ,bellows: token.bellows
+  };
+  
+  var pitchBase = 18;
+  var tt = "tabText";
+  
+  if(token.bassNote.length>1) {
+     pitchBase = 21.3;
+     tt = "tabText2";
+  }
+  for( var b = 0; b < token.bassNote.length; ++ b ) {
+    if(token.bassNote[b] === "z")
+      child.pitches[b] = { bass:true, type: "rest", c: '', pitch: 0.7 + pitchBase - (b*3)};
+    else
+      child.pitches[b] = { bass:true, type: tt, c: this.getTabSymbol(token.bassNote[b]), pitch: pitchBase -(b*3) - 0.5};
+  }
+
+  var qtd = token.buttons.length;
+  
+  for(var i = 0; i < token.buttons.length; i ++ ) {
+    var n = child.pitches.length;
+    if(token.buttons[i] === "z")
+      child.pitches[n] = { c: "", type: "rest", pitch: token.bellows === "+"? 13.2 : 13.2-this.offset };
+    else {
+      var offset = (qtd>=3?-(this.offset-(2.8*(qtd-2))):-this.offset);
+      var p = (qtd === 1 ? 11.7 : 13.4 - ( i * 2.8)) + (token.bellows === "+"? 0 : offset);
+      child.pitches[n] = { c: this.getTabSymbol(token.buttons[i]), type: "tabText"+(qtd>1?"2":""), pitch: p };
+    } 
+    
+  }
+  
+  return child;
+};
+
+ABCXJS.tablature.Parse.prototype.getTabSymbol = function(text) {
+    switch(text) {
+        case '>': return '-->';
+        default: return text;
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getToken = function() {
+    this.invalid = false;
+    this.parseMultiCharToken( ' \t' );
+    this.xi = this.i;
+    switch(this.line.charAt(this.i)) {
+        case '%':
+          this.finished = true;  
+          return { el_type:"comment",  token: this.line.substr( this.i+1 ) };
+        case '|':
+        case ':':
+          return this.getBarLine();
+        case '[': // se o proximo caracter não for um pipe, deve ser tratado como uma coluna de notas
+          if( this.line.charAt(this.i+1) === '|' ) {
+            return this.getBarLine();
+          }
+        default:    
+          return this.getColumn();
+    }
+   
+};
+
+ABCXJS.tablature.Parse.prototype.parseMultiCharToken = function( syms ) {
+    while (this.i < this.line.length && syms.indexOf(this.line.charAt(this.i)) >= 0) {
+        this.i++;
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getBarLine = function() {
+  var endings  =   '1234567890,'; // due syntax conflict I will not consider the  dash '-'.
+  var validBars = { 
+        "|"   : "bar_thin"
+      , "||"  : "bar_thin_thin"
+      , "[|"  : "bar_thick_thin"
+      , "|]"  : "bar_thin_thick"
+      , ":|:" : "bar_dbl_repeat"
+      , ":||:": "bar_dbl_repeat"
+      , "::"  : "bar_dbl_repeat" 
+      , "|:"  : "bar_left_repeat"
+      , "||:" : "bar_left_repeat"
+      , "[|:" : "bar_left_repeat"
+      , ":|"  : "bar_right_repeat"
+      , ":||" : "bar_right_repeat"
+      , ":|]" : "bar_right_repeat"
+  };
+  
+  var token = { el_type:"bar", type:"bar", token: undefined };
+  var p = this.i;
+  
+  this.parseMultiCharToken(this.barSyms);
+  
+  token.token = this.line.substr( p, this.i-p );
+  this.finished =  this.i >= this.line.length;
+  
+  // validar o tipo de barra
+  token.type = validBars[token.token];
+  this.invalid = !token.type;
+
+  if(! this.invalid) {
+    this.parseMultiCharToken( ' \t' );
+    if (this.vars.inEnding ) {
+            token.endDrawEnding = true;
+            if( token.type !== 'bar_thin') {
+                token.endEnding = true;
+                this.vars.inEnding = false;
+            }    
+    }
+    if(endings.indexOf(this.line.charAt(this.i))>=0) {
+        token.startEnding = this.line.charAt(this.i);
+        if (this.vars.inEnding) {
+            token.endDrawEnding = true;
+            token.endEnding = true;
+        }    
+        this.vars.inEnding = true;
+        this.i++;
+    }
+  }
+  return token;
+};
+
+ABCXJS.tablature.Parse.prototype.getColumn = function() {
+    var token = {el_type: "note", type: "note", bassNote: undefined, bellows: "", buttons: [], duration: 1};
+    token.bassNote = [];
+    
+    while (this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+      token.bassNote[token.bassNote.length] = this.getBassNote();
+    }
+    token.bellows = this.getBelows();
+    token.buttons = this.getNote();
+    token.duration = this.getDuration();
+    this.finished = this.i >= this.line.length;
+    return token;
+
+};
+
+ABCXJS.tablature.Parse.prototype.getBassNote = function() {
+  var note = "";
+  if( this.bassNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+    this.warn( "Expected Bass Note but found " + this.line.charAt(this.i) );
+    this.i++;
+  } else {
+    note = this.line.charAt(this.i);
+    this.i++;
+    if( this.accSyms.indexOf(this.line.charAt(this.i)) >= 0 ) {
+      note += this.line.charAt(this.i);
+      this.i++;
+    }
+  }
+  return note;
+};
+
+ABCXJS.tablature.Parse.prototype.getDuration = function() {
+    var dur = 1;
+    var p = this.i;
+
+    this.parseMultiCharToken(this.durSyms);
+    
+    if (p !== this.i) {
+        dur = this.line.substr(p, this.i - p);
+        if (isNaN(eval(dur))) {
+          this.warn( "Expected numeric or fractional note duration, but found " + dur);
+        } else {
+            dur = eval(dur);
+        }
+    }
+    return dur;
+};
+
+ABCXJS.tablature.Parse.prototype.getBelows = function() {
+    if(this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+       this.warn( "Expected belows information, but found " + this.line.charAt(this.i) );
+       this.invalid = true;
+       return '+';
+    } else {
+        this.i++;
+        return this.line.charAt(this.i-1);
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getNote = function() {
+  var b = [];
+  switch( this.line.charAt(this.i) ) {
+      case '[':
+         this.i++;
+         b = this.getChord();
+         break;
+      default: 
+         b[b.length] = this.getButton();
+  }
+  return b;
+};
+
+ABCXJS.tablature.Parse.prototype.getChord = function( token ) {
+    var b = [];
+    while (this.i < this.line.length && this.line.charAt(this.i) !== ']' ) {
+        b[b.length] = this.getButton();
+    }
+    if( this.line.charAt(this.i) !== ']' ) {
+       this.warn( "Expected end of chord - ']'");
+       this.invalid = true;
+    } else {
+        this.i++;
+    }
+    return b;
+};
+
+ABCXJS.tablature.Parse.prototype.getButton = function() {
+    var c = "x";
+    var row = "";
+    
+    if(this.trebNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+       this.warn( "Expected button number, but found " + this.line.charAt(this.i));
+    } else {
+        c = this.line.charAt(this.i);
+        switch(c) {
+            case '>':
+            case 'x':
+            case 'z':
+               break;
+            default:   
+                c = isNaN(parseInt(c, 16))? 'x': parseInt(c, 16).toString();
+        }
+    }
+    this.i++;
+    
+    var p = this.i;
+
+    this.parseMultiCharToken("'");
+    
+    if (p !== this.i) 
+        row = this.line.substr(p, this.i - p);
+        
+    return c + row;
 };

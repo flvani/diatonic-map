@@ -10,66 +10,82 @@ editAreaLoader.load_syntax["abc"] = {
                ,'merge', 'up', 'down', 'middle', 'm', 'tab', 'tablatura', 'tablature', 'melodia', 'baixo', 'baixos', 'melody'
             ]
             ,'types' : [
-                'clef' ,'cl' ,'staves' ,'stave' ,'stv' ,'brace' ,'brc' ,'bracket' ,'brk' ,'name' 
-               ,'nm' ,'subname' ,'sname' ,'snm','stems', 'stem' ,'gchords' ,'gch' ,'space' ,'spc' ,'scale' ,'transpose', 'style'
-            ]
+                'types'
+//                'A:', 'B:', 'C:', 'D:', 'F:', 'G:',  'H:', 'I:',
+//                'K:', 'L:', 'M:', 'N:', '0:', 'P:', 'Q:', 'R:', 'S:',
+//                'T:', 'U:', 'V:', 'X:', 'Z:'
+                ]
             ,'statements' : [
-                'A:', 'B:', 'C:', 'D:', 'F:', 'G:',  'H:', 'I:',
-                'K:', 'L:', 'M:', 'N:', '0:', 'P:', 'Q:', 'R:', 'S:',
-                'T:', 'U:', 'V:', 'X:', 'Z:'
+                'statements'
+//                'clef' ,'cl' ,'staves' ,'stave' ,'stv' ,'brace' ,'brc' ,'bracket' ,'brk' ,'name' 
+//               ,'nm' ,'subname' ,'sname' ,'snm','stems', 'stem' ,'gchords' ,'gch' ,'space' ,'spc' ,'scale' ,'transpose', 'style'
             ]
             ,'keywords' : [
-                '_','^','='
+               '\_' // parece que há um problema em colocar o '_' como operador
             ]
 	}
 	,'OPERATORS' :[
-            '-', '+', '\'', ',', '/' 
+            '-', '+', '\'', ',', '/', '^','=' 
 	]
 	,'DELIMITERS' :[
             '(', ')', '[', ']', '{', '}', '|', '!', ':'
 	]
 	,'REGEXPS' : {
-		'precompiler' : {
+		'directives' : {
 			'search' : '()(\%\%[^\r\n]*)()'
-			,'class' : 'directive'
+			,'class' : 'directives'
 			,'modifiers' : 'g'
 			,'execute' : 'before'
 		}
-		,'precompilerstring' : {
-			'search' : '()(\[wW]\:[^\r\n]*)()'
+		,'words' : {
+			'search' : '()([Ww]\:[^\r\n]*)()'
 			,'class' : 'words'
 			,'modifiers' : 'g'
 			,'execute' : 'before'
 		}
-		,'macro' : {
-			'search' : '()(\[ms]\:[^\r\n]*)()'
-			,'class' : 'macro'
+		,'macros' : {
+			'search' : '()([ms]\:[^\r\n]*)()'
+			,'class' : 'macros'
 			,'modifiers' : 'g'
 			,'execute' : 'before'
 		}
-		,'comment' : {
-			'search' : '()(\[r]\:[^\r\n]*)()'
-			,'class' : 'comment'
+		,'comments' : {
+			'search' : '()([r]\:[^\r\n]*)()'
+			,'class' : 'comments'
 			,'modifiers' : 'g'
 			,'execute' : 'before'
+		}
+		,'fields' : {
+			'search' : '( |\n|\r|\t)([ABCDEFGHIJKLMNOPQRSTUVXYZ]\:)()'
+			,'class' : 'fields'
+			,'modifiers' : 'g'
+			,'execute' : 'before' // before or after
+		}
+		,'attributes' : {
+			'search' : '( |\n|\r|\t)([^ \r\n\t=]+)(=)'
+			,'class' : 'attributes'
+			,'modifiers' : 'g'
+			,'execute' : 'before' // before or after
 		}
 	}
 	,'STYLES' : {
 		'COMMENTS': 'color: #AAAAAA;'
 		,'QUOTESMARKS': 'color: #FF0000;'
 		,'KEYWORDS' : {
-                    'constants' : 'color: #0000FF;'
-                    ,'types' : 'color: #0000EE;'
+                    'constants' : 'color: #60CA00;'
+                    ,'types' : 'color: #60CA00;'
                     ,'statements' : 'color: #60CA00;'
-                    ,'keywords' : 'color: #48BDDF;'
+                    ,'keywords' : 'color: #0000FF;'
 		}
-		,'OPERATORS' : 'color: #FF00FF;'
-		,'DELIMITERS' : 'color: #0000FF;'
+		,'OPERATORS' : 'color: #0000FF;'
+		,'DELIMITERS' : 'color: #FF00FF;'
 		,'REGEXPS' : {
-                    'directive' : 'color: #009900;'
-                    ,'macro' : 'color: #FF0000;'
-                    ,'words' : 'color: #994400;'
-                    ,'comment' : 'color: #AAAAAA;'
+                     'attributes': 'color: #0000FF;'
+                    ,'fields': 'color: #0000FF;'
+                    ,'directives' : 'color: #009900;'
+                    ,'macros' : 'color: #FF0000;'
+                    ,'wordss' : 'color: #994400;'
+                    ,'comments' : 'color: #AAAAAA;'
 		}
 	}
 };
