@@ -244,18 +244,17 @@ notação abc, tablatura "/>
             </div> <!-- /bottomMargin --> 
         </div> <!-- /container -->
         
-        <div id="editControlDiv" class="container" style="display:none; float: left; background-color: #bbbbaa; margin:0px; width:100%; top: 50px; z-index: 600; position: fixed;">  
+        <div id="editControlDiv" class="container" style="display:none; float: left; background-color: #bbbbaa; margin:0px; width:100%; top: 50px; z-index: 200; position: fixed;">  
             <div id="control" style="margin-top: 0px; margin-left: 0px; margin-right: 2px;">
                 <div id="editAreaDiv" style="width: 80%; ">
-                    <textarea readonly id="textareaABC" rows="8" style="width: 100%; margin: 6px; color: #000; font-family: monospace;"></textarea>
+                    <textarea readonly id="textareaABC" rows="10" style="width: 100%; margin: 6px; color: #000; font-family: monospace; font-size: 12px; line-height: 15px;"></textarea>
                 </div>
                 <div id="controlDiv" style="width: 100%; min-height: 28px;" >
                     <div id="control1" style="float: left; margin-left: 5px;" >
-                        <span id="nomeGaita" >Acordeons: </span>
-                        <!--select id="selGaitas" > </select-->
                         <button id="printPreviewBtn" class="btn" title="Ver impressão" >Ver impressão</button>
                         <button id="saveBtn" class="btn" title="Salvar Local" >Salvar Local</button>
-                        <button id="forceRefresh" class="btn" title="Atualizar" onclick="javascript:openEditor();" >Editar</button>
+                        <button id="forceRefresh" class="btn" title="Atualizar" onclick="javascript:doForceRefresh();" >Atualizar</button>
+                        <button id="editorBtn" class="btn" title="Editar" onclick="javascript:openEditor();" >Editar</button>
                         <input  style="display: none;" type="checkbox" id="chkAutoRefresh" ><span style="display: none;" id="DR_refresh">Auto atualização</span> 
                         <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
                     </div>
@@ -278,10 +277,10 @@ notação abc, tablatura "/>
                 </div>    
             </div>    
         </div>  <!-- /editControlDiv -->
-        <div style="float: left;z-index: 1600;">
-            <div id="warningsDiv" style="display:none; padding-left: 5px; width: 100%;  background-color: white; color:black;  z-index: 510; "><hr></div>
-            <div id="editorDiv" style="display:none; width: 100%; min-height: 400px;  background-color: white; color:black; z-index: 520;" >music</div>
-            <div id="keyboardDiv" style="display:none; position: fixed; top:600px; left:900px; width:0px; height:0px; z-index: 1600;"></div>
+        <div style="float: left;z-index: 300;">
+            <div id="warningsDiv" style="display:none; padding-left: 5px; width: 100%;  background-color: white; color:black; "><hr></div>
+            <div id="editorDiv" style="display:none; width: 100%; min-height: 400px;  background-color: white; color:black; " >music</div>
+            <div id="keyboardDiv" style="display:none; position: fixed; top:600px; left:900px; width:0px; height:0px; z-index: 500;"></div>
         </div>      
         <div id="modalAD" class="modalWindow" style="display: none;">
             <div>
@@ -353,17 +352,19 @@ notação abc, tablatura "/>
               </div>
             </div>
         </div> <!-- /modalAbout -->
-        <div id="newEditor" class="modalWindow" style="display: inline; z-index: 1000;">
+        <div id="newEditor" class="modalWindow" style="display: inline; z-index: 400;">
             <div class="modalFooter" style="width: 90%; padding: 4px;">
-                <div >
-                    <h2>Editor ABCX</h2>
+                <div style="width: 100%;" >
+                    <h2>&nbsp;Editor ABCX&nbsp;-&nbsp;<span id="spanSongTitle">song</span> </h2>
                     <a href="#" title="Fechar" class="close">X</a>
                 </div>
-                <textarea id="taNewEditor" rows="30" style="width: 100%; margin: 0px; color: #000; font-family: monospace;"></textarea>
-                <select id="selKey" ></select>
-                <button id="octaveUpBtn" class="btn" title="+ Oitava" onclick="javascript:doTranspose(12); return false;" ><i class="icon-arrow-up"></i>&nbsp;Oitava</button>
-                <button id="octaveDwBtn" class="btn" title="- Oitava" onclick="javascript:doTranspose(-12); return false;" ><i class="icon-arrow-down"></i>&nbsp;Oitava</button>
-                <a href="javascript:closeEditor();" title="Fechar a janela" class="cancel">Fechar</a>
+                <textarea id="taNewEditor" rows="25" style="width: 100%; margin: 0px; color: #000; font-family: monospace;"></textarea>
+                <div style="width: 100%;" >
+                    <select id="selKey" ></select>
+                    <button id="octaveUpBtn" class="btn" title="+ Oitava" onclick="javascript:doTranspose(12); return false;" ><i class="icon-arrow-up"></i>&nbsp;Oitava</button>
+                    <button id="octaveDwBtn" class="btn" title="- Oitava" onclick="javascript:doTranspose(-12); return false;" ><i class="icon-arrow-down"></i>&nbsp;Oitava</button>
+                    <a href="javascript:closeEditor();" title="Fechar a janela" class="cancel">Fechar</a>
+                </div>
                 <div class="clear"></div>
             </div>
         </div> <!-- /newEditor -->
@@ -380,21 +381,21 @@ notação abc, tablatura "/>
         <script type="text/javascript" src="MIDI.js/MIDI_2.04-min.js"></script>
         
         <!-- suporte a arquivos ABC -->
-        <!--script id="mainABCX" type="text/javascript" src="abcjs/abcxjs_3.21-min.js" ></script-->
-        <script id="mainABCX" type="text/javascript" src="abcjs/abcxjs.js" ></script>
+        <!--script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_30.21-min.js" ></script-->
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs.js" ></script>
         
         <!-- suporte mapas de acordeons -->
         <!--script type="text/javascript" src="diatonic/diatonic_3.21-min.js"></script-->
         <script type="text/javascript" src="diatonic/diatonic.js"></script>
 
-        <script type="text/javascript" src="map/mapa.js"></script>
-        <script type="text/javascript" src="map/estudio.js"></script>
+        <script type="text/javascript" src="site/mapa.js"></script>
+        <script type="text/javascript" src="site/estudio.js"></script>
         
         <script id="mainScript" type="text/javascript">
             
             var producao = getABCXversion();
 
-            //var sourceScripts = [ {id:"abcjs/abcxjs", version:producao}];
+            //var sourceScripts = [ {id:"abcxjs/abcxjs", version:producao}];
             
             if( producao ) {
                 var _clustrmaps = {
@@ -448,13 +449,12 @@ notação abc, tablatura "/>
                     {   // interfaceParams
                         printPreviewBtn:'printPreviewBtn'
                        ,saveBtn:'saveBtn'
+                       ,showMapBtn: 'showMapBtn'
                     },   
                     {   // editorParams
                        textArea: "textareaABC"
                       ,canvas_id: "editorDiv"
                       ,keySelector_id: "selKey"
-                      //,accordionSelector_id: "selGaitas"
-                      ,accordionNameSpan: "nomeGaita"
                       ,refreshController_id: "chkAutoRefresh"
                       ,warnings_id: "warningsDiv"
                       ,generate_warnings: true
@@ -468,8 +468,7 @@ notação abc, tablatura "/>
                       ,onchange: editorCallbackOnChange
                   } 
                   , {   // playerParams
-                        showMapBtn: 'showMapBtn'
-                      , modeBtn: "modeBtn"
+                        modeBtn: "modeBtn"
                       , playBtn: "playBtn"
                       , stopBtn: "stopBtn"
                       , clearBtn: "clearBtn"
@@ -673,7 +672,7 @@ notação abc, tablatura "/>
 
             function getABCXversion() {
                 var str = document.getElementById("mainABCX").src;
-                var res = str.match(/[0-9]\.[0-9][0-9]/g);
+                var res = str.match(/[0-9]*\.[0-9][0-9]/g);
                 
                 if( res ) {
                    document.getElementById("divABCXversion").innerHTML = '<i>Powered by ABCXJS version '+res[0]+'.</i>';

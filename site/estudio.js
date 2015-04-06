@@ -173,9 +173,9 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
 
     this.saveButton = document.getElementById(interfaceParams.saveBtn);
     this.printPreviewButton = document.getElementById(interfaceParams.printPreviewBtn);
+    this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
 
     // player control
-    this.showMapButton = document.getElementById(playerParams.showMapBtn);
     this.modeButton = document.getElementById(playerParams.modeBtn);
     this.playButton = document.getElementById(playerParams.playBtn);
     this.stopButton = document.getElementById(playerParams.stopBtn);
@@ -318,7 +318,7 @@ SITE.Estudio.prototype.showEditor = function(w) {
     });
     
     this.initialText = this.editArea.getString();
-    
+    document.getElementById("spanSongTitle").innerHTML = this.renderedTune.title;
     editAreaLoader.setValue("taNewEditor", this.initialText );
 
 };
@@ -442,8 +442,10 @@ SITE.Estudio.prototype.modelChanged = function() {
     
 };
 
-SITE.Estudio.prototype.setABC = function(tab) {
+SITE.Estudio.prototype.setABC = function(tab, accordionId) {
+    this.accordion.loadById(accordionId);
     this.renderedTune.text = tab.text;
+    this.renderedTune.title = tab.title;
     this.renderedTune.abc = tab.abc;
     this.renderedTune.div.innerHTML = tab.div.innerHTML;
     this.editArea.setString(this.renderedTune.text);

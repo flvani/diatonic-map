@@ -90,7 +90,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         that.savedBackgroundColor = document.body.style.backgroundColor;
         document.body.style.backgroundColor = '#fff';
         $("#editControlDiv").fadeIn();
-        that.studio.setABC(that.currentABC);
+        that.studio.setABC(that.currentABC, that.accordion.getLoaded().getId());
         $("#editorDiv").fadeIn();
         $("#warningsDiv").fadeIn();
         $("#divMenuBack").fadeIn();

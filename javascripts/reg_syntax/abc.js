@@ -84,7 +84,7 @@ editAreaLoader.load_syntax["abc"] = {
                     ,'fields': 'color: #0000FF;'
                     ,'directives' : 'color: #009900;'
                     ,'macros' : 'color: #FF0000;'
-                    ,'wordss' : 'color: #994400;'
+                    ,'words' : 'color: #994400;'
                     ,'comments' : 'color: #AAAAAA;'
 		}
 	}
