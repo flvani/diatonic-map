@@ -284,10 +284,12 @@ SITE.Mapa.prototype.loadAccordionList  = function() {
     var accordions = this.accordion.accordions;
     var ord = [];
     for (var c=0; c < accordions.length; c++) {
-       ord.push( [ accordions[c].menuOrder, accordions[c].getName() , accordions[c].getId() ] );
+       ord.push( [ parseInt( accordions[c].menuOrder ), accordions[c].getName() , accordions[c].getId() ] );
     }
 
-    ord.sort();
+    ord.sort(function(a, b) {
+        return b - a;
+    });
 
     $('#opcoes_gaita').empty();
 
@@ -317,7 +319,6 @@ SITE.Mapa.prototype.salvaRepertorio = function() {
 };
 
 SITE.Mapa.prototype.save = function() {
-    throw new Error ('Rotina em manutenção.');
     var accordion = this.getSelectedAccordion();
     var txtAccordion = 
             '{\n'+
@@ -326,7 +327,7 @@ SITE.Mapa.prototype.save = function() {
             '  ,"model":'+JSON.stringify(accordion.model)+'\n'+
             '  ,"tuning":'+JSON.stringify(accordion.tuning)+'\n'+
             '  ,"buttons":'+JSON.stringify(accordion.buttons)+'\n'+
-            '  ,"pedal":'+JSON.stringify(accordion.pedal)+'\n'+
+            '  ,"pedal":'+JSON.stringify(accordion.keyboard.pedalInfo)+'\n'+
             '  ,"keyboard":\n'+
             '  {\n'+
             '     "layout":'+JSON.stringify(accordion.keyboard.layout)+'\n'+
@@ -375,15 +376,15 @@ SITE.Mapa.prototype.load = function(files) {
     newAccordionJSON.image = newImage || 'img/accordion.default.gif';
     
     if( ! this.accordionExists(newAccordionJSON.id) ) {
-        newAccordion = new DIATONIC.map.Accordion( newAccordionJSON, true );
+        newAccordion = new DIATONIC.map.AccordionMap( newAccordionJSON, true );
         
         DIATONIC.map.accordionMaps.push( newAccordion );
         this.loadAccordionList();
         //this.editor.accordionSelector.updateAccordionList();
     }   
     
-    if( ! this.accordionIsCurrent(newAccordion.id) ) {
-        this.setup({accordionId:newAccordion.id});
+    if( ! this.accordionIsCurrent(newAccordionJSON.id) ) {
+        this.setup({accordionId:newAccordionJSON.id});
     }   
     
     var accordion = this.getSelectedAccordion();
