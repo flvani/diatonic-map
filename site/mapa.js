@@ -89,10 +89,12 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         document.body.style.paddingTop = '273px';
         that.savedBackgroundColor = document.body.style.backgroundColor;
         document.body.style.backgroundColor = '#fff';
-        $("#editControlDiv").fadeIn();
+        
+        $("#studioDiv").fadeIn();
+        //$("#editControlDiv").fadeIn();
         that.studio.setABC(that.currentABC, that.accordion.getLoaded().getId());
-        $("#editorDiv").fadeIn();
-        $("#warningsDiv").fadeIn();
+        //$("#editorDiv").fadeIn();
+        //$("#warningsDiv").fadeIn();
         $("#divMenuBack").fadeIn();
         $("#divMenuShowMap").fadeIn();
         

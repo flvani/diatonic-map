@@ -18,6 +18,7 @@ notação abc, tablatura "/>
         <!-- Estilos para a página e popups -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/gaitas.css" rel="stylesheet">
+        <link href="css/studio.css" rel="stylesheet">
         <link rel="icon" type="image/icon" href="http://flvani.github.io/diatonic-map/img/favicon6.ico">
     </head>
     <body>
@@ -244,45 +245,7 @@ notação abc, tablatura "/>
             </div> <!-- /bottomMargin --> 
         </div> <!-- /container -->
         
-        <div id="editControlDiv" class="container" style="display:none; float: left; background-color: #bbbbaa; margin:0px; width:100%; top: 50px; z-index: 200; position: fixed;">  
-            <div id="control" style="margin-top: 0px; margin-left: 0px; margin-right: 2px;">
-                <div id="editAreaDiv" style="width: 80%; ">
-                    <textarea readonly id="textareaABC" rows="10" style="width: 100%; margin: 6px; color: #000; font-family: monospace; font-size: 12px; line-height: 15px;"></textarea>
-                </div>
-                <div id="controlDiv" style="width: 100%; min-height: 28px;" >
-                    <div id="control1" style="float: left; margin-left: 5px;" >
-                        <button id="printPreviewBtn" class="btn" title="Ver impressão" >Ver impressão</button>
-                        <button id="saveBtn" class="btn" title="Salvar Local" >Salvar Local</button>
-                        <button id="forceRefresh" class="btn" title="Atualizar" onclick="javascript:doForceRefresh();" >Atualizar</button>
-                        <button id="editorBtn" class="btn" title="Editar" onclick="javascript:openEditor();" >Editar</button>
-                        <input  style="display: none;" type="checkbox" id="chkAutoRefresh" ><span style="display: none;" id="DR_refresh">Auto atualização</span> 
-                        <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
-                    </div>
-                    <div id="control2" >
-                      <button id="modeBtn" class="btn" title="Modo normal" onclick="" style="text-align: left; margin-left: 2px;"><img src="img/listening3.png" alt="" width="20" height="20"></button>
-                      <div id="divDidacticPlayControls" style="display: none; float:none; margin-right: 2px;" >
-                        <input id="gotoMeasureBtn" title="Ir para o compasso" type="text" value="Ir para..." onclick="" style="width: 4em; height:22px; padding: 0; margin: 0;">
-                        <button id="stepBtn" class="btn" title="Passo a passo" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
-                        <button id="stepMeasureBtn" class="btn" title="Executar compasso" onclick="">&nbsp;<i class="icon-forward"></i>&nbsp;</button>
-                        <button id="repeatBtn" class="btn" title="Repetir compasso" onclick="">&nbsp;<i class="icon-repeat"></i>&nbsp;</button>
-                        <button id="clearBtn" class="btn" title="Limpar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
-                        <button id="tempoBtn" class="btn" title="Andamento" onclick=""><b>&nbsp;1&nbsp;</b></button>
-                      </div>
-                      <div id="divNormalPlayControls" style="display: inline; float:none  ; margin-right: 2px;">
-                        <button id="playBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
-                        <button id="stopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
-                            <span id="currentPlayTimeLabel" style="font-weight: bold; color: orangered; padding-top: 3px; padding-left: 8px; padding-right: 3px;">00:00.00</span>
-                      </div>
-                    </div>    
-                </div>    
-            </div>    
-        </div>  <!-- /editControlDiv -->
-        <div style="float: left;z-index: 300;">
-            <div id="warningsDiv" style="display:none; padding-left: 5px; width: 100%;  background-color: white; color:black; "><hr></div>
-            <div id="editorDiv" style="display:none; width: 100%; min-height: 400px;  background-color: white; color:black; " >music</div>
-            <div id="keyboardDiv" style="display:none; position: fixed; top:600px; left:900px; width:0px; height:0px; z-index: 500;"></div>
-        </div>      
-        <div id="modalAD" class="modalWindow" style="display: none;">
+        <div id="modalAD" class="modalWindow" style="display: inline;">
             <div>
               <div class="modalHeader">
                 <h2>Divulgação...</h2>
@@ -300,7 +263,7 @@ notação abc, tablatura "/>
             </div>
         </div> <!-- /modalAD -->
 
-        <div id="modalAbout" class="modalWindow" style="display: none;">
+        <div id="modalAbout" class="modalWindow" style="display: inline;">
             <div>
               <div class="modalHeader">
                 <h2>Sobre...</h2>
@@ -353,7 +316,7 @@ notação abc, tablatura "/>
             </div>
         </div> <!-- /modalAbout -->
         <div id="newEditor" class="modalWindow" style="display: inline; z-index: 400;">
-            <div class="modalFooter" style="width: 90%; padding: 4px;">
+            <div class="modalHeader" style="width: 90%; padding: 4px;">
                 <div style="width: 100%;" >
                     <h2>&nbsp;Editor ABCX&nbsp;-&nbsp;<span id="spanSongTitle">song</span> </h2>
                     <a href="#" title="Fechar" class="close">X</a>
@@ -368,6 +331,48 @@ notação abc, tablatura "/>
                 <div class="clear"></div>
             </div>
         </div> <!-- /newEditor -->
+        
+        <div id="studioDiv" class="studioWindow" style="display:none;">
+        <div id="studioContentDiv" class="studioContentDiv">
+        <a href="#close" title="Fechar" class="close">X</a>
+        <div id="editControlDiv" class="container" style="display:inline; background-color: #bbbbaa;" >  
+            <div id="control" style="margin-top: 0px; margin-left: 0px; margin-right: 2px; top:0; ">
+                <div id="editAreaDiv" style="width: 80%; ">
+                    <textarea readonly id="textareaABC" rows="10" style="width: 100%; margin: 6px; color: #000; font-family: monospace; font-size: 12px; line-height: 15px;"></textarea>
+                </div>
+                <div id="controlDiv" style="width: 100%; min-height: 28px;" >
+                    <div id="control1" style="float: left; margin-left: 5px;" >
+                        <button id="printPreviewBtn" class="btn" title="Ver impressão" >Ver impressão</button>
+                        <button id="saveBtn" class="btn" title="Salvar Local" >Salvar Local</button>
+                        <button id="forceRefresh" class="btn" title="Atualizar" onclick="javascript:doForceRefresh();" >Atualizar</button>
+                        <button id="editorBtn" class="btn" title="Editar" onclick="javascript:openEditor();" >Editar</button>
+                        <input  style="display: none;" type="checkbox" id="chkAutoRefresh" ><span style="display: none;" id="DR_refresh">Auto atualização</span> 
+                        <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
+                    </div>
+                    <div id="control2" >
+                      <button id="modeBtn" class="btn" title="Modo normal" onclick="" style="text-align: left; margin-left: 2px;"><img src="img/listening3.png" alt="" width="20" height="20"></button>
+                      <div id="divDidacticPlayControls" style="display: none; float:none; margin-right: 2px;" >
+                        <input id="gotoMeasureBtn" title="Ir para o compasso" type="text" value="Ir para..." onclick="" style="width: 4em; height:22px; padding: 0; margin: 0;">
+                        <button id="stepBtn" class="btn" title="Passo a passo" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
+                        <button id="stepMeasureBtn" class="btn" title="Executar compasso" onclick="">&nbsp;<i class="icon-forward"></i>&nbsp;</button>
+                        <button id="repeatBtn" class="btn" title="Repetir compasso" onclick="">&nbsp;<i class="icon-repeat"></i>&nbsp;</button>
+                        <button id="clearBtn" class="btn" title="Limpar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
+                        <button id="tempoBtn" class="btn" title="Andamento" onclick=""><b>&nbsp;1&nbsp;</b></button>
+                      </div>
+                      <div id="divNormalPlayControls" style="display: inline; float:none  ; margin-right: 2px;">
+                        <button id="playBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
+                        <button id="stopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
+                            <span id="currentPlayTimeLabel" style="font-weight: bold; color: orangered; padding-top: 3px; padding-left: 8px; padding-right: 3px;">00:00.00</span>
+                      </div>
+                    </div>    
+                </div>    
+            </div>    
+        </div>  <!-- /editControlDiv -->
+        <div id="warningsDiv" style="display:inline; width: 100%;  background-color: white; color:black;" ><hr>warnings</div>
+        <div id="editorDiv" style="display:inline; width: 100%;  min-height: 400px;  background-color: white; color:black; " >music</div>
+        <div id="keyboardDiv" style="display:none; position: fixed; top:600px; left:900px; width:0px; height:0px; z-index: 500;"></div>
+        </div> <!-- /editorWindowContent -->
+        </div> <!-- /studioDiv -->
         
         <script type="text/javascript" src="proto_noconflict.js" ></script>
         <script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
