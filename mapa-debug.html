@@ -33,18 +33,6 @@ notação abc, tablatura "/>
                   <table style="height: 36px;">
                     <tr >
                       <td >
-                            <div id="divMenuBack" class="btn-group" style="display:none;">
-                                <button id="backBtn" class="btn" title="Voltar" onclick="">
-                                    <i class="icon-wrench"></i>&nbsp;<span id="DR_back">Voltar</span></button>
-                            </div>  
-                      </td >
-                      <td >
-                            <div id="divMenuShowMap" class="btn-group" style="display:none;">
-                                <button id="showMapBtn" class="btn" title="Mostrar Teclado" onclick="">
-                                    <i class="icon-wrench"></i>&nbsp;<span id="DR_showMap">Mostrar Teclado</span></button>
-                            </div>  
-                      </td >
-                      <td >
                         <div id="divMenuAccordions" class="btn-group">
                             <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_accordions">Acordeons</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
                             <input id="fileLoadMap" type="file" accept="text/abc" style="display: none;" multiple/>
@@ -241,7 +229,7 @@ notação abc, tablatura "/>
                 </div>
             </div> <!-- /div_detalhes --> 
             <div id= "bottomMargin" style="float:left; margin-top:0px; margin-left:0px; margin-bottom: 0px;  
-                 width:1150px; min-height: 40px;" > 
+                 width:1150px; min-height: 10px;" > 
             </div> <!-- /bottomMargin --> 
         </div> <!-- /container -->
         
@@ -334,43 +322,40 @@ notação abc, tablatura "/>
         
         <div id="studioDiv" class="studioWindow" style="display:none;">
         <div id="studioContentDiv" class="studioContentDiv">
-        <a href="#close" title="Fechar" class="close">X</a>
-        <div id="editControlDiv" class="container" style="display:inline; background-color: #bbbbaa;" >  
-            <div id="control" style="margin-top: 0px; margin-left: 0px; margin-right: 2px; top:0; ">
-                <div id="editAreaDiv" style="width: 80%; ">
-                    <textarea readonly id="textareaABC" rows="10" style="width: 100%; margin: 6px; color: #000; font-family: monospace; font-size: 12px; line-height: 15px;"></textarea>
-                </div>
-                <div id="controlDiv" style="width: 100%; min-height: 28px;" >
-                    <div id="control1" style="float: left; margin-left: 5px;" >
-                        <button id="printPreviewBtn" class="btn" title="Ver impressão" >Ver impressão</button>
-                        <button id="saveBtn" class="btn" title="Salvar Local" >Salvar Local</button>
-                        <button id="forceRefresh" class="btn" title="Atualizar" onclick="javascript:doForceRefresh();" >Atualizar</button>
-                        <button id="editorBtn" class="btn" title="Editar" onclick="javascript:openEditor();" >Editar</button>
-                        <input  style="display: none;" type="checkbox" id="chkAutoRefresh" ><span style="display: none;" id="DR_refresh">Auto atualização</span> 
-                        <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
-                    </div>
-                    <div id="control2" >
-                      <button id="modeBtn" class="btn" title="Modo normal" onclick="" style="text-align: left; margin-left: 2px;"><img src="img/listening3.png" alt="" width="20" height="20"></button>
-                      <div id="divDidacticPlayControls" style="display: none; float:none; margin-right: 2px;" >
-                        <input id="gotoMeasureBtn" title="Ir para o compasso" type="text" value="Ir para..." onclick="" style="width: 4em; height:22px; padding: 0; margin: 0;">
-                        <button id="stepBtn" class="btn" title="Passo a passo" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
-                        <button id="stepMeasureBtn" class="btn" title="Executar compasso" onclick="">&nbsp;<i class="icon-forward"></i>&nbsp;</button>
-                        <button id="repeatBtn" class="btn" title="Repetir compasso" onclick="">&nbsp;<i class="icon-repeat"></i>&nbsp;</button>
-                        <button id="clearBtn" class="btn" title="Limpar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
-                        <button id="tempoBtn" class="btn" title="Andamento" onclick=""><b>&nbsp;1&nbsp;</b></button>
-                      </div>
-                      <div id="divNormalPlayControls" style="display: inline; float:none  ; margin-right: 2px;">
-                        <button id="playBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
-                        <button id="stopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
-                            <span id="currentPlayTimeLabel" style="font-weight: bold; color: orangered; padding-top: 3px; padding-left: 8px; padding-right: 3px;">00:00.00</span>
-                      </div>
-                    </div>    
-                </div>    
+        <a href="javascript:closeStudio();" title="Fechar" class="close">X</a>
+        <textarea readonly id="textareaABC" rows="11" ></textarea>
+        <div id="controlDiv" class="controlDiv" >
+            <div id="control1">
+                <button id="showMapBtn" class="btn" title="Mostrar Teclado" onclick=""><i class="icon-calendar"></i>&nbsp;<span id="DR_showMap">Mostrar Teclado</span></button>
+                <button id="printPreviewBtn" class="btn" title="Ver impressão" ><i class="icon-print"></i>&nbsp;Ver impressão</button>
+                <button id="saveBtn" class="btn" title="Salvar Local" ><i class="icon-download"></i>&nbsp;Salvar Local</button>
+                <button id="forceRefresh" class="btn" title="Atualizar" onclick="javascript:doForceRefresh();" >Atualizar</button>
+                <button id="editorBtn" class="btn" title="Editar" onclick="javascript:openEditor();" >Editar</button>
+                <input  style="display: none;" type="checkbox" id="chkAutoRefresh" ><span style="display: none;" id="DR_refresh">Auto atualização</span> 
+                <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
+            </div>
+            <div id="control2" >
+              <button id="modeBtn" class="btn" title="Modo normal" onclick="" style="text-align: left; margin-left: 2px;"><img src="img/listening3.png" alt="" width="20" height="20"></button>
+              <div id="divDidacticPlayControls" style="display: none; float:none; margin-right: 2px;" >
+                <input id="gotoMeasureBtn" title="Ir para o compasso" type="text" value="Ir para..." onclick="" style="width: 4em; height:22px; padding: 0; margin: 0;">
+                <button id="stepBtn" class="btn" title="Passo a passo" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
+                <button id="stepMeasureBtn" class="btn" title="Executar compasso" onclick="">&nbsp;<i class="icon-forward"></i>&nbsp;</button>
+                <button id="repeatBtn" class="btn" title="Repetir compasso" onclick="">&nbsp;<i class="icon-repeat"></i>&nbsp;</button>
+                <button id="clearBtn" class="btn" title="Limpar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
+                <button id="tempoBtn" class="btn" title="Andamento" onclick=""><b>&nbsp;1&nbsp;</b></button>
+              </div>
+              <div id="divNormalPlayControls" style="display: inline; float:none  ; margin-right: 2px;">
+                <button id="playBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
+                <button id="stopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
+                    <span id="currentPlayTimeLabel" style="font-weight: bold; color: orangered; padding-top: 3px; padding-left: 8px; padding-right: 3px;">00:00.00</span>
+              </div>
             </div>    
-        </div>  <!-- /editControlDiv -->
-        <div id="warningsDiv" style="display:inline; width: 100%;  background-color: white; color:black;" ><hr>warnings</div>
-        <div id="editorDiv" style="display:inline; width: 100%;  min-height: 400px;  background-color: white; color:black; " >music</div>
-        <div id="keyboardDiv" style="display:none; position: fixed; top:600px; left:900px; width:0px; height:0px; z-index: 500;"></div>
+        </div>    
+            <div id="warningsDiv" class="studioWarnings"><hr>warnings</div>
+        <div id="canvasDivOut" class="studioCanvas" >
+            <div id="canvasDiv" class="canvas" ></div>
+        </div>
+        <div id="keyboardDiv" style="display:none; position: fixed; top:600px; left:900px; width:0px; height:0px; z-index: 500; pointer-events: auto;"></div>
         </div> <!-- /editorWindowContent -->
         </div> <!-- /studioDiv -->
         
@@ -458,7 +443,7 @@ notação abc, tablatura "/>
                     },   
                     {   // editorParams
                        textArea: "textareaABC"
-                      ,canvas_id: "editorDiv"
+                      ,canvas_id: "canvasDiv"
                       ,keySelector_id: "selKey"
                       ,refreshController_id: "chkAutoRefresh"
                       ,warnings_id: "warningsDiv"
@@ -498,7 +483,6 @@ notação abc, tablatura "/>
                       , tuneContainerDiv: 'tuneContainerDiv'
                       , printBtn: 'printBtn'
                       , toolsBtn: 'toolsBtn'
-                      , backBtn: 'backBtn'
                       ,accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps
@@ -571,7 +555,6 @@ notação abc, tablatura "/>
                    ,'printBtn'
                    ,'printPreviewBtn'
                    ,'saveBtn'
-                   ,'backBtn'
                    ,'forceRefresh'
                    ,'DR_refresh'
                    //,'DR_debug'
@@ -636,6 +619,10 @@ notação abc, tablatura "/>
                 myMap.showABC(type, i);
             };
 
+            function closeStudio () {
+                myMap.closeStudio();
+            };
+            
             function loadMap(evt) {
               FILEMANAGER.loadLocalFiles(evt, function() {
                 myMap.load(FILEMANAGER.files);

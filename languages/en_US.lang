@@ -52,7 +52,6 @@
        ,"printBtn" : "Print"
        ,"printPreviewBtn" : "Print preview"
        ,"saveBtn" : "Local save"
-       ,"backBtn" : "Back"
        ,"forceRefresh" : "Refresh"
        ,"DR_refresh" : "Auto refresh"
     }

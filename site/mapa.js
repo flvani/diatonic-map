@@ -56,7 +56,6 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
 
     this.printButton = document.getElementById(interfaceParams.printBtn);
     this.toolsButton = document.getElementById(interfaceParams.toolsBtn);
-    this.backButton = document.getElementById(interfaceParams.backBtn);
    
     this.printButton.addEventListener("click", function() {
 
@@ -69,9 +68,9 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         document.body.style.backgroundColor = '#fff';
         that.studio.renderedTune.text = that.currentABC.text;
         that.studio.renderedTune.div.innerHTML = that.currentABC.div.innerHTML;
-        $("#editorDiv").show();
+        $("#canvasDiv").show();
         window.print();
-        $("#editorDiv").hide();
+        $("#canvasDiv").hide();
         document.body.style.backgroundColor = that.savedBackgroundColor;
         document.body.style.paddingTop = '50px';
         $("#divTitulo").fadeIn();
@@ -98,23 +97,6 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         $("#divMenuBack").fadeIn();
         $("#divMenuShowMap").fadeIn();
         
-    }, false);
-
-    this.backButton.addEventListener("click", function() {
-        
-        $("#warningsDiv").hide();
-        $("#editorDiv").hide();
-        $("#editControlDiv").hide();
-        $("#divMenuBack").hide();
-        $("#divMenuShowMap").hide();
-        document.body.style.backgroundColor = that.savedBackgroundColor;
-        document.body.style.paddingTop = '50px';
-        $("#mapContainerDiv").fadeIn();
-        $("#divMenuAccordions").fadeIn();
-        $("#divMenuRepertoire").fadeIn();
-        that.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
-        that.printTab();
-
     }, false);
 
     this.buttonChangeNotation.addEventListener("click", function() {
@@ -184,6 +166,22 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     
 };
 
+SITE.Mapa.prototype.closeStudio = function () {
+//        $("#warningsDiv").hide();
+//        $("#editorDiv").hide();
+//        $("#editControlDiv").hide();
+    $("#divMenuBack").hide();
+    $("#divMenuShowMap").hide();
+    $("#studioDiv").hide();
+    document.body.style.backgroundColor = this.savedBackgroundColor;
+    document.body.style.paddingTop = '50px';
+    $("#mapContainerDiv").fadeIn();
+    $("#divMenuAccordions").fadeIn();
+    $("#divMenuRepertoire").fadeIn();
+    this.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
+    this.printTab();
+
+};
 SITE.Mapa.prototype.setup = function (tabParams) {
 
     var gaita = this.accordion.loadById(tabParams.accordionId);
@@ -663,7 +661,6 @@ SITE.Mapa.prototype.translate = function() {
   document.getElementById("printBtn").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.getResource("printBtn");
   document.getElementById("printPreviewBtn").innerHTML = DR.getResource("printPreviewBtn");
   document.getElementById("saveBtn").innerHTML = DR.getResource("saveBtn");
-  document.getElementById("backBtn").innerHTML = DR.getResource("backBtn");
   document.getElementById("forceRefresh").innerHTML = DR.getResource("forceRefresh");
   document.getElementById("DR_message").alt = DR.getResource("DR_message");
   document.getElementById("gotoMeasureBtn").value = DR.getResource("DR_goto");

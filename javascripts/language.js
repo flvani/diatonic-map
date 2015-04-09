@@ -88,7 +88,11 @@ DR.showSelectedOption = function () {
 
 //returns the resource value in the current idiom
 DR.getResource = function(res) {
-  return DR.resource[res][DR.language]?DR.resource[res][DR.language]:DR.resource[res][DR.pt_BR];
+  try {
+    return DR.resource[res][DR.language]?DR.resource[res][DR.language]:DR.resource[res][DR.pt_BR];
+  } catch (e) {
+      console.log('getResource: resource \''+res+'\' not found.');
+  }
 };
 
 //create the initial resources (brazilian portuguese)
@@ -122,6 +126,10 @@ DR.createResource = function (id) {
     
     var res = document.getElementById(id);
 
+    if( res === null ) {
+        console.log( 'createResource: resource \''+id+'\' undefined!');
+        return
+    }
     if (typeof (id) === 'string') {
         if (res.title) {
             DR.resource[id] = [res.title];

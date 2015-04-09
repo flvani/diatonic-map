@@ -284,7 +284,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
 SITE.Estudio.prototype.salvaMusica = function () {
     if (FILEMANAGER.requiredFeaturesAvailable()) {
         this.parseABC(0, "force");
-        var name = this.tune.metaText.title + ".abcx";
+        var name = this.renderedTune.abc.metaText.title + ".abcx";
         var conteudo = this.editArea.getString();
         FILEMANAGER.download(name, conteudo);
     } else {
