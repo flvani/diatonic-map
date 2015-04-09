@@ -85,20 +85,16 @@ and open the template in the editor.
 }
 
 .studioCanvas {
-    position:relative; 
+    display:inline-block;
     overflow-y:scroll;    
-    min-height: 60%;
     pointer-events: auto;
     background-color: white; 
     color:black;     
 }
 
 .canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    display:inline-block;
+    background-color: blue; 
 }
 
 .studioWarnings {

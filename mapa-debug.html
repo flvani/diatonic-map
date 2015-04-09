@@ -21,7 +21,7 @@ notação abc, tablatura "/>
         <link href="css/studio.css" rel="stylesheet">
         <link rel="icon" type="image/icon" href="http://flvani.github.io/diatonic-map/img/favicon6.ico">
     </head>
-    <body>
+    <body onresize="resizeStudio()">
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container" id="divTitulo" style="margin-left: 0px; margin-top: 0px; height: 50px; width: 100%; background-color:#5ba4a4;" >
                 <header>
@@ -356,7 +356,7 @@ notação abc, tablatura "/>
             <div id="canvasDiv" class="canvas" ></div>
         </div>
         <div id="keyboardDiv" style="display:none; position: fixed; top:600px; left:900px; width:0px; height:0px; z-index: 500; pointer-events: auto;"></div>
-        </div> <!-- /editorWindowContent -->
+        </div> <!-- /studioContentDiv -->
         </div> <!-- /studioDiv -->
         
         <script type="text/javascript" src="proto_noconflict.js" ></script>
@@ -506,7 +506,7 @@ notação abc, tablatura "/>
                 );
 
                 myMap.defineActiveTab( 'tabTunes' );
-
+                
 //                myMap.setup({
 //                    accordionId: 'TESTE_GC'
 //                    //,songTitle:"J'ai vu le loup, le renard et la belette"
@@ -621,6 +621,11 @@ notação abc, tablatura "/>
 
             function closeStudio () {
                 myMap.closeStudio();
+            };
+            
+            function resizeStudio (o) {
+                o = document.getElementById('studioContentDiv');                
+                i = document.getElementById('canvasDivOut');
             };
             
             function loadMap(evt) {
