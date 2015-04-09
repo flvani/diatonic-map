@@ -1,0 +1,91 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 07/04/2015, 19:06:40
+    Author     : p_7236
+*/
+
+.studioWindow {
+  position: fixed;
+  font-family: arial;
+  font-size:80%;
+  top: 50px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0,0,0,0.2);
+  z-index: 300;
+  opacity:1;
+  -webkit-transition: opacity 400ms ease-in;
+  -moz-transition: opacity 400ms ease-in;
+  transition: opacity 400ms ease-in;
+  pointer-events: none;
+}
+
+.studioWindow:target {
+  opacity:1;
+  pointer-events: auto;
+}
+.studioWindow h2 { color: #189CDA; margin: 0; padding:  0; }
+
+.studioContentDiv {
+  position: relative;
+  width: 99%;
+  height: 99%;
+  margin: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background: #fff;
+  -moz-box-shadow: 10px 10px 12px #444;
+  -webkit-box-shadow: 10px 10px 12px #444;
+  box-shadow: 10px 10px 12px #444 ;
+}
+
+.studioContentDiv > div {
+  position: relative;
+  margin: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background: #fff;
+  -moz-box-shadow: 10px 10px 12px #444;
+  -webkit-box-shadow: 10px 10px 12px #444;
+  box-shadow: 10px 10px 12px #444 ;
+}
+
+
+.ok, .close, .cancel {
+  background: #606061;
+  color: #FFFFFF;
+  line-height: 25px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: 1px 1px 3px #000;
+  -webkit-box-shadow: 1px 1px 3px #000;
+  box-shadow: 1px 1px 3px #000;
+}
+.close {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  width: 22px;
+  height: 22px;
+  font-size: 10px;
+
+}
+.ok, .cancel {
+  width:50px;
+  float:right;
+  margin-left:12px;
+}
+.ok:hover { background: #189CDA; }
+.close:hover, .cancel:hover { background: #D4482D; }
+.clear { float:none; clear: both; }
