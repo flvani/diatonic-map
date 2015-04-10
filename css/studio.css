@@ -8,8 +8,8 @@ and open the template in the editor.
     Author     : p_7236
 */
 
-.studioWindow {
-  position: fixed;
+#studioDiv {
+  position:absolute;
   font-family: arial;
   font-size:80%;
   top: 50px;
@@ -25,40 +25,40 @@ and open the template in the editor.
   pointer-events: none;
 }
 
-.studioWindow:target {
+#studioDiv:target {
   opacity:1;
   pointer-events: auto;
 }
-.studioWindow h2 { color: #189CDA; margin: 0; padding:  0; }
+#studioDiv h2 { color: #189CDA; margin: 0; padding:  0; }
 
-.studioContentDiv {
+#studioContentDiv {
   position: absolute;
+  background-color: yellow; 
   width: 98.5%;
   height: 98%;
   margin: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   border-radius: 5px;
-  background: #fff;
   -moz-box-shadow: 10px 10px 12px #444;
   -webkit-box-shadow: 10px 10px 12px #444;
   box-shadow: 10px 10px 12px #444 ;
 }
 
 .studioContentDiv > div {
-  position: relative;
-  margin: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  background: #fff;
+  background-color: green; 
+  margin: 3px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
 }
-.studioContentDiv > textarea {
+
+#textareaABC {
   width: 90%; 
-  margin: 6px;
+  margin: 4px;
   margin-bottom: 0px;
   color: #000; 
   font-family: monospace; 
@@ -67,39 +67,33 @@ and open the template in the editor.
   pointer-events: auto;
 }
 
-
-.controlDiv > div {
-  position: relative;
-  float:left;
+#controlDiv {
+  display: inline-block;
+  float:none;
   font-family: arial;
   font-size:80%;
-  margin: 0;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0;
   background: #faa;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
+}
+
+.control {
   pointer-events: auto;
 }
 
-.studioCanvas {
-    display:inline-block;
+#warningsDiv {
+}
+
+#studioCanvasOutDiv {
+    top: 0px;
+    height: 65%;
+    width: 92%;
     overflow-y:scroll;    
-    pointer-events: auto;
+    pointer-events: none;
     background-color: white; 
     color:black;     
 }
 
-.canvas {
-    display:inline-block;
+#studioCanvasDiv {
     background-color: blue; 
-}
-
-.studioWarnings {
-    display:inline; 
-    width: 100%;  
 }
 
 .ok, .close, .cancel {
