@@ -1,3 +1,6 @@
+
+// TODO: corrigir a rotina setKeyboardCanvasId
+
 if (!window.SITE)
     window.SITE = {};
 
@@ -119,7 +122,12 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     var that = this;
     
     this.warnings = [];
-    this.currentMode = "normal"; // somente será normal na pagina inicial
+    this.currentMode = "normal"; 
+    this.editorVisible = false;
+    this.mapVisible = false;
+    this.textVisible = true;
+    
+    
     this.renderedTune = {text: undefined, abc: undefined, title: undefined, div: undefined, selector: undefined};
     
     if (typeof editorParams.textArea === "string") {
@@ -174,6 +182,8 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.saveButton = document.getElementById(interfaceParams.saveBtn);
     this.printPreviewButton = document.getElementById(interfaceParams.printPreviewBtn);
     this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
+    this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
+    this.showTextButton = document.getElementById(interfaceParams.showTextBtn);
 
     // player control
     this.modeButton = document.getElementById(playerParams.modeBtn);
@@ -186,28 +196,30 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.repeatButton = document.getElementById(playerParams.repeatBtn);
     this.clearButton = document.getElementById(playerParams.clearBtn);
     this.tempoButton = document.getElementById(playerParams.tempoBtn);
+    
+    this.initEditArea( "editorTextArea", "pt");
 
     this.saveButton.addEventListener("click", function () {
         that.salvaMusica();
     }, false);
 
     this.showMapButton.addEventListener("click", function () {
-        var l = document.getElementById('DR_showMap');
-        that.accordion.render_keyboard_opts.show = !that.accordion.render_keyboard_opts.show;
-        l.innerHTML = that.accordion.render_keyboard_opts.show ? 'Hide Map' : 'Show Map';
-        that.accordion.printKeyboard();
+        that.showMap();
+    }, false);
+    
+    this.showTextButton.addEventListener("click", function () {
+        that.showABCXText();
+    }, false);
+    
+    this.showEditorButton.addEventListener("click", function () {
+        that.showEditor();
     }, false);
 
     this.printPreviewButton.addEventListener("click", function () {
-        $("#divTitulo").hide();
-        $("#warningsDiv").hide();
-        $("#editControlDiv").hide();
-        document.body.style.paddingTop = '0px';
-        window.print();
-        document.body.style.paddingTop = '273px';
-        $("#divTitulo").fadeIn();
-        $("#warningsDiv").fadeIn();
-        $("#editControlDiv").fadeIn();
+        
+        that.printPreview(that.renderedTune.div.innerHTML, ["#divTitulo","#studioDiv"]);
+        return;
+
     }, false);
 
     this.modeButton.addEventListener('click', function () {
@@ -281,6 +293,63 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
 
 };
 
+SITE.Estudio.prototype.editorCallback = function( e ) {
+    switch(e) {
+        case 'MOVE':
+            break;
+        case 'MINUS':
+            this.hideEditor();
+            break;
+        case 'RETWEET':
+        case 'ZOOM-IN':
+        default:
+            alert(e);
+    }
+};
+
+SITE.Estudio.prototype.keyboardCallback = function( e ) {
+    switch(e) {
+        case 'MOVE':
+            break;
+        case 'MINUS':
+            this.hideMap();
+            break;
+        case 'RETWEET':
+            this.accordion.rotateKeyboard();
+            break;
+        case 'ZOOM-IN':
+            this.accordion.scaleKeyboard();
+            break;
+        default:
+            alert(e);
+    }
+};
+
+SITE.Estudio.prototype.printPreview = function (html, divsToHide) {
+    var bg = document.body.style.backgroundColor;
+    var dv = document.getElementById('printPreviewDiv');
+    
+    divsToHide.forEach( function( div ) {
+        $(div).hide();
+    });
+    $("#printPreviewDiv").show();
+    
+    dv.innerHTML = html;
+    
+    document.body.style.paddingTop = '0px';
+    document.body.style.backgroundColor = '#fff';
+    window.print();
+    document.body.style.backgroundColor = bg;
+    document.body.style.paddingTop = '50px';
+    
+    $("#printPreviewDiv").hide();
+    divsToHide.forEach( function( div ) {
+        $(div).show();
+    });
+
+};
+
+
 SITE.Estudio.prototype.salvaMusica = function () {
     if (FILEMANAGER.requiredFeaturesAvailable()) {
         this.parseABC(0, "force");
@@ -292,35 +361,67 @@ SITE.Estudio.prototype.salvaMusica = function () {
     }
 };
     
-SITE.Estudio.prototype.hideEditor = function(w) {
-    w.location = "#";
-    var finalText = editAreaLoader.getValue("taNewEditor");
+SITE.Estudio.prototype.hideMap = function() {
+    var l = document.getElementById('DR_showMap');
+    this.mapVisible = false;
+    this.accordion.render_keyboard_opts.show = this.mapVisible;
+    this.accordion.printKeyboard();
+    l.innerHTML = this.mapVisible ? 'Hide Map' : 'Show Map';
+};
+
+SITE.Estudio.prototype.showMap = function() {
+    var l = document.getElementById('DR_showMap');
+    this.mapVisible = ! this.mapVisible;
+    this.accordion.render_keyboard_opts.show = this.mapVisible;
+    this.accordion.printKeyboard();
+    l.innerHTML = this.mapVisible ? 'Hide Map' : 'Show Map';
+};
     
+
+SITE.Estudio.prototype.showABCXText = function () {
+    this.textVisible = !this.textVisible;
+    if (this.textVisible) {
+        this.editArea.textarea.style.display = 'inline';
+    } else {
+        this.editArea.textarea.style.display = 'none';
+    }
+    this.resize();
+};
+
+SITE.Estudio.prototype.hideEditor = function() {
+    $("#editorDiv").hide();
+    this.editorVisible = false;
+    var finalText = editAreaLoader.getValue("editorTextArea");
     if(this.initialText !== finalText ) {
         this.editArea.setString( finalText );
         this.fireChanged(0, 'force');
     }
 };
 
-SITE.Estudio.prototype.showEditor = function(w) {
-    w.location = "#newEditor";
-
+SITE.Estudio.prototype.showEditor = function() {
+    this.editorVisible = ! this.editorVisible;
+    if(this.editorVisible) {
+        $("#editorDiv").show();
+        this.initialText = this.editArea.getString();
+        document.getElementById("spanSongTitle").innerHTML = this.renderedTune.title;
+        editAreaLoader.setValue("editorTextArea", this.initialText );
+    } else {
+        this.hideEditor();
+    }
+};
+  
+SITE.Estudio.prototype.initEditArea = function( id, lang) {
     editAreaLoader.init({
-        id: "taNewEditor"	// id of the textarea to transform	
+        id: id	// id of the textarea to transform	
        ,start_highlight: true
        ,allow_toggle: false
-       ,language: "pt"
+       ,language: lang
        ,syntax: "abc"	
        ,toolbar: "search, |, undo, redo, |, highlight , reset_highlight "
        ,allow_resize: "n"
        ,is_multi_files: false
        ,show_line_colors: true
     });
-    
-    this.initialText = this.editArea.getString();
-    document.getElementById("spanSongTitle").innerHTML = this.renderedTune.title;
-    editAreaLoader.setValue("taNewEditor", this.initialText );
-
 };
 
 SITE.Estudio.prototype.changePlayMode = function() {
@@ -339,6 +440,16 @@ SITE.Estudio.prototype.changePlayMode = function() {
         this.midiPlayer.resetAndamento(this.currentMode);
         $("#divNormalPlayControls" ).fadeIn();
     }
+};
+
+SITE.Estudio.prototype.resize = function( ) {
+    //if( ! this.midiPlayer.playing) {
+    var h = document.getElementById( 'studioHeader');
+    var o = document.getElementById( 'studioContentDiv');
+    var i = document.getElementById( 'studioCanvasDiv');
+
+    i.style.height = (o.clientHeight - h.clientHeight - 10) + "px";
+    //}
 };
 
 SITE.Estudio.prototype.startPlay = function( type, value ) {
@@ -444,6 +555,7 @@ SITE.Estudio.prototype.modelChanged = function() {
 
 SITE.Estudio.prototype.setABC = function(tab, accordionId) {
     this.accordion.loadById(accordionId);
+    this.resize();
     this.renderedTune.text = tab.text;
     this.renderedTune.title = tab.title;
     this.renderedTune.abc = tab.abc;

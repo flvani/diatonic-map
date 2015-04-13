@@ -5,126 +5,214 @@ and open the template in the editor.
 */
 /* 
     Created on : 07/04/2015, 19:06:40
-    Author     : p_7236
 */
 
+.playTimeLabel {
+    font-weight: bold; 
+    color: orangered; 
+    margin-top: 5px; 
+    padding-left: 8px; 
+    padding-right: 3px;
+}
+
 #studioDiv {
-  position:absolute;
-  font-family: arial;
-  font-size:80%;
-  top: 50px;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: rgba(0,0,0,0.2);
-  z-index: 300;
-  opacity:1;
-  -webkit-transition: opacity 400ms ease-in;
-  -moz-transition: opacity 400ms ease-in;
-  transition: opacity 400ms ease-in;
-  pointer-events: none;
-}
-
-#studioDiv:target {
-  opacity:1;
-  pointer-events: auto;
-}
-#studioDiv h2 { color: #189CDA; margin: 0; padding:  0; }
-
-#studioContentDiv {
-  position: absolute;
-  background-color: yellow; 
-  width: 98.5%;
-  height: 98%;
-  margin: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  -moz-box-shadow: 10px 10px 12px #444;
-  -webkit-box-shadow: 10px 10px 12px #444;
-  box-shadow: 10px 10px 12px #444 ;
-}
-
-.studioContentDiv > div {
-  background-color: green; 
-  margin: 3px;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
-  -moz-box-shadow: none;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-}
-
-#textareaABC {
-  width: 90%; 
-  margin: 4px;
-  margin-bottom: 0px;
-  color: #000; 
-  font-family: monospace; 
-  font-size: 12px; 
-  line-height: 14px;
-  pointer-events: auto;
-}
-
-#controlDiv {
-  display: inline-block;
-  float:none;
-  font-family: arial;
-  font-size:80%;
-  background: #faa;
-}
-
-.control {
-  pointer-events: auto;
-}
-
-#warningsDiv {
-}
-
-#studioCanvasOutDiv {
-    top: 0px;
-    height: 65%;
-    width: 92%;
-    overflow-y:scroll;    
+    display: none;
+    position:absolute;
+    font-family: arial;
+    top: 50px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.2);
+    z-index: 300;
+    -webkit-transition: opacity 400ms ease-in;
+    -moz-transition: opacity 400ms ease-in;
+    transition: opacity 400ms ease-in;
     pointer-events: none;
-    background-color: white; 
+    background-color: #ddd; 
     color:black;     
 }
 
+#studioDiv h2 { color: #189CDA; margin: 0; padding:  0; }
+
+#studioContentDiv {
+    position: absolute;
+//    width: 98.5%;
+//    height: 98%;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    margin: 8px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -moz-box-shadow: 8px 8px 10px #444;
+    -webkit-box-shadow: 8px 8px 10px #444;
+    box-shadow: 8px 8px 10px #444;
+    background-color: white; 
+}
+
+#studioHeader {
+    position: relative;
+    margin: 0px;
+    margin-left: 4px;
+    margin-right: 4px;
+}
+
 #studioCanvasDiv {
-    background-color: blue; 
+    position: relative;
+    height: 422px;
+    overflow-y: auto;
+    pointer-events: auto;
+    margin: 0px;
+    margin-left: 4px;
+}
+
+#textareaABC {
+    width: 90%; 
+    margin: 4px;
+    margin-bottom: 0px;
+    color: #000; 
+    font-family: monospace; 
+    font-size: 12px; 
+    line-height: 14px;
+    pointer-events: auto;
+    resize: none;
+}
+
+#studioControlDiv {
+    margin: 4px;
+    margin-bottom: 0px;
+    display: inline-block;
+    pointer-events: auto;
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 15px;
+}
+
+#warningsDiv {
+    margin: 0;
+    padding: 0;
+    margin-left: 4px;
+}
+
+#canvasDiv {
+    margin: 0px;
+    margin-left: 4px;
+    pointer-events: none;
 }
 
 .ok, .close, .cancel {
-  background: #606061;
-  color: #FFFFFF;
-  line-height: 25px;
-  text-align: center;
-  text-decoration: none;
-  font-weight: bold;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  -moz-box-shadow: 1px 1px 3px #000;
-  -webkit-box-shadow: 1px 1px 3px #000;
-  box-shadow: 1px 1px 3px #000;
-  pointer-events: auto;
+    background: #606061;
+    color: #FFFFFF;
+    line-height: 25px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    -moz-box-shadow: 1px 1px 3px #000;
+    -webkit-box-shadow: 1px 1px 3px #000;
+    box-shadow: 1px 1px 3px #000;
+    pointer-events: auto;
 }
 .close {
-  position: absolute;
-  right: 10px;
-  top: 8px;
-  width: 22px;
-  height: 22px;
-  font-size: 10px;
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    width: 22px;
+    height: 22px;
+    font-size: 10px;
 
 }
 .ok, .cancel {
-  width:50px;
-  float:right;
-  margin-left:12px;
+    width:50px;
+    float:right;
+    margin-left:12px;
 }
 .ok:hover { background: #189CDA; }
 .close:hover, .cancel:hover { background: #D4482D; }
 .clear { float:none; clear: both; }
+
+
+#editorDiv {
+    display: none; 
+    position: fixed;
+    top:100px; 
+    left:100px; 
+    z-index: 400;
+/*    background-color: #ffe; 
+//    border-style: groove; border-color: #ffd;
+//    margin: 4px;
+    pointer-events: none;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -moz-box-shadow: 8px 8px 10px #444;
+    -webkit-box-shadow: 8px 8px 10px #444;
+    box-shadow: 8px 8px 10px #444;
+    background-color: #ffa; */
+}
+
+#editorTextArea {
+    width: 100%; 
+    margin: 0px; 
+    color: #000; 
+    font-family: monospace;
+}
+    
+#keyboardDiv{
+    display:none; 
+    position: fixed;
+    top:100px; 
+    left:900px; 
+    z-index: 401;
+/*    width:0px;
+    height:0px; 
+    background-color: #ffe; 
+//    border-style: groove; border-color: #ffd;
+//    margin: 4px;
+    pointer-events: none;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    -moz-box-shadow: 8px 8px 10px #444;
+    -webkit-box-shadow: 8px 8px 10px #444;
+    box-shadow: 8px 8px 10px #444;
+    background-color: #ffa; */
+}
+
+/*#keyboardMenu {
+    top:0; 
+    width:100%; 
+    min-height:20px; 
+    background-color: black; 
+    color: white;
+    pointer-events: auto;
+}
+
+#keyboardData {
+    width:100%; 
+    height:100%;
+}*/
+
+#printPreviewDiv {
+    position:relative;
+    display:none;
+    top:0;
+    left:0;
+    margin: 0;
+    margin-left: 40px;
+    padding: 0;
+    width:1056px; 
+    z-index: 20000;
+    background-color: #ffc;
+    //opacity:1;
+    //pointer-events: auto;
+}
+
+/*#printPreviewDiv:target {
+    opacity:1;
+    z-index: 2000;
+}*/

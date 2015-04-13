@@ -8512,7 +8512,7 @@ ABCXJS.write.Printer.prototype.printTempo = function (tempo, paper, layouter, y,
 };
 
 ABCXJS.write.Printer.prototype.skipPage = function() {
-    this.y = this.estimatedPageLength*this.pageNumber + this.paddingtop;
+    this.y = this.estimatedPageLength*this.pageNumber + this.paddingtop + this.paddingbottom;
     this.pageNumber++;
 };
 
@@ -9674,55 +9674,76 @@ ABCXJS.tablature.Accordion.prototype.setKeyboardCanvasId = function () {
 
 ABCXJS.tablature.Accordion.prototype.setKeyboardCanvas = function (div_id) {
 
-    this.topDiv = document.getElementById(div_id);
+    if( typeof(div_id) === "string" )
+        this.dataDiv = document.getElementById(div_id);
+    else  
+        this.dataDiv = div_id;
 
     if(this.render_keyboard_opts.draggable) {
-        
-        this.topDiv.setAttribute( "style", 
-                "display:none; position: fixed; top:100px; left:900px; width:0px; height:0px; z-index: 700;" +
-                "background-color: #ffe; border-style: groove; border-color: #ffd;" ); 
-
-        var self = this;
-
-        var div = document.createElement("DIV");
-        this.keyboardMenu = div;
-        div.setAttribute("id", "keyboardMenu" ); 
-        div.setAttribute("style", "top:0; width:100%; min-height:20px; background-color: black; color: white;"); 
-        div.innerHTML = '<input id="rotateBtn" type="button"  value="Rotate" /><input id="scaleBtn" type="button" value="Scale" />&nbsp;&nbsp;<span id="keyboardId" readonly >Key Map</span>';
-        this.topDiv.appendChild( div );
-        div = document.createElement("DIV");
-        div.setAttribute("id", "keyboardData"); 
-        div.setAttribute("style", "width:100%; height:100%;"); 
-        this.definePaper(div);
-        this.topDiv.appendChild( div );
-
-        document.getElementById("rotateBtn").addEventListener("click", function() {
-            self.rotateKeyboard();
-        }, false);
-        
-        document.getElementById("scaleBtn").addEventListener("click", function() {
-            self.scaleKeyboard();
-        }, false);
-
-        this.mouseUp = function () {
-            window.removeEventListener('mousemove', self.divMove, false);
-        };
-
-        this.mouseDown = function (){
-          window.addEventListener('mousemove', self.divMove, false);
-        };
-
-        this.divMove = function(e){
-            this.keyboardDiv.style.position = "fixed";
-            this.keyboardDiv.style.top = (e.movementY + this.keyboardDiv.offsetTop) + "px";
-            this.keyboardDiv.style.left = (e.movementX + this.keyboardDiv.offsetLeft) + "px";              
-        };
-
-        this.keyboardMenu.addEventListener( 'mousedown', this.mouseDown, false);
-        window.addEventListener('mouseup', this.mouseUp, false);
+        this.topDiv = this.dataDiv.parentElement;
     } else {
-        this.definePaper(this.topDiv);
-    }
+        this.topDiv = this.dataDiv;
+    }    
+    
+    this.definePaper(this.dataDiv);    
+//    if(this.render_keyboard_opts.draggable) {
+//        
+////        this.dataDiv.setAttribute( "style", 
+////                "display:none; position: fixed; top:100px; left:900px; width:0px; height:0px; z-index: 700;" +
+////                "background-color: #ffe; border-style: groove; border-color: #ffd;" ); 
+//
+//        var self = this;
+//
+//        var div = document.createElement("DIV");
+//        this.keyboardMenu = div;
+//        div.setAttribute("id", "keyboardMenu" ); 
+////        div.setAttribute("style", "top:0; width:100%; min-height:20px; background-color: black; color: white;"); 
+//        div.innerHTML = '<input id="rotateBtn" type="button"  value="Rotate" /><input id="scaleBtn" type="button" value="Scale" />&nbsp;&nbsp;<span id="keyboardId" readonly >Key Map</span><a id="moveKeyboard" href="#close" title="Fechar" class="close">X</a>';
+////        div.innerHTML = '<input id="rotateBtn" type="button"  value="Rotate" /><input id="scaleBtn" type="button" value="Scale" />&nbsp;&nbsp;<span id="keyboardId" readonly >Key Map</span>';
+//        this.dataDiv.appendChild( div );
+//        div = document.createElement("DIV");
+//        div.setAttribute("id", "keyboardData"); 
+////        div.setAttribute("style", "width:100%; height:100%;"); 
+//        this.definePaper(div);
+//        this.dataDiv.appendChild( div );
+//        this.moveKeyboard = document.getElementById("moveKeyboard");
+//
+//        document.getElementById("rotateBtn").addEventListener("click", function() {
+//            self.rotateKeyboard();
+//        }, false);
+//        
+//        document.getElementById("scaleBtn").addEventListener("click", function() {
+//            self.scaleKeyboard();
+//        }, false);
+//
+//        this.mouseUp = function (e) {
+//            e.stopPropagation();
+//          e.preventDefault();
+//            window.removeEventListener('mousemove', self.divMove, false);
+//        };
+//
+//        this.mouseDown = function (e){
+//          e.stopPropagation();
+//          e.preventDefault();
+//          window.addEventListener('mousemove', self.divMove, false);
+//          self.X = self.dataDiv.offsetLeft;
+//          self.Y = self.dataDiv.offsetTop;
+//                  
+//        };
+//
+//        this.divMove = function(e){
+//            e.stopPropagation();
+//            e.preventDefault();
+//            this.keyboardDiv.style.position = "fixed";
+//            this.keyboardDiv.style.top = (e.movementY + this.keyboardDiv.offsetTop) + "px";
+//            this.keyboardDiv.style.left = (e.movementX + this.keyboardDiv.offsetLeft) + "px";              
+//        };
+//
+//        this.moveKeyboard.addEventListener( 'mousedown', this.mouseDown, false);
+//        window.addEventListener('mouseup', this.mouseUp, false);
+//    } else {
+//        this.definePaper(this.dataDiv);
+//    }
 };
 
 ABCXJS.tablature.Accordion.prototype.loadById = function (id) {
@@ -9802,14 +9823,14 @@ ABCXJS.tablature.Accordion.prototype.layoutKeyboard = function(options) {
 };
 
 ABCXJS.tablature.Accordion.prototype.printKeyboard = function() {
-    if (this.keyboardDiv) {
+    if (this.dataDiv) {
         if( this.render_keyboard_opts.show ) {
             this.setKeyboardCanvasId();
             this.topDiv.style.display="inline-block";
-            this.getLoaded().keyboard.print(this.paper, this.keyboardDiv, this.render_keyboard_opts);
+            this.getLoaded().keyboard.print(this.paper, this.dataDiv, this.render_keyboard_opts);
             if (this.render_keyboard_opts.draggable) {
-                this.topDiv.style.width = this.keyboardDiv.clientWidth + "px";
-                this.topDiv.style.height = (this.keyboardDiv.clientHeight+20) + "px";
+                this.topDiv.style.width = this.dataDiv.clientWidth + "px";
+                this.topDiv.style.height = (this.dataDiv.clientHeight+20) + "px";
             }
         } else {
             this.topDiv.style.display="none";
@@ -9892,9 +9913,9 @@ ABCXJS.tablature.Accordion.prototype.updateEditor = function () {
 };
 
 ABCXJS.tablature.Accordion.prototype.definePaper = function(div)  {
-  this.keyboardDiv = div || this.keyboardDiv;
+  this.dataDiv = div;
   if(!this.paper) {
-     this.paper = Raphael(this.keyboardDiv, "100%", "100%");
+     this.paper = Raphael(this.dataDiv, "100%", "100%");
   }  
 };
 /* 

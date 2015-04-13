@@ -327,7 +327,7 @@ DIATONIC.map.Keyboard.prototype.print = function (paper, div, options ) {
     
     if(options.transpose) {
         this.paper.setSize(this.height*options.scale,this.width*options.scale);
-        div.style.height = this.width*options.scale + "px";
+        div.style.height = (this.width+8)*options.scale + "px";
         div.style.width = this.height*options.scale + "px";
         var mirr = options.mirror ? this.baseLine.x : this.limits.maxX - (this.baseLine.x - this.limits.minX);
         for (var x = mirr-10; x <= mirr+10; x+=10) {

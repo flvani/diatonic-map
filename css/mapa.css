@@ -342,15 +342,15 @@ body {
   background-repeat:no-repeat;
 }
 
-#tuneContainerDiv_old    {
+#tuneContainerDiv{
+    float:left; 
+    margin-top:0px; 
+    margin-left:0px; 
+    margin-bottom: 0px; 
+    width:1150px; 
+    height: 350px; 
+    overflow-y: auto;
     background: #fff;
-    height: 250px;
-    overflow-x: hidden;
-    overflow-y: scroll;
-}
-
-#tuneContainerDiv {
-  background: #fff;
 } 
 
 #divContent,

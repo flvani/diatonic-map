@@ -59,43 +59,17 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
    
     this.printButton.addEventListener("click", function() {
 
-        if( ! ( that.currentABC.div.innerHTML && that.studio ) ) return;
-        
-        $("#divTitulo").hide();
-        $("#mapContainerDiv").hide();
-        document.body.style.paddingTop = '0px';
-        that.savedBackgroundColor = document.body.style.backgroundColor;
-        document.body.style.backgroundColor = '#fff';
-        that.studio.renderedTune.text = that.currentABC.text;
-        that.studio.renderedTune.div.innerHTML = that.currentABC.div.innerHTML;
-        $("#canvasDiv").show();
-        window.print();
-        $("#canvasDiv").hide();
-        document.body.style.backgroundColor = that.savedBackgroundColor;
-        document.body.style.paddingTop = '50px';
-        $("#divTitulo").fadeIn();
-        $("#mapContainerDiv").fadeIn();
+        if(  that.currentABC.div.innerHTML && that.studio )  {
+            that.studio.printPreview(that.currentABC.div.innerHTML, ["#divTitulo","#mapContainerDiv"]);
+        }
         
     }, false);
 
     this.toolsButton.addEventListener("click", function() {
         
-        if( ! ( that.currentABC.div.innerHTML && that.studio ) ) return;
-        
-        $("#mapContainerDiv").hide();
-        $("#divMenuAccordions").hide();
-        $("#divMenuRepertoire").hide();
-        document.body.style.paddingTop = '273px';
-        that.savedBackgroundColor = document.body.style.backgroundColor;
-        document.body.style.backgroundColor = '#fff';
-        
-        $("#studioDiv").fadeIn();
-        //$("#editControlDiv").fadeIn();
-        that.studio.setABC(that.currentABC, that.accordion.getLoaded().getId());
-        //$("#editorDiv").fadeIn();
-        //$("#warningsDiv").fadeIn();
-        $("#divMenuBack").fadeIn();
-        $("#divMenuShowMap").fadeIn();
+        if( that.currentABC.div.innerHTML && that.studio ) {
+            that.showStudio();
+        }
         
     }, false);
 
@@ -159,29 +133,12 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.loadAccordionList();
     this.showAccordionName();
     this.showAccordionImage();
-    
     this.loadOriginalRepertoire();
     
     DR.register( this ); // register for translate
     
 };
 
-SITE.Mapa.prototype.closeStudio = function () {
-//        $("#warningsDiv").hide();
-//        $("#editorDiv").hide();
-//        $("#editControlDiv").hide();
-    $("#divMenuBack").hide();
-    $("#divMenuShowMap").hide();
-    $("#studioDiv").hide();
-    document.body.style.backgroundColor = this.savedBackgroundColor;
-    document.body.style.paddingTop = '50px';
-    $("#mapContainerDiv").fadeIn();
-    $("#divMenuAccordions").fadeIn();
-    $("#divMenuRepertoire").fadeIn();
-    this.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
-    this.printTab();
-
-};
 SITE.Mapa.prototype.setup = function (tabParams) {
 
     var gaita = this.accordion.loadById(tabParams.accordionId);
@@ -234,6 +191,23 @@ SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
     
     loader.stop();
 
+};
+
+SITE.Mapa.prototype.showStudio = function () {
+    $("#mapContainerDiv").hide();
+    $("#divMenuAccordions").hide();
+    $("#divMenuRepertoire").hide();
+    $("#studioDiv").fadeIn();
+    this.studio.setABC(this.currentABC, this.accordion.getLoaded().getId());
+};
+
+SITE.Mapa.prototype.closeStudio = function () {
+    $("#studioDiv").hide();
+    $("#mapContainerDiv").fadeIn();
+    $("#divMenuAccordions").fadeIn();
+    $("#divMenuRepertoire").fadeIn();
+    this.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
+    this.printTab();
 };
 
 SITE.Mapa.prototype.startPlay = function( type, value ) {
