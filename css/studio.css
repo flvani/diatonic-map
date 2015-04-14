@@ -56,8 +56,7 @@ and open the template in the editor.
 #studioHeader {
     position: relative;
     margin: 0px;
-    margin-left: 4px;
-    margin-right: 4px;
+    border-bottom: 1px solid #8bc4ea;
 }
 
 #studioCanvasDiv {
@@ -70,7 +69,7 @@ and open the template in the editor.
 }
 
 #textareaABC {
-    width: 90%; 
+    width: 97.5%; 
     margin: 4px;
     margin-bottom: 0px;
     color: #000; 
@@ -99,7 +98,7 @@ and open the template in the editor.
 #canvasDiv {
     margin: 0px;
     margin-left: 4px;
-    pointer-events: none;
+    pointer-events: auto;
 }
 
 .ok, .close, .cancel {
@@ -141,7 +140,9 @@ and open the template in the editor.
     position: fixed;
     top:100px; 
     left:100px; 
-    z-index: 400;
+    z-index: 140000;
+    pointer-events: none;
+    
 /*    background-color: #ffe; 
 //    border-style: groove; border-color: #ffd;
 //    margin: 4px;
@@ -156,10 +157,10 @@ and open the template in the editor.
 }
 
 #editorTextArea {
-    width: 100%; 
     margin: 0px; 
     color: #000; 
     font-family: monospace;
+    pointer-events: auto;
 }
     
 #keyboardDiv{
@@ -167,7 +168,7 @@ and open the template in the editor.
     position: fixed;
     top:100px; 
     left:900px; 
-    z-index: 401;
+    z-index: 140001;
 /*    width:0px;
     height:0px; 
     background-color: #ffe; 

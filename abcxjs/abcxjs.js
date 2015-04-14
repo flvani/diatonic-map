@@ -9645,8 +9645,6 @@ ABCXJS.tablature.Accordion = function( params ) {
     this.transposer   = new window.ABCXJS.parse.Transposer();
     this.selected     = -1;
     this.tabLines     = [];
-    this.paper        = null;
-    this.keyboardDiv  = null;
     this.accordions   = params.accordionMaps || [] ;
     
     if( this.accordions.length === 0 ) {
@@ -9655,95 +9653,11 @@ ABCXJS.tablature.Accordion = function( params ) {
     
     this.render_keyboard_opts = params.render_keyboard_opts || {transpose:false, mirror: false, scale:1, draggable:false, show:false};
 
-    if(params.keyboardDiv_id) {
-        this.setKeyboardCanvas(params.keyboardDiv_id);
-    }
-    
     if( params.id )
         this.loadById( params.id );
     else
         this.load( 0 );
-};
-
-ABCXJS.tablature.Accordion.prototype.setKeyboardCanvasId = function () {
-    var a = this.getLoaded();
-    var t = a.getTxtTuning() + " - " + a.getTxtNumButtons();
-    var e = document.getElementById("keyboardId");
-    if(e) e.innerHTML = t;
-};
-
-ABCXJS.tablature.Accordion.prototype.setKeyboardCanvas = function (div_id) {
-
-    if( typeof(div_id) === "string" )
-        this.dataDiv = document.getElementById(div_id);
-    else  
-        this.dataDiv = div_id;
-
-    if(this.render_keyboard_opts.draggable) {
-        this.topDiv = this.dataDiv.parentElement;
-    } else {
-        this.topDiv = this.dataDiv;
-    }    
     
-    this.definePaper(this.dataDiv);    
-//    if(this.render_keyboard_opts.draggable) {
-//        
-////        this.dataDiv.setAttribute( "style", 
-////                "display:none; position: fixed; top:100px; left:900px; width:0px; height:0px; z-index: 700;" +
-////                "background-color: #ffe; border-style: groove; border-color: #ffd;" ); 
-//
-//        var self = this;
-//
-//        var div = document.createElement("DIV");
-//        this.keyboardMenu = div;
-//        div.setAttribute("id", "keyboardMenu" ); 
-////        div.setAttribute("style", "top:0; width:100%; min-height:20px; background-color: black; color: white;"); 
-//        div.innerHTML = '<input id="rotateBtn" type="button"  value="Rotate" /><input id="scaleBtn" type="button" value="Scale" />&nbsp;&nbsp;<span id="keyboardId" readonly >Key Map</span><a id="moveKeyboard" href="#close" title="Fechar" class="close">X</a>';
-////        div.innerHTML = '<input id="rotateBtn" type="button"  value="Rotate" /><input id="scaleBtn" type="button" value="Scale" />&nbsp;&nbsp;<span id="keyboardId" readonly >Key Map</span>';
-//        this.dataDiv.appendChild( div );
-//        div = document.createElement("DIV");
-//        div.setAttribute("id", "keyboardData"); 
-////        div.setAttribute("style", "width:100%; height:100%;"); 
-//        this.definePaper(div);
-//        this.dataDiv.appendChild( div );
-//        this.moveKeyboard = document.getElementById("moveKeyboard");
-//
-//        document.getElementById("rotateBtn").addEventListener("click", function() {
-//            self.rotateKeyboard();
-//        }, false);
-//        
-//        document.getElementById("scaleBtn").addEventListener("click", function() {
-//            self.scaleKeyboard();
-//        }, false);
-//
-//        this.mouseUp = function (e) {
-//            e.stopPropagation();
-//          e.preventDefault();
-//            window.removeEventListener('mousemove', self.divMove, false);
-//        };
-//
-//        this.mouseDown = function (e){
-//          e.stopPropagation();
-//          e.preventDefault();
-//          window.addEventListener('mousemove', self.divMove, false);
-//          self.X = self.dataDiv.offsetLeft;
-//          self.Y = self.dataDiv.offsetTop;
-//                  
-//        };
-//
-//        this.divMove = function(e){
-//            e.stopPropagation();
-//            e.preventDefault();
-//            this.keyboardDiv.style.position = "fixed";
-//            this.keyboardDiv.style.top = (e.movementY + this.keyboardDiv.offsetTop) + "px";
-//            this.keyboardDiv.style.left = (e.movementX + this.keyboardDiv.offsetLeft) + "px";              
-//        };
-//
-//        this.moveKeyboard.addEventListener( 'mousedown', this.mouseDown, false);
-//        window.addEventListener('mouseup', this.mouseUp, false);
-//    } else {
-//        this.definePaper(this.dataDiv);
-//    }
 };
 
 ABCXJS.tablature.Accordion.prototype.loadById = function (id) {
@@ -9758,11 +9672,6 @@ ABCXJS.tablature.Accordion.prototype.loadById = function (id) {
 
 ABCXJS.tablature.Accordion.prototype.load = function (sel) {
     this.selected = sel;
-    this.printKeyboard();
-    return this.accordions[this.selected];
-};
-
-ABCXJS.tablature.Accordion.prototype.getLoaded = function () {
     return this.accordions[this.selected];
 };
 
@@ -9783,18 +9692,18 @@ ABCXJS.tablature.Accordion.prototype.accordionIsCurrent = function(id) {
 };
 
 ABCXJS.tablature.Accordion.prototype.changeNotation = function() {
-    this.getLoaded().keyboard.changeNotation();
+    this.accordions[this.selected].keyboard.changeNotation();
 };
 
 ABCXJS.tablature.Accordion.prototype.clearKeyboard = function(full) {
-    this.getLoaded().keyboard.clear(full);
+    this.accordions[this.selected].keyboard.clear(full);
 };
 
 ABCXJS.tablature.Accordion.prototype.redrawKeyboard = function() {
-    this.getLoaded().keyboard.redraw();
+    this.accordions[this.selected].keyboard.redraw();
 };
 
-ABCXJS.tablature.Accordion.prototype.rotateKeyboard = function () {
+ABCXJS.tablature.Accordion.prototype.rotateKeyboard = function(div) {
     var o = this.render_keyboard_opts;
     
     if( o.transpose ) {
@@ -9802,49 +9711,57 @@ ABCXJS.tablature.Accordion.prototype.rotateKeyboard = function () {
     }
     o.transpose=!o.transpose;
     
-    this.printKeyboard();
+    this.printKeyboard(div);
 };
 
-ABCXJS.tablature.Accordion.prototype.scaleKeyboard = function () {
+ABCXJS.tablature.Accordion.prototype.scaleKeyboard = function(div) {
     if( this.render_keyboard_opts.scale < 1.2 ) {
         this.render_keyboard_opts.scale += 0.2;
     } else {
         this.render_keyboard_opts.scale = 0.8;
     }
-    this.printKeyboard();
+    this.printKeyboard(div);
 };
 
-ABCXJS.tablature.Accordion.prototype.layoutKeyboard = function(options) {
+ABCXJS.tablature.Accordion.prototype.layoutKeyboard = function(options, div) {
     if(options.transpose!==undefined)
         this.render_keyboard_opts.transpose = options.transpose;
     if(options.mirror!==undefined)
         this.render_keyboard_opts.mirror = options.mirror;
-    this.printKeyboard();
+    this.printKeyboard(div);
 };
 
-ABCXJS.tablature.Accordion.prototype.printKeyboard = function() {
-    if (this.dataDiv) {
-        if( this.render_keyboard_opts.show ) {
-            this.setKeyboardCanvasId();
-            this.topDiv.style.display="inline-block";
-            this.getLoaded().keyboard.print(this.paper, this.dataDiv, this.render_keyboard_opts);
-            if (this.render_keyboard_opts.draggable) {
-                this.topDiv.style.width = this.dataDiv.clientWidth + "px";
-                this.topDiv.style.height = (this.dataDiv.clientHeight+20) + "px";
-            }
-        } else {
-            this.topDiv.style.display="none";
-        }
+ABCXJS.tablature.Accordion.prototype.printKeyboard = function(div_id) {
+    var div =( typeof(div_id) === "string" ? document.getElementById(div_id) : div_id );
+
+    if( this.render_keyboard_opts.show ) {
+        div.style.display="inline-block";
+        this.getKeyboard().print(div, this.render_keyboard_opts);
+    } else {
+        div.style.display="none";
     }
 };
         
 ABCXJS.tablature.Accordion.prototype.getKeyboard = function () {
-    return this.getLoaded().keyboard;
+    return this.accordions[this.selected].keyboard;
 };
 
-ABCXJS.tablature.Accordion.prototype.getName = function () {
-    return this.getLoaded().getName();
+ABCXJS.tablature.Accordion.prototype.getFullName = function () {
+    return this.accordions[this.selected].getFullName();
 };
+
+ABCXJS.tablature.Accordion.prototype.getTxtModel = function () {
+    return this.accordions[this.selected].getTxtModel();
+};
+
+ABCXJS.tablature.Accordion.prototype.getTxtNumButtons = function () {
+    return this.accordions[this.selected].getTxtNumButtons();
+};
+
+ABCXJS.tablature.Accordion.prototype.getTxtTuning = function () {
+    return this.accordions[this.selected].getTxtTuning();
+};
+
 
 ABCXJS.tablature.Accordion.prototype.getNoteName = function( item, keyAcc, barAcc, bass ) {
     
@@ -9880,8 +9797,8 @@ ABCXJS.tablature.Accordion.prototype.getNoteName = function( item, keyAcc, barAc
 
 ABCXJS.tablature.Accordion.prototype.getButtons = function (note) {
   return {
-       open:this.getLoaded().keyboard.noteToButtonsOpen[note.isBass?note.key:note.key+note.octave]
-      ,close:this.getLoaded().keyboard.noteToButtonsClose[note.isBass?note.key:note.key+note.octave]
+       open:this.getKeyboard().noteToButtonsOpen[note.isBass?note.key:note.key+note.octave]
+      ,close:this.getKeyboard().noteToButtonsClose[note.isBass?note.key:note.key+note.octave]
   };    
 };
 
@@ -9910,13 +9827,6 @@ ABCXJS.tablature.Accordion.prototype.updateEditor = function () {
     }
     this.tabLines = [];
     return ret;
-};
-
-ABCXJS.tablature.Accordion.prototype.definePaper = function(div)  {
-  this.dataDiv = div;
-  if(!this.paper) {
-     this.paper = Raphael(this.dataDiv, "100%", "100%");
-  }  
 };
 /* 
  * To change this license header, choose License Headers in Project Properties.

@@ -307,9 +307,14 @@ notação abc, tablatura "/>
         </div> <!-- /modalAbout -->
         <div id="studioDiv">
             <div id="studioContentDiv">
+                <div id="studioMenu" class="draggableMenu">
+                    <div id="btnCloseStudio" class="dButton">
+                        <a href="#" title="" onclick="closeStudio (); false;"><i class="icon-minus icon-white"></i></a>
+                    </div>
+                    <div class="dTitle"><span id="spanTitleStudio" >Estúdio ABCX</span></div>                        
+                </div>
                 <div id="studioHeader">
-                    <a href="javascript:closeStudio();" title="Fechar" class="close">X</a>
-                    <textarea readonly id="textareaABC" rows="10" ></textarea>
+                    <textarea id="textareaABC" rows="10" ></textarea>
                     <div id="studioControlDiv" >
                         <div id="controlDiv1" style="float:left;" >
                             <button id="showMapBtn" class="btn" title="Mostrar Teclado" onclick=""><i class="icon-folder-open"></i>&nbsp;<span id="DR_showMap">Teclado</span></button>
@@ -345,19 +350,8 @@ notação abc, tablatura "/>
                 </div> <!--studioCanvasDiv-->    
                 <div id="keyboardDiv" class="draggableWindow"></div> 
                 <!-- /keyboardDiv-->    
-                <div id="editorDiv" class="draggableWindow">
-                    <div style="width: 100%;" >
-                        <h2>&nbsp;Editor ABCX&nbsp;-&nbsp;<span id="spanSongTitle">song</span> </h2>
-                    </div>
-                    <textarea id="editorTextArea" rows="25"></textarea>
-                    <div style="width: 100%;" >
-                        <select id="selKey" ></select>
-                        <button id="octaveUpBtn" class="btn" title="+ Oitava" onclick="javascript:doTranspose(12); return false;" ><i class="icon-arrow-up"></i>&nbsp;Oitava</button>
-                        <button id="octaveDwBtn" class="btn" title="- Oitava" onclick="javascript:doTranspose(-12); return false;" ><i class="icon-arrow-down"></i>&nbsp;Oitava</button>
-                        <a href="javascript:closeEditor();" title="Fechar a janela" class="cancel">Fechar</a>
-                    </div>
-                    <div class="clear"></div>
-                </div> <!-- /editorDiv -->
+                <div id="editorDiv" class="draggableWindow"></div>
+                <!-- /editorDiv -->
             </div> <!-- /studioContentDiv -->
         </div> <!-- /studioDiv -->
         <div id="printPreviewDiv" class="container"></div>
@@ -440,8 +434,8 @@ notação abc, tablatura "/>
                     window.scrollTo( 0, window.lastYpos );
                 };
                 
-                var w1 = new DRAGGABLE.Div('editorDiv', 'Editor ABCX', ['move|Mover', 'minus|Fechar'], 'w1Callback' );
-                var w2 = new DRAGGABLE.Div('keyboardDiv', 'Mapa de Teclado', ['move|Mover', 'minus|Fechar', 'retweet|Rotacionar', 'zoom-in|Zoom'], 'w2Callback' );
+                var w1 = new DRAGGABLE.Div('editorDiv', 'Editor ABCX', ['minus|Fechar','move|Mover'], 'w1Callback' );
+                var w2 = new DRAGGABLE.Div('keyboardDiv', 'Mapa de Teclado', [ 'minus|Fechar','move|Mover', 'retweet|Rotacionar', 'zoom-in|Zoom'], 'w2Callback' );
                 
                 myStudio = new SITE.Estudio(
                     {   // interfaceParams
@@ -460,10 +454,11 @@ notação abc, tablatura "/>
                       ,generate_warnings: true
                       ,generate_midi: true
                       ,generate_tablature: 'accordion'
+                      ,editorWindow: w1
+                      ,keyboardWindow: w2
                       ,accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps
-                            ,keyboardDiv_id: w2.dataDiv
                             ,render_keyboard_opts:{transpose:false, mirror: false, scale:0.8, draggable:true, show:false}}
                       ,onchange: editorCallbackOnChange
                   } 
@@ -493,10 +488,10 @@ notação abc, tablatura "/>
                       , tuneContainerDiv: 'tuneContainerDiv'
                       , printBtn: 'printBtn'
                       , toolsBtn: 'toolsBtn'
+                      ,keyboardDiv: "contentKeyboard"
                       ,accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps
-                            ,keyboardDiv_id:"contentKeyboard"
                             ,render_keyboard_opts:{transpose:true, mirror: false, scale:1, draggable:false, show:true}}
                   }
                   , {   // tabParams

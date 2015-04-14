@@ -78,11 +78,11 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     }, false );
     
     this.checkboxHorizontal.addEventListener('click', function() {
-        that.accordion.layoutKeyboard( {transpose: this.checked } );
+        that.accordion.layoutKeyboard( {transpose: this.checked }, that.keyboardDiv );
     }, false );
 
     this.checkboxEspelho.addEventListener('click', function() {
-        that.accordion.layoutKeyboard( {mirror: this.checked } );
+        that.accordion.layoutKeyboard( {mirror: this.checked }, that.keyboardDiv );
     }, false );
    
     this.playerCallBackOnScroll = function( player ) {
@@ -130,6 +130,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.midiPlayer.defineCallbackOnScroll( that.playerCallBackOnScroll );
 
     this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options );
+    this.keyboardDiv = interfaceParams.keyboardDiv;
     this.loadAccordionList();
     this.showAccordionName();
     this.showAccordionImage();
@@ -137,6 +138,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     
     DR.register( this ); // register for translate
     
+    this.accordion.printKeyboard(this.keyboardDiv);
 };
 
 SITE.Mapa.prototype.setup = function (tabParams) {
@@ -198,7 +200,7 @@ SITE.Mapa.prototype.showStudio = function () {
     $("#divMenuAccordions").hide();
     $("#divMenuRepertoire").hide();
     $("#studioDiv").fadeIn();
-    this.studio.setABC(this.currentABC, this.accordion.getLoaded().getId());
+    this.studio.setABC(this.currentABC, this.getSelectedAccordion().getId());
 };
 
 SITE.Mapa.prototype.closeStudio = function () {
@@ -258,7 +260,7 @@ SITE.Mapa.prototype.loadAccordionList  = function() {
     var accordions = this.accordion.accordions;
     var ord = [];
     for (var c=0; c < accordions.length; c++) {
-       ord.push( [ parseInt( accordions[c].menuOrder ), accordions[c].getName() , accordions[c].getId() ] );
+       ord.push( [ parseInt( accordions[c].menuOrder ), accordions[c].getFullName() , accordions[c].getId() ] );
     }
 
     ord.sort(function(a, b) {
@@ -430,11 +432,11 @@ SITE.Mapa.prototype.carregaRepertorio = function(original, files) {
 
 SITE.Mapa.prototype.showAccordionImage = function() {
   this.gaitaImagePlaceHolder.innerHTML = '<img src="'+this.getSelectedAccordion().getPathToImage()
-        +'" alt="'+this.getSelectedAccordion().getName() + ' ' + DR.getResource('DR_keys') + '" style="height:200px; width:200px;" />';
+        +'" alt="'+this.getSelectedAccordion().getFullName() + ' ' + DR.getResource('DR_keys') + '" style="height:200px; width:200px;" />';
 };
 
 SITE.Mapa.prototype.showAccordionName = function() {
-  this.gaitaNamePlaceHolder.innerHTML = this.getSelectedAccordion().getName() + ' ' + DR.getResource('DR_keys');
+  this.gaitaNamePlaceHolder.innerHTML = this.getSelectedAccordion().getFullName() + ' ' + DR.getResource('DR_keys');
 };
 
 SITE.Mapa.prototype.defineActiveTab = function( which ) {
@@ -459,7 +461,7 @@ SITE.Mapa.prototype.defineActiveTab = function( which ) {
 SITE.Mapa.prototype.printTab = function( ) {
     var accordion = this.getSelectedAccordion();
     this.currentABC.text = this.studio.editArea.getString();
-    this.accordion.printKeyboard();
+    this.accordion.printKeyboard(this.keyboardDiv);
 
     switch (this.currentTab) {
         case "tabTunes":
@@ -486,7 +488,7 @@ SITE.Mapa.prototype.accordionIsCurrent = function(id) {
 };
 
 SITE.Mapa.prototype.getSelectedAccordion = function() {
-    return this.accordion.getLoaded();
+    return this.accordion.accordions[this.accordion.selected];
 };
 
 SITE.Mapa.prototype.showABC = function(type, i) {

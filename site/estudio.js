@@ -126,7 +126,10 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.editorVisible = false;
     this.mapVisible = false;
     this.textVisible = true;
+    this.editorWindow = editorParams.editorWindow;
+    this.keyboardWindow = editorParams.keyboardWindow;
     
+    this.setupEditor();
     
     this.renderedTune = {text: undefined, abc: undefined, title: undefined, div: undefined, selector: undefined};
     
@@ -145,7 +148,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
 
             if (editorParams.accordionNameSpan) {
                 this.accordionNameSpan = document.getElementById(editorParams.accordionNameSpan);
-                this.accordionNameSpan.innerHTML = this.accordion.getName();
+                this.accordionNameSpan.innerHTML = this.accordion.getFullName();
             }
         } else {
             throw new Error('Tablatura para ' + editorParams.generate_tablature + ' não suportada!');
@@ -197,8 +200,6 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.clearButton = document.getElementById(playerParams.clearBtn);
     this.tempoButton = document.getElementById(playerParams.tempoBtn);
     
-    this.initEditArea( "editorTextArea", "pt");
-
     this.saveButton.addEventListener("click", function () {
         that.salvaMusica();
     }, false);
@@ -235,8 +236,8 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     }, false);
 
     this.clearButton.addEventListener("click", function () {
-        if (that.midi.printer)
-            that.midi.printer.clearSelection();
+        if (that.renderedTune.printer)
+            that.renderedTune.printer.clearSelection();
         that.editor.accordion.clearKeyboard(true);
         that.ypos = 1000;
         that.gotoMeasureButton.value = "1";
@@ -290,21 +291,8 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
             that.gotoMeasureButton.value = DR.getResource("DR_goto");
         }
     }, false);
+    
 
-};
-
-SITE.Estudio.prototype.editorCallback = function( e ) {
-    switch(e) {
-        case 'MOVE':
-            break;
-        case 'MINUS':
-            this.hideEditor();
-            break;
-        case 'RETWEET':
-        case 'ZOOM-IN':
-        default:
-            alert(e);
-    }
 };
 
 SITE.Estudio.prototype.keyboardCallback = function( e ) {
@@ -315,10 +303,10 @@ SITE.Estudio.prototype.keyboardCallback = function( e ) {
             this.hideMap();
             break;
         case 'RETWEET':
-            this.accordion.rotateKeyboard();
+            this.accordion.rotateKeyboard(this.keyboardWindow.dataDiv);
             break;
         case 'ZOOM-IN':
-            this.accordion.scaleKeyboard();
+            this.accordion.scaleKeyboard(this.keyboardWindow.dataDiv);
             break;
         default:
             alert(e);
@@ -365,7 +353,8 @@ SITE.Estudio.prototype.hideMap = function() {
     var l = document.getElementById('DR_showMap');
     this.mapVisible = false;
     this.accordion.render_keyboard_opts.show = this.mapVisible;
-    this.accordion.printKeyboard();
+    this.keyboardWindow.topDiv.style.display = 'none';
+    this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
     l.innerHTML = this.mapVisible ? 'Hide Map' : 'Show Map';
 };
 
@@ -373,8 +362,13 @@ SITE.Estudio.prototype.showMap = function() {
     var l = document.getElementById('DR_showMap');
     this.mapVisible = ! this.mapVisible;
     this.accordion.render_keyboard_opts.show = this.mapVisible;
-    this.accordion.printKeyboard();
-    l.innerHTML = this.mapVisible ? 'Hide Map' : 'Show Map';
+    if(this.mapVisible) {
+        this.keyboardWindow.topDiv.style.display = 'inline-block';
+        this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
+        l.innerHTML = this.mapVisible ? 'Hide Map' : 'Show Map';
+    } else {
+        this.hideMap();
+    }
 };
     
 
@@ -389,7 +383,7 @@ SITE.Estudio.prototype.showABCXText = function () {
 };
 
 SITE.Estudio.prototype.hideEditor = function() {
-    $("#editorDiv").hide();
+    this.editorWindow.topDiv.style.display = 'none';
     this.editorVisible = false;
     var finalText = editAreaLoader.getValue("editorTextArea");
     if(this.initialText !== finalText ) {
@@ -401,16 +395,43 @@ SITE.Estudio.prototype.hideEditor = function() {
 SITE.Estudio.prototype.showEditor = function() {
     this.editorVisible = ! this.editorVisible;
     if(this.editorVisible) {
-        $("#editorDiv").show();
         this.initialText = this.editArea.getString();
-        document.getElementById("spanSongTitle").innerHTML = this.renderedTune.title;
+        //document.getElementById("spanSongTitle").innerHTML = this.renderedTune.title;
         editAreaLoader.setValue("editorTextArea", this.initialText );
+        editAreaLoader.setSelectionRange("editorTextArea", 0, 0);
+        this.editorWindow.topDiv.style.display = 'inline-block';
     } else {
         this.hideEditor();
     }
 };
-  
-SITE.Estudio.prototype.initEditArea = function( id, lang) {
+
+SITE.Estudio.prototype.setupEditor = function() {
+    this.editorWindow.dataDiv.innerHTML =     
+        '<textarea id="editorTextArea" rows="25"></textarea>'
+        + '<div style="width: 100%;" >'
+        +     '<select id="selKey" ></select>'
+        +    '<button id="octaveUpBtn" class="btn" title="+ Oitava" onclick="javascript:doTranspose(12); return false;" ><i class="icon-arrow-up"></i>&nbsp;Oitava</button>'
+        +    '<button id="octaveDwBtn" class="btn" title="- Oitava" onclick="javascript:doTranspose(-12); return false;" ><i class="icon-arrow-down"></i>&nbsp;Oitava</button>'
+        + '</div>';
+
+    this.initEditArea( "editorTextArea", "pt", 800, 400 );
+};
+
+SITE.Estudio.prototype.editorCallback = function( e ) {
+    switch(e) {
+        case 'MOVE':
+            break;
+        case 'MINUS':
+            this.hideEditor();
+            break;
+        case 'ZOOM-IN':
+        case 'RETWEET':
+        default:
+            alert(e);
+    }
+};
+
+SITE.Estudio.prototype.initEditArea = function( id, lang, w, h) {
     editAreaLoader.init({
         id: id	// id of the textarea to transform	
        ,start_highlight: true
@@ -418,9 +439,12 @@ SITE.Estudio.prototype.initEditArea = function( id, lang) {
        ,language: lang
        ,syntax: "abc"	
        ,toolbar: "search, |, undo, redo, |, highlight , reset_highlight "
-       ,allow_resize: "n"
+       ,allow_resize: "both"
        ,is_multi_files: false
        ,show_line_colors: true
+       ,replace_tab_by_spaces: 4
+       ,min_width: w || 400
+       ,min_height: h || 200
     });
 };
 
@@ -444,11 +468,12 @@ SITE.Estudio.prototype.changePlayMode = function() {
 
 SITE.Estudio.prototype.resize = function( ) {
     //if( ! this.midiPlayer.playing) {
+    var m = document.getElementById( 'studioMenu');
     var h = document.getElementById( 'studioHeader');
     var o = document.getElementById( 'studioContentDiv');
     var i = document.getElementById( 'studioCanvasDiv');
 
-    i.style.height = (o.clientHeight - h.clientHeight - 10) + "px";
+    i.style.height = (o.clientHeight - h.clientHeight - m.clientHeight - 10) + "px";
     //}
 };
 
@@ -561,11 +586,13 @@ SITE.Estudio.prototype.setABC = function(tab, accordionId) {
     this.renderedTune.abc = tab.abc;
     this.renderedTune.div.innerHTML = tab.div.innerHTML;
     this.editArea.setString(this.renderedTune.text);
+    this.editorWindow.setTitle('Editor ABCX - ' + tab.title);
+    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
 };
 
 SITE.Estudio.prototype.updateSelection = function() {
   var selection = this.editArea.getSelection();
   try {
-    this.printer.rangeHighlight(selection.start, selection.end);
+    this.renderedTune.printer.rangeHighlight(selection.start, selection.end);
   } catch (e) {} // maybe printer isn't defined yet?
 };

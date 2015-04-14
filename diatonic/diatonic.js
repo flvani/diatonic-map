@@ -90,11 +90,11 @@ DIATONIC.map.AccordionMap.prototype.getId = function () {
     return this.id;
 };
 
-DIATONIC.map.AccordionMap.prototype.getName = function () {
-    return this.getModel() + " " + this.getTxtTuning() + " - " + this.getTxtNumButtons();
+DIATONIC.map.AccordionMap.prototype.getFullName = function () {
+    return this.getTxtModel() + " " + this.getTxtTuning() + " - " + this.getTxtNumButtons();
 };
 
-DIATONIC.map.AccordionMap.prototype.getModel = function () {
+DIATONIC.map.AccordionMap.prototype.getTxtModel = function () {
     return this.model;
 };
 
@@ -310,12 +310,12 @@ DIATONIC.map.Keyboard.prototype.setup = function (keyMap) {
     );
 };
 
-DIATONIC.map.Keyboard.prototype.print = function (paper, div, options ) {
+DIATONIC.map.Keyboard.prototype.print = function (div, options ) {
     
     options = options || {};
     
-    this.paper = paper;
-    this.paper.clear();
+    div.innerHTML = "";
+    this.paper = Raphael(div, "100%", "100%");
     
     options.scale = options.scale || 1;
     options.mirror = options.mirror || false;

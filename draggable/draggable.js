@@ -33,6 +33,7 @@ DRAGGABLE.Div = function(topDiv, title, aButtons, callBack ) {
     var div = document.createElement("DIV");
     div.setAttribute("id", "dMenu" +  this.id ); 
     div.setAttribute("class", "draggableMenu" ); 
+    div.setAttribute("draggable", "false" ); 
     div.innerHTML = this.addButtons(this.id, aButtons, callBack ) + this.addTitle(this.id, title);
     this.topDiv.appendChild( div );
     this.menuDiv = div;
@@ -58,18 +59,24 @@ DRAGGABLE.Div = function(topDiv, title, aButtons, callBack ) {
         e.stopPropagation();
         e.preventDefault();
         window.removeEventListener('mousemove', self.divMove, false);
+        self.dataDiv.style.pointerEvents = "auto";
     };
 
-    this.mouseDown = function (e){
-      e.stopPropagation();
-      e.preventDefault();
-      window.addEventListener('mousemove', self.divMove, false);
+    this.mouseDown = function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        self.dataDiv.style.pointerEvents = "none";
+        window.addEventListener('mousemove', self.divMove, false);
 
     };
 
     this.moveButton.addEventListener( 'mousedown', this.mouseDown, false);
     window.addEventListener('mouseup', this.mouseUp, false);
     
+};
+
+DRAGGABLE.Div.prototype.setTitle = function( title ) {
+    this.titleSpan.innerHTML = title;
 };
 
 DRAGGABLE.Div.prototype.addTitle = function( id, title ) {
@@ -81,8 +88,8 @@ DRAGGABLE.Div.prototype.addButtons = function( id,  aButtons, callBack ) {
     aButtons.forEach( function (label) {
         label = label.split('|');
         label[1]  = label.length > 1 ? label[1] : "";
-        txt += '<div class="dButton"><a id="d'+label[0].toUpperCase()
-                +'Button'+id+'" href="#" title="'+label[1]+'" onclick="'
+        txt += '<div id="d'+label[0].toUpperCase() +'Button'+id+
+                '" class="dButton" draggable="false"><a href="#" title="'+label[1]+'" onclick="'
                 +callBack+'(\''+label[0].toUpperCase()+'\')"><i class="icon-'
                 +label[0].toLowerCase()+' icon-white"></i></a></div>';
     });
