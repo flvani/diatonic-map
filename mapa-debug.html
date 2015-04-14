@@ -31,42 +31,43 @@ notação abc, tablatura "/>
                             <td id="DR_appName"><h1>Mapa&nbsp;para&nbsp;<span>Acordeons&nbsp;Diatônicos</span></h1></td>
                             <td style="width:20px;"></td>
                             <td>
-                  <table style="height: 36px;">
-                    <tr >
-                      <td >
-                        <div id="divMenuAccordions" class="btn-group">
-                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_accordions">Acordeons</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                            <input id="fileLoadMap" type="file" accept="text/abc" style="display: none;" multiple/>
-                            <ul class="dropdown-menu" id="opcoes_gaita"></ul>
-                        </div>
-                      </td >
-                      <td >
-                        <div id="divMenuRepertoire" class="btn-group">
-                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_repertoire">Repertório</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                            <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" style="display: none;" multiple />
-                            <ul class="dropdown-menu" id="opcoes_repertorio">
-                                <li><a href="#" id="DR_original" onclick="reloadRepertoire();">Restaurar o original</a></li>
-                                <li><a href="#" id="DR_localLoad" onclick="document.getElementById('fileLoadRepertoire').click()">Carregar do drive local</a></li>
-                                <li style="display:inline;"><a href="#" id="DR_localSave" onclick="saveRepertoire();">Exportar para drive local</a></li>
-                            </ul>
-                        </div>
-                      </td >
-                      <td >
-                        <div id="divMenuHelp" class="btn-group">
-                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_info">Informações</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                            <ul class="dropdown-menu" id="opcoes_teoria">
-                              <li><a id="DR_accordion_maps" target="_blank" href="html/mapas.pt_BR.html" >Mapas para acordeons</a></li>
-                              <li><a id="DR_tablature" target="_blank" href="html/tablatura.pt_BR.html" >Tablaturas para acordeons</a></li>
-                              <li><a id="DR_abc_format" target="_blank" href="html/formatoABCX.pt_BR.html" >Formato ABCX</a></li>
-                              <li><a id="DR_abc_editor" target="_blank" href="html/editorABCX.pt_BR.html" >Editor de partituras</a></li>
-                              <li><a id="DR_didactic_mode" target="_blank" href="html/modoDidatico.pt_BR.html" >Modo didático</a></li>
-                              <li><a id="DR_about" href="#modalAbout" >Sobre</a></li>
-                            </ul>
-                        </div>
-                      </td >
-                    </tr>
-                  </table>
-                        </td></tr></table>
+                                <table style="height: 36px;">
+                                    <tr >
+                                      <td >
+                                        <div id="divMenuAccordions" class="btn-group">
+                                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_accordions">Acordeons</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                                            <input id="fileLoadMap" type="file" accept="text/abc" style="display: none;" multiple/>
+                                            <ul class="dropdown-menu" id="opcoes_gaita"></ul>
+                                        </div>
+                                      </td >
+                                      <td >
+                                        <div id="divMenuRepertoire" class="btn-group">
+                                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_repertoire">Repertório</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                                            <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" style="display: none;" multiple />
+                                            <ul class="dropdown-menu" id="opcoes_repertorio">
+                                                <li><a href="#" id="DR_original" onclick="reloadRepertoire();">Restaurar o original</a></li>
+                                                <li><a href="#" id="DR_localLoad" onclick="document.getElementById('fileLoadRepertoire').click()">Carregar do drive local</a></li>
+                                                <li style="display:inline;"><a href="#" id="DR_localSave" onclick="saveRepertoire();">Exportar para drive local</a></li>
+                                            </ul>
+                                        </div>
+                                      </td >
+                                      <td >
+                                        <div id="divMenuHelp" class="btn-group">
+                                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_info">Informações</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                                            <ul class="dropdown-menu" id="opcoes_teoria">
+                                              <li><a id="DR_accordion_maps" target="_blank" href="html/mapas.pt_BR.html" >Mapas para acordeons</a></li>
+                                              <li><a id="DR_tablature" target="_blank" href="html/tablatura.pt_BR.html" >Tablaturas para acordeons</a></li>
+                                              <li><a id="DR_abc_format" target="_blank" href="html/formatoABCX.pt_BR.html" >Formato ABCX</a></li>
+                                              <li><a id="DR_abc_editor" target="_blank" href="html/editorABCX.pt_BR.html" >Editor de partituras</a></li>
+                                              <li><a id="DR_didactic_mode" target="_blank" href="html/modoDidatico.pt_BR.html" >Modo didático</a></li>
+                                              <li><a id="DR_about" href="#modalAbout" >Sobre</a></li>
+                                            </ul>
+                                        </div>
+                                      </td >
+                                    </tr>
+                                </table>
+                            </td></tr>
+                        </table>
                     </div>
                     <div style="position: absolute; top: 0; right:0; margin-top: 5px; margin-right: 5px;">
                         <div class="btn-group" style="margin-top:0;">
@@ -233,7 +234,7 @@ notação abc, tablatura "/>
             </div> <!-- /bottomMargin --> 
         </div> <!-- /mapContainerDiv -->
         
-        <div id="modalAD" class="modalWindow" style="display: inline;">
+        <div id="modalAD" class="modalWindow" style="display: none;">
             <div>
               <div class="modalHeader">
                 <h2>Divulgação...</h2>
@@ -251,7 +252,7 @@ notação abc, tablatura "/>
             </div>
         </div> <!-- /modalAD -->
 
-        <div id="modalAbout" class="modalWindow" style="display: inline;">
+        <div id="modalAbout" class="modalWindow" style="display: none;">
             <div>
               <div class="modalHeader">
                 <h2>Sobre...</h2>
@@ -591,6 +592,7 @@ notação abc, tablatura "/>
                       $("#tabs li:first").attr("id","current"); // Activate the first tab
                       $("#tuneContainerDiv #tabTunesDiv" ).fadeIn(); // Show first tab's content
                       document.getElementById("modalAD").style.display = 'none';
+                      document.getElementById("modalAbout").style.display = 'inline';
                     }
                 });
 

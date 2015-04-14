@@ -467,14 +467,15 @@ SITE.Estudio.prototype.changePlayMode = function() {
 };
 
 SITE.Estudio.prototype.resize = function( ) {
-    //if( ! this.midiPlayer.playing) {
+    var t = document.getElementById( 'textareaABC');
     var m = document.getElementById( 'studioMenu');
     var h = document.getElementById( 'studioHeader');
     var o = document.getElementById( 'studioContentDiv');
     var i = document.getElementById( 'studioCanvasDiv');
 
+    t.style.width = parseInt(m.clientWidth) - 24 + "px";
     i.style.height = (o.clientHeight - h.clientHeight - m.clientHeight - 10) + "px";
-    //}
+    //console.log(h.clientWidth - 'h.clientWidth');
 };
 
 SITE.Estudio.prototype.startPlay = function( type, value ) {

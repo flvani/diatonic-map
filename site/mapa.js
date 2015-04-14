@@ -460,8 +460,13 @@ SITE.Mapa.prototype.defineActiveTab = function( which ) {
 
 SITE.Mapa.prototype.printTab = function( ) {
     var accordion = this.getSelectedAccordion();
-    this.currentABC.text = this.studio.editArea.getString();
     this.accordion.printKeyboard(this.keyboardDiv);
+    
+    var t = this.studio.editArea.getString();
+    if( t === this.currentABC.text ) 
+        return;
+    
+    this.currentABC.text = t;
 
     switch (this.currentTab) {
         case "tabTunes":
