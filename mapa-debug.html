@@ -318,9 +318,9 @@ notação abc, tablatura "/>
                     <textarea id="textareaABC" rows="10" ></textarea>
                     <div id="studioControlDiv" >
                         <div id="controlDiv1" style="float:left;" >
-                            <button id="showMapBtn" class="btn" title="Mostrar Teclado" onclick=""><i class="icon-folder-open"></i>&nbsp;<span id="DR_showMap">Teclado</span></button>
-                            <button id="showEditorBtn" class="btn" title="Mostrar Editor ABCX" onclick="" ><i class="icon-folder-open"></i>&nbsp;<span id="DR_showEditor">Editor</span></button>
-                            <button id="showTextBtn" class="btn" title="Mostrar Texto ABCX" onclick="" ><i class="icon-folder-open"></i>&nbsp;<span id="DR_showText">Texto</span></button>
+                            <button id="showTextBtn" class="btn" title="Mostrar Texto ABCX" onclick="" ><i id="I_showText" class="icon-folder-open"></i>&nbsp;<span id="DR_showText">Texto</span></button>
+                            <button id="showEditorBtn" class="btn" title="Mostrar Editor ABCX" onclick="" ><i id="I_showEditor" class="icon-folder-close"></i>&nbsp;<span id="DR_showEditor">Editor</span></button>
+                            <button id="showMapBtn" class="btn" title="Mostrar Teclado" onclick=""><i id="I_showMap" class="icon-folder-close"></i>&nbsp;<span id="DR_showMap">Teclado</span></button>
                             <button id="printPreviewBtn" class="btn" title="Ver impressão" onclick="" ><i class="icon-print"></i>&nbsp;Ver impressão</button>
                             <button id="saveBtn" class="btn" title="Salvar Local" ><i class="icon-download"></i>&nbsp;Salvar Local</button>
                             <button id="forceRefresh" class="btn" title="Atualizar" onclick="javascript:doForceRefresh();" >Atualizar</button>
@@ -329,7 +329,9 @@ notação abc, tablatura "/>
                             <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
                         </div>
                         <div id="divDidacticPlayControls" style="float:left; margin-left: 4px; display: none;">
-                            <input id="gotoMeasureBtn" title="Ir para o compasso" type="text" value="Ir para..." onclick="" style="width: 4em; height:22px; padding: 0; margin: 0;">
+                            <input id="gotoMeasureBtn" type="text" title="Ir para o compasso" value="Ir para...">
+                            <b>..</b>
+                            <input id="untilMeasureBtn" type="text" title="Executar até o compasso" value="até...">
                             <button id="stepBtn" class="btn" title="Passo a passo" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
                             <button id="stepMeasureBtn" class="btn" title="Executar compasso" onclick="">&nbsp;<i class="icon-forward"></i>&nbsp;</button>
                             <button id="repeatBtn" class="btn" title="Repetir compasso" onclick="">&nbsp;<i class="icon-repeat"></i>&nbsp;</button>
@@ -349,10 +351,10 @@ notação abc, tablatura "/>
                     <div id="warningsDiv"></div>
                     <div id="canvasDiv"></div>
                 </div> <!--studioCanvasDiv-->    
-                <div id="keyboardDiv" class="draggableWindow"></div> 
-                <!-- /keyboardDiv-->    
-                <div id="editorDiv" class="draggableWindow"></div>
+                <div id="editorDiv" class="draggableWindow" style="left:40px; top:120px;" ></div>
                 <!-- /editorDiv -->
+                <div id="keyboardDiv" class="draggableWindow" style="left:900px; top:120px; "></div> 
+                <!-- /keyboardDiv-->    
             </div> <!-- /studioContentDiv -->
         </div> <!-- /studioDiv -->
         <div id="printPreviewDiv" class="container"></div>
@@ -469,6 +471,7 @@ notação abc, tablatura "/>
                       , stopBtn: "stopBtn"
                       , clearBtn: "clearBtn"
                       , gotoMeasureBtn: "gotoMeasureBtn"
+                      , untilMeasureBtn: "untilMeasureBtn"
                       , stepBtn: "stepBtn"
                       , repeatBtn: "repeatBtn"
                       , stepMeasureBtn: "stepMeasureBtn"
@@ -556,6 +559,7 @@ notação abc, tablatura "/>
                    ,'repeatBtn'
                    ,'clearBtn'
                    ,'gotoMeasureBtn'
+                   ,'untilMeasureBtn'
                    ,'toolsBtn'
                    ,'pdfBtn'
                    ,'printBtn'

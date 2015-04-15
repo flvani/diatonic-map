@@ -9484,7 +9484,7 @@ ABCXJS.midi.Player.prototype.clearDidacticPlay = function() {
     this.pausePlay(true);
 };
 
-ABCXJS.midi.Player.prototype.startDidacticPlay = function(what, type, value ) {
+ABCXJS.midi.Player.prototype.startDidacticPlay = function(what, type, value, valueF ) {
 
     if(this.playing) return false;
     
@@ -9503,15 +9503,20 @@ ABCXJS.midi.Player.prototype.startDidacticPlay = function(what, type, value ) {
                 return limite === that.playlist[that.i].time*(1/that.currentAndamento);
             };
             break;
+        case 'repeat': // measure
         case 'goto': // goto and play measure
-            that.currentMeasure = parseInt(value);
-            if(what.measures[that.currentMeasure] !== undefined )
+            if(parseInt(value))
+                that.currentMeasure = parseInt(value);
+            that.endMeasure = parseInt(valueF)?parseInt(valueF):that.currentMeasure;
+            if(what.measures[that.currentMeasure] !== undefined ) {
                 that.lastMeasurePos = what.measures[that.currentMeasure];
-            else {
+                var criteria = function () { 
+                    return that.currentMeasure <= that.endMeasure;
+                };
+            } else {
                this.pausePlay(true);
                return;
            }   
-        case 'repeat': // measure
             if(that.currentMeasure === 1) {
                 that.i = 0;
                 that.currentTime = that.playlist[that.i].time*(1/that.currentAndamento);
@@ -9523,6 +9528,7 @@ ABCXJS.midi.Player.prototype.startDidacticPlay = function(what, type, value ) {
                 that.currentMeasurePos = that.i;
                 
             }    
+           break;
         case 'measure': // play-measure
             var curr = that.currentMeasure;
             var criteria = function () { 

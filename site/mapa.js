@@ -197,17 +197,23 @@ SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
 
 SITE.Mapa.prototype.showStudio = function () {
     $("#mapContainerDiv").hide();
-    $("#divMenuAccordions").hide();
-    $("#divMenuRepertoire").hide();
+    document.getElementById("divMenuAccordions").style.pointerEvents = 'none';
+    document.getElementById("divMenuRepertoire").style.pointerEvents = 'none';
+    document.getElementById("DR_accordions").style.color = 'gray';
+    document.getElementById("DR_repertoire").style.color = 'gray';
+    
+    
     $("#studioDiv").fadeIn();
-    this.studio.setABC(this.currentABC, this.getSelectedAccordion().getId());
+    this.studio.setup(this.currentABC, this.getSelectedAccordion().getId());
 };
 
 SITE.Mapa.prototype.closeStudio = function () {
     $("#studioDiv").hide();
+    document.getElementById("divMenuAccordions").style.pointerEvents = 'auto';
+    document.getElementById("divMenuRepertoire").style.pointerEvents = 'auto';
+    document.getElementById("DR_accordions").style.color = 'inherit';
+    document.getElementById("DR_repertoire").style.color = 'inherit';
     $("#mapContainerDiv").fadeIn();
-    $("#divMenuAccordions").fadeIn();
-    $("#divMenuRepertoire").fadeIn();
     this.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
     this.printTab();
 };
@@ -634,17 +640,19 @@ SITE.Mapa.prototype.translate = function() {
   
   document.getElementById("DR_description").setAttribute("content",DR.getResource("DR_description"));
   document.getElementById("toolsBtn").innerHTML = '<i class="icon-wrench"></i>&nbsp;'+DR.getResource("toolsBtn");
+  document.getElementById("printBtn").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.getResource("printBtn");
+  document.getElementById("pdfBtn").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.getResource("pdfBtn");
+  document.getElementById("DR_message").alt = DR.getResource("DR_message");
+  
   document.getElementById("octaveUpBtn").title = DR.getResource("DR_octave");
   document.getElementById("octaveUpBtn").innerHTML = '<i class="icon-arrow-up"></i>&nbsp;'+DR.getResource("DR_octave");
   document.getElementById("octaveDwBtn").title = DR.getResource("DR_octave");
   document.getElementById("octaveDwBtn").innerHTML = '<i class="icon-arrow-down"></i>&nbsp;'+DR.getResource("DR_octave");
-  document.getElementById("pdfBtn").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.getResource("pdfBtn");
-  document.getElementById("printBtn").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.getResource("printBtn");
   document.getElementById("printPreviewBtn").innerHTML = DR.getResource("printPreviewBtn");
   document.getElementById("saveBtn").innerHTML = DR.getResource("saveBtn");
   document.getElementById("forceRefresh").innerHTML = DR.getResource("forceRefresh");
-  document.getElementById("DR_message").alt = DR.getResource("DR_message");
   document.getElementById("gotoMeasureBtn").value = DR.getResource("DR_goto");
+  document.getElementById("untilMeasureBtn").value = DR.getResource("DR_until");
   document.getElementById("modeBtn").title = DR.getResource(this.currentMode === "normal"?"modeBtn":"DR_didactic");
   
   this.loadAccordionList();

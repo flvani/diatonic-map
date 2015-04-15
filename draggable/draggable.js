@@ -51,14 +51,18 @@ DRAGGABLE.Div = function(topDiv, title, aButtons, callBack ) {
     this.divMove = function(e){
         e.stopPropagation();
         e.preventDefault();
-        self.topDiv.style.top = (e.movementY + parseInt(self.topDiv.style.top) ) + "px";
-        self.topDiv.style.left = (e.movementX + parseInt(self.topDiv.style.left) ) + "px";              
+        self.topDiv.style.top = ((e.y-self.y) + parseInt(self.topDiv.style.top) ) + "px";
+        self.topDiv.style.left = ((e.x-self.x) + parseInt(self.topDiv.style.left) ) + "px"; 
+        self.x = e.x;
+        self.y = e.y;
+        
     };
 
     this.mouseUp = function (e) {
         e.stopPropagation();
         e.preventDefault();
         window.removeEventListener('mousemove', self.divMove, false);
+        window.removeEventListener('mouseout', self.divMove, false);
         self.dataDiv.style.pointerEvents = "auto";
     };
 
@@ -67,6 +71,9 @@ DRAGGABLE.Div = function(topDiv, title, aButtons, callBack ) {
         e.preventDefault();
         self.dataDiv.style.pointerEvents = "none";
         window.addEventListener('mousemove', self.divMove, false);
+        window.addEventListener('mouseout', self.divMove, false);
+        self.x = e.x;
+        self.y = e.y;
 
     };
 

@@ -138,22 +138,8 @@ and open the template in the editor.
 #editorDiv {
     display: none; 
     position: fixed;
-    top:100px; 
-    left:100px; 
-    z-index: 140000;
+    z-index: 400;
     pointer-events: none;
-    
-/*    background-color: #ffe; 
-//    border-style: groove; border-color: #ffd;
-//    margin: 4px;
-    pointer-events: none;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    -moz-box-shadow: 8px 8px 10px #444;
-    -webkit-box-shadow: 8px 8px 10px #444;
-    box-shadow: 8px 8px 10px #444;
-    background-color: #ffa; */
 }
 
 #editorTextArea {
@@ -166,22 +152,7 @@ and open the template in the editor.
 #keyboardDiv{
     display:none; 
     position: fixed;
-    top:100px; 
-    left:900px; 
-    z-index: 140001;
-/*    width:0px;
-    height:0px; 
-    background-color: #ffe; 
-//    border-style: groove; border-color: #ffd;
-//    margin: 4px;
-    pointer-events: none;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-    -moz-box-shadow: 8px 8px 10px #444;
-    -webkit-box-shadow: 8px 8px 10px #444;
-    box-shadow: 8px 8px 10px #444;
-    background-color: #ffa; */
+    z-index: 401;
 }
 
 /*#keyboardMenu {
@@ -209,11 +180,13 @@ and open the template in the editor.
     width:1056px; 
     z-index: 20000;
     background-color: #ffc;
-    //opacity:1;
-    //pointer-events: auto;
 }
 
-/*#printPreviewDiv:target {
-    opacity:1;
-    z-index: 2000;
-}*/
+
+#gotoMeasureBtn, #untilMeasureBtn {
+    width: 4em;
+    height:22px;
+    padding: 0;
+    margin: 0;
+    border-color: gray;
+}
