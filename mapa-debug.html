@@ -433,10 +433,6 @@ notação abc, tablatura "/>
                 
                 var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_HOHNER_GC';
 
-                editorCallbackOnChange = function ( editor ) {
-                    window.scrollTo( 0, window.lastYpos );
-                };
-                
                 var w1 = new DRAGGABLE.Div('editorDiv', 'Editor ABCX', ['minus|Fechar','move|Mover'], 'w1Callback' );
                 var w2 = new DRAGGABLE.Div('keyboardDiv', 'Mapa de Teclado', [ 'minus|Fechar','move|Mover', 'retweet|Rotacionar', 'zoom-in|Zoom'], 'w2Callback' );
                 
@@ -451,7 +447,6 @@ notação abc, tablatura "/>
                     {   // editorParams
                        textArea: "textareaABC"
                       ,canvas_id: "canvasDiv"
-                      ,keySelector_id: "selKey"
                       ,refreshController_id: "chkAutoRefresh"
                       ,warnings_id: "warningsDiv"
                       ,generate_warnings: true
@@ -463,7 +458,7 @@ notação abc, tablatura "/>
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps
                             ,render_keyboard_opts:{transpose:false, mirror: false, scale:0.8, draggable:true, show:false}}
-                      ,onchange: editorCallbackOnChange
+                      ,onchange: function( studio ) { studio.onChange(); }
                   } 
                   , {   // playerParams
                         modeBtn: "modeBtn"

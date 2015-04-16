@@ -120,6 +120,7 @@ SITE.KeySelector.prototype.addChangeListener = function (editor) {
 
 SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.ypos = 0;
+    this.lastYpos = 0;
     var that = this;
     
     this.warnings = [];
@@ -155,12 +156,6 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
             throw new Error('Tablatura para ' + editorParams.generate_tablature + ' não suportada!');
         }
     }
-    if (editorParams.keySelector_id) {
-        this.keySelector = new SITE.KeySelector(editorParams.keySelector_id);
-        this.keySelector.addChangeListener(this);
-    }
-
-
     if (editorParams.canvas_id) {
         this.renderedTune.div = document.getElementById(editorParams.canvas_id);
     } else if (editorParams.paper_id) {
@@ -176,6 +171,10 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         } else {
             this.warningsdiv = this.renderedTune.div;
         }
+    }
+    
+    if( editorParams.onchange ) {
+        this.onchangeCallback = editorParams.onchange;
     }
 
     this.saveButton = document.getElementById(interfaceParams.saveBtn);
@@ -471,15 +470,30 @@ SITE.Estudio.prototype.showEditor = function() {
 };
 
 SITE.Estudio.prototype.setupEditor = function() {
+    var that = this;
+    var ks = "selkey";
     this.editorWindow.dataDiv.innerHTML =     
         '<textarea id="editorTextArea" rows="25"></textarea>'
         + '<div style="width: 100%;" >'
-        +     '<select id="selKey" ></select>'
-        +    '<button id="octaveUpBtn" class="btn" title="+ Oitava" onclick="javascript:doTranspose(12); return false;" ><i class="icon-arrow-up"></i>&nbsp;Oitava</button>'
-        +    '<button id="octaveDwBtn" class="btn" title="- Oitava" onclick="javascript:doTranspose(-12); return false;" ><i class="icon-arrow-down"></i>&nbsp;Oitava</button>'
+        +     '<select id="'+ks+'" ></select>'
+        +    '<button id="octaveUpBtn" class="btn" title="+ Oitava" onclick="" ><i class="icon-arrow-up"></i>&nbsp;Oitava</button>'
+        +    '<button id="octaveDwBtn" class="btn" title="- Oitava" onclick="" ><i class="icon-arrow-down"></i>&nbsp;Oitava</button>'
         + '</div>';
 
     this.initEditArea( "editorTextArea", "pt", 850, 478 );
+    
+    this.keySelector = new SITE.KeySelector(ks);
+    this.keySelector.addChangeListener(this);
+    
+    document.getElementById('octaveUpBtn').addEventListener("click", function () {
+        that.fireChanged(12, "force");
+    }, false);
+    
+    document.getElementById('octaveDwBtn').addEventListener("click", function () {
+        that.fireChanged(12, "force");
+    }, false);
+
+
 };
 
 SITE.Estudio.prototype.editorCallback = function( e ) {
@@ -607,18 +621,27 @@ SITE.Estudio.prototype.parseABC = function(transpose, force) {
     
     return this.renderedTune.abc;
     
-//    editorCallbackOnChange = function ( editor ) {
-//        window.scrollTo( 0, window.lastYpos );
-//    };
-    
 };        
 
 SITE.Estudio.prototype.highlight = function(abcelem) {
   this.editArea.setSelection(abcelem.startChar, abcelem.endChar);
 };
 
-// call when abc text is changed and needs re-parsing
+SITE.Estudio.prototype.onChange = function() {
+    document.getElementById("studioCanvasDiv").scrollTop = this.lastYpos;
+};
+
+SITE.Estudio.prototype.editorChanged = function (transpose, force) {
+    
+    this.editArea.setString(editAreaLoader.getValue("editorTextArea"));
+    firechanged(transpose, force);
+    editAreaLoader.setValue("editorTextArea", this.editArea.getString());
+    
+};
+
 SITE.Estudio.prototype.fireChanged = function (transpose, force) {
+    
+    this.lastYpos = document.getElementById("studioCanvasDiv").scrollTop || 0;               
 
     if (this.parseABC(transpose, force)) {
         this.modelChanged();
@@ -644,8 +667,9 @@ SITE.Estudio.prototype.modelChanged = function() {
     this.renderedTune.printer.addSelectListener(this);
     this.updateSelection();
     
-    if (this.onchangeCallback)
+    if (this.onchangeCallback) {
         this.onchangeCallback(this);
+    }    
     
 };
 
