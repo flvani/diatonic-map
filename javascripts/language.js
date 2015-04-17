@@ -9,7 +9,8 @@ if (!window.DR) // possible languages
 DR.initializeTranslator = function ( strResources ) {
     
     DR.agents = []; // items registered for translation
-    DR.resource =  {}; // translation resources
+    DR.extras = {};
+    DR.resource = {}; // translation resources
     
     // initial/current language
     var lang = FILEMANAGER.loadLocal( 'property.language');
@@ -58,14 +59,28 @@ DR.translate = function (id) {
         if (typeof (agent) === 'object') {
             agent.translate();
         } else {
-            var res = document.getElementById(agent);
-            if (res.title) {
-                res.title = DR.resource[agent][DR.language];
-            } else if (res.value) {
-                res.value = DR.resource[agent][DR.language];
+            
+            var items = DR.extras[agent];
+            if(items) {
+                items.push(agent);
             } else {
-                res.innerHTML = DR.resource[agent][DR.language];
+                items = [agent];
             }
+            
+            items.forEach( function(extra) {
+                var res = document.getElementById(extra);
+                if(res) {
+                    if (res.title) {
+                        res.title = DR.resource[agent][DR.language];
+                    } else if (res.value) {
+                        res.value = DR.resource[agent][DR.language];
+                    } else {
+                        res.innerHTML = DR.resource[agent][DR.language];
+                    }
+                } else {
+                    console.log('Not found: ' + extra );
+                }
+            });
         }
     }
 };
@@ -125,27 +140,40 @@ DR.createResources = function (strResources) {
 
 DR.createResource = function (id) {
     
+    var seq = id.match(/([0-9])*$/g);
+    var radical = id;
+    seq = seq[0];
+    
+    if(seq) {
+        radical = id.replace(seq,"");
+    }    
     var res = document.getElementById(id);
 
     if( res === null ) {
         console.log( 'createResource: resource \''+id+'\' undefined!');
-        return
+        return;
     }
     if (typeof (id) === 'string') {
         if (res.title) {
-            DR.resource[id] = [res.title];
+            DR.resource[radical] = [res.title];
         } else if (res.value) {
-            DR.resource[id] = [res.value];
+            DR.resource[radical] = [res.value];
         } else {
-            DR.resource[id] = [res.innerHTML];
+            DR.resource[radical] = [res.innerHTML];
         }
-        DR.register(id);
+        DR.register(radical, seq, id);
     }
 };
 
 // do the items registration
-DR.register = function (res) {
-    DR.agents.push(res);
+DR.register = function (radical, seq, id) {
+    DR.agents.push(radical);
+    if(seq) {
+        if(!DR.extras[radical]) {
+            DR.extras[radical] = [];
+        }
+        DR.extras[radical].push(id);
+    }
 };
 
 //load the language resource files

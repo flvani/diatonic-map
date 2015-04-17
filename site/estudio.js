@@ -173,7 +173,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.saveButton = document.getElementById(interfaceParams.saveBtn);
     this.forceRefreshButton = document.getElementById(interfaceParams.forceRefresh);
     this.forceRefreshCheckbox = document.getElementById(interfaceParams.forceRefreshCheckbox);
-    this.printPreviewButton = document.getElementById(interfaceParams.printPreviewBtn);
+    this.printButton = document.getElementById(interfaceParams.printBtn);
     this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
     this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
     this.showTextButton = document.getElementById(interfaceParams.showTextBtn);
@@ -211,7 +211,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         that.showEditor();
     }, false);
 
-    this.printPreviewButton.addEventListener("click", function () {
+    this.printButton.addEventListener("click", function () {
         
         that.printPreview(that.renderedTune.div.innerHTML, ["#divTitulo","#studioDiv"]);
         return;
@@ -234,8 +234,8 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         that.renderedTune.printer.clearSelection();
         that.accordion.clearKeyboard(true);
         that.ypos = 1000;
-        that.gotoMeasureButton.value = "1";
-        that.untilMeasureButton.value = "";
+        that.gotoMeasureButton.value = DR.getResource("DR_goto");
+        that.untilMeasureButton.value = DR.getResource("DR_until");
         that.currentPlayTimeLabel.innerHTML = "00:00.00";
         that.midiPlayer.clearDidacticPlay();
     }, false);

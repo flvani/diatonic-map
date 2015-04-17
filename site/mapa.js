@@ -115,7 +115,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     };
 
     this.playButton.addEventListener("click", function() {
-        that.startPlay( 'normal');
+        that.startPlay( 'normal' );
     }, false);
 
     this.stopButton.addEventListener("click", function() {
@@ -638,7 +638,7 @@ SITE.Mapa.prototype.translate = function() {
   
   document.getElementById("DR_description").setAttribute("content",DR.getResource("DR_description"));
   document.getElementById("toolsBtn").innerHTML = '<i class="icon-wrench"></i>&nbsp;'+DR.getResource("toolsBtn");
-  document.getElementById("printBtn").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.getResource("printBtn");
+  document.getElementById("printBtn2").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.getResource("printBtn");
   document.getElementById("pdfBtn").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.getResource("pdfBtn");
   document.getElementById("DR_message").alt = DR.getResource("DR_message");
   
@@ -646,8 +646,8 @@ SITE.Mapa.prototype.translate = function() {
   document.getElementById("octaveUpBtn").innerHTML = '<i class="icon-arrow-up"></i>&nbsp;'+DR.getResource("DR_octave");
   document.getElementById("octaveDwBtn").title = DR.getResource("DR_octave");
   document.getElementById("octaveDwBtn").innerHTML = '<i class="icon-arrow-down"></i>&nbsp;'+DR.getResource("DR_octave");
-  document.getElementById("printPreviewBtn").innerHTML = DR.getResource("printPreviewBtn");
-  document.getElementById("saveBtn").innerHTML = DR.getResource("saveBtn");
+  document.getElementById("printBtn").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.getResource("printBtn");
+  document.getElementById("saveBtn").innerHTML = '<i class="icon-download-alt"></i>&nbsp;'+DR.getResource("saveBtn");
   document.getElementById("forceRefresh").innerHTML = DR.getResource("forceRefresh");
   document.getElementById("gotoMeasureBtn").value = DR.getResource("DR_goto");
   document.getElementById("untilMeasureBtn").value = DR.getResource("DR_until");

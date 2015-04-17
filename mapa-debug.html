@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <!--
   TODO: 
-    Acertar label de todos os botões
-    Verificar tradução
+    ok Acertar label de todos os botões
+    ?? Verificar tradução
+       Incluir traduções para os titulos de janela
+       Incluir traduções para os botões de janela
+    Melhorar a janela modal de avisos
+    Incluir dicas associadas a itens do repertório
     Atualizar a ajuda
     Implementar pagina de producao
 -->
@@ -223,9 +227,9 @@ notação abc, tablatura "/>
                                 </div>
                             </td><td>
                                 <div style="margin: 0px;">
-                                  <button id="playBtn2" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
-                                  <button id="stopBtn2" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
-                                  <span id="currentPlayTimeLabel2" class="playTimeLabel">00:00.00</span>
+                                  <button id="playBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
+                                  <button id="stopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
+                                  <span id="currentPlayTimeLabel" class="playTimeLabel">00:00.00</span>
                                 </div>
                             </td></tr>
                         </table>
@@ -326,11 +330,11 @@ notação abc, tablatura "/>
                     <textarea id="textareaABC" rows="10" ></textarea>
                     <div id="studioControlDiv" >
                         <div id="controlDiv1" style="float:left;" >
-                            <button id="showTextBtn" class="btn" title="Mostrar Texto ABCX" onclick="" ><i id="I_showText" class="icon-folder-open"></i>&nbsp;<span id="DR_showText">Texto</span></button>
+                            <button id="showTextBtn" class="btn" title="Mostrar Texto ABCX" onclick="" ><i id="I_showText" class="icon-folder-open"></i>&nbsp;<span id="DR_showText">ABCX</span></button>
                             <button id="showEditorBtn" class="btn" title="Mostrar Editor ABCX" onclick="" ><i id="I_showEditor" class="icon-folder-close"></i>&nbsp;<span id="DR_showEditor">Editor</span></button>
                             <button id="showMapBtn" class="btn" title="Mostrar Teclado" onclick=""><i id="I_showMap" class="icon-folder-close"></i>&nbsp;<span id="DR_showMap">Teclado</span></button>
-                            <button id="printPreviewBtn" class="btn" title="Ver impressão" onclick="" ><i class="icon-print"></i>&nbsp;Ver impressão</button>
-                            <button id="saveBtn" class="btn" title="Salvar Local" ><i class="icon-download"></i>&nbsp;Salvar Local</button>
+                            <button id="printBtn2" class="btn" title="Imprimir" onclick="" ><i class="icon-print"></i>&nbsp;Imprimir</button>
+                            <button id="saveBtn" class="btn" title="Salvar Local" ><i class="icon-download-alt"></i>&nbsp;Salvar Local</button>
                             <button id="forceRefresh" class="btn" title="Atualizar" onclick="" >Atualizar</button>
                             <button id="modeBtn" class="btn" title="Modo normal" onclick=""><img src="img/listening3.png" alt="" width="20" height="20"></button>
                             <input  style="display: none;" type="checkbox" id="chkAutoRefresh" ><span style="display: none;" id="DR_refresh">Auto atualização</span> 
@@ -347,11 +351,11 @@ notação abc, tablatura "/>
                             <button id="tempoBtn" class="btn" title="Andamento" onclick=""><b>&nbsp;1&nbsp;</b></button>
                         </div>
                         <div id="divNormalPlayControls" style="float:left; margin-left: 4px;">
-                            <button id="playBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
-                            <button id="stopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
+                            <button id="playBtn2" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
+                            <button id="stopBtn2" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
                         </div>
                         <div id="controlDiv2" style="float:left; margin-left: 4px;">
-                            <span id="currentPlayTimeLabel" class="playTimeLabel">00:00.00</span>
+                            <span id="currentPlayTimeLabel2" class="playTimeLabel">00:00.00</span>
                         </div>
                     </div>    
                 </div> <!-- /studioHeader-->    
@@ -449,7 +453,7 @@ notação abc, tablatura "/>
                         showMapBtn: 'showMapBtn'
                        ,showEditorBtn: 'showEditorBtn'
                        ,showTextBtn: 'showTextBtn'
-                       ,printPreviewBtn:'printPreviewBtn'
+                       ,printBtn:'printBtn2'
                        ,saveBtn:'saveBtn'
                        ,forceRefresh:'forceRefresh'
                        
@@ -472,8 +476,8 @@ notação abc, tablatura "/>
                   } 
                   , {   // playerParams
                         modeBtn: "modeBtn"
-                      , playBtn: "playBtn"
-                      , stopBtn: "stopBtn"
+                      , playBtn: "playBtn2"
+                      , stopBtn: "stopBtn2"
                       , clearBtn: "clearBtn"
                       , gotoMeasureBtn: "gotoMeasureBtn"
                       , untilMeasureBtn: "untilMeasureBtn"
@@ -481,7 +485,7 @@ notação abc, tablatura "/>
                       , repeatBtn: "repeatBtn"
                       , stepMeasureBtn: "stepMeasureBtn"
                       , tempoBtn: "tempoBtn"
-                      , currentPlayTimeLabel: "currentPlayTimeLabel"
+                      , currentPlayTimeLabel: "currentPlayTimeLabel2"
                   } 
                 );
         
@@ -513,9 +517,9 @@ notação abc, tablatura "/>
                       , studio: myStudio
                   }
                   , {   // playerParams
-                        playBtn: "playBtn2"
-                      , stopBtn: "stopBtn2"
-                      , currentPlayTimeLabel: "currentPlayTimeLabel2"
+                        playBtn: "playBtn"
+                      , stopBtn: "stopBtn"
+                      , currentPlayTimeLabel: "currentPlayTimeLabel"
                   } 
                 );
 
@@ -540,6 +544,9 @@ notação abc, tablatura "/>
                    ,'DR_layout'
                    ,'DR_espelho'
                    ,'DR_horizontal'
+                   ,'DR_showText'
+                   ,'DR_showEditor'
+                   ,'DR_showMap'
                    ,'DR_accordions'
                    ,'DR_repertoire'
                    ,'DR_chlabel'
@@ -556,8 +563,13 @@ notação abc, tablatura "/>
                    ,'tabTunes'
                    ,'tabChords'
                    ,'tabPractices'
+                   ,'showTextBtn'
+                   ,'showEditorBtn'
+                   ,'showMapBtn' 
                    ,'playBtn'
+                   ,'playBtn2'
                    ,'stopBtn'
+                   ,'stopBtn2'
                    ,'tempoBtn'
                    ,'stepBtn'
                    ,'stepMeasureBtn'
@@ -568,7 +580,7 @@ notação abc, tablatura "/>
                    ,'toolsBtn'
                    ,'pdfBtn'
                    ,'printBtn'
-                   ,'printPreviewBtn'
+                   ,'printBtn2'
                    ,'saveBtn'
                    ,'forceRefresh'
                    ,'DR_refresh'
