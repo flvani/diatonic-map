@@ -10,46 +10,42 @@ SITE.EditArea = function(textareaid) {
   this.isDragging = false;
 };
 
-//SITE.EditArea.prototype.addSelectionListener = function (listener) {
-//    this.textarea.onmousemove = function (ev) {
-//        if (this.isDragging)
-//            listener.updateSelection();
-//    };
-//};
-//
-//SITE.EditArea.prototype.addChangeListener = function (listener) {
-//    this.textarea.onkeyup = function () {
-//        listener.fireChanged();
-//    };
-//    this.textarea.onmousedown = function () {
-//        this.isDragging = true;
-//        listener.updateSelection();
-//    };
-//    this.textarea.onmouseup = function () {
-//        this.isDragging = false;
-//        listener.fireChanged();
-//    };
-//    this.textarea.onchange = function () {
-//        listener.fireChanged();
-//    };
-//};
+SITE.EditArea.prototype.addSelectionListener = function (listener) {
+    this.textarea.onmousemove = function (ev) {
+        if (this.isDragging) {
+            listener.updateSelection();
+        }    
+    };
+};
 
-//TODO won't work under IE?
-SITE.EditArea.prototype.getSelection = function() {
-    return {start: this.textarea.selectionStart, end: this.textarea.selectionEnd};
+SITE.EditArea.prototype.addChangeListener = function (listener) {
+    this.textarea.onkeyup = function () {
+        if(listener.forceRefreshCheckbox && listener.forceRefreshCheckbox.checked)
+            listener.fireChanged();
+        else
+            listener.updateSelection();
+    };
+    this.textarea.onmousedown = function () {
+        this.isDragging = true;
+        listener.updateSelection();
+    };
+    this.textarea.onmouseup = function () {
+        this.isDragging = false;
+        if(listener.forceRefreshCheckbox && listener.forceRefreshCheckbox.checked)
+            listener.fireChanged();
+        else
+            listener.updateSelection();
+    };
+    this.textarea.onchange = function () {
+        if(listener.forceRefreshCheckbox && listener.forceRefreshCheckbox.checked)
+            listener.fireChanged();
+        else
+            listener.updateSelection();
+    };
 };
 
 SITE.EditArea.prototype.setSelection = function (start, end) {
-    if (this.textarea.setSelectionRange)
-        this.textarea.setSelectionRange(start, end);
-    else if (this.textarea.createTextRange) {
-        // For IE8
-        var e = this.textarea.createTextRange();
-        e.collapse(true);
-        e.moveEnd('character', end);
-        e.moveStart('character', start);
-        e.select();
-    }
+    this.textarea.setSelectionRange(start, end);
     this.textarea.focus();
 };
 
@@ -57,14 +53,11 @@ SITE.EditArea.prototype.getString = function() {
   return this.textarea.value;
 };
 
-SITE.EditArea.prototype.setString = function(str ) {
+SITE.EditArea.prototype.setString = function(str) {
+  this.initialText = str;
   this.textarea.value = str;
   this.textarea.selectionStart = 0;  
   this.textarea.selectionEnd = 0;  
-  this.initialText = this.getString();
-//  if (this.changelistener && typeof( noRefresh ) === 'undefined' ) {
-//    this.changelistener.fireChanged();
-//  }
 };
 
 SITE.EditArea.prototype.appendString = function(str ) {
@@ -114,7 +107,7 @@ SITE.KeySelector.prototype.set = function(value) {
 
 SITE.KeySelector.prototype.addChangeListener = function (editor) {
     this.selector.onchange = function () {
-        editor.fireChanged(this.value - editor.keySelector.oldValue, "force");
+        editor.editorChanged(this.value - editor.keySelector.oldValue, "force");
     };
 };
 
@@ -123,6 +116,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.lastYpos = 0;
     var that = this;
     
+    this.oldAbcText = null;
     this.warnings = [];
     this.currentMode = "normal"; 
     this.editorVisible = false;
@@ -141,8 +135,8 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         this.editArea = editorParams.textArea;
     }
     
-    //this.editArea.addSelectionListener(this);
-    //this.editArea.addChangeListener(this);
+    this.editArea.addSelectionListener(this);
+    this.editArea.addChangeListener(this);
     
     if (editorParams.generate_tablature) {
         if (editorParams.generate_tablature === 'accordion') {
@@ -176,8 +170,9 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     if( editorParams.onchange ) {
         this.onchangeCallback = editorParams.onchange;
     }
-
     this.saveButton = document.getElementById(interfaceParams.saveBtn);
+    this.forceRefreshButton = document.getElementById(interfaceParams.forceRefresh);
+    this.forceRefreshCheckbox = document.getElementById(interfaceParams.forceRefreshCheckbox);
     this.printPreviewButton = document.getElementById(interfaceParams.printPreviewBtn);
     this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
     this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
@@ -195,6 +190,10 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.repeatButton = document.getElementById(playerParams.repeatBtn);
     this.clearButton = document.getElementById(playerParams.clearBtn);
     this.tempoButton = document.getElementById(playerParams.tempoBtn);
+    
+    this.forceRefreshButton.addEventListener("click", function () {
+        that.fireChanged(0, "force");
+    }, false);
     
     this.saveButton.addEventListener("click", function () {
         that.salvaMusica();
@@ -449,7 +448,7 @@ SITE.Estudio.prototype.hideEditor = function() {
     this.editorVisible = false;
     var finalText = editAreaLoader.getValue("editorTextArea");
     document.getElementById( 'textareaABC').readOnly = false;
-    if(this.initialText !== finalText ) {
+    if(this.editArea.getString() !== finalText ) {
         this.editArea.setString( finalText );
         this.fireChanged(0, 'force');
     }
@@ -458,9 +457,8 @@ SITE.Estudio.prototype.hideEditor = function() {
 SITE.Estudio.prototype.showEditor = function() {
     this.editorVisible = ! this.editorVisible;
     if(this.editorVisible) {
-        this.initialText = this.editArea.getString();
         document.getElementById( 'textareaABC').readOnly = true;
-        editAreaLoader.setValue("editorTextArea", this.initialText );
+        editAreaLoader.setValue("editorTextArea", this.editArea.getString() );
         editAreaLoader.setSelectionRange("editorTextArea", 0, 0);
         this.editorWindow.topDiv.style.display = 'inline-block';
         document.getElementById('I_showEditor').setAttribute('class', 'icon-folder-open' );
@@ -471,7 +469,7 @@ SITE.Estudio.prototype.showEditor = function() {
 
 SITE.Estudio.prototype.setupEditor = function() {
     var that = this;
-    var ks = "selkey";
+    var ks = "selKey";
     this.editorWindow.dataDiv.innerHTML =     
         '<textarea id="editorTextArea" rows="25"></textarea>'
         + '<div style="width: 100%;" >'
@@ -486,11 +484,11 @@ SITE.Estudio.prototype.setupEditor = function() {
     this.keySelector.addChangeListener(this);
     
     document.getElementById('octaveUpBtn').addEventListener("click", function () {
-        that.fireChanged(12, "force");
+        that.editorChanged(12, "force");
     }, false);
     
     document.getElementById('octaveDwBtn').addEventListener("click", function () {
-        that.fireChanged(12, "force");
+        that.editorChanged(-12, "force");
     }, false);
 
 
@@ -508,6 +506,7 @@ SITE.Estudio.prototype.editorCallback = function( e ) {
         default:
             alert(e);
     }
+    return false;
 };
 
 SITE.Estudio.prototype.initEditArea = function( id, lang, w, h) {
@@ -601,6 +600,15 @@ SITE.Estudio.prototype.parseABC = function(transpose, force) {
     abcParser.parse(this.editArea.getString(), this.parserparams );
     this.renderedTune.abc = abcParser.getTune();
 
+    if( this.transposer ) { 
+        if( this.transposer.offSet !== 0 ) {
+          var lines = abcParser.tuneHouseKeeping(this.renderedTune.text);
+          this.editArea.setString( this.transposer.updateEditor( lines ) );
+        }
+        if(this.keySelector) 
+            this.keySelector.set( this.transposer.keyToNumber( this.transposer.getKeyVoice(0) ) );       
+    }
+    
     if( this.accordion ) { 
         // obtem possiveis linhas inferidas para tablatura
         this.editArea.appendString( this.accordion.updateEditor() );
@@ -632,20 +640,27 @@ SITE.Estudio.prototype.onChange = function() {
 };
 
 SITE.Estudio.prototype.editorChanged = function (transpose, force) {
-    
+//    var sel =editAreaLoader.getSelectionRange("editorTextArea");
     this.editArea.setString(editAreaLoader.getValue("editorTextArea"));
-    firechanged(transpose, force);
+    this.fireChanged(transpose, force);
     editAreaLoader.setValue("editorTextArea", this.editArea.getString());
+//    editAreaLoader.setSelectionRange("editorTextArea", sel["start"], sel["end"] );
+    editAreaLoader.setSelectionRange("editorTextArea", 0, 0 );
     
 };
 
 SITE.Estudio.prototype.fireChanged = function (transpose, force) {
     
-    this.lastYpos = document.getElementById("studioCanvasDiv").scrollTop || 0;               
+    if( force || this.oldAbcText !== this.editArea.getString() ) {
+        
+        this.oldAbcText = this.editArea.getString();
+    
+        this.lastYpos = document.getElementById("studioCanvasDiv").scrollTop || 0;               
 
-    if (this.parseABC(transpose, force)) {
-        this.modelChanged();
-    }
+        if (this.parseABC(transpose, force)) {
+            this.modelChanged();
+        }
+    }    
 };
 
 SITE.Estudio.prototype.modelChanged = function() {
@@ -682,13 +697,13 @@ SITE.Estudio.prototype.setup = function(tab, accordionId) {
     this.editArea.setString(this.renderedTune.text);
     this.editorWindow.setTitle('Editor ABCX - ' + tab.title);
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
-    this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
+    if( this.mapVisible)
+        this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
     this.modelChanged();
 };
 
 SITE.Estudio.prototype.updateSelection = function() {
-  var selection = this.editArea.getSelection();
   try {
-    this.renderedTune.printer.rangeHighlight(selection.start, selection.end);
+    this.renderedTune.printer.rangeHighlight(this.editArea.textarea.selectionStart, this.editArea.textarea.selectionEnd);
   } catch (e) {} // maybe printer isn't defined yet?
 };

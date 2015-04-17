@@ -28,7 +28,7 @@ and open the template in the editor.
     -webkit-transition: opacity 400ms ease-in;
     -moz-transition: opacity 400ms ease-in;
     transition: opacity 400ms ease-in;
-    pointer-events: none;
+//    pointer-events: none;
     background-color: #ddd; 
     color:black;     
 }
@@ -63,7 +63,7 @@ and open the template in the editor.
     position: relative;
     height: 422px;
     overflow-y: auto;
-    pointer-events: auto;
+//    pointer-events: auto;
     margin: 0px;
     margin-left: 4px;
 }
@@ -76,7 +76,7 @@ and open the template in the editor.
     font-family: monospace; 
     font-size: 12px; 
     line-height: 14px;
-    pointer-events: auto;
+//    pointer-events: auto;
     resize: none;
 }
 
@@ -84,7 +84,7 @@ and open the template in the editor.
     margin: 4px;
     margin-bottom: 0px;
     display: inline-block;
-    pointer-events: auto;
+//    pointer-events: auto;
     font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 15px;
 }
@@ -98,7 +98,7 @@ and open the template in the editor.
 #canvasDiv {
     margin: 0px;
     margin-left: 4px;
-    pointer-events: auto;
+//    pointer-events: auto;
 }
 
 .ok, .close, .cancel {
@@ -114,7 +114,7 @@ and open the template in the editor.
     -moz-box-shadow: 1px 1px 3px #000;
     -webkit-box-shadow: 1px 1px 3px #000;
     box-shadow: 1px 1px 3px #000;
-    pointer-events: auto;
+//    pointer-events: auto;
 }
 .close {
     position: absolute;
@@ -139,14 +139,14 @@ and open the template in the editor.
     display: none; 
     position: fixed;
     z-index: 400;
-    pointer-events: none;
+//    pointer-events: none;
 }
 
 #editorTextArea {
     margin: 0px; 
     color: #000; 
     font-family: monospace;
-    pointer-events: auto;
+//    pointer-events: auto;
 }
     
 #keyboardDiv{
@@ -154,20 +154,6 @@ and open the template in the editor.
     position: fixed;
     z-index: 401;
 }
-
-/*#keyboardMenu {
-    top:0; 
-    width:100%; 
-    min-height:20px; 
-    background-color: black; 
-    color: white;
-    pointer-events: auto;
-}
-
-#keyboardData {
-    width:100%; 
-    height:100%;
-}*/
 
 #printPreviewDiv {
     position:relative;

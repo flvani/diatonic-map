@@ -201,14 +201,12 @@ SITE.Mapa.prototype.showStudio = function () {
     document.getElementById("divMenuRepertoire").style.pointerEvents = 'none';
     document.getElementById("DR_accordions").style.color = 'gray';
     document.getElementById("DR_repertoire").style.color = 'gray';
-    
-    
-    $("#studioDiv").fadeIn();
+    $("#studioDiv").show();
     this.studio.setup(this.currentABC, this.getSelectedAccordion().getId());
 };
 
 SITE.Mapa.prototype.closeStudio = function () {
-    $("#studioDiv").hide();
+    $("#studioDiv").fadeOut();
     document.getElementById("divMenuAccordions").style.pointerEvents = 'auto';
     document.getElementById("divMenuRepertoire").style.pointerEvents = 'auto';
     document.getElementById("DR_accordions").style.color = 'inherit';

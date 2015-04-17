@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<!--
+  TODO: 
+    Acertar label de todos os botões
+    Verificar tradução
+    Atualizar a ajuda
+    Implementar pagina de producao
+-->
+
 <html>
     <head>
         <meta charset="utf-8">
@@ -309,10 +317,10 @@ notação abc, tablatura "/>
         <div id="studioDiv">
             <div id="studioContentDiv">
                 <div id="studioMenu" class="draggableMenu">
-                    <div id="btnCloseStudio" class="dButton">
-                        <a href="#" title="" onclick="closeStudio (); false;"><i class="icon-minus icon-white"></i></a>
+                    <div id="btnCloseStudio" class="dButton" draggable="false">
+                        <a href="#" title="" onclick="closeStudio(); return false;" draggable="false"><i class="icon-minus icon-white"></i></a>
                     </div>
-                    <div class="dTitle"><span id="spanTitleStudio" >Estúdio ABCX</span></div>                        
+                    <div class="dTitle"><span id="spanTitleStudio" style="padding-left: 5px;">Estúdio ABCX</span></div>
                 </div>
                 <div id="studioHeader">
                     <textarea id="textareaABC" rows="10" ></textarea>
@@ -323,7 +331,7 @@ notação abc, tablatura "/>
                             <button id="showMapBtn" class="btn" title="Mostrar Teclado" onclick=""><i id="I_showMap" class="icon-folder-close"></i>&nbsp;<span id="DR_showMap">Teclado</span></button>
                             <button id="printPreviewBtn" class="btn" title="Ver impressão" onclick="" ><i class="icon-print"></i>&nbsp;Ver impressão</button>
                             <button id="saveBtn" class="btn" title="Salvar Local" ><i class="icon-download"></i>&nbsp;Salvar Local</button>
-                            <button id="forceRefresh" class="btn" title="Atualizar" onclick="javascript:doForceRefresh();" >Atualizar</button>
+                            <button id="forceRefresh" class="btn" title="Atualizar" onclick="" >Atualizar</button>
                             <button id="modeBtn" class="btn" title="Modo normal" onclick=""><img src="img/listening3.png" alt="" width="20" height="20"></button>
                             <input  style="display: none;" type="checkbox" id="chkAutoRefresh" ><span style="display: none;" id="DR_refresh">Auto atualização</span> 
                             <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
@@ -443,6 +451,8 @@ notação abc, tablatura "/>
                        ,showTextBtn: 'showTextBtn'
                        ,printPreviewBtn:'printPreviewBtn'
                        ,saveBtn:'saveBtn'
+                       ,forceRefresh:'forceRefresh'
+                       
                     },   
                     {   // editorParams
                        textArea: "textareaABC"
@@ -667,10 +677,6 @@ notação abc, tablatura "/>
                 myStudio.fireChanged(value, "force");
             };
             
-            function doForceRefresh() {
-                myStudio.fireChanged(0, "force");
-            };
-
             function doCheckDebug() {
                 debug = document.getElementById("chkDebug").checked;
                 myStudio.fireChanged(0, "force");

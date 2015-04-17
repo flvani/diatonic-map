@@ -44,13 +44,17 @@ DRAGGABLE.Div = function(topDiv, title, aButtons, callBack ) {
     this.topDiv.appendChild( div );
     this.dataDiv = div;
     
-    this.moveButton = document.getElementById("dMOVEButton"+this.id);
-    this.closeButton = document.getElementById("dMINUSButton"+this.id);
     this.titleSpan = document.getElementById("dSpanTitle"+this.id);
-
-    this.divMove = function(e){
+    this.moveButton = document.getElementById("dMenu"+this.id);
+    this.closeButton = document.getElementById("dMINUSButton"+this.id);
+    
+    this.stopMouse = function (e) {
         e.stopPropagation();
         e.preventDefault();
+    };
+    
+    this.divMove = function(e){
+        self.stopMouse(e);
         self.topDiv.style.top = ((e.y-self.y) + parseInt(self.topDiv.style.top) ) + "px";
         self.topDiv.style.left = ((e.x-self.x) + parseInt(self.topDiv.style.left) ) + "px"; 
         self.x = e.x;
@@ -59,16 +63,14 @@ DRAGGABLE.Div = function(topDiv, title, aButtons, callBack ) {
     };
 
     this.mouseUp = function (e) {
-        e.stopPropagation();
-        e.preventDefault();
+        self.stopMouse(e);
         window.removeEventListener('mousemove', self.divMove, false);
         window.removeEventListener('mouseout', self.divMove, false);
         self.dataDiv.style.pointerEvents = "auto";
     };
 
     this.mouseDown = function (e) {
-        e.stopPropagation();
-        e.preventDefault();
+        self.stopMouse(e);
         self.dataDiv.style.pointerEvents = "none";
         window.addEventListener('mousemove', self.divMove, false);
         window.addEventListener('mouseout', self.divMove, false);
@@ -76,7 +78,9 @@ DRAGGABLE.Div = function(topDiv, title, aButtons, callBack ) {
         self.y = e.y;
 
     };
-
+    
+    //TODO: tratar todos os botões da janela com stopMouse
+    this.closeButton.addEventListener( 'mousedown', this.stopMouse, false);
     this.moveButton.addEventListener( 'mousedown', this.mouseDown, false);
     window.addEventListener('mouseup', this.mouseUp, false);
     
@@ -87,7 +91,7 @@ DRAGGABLE.Div.prototype.setTitle = function( title ) {
 };
 
 DRAGGABLE.Div.prototype.addTitle = function( id, title ) {
-    return '<div class="dTitle"><span id="dSpanTitle'+id+'" >'+title+'</span>';
+    return '<div class="dTitle"><span id="dSpanTitle'+id+'" style="padding-left: 5px;">'+title+'</span></div>';
 };
 
 DRAGGABLE.Div.prototype.addButtons = function( id,  aButtons, callBack ) {
@@ -97,7 +101,7 @@ DRAGGABLE.Div.prototype.addButtons = function( id,  aButtons, callBack ) {
         label[1]  = label.length > 1 ? label[1] : "";
         txt += '<div id="d'+label[0].toUpperCase() +'Button'+id+
                 '" class="dButton" draggable="false"><a href="#" title="'+label[1]+'" onclick="'
-                +callBack+'(\''+label[0].toUpperCase()+'\')"><i class="icon-'
+                +callBack+'(\''+label[0].toUpperCase()+'\');"><i class="icon-'
                 +label[0].toLowerCase()+' icon-white"></i></a></div>';
     });
     return txt;
