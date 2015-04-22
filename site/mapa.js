@@ -665,7 +665,6 @@ SITE.Mapa.prototype.translate = function() {
   document.getElementById("forceRefresh").innerHTML = DR.getResource("forceRefresh");
   document.getElementById("gotoMeasureBtn").value = DR.getResource("DR_goto");
   document.getElementById("untilMeasureBtn").value = DR.getResource("DR_until");
-  document.getElementById("modeBtn").title = DR.getResource(this.currentMode === "normal"?"modeBtn":"DR_didactic");
   
   this.loadAccordionList();
 

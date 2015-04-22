@@ -560,14 +560,12 @@ SITE.Estudio.prototype.changePlayMode = function() {
     if( this.currentMode === "normal" ) {
         $("#divNormalPlayControls" ).hide();
         this.currentMode  = "learning";
-        this.modeButton.title = DR.getResource("DR_didactic");
         this.modeButton.innerHTML = '<img src="img/learning5.png" alt="" width="20" height="20">';
         this.midiPlayer.resetAndamento(this.currentMode);
         $("#divDidacticPlayControls" ).fadeIn();
     } else {
         $("#divDidacticPlayControls" ).hide();
         this.currentMode  = "normal";
-        this.modeButton.title = DR.getResource("modeBtn");
         this.modeButton.innerHTML = '<img src="img/listening3.png" alt="" width="20" height="20">';
         this.midiPlayer.resetAndamento(this.currentMode);
         $("#divNormalPlayControls" ).fadeIn();
@@ -627,7 +625,9 @@ SITE.Estudio.prototype.parseABC = function(transpose, force) {
     }
     
     var abcParser = new ABCXJS.parse.Parse( this.transposer, this.accordion );
-    abcParser.parse(this.editArea.getString(), this.parserparams );
+    var t = this.editArea.getString();
+    console.log(t);
+    abcParser.parse(t, this.parserparams );
     this.renderedTune.abc = abcParser.getTune();
 
     if( this.transposer ) { 
@@ -641,7 +641,9 @@ SITE.Estudio.prototype.parseABC = function(transpose, force) {
     
     if( this.accordion ) { 
         // obtem possiveis linhas inferidas para tablatura
-        this.editArea.appendString( this.accordion.updateEditor() );
+        t = this.accordion.updateEditor();
+        console.log(t);
+        this.editArea.appendString( t );
     }
     
     var warnings = abcParser.getWarnings() || [];
@@ -671,9 +673,13 @@ SITE.Estudio.prototype.onChange = function() {
 
 SITE.Estudio.prototype.editorChanged = function (transpose, force) {
 //    var sel =editAreaLoader.getSelectionRange("editorTextArea");
-    this.editArea.setString(editAreaLoader.getValue("editorTextArea"));
+    var t = editAreaLoader.getValue("editorTextArea");
+    console.log(t);
+    this.editArea.setString(t);
     this.fireChanged(transpose, force);
-    editAreaLoader.setValue("editorTextArea", this.editArea.getString());
+    t = this.editArea.getString();
+    console.log(t);
+    editAreaLoader.setValue("editorTextArea", t);
 //    editAreaLoader.setSelectionRange("editorTextArea", sel["start"], sel["end"] );
     editAreaLoader.setSelectionRange("editorTextArea", 0, 0 );
     
