@@ -343,6 +343,8 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         this.midiPlayer.defineCallbackOnEnd( this.playerCallBackOnEnd );
         this.midiPlayer.defineCallbackOnScroll( this.playerCallBackOnScroll );
     }
+    
+    DR.addAgent( this ); // register for translate
 
 };
 
@@ -354,6 +356,11 @@ SITE.Estudio.prototype.setScrolling = function(y, channel) {
         d.scrollTop = this.ypos - 40;    
     }
 };
+
+
+SITE.Estudio.prototype.translate = function( ) {
+    this.initEditArea( "editorTextArea" );
+}; 
 
 SITE.Estudio.prototype.keyboardCallback = function( e ) {
     switch(e) {
@@ -367,6 +374,9 @@ SITE.Estudio.prototype.keyboardCallback = function( e ) {
             break;
         case 'ZOOM-IN':
             this.accordion.scaleKeyboard(this.keyboardWindow.dataDiv);
+            break;
+        case 'GLOBE':
+            this.accordion.changeNotation();
             break;
         default:
             alert(e);
@@ -461,6 +471,7 @@ SITE.Estudio.prototype.showEditor = function() {
         editAreaLoader.setValue("editorTextArea", this.editArea.getString() );
         editAreaLoader.setSelectionRange("editorTextArea", 0, 0);
         this.editorWindow.topDiv.style.display = 'inline-block';
+        this.initEditArea( "editorTextArea" );
         document.getElementById('I_showEditor').setAttribute('class', 'icon-folder-open' );
     } else {
         this.hideEditor();
@@ -478,7 +489,7 @@ SITE.Estudio.prototype.setupEditor = function() {
         +    '<button id="octaveDwBtn" class="btn" title="- Oitava" onclick="" ><i class="icon-arrow-down"></i>&nbsp;Oitava</button>'
         + '</div>';
 
-    this.initEditArea( "editorTextArea", "pt", 850, 478 );
+    this.initEditArea( "editorTextArea", 850, 478 );
     
     this.keySelector = new SITE.KeySelector(ks);
     this.keySelector.addChangeListener(this);
@@ -509,21 +520,40 @@ SITE.Estudio.prototype.editorCallback = function( e ) {
     return false;
 };
 
-SITE.Estudio.prototype.initEditArea = function( id, lang, w, h) {
-    editAreaLoader.init({
+SITE.Estudio.prototype.initEditArea = function( id, w, h) {
+    var o = {
         id: id	// id of the textarea to transform	
        ,start_highlight: true
        ,allow_toggle: false
-       ,language: lang
        ,syntax: "abc"	
        ,toolbar: "search, |, undo, redo, |, highlight , reset_highlight "
        ,allow_resize: "both"
        ,is_multi_files: false
        ,show_line_colors: true
        ,replace_tab_by_spaces: 4
-       ,min_width: w || 400
-       ,min_height: h || 200
-    });
+    };   
+    
+    switch(DR.language){
+        case DR.pt_BR: o.language = 'pt'; break;
+        case DR.en_US: o.language = 'en'; break;
+        case DR.de_DE: o.language = 'de'; break;
+    }
+    
+    if(w && h)  {
+        o.min_width = w;
+        o.min_height = h;
+    } else {    
+        var e = document.getElementById("frame_"+id);
+        if( this.editorVisible && o.language !== this.editorCurrLang && e) {
+            o.min_width =  e.clientWidth;
+            o.min_height = e.clientHeight;
+        } else {
+            return ; // não é necessário inicializar ou não é seguro
+        }
+    }
+        
+    editAreaLoader.init(o);
+    this.editorCurrLang = o.language;
 };
 
 SITE.Estudio.prototype.changePlayMode = function() {
@@ -695,11 +725,12 @@ SITE.Estudio.prototype.setup = function(tab, accordionId) {
     this.renderedTune.title = tab.title;
     this.renderedTune.abc = tab.abc;
     this.editArea.setString(this.renderedTune.text);
-    this.editorWindow.setTitle('Editor ABCX - ' + tab.title);
+    this.editorWindow.setTitle('-&nbsp;' + tab.title);
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
     if( this.mapVisible)
         this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
     this.modelChanged();
+
 };
 
 SITE.Estudio.prototype.updateSelection = function() {

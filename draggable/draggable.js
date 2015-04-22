@@ -8,11 +8,9 @@
 if (!window.DRAGGABLE)
     window.DRAGGABLE= {};
 
-DRAGGABLE.idWin = 0;
-
-DRAGGABLE.Div = function(topDiv, title, aButtons, callBack ) {
+DRAGGABLE.Div = function(id, topDiv, title, aButtons, callBack, translate ) {
     var self = this;
-    
+    this.translate = false;
     this.topDiv = document.getElementById(topDiv);
     
     if(!this.topDiv) {
@@ -20,7 +18,13 @@ DRAGGABLE.Div = function(topDiv, title, aButtons, callBack ) {
         return;
     }    
     
-    this.id = ++DRAGGABLE.idWin;
+    if( translate && DR ) {
+        this.translate = function() {
+        };
+        DR.addAgent(this);
+    }
+    
+    this.id = id;
     
     self.topDiv.style.position = "fixed";
     
@@ -34,7 +38,7 @@ DRAGGABLE.Div = function(topDiv, title, aButtons, callBack ) {
     div.setAttribute("id", "dMenu" +  this.id ); 
     div.setAttribute("class", "draggableMenu" ); 
     div.setAttribute("draggable", "false" ); 
-    div.innerHTML = this.addButtons(this.id, aButtons, callBack ) + this.addTitle(this.id, title);
+    div.innerHTML = this.addButtons(this.id, aButtons, callBack ) + this.addTitle(this.id, title );
     this.topDiv.appendChild( div );
     this.menuDiv = div;
     
@@ -59,7 +63,6 @@ DRAGGABLE.Div = function(topDiv, title, aButtons, callBack ) {
         self.topDiv.style.left = ((e.x-self.x) + parseInt(self.topDiv.style.left) ) + "px"; 
         self.x = e.x;
         self.y = e.y;
-        
     };
 
     this.mouseUp = function (e) {
@@ -84,24 +87,50 @@ DRAGGABLE.Div = function(topDiv, title, aButtons, callBack ) {
     this.moveButton.addEventListener( 'mousedown', this.mouseDown, false);
     window.addEventListener('mouseup', this.mouseUp, false);
     
+    this.close = function(e) {
+        self.topDiv.style.display='none';
+    };
+    
+    if(!callBack) {
+        this.closeButton.addEventListener( 'click', this.close, false);
+    }
+    
 };
 
 DRAGGABLE.Div.prototype.setTitle = function( title ) {
     this.titleSpan.innerHTML = title;
 };
 
-DRAGGABLE.Div.prototype.addTitle = function( id, title ) {
-    return '<div class="dTitle"><span id="dSpanTitle'+id+'" style="padding-left: 5px;">'+title+'</span></div>';
+DRAGGABLE.Div.prototype.addTitle = function( id, title  ) {
+    if( this.translate ) {
+        DR.forcedResource("dSpanTranslatableTitle"+id, title); 
+    }
+    return '<div class="dTitle"><span id="dSpanTranslatableTitle'+id+'" style="padding-left: 5px;">'+title+'</span><span id="dSpanTitle'+id+'" style="padding-left: 5px;"></span></div>';
 };
 
 DRAGGABLE.Div.prototype.addButtons = function( id,  aButtons, callBack ) {
+    var defaultButtons = ['minus|Fechar'];
     var txt = "";
-    aButtons.forEach( function (label) {
+    var self = this;
+    var txtCallback;
+    
+    if(aButtons)
+        defaultButtons = defaultButtons.concat(aButtons);
+    
+    defaultButtons.forEach( function (label) {
         label = label.split('|');
         label[1]  = label.length > 1 ? label[1] : "";
+        
+        if( self.translate ) {
+            DR.forcedResource('d'+label[0].toUpperCase() +'ButtonA', label[1], id, 'd'+label[0].toUpperCase() +'ButtonA'+id); 
+        }
+        if( callBack ) {
+            txtCallback = callBack+'(\''+label[0].toUpperCase()+'\');';
+        }
+
         txt += '<div id="d'+label[0].toUpperCase() +'Button'+id+
-                '" class="dButton" draggable="false"><a href="#" title="'+label[1]+'" onclick="'
-                +callBack+'(\''+label[0].toUpperCase()+'\');"><i class="icon-'
+                '" class="dButton" draggable="false"><a href="#" id="d'+label[0].toUpperCase() +'ButtonA'+id+'" title="'+label[1]+
+                '" onclick="'+txtCallback+'"><i class="icon-'
                 +label[0].toLowerCase()+' icon-white"></i></a></div>';
     });
     return txt;

@@ -51,16 +51,18 @@ DR.translate = function (id) {
     
     FILEMANAGER.saveLocal( 'property.language', id);
 
-    //document.getElementById('btn_idioma').innerHTML = DR.resource["DR_image"][DR.language];
     DR.showSelectedOption();
 
     for (var i = 0; i < DR.agents.length; i++) {
         var agent = DR.agents[i];
+//        if(agent==="dSpanTranslatableTitle1") {
+//            console.log('achei');
+//        }
         if (typeof (agent) === 'object') {
             agent.translate();
         } else {
             
-            var items = DR.extras[agent];
+            var items = ABCXJS.parse.clone( DR.extras[agent] );
             if(items) {
                 items.push(agent);
             } else {
@@ -70,6 +72,12 @@ DR.translate = function (id) {
             items.forEach( function(extra) {
                 var res = document.getElementById(extra);
                 if(res) {
+                    var r;
+                    try {
+                        r = DR.resource[agent][DR.language];
+                    } catch( e ) {
+                        r = DR.resource[agent][0];
+                    }
                     if (res.title) {
                         res.title = DR.resource[agent][DR.language];
                     } else if (res.value) {
@@ -154,20 +162,37 @@ DR.createResource = function (id) {
         return;
     }
     if (typeof (id) === 'string') {
-        if (res.title) {
-            DR.resource[radical] = [res.title];
-        } else if (res.value) {
-            DR.resource[radical] = [res.value];
-        } else {
-            DR.resource[radical] = [res.innerHTML];
+        if(!DR.resource[radical]){
+            DR.addAgent(radical);
+            DR.resource[radical] = [];
         }
-        DR.register(radical, seq, id);
+        var val;
+        if (res.title) {
+            val = [res.title];
+        } else if (res.value) {
+            val = [res.value];
+        } else {
+            val = [res.innerHTML];
+        }
+        DR.resource[radical][DR.pt_BR] = val;
+        DR.addExtra(radical, seq, id);
     }
 };
 
-// do the items registration
-DR.register = function (radical, seq, id) {
+DR.forcedResource = function (radical, val, seq, id) {
+    if(!DR.resource[radical]){
+        DR.addAgent(radical);
+        DR.resource[radical] = [];
+    }
+    DR.resource[radical][DR.pt_BR] = val;
+    DR.addExtra(radical, seq, id);
+};
+
+DR.addAgent = function (radical) {
     DR.agents.push(radical);
+};
+
+DR.addExtra = function (radical, seq, id) {
     if(seq) {
         if(!DR.extras[radical]) {
             DR.extras[radical] = [];
@@ -189,10 +214,12 @@ DR.loadLang = function(files, cb ){
               for(var res in data.resources ) {
                   var lang = DR[data.id];
                   var text = data.resources[res];
-                  if(DR.resource[res])
-                      DR.resource[res][lang] = text;
-                  else
-                      console.log(res); // resource does not exist in the system
+                  if(!DR.resource[res]) {
+                      //console.log("resource \'"+res+"\' does not exist in the system."); 
+                      DR.addAgent(res);
+                      DR.resource[res] = [];
+                  }    
+                  DR.resource[res][lang] = text;
               }
              })
             .fail(function( data, textStatus, error ) {

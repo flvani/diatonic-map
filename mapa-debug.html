@@ -2,11 +2,14 @@
 <!--
   TODO: 
     ok Acertar label de todos os botões
-    ?? Verificar tradução
-       Incluir traduções para os titulos de janela
-       Incluir traduções para os botões de janela
-    Melhorar a janela modal de avisos
-    Incluir dicas associadas a itens do repertório
+    ok Verificar tradução
+    ok   Incluir traduções para os titulos de janela
+    ok   Incluir traduções para os botões de janela
+    ok Melhorar a janela modal de avisos
+    ok Incluir dicas associadas a itens do repertório
+
+    Verificar bug ao editar/atualizar
+    Verificar excesso de log nas traduções
     Atualizar a ajuda
     Implementar pagina de producao
 -->
@@ -70,7 +73,7 @@ notação abc, tablatura "/>
                                               <li><a id="DR_accordion_maps" target="_blank" href="html/mapas.pt_BR.html" >Mapas para acordeons</a></li>
                                               <li><a id="DR_tablature" target="_blank" href="html/tablatura.pt_BR.html" >Tablaturas para acordeons</a></li>
                                               <li><a id="DR_abc_format" target="_blank" href="html/formatoABCX.pt_BR.html" >Formato ABCX</a></li>
-                                              <li><a id="DR_abc_editor" target="_blank" href="html/editorABCX.pt_BR.html" >Editor de partituras</a></li>
+                                              <li><a id="DR_abc_editor" target="_blank" href="html/editorABCX.pt_BR.html" >Estúdio ABCX</a></li>
                                               <li><a id="DR_didactic_mode" target="_blank" href="html/modoDidatico.pt_BR.html" >Modo didático</a></li>
                                               <li><a id="DR_about" href="#modalAbout" >Sobre</a></li>
                                             </ul>
@@ -103,12 +106,17 @@ notação abc, tablatura "/>
         
         <div id="mapContainerDiv" class="container" style="display: inline; float:left; margin-top: 0; margin-left: 0px;" >
             
+            <div id="hintsDiv" class="draggableWindow" style="left:900px; top:80px; width:200px; height: auto; display:inline; z-index:10000;"></div> 
+            <div id="ADDiv" class="draggableWindow" style="left:920px; top:120px; width:200px; height: auto; display:none; z-index:10000;"></div> 
+            <div id="releaseDiv" class="draggableWindow" style="left:940px; top:160px; width:200px; height: auto; display:none; z-index:10000;"></div> 
+            <div id="mediaDiv" class="draggableWindow" style="left:900px; top:80px; width:250px; height: auto; display:none; z-index:10000;"></div> 
+    
             <div id="div_principal" class="span12" style="float:left; margin-left: 8px; margin-top: 8px; width: 930px;" >
               <div style="margin:0; padding:0; width:100%;">  
               <ul id="faketab">
                   <li><a href="#" id="a_nome_gaita">LOADING...</a></li>
                   <li>
-                      <div id="divMapControls" style="margin-left: 8px; margin-top:1px;" >
+                      <div id="divMapControls" style="margin-left: 8px; margin-top:1px; display:none;" >
                         <table><tr><td>
                             <table class="table-bordered table-final" style="background-color: white; margin-top:1px; height: 24px;"> 
                             <tr > 
@@ -128,9 +136,7 @@ notação abc, tablatura "/>
                   </li>
               </ul>
               </div>  
-                
               <div id="divContent" style="margin:0; padding:0; width:95%;" > 
-                  
                 <div id="contentKeyboard" style="width: auto; float: left; min-height: 302px;" ></div>
                 <div id="contentInfo" style="position: absolute; top: 0; right: 0; margin-top: 8px; margin-right: 8px;">
                     <table class="table table-bordered table-final" style="min-width: 200px;">
@@ -143,55 +149,8 @@ notação abc, tablatura "/>
                 </div>
                 <div id="divABCXversion" style="position: absolute; bottom: 0; right: 0; margin-right: 5px;"></div>
               </div>
-            
             </div> <!-- /div_principal --> 
             
-            <div id="divAD" style="margin-left: 945px; margin-top: 35px; width: 220px;"> 
-              <table class="table table-bordered table-final" style="min-width: 200px;">
-                <tr>
-                  <td >
-                      <center style="color: #189CDA;"><b>Dica...</b></center>
-                  </td>
-                </tr>
-                <tr>
-                  <td >
-                <center><b>
-                    <br>O formato ABC é a base para toda a geração das partituras deste site. 
-                    <br><br>Quer saber mais sobre este formato livre? 
-                    <a target="_blank" href="http://pt.wikipedia.org/wiki/ABC_%28nota%C3%A7%C3%A3o_musical%29" >Clique aqui!</a>
-                </b></center>
-                  </td>
-                </tr>
-              </table>
-              <table class="table table-bordered table-final" style="min-width: 200px; display:none;">
-                <tr>
-                  <td >
-                      <center style="color: #189CDA;"><b>Divulgação...</b></center>
-                  </td>
-                </tr>
-                <tr>
-                  <td >
-                      <a href="#modalAD">
-                      <img src="img/EncontroDeGaiteiros.mini.jpg" alt="Encontro de Gaiteiros" title="Encontro de Gaiteiros">
-                      </a>
-                  </td>
-                </tr>
-              </table>
-              <table class="table table-bordered table-final" style="min-width: 200px; display:none;">
-                <tr>
-                  <td >
-                      <center style="color: red;"><b>Lançamento!</b></center>
-                  </td>
-                </tr>
-                <tr>
-                  <td ><center>
-                      <h3>Versão 2.0<br>disponível.</h3><p>
-                      <b><a target="_blank" href="html/release.pt_BR.html" >O que há de novo?</a></b></p></center>
-                  </td>
-                </tr>
-              </table>
-            </div> <!-- /div_ad --> 
-                
             <div id="div_detalhes" style="float:left; margin-left: 8px; margin-top: 8px; width:100%;"> 
                 <div id="div1" style="float:left;  margin-right:0px; width:100%;" >
                     <div id="div2" style="float:left;  margin-right:0px;" >
@@ -241,9 +200,11 @@ notação abc, tablatura "/>
                     <div id="tabPracticesDiv" ></div>
                 </div>
             </div> <!-- /div_detalhes --> 
+            
             <div id= "bottomMargin" style="float:left; margin-top:0px; margin-left:0px; margin-bottom: 0px;  
                  width:1150px; min-height: 10px;" > 
-            </div> <!-- /bottomMargin --> 
+            </div> <!-- /bottomMargin -->
+            
         </div> <!-- /mapContainerDiv -->
         
         <div id="modalAD" class="modalWindow" style="display: none;">
@@ -322,7 +283,7 @@ notação abc, tablatura "/>
             <div id="studioContentDiv">
                 <div id="studioMenu" class="draggableMenu">
                     <div id="btnCloseStudio" class="dButton" draggable="false">
-                        <a href="#" title="" onclick="closeStudio(); return false;" draggable="false"><i class="icon-minus icon-white"></i></a>
+                        <a href="#" title="Fechar" id="dMINUSButtonA" onclick="closeStudio(); return false;" draggable="false"><i class="icon-minus icon-white"></i></a>
                     </div>
                     <div class="dTitle"><span id="spanTitleStudio" style="padding-left: 5px;">Estúdio ABCX</span></div>
                 </div>
@@ -445,9 +406,42 @@ notação abc, tablatura "/>
                 
                 var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_HOHNER_GC';
 
-                var w1 = new DRAGGABLE.Div('editorDiv', 'Editor ABCX', ['minus|Fechar','move|Mover'], 'w1Callback' );
-                var w2 = new DRAGGABLE.Div('keyboardDiv', 'Mapa de Teclado', [ 'minus|Fechar','move|Mover', 'retweet|Rotacionar', 'zoom-in|Zoom'], 'w2Callback' );
+                var w1 = new DRAGGABLE.Div( 1, 'editorDiv', 'Editor ABCX', ['move|Mover'], 'w1Callback', true );
+                var w2 = new DRAGGABLE.Div( 2, 'keyboardDiv', '', [ 'move|Mover', 'retweet|Rotacionar', 'zoom-in|Zoom','globe|Mudar Notação'], 'w2Callback', true );
+                    w3 = new DRAGGABLE.Div( 3, 'hintsDiv', 'Dica...', null, null, true );
+                var w4 = new DRAGGABLE.Div( 4, 'ADDiv', 'Divulgação...', null, null, true );
+                var w5 = new DRAGGABLE.Div( 5, 'releaseDiv', 'Lançamento...', null, null, true );
+                    w6 = new DRAGGABLE.Div( 6, 'mediaDiv', 'Mídia...', null, null, true );
                 
+                w3.dataDiv.innerHTML = '<center><b>'
+                   + '<br>O formato ABC é a base para toda a geração das partituras deste site. '
+                   + '<br><br>Quer saber mais sobre este formato livre? '
+                   + '<a target="_blank" href="http://pt.wikipedia.org/wiki/ABC_%28nota%C3%A7%C3%A3o_musical%29" >Clique aqui!</a>'
+                   + '</b></center>';
+
+                w4.dataDiv.innerHTML = 
+                     '<table class="table table-bordered table-final" style="min-width: 200px;">'
+                    +  '<tr>'
+                    +   '<td ><center>'
+                    +  '<a href="#modalAD">'
+                    +  '<img src="img/EncontroDeGaiteiros.mini.jpg" alt="Encontro de Gaiteiros" title="Encontro de Gaiteiros">'
+                    +  '</a>'
+                    +   '</td>'
+                    + '</tr>'
+                    +'</table>';
+      
+                w5.dataDiv.innerHTML =                 
+                     '<table class="table table-bordered table-final" style="min-width: 200px;">'
+                    +  '<tr>'
+                    +   '<td ><center>'
+                    +       '<h3>Versão 2.0<br>disponível.</h3><p>'
+                    +       '<b><a target="_blank" href="html/release.pt_BR.html" >O que há de novo?</a></b></p></center>'
+                    +   '</td>'
+                    + '</tr>'
+                    +'</table>';
+
+        
+        
                 myStudio = new SITE.Estudio(
                     {   // interfaceParams
                         showMapBtn: 'showMapBtn'
@@ -584,6 +578,7 @@ notação abc, tablatura "/>
                    ,'saveBtn'
                    ,'forceRefresh'
                    ,'DR_refresh'
+                   ,'spanTitleStudio'
                    //,'DR_debug'
                 ]);
 
@@ -602,18 +597,18 @@ notação abc, tablatura "/>
                     soundfontUrl: "./soundfont/"
                    ,instruments: "accordion"
                    ,callback: function() {
-                      MIDI.loader.stop();
-                      DR.firstTranslation(); // garante que todos os itens de tela estejam traduzidos
-                      MIDI.programChange(0, 21); // canais para accordeon
-                      MIDI.programChange(1, 21); // 
-                      MIDI.programChange(2, 21); // 
-                      MIDI.programChange(3, 21); // 
-                      MIDI.programChange(4, 21); // 
-                      MIDI.programChange(5, 21); // 
-                      $("#tabs li:first").attr("id","current"); // Activate the first tab
-                      $("#tuneContainerDiv #tabTunesDiv" ).fadeIn(); // Show first tab's content
-                      document.getElementById("modalAD").style.display = 'none';
-                      document.getElementById("modalAbout").style.display = 'inline';
+                        DR.firstTranslation(); // garante que todos os itens de tela estejam traduzidos
+                        MIDI.loader.stop();
+                        MIDI.programChange(0, 21); // canais para accordeon
+                        MIDI.programChange(1, 21); // 
+                        MIDI.programChange(2, 21); // 
+                        MIDI.programChange(3, 21); // 
+                        MIDI.programChange(4, 21); // 
+                        MIDI.programChange(5, 21); // 
+                        $("#tabs li:first").attr("id","current"); // Activate the first tab
+                        $("#tuneContainerDiv #tabTunesDiv" ).fadeIn(); // Show first tab's content
+                        document.getElementById("modalAD").style.display = 'inline';
+                        document.getElementById("modalAbout").style.display = 'inline';
                     }
                 });
 

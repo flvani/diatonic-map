@@ -136,7 +136,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.showAccordionImage();
     this.loadOriginalRepertoire();
     
-    DR.register( this ); // register for translate
+    DR.addAgent( this ); // register for translate
     
     this.accordion.printKeyboard(this.keyboardDiv);
 };
@@ -212,7 +212,7 @@ SITE.Mapa.prototype.closeStudio = function () {
     document.getElementById("DR_accordions").style.color = 'inherit';
     document.getElementById("DR_repertoire").style.color = 'inherit';
     $("#mapContainerDiv").fadeIn();
-    this.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
+    //this.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
     this.printTab();
 };
 
@@ -598,6 +598,20 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
     $("#" + tab.div.id).hide();
     if (alreadyOnPage)
         $("#" + tab.div.id).fadeIn();
+    
+    this.showMedia(tab.abc.metaText.url);
+};
+
+SITE.Mapa.prototype.showMedia = function(url) {
+    if(url) {
+        w3.topDiv.style.display = 'none';
+        //w6.dataDiv.innerHTML = '<a href="'+url+'">URL</a>';
+        w6.dataDiv.innerHTML = url;
+        w6.topDiv.style.display = 'inline';
+    } else {
+        w6.topDiv.style.display = 'none';
+        w3.topDiv.style.display = 'inline';
+    }
 };
 
 SITE.Mapa.prototype.startLoader = function(id, start, stop) {
@@ -654,4 +668,5 @@ SITE.Mapa.prototype.translate = function() {
   document.getElementById("modeBtn").title = DR.getResource(this.currentMode === "normal"?"modeBtn":"DR_didactic");
   
   this.loadAccordionList();
+
 };

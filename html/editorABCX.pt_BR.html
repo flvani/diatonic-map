@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html><head>
-<!--
+<html><head><!--
 
 To change this license header, choose License Headers in Project Properties.
 
@@ -8,7 +7,7 @@ To change this template file, choose Tools | Templates
 
 and open the template in the editor.
 
---><title>Editor de Partituras</title>
+--><title>Estúdio ABCX</title>
 
 
   
@@ -25,28 +24,114 @@ and open the template in the editor.
 
   
   <script type="text/javascript" src="../javascripts/help.js"></script></head><body>
-<div id="helpHeader" class="helpHeader"> <span class="helpTit">Editor
-de Partituras</span> <button id="printHelp" class="btn" title="Imprimir" onclick="printHelp();">Imprimir</button> <button id="closeHelp" class="btn" title="Fechar" onclick="window.close();">Fechar</button>
+<div id="helpHeader" class="helpHeader"> <span class="helpTit">Estúdio
+ABCX</span> <button id="printHelp" class="btn" title="Imprimir" onclick="printHelp();">Imprimir</button> <button id="closeHelp" class="btn" title="Fechar" onclick="window.close();">Fechar</button>
 </div>
 
 <div id="helpContainer" class="helpContent">
-<h1>Editor de Partituras</h1>
-<p>As três abas de partituras (Músicas, acordes e exercícios), conforme
-já dissemos, são formadas por peças no formato ABCX (ver documentação).
-Estas três abas possuem algumas funcionalidades que podem ser acessadas
-através da <span style="font-weight: bold;">"Barra de Botões"</span>
-que fica localizada à direita das mesmas. As funcionalidades são:
-imprimir, editar ou executar uma partitura.<br>
+<h1>Estúdio ABCX<br>
+</h1>
+<p>Todos os itens do repertório (músicas, acordes e exercícios),
+conforme
+já dissemos, são partituras formadas por arquivos no formato ABCX (ver
+documentação no menu de ajuda). Esses itens podem ser convenientemente
+modificados e executados neste pequeno estúdio, com o objetivo de
+facilitar o aprendizado da gaita ponto.</p>
+<p>Quando o estúdio é acessado, automaticamente, ele é ajustado para o
+item do repertório do acordeon que estava selecionado na página
+inicial. Note que os menus "Acordeons" e "Repertório" ficam
+indisponíveis no topo da página.<br>
 </p>
+<h2>Visão geral<br>
+</h2>
+<p>O estúdio possui cinco componentes: uma área de texto, uma barra de
+botões, uma
+folha de partitura, um editor de textos e um mapa de teclado. Na barra
+de botões há opções para ocultar/exibir alguns desses compontentes, por
+exemplo o editor e o mapa de teclado. Para fechar o estúdio e voltar à
+página inicial, clique no sinal <span style="font-weight: bold;">[-]</span>,
+no canto superior
+esquerdo da janela. </p>
+<img src="../img/estudio.visao.geral.png" style="width: 1041px; height: 552px;" alt="Visão geral do estúdio ABCX" title="Visão geral do estúdio ABCX"> <br>
+<p><span style="font-weight: bold;">Nota</span>: Qualquer alteração no
+item será levada para o repertório, mas não significa que ela foi
+salva. As alterações duram enquando o navegador for mantido aberto ou até
+que o próximo acordeon seja selecionado. Caso queira preservar suas
+alterações para futuras execuções, salve o item usando o botão "<span style="font-weight: bold;">Salvar Local</span>". Posteriormente ele
+poderá ser carregado. Veja informações no menu de ajuda "<span style="font-weight: bold;">Mapa para acordeons</span>".</p>
+<p>Combinando os componentes é possível ajustar a apresentação para os
+dois objetivos principais do estúdio:</p>
+<ul>
+  <li>Editar partituras</li>
+  <li>Executar partituras em modo didático</li>
+</ul>
+<p>Abaixo vamos apresentar os componentes. Começaremos pela barra de bõtes destacada em azul na figura acima:</p>
+
 <h2>Barra de botões</h2>
-<div style="margin-left: 50px;"><img src="../img/modo.normal.png"></div>
-<p>A barra de botões possui dois modos de operação: o modo <span style="font-weight: bold;">normal</span> e
+<div style="margin-left: 50px;"><img style="width: 863px; height: 31px;" alt="Barra de Botões" title="Barra de Botões" src="../img/ferramentas.png"></div>
+<p>A barra de botões é elemento de controle do estúdio. Funções como
+apresentação, impressão, salvamento e o controle do player estãoo
+disponíveis.<br>
+</p>
+<p>Os três primeiros botões controlam a apresentação do estúdio. O
+botão "ABCX" permite ocultar/exibir a "Área de texto". Os botões
+"Editor" e "Teclado" tem a mesma função, respectivamente, para o
+"EditorABCX" e para o "Mapa de Teclado" do acordeon. </p>
+<p>O botão "Imprimir", tal qual na página inicial, permite visualizar a impressão da partitura.</p>
+<p>O botão "Salvar Local" faz o download do arquivo ABCX (texto da
+partitura) para o HD do computador local. Este arquivo pode ser
+guardado e carregado posteriormente.</p>
+<p>O botão "Atualizar" redesenha a partitura na "Folha de Partitura".
+Toda alteração promovida no texto ABCX, seja através do Editor ou da
+Área de texto, é efetivada na partitura através deste botão. O MIDI também é atualizado ao redesenhar a partitura.</p>
+<p>O botão seguinte controla o MIDI Player, nas funções "Execução
+Normal" ou "Modo Didático". Estas funções serão descritas adequadamente
+mais adiante.</p>
+<h2>Folha de Partitura<br>
+</h2>
+<p>A folha de partitura, como o nome diz, é o display da partitura
+gerada a partir do texto ABCX. Adicionalmente, no topo da&nbsp;
+partitura, há uma pequena seção de avisos. Toda vez que a partitura é
+executada ou atualizada, se acontecer qualquer erro, o mesmo é listado
+nesta área de advertências. A mensagem em verde significa que a
+partitura foi corretamente compilada a partir do texto. Mensagens em
+vermelho retratam erros de sintaxe no texto. Há ainda mensagens mais
+incomuns, em azul, no caso de ocorrer algum erro de execução do MIDI.</p>
+<h2>Executando uma partitura<br>
+</h2>
+
+<p>Este é o primeiro objetivo desta página: executar, com o algumas
+facilidades, uma dada partitura. A primeira coisa a fazer é privilegiar
+o espaço da tela para comportar a maior parte da partitura e um mapa de
+teclado.&nbsp; Para tanto, além de algumas funcionalidades, há algumas
+ações no próprio navegador que ajudam. Listamos os seguintes comandos,
+comuns à maioria dos navegadores de Internet:</p>
+<ul>
+  <li>F11 - Pressione este botão no teclado do seu computador para entrar/sair do modo "Tela cheia" do navegador.</li>
+  <li>Ctrl+'0' - Pressione simultaneamente a tecla "Ctrl" e o número
+Zero para ajustar o zoom do navegador em 100%, ou seja, o tamanho
+natural da páginaWeb </li>
+  <li>Ctrl+'-' - Pressione simultaneamente a tecla "Ctrl" e o sinal de Subtração para diminur o zoom da página.</li>
+  <li>Ctrl+'+' - Pressione simultaneamente a tecla "Ctrl" e o sinal de Adição para aumentar o zoom da página.</li>
+</ul>
+<p>Estes comandinhos, aliados às funcionalidades deste estúdio,
+completarão o cenário. Faça o seguinte: pressione o botão "ABCX" da
+barra de botões para ocultar a "Área de texto" e, depois, pressione o
+botão "Teclado" para exibir o "Mapa de Teclado" da gaita. Selecione o
+modo de execução "Normal" para a execução em andamento natural da
+partitura ou mude para o modo de execução "Didática" para o execução
+passo-a-passo. O estúdio vai ficar com essa aparência:</p>
+<p>[modo de execução]<br>
+</p>
+<p>possui dois modos de operação: o modo <span style="font-weight: bold;">normal</span> e
 o modo <span style="font-weight: bold;">didático</span> (ver
 documentação do modo didático). No modo <span style="font-weight: bold;">normal</span>,
 estão disponíveis os 5 botões listados acima:</p>
+
 <ul>
   <li>Modo normal/didático: chaveia entre os dois modos.</li>
-  <li>Executar/Pausar: inicia a execução da partitura que estiver visível ou
+  <li>Executar/Pausar: inicia a execução da partitura que estiver
+visível ou
 a suspende, caso já esteja em execução.</li>
   <li>Parar: para a execução atual e posiciona no primeiro compasso.</li>
   <li>Ferramentas: dá acesso ao editor de partituras (e outras
@@ -69,9 +154,11 @@ resultante
 do texto.</p>
 <h3>Barra de botões de edição</h3>
 <div style="margin-left: 50px;"><img src="../img/ferramentas.png"></div>
-<p>Da esquerda para a direita os seguintes botões de funcionalidades são listados:</p>
+<p>Da esquerda para a direita os seguintes botões de funcionalidades
+são listados:</p>
 <ul>
-  <li>seletor de acordeon: seleciona o acordeon para o qual a tablatura será gerada.<br>
+  <li>seletor de acordeon: seleciona o acordeon para o qual a tablatura
+será gerada.<br>
   </li>
   <li>seletor de tom: modifica (transpõe) a tonalidade da partitura. <br>
   </li>
@@ -80,28 +167,38 @@ do texto.</p>
   <li>oitava abaixo: transpõe a partitura para uma oitava abaixo.</li>
   <li>ver impressão: permite a impressão do estado atual da partitura.<br>
   </li>
-  <li>salvar local: permite fazer o download do arquivo ABCX do estado atual da partitura.<br>
+  <li>salvar local: permite fazer o download do arquivo ABCX do estado
+atual da partitura.<br>
   </li>
-  <li>fechar: fecha o editor e retorna a tela de execução, incluindo as alterações feitas na partitura.<br>
+  <li>fechar: fecha o editor e retorna a tela de execução, incluindo as
+alterações feitas na partitura.<br>
   </li>
-  <li>atualizar: atualiza a partitura a partir das alterações efetuadas no texto ABCX. Após a atualização a lista de erros (se houver) será mostrada juntamente com a partitura. <br>
+  <li>atualizar:
+atualiza a partitura a partir das alterações efetuadas no texto ABCX.
+Após a atualização a lista de erros (se houver) será mostrada
+juntamente com a partitura. <br>
   </li>
-  <li>Play/Pause/Stop/Relógio: um tocador de MIDI simples está disponível para a execução da partitura. Para que o MIDI esteja disponível é necessário atualizar a partitura pelo menos uma vez.<br>
+  <li>Play/Pause/Stop/Relógio:
+um tocador de MIDI simples está disponível para a execução da
+partitura. Para que o MIDI esteja disponível é necessário atualizar a
+partitura pelo menos uma vez.<br>
   </li>
 </ul>
-
 <p>O editor é bastante simples mas pressupõe o conhecimento do formato
 ABC, bem como das regras usadas no formato ABCX para gerar a tablatura.
 Para aprender o formato ABC procure documentação na internet.</p>
-<p>Quanto às funcionalidades que este editor provê, destacamos as seguintes características:</p>
+<p>Quanto às funcionalidades que este editor provê, destacamos as
+seguintes características:</p>
 <ul>
   <li>Sempre que o texto ABCX for alterado e a chave
 "accordionTab" estiver presente, se não houver uma tablatura definida,
 uma nova será criada; se já existir ela ficará desatualizada. Este
 comportamento evita que se perca edições manuais realizadas na
 tablatura.<br>
-</li>
-  <li>Para forçar a atualização da tablatura, apague as linhas após "accordionTab" e clique em "<span style="font-weight: bold;">Atualizar</span>": uma nova tablatura será gerada automaticamente.</li>
+  </li>
+  <li>Para forçar a atualização da tablatura, apague as linhas após
+"accordionTab" e clique em "<span style="font-weight: bold;">Atualizar</span>":
+uma nova tablatura será gerada automaticamente.</li>
   <li>Usar o seletor de tom ou os botões de oitavas irá modificar o
 arquivo ABCX, mas qualquer tablatura que existir ficará desatualizada,
 pelos motivos expostos acima.</li>
@@ -113,7 +210,14 @@ produzir a tablatura.<br>
 foi alterado: apenas se está gerando uma cópia no computador local,
 permitindo ao usuário ter um repertório próprio, contendo as alterações
 que foram consideradas convenientes e que podem ser carregadas sempre
-que o site for acessado, usando o menu "<span style="font-weight: bold;">Repertório</span>", opção "<span style="font-weight: bold;">Carregar do drive local</span>"<br>
+que o site for acessado, usando o menu "<span style="font-weight: bold;">Repertório</span>",
+opção "<span style="font-weight: bold;">Carregar do drive local</span>"<br>
   </li>
-</ul></div><br>
+</ul>
+</div>
+
+<br>
+
+<br>
+
 </body></html>

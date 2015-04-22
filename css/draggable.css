@@ -70,6 +70,7 @@ and open the template in the editor.
   /* float:left; */
   top: 0;
   /* color: #FFFFFF; */
+  font-weight: bold;
   padding-top: 2px; 
   pointer-events: none;
   background-color: transparent;
