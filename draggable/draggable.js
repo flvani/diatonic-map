@@ -59,7 +59,8 @@ DRAGGABLE.Div = function(id, topDiv, title, aButtons, callBack, translate ) {
     
     this.divMove = function(e){
         self.stopMouse(e);
-        self.topDiv.style.top = ((e.y-self.y) + parseInt(self.topDiv.style.top) ) + "px";
+        var y = ((e.y-self.y) + parseInt(self.topDiv.style.top) );
+        self.topDiv.style.top =  (y<43?43:y)+ "px"; //hardcoded top of window
         self.topDiv.style.left = ((e.x-self.x) + parseInt(self.topDiv.style.left) ) + "px"; 
         self.x = e.x;
         self.y = e.y;

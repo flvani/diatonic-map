@@ -410,7 +410,7 @@ SITE.Estudio.prototype.printPreview = function (html, divsToHide) {
 
 SITE.Estudio.prototype.salvaMusica = function () {
     if (FILEMANAGER.requiredFeaturesAvailable()) {
-        this.parseABC(0, "force");
+        this.parseABC(0);
         var name = this.renderedTune.abc.metaText.title + ".abcx";
         var conteudo = this.editArea.getString();
         FILEMANAGER.download(name, conteudo);
@@ -483,11 +483,13 @@ SITE.Estudio.prototype.setupEditor = function() {
     var ks = "selKey";
     this.editorWindow.dataDiv.innerHTML =     
         '<textarea id="editorTextArea" rows="25"></textarea>'
-        + '<div style="width: 100%;" >'
-        +     '<select id="'+ks+'" ></select>'
+        + '<div style="width: 100%; padding:2px; margin-left:2px;" >'
+        +    '<select id="'+ks+'" ></select>'
         +    '<button id="octaveUpBtn" class="btn" title="+ Oitava" onclick="" ><i class="icon-arrow-up"></i>&nbsp;Oitava</button>'
         +    '<button id="octaveDwBtn" class="btn" title="- Oitava" onclick="" ><i class="icon-arrow-down"></i>&nbsp;Oitava</button>'
+        +    '<button id="forceRefresh2" class="btn" title="Atualizar" onclick="" >Atualizar</button>'
         + '</div>';
+                            
 
     this.initEditArea( "editorTextArea", 850, 478 );
     
@@ -501,7 +503,12 @@ SITE.Estudio.prototype.setupEditor = function() {
     document.getElementById('octaveDwBtn').addEventListener("click", function () {
         that.editorChanged(-12, "force");
     }, false);
+    
+    document.getElementById('forceRefresh2').addEventListener("click", function () {
+        that.editorChanged(0, "force");
+    }, false);
 
+   DR.forcedResource('forceRefresh', 'Atualizar', '2', 'forceRefresh2');
 
 };
 
@@ -581,7 +588,6 @@ SITE.Estudio.prototype.resize = function( ) {
 
     t.style.width = parseInt(m.clientWidth) - 24 + "px";
     i.style.height = (o.clientHeight - h.clientHeight - m.clientHeight - 10) + "px";
-    //console.log(h.clientWidth - 'h.clientWidth');
 };
 
 SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
@@ -613,7 +619,7 @@ SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
     }
 };
 
-SITE.Estudio.prototype.parseABC = function(transpose, force) {
+SITE.Estudio.prototype.parseABC = function(transpose) {
     
     this.warnings = [];
     
@@ -624,16 +630,15 @@ SITE.Estudio.prototype.parseABC = function(transpose, force) {
           this.transposer = new ABCXJS.parse.Transposer( transpose );
     }
     
+    var text =  this.editArea.getString();
     var abcParser = new ABCXJS.parse.Parse( this.transposer, this.accordion );
-    var t = this.editArea.getString();
-    console.log(t);
-    abcParser.parse(t, this.parserparams );
-    this.renderedTune.abc = abcParser.getTune();
+    
+    abcParser.parse(text, this.parserparams );
 
     if( this.transposer ) { 
         if( this.transposer.offSet !== 0 ) {
-          var lines = abcParser.tuneHouseKeeping(this.renderedTune.text);
-          this.editArea.setString( this.transposer.updateEditor( lines ) );
+          var lines = abcParser.tuneHouseKeeping(text);
+          this.editArea.setString( this.transposer.updateEditor( lines ), "norefresh" );
         }
         if(this.keySelector) 
             this.keySelector.set( this.transposer.keyToNumber( this.transposer.getKeyVoice(0) ) );       
@@ -641,16 +646,17 @@ SITE.Estudio.prototype.parseABC = function(transpose, force) {
     
     if( this.accordion ) { 
         // obtem possiveis linhas inferidas para tablatura
-        t = this.accordion.updateEditor();
-        console.log(t);
-        this.editArea.appendString( t );
+        this.editArea.appendString( this.accordion.updateEditor() );
     }
+    
+    this.renderedTune.text = this.editArea.getString();
+    this.renderedTune.abc = abcParser.getTune();
     
     var warnings = abcParser.getWarnings() || [];
     for (var j=0; j<warnings.length; j++) {
-      this.warnings.push(warnings[j]);
+        this.warnings.push(warnings[j]);
     }
-
+    
     if ( this.midiParser ) {
         this.midiParser.parse( this.renderedTune.abc, this.accordion.getKeyboard() );
         var warnings = this.midiParser.getWarnings();
@@ -665,6 +671,7 @@ SITE.Estudio.prototype.parseABC = function(transpose, force) {
 
 SITE.Estudio.prototype.highlight = function(abcelem) {
   this.editArea.setSelection(abcelem.startChar, abcelem.endChar);
+  editAreaLoader.setSelectionRange("editorTextArea", abcelem.startChar, abcelem.endChar)
 };
 
 SITE.Estudio.prototype.onChange = function() {
@@ -672,17 +679,10 @@ SITE.Estudio.prototype.onChange = function() {
 };
 
 SITE.Estudio.prototype.editorChanged = function (transpose, force) {
-//    var sel =editAreaLoader.getSelectionRange("editorTextArea");
-    var t = editAreaLoader.getValue("editorTextArea");
-    console.log(t);
-    this.editArea.setString(t);
+    this.editArea.setString(editAreaLoader.getValue("editorTextArea"));
     this.fireChanged(transpose, force);
-    t = this.editArea.getString();
-    console.log(t);
-    editAreaLoader.setValue("editorTextArea", t);
-//    editAreaLoader.setSelectionRange("editorTextArea", sel["start"], sel["end"] );
+    editAreaLoader.setValue("editorTextArea", this.editArea.getString());
     editAreaLoader.setSelectionRange("editorTextArea", 0, 0 );
-    
 };
 
 SITE.Estudio.prototype.fireChanged = function (transpose, force) {
@@ -693,7 +693,7 @@ SITE.Estudio.prototype.fireChanged = function (transpose, force) {
     
         this.lastYpos = document.getElementById("studioCanvasDiv").scrollTop || 0;               
 
-        if (this.parseABC(transpose, force)) {
+        if (this.parseABC(transpose)) {
             this.modelChanged();
         }
     }    

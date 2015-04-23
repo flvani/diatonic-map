@@ -663,6 +663,7 @@ SITE.Mapa.prototype.translate = function() {
   document.getElementById("printBtn").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.getResource("printBtn");
   document.getElementById("saveBtn").innerHTML = '<i class="icon-download-alt"></i>&nbsp;'+DR.getResource("saveBtn");
   document.getElementById("forceRefresh").innerHTML = DR.getResource("forceRefresh");
+  document.getElementById("forceRefresh2").innerHTML = DR.getResource("forceRefresh");
   document.getElementById("gotoMeasureBtn").value = DR.getResource("DR_goto");
   document.getElementById("untilMeasureBtn").value = DR.getResource("DR_until");
   
