@@ -8907,20 +8907,21 @@ ABCXJS.midi.Parse.prototype.handleButtons = function(pitches, buttons) {
         } else {
             midipitch = 12 + 12 * note.octave + DIATONIC.map.key2number[ note.key ];
         }
-
+        
+        // TODO:  no caso dos baixos, quando houver o baixo e o acorde simultaneamente
+        // preciso garantir que estou atribuindo o botão à nota certa, visto que  podem ter tempos diferentes
+        // por hora, procuro a primeira nota que corresponda e não esteja com botão associado (! pitches[r].button)
         for( var r = 0; r < pitches.length; r ++ ) {
             if(note.isBass && pitches[r].clef === 'bass') {
                 pitch = pitches[r].midipitch % 12;
-                if( pitch === DIATONIC.map.key2number[ key ]){
+                if( pitch === DIATONIC.map.key2number[ key ] && ! pitches[r].button ){
                     pitches[r].button = item.button;
-                    //item.button.button = null;
                     item.button = null;
                     return;
                 }
             } else if(!note.isBass && pitches[r].clef !== 'bass') { 
-                if( pitches[r].midipitch === midipitch) {
+                if( pitches[r].midipitch === midipitch ) {
                     pitches[r].button = item.button;
-                    //item.button.button = null;
                     item.button = null;
                     return;
                 }
@@ -9489,6 +9490,7 @@ ABCXJS.midi.Player.prototype.startPlay = function(what) {
     this.playlist = what.playlist;
     this.tempo    = what.tempo;
     this.printer  = what.printer;
+    this.type     = null; // definido somente para o modo didatico
 
     this.playing = true;
     this.onError = null;
@@ -9514,6 +9516,7 @@ ABCXJS.midi.Player.prototype.startDidacticPlay = function(what, type, value, val
     this.playlist = what.playlist;
     this.tempo    = what.tempo;
     this.printer  = what.printer;
+    this.type     = type;
 
     this.playing  = true;
     this.onError  = null;
@@ -9523,6 +9526,7 @@ ABCXJS.midi.Player.prototype.startDidacticPlay = function(what, type, value, val
     
     switch( type ) {
         case 'note': // step-by-step
+            what.keyboard.clear(true);
             that.initTime = that.playlist[that.i].time;
             criteria = function () { 
                 return that.initTime === that.playlist[that.i].time;
@@ -9641,8 +9645,11 @@ ABCXJS.midi.Player.prototype.executa = function(pl) {
                     }else{
                         elem.button.button.setOpen();
                     }
-                    //limpa o botão 1/4 de tempo antes do fim da nota - para dar ideia visual de botão pressionado/liberado antes da proxima nota
-                    elem.button.button.clear( ( elem.mididuration * self.tempo * (1/self.currentAndamento) ) * 0.75 );
+                    if( self.type !== 'note' ) {
+                        //limpa o botão uma fração de tempo antes do fim da nota - para dar ideia visual de botão pressionado/liberado antes da proxima nota
+                        var clearTime = (self.tempo * (1/self.currentAndamento)) *.5;
+                        elem.button.button.clear( ( elem.mididuration * self.tempo * (1/self.currentAndamento) ) - clearTime  );
+                    }    
                 }
                 
             });
