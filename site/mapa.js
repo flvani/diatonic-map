@@ -196,6 +196,8 @@ SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
 };
 
 SITE.Mapa.prototype.showStudio = function () {
+    var props = FILEMANAGER.loadLocal('property.studio.settings');
+    
     $("#mapContainerDiv").hide();
     document.getElementById("divMenuAccordions").style.pointerEvents = 'none';
     document.getElementById("divMenuRepertoire").style.pointerEvents = 'none';
@@ -203,9 +205,46 @@ SITE.Mapa.prototype.showStudio = function () {
     document.getElementById("DR_repertoire").style.color = 'gray';
     $("#studioDiv").show();
     this.studio.setup(this.currentABC, this.getSelectedAccordion().getId());
+    
+    //props = null; // debug
+    
+    if( props ) {
+        props = props.split('|');
+        this.studio.textVisible                      = (props[0] === 'true');
+        this.studio.editorVisible                    = (props[1] === 'true');
+        this.studio.mapVisible                       = (props[2] === 'true');
+        this.studio.editorWindow.topDiv.style.top    = props[3]; 
+        this.studio.editorWindow.topDiv.style.left   = props[4]; 
+        this.studio.keyboardWindow.topDiv.style.top  = props[5]; 
+        this.studio.keyboardWindow.topDiv.style.left = props[6]; 
+        this.studio.accordion.render_keyboard_opts.scale = parseFloat(props[7]);
+        this.studio.accordion.render_keyboard_opts.mirror  = (props[8] === 'true');
+        this.studio.accordion.render_keyboard_opts.transpose = (props[9] === 'true');
+        
+        this.studio.textVisible    = ! this.studio.textVisible;
+        this.studio.editorVisible  = ! this.studio.editorVisible;
+        this.studio.mapVisible     = ! this.studio.mapVisible;
+        this.studio.showABCXText();
+        this.studio.showEditor();
+        this.studio.showMap();
+    }
 };
 
 SITE.Mapa.prototype.closeStudio = function () {
+    
+    FILEMANAGER.saveLocal( 'property.studio.settings', 
+        this.studio.textVisible 
+        + '|' + this.studio.editorVisible 
+        + '|' + this.studio.mapVisible 
+        + '|' + this.studio.editorWindow.topDiv.style.top
+        + '|' + this.studio.editorWindow.topDiv.style.left
+        + '|' + this.studio.keyboardWindow.topDiv.style.top
+        + '|' + this.studio.keyboardWindow.topDiv.style.left
+        + '|' + this.studio.accordion.render_keyboard_opts.scale
+        + '|' + this.studio.accordion.render_keyboard_opts.mirror
+        + '|' + this.studio.accordion.render_keyboard_opts.transpose
+        );
+
     $("#studioDiv").fadeOut();
     document.getElementById("divMenuAccordions").style.pointerEvents = 'auto';
     document.getElementById("divMenuRepertoire").style.pointerEvents = 'auto';

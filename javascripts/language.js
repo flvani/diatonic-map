@@ -86,7 +86,7 @@ DR.translate = function (id) {
                         res.innerHTML = DR.resource[agent][DR.language];
                     }
                 } else {
-                    console.log('Not found: ' + extra );
+                   // console.log('Not found: ' + extra );
                 }
             });
         }

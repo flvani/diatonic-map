@@ -438,7 +438,6 @@ SITE.Estudio.prototype.showMap = function() {
         this.hideMap();
     }
 };
-    
 
 SITE.Estudio.prototype.showABCXText = function () {
     this.textVisible = !this.textVisible;
@@ -470,7 +469,7 @@ SITE.Estudio.prototype.showEditor = function() {
         document.getElementById( 'textareaABC').readOnly = true;
         editAreaLoader.setValue("editorTextArea", this.editArea.getString() );
         editAreaLoader.setSelectionRange("editorTextArea", 0, 0);
-        this.editorWindow.topDiv.style.display = 'inline-block';
+        this.editorWindow.topDiv.style.display = 'inline';
         this.initEditArea( "editorTextArea" );
         document.getElementById('I_showEditor').setAttribute('class', 'icon-folder-open' );
     } else {
@@ -731,10 +730,9 @@ SITE.Estudio.prototype.setup = function(tab, accordionId) {
     this.renderedTune.title = tab.title;
     this.renderedTune.abc = tab.abc;
     this.editArea.setString(this.renderedTune.text);
+    editAreaLoader.setValue("editorTextArea", this.renderedTune.text );
     this.editorWindow.setTitle('-&nbsp;' + tab.title);
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
-    if( this.mapVisible)
-        this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
     this.modelChanged();
 
 };
