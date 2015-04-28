@@ -8,8 +8,10 @@ To change this template file, choose Tools | Templates
 
 and open the template in the editor.
 
--->
-  <title>Estúdio ABCX</title>
+--><title>Estúdio ABCX</title>
+
+
+  
 
   
   
@@ -22,8 +24,7 @@ and open the template in the editor.
   <link href="../css/help.css" rel="stylesheet">
 
   
-  <script type="text/javascript" src="../javascripts/help.js"></script>
-</head><body>
+  <script type="text/javascript" src="../javascripts/help.js"></script></head><body>
 <div id="helpHeader" class="helpHeader"> <span class="helpTit">Estúdio
 ABCX</span> <button id="printHelp" class="btn" title="Imprimir" onclick="printHelp();">Imprimir</button> <button id="closeHelp" class="btn" title="Fechar" onclick="window.close();">Fechar</button>
 </div>
@@ -47,8 +48,8 @@ indisponíveis no topo da página.<br>
 <p>O estúdio possui cinco componentes: uma área de texto, uma barra de
 botões, uma
 folha de partitura, um editor de textos e um mapa de teclado. Na barra
-de botões há opções para ocultar/exibir alguns desses compontentes, por
-exemplo o editor e o mapa de teclado. Para fechar o estúdio e voltar à
+de botões há opções para ocultar/exibir alguns desses componentes, por
+exemplo, o editor e o mapa de teclado. Para fechar o estúdio e voltar à
 página inicial, clique no sinal <span style="font-weight: bold;">[-]</span>,
 no canto superior
 esquerdo da janela. </p>
@@ -62,11 +63,10 @@ que o próximo acordeon seja selecionado. Caso queira preservar suas
 alterações para futuras execuções, salve o item usando o botão "<span style="font-weight: bold;">Salvar Local</span>". Posteriormente ele
 poderá ser carregado. Veja informações no menu de ajuda "<span style="font-weight: bold;">Mapa para acordeons</span>".</p>
 <p>A tela do estúdio é totalmente configurável. Combinando os
-componentes é possível ajustar a apresentação para os
-dois objetivos principais do estúdio:</p>
-<ul>
+componentes é possível ajustar a janela para atingir os
+dois objetivos principais desta página:</p>
+<ul><li>Executar partituras em modo didático</li>
   <li>Editar partituras</li>
-  <li>Executar partituras em modo didático</li>
 </ul>
 <p>Abaixo vamos apresentar os componentes. Começaremos pela barra de
 bõtes destacada em azul na figura acima:</p>
@@ -105,22 +105,22 @@ há algumas
 ações no próprio navegador que ajudam. Listamos os seguintes comandos,
 comuns à maioria dos navegadores de Internet:</p>
 <ul>
-  <li>F11 - Pressione este botão no teclado do seu computador para
+  <li>F11 - Pressione esta tecla do seu computador para
 entrar/sair do modo "Tela cheia" do navegador.</li>
   <li>Ctrl+'0' - Pressione simultaneamente a tecla "Ctrl" e o número
-Zero para ajustar o zoom do navegador em 100%, ou seja, o tamanho
-natural da páginaWeb </li>
+"Zero" para ajustar o zoom do navegador em 100%, ou seja, o tamanho
+natural da página. </li>
   <li>Ctrl+'-' - Pressione simultaneamente a tecla "Ctrl" e o sinal de
-Subtração para diminur o zoom da página.</li>
+"Subtração" para diminur o zoom da página.</li>
   <li>Ctrl+'+' - Pressione simultaneamente a tecla "Ctrl" e o sinal de
-Adição para aumentar o zoom da página.</li>
+"Adição" para aumentar o zoom da página.</li>
 </ul>
 <p>Vamos preparar o estúdio para executar uma partitura em modo
 didático. Faça o seguinte: <br>
 </p>
 <ul>
-  <li>pressione F11 (uma vez para esconder os menus do navegador</li>
-  <li>pressione Ctrl+'-' (até o zoom ficar em 90%)<br>
+  <li>pressione F11 (uma vez para esconder os menus do navegador).</li>
+  <li>pressione Ctrl+'-' (até o zoom ficar em 90%).<br>
   </li>
   <li>pressione o botão "ABCX" da
 barra de botões para ocultar a "Área de texto" <br>
@@ -133,10 +133,14 @@ execução "Didático". <br>
   </li>
 </ul>
 <p>O estúdio vai ficar com essa aparência:</p>
-<div><img><img style="width: 1024px; height: 640px;" alt="Modo Didático" title="Modo Didático" src="../img/estudio.modo.didatico.1.png">
-</div>
+<div><img src=""><img src="../img/estudio.visao.1.png" style="width: 1024px; height: 640px;" alt="Estúdio em modo de execução" title="Estúdio em modo de execução">
+</div><span style="font-weight: bold;"><br>
+</span>
+<p><span style="font-weight: bold;">Nota: </span>Observe que o mapa do teclado foi rotacionionado em 180º, criando o efeito "espelho". Pode ser interessante para quem está aprendendo a tocar.<br>
+</p>
 <h2>Folha de Partitura<br>
 </h2>
+
 <p>A folha de partitura, como o nome diz, é o display da partitura
 gerada a partir do texto ABCX. Adicionalmente, no topo da&nbsp;
 partitura, há uma pequena seção de avisos. Toda vez que a partitura é
@@ -145,99 +149,126 @@ nesta área de advertências. A mensagem em verde significa que a
 partitura foi corretamente compilada a partir do texto. Mensagens em
 vermelho retratam erros de sintaxe no texto. Há ainda mensagens mais
 incomuns, em azul, no caso de ocorrer algum erro de execução do MIDI.</p>
-<h2>Executando uma partitura<br>
+<h2>Mapa de Teclado<br>
 </h2>
-<p>Este é o primeiro objetivo desta página: executar, com o algumas
-facilidades, uma dada partitura. A primeira coisa a fazer é privilegiar
-o espaço da tela para comportar a maior parte da partitura e um mapa de
-teclado.&nbsp; Para tanto, além de algumas funcionalidades, há algumas
-ações no próprio navegador que ajudam. Listamos os seguintes comandos,
-comuns à maioria dos navegadores de Internet:</p>
+
+<p>Duas facilidades podem ser obtidas a partir da janela do Mapa de
+Teclado: 1) visualizar, durante a execução da partitura, quais botões
+da gaita devem ser pressionados; e, 2) auxiliar na edição do texto ABC
+quando se pretende alterar a tablatura. Aliado ao modo de execução
+didática de uma partitura é uma execelente ferramenta para aprendizado.
+Além disso a janela do Mapa de Teclado possui algumas funcionalidades
+na barra superior (à esquerda do título da janela). Listando os botões
+da esquerda para a direita, as funcionalidades são as seguintes:</p>
 <ul>
-  <li>F11 - Pressione este botão no teclado do seu computador para
-entrar/sair do modo "Tela cheia" do navegador.</li>
-  <li>Ctrl+'0' - Pressione simultaneamente a tecla "Ctrl" e o número
-Zero para ajustar o zoom do navegador em 100%, ou seja, o tamanho
-natural da páginaWeb </li>
-  <li>Ctrl+'-' - Pressione simultaneamente a tecla "Ctrl" e o sinal de
-Subtração para diminur o zoom da página.</li>
-  <li>Ctrl+'+' - Pressione simultaneamente a tecla "Ctrl" e o sinal de
-Adição para aumentar o zoom da página.</li>
-</ul>
-<p>Estes comandinhos, aliados às funcionalidades deste estúdio,
-completarão o cenário. Faça o seguinte: pressione o botão "ABCX" da
-barra de botões para ocultar a "Área de texto" e, depois, pressione o
-botão "Teclado" para exibir o "Mapa de Teclado" da gaita. Selecione o
-modo de execução "Normal" para a execução em andamento natural da
-partitura ou mude para o modo de execução "Didática" para o execução
-passo-a-passo. O estúdio vai ficar com essa aparência:</p>
-<p>[modo de execução]<br>
-</p>
-<p>possui dois modos de operação: o modo <span style="font-weight: bold;">normal</span> e
-o modo <span style="font-weight: bold;">didático</span> (ver
-documentação do modo didático). No modo <span style="font-weight: bold;">normal</span>,
-estão disponíveis os 5 botões listados acima:</p>
-<ul>
-  <li>Modo normal/didático: chaveia entre os dois modos.</li>
-  <li>Executar/Pausar: inicia a execução da partitura que estiver
-visível ou
-a suspende, caso já esteja em execução.</li>
-  <li>Parar: para a execução atual e posiciona no primeiro compasso.</li>
-  <li>Ferramentas: dá acesso ao editor de partituras (e outras
-funcionalidades).<br>
+  <li>Fechar - Oculta a janela do teclado (pode ser exibido novamente a partir da barra de botões do estúdio).<br>
   </li>
-  <li>Imprimir: abre a tela para visualizar e imprimir a partitura
+  <li>Mover - Permite posicionar o teclado (clique e arraste). Clicar sobre o título da janela tem o mesmo efeito.<br>
+  </li>
+  <li>Rotacionar - Gira o teclado no sentido anti-horário, 90º a cada vez que este botão é pressionado.<br>
+  </li>
+  <li>Ampliar - Ajusta o tamanho teclado em&nbsp; 3 tamanhos distintos, alternados a cada vez que o botão é pressionado.<br>
+  </li>
+  <li>Mudar a notação - Chaveia entre a exibição dos nomes das notas em formato internacional ou o nome das notas.<br>
+  </li>
+</ul>
+<p><span style="font-weight: bold;">Nota: </span>O título da janela
+indica a afinação do acordeon que estava selecionado na página inicial,
+bem como a quantidade de botões do modelo.<br>
+</p>
+<h2>Executando uma partitura<br>
+</h2><p>Agora que ajustamos a apresentação do estúdio, vamos executar
+uma partitura e ver quais são as funcionalidades disponíveis para quem
+está aprendendo a tocar gaita. Há dois modos de execução possíveis:
+Modo normal e Modo didático.<br>
+</p>
+<p>No modo normal de execução, o MIDI player só tem 3 botões:</p>
+<ul>
+  
+  <li>Modo normal/didático: chaveia entre os dois modos.<br>
+  </li>
+<li>Executar/Pausar - Inicia a execução ou continua a partir do ponto onde foi suspensa.<br>
+  </li>
+  <li>Parar - Interrompe a execução e posiciona o MIDI player para a executar do ínicio novamente.<br>
+  </li>
+</ul>
+<p></p>
+<div style="margin-left: 50px;"><img style="width: 190px; height: 34px;" alt="Modo normal" title="Modo normal" src="../img/estudio.modo.normal.png"></div>
+
+
+<p>
+</p>
+
+
+<p>Além dos botões do MIDI player, à direita, há o relógio indicador do tempo de execução.<br>
+</p><h2>Execução em modo didático<br>
+</h2>
+
+<div style="margin-left: 50px;"><img style="width: 434px; height: 35px;" alt="Modo didático" title="Modo didático" src="../img/estudio.modo.didatico.png"></div>
+
+<p>O modo didático foi pensado para quem está aprendendo gaita ponto.
+As funcionalidades
+presentes permitem ao usuário executar detalhadamente trechos da
+partitura. Abaixo detalhamos as funções (listadas da esquerda para a direita):<br>
+</p>
+
+
+
+
+<ul>
+<li>Modo normal/didático: Chaveia entre os dois modos. Ao
+chavear de volta ao modo normal é como se a partitura estivesse
+pausada. Se pressionar o botão executar, a partitura será executada do
+ponto onde parou no modo didático.<br>
+</li><li>Ir para: Permite executar um compasso específico. Para tanto, digite o número do compasso e pressione [Enter].</li>
+  <li>até: Em conjunto com o campo "Ir para", permite definir um
+intervalo para execução. Informe o número do compasso e pressione
+[Enter].<br>
+  </li>
+<li>Passo a passo: executa nota por nota do compasso, uma nota cada vez
+que o botão é pressionado. Sempre executa a partir do ponto onde a
+execução foi anteriormente suspensa.<br>
+</li><li>Compasso: executa o compasso corrente até o seu final.Sempre executa a partir do ponto onde a execução foi anteriormente suspensa.</li><li>Repetir: repete o último compasso executado ou o intervalo selecionado nos campos "Ir para" e "até". <br>
+</li><li>Parar: para a execução atual e posiciona no primeiro compasso.</li><li>Andamento: ajusta o andamento em três valores diferentes. O valor "1"
+significa o andamento normal, "1/2" significa que a partitura será
+executada com a metade da velocidade normal e, por fim, "1/4" executará
+a partitura 4 vezes mais lentamente que no andamento normal.
+Pressionando mais uma vez, o andamento voltará para o valor "1".</li><li>Imprimir: abre a tela para visualizar e imprimir a partitura
 ativa.</li>
 </ul>
-<p>No modo normal, o executor de MIDI não requer explicações
-adicionais, visto que só possui as funcionalidades básicas, isto é,
-executar/pausar/parar. A impressão é realizada com as ferramentas do
-próprio browser. Já o botão "Ferramentas" dá acesso ao Editor de
-Partituras, que é o foco desta página. </p>
-<h2>Ferramentas</h2>
-<p>Ao clicar no menu ferramentas, uma nova página será exibida. Esta
-página é dividida em 3 partes: a primeira delas é uma área de texto que
-expõe o conteúdo do arquivo ABCX. Abaixo desta, fica a "<span style="font-weight: bold;">Barra de botões
-de edição</span>" e, ao final, a área de visualização da partitura
-resultante
-do texto.</p>
-<h3>Barra de botões de edição</h3>
-<div style="margin-left: 50px;"><img src="../img/ferramentas.png"></div>
-<p>Da esquerda para a direita os seguintes botões de funcionalidades
-são listados:</p>
+<p> </p>
+<h2>Editando uma partitura<br>
+</h2>
+<p>O segundo objetivo deste estúdio é permitir alterar qualquer partitura. Para tanto, reconfigure o tela para facilitar a edição:</p>
 <ul>
-  <li>seletor de acordeon: seleciona o acordeon para o qual a tablatura
-será gerada.<br>
-  </li>
-  <li>seletor de tom: modifica (transpõe) a tonalidade da partitura. <br>
-  </li>
-  <li>oitava acima: transpõe a partitura para uma oitava acima.<br>
-  </li>
-  <li>oitava abaixo: transpõe a partitura para uma oitava abaixo.</li>
-  <li>ver impressão: permite a impressão do estado atual da partitura.<br>
-  </li>
-  <li>salvar local: permite fazer o download do arquivo ABCX do estado
-atual da partitura.<br>
-  </li>
-  <li>fechar: fecha o editor e retorna a tela de execução, incluindo as
-alterações feitas na partitura.<br>
-  </li>
-  <li>atualizar:
-atualiza a partitura a partir das alterações efetuadas no texto ABCX.
-Após a atualização a lista de erros (se houver) será mostrada
-juntamente com a partitura. <br>
-  </li>
-  <li>Play/Pause/Stop/Relógio:
-um tocador de MIDI simples está disponível para a execução da
-partitura. Para que o MIDI esteja disponível é necessário atualizar a
-partitura pelo menos uma vez.<br>
+<li>pressione Ctrl+'0' (zoom 100%).<br>
+  </li><li>pressione o botão "ABCX" da
+barra de botões para exibir a "Área de texto" <br>
+  </li><li>pressione o
+botão "Editor" para exibir o "Editor ABCX" da gaita (posicione-o adequadamente). <br>
   </li>
 </ul>
-<p>O editor é bastante simples mas pressupõe o conhecimento do formato
-ABC, bem como das regras usadas no formato ABCX para gerar a tablatura.
-Para aprender o formato ABC procure documentação na internet.</p>
+<p>Pode ser interessante deixar visível também o mapa de teclado (isso irá ajudá-lo a escolher os botões quando estiver editando a tablatura, por exemplo). Uma possível visão do estúdio para editar partituras é a seguinte:</p>
+<div style=""><img style="width: 1024px; height: 567px;" alt="Estudo em modo de edição" title="Estudo em modo de edição" src="../img/estudio.visao.3.png"></div>
+
+
+<p>Antes de falarmos de edição propriamente dita, vamos entender a
+relação entre a partitura, o texto ABCX e o Mapa do Teclado. A
+partitura é gerada do texto ABCX. Quando se altera o texto ABCX,
+deve-se pressionar obotão "Atualizar" para que essas alterações reflitam na partitura.  <br>
+</p>
+<p>É.</p>
+<div style=""><img style="width: 636px; height: 50px;" alt="Barra superior do editor ABCX" title="Barra superior do editor ABCX" src="../img/estudio.editor.top.png"></div>
+
+
+<br>
+<div style=""><img style="width: 376px; height: 76px;" alt="Barra inferior do Editor ABCX" title="Barra inferior do Editor ABCX" src="../img/estudio.editor.bottom.png"></div>
+
+<p><br>
+</p>
 <p>Quanto às funcionalidades que este editor provê, destacamos as
 seguintes características:</p>
+
 <ul>
   <li>Sempre que o texto ABCX for alterado e a chave
 "accordionTab" estiver presente, se não houver uma tablatura definida,
