@@ -163,13 +163,15 @@ SITE.Mapa.prototype.setup = function (tabParams) {
     return gaita;
 
 };
-
 SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
+    var self = this;
+    var loader = this.startLoader( "LoadRepertoire" );
+    loader.start(  function() { self.loadOriginalRepertoire2(tabParams,loader); }, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
+};
+    
+SITE.Mapa.prototype.loadOriginalRepertoire2 = function (tabParams, loader) {
     tabParams = tabParams || {};
 
-    var loader = this.startLoader( "LoadRepertoire" );
-    loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
-    
     this.renderedPractice.title = tabParams.practiceTitle
         || FILEMANAGER.loadLocal('property.' + this.getSelectedAccordion().getId() + '.practice.title')
         || this.getSelectedAccordion().getFirstPractice();
@@ -194,8 +196,13 @@ SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
     loader.stop();
 
 };
-
 SITE.Mapa.prototype.showStudio = function () {
+    var self = this;
+    var loader = this.startLoader( "Studio" );
+    loader.start(  function() { self.showStudio2(loader); }, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
+
+};
+SITE.Mapa.prototype.showStudio2 = function (loader) {
     var props = FILEMANAGER.loadLocal('property.studio.settings');
     
     $("#mapContainerDiv").hide();
@@ -228,10 +235,16 @@ SITE.Mapa.prototype.showStudio = function () {
         this.studio.showEditor();
         this.studio.showMap();
     }
+    loader.stop();
 };
 
 SITE.Mapa.prototype.closeStudio = function () {
+    var self = this;
+    var loader = this.startLoader( "Studio" );
+    loader.start(  function() { self.closeStudio2(loader); }, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
+};
     
+SITE.Mapa.prototype.closeStudio2 = function (loader) {
     FILEMANAGER.saveLocal( 'property.studio.settings', 
         this.studio.textVisible 
         + '|' + this.studio.editorVisible 
@@ -251,8 +264,8 @@ SITE.Mapa.prototype.closeStudio = function () {
     document.getElementById("DR_accordions").style.color = 'inherit';
     document.getElementById("DR_repertoire").style.color = 'inherit';
     $("#mapContainerDiv").fadeIn();
-    //this.translate(); // chamado para corrigir pequeno bug - desenhar svg em div hide()
     this.printTab();
+    loader.stop();
 };
 
 SITE.Mapa.prototype.startPlay = function( type, value ) {
@@ -540,10 +553,13 @@ SITE.Mapa.prototype.getSelectedAccordion = function() {
 };
 
 SITE.Mapa.prototype.showABC = function(type, i) {
-    var tab;
+    var self = this;
     var loader = this.startLoader( "TABLoader" + type );
-    loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
-    
+    loader.start(  function() { self.showABC2(type, i, loader); }, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
+};
+
+SITE.Mapa.prototype.showABC2 = function(type, i, loader ) {
+    var tab;
     switch( type ) {
         case 'song':
             tab = this.renderedTune;
@@ -561,7 +577,6 @@ SITE.Mapa.prototype.showABC = function(type, i) {
     
     FILEMANAGER.saveLocal( 'property.'+this.getSelectedAccordion().getId()+'.'+type+'.title', tab.title );
     document.getElementById( tab.parms.span ).innerHTML = (tab.title.length>43 ? tab.title.substr(0,40) + "..." : tab.title);
-    loader.update( null, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
     this.renderTAB( true, type );
     this.tuneContainerDiv.scrollTop = 0;    
     
@@ -644,7 +659,6 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
 SITE.Mapa.prototype.showMedia = function(url) {
     if(url) {
         w3.topDiv.style.display = 'none';
-        //w6.dataDiv.innerHTML = '<a href="'+url+'">URL</a>';
         w6.dataDiv.innerHTML = url;
         w6.topDiv.style.display = 'inline';
     } else {

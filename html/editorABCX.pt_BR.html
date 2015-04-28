@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html><head><!--
+<html><head>
+<!--
 
 To change this license header, choose License Headers in Project Properties.
 
@@ -7,10 +8,8 @@ To change this template file, choose Tools | Templates
 
 and open the template in the editor.
 
---><title>Estúdio ABCX</title>
-
-
-  
+-->
+  <title>Estúdio ABCX</title>
 
   
   
@@ -23,7 +22,8 @@ and open the template in the editor.
   <link href="../css/help.css" rel="stylesheet">
 
   
-  <script type="text/javascript" src="../javascripts/help.js"></script></head><body>
+  <script type="text/javascript" src="../javascripts/help.js"></script>
+</head><body>
 <div id="helpHeader" class="helpHeader"> <span class="helpTit">Estúdio
 ABCX</span> <button id="printHelp" class="btn" title="Imprimir" onclick="printHelp();">Imprimir</button> <button id="closeHelp" class="btn" title="Fechar" onclick="window.close();">Fechar</button>
 </div>
@@ -52,41 +52,89 @@ exemplo o editor e o mapa de teclado. Para fechar o estúdio e voltar à
 página inicial, clique no sinal <span style="font-weight: bold;">[-]</span>,
 no canto superior
 esquerdo da janela. </p>
-<img src="../img/estudio.visao.geral.png" style="width: 1041px; height: 552px;" alt="Visão geral do estúdio ABCX" title="Visão geral do estúdio ABCX"> <br>
+<div style="text-align: left;"><img src="../img/estudio.visao.geral.png" style="width: 1024px; height: 545px;" alt="Visão geral do estúdio ABCX" title="Visão geral do estúdio ABCX"> <br>
+</div>
 <p><span style="font-weight: bold;">Nota</span>: Qualquer alteração no
 item será levada para o repertório, mas não significa que ela foi
-salva. As alterações duram enquando o navegador for mantido aberto ou até
+salva. As alterações duram enquando o navegador for mantido aberto ou
+até
 que o próximo acordeon seja selecionado. Caso queira preservar suas
 alterações para futuras execuções, salve o item usando o botão "<span style="font-weight: bold;">Salvar Local</span>". Posteriormente ele
 poderá ser carregado. Veja informações no menu de ajuda "<span style="font-weight: bold;">Mapa para acordeons</span>".</p>
-<p>Combinando os componentes é possível ajustar a apresentação para os
+<p>A tela do estúdio é totalmente configurável. Combinando os
+componentes é possível ajustar a apresentação para os
 dois objetivos principais do estúdio:</p>
 <ul>
   <li>Editar partituras</li>
   <li>Executar partituras em modo didático</li>
 </ul>
-<p>Abaixo vamos apresentar os componentes. Começaremos pela barra de bõtes destacada em azul na figura acima:</p>
-
+<p>Abaixo vamos apresentar os componentes. Começaremos pela barra de
+bõtes destacada em azul na figura acima:</p>
 <h2>Barra de botões</h2>
-<div style="margin-left: 50px;"><img style="width: 863px; height: 31px;" alt="Barra de Botões" title="Barra de Botões" src="../img/ferramentas.png"></div>
+<div style="margin-left: 50px;"><img src="../img/estudio.barra.de.botoes.png" style="width: 694px; height: 67px;" alt="Barra de Botões" title="Barra de Botões"></div>
 <p>A barra de botões é elemento de controle do estúdio. Funções como
-apresentação, impressão, salvamento e o controle do player estãoo
+apresentação, impressão, salvamento e o controle do player estão
 disponíveis.<br>
 </p>
 <p>Os três primeiros botões controlam a apresentação do estúdio. O
 botão "ABCX" permite ocultar/exibir a "Área de texto". Os botões
 "Editor" e "Teclado" tem a mesma função, respectivamente, para o
 "EditorABCX" e para o "Mapa de Teclado" do acordeon. </p>
-<p>O botão "Imprimir", tal qual na página inicial, permite visualizar a impressão da partitura.</p>
+<p>O botão "Imprimir", tal qual na página inicial, permite visualizar a
+impressão da partitura.</p>
 <p>O botão "Salvar Local" faz o download do arquivo ABCX (texto da
 partitura) para o HD do computador local. Este arquivo pode ser
 guardado e carregado posteriormente.</p>
 <p>O botão "Atualizar" redesenha a partitura na "Folha de Partitura".
 Toda alteração promovida no texto ABCX, seja através do Editor ou da
-Área de texto, é efetivada na partitura através deste botão. O MIDI também é atualizado ao redesenhar a partitura.</p>
+Área de texto, é efetivada na partitura através deste botão. O MIDI
+também é atualizado ao redesenhar a partitura.</p>
 <p>O botão seguinte controla o MIDI Player, nas funções "Execução
-Normal" ou "Modo Didático". Estas funções serão descritas adequadamente
+Normal" ou "Modo Didático". Os botões que aparecem na sequência são
+depentendes da função selecionada. Estas funções serão descritas
+adequadamente
 mais adiante.</p>
+<h2>Controlando a apresentação<br>
+</h2>
+<p>Um dos objetivos deste estúdio é executar, com o algumas
+facilidades, uma dada partitura. A primeira coisa a fazer é privilegiar
+o espaço da tela a fim de comportar a maior parte da partitura e um
+mapa de
+teclado.&nbsp; Para tanto, além das funcionalidades disponíveis aqui,
+há algumas
+ações no próprio navegador que ajudam. Listamos os seguintes comandos,
+comuns à maioria dos navegadores de Internet:</p>
+<ul>
+  <li>F11 - Pressione este botão no teclado do seu computador para
+entrar/sair do modo "Tela cheia" do navegador.</li>
+  <li>Ctrl+'0' - Pressione simultaneamente a tecla "Ctrl" e o número
+Zero para ajustar o zoom do navegador em 100%, ou seja, o tamanho
+natural da páginaWeb </li>
+  <li>Ctrl+'-' - Pressione simultaneamente a tecla "Ctrl" e o sinal de
+Subtração para diminur o zoom da página.</li>
+  <li>Ctrl+'+' - Pressione simultaneamente a tecla "Ctrl" e o sinal de
+Adição para aumentar o zoom da página.</li>
+</ul>
+<p>Vamos preparar o estúdio para executar uma partitura em modo
+didático. Faça o seguinte: <br>
+</p>
+<ul>
+  <li>pressione F11 (uma vez para esconder os menus do navegador</li>
+  <li>pressione Ctrl+'-' (até o zoom ficar em 90%)<br>
+  </li>
+  <li>pressione o botão "ABCX" da
+barra de botões para ocultar a "Área de texto" <br>
+  </li>
+  <li>pressione o
+botão "Teclado" para exibir o "Mapa de Teclado" da gaita (posicione-o adequadamente). <br>
+  </li>
+  <li>pressione o botão "Modo Normal/Didático" para entrar no modo de
+execução "Didático". <br>
+  </li>
+</ul>
+<p>O estúdio vai ficar com essa aparência:</p>
+<div><img><img style="width: 1024px; height: 640px;" alt="Modo Didático" title="Modo Didático" src="../img/estudio.modo.didatico.1.png">
+</div>
 <h2>Folha de Partitura<br>
 </h2>
 <p>A folha de partitura, como o nome diz, é o display da partitura
@@ -99,7 +147,6 @@ vermelho retratam erros de sintaxe no texto. Há ainda mensagens mais
 incomuns, em azul, no caso de ocorrer algum erro de execução do MIDI.</p>
 <h2>Executando uma partitura<br>
 </h2>
-
 <p>Este é o primeiro objetivo desta página: executar, com o algumas
 facilidades, uma dada partitura. A primeira coisa a fazer é privilegiar
 o espaço da tela para comportar a maior parte da partitura e um mapa de
@@ -107,12 +154,15 @@ teclado.&nbsp; Para tanto, além de algumas funcionalidades, há algumas
 ações no próprio navegador que ajudam. Listamos os seguintes comandos,
 comuns à maioria dos navegadores de Internet:</p>
 <ul>
-  <li>F11 - Pressione este botão no teclado do seu computador para entrar/sair do modo "Tela cheia" do navegador.</li>
+  <li>F11 - Pressione este botão no teclado do seu computador para
+entrar/sair do modo "Tela cheia" do navegador.</li>
   <li>Ctrl+'0' - Pressione simultaneamente a tecla "Ctrl" e o número
 Zero para ajustar o zoom do navegador em 100%, ou seja, o tamanho
 natural da páginaWeb </li>
-  <li>Ctrl+'-' - Pressione simultaneamente a tecla "Ctrl" e o sinal de Subtração para diminur o zoom da página.</li>
-  <li>Ctrl+'+' - Pressione simultaneamente a tecla "Ctrl" e o sinal de Adição para aumentar o zoom da página.</li>
+  <li>Ctrl+'-' - Pressione simultaneamente a tecla "Ctrl" e o sinal de
+Subtração para diminur o zoom da página.</li>
+  <li>Ctrl+'+' - Pressione simultaneamente a tecla "Ctrl" e o sinal de
+Adição para aumentar o zoom da página.</li>
 </ul>
 <p>Estes comandinhos, aliados às funcionalidades deste estúdio,
 completarão o cenário. Faça o seguinte: pressione o botão "ABCX" da
@@ -127,7 +177,6 @@ passo-a-passo. O estúdio vai ficar com essa aparência:</p>
 o modo <span style="font-weight: bold;">didático</span> (ver
 documentação do modo didático). No modo <span style="font-weight: bold;">normal</span>,
 estão disponíveis os 5 botões listados acima:</p>
-
 <ul>
   <li>Modo normal/didático: chaveia entre os dois modos.</li>
   <li>Executar/Pausar: inicia a execução da partitura que estiver

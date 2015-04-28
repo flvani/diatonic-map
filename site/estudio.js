@@ -685,6 +685,12 @@ SITE.Estudio.prototype.editorChanged = function (transpose, force) {
 };
 
 SITE.Estudio.prototype.fireChanged = function (transpose, force) {
+    var self = this;
+    var loader = this.startLoader( "FC" );
+    loader.start(  function() { self.fireChanged2(transpose, force, loader); }, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
+};
+
+SITE.Estudio.prototype.fireChanged2 = function (transpose, force, loader) {
     
     if( force || this.oldAbcText !== this.editArea.getString() ) {
         
@@ -696,7 +702,10 @@ SITE.Estudio.prototype.fireChanged = function (transpose, force) {
             this.modelChanged();
         }
     }    
+    if(loader)
+        loader.stop();
 };
+
 
 SITE.Estudio.prototype.modelChanged = function() {
     
@@ -733,12 +742,28 @@ SITE.Estudio.prototype.setup = function(tab, accordionId) {
     editAreaLoader.setValue("editorTextArea", this.renderedTune.text );
     this.editorWindow.setTitle('-&nbsp;' + tab.title);
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
-    this.modelChanged();
-
+    this.fireChanged2(0,'force');
 };
 
 SITE.Estudio.prototype.updateSelection = function() {
   try {
     this.renderedTune.printer.rangeHighlight(this.editArea.textarea.selectionStart, this.editArea.textarea.selectionEnd);
   } catch (e) {} // maybe printer isn't defined yet?
+};
+
+SITE.Estudio.prototype.startLoader = function(id, start, stop) {
+
+    var loader = new window.widgets.Loader({
+         id: id
+        ,bars: 0
+        ,radius: 0
+        ,lineWidth: 20
+        ,lineHeight: 70
+        ,timeout: 1 // maximum timeout in seconds.
+        ,background: "rgba(0,0,0,0.5)"
+        ,container: document.body
+        ,oncomplete: stop // call function once loader has started	
+        ,onstart: start // call function once loader has started	
+    });
+    return loader;
 };
