@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html><head>
-<!--
+<html><head><!--
 
 To change this license header, choose License Headers in Project Properties.
 
@@ -9,6 +8,8 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 
 --><title>Estúdio ABCX</title>
+
+
 
 
   
@@ -63,23 +64,23 @@ que o próximo acordeon seja selecionado. Caso queira preservar suas
 alterações para futuras execuções, salve o item usando o botão "<span style="font-weight: bold;">Salvar Local</span>". Posteriormente ele
 poderá ser carregado. Veja informações no menu de ajuda "<span style="font-weight: bold;">Mapa para acordeons</span>".</p>
 <p>A tela do estúdio é totalmente configurável. Combinando os
-componentes é possível ajustar a janela para atingir os
+componentes é possível ajustar a janela de modo a atingir os
 dois objetivos principais desta página:</p>
 <ul><li>Executar partituras em modo didático</li>
   <li>Editar partituras</li>
 </ul>
-<p>Abaixo vamos apresentar os componentes. Começaremos pela barra de
+<p>Abaixo, vamos apresentar os componentes. Começaremos pela barra de
 bõtes destacada em azul na figura acima:</p>
 <h2>Barra de botões</h2>
 <div style="margin-left: 50px;"><img src="../img/estudio.barra.de.botoes.png" style="width: 694px; height: 67px;" alt="Barra de Botões" title="Barra de Botões"></div>
 <p>A barra de botões é elemento de controle do estúdio. Funções como
-apresentação, impressão, salvamento e o controle do player estão
+apresentação, impressão, salvamento e o controle do MIDI player estão
 disponíveis.<br>
 </p>
 <p>Os três primeiros botões controlam a apresentação do estúdio. O
 botão "ABCX" permite ocultar/exibir a "Área de texto". Os botões
 "Editor" e "Teclado" tem a mesma função, respectivamente, para o
-"EditorABCX" e para o "Mapa de Teclado" do acordeon. </p>
+"Editor ABCX" e para o "Mapa de Teclado" do acordeon. </p>
 <p>O botão "Imprimir", tal qual na página inicial, permite visualizar a
 impressão da partitura.</p>
 <p>O botão "Salvar Local" faz o download do arquivo ABCX (texto da
@@ -89,9 +90,9 @@ guardado e carregado posteriormente.</p>
 Toda alteração promovida no texto ABCX, seja através do Editor ou da
 Área de texto, é efetivada na partitura através deste botão. O MIDI
 também é atualizado ao redesenhar a partitura.</p>
-<p>O botão seguinte controla o MIDI Player, nas funções "Execução
-Normal" ou "Modo Didático". Os botões que aparecem na sequência são
-depentendes da função selecionada. Estas funções serão descritas
+<p>O botão "Modo normal/didático" controla o MIDI Player, nas funções "Execução
+Normal" ou "Execução em Modo Didático". Os botões que aparecem na sequência são
+dependentes da função selecionada. Estas funções serão descritas
 adequadamente
 mais adiante.</p>
 <h2>Controlando a apresentação<br>
@@ -136,15 +137,16 @@ execução "Didático". <br>
 <div><img src=""><img src="../img/estudio.visao.1.png" style="width: 1024px; height: 640px;" alt="Estúdio em modo de execução" title="Estúdio em modo de execução">
 </div><span style="font-weight: bold;"><br>
 </span>
-<p><span style="font-weight: bold;">Nota: </span>Observe que o mapa do teclado foi rotacionionado em 180º, criando o efeito "espelho". Pode ser interessante para quem está aprendendo a tocar.<br>
+<p><span style="font-weight: bold;">Nota: </span>Observe que o mapa do
+teclado foi rotacionado em 180°, criando o efeito "espelho". Pode ser
+interessante para quem está aprendendo a tocar.<br>
 </p>
 <h2>Folha de Partitura<br>
 </h2>
 
 <p>A folha de partitura, como o nome diz, é o display da partitura
 gerada a partir do texto ABCX. Adicionalmente, no topo da&nbsp;
-partitura, há uma pequena seção de avisos. Toda vez que a partitura é
-executada ou atualizada, se acontecer qualquer erro, o mesmo é listado
+partitura, há uma pequena seção de avisos. Toda vez que a partitura é atualizada, se acontecer qualquer erro, o mesmo é listado
 nesta área de advertências. A mensagem em verde significa que a
 partitura foi corretamente compilada a partir do texto. Mensagens em
 vermelho retratam erros de sintaxe no texto. Há ainda mensagens mais
@@ -154,9 +156,9 @@ incomuns, em azul, no caso de ocorrer algum erro de execução do MIDI.</p>
 
 <p>Duas facilidades podem ser obtidas a partir da janela do Mapa de
 Teclado: 1) visualizar, durante a execução da partitura, quais botões
-da gaita devem ser pressionados; e, 2) auxiliar na edição do texto ABC
-quando se pretende alterar a tablatura. Aliado ao modo de execução
-didática de uma partitura é uma execelente ferramenta para aprendizado.
+da gaita devem ser pressionados; e, 2) auxiliar na edição do texto ABCX,
+quando se pretende alterar a tablatura. O mapa, aliado ao modo de execução
+didática de uma partitura, é uma excelente ferramenta para aprendizado.
 Além disso a janela do Mapa de Teclado possui algumas funcionalidades
 na barra superior (à esquerda do título da janela). Listando os botões
 da esquerda para a direita, as funcionalidades são as seguintes:</p>
@@ -182,17 +184,7 @@ uma partitura e ver quais são as funcionalidades disponíveis para quem
 está aprendendo a tocar gaita. Há dois modos de execução possíveis:
 Modo normal e Modo didático.<br>
 </p>
-<p>No modo normal de execução, o MIDI player só tem 3 botões:</p>
-<ul>
-  
-  <li>Modo normal/didático: chaveia entre os dois modos.<br>
-  </li>
-<li>Executar/Pausar - Inicia a execução ou continua a partir do ponto onde foi suspensa.<br>
-  </li>
-  <li>Parar - Interrompe a execução e posiciona o MIDI player para a executar do ínicio novamente.<br>
-  </li>
-</ul>
-<p></p>
+<p>No modo normal de execução, o MIDI player só tem 3 botões:</p><p></p>
 <div style="margin-left: 50px;"><img style="width: 190px; height: 34px;" alt="Modo normal" title="Modo normal" src="../img/estudio.modo.normal.png"></div>
 
 
@@ -200,41 +192,45 @@ Modo normal e Modo didático.<br>
 </p>
 
 
+<p>
+</p>
+<ul>
+<li>Modo normal/didático: chaveia entre os dois modos.<br>
+  </li><li>Executar/Pausar - Inicia a execução ou continua a partir do ponto onde foi suspensa.<br>
+  </li><li>Parar - Interrompe a execução e posiciona o MIDI player para a executar do ínicio novamente.</li>
+</ul>
 <p>Além dos botões do MIDI player, à direita, há o relógio indicador do tempo de execução.<br>
-</p><h2>Execução em modo didático<br>
+</p>
+<h2>Execução em modo didático<br>
 </h2>
-
-<div style="margin-left: 50px;"><img style="width: 434px; height: 35px;" alt="Modo didático" title="Modo didático" src="../img/estudio.modo.didatico.png"></div>
-
 <p>O modo didático foi pensado para quem está aprendendo gaita ponto.
 As funcionalidades
 presentes permitem ao usuário executar detalhadamente trechos da
 partitura. Abaixo detalhamos as funções (listadas da esquerda para a direita):<br>
+
+
 </p>
-
-
-
-
-<ul>
-<li>Modo normal/didático: Chaveia entre os dois modos. Ao
+<div style="margin-left: 50px;"><img style="width: 434px; height: 35px;" alt="Modo didático" title="Modo didático" src="../img/estudio.modo.didatico.png"><br>
+</div><ul><li>Modo normal/didático: Chaveia entre os dois modos. Ao
 chavear de volta ao modo normal é como se a partitura estivesse
 pausada. Se pressionar o botão executar, a partitura será executada do
 ponto onde parou no modo didático.<br>
+
 </li><li>Ir para: Permite executar um compasso específico. Para tanto, digite o número do compasso e pressione [Enter].</li>
   <li>até: Em conjunto com o campo "Ir para", permite definir um
 intervalo para execução. Informe o número do compasso e pressione
 [Enter].<br>
   </li>
-<li>Passo a passo: executa nota por nota do compasso, uma nota cada vez
+<li>Passo a passo: executa nota por nota da partitura, uma nota cada vez
 que o botão é pressionado. Sempre executa a partir do ponto onde a
 execução foi anteriormente suspensa.<br>
-</li><li>Compasso: executa o compasso corrente até o seu final.Sempre executa a partir do ponto onde a execução foi anteriormente suspensa.</li><li>Repetir: repete o último compasso executado ou o intervalo selecionado nos campos "Ir para" e "até". <br>
+</li><li>Compasso: executa o compasso corrente até o seu final. Sempre
+executa a partir do ponto onde a execução foi anteriormente suspensa.</li><li>Repetir: repete o último compasso executado ou o intervalo selecionado nos campos "Ir para" e "até". <br>
 </li><li>Parar: para a execução atual e posiciona no primeiro compasso.</li><li>Andamento: ajusta o andamento em três valores diferentes. O valor "1"
 significa o andamento normal, "1/2" significa que a partitura será
 executada com a metade da velocidade normal e, por fim, "1/4" executará
 a partitura 4 vezes mais lentamente que no andamento normal.
-Pressionando mais uma vez, o andamento voltará para o valor "1".</li><li>Imprimir: abre a tela para visualizar e imprimir a partitura
-ativa.</li>
+Pressionando mais uma vez, o andamento voltará para o valor "1".</li>
 </ul>
 <p> </p>
 <h2>Editando uma partitura<br>
@@ -248,26 +244,97 @@ barra de botões para exibir a "Área de texto" <br>
 botão "Editor" para exibir o "Editor ABCX" da gaita (posicione-o adequadamente). <br>
   </li>
 </ul>
-<p>Pode ser interessante deixar visível também o mapa de teclado (isso irá ajudá-lo a escolher os botões quando estiver editando a tablatura, por exemplo). Uma possível visão do estúdio para editar partituras é a seguinte:</p>
-<div style=""><img style="width: 1024px; height: 567px;" alt="Estudo em modo de edição" title="Estudo em modo de edição" src="../img/estudio.visao.3.png"></div>
+<p>Pode ser interessante deixar visível também o mapa de teclado (isso
+irá ajudá-lo a escolher os botões quando estiver editando a tablatura,
+por exemplo). Uma possível visão do estúdio para editar partituras é a
+seguinte:</p>
+<div style=""><img style="width: 1024px; height: 567px;" alt="Estúdio em modo de edição" title="Estúdio em modo de edição" src="../img/estudio.visao.3.png"></div>
 
 
+<p><span style="font-weight: bold;">Nota:</span> A janela do editor pode ser dimensionada clicando nas barrinhas diagonais, no canto inferior direito da janela.<br>
+</p>
 <p>Antes de falarmos de edição propriamente dita, vamos entender a
 relação entre a partitura, o texto ABCX e o Mapa do Teclado. A
-partitura é gerada do texto ABCX. Quando se altera o texto ABCX,
-deve-se pressionar obotão "Atualizar" para que essas alterações reflitam na partitura.  <br>
+partitura é gerada a partir do texto ABCX. Quando se altera o texto ABCX,
+deve-se pressionar o botão "Atualizar" para que essas alterações sejam refletidas na partitura. Quando
+atualizamos uma partitura, o MIDI também é refeito, de tal forma que,
+durante a execução da melodia, os botões correspondentes sejam
+destacados no mapa do teclado.</p>
+<p>Como você já deve ter percebido o texto ABCX aparece tanto na "Área
+de Texto" quanto na janela do "Editor ABCX". Os dois itens são
+passíveis de edição. Área de texto é um local onde se pode fazer uma
+alteração rápida, sem ter que abrir uma janela adicional. Contudo, se a
+janela do editor está aberta, a área de texto é desabilitada para
+edição. Toda alteração feita, em qualquer das áreas, repercute na outra.</p>
+<p>A janela do editor foi introduzida para alcançarmos algumas facilidades de edição, tais como: <br>
 </p>
-<p>É.</p>
-<div style=""><img style="width: 636px; height: 50px;" alt="Barra superior do editor ABCX" title="Barra superior do editor ABCX" src="../img/estudio.editor.top.png"></div>
+<ul>
+  <li>Texto colorido - Facilita a localização de elementos da partitura no texto e a detecção de erros de escrita.<br>
+  </li>
+  <li>Procura/Substituição - Procura e substituição de texto - funções básicas de edição.<br>
+  </li>
+  <li>Desfazer/Refazer - Possibilidade de desfazer e refazer mudanças no texto.<br>
+  </li>
+</ul>
+
+<p>Abaixo destacamos os elementos de controle da janela do editor, na barra superior da tela:<br>
+</p>
+<div style="text-align: center;"><img style="width: 858px; height: 48px;" alt="Barra superior do editor ABCX" title="Barra superior do editor ABCX" src="../img/estudio.editor.top.png"></div>
 
 
 <br>
-<div style=""><img style="width: 376px; height: 76px;" alt="Barra inferior do Editor ABCX" title="Barra inferior do Editor ABCX" src="../img/estudio.editor.bottom.png"></div>
+<p>A barra de título da janela (em verde) possui, da esquerda para a
+direita, os botões para fechar e mover a janela, tal como a janela do
+mapa do teclado e mostra o título da partitura editada. Imediatamente
+abaixo do título, centralizados, estão os comandos do editor, da
+esquerda para a direita: o botão que abre o diálogo de pesquisa e
+substituição, o botão desfazer, o botão refazer, o botão para
+ligar/desligar o texto colorido e o último botão, que refaz a escrita
+colorida em caso de perda de sincronismo com o texto.</p>
+<p>Na parte inferior do editor, temos as seguintes funções:<br>
 
-<p><br>
 </p>
-<p>Quanto às funcionalidades que este editor provê, destacamos as
-seguintes características:</p>
+<div style="text-align: center;"><img style="width: 851px; height: 66px;" alt="Barra inferior do Editor ABCX" title="Barra inferior do Editor ABCX" src="../img/estudio.editor.bottom.png"></div>
+
+
+<p>Na base da janela, temos uma "<span style="font-weight: bold;">barra de status</span>"
+onde são indicados a posição do cursor no texto (p. ex., o cursor está
+posicionado na coluna 11 da linha 13) e os quantitativos de linhas e
+caracteres do texto. No lado direito desta mesma barra, está o controle
+de tamanho da janela do editor (redimensionamento da janela). Abaixo da
+barra de status, temos 4 botões. São eles:</p>
+<ul>
+  <li>Seletor de Tonalidade - transpõe a tonalidade da música, escolhendo diretamente o novo tom, acima ou abaixo.<br>
+  </li>
+  <li>Oitava acima - Transpõe a música uma oitava para cima.<br>
+  </li>
+  <li>Oitava abaixo - Transpõe a música uma oitava para baixo.<br>
+  </li>
+  <li>Atualizar - Atualiza a partitura com as edições feitas até o momento.<br>
+  </li>
+</ul>
+<p><span style="font-weight: bold;">Nota:</span> Se o texto tiver sido alterado, ao fechar o editor, as mudanças automaticamente serão aplicadas à "Área de Texto" e serão atualizados a partitura e o MIDI.&nbsp; Se não quiser que as mudanças sejam aplicadas, use o botão "Desfazer"<br>
+</p>
+<h2>Edição rápida<br>
+</h2>
+
+<p>Caso queira fazer uma pequena alteração no texto ABCX você pode usar diretamente a área de texto, no topo do estúdio:<br>
+
+</p>
+
+<div style="text-align: center;"><img style="width: 1024px; height: 537px;" alt="Edição rápida" title="Edição rápida" src="../img/estudio.visao.4.png"></div>
+
+
+
+<br>
+<p>Note que, ao selecionar uma nota na partitura, o texto
+correspondente é destacado na área de texto. O inverso também é
+verdade, ao selecionar o texto. Essas funcionalidades, aliadas ao mapa
+do teclado, ajudam grandemente na edição. Veja: se fosse necessário
+mudar o movimento do fole (que está "abrindo") para "fechando", temos claramente a informação de que o baixo de "Sol" existe em ambas as direções e que a nota (também "Sol", no exemplo) do botão <span style="font-weight: bold;">5'</span>, pode ser encontrada tanto no mesmo botão <span style="font-weight: bold;">5'</span> quanto no botão <span style="font-weight: bold;">6</span>. Sabemos, então, que se mudarmos o texto de <span style="font-weight: bold;">G-5'</span> para<span style="font-weight: bold;"> G+5'</span> ou <span style="font-weight: bold;">G+6</span>, a tablatura continuará válida. A mudança do sinal de "<span style="font-weight: bold;">-</span>" para "<span style="font-weight: bold;">+</span>" indicará que o fole está "fechando". Para detalhes da sintaxe da tablatura leia, no menu de ajuda, o item "<span style="font-weight: bold;">Formato ABCX</span>".<br>
+</p>
+<p>Para finalizar, devemos considerar as seguintes coisas ao editar o texto ABCX:</p>
+
 
 <ul>
   <li>Sempre que o texto ABCX for alterado e a chave
