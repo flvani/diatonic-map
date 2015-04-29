@@ -116,10 +116,11 @@ notação abc, tablatura "/>
         
         <div id="mapContainerDiv" class="container" style="display: inline; float:left; margin-top: 0; margin-left: 0px;" >
             
+            <div id="useChromeDiv" style="position:absolute; left:925px; top:270px; width:150px; height: auto; display:none; z-index:10000;"></div> 
             <div id="hintsDiv" class="draggableWindow" style="left:900px; top:80px; width:200px; height: auto; display:inline; z-index:10000;"></div> 
             <div id="ADDiv" class="draggableWindow" style="left:920px; top:120px; width:200px; height: auto; display:none; z-index:10000;"></div> 
-            <div id="releaseDiv" class="draggableWindow" style="left:940px; top:160px; width:200px; height: auto; display:none; z-index:10000;"></div> 
             <div id="mediaDiv" class="draggableWindow" style="left:900px; top:80px; width:250px; height: auto; display:none; z-index:10000;"></div> 
+            <div id="releaseDiv" class="draggableWindow" style="left:940px; top:160px; width:200px; height: auto; display:inline; z-index:10000;"></div> 
     
             <div id="div_principal" class="span12" style="float:left; margin-left: 8px; margin-top: 8px; width: 930px;" >
               <div style="margin:0; padding:0; width:100%;">  
@@ -367,6 +368,14 @@ notação abc, tablatura "/>
         <script type="text/javascript" src="site/estudio.js"></script>
         
         <script id="mainScript" type="text/javascript">
+
+            var isOpera = !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+                // Opera 8.0+ (UA detection to detect Blink/v8-powered Opera)
+            var isFirefox = typeof InstallTrigger !== 'undefined';   // Firefox 1.0+
+            var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+                // At least Safari 3+: "[object HTMLElementConstructor]"
+            var isChrome = !!window.chrome && !isOpera;              // Chrome 1+
+            var isIE = /*@cc_on!@*/false || !!document.documentMode; // At least IE6    
             
             var producao = getABCXversion();
 
@@ -420,14 +429,14 @@ notação abc, tablatura "/>
                 var w2 = new DRAGGABLE.Div( 2, 'keyboardDiv', '', [ 'move|Mover', 'retweet|Rotacionar', 'zoom-in|Zoom','globe|Mudar Notação'], 'w2Callback', true );
                     w3 = new DRAGGABLE.Div( 3, 'hintsDiv', 'Dica...', null, null, true );
                 var w4 = new DRAGGABLE.Div( 4, 'ADDiv', 'Divulgação...', null, null, true );
-                var w5 = new DRAGGABLE.Div( 5, 'releaseDiv', 'Lançamento...', null, null, true );
+                    w5 = new DRAGGABLE.Div( 5, 'releaseDiv', 'Lançamento...', null, null, true );
                     w6 = new DRAGGABLE.Div( 6, 'mediaDiv', 'Mídia...', null, null, true );
                 
-                w3.dataDiv.innerHTML = '<center><b>'
+                w3.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
                    + '<br>O formato ABC é a base para toda a geração das partituras deste site. '
                    + '<br><br>Quer saber mais sobre este formato livre? '
                    + '<a target="_blank" href="http://pt.wikipedia.org/wiki/ABC_%28nota%C3%A7%C3%A3o_musical%29" >Clique aqui!</a>'
-                   + '</b></center>';
+                   + '<br></b></center>';
 
                 w4.dataDiv.innerHTML = 
                      '<table class="table table-bordered table-final" style="min-width: 200px;">'
@@ -439,19 +448,12 @@ notação abc, tablatura "/>
                     +   '</td>'
                     + '</tr>'
                     +'</table>';
+            
+                w5.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
+                   + '<h3>Versão 3.00</h3>'
+                   + '<br><a target="_blank" href="html/release.pt_BR.html" >Veja as notas<br>de lançamento.</a>'
+                   + '</b></center><br>';
       
-                w5.dataDiv.innerHTML =                 
-                     '<table class="table table-bordered table-final" style="min-width: 200px;">'
-                    +  '<tr>'
-                    +   '<td ><center>'
-                    +       '<h3>Versão 2.0<br>disponível.</h3><p>'
-                    +       '<b><a target="_blank" href="html/release.pt_BR.html" >O que há de novo?</a></b></p></center>'
-                    +   '</td>'
-                    + '</tr>'
-                    +'</table>';
-
-        
-        
                 myStudio = new SITE.Estudio(
                     {   // interfaceParams
                         showMapBtn: 'showMapBtn'
@@ -616,10 +618,7 @@ notação abc, tablatura "/>
                         MIDI.programChange(3, 21); // 
                         MIDI.programChange(4, 21); // 
                         MIDI.programChange(5, 21); // 
-                        $("#tabs li:first").attr("id","current"); // Activate the first tab
-                        $("#tuneContainerDiv #tabTunesDiv" ).fadeIn(); // Show first tab's content
-                        document.getElementById("modalAD").style.display = 'inline';
-                        document.getElementById("modalAbout").style.display = 'inline';
+                        postPlugin();
                     }
                 });
 
@@ -637,6 +636,18 @@ notação abc, tablatura "/>
                 });
             });
 
+            function postPlugin() {
+                $("#tabs li:first").attr("id","current"); // Activate the first tab
+                $("#tuneContainerDiv #tabTunesDiv" ).fadeIn(); // Show first tab's content
+                document.getElementById("modalAD").style.display = 'inline';
+                document.getElementById("modalAbout").style.display = 'inline';
+                if(!isChrome) {
+                    $('#useChromeDiv').html('<img src="img/chrome.png">');
+                    setTimeout(function() { $('#useChromeDiv').fadeIn('slow'); }, 2000);
+                    setTimeout(function() { $('#useChromeDiv').fadeOut('slow'); }, 22000);
+                }    
+            };
+            
             function w1Callback(e) {
                 myStudio.editorCallback(e);
             };

@@ -59,11 +59,11 @@ DRAGGABLE.Div = function(id, topDiv, title, aButtons, callBack, translate ) {
     
     this.divMove = function(e){
         self.stopMouse(e);
-        var y = ((e.y-self.y) + parseInt(self.topDiv.style.top) );
+        var y = ((e.clientY-self.y) + parseInt(self.topDiv.style.top) );
         self.topDiv.style.top =  (y<43?43:y)+ "px"; //hardcoded top of window
-        self.topDiv.style.left = ((e.x-self.x) + parseInt(self.topDiv.style.left) ) + "px"; 
-        self.x = e.x;
-        self.y = e.y;
+        self.topDiv.style.left = ((e.clientX-self.x) + parseInt(self.topDiv.style.left) ) + "px"; 
+        self.x = e.clientX;
+        self.y = e.clientY;
     };
 
     this.mouseUp = function (e) {
@@ -78,9 +78,8 @@ DRAGGABLE.Div = function(id, topDiv, title, aButtons, callBack, translate ) {
         self.dataDiv.style.pointerEvents = "none";
         window.addEventListener('mousemove', self.divMove, false);
         window.addEventListener('mouseout', self.divMove, false);
-        self.x = e.x;
-        self.y = e.y;
-
+        self.x = e.clientX;
+        self.y = e.clientY;
     };
     
     //TODO: tratar todos os botões da janela com stopMouse

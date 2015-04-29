@@ -207,9 +207,14 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         that.showABCXText();
     }, false);
     
-    this.showEditorButton.addEventListener("click", function () {
-        that.showEditor();
-    }, false);
+    if( !isChrome ) {
+        this.showEditorButton.style.pointerEvents = 'none';
+        this.showEditorButton.style.color = 'lightgray';
+    } else {
+        this.showEditorButton.addEventListener("click", function () {
+            that.showEditor();
+        }, false);
+    }
 
     this.printButton.addEventListener("click", function () {
         
@@ -431,7 +436,7 @@ SITE.Estudio.prototype.showMap = function() {
     this.mapVisible = ! this.mapVisible;
     this.accordion.render_keyboard_opts.show = this.mapVisible;
     if(this.mapVisible) {
-        this.keyboardWindow.topDiv.style.display = 'inline-block';
+        this.keyboardWindow.topDiv.style.display = 'inline';
         this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
         document.getElementById('I_showMap').setAttribute('class', 'icon-folder-open' );
     } else {
@@ -670,7 +675,8 @@ SITE.Estudio.prototype.parseABC = function(transpose) {
 
 SITE.Estudio.prototype.highlight = function(abcelem) {
   this.editArea.setSelection(abcelem.startChar, abcelem.endChar);
-  editAreaLoader.setSelectionRange("editorTextArea", abcelem.startChar, abcelem.endChar)
+  if(this.editorVisible)
+    editAreaLoader.setSelectionRange("editorTextArea", abcelem.startChar, abcelem.endChar);
 };
 
 SITE.Estudio.prototype.onChange = function() {
