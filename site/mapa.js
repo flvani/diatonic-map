@@ -689,12 +689,10 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
 
 SITE.Mapa.prototype.showMedia = function(url) {
     if(url) {
-        w3.topDiv.style.display = 'none';
-        w6.dataDiv.innerHTML = url;
-        w6.topDiv.style.display = 'inline';
+        $("#mediaDiv").find("[id^='draggableData']").html(url);
+        $('#mediaDiv').fadeIn('slow');
     } else {
-        w6.topDiv.style.display = 'none';
-        w3.topDiv.style.display = 'inline';
+        $('#mediaDiv').fadeOut('slow');
     }
 };
 

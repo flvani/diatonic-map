@@ -11,15 +11,14 @@
     ok Verificar bug ao editar/atualizar
     ok Verificar excesso de log nas traduções
 
-
-    Verificar bug ao iniciar studio com Vanera grossa
-
-    Verificar bug no gerador de tablatura  (F#) ou (Gb) deveriam ser iguais para noteToButtonsOpen 
+    ok Verificar bug no gerador de tablatura  (F#) ou (Gb) deveriam ser iguais para noteToButtonsOpen 
                 ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
                 var note = this.accordion.getNoteName(item, this.accTrebKey, this.trebBarAcc, false);
                 ABCXJS.tablature.Accordion.prototype.getButtons
 
-    Atualizar a ajuda
+    ok Atualizar a ajuda
+
+    Verificar bug ao iniciar studio com Vanera grossa
 
     Implementar pagina de producao
 -->
@@ -116,11 +115,11 @@ notação abc, tablatura "/>
         
         <div id="mapContainerDiv" class="container" style="display: inline; float:left; margin-top: 0; margin-left: 0px;" >
             
-            <div id="useChromeDiv" style="position:absolute; left:925px; top:270px; width:150px; height: auto; display:none; z-index:10000;"></div> 
-            <div id="hintsDiv" class="draggableWindow" style="left:900px; top:80px; width:200px; height: auto; display:inline; z-index:10000;"></div> 
-            <div id="mediaDiv" class="draggableWindow" style="left:900px; top:80px; width:250px; height: auto; display:none; z-index:10000;"></div> 
-            <div id="releaseDiv" class="draggableWindow" style="left:920px; top:105px; width:200px; height: auto; display:inline; z-index:10000;"></div> 
+            <div id="hintsDiv" class="draggableWindow" style="left:900px; top:80px; width:200px; height: auto; display:none; z-index:10000;"></div> 
+            <div id="releaseDiv" class="draggableWindow" style="left:900px; top:240px; width:200px; height: auto; display:none; z-index:10000;"></div> 
             <div id="ADDiv" class="draggableWindow" style="left:940px; top:160px; width:200px; height: auto; display:none; z-index:10000;"></div> 
+            <div id="useChromeDiv" style="position:absolute; left:925px; top:270px; width:150px; height: auto; display:none; z-index:10000;"></div> 
+            <div id="mediaDiv" class="draggableWindow" style="left:900px; top:80px; width:250px; height: auto; display:none; z-index:10000;"></div> 
     
             <div id="div_principal" class="span12" style="float:left; margin-left: 8px; margin-top: 8px; width: 930px;" >
               <div style="margin:0; padding:0; width:100%;">  
@@ -435,11 +434,16 @@ notação abc, tablatura "/>
                     w5 = new DRAGGABLE.Div( 5, 'releaseDiv', 'Lançamento...', null, null, true );
                     w6 = new DRAGGABLE.Div( 6, 'mediaDiv', 'Mídia...', null, null, true );
                 
+//                w3.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
+//                   + 'O formato ABC é a base para toda a geração das partituras deste site. '
+//                   + '<br><br>Quer saber mais sobre este formato livre? '
+//                   + '<a target="_blank" href="http://pt.wikipedia.org/wiki/ABC_%28nota%C3%A7%C3%A3o_musical%29" >Clique aqui!</a>'
+//                   + '<br></b></center>';
+           
                 w3.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
-                   + 'O formato ABC é a base para toda a geração das partituras deste site. '
-                   + '<br><br>Quer saber mais sobre este formato livre? '
-                   + '<a target="_blank" href="http://pt.wikipedia.org/wiki/ABC_%28nota%C3%A7%C3%A3o_musical%29" >Clique aqui!</a>'
-                   + '<br></b></center>';
+                   + 'Conheça o novo<br>"Estúdio&nbsp;ABCX".<br>'
+                   + '<a target="_blank" href="html/estudioABCX.pt_BR.html" >Clique aqui!</a>'
+                   + '<br>O estúdio é acessado através do botão "Ferramentas".</b></center>';
 
                 w4.dataDiv.innerHTML = 
                      '<table class="table table-bordered table-final" style="min-width: 200px;">'
@@ -454,7 +458,7 @@ notação abc, tablatura "/>
             
                 w5.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
                    + '<h3>Versão 3.00</h3>'
-                   + '<br><a target="_blank" href="html/release.pt_BR.html" >Veja as notas<br>de lançamento.</a>'
+                   + '<a target="_blank" href="html/release.pt_BR.html" >Veja as notas<br>de lançamento.</a>'
                    + '</b></center><br>';
       
                 myStudio = new SITE.Estudio(
@@ -637,16 +641,39 @@ notação abc, tablatura "/>
                     }
                 });
             });
+            function getDate(){
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+
+                if(dd<10) {
+                    dd='0'+dd;
+                } 
+
+                if(mm<10) {
+                    mm='0'+mm;
+                } 
+
+                return parseInt(yyyy+mm+dd);
+            }
 
             function postPlugin() {
                 $("#tabs li:first").attr("id","current"); // Activate the first tab
                 $("#tuneContainerDiv #tabTunesDiv" ).fadeIn(); // Show first tab's content
                 document.getElementById("modalAD").style.display = 'inline';
                 document.getElementById("modalAbout").style.display = 'inline';
+                
+                $('#hintsDiv').fadeIn('slow');
+                
+                if( getDate() <= 20150515 ) {
+                    $('#releaseDiv').fadeIn('slow');
+                }
+                
                 if(!isChrome) {
                     $('#useChromeDiv').html('<img src="img/chrome.png">');
                     setTimeout(function() { $('#useChromeDiv').fadeIn('slow'); }, 2000);
-                    setTimeout(function() { $('#useChromeDiv').fadeOut('slow'); }, 22000);
+                    setTimeout(function() { $('#useChromeDiv').fadeOut('slow'); }, 17000);
                 }    
             };
             
