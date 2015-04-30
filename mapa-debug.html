@@ -82,8 +82,8 @@ notação abc, tablatura "/>
                                             <ul class="dropdown-menu" id="opcoes_teoria">
                                               <li><a id="DR_accordion_maps" target="_blank" href="html/mapas.pt_BR.html" >Mapas para acordeons</a></li>
                                               <li><a id="DR_tablature" target="_blank" href="html/tablatura.pt_BR.html" >Tablaturas para acordeons</a></li>
-                                              <li><a id="DR_abc_format" target="_blank" href="html/formatoABCX.pt_BR.html" >Formato ABCX</a></li>
                                               <li><a id="DR_abc_editor" target="_blank" href="html/estudioABCX.pt_BR.html" >Estúdio ABCX</a></li>
+                                              <li><a id="DR_abc_format" target="_blank" href="html/formatoABCX.pt_BR.html" >Formato ABCX</a></li>
                                               <!--li><a id="DR_didactic_mode" target="_blank" href="html/modoDidatico.pt_BR.html" >Modo didático</a></li-->
                                               <li><a id="DR_about" href="#modalAbout" >Sobre</a></li>
                                             </ul>
@@ -118,9 +118,9 @@ notação abc, tablatura "/>
             
             <div id="useChromeDiv" style="position:absolute; left:925px; top:270px; width:150px; height: auto; display:none; z-index:10000;"></div> 
             <div id="hintsDiv" class="draggableWindow" style="left:900px; top:80px; width:200px; height: auto; display:inline; z-index:10000;"></div> 
-            <div id="ADDiv" class="draggableWindow" style="left:920px; top:120px; width:200px; height: auto; display:none; z-index:10000;"></div> 
             <div id="mediaDiv" class="draggableWindow" style="left:900px; top:80px; width:250px; height: auto; display:none; z-index:10000;"></div> 
-            <div id="releaseDiv" class="draggableWindow" style="left:940px; top:160px; width:200px; height: auto; display:inline; z-index:10000;"></div> 
+            <div id="releaseDiv" class="draggableWindow" style="left:920px; top:105px; width:200px; height: auto; display:inline; z-index:10000;"></div> 
+            <div id="ADDiv" class="draggableWindow" style="left:940px; top:160px; width:200px; height: auto; display:none; z-index:10000;"></div> 
     
             <div id="div_principal" class="span12" style="float:left; margin-left: 8px; margin-top: 8px; width: 930px;" >
               <div style="margin:0; padding:0; width:100%;">  
@@ -296,6 +296,9 @@ notação abc, tablatura "/>
                     <div id="btnCloseStudio" class="dButton" draggable="false">
                         <a href="#" title="Fechar" id="dMINUSButtonA" onclick="closeStudio(); return false;" draggable="false"><i class="icon-minus icon-white"></i></a>
                     </div>
+                    <div id="btnRestoreStudio" class="dButton" draggable="false">
+                        <a href="#" title="Restaurar" id="dRESTOREButtonA" onclick="restoreStudio(); return false;" draggable="false"><img alt="" src="img/restore.png" class="icon-white"></a>
+                    </div>
                     <div class="dTitle"><span id="spanTitleStudio" style="padding-left: 5px;">Estúdio ABCX</span></div>
                 </div>
                 <div id="studioHeader">
@@ -433,7 +436,7 @@ notação abc, tablatura "/>
                     w6 = new DRAGGABLE.Div( 6, 'mediaDiv', 'Mídia...', null, null, true );
                 
                 w3.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
-                   + '<br>O formato ABC é a base para toda a geração das partituras deste site. '
+                   + 'O formato ABC é a base para toda a geração das partituras deste site. '
                    + '<br><br>Quer saber mais sobre este formato livre? '
                    + '<a target="_blank" href="http://pt.wikipedia.org/wiki/ABC_%28nota%C3%A7%C3%A3o_musical%29" >Clique aqui!</a>'
                    + '<br></b></center>';
@@ -565,7 +568,6 @@ notação abc, tablatura "/>
                    ,'DR_tablature' 
                    ,'DR_abc_format'
                    ,'DR_abc_editor'
-                   ,'DR_didactic_mode'
                    ,'tabTunes'
                    ,'tabChords'
                    ,'tabPractices'
@@ -592,7 +594,7 @@ notação abc, tablatura "/>
                    ,'forceRefresh'
                    ,'DR_refresh'
                    ,'spanTitleStudio'
-                   //,'DR_debug'
+                   ,'dRESTOREButtonA'
                 ]);
 
                 MIDI.loader = new widgets.Loader();
@@ -673,6 +675,9 @@ notação abc, tablatura "/>
 
             function closeStudio () {
                 myMap.closeStudio();
+            };
+            function restoreStudio () {
+                myMap.restoreStudio();
             };
             
             function resizeStudio()    {

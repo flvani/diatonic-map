@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html><head>
-<!--
+<html><head><!--
 
 To change this license header, choose License Headers in Project Properties.
 
@@ -8,8 +7,10 @@ To change this template file, choose Tools | Templates
 
 and open the template in the editor.
 
--->
-  <title>O formato ABCX</title>
+--><title>O formato ABCX</title>
+
+
+  
 
   
   
@@ -22,8 +23,7 @@ and open the template in the editor.
   <link href="../css/help.css" rel="stylesheet">
 
   
-  <script type="text/javascript" src="../javascripts/help.js"></script>
-</head><body>
+  <script type="text/javascript" src="../javascripts/help.js"></script></head><body>
 <div id="helpHeader" class="helpHeader"> <span class="helpTit">O
 formato ABCX</span> <button id="printHelp" class="btn" title="Imprimir" onclick="printHelp();">Imprimir</button> <button id="closeHelp" class="btn" title="Fechar" onclick="window.close();">Fechar</button> </div>
 
@@ -99,7 +99,7 @@ partitura que suporte tablaturas.</p>
 <p>Vamos usar um trecho da canção "Oh! Susannah" de Stephen Foster para
 criar uma tablatura. Primeiramente veja o fonte ABC:</p>
 <pre>X:1<br>T:Oh! Susannah<br>M:2/4<br>L:1/4<br>Q:100<br>K:G<br>|"C"c c|e/2e/2 -e/2e/2|"G"d/2d/2 B/2G/2|"D7"A3/2G/4A/4|\<br>"G"B/2d/2 d3/4e/4|d/2B/2 G/2A/2|"G"B/2B/2 "D7"A/2A/2|"G"G2<br></pre>
-<p class="page-break"><p>A partitura resultante deste trecho é:</p>
+<p class="page-break"></p><p>A partitura resultante deste trecho é:</p>
 <img src="../img/susannah.partitura.png" style="width: 980px; height: 158px;">
 <p>Rapidamente podemos identificar os elementos desta peça ABC: a
 entrada <span style="font-weight: bold;">"X:"</span> marca o número da
@@ -146,7 +146,7 @@ canção.</p>
 apesar da tablatura poder ser gerada com apenas voz, uma partitura
 completa terá duas vozes (uma para melodia e outra para a baixaria) e
 então o site será capaz de gerar a tablatura com toda a informação.</p>
-<p class="page-break"><p>Vamos modificar novamente nosso arquivo de
+<p class="page-break"></p><p>Vamos modificar novamente nosso arquivo de
 exemplo, incluíndo uma
 nova voz para descrever os baixos, assim:</p>
 <pre>X: 1<br>T:Oh! Susannah<br>M:2/4<br>L:1/4<br>Q:100<br>K:G<br>V:melodia treble<br>|"C"c c|e/2e/2 -e/2e/2|"G"d/2d/2 B/2G/2|"D7"A3/2G/4A/4|\<br>"G"B/2d/2 d3/4e/4|d/2B/2 G/2A/2|"G"B/2B/2 "D7"A/2A/2|"G"G2 |<br>V:baixos bass<br>| C, [C,E,G,] | C, z | G,, z | D, z | G,, z | G,, z | D, [D,^F,A,] | G,, z |<br>V:tablatura accordionTab<br></pre>
@@ -178,7 +178,7 @@ estranha para o formato ABC. Este texto não está no padrão ABC e pode
 gerar problemas com outros interpretadores, mas ele foi gerado única e
 exclusivamente para deixar registrada a tablatura gerada e permitir a
 posterior edição da mesma.</p>
-<p class="page-break"><p>O algoritmo de geração de tablatura funciona da
+<p class="page-break"></p><p>O algoritmo de geração de tablatura funciona da
 seguinte maneira: se
 não houver conteudo após a chave "accordionTab", uma nova tablatura
 será inferida; se já existir, ela será apenas interpretada e desenhada
@@ -246,7 +246,7 @@ pela
 entrada <span style="font-weight: bold;">"L:"</span>, nos metatextos
 da peça.<br>
 </p>
-<p class="page-break"><p>Vamos ao segundo compasso. Há um elemento que
+<p class="page-break"></p><p>Vamos ao segundo compasso. Há um elemento que
 pode surgir em função da dinâmica dos tempos na
 partitura ou ainda em função das ligaduras. Por exemplo, no segundo
 compasso podemos notar que o tempo baixo é o dobro das notas da
@@ -275,17 +275,18 @@ necessária, visto que não é possível gerar univocamente uma tablatura
 para uma dada partitura: a mesma nota pode ser encontrada em mais de um
 botão, às vezes, inclusive com a mesma direção do fole, ou ainda, por
 restrição imposta pelos baixos podendo ser executada somente em uma
-direção do fole.</p>
-<p>Contudo, a edição é possível: ela fica à cargo do usuário e se for
-feita com cuidado não haverá problemas pois o editor preservará as
-edições feitas pelo usuário. Note que, se for necessário alterar um
-botão por outro que esteja disponível com o fole na direção contrária
-da atual, além de alterar o número do botão, deve-se alterar o sinal do
-fole (+/-). Deve-se observar se o baixo estará disponível nesta nova
-direção do fole. Se for indicado o número do botão incorretamente, o
-programa não reportará erro e durante a execução da melodia o botão
-será selecionado mesmo que a nota em execução não seja a mesma.<br>
+direção do fole.<br>
 </p>
+<p>Contudo, a edição é possível: ela fica à cargo do usuário e se for
+feita com cuidado não haverá problemas. Note que, se for necessário alterar um
+botão por outro que esteja disponível, mas com o fole na direção contrária
+da atual, além de alterar o número do botão, deve-se alterar o sinal do
+fole (+/-). Deve-se observar se o baixo está disponível nesta nova
+direção do fole. Se o número do botão for incorretamente indicado, o
+programa não reportará erro, mas durante a execução da melodia, o mesmo provavelmente não será selecionado no "<span style="font-weight: bold;">Mapa de Teclado</span>".</p>
+<p>Para a edição, use "<span style="font-weight: bold;">Estúdio ABCX</span>" que dispõe de algumas ferramentas para facilitar a tarefa. Veja mais informações no menu de ajuda.<br>
+</p>
+
 <p><br>
 </p>
 </div>

@@ -209,7 +209,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     
     if( !isChrome ) {
         this.showEditorButton.style.pointerEvents = 'none';
-        this.showEditorButton.style.color = 'lightgray';
+        this.showEditorButton.style.color = 'gray';
     } else {
         this.showEditorButton.addEventListener("click", function () {
             that.showEditor();
@@ -675,7 +675,7 @@ SITE.Estudio.prototype.parseABC = function(transpose) {
 
 SITE.Estudio.prototype.highlight = function(abcelem) {
   this.editArea.setSelection(abcelem.startChar, abcelem.endChar);
-  if(this.editorVisible)
+  if(isChrome && this.editorVisible)
     editAreaLoader.setSelectionRange("editorTextArea", abcelem.startChar, abcelem.endChar);
 };
 
@@ -748,6 +748,7 @@ SITE.Estudio.prototype.setup = function(tab, accordionId) {
     editAreaLoader.setValue("editorTextArea", this.renderedTune.text );
     this.editorWindow.setTitle('-&nbsp;' + tab.title);
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
+    document.getElementById( 'studioCanvasDiv').scrollTop = 0;
     this.fireChanged2(0,'force');
 };
 

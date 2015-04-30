@@ -203,7 +203,6 @@ SITE.Mapa.prototype.showStudio = function () {
 
 };
 SITE.Mapa.prototype.showStudio2 = function (loader) {
-    var props = FILEMANAGER.loadLocal('property.studio.settings');
     
     $("#mapContainerDiv").hide();
     document.getElementById("divMenuAccordions").style.pointerEvents = 'none';
@@ -212,9 +211,14 @@ SITE.Mapa.prototype.showStudio2 = function (loader) {
     document.getElementById("DR_repertoire").style.color = 'gray';
     $("#studioDiv").show();
     this.studio.setup(this.currentABC, this.getSelectedAccordion().getId());
-    
+    this.setupProps();
+    loader.stop();
+};
+
+SITE.Mapa.prototype.setupProps = function () {
+    var props = FILEMANAGER.loadLocal('property.studio.settings');
     //props = null; // debug
-    
+   
     if( props ) {
         props = props.split('|');
         this.studio.textVisible                      = (props[0] === 'true');
@@ -235,7 +239,34 @@ SITE.Mapa.prototype.showStudio2 = function (loader) {
         this.studio.showEditor();
         this.studio.showMap();
     }
-    loader.stop();
+};
+
+SITE.Mapa.prototype.restoreStudio = function () {
+    this.studio.textVisible = true;
+    this.studio.editorVisible = false;
+    this.studio.mapVisible = false
+    this.studio.editorWindow.topDiv.style.top = "120px";
+    this.studio.editorWindow.topDiv.style.left = "40px";
+    this.studio.keyboardWindow.topDiv.style.top = "120px";
+    this.studio.keyboardWindow.topDiv.style.left = "900px";
+    this.studio.accordion.render_keyboard_opts.scale = 0.8;
+    this.studio.accordion.render_keyboard_opts.mirror = false;
+    this.studio.accordion.render_keyboard_opts.transpose = false;
+    
+    FILEMANAGER.saveLocal( 'property.studio.settings', 
+        this.studio.textVisible 
+        + '|' + this.studio.editorVisible 
+        + '|' + this.studio.mapVisible 
+        + '|' + this.studio.editorWindow.topDiv.style.top
+        + '|' + this.studio.editorWindow.topDiv.style.left
+        + '|' + this.studio.keyboardWindow.topDiv.style.top
+        + '|' + this.studio.keyboardWindow.topDiv.style.left
+        + '|' + this.studio.accordion.render_keyboard_opts.scale
+        + '|' + this.studio.accordion.render_keyboard_opts.mirror
+        + '|' + this.studio.accordion.render_keyboard_opts.transpose
+        );
+
+    this.setupProps();
 };
 
 SITE.Mapa.prototype.closeStudio = function () {
