@@ -670,6 +670,8 @@ notação abc, tablatura "/>
                     $('#releaseDiv').fadeIn('slow');
                 }
                 
+                $("#clustrmaps-widget").find("a").attr('target','_blank');
+                
                 if(!isChrome) {
                     $('#useChromeDiv').html('<img src="img/chrome.png">');
                     setTimeout(function() { $('#useChromeDiv').fadeIn('slow'); }, 2000);
