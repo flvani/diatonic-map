@@ -1,23 +1,26 @@
 X:1007
 %%barnumbers 1
 %%papersize A4
+%%score 1 (3 2) Tab
 T:Parabéns Crioulo
 T:Parabéns Gaúcho
 C:Dimas Costa e Eleu Salvador
-N:Transcrito por Flávio (versão Club)
+Z:por Flávio (versão Club)
 M:C
 L:1/4
 Q:120
 V:1 clef=treble
-V:2 clef=bass
+V:2 clef=bass stem=up
+V:3 clef=bass stem=down
 K:F
 [V:1]| z3 A1/2B1/4=B1/4|: c z2 f3/4e1/4                 | d z2              g | e c z1/2 c1/2d1/2e1/2         | g f2 f3/4f1/4      | f3/2 d1/2 d3/4d1/4 f3/4f1/4  |
 w:Pa-ra- - béns!  Pa-ra-béns! Sa-ú- de, fe-li-ci-da-de! Que tu co-lhas, sem-pre, to-do
+[V:3]| x4              |: x F,, F,, x | x B,,,  B,,, x | x4  | x4  | x4 |
 [V:2]| z4              |: z [F,A,C] [F,A,C] z | z [B,,D,F,] [B,,D,F,] z | C, [C,E,G,] C, [C,E,G,] | F,, [F,A,C] F,, z | B,, [B,,D,F,] B,, [B,,D,F,] |
-[V:1]| f c  c3/4c1/4 c3/4c1/4    | d3/4d1/4 d3/4d1/4 e3/4e1/4 d3/4c1/4  |1 g f2 A1/2B1/4=B1/4 :|2 f c  c3/4c1/4 c3/4c1/4    | d3/4d1/4 d3/4d1/4 e3/4e1/4 d3/4c1/4  | g f2-f             |]
+[V:1]| f c  c3/4c1/4 c3/4c1/4    | d3/4d1/4 d3/4d1/4 e3/4e1/4 d3/4c1/4  |1 g f2 A1/2B1/4=B1/4 :|2 f c  c3/4c1/4 c3/4c1/4    | d3/4d1/4 d3/4d1/4 e3/4e1/4 d3/4c1/4  | g f2-f     |]
 w: di-a, paz e a-le-gri-a na la-vou-ra da ami-za-de Pa-ra- * za de, paz e a-le-gri-a na la-vou-ra da ami-za-de!
+[V:3]| x4  | x4  | x4  :|
 [V:2]| F,, [F,A,C] F,, [F,A,C] | B,, [B,,D,F,] C, [C,E,G,]        |1 F,, [F,A,C] F,, z :|2 F,, [F,A,C] F,, [F,A,C] | B,, [B,,D,F,] C, [C,E,G,]        | F,, [F,A,C] F,, [F,A,C] |]
-V:Tab
-K:none accordionTab
-| z-z3 z-60.5 z-5'0.25 z-70.25 |: z-6' f+z f+z z-90.75 z-7'0.25 | z-8 b♭-z b♭-z z-8' | C-7' c-6' C-z0.5 >-6'0.5 c-80.5 >-7'0.5 | F+9 f+7' F+> z-90.75 z-90.25 | B♭-9 b♭->0.5 >-80.5 B♭-80.75 >-80.25 b♭-90.75 >-90.25 |
+V:Tab accordionTab
+| z-z3 z-60.5 z-5'0.25 z-70.25 |: z-6' Ff+z Ff+z z-90.75 z-7'0.25 | z-8 B♭b♭-z B♭b♭-z z-8' | C-7' c-6' C-z0.5 >-6'0.5 c-80.5 >-7'0.5 | F+9 f+7' F+> z-90.75 z-90.25 | B♭-9 b♭->0.5 >-80.5 B♭-80.75 >-80.25 b♭-90.75 >-90.25 |
 | F+7' f+7 F+70.75 >+70.25 f+70.75 >+70.25 | B♭-80.75 >-80.25 b♭-80.75 >-80.25 C-7'0.75 >-7'0.25 c-80.75 >-6'0.25 |1 F+9 f+7' F+> z-60.5 z-5'0.25 z-70.25 :|2 F+7' f+7 F+70.75 >+70.25 f+70.75 >+70.25 | B♭-80.75 >-80.25 b♭-80.75 >-80.25 C-7'0.75 >-7'0.25 c-80.75 >-6'0.25 | F+9 f+7' F+> f+> |]

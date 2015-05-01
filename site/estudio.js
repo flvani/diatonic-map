@@ -674,7 +674,8 @@ SITE.Estudio.prototype.parseABC = function(transpose) {
 };        
 
 SITE.Estudio.prototype.highlight = function(abcelem) {
-  this.editArea.setSelection(abcelem.startChar, abcelem.endChar);
+  if(this.textVisible)
+    this.editArea.setSelection(abcelem.startChar, abcelem.endChar);
   if(isChrome && this.editorVisible)
     editAreaLoader.setSelectionRange("editorTextArea", abcelem.startChar, abcelem.endChar);
 };
@@ -684,10 +685,16 @@ SITE.Estudio.prototype.onChange = function() {
 };
 
 SITE.Estudio.prototype.editorChanged = function (transpose, force) {
+    this.editorChanging = true;
     this.editArea.setString(editAreaLoader.getValue("editorTextArea"));
     this.fireChanged(transpose, force);
+};
+
+SITE.Estudio.prototype.endEditorChanged = function () {
+    if(!this.editorChanging) return;
     editAreaLoader.setValue("editorTextArea", this.editArea.getString());
     editAreaLoader.setSelectionRange("editorTextArea", 0, 0 );
+    this.editorChanging = false;
 };
 
 SITE.Estudio.prototype.fireChanged = function (transpose, force) {
@@ -697,7 +704,7 @@ SITE.Estudio.prototype.fireChanged = function (transpose, force) {
 };
 
 SITE.Estudio.prototype.fireChanged2 = function (transpose, force, loader) {
-    
+
     if( force || this.oldAbcText !== this.editArea.getString() ) {
         
         this.oldAbcText = this.editArea.getString();
@@ -707,11 +714,14 @@ SITE.Estudio.prototype.fireChanged2 = function (transpose, force, loader) {
         if (this.parseABC(transpose)) {
             this.modelChanged();
         }
-    }    
-    if(loader)
+    }
+    
+    this.endEditorChanged(); 
+    
+    if(loader) {
         loader.stop();
+    }    
 };
-
 
 SITE.Estudio.prototype.modelChanged = function() {
     
@@ -748,6 +758,7 @@ SITE.Estudio.prototype.setup = function(tab, accordionId) {
     editAreaLoader.setValue("editorTextArea", this.renderedTune.text );
     this.editorWindow.setTitle('-&nbsp;' + tab.title);
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
+    document.getElementById("spanStudioAccordeon").innerHTML = ' - ' + this.accordion.getTxtModel(); 
     document.getElementById( 'studioCanvasDiv').scrollTop = 0;
     this.fireChanged2(0,'force');
 };
