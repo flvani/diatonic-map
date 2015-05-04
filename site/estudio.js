@@ -690,6 +690,8 @@ SITE.Estudio.prototype.highlight = function(abcelem) {
 SITE.Estudio.prototype.selectButton = function(elem) {
     for( var p=0; p < elem.pitches.length; p ++ ) {
         var button;
+        if(elem.pitches[p].type === 'rest' ) continue;
+        
         if(elem.pitches[p].bass)
             button = this.midiParser.getBassButton(elem.bellows, elem.pitches[p].c);
         else
