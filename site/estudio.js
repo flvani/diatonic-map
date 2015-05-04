@@ -674,10 +674,35 @@ SITE.Estudio.prototype.parseABC = function(transpose) {
 };        
 
 SITE.Estudio.prototype.highlight = function(abcelem) {
-  if(this.textVisible)
-    this.editArea.setSelection(abcelem.startChar, abcelem.endChar);
-  if(isChrome && this.editorVisible)
-    editAreaLoader.setSelectionRange("editorTextArea", abcelem.startChar, abcelem.endChar);
+    if(this.textVisible) {
+        this.editArea.setSelection(abcelem.startChar, abcelem.endChar);
+    }    
+    if(this.mapVisible) {
+        this.accordion.clearKeyboard(true);
+        if(abcelem.bellows)
+            this.selectButton(abcelem);
+    }    
+    if(isChrome && this.editorVisible) {
+        editAreaLoader.setSelectionRange("editorTextArea", abcelem.startChar, abcelem.endChar);
+    }    
+};
+
+SITE.Estudio.prototype.selectButton = function(elem) {
+    for( var p=0; p < elem.pitches.length; p ++ ) {
+        var button;
+        if(elem.pitches[p].bass)
+            button = this.midiParser.getBassButton(elem.bellows, elem.pitches[p].c);
+        else
+            button = this.midiParser.getButton(elem.pitches[p].c);
+        
+        if(button) {
+            if(elem.bellows === '-') {
+                button.setOpen();
+            } else {
+                button.setClose();
+            }
+        }
+    }
 };
 
 SITE.Estudio.prototype.onChange = function() {
@@ -765,7 +790,14 @@ SITE.Estudio.prototype.setup = function(tab, accordionId) {
 
 SITE.Estudio.prototype.updateSelection = function() {
   try {
-    this.renderedTune.printer.rangeHighlight(this.editArea.textarea.selectionStart, this.editArea.textarea.selectionEnd);
+    var sel = this.renderedTune.printer.rangeHighlight(this.editArea.textarea.selectionStart, this.editArea.textarea.selectionEnd);
+    if(this.mapVisible) {
+        this.accordion.clearKeyboard(true);
+        for( var i = 0; i < sel.length; i ++  ) {
+            if(sel[i].abcelem.bellows)
+                this.selectButton(sel[i].abcelem);
+        }    
+    }
   } catch (e) {} // maybe printer isn't defined yet?
 };
 

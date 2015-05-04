@@ -8220,6 +8220,7 @@ ABCXJS.write.Printer.prototype.rangeHighlight = function(start,end)
 	    }
 	}
     }
+    return this.selected;
 };
 
 ABCXJS.write.Printer.prototype.beginGroup = function () {
