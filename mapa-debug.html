@@ -248,7 +248,7 @@ notação abc, tablatura "/>
                     </a>
                 </noscript>
                 <div id="clustrmaps-widget" style="float:right;   margin-left:1em;"></div>
-                <h3>Diatonic-Map <i>v3.00</i><br><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
+                <h3>Diatonic-Map <i id="siteVerI">v3.00</i><br><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
                 <p>Este projeto pretende ser um mapa de referência para acordeons diatônicos. 
                    Com ele é possível configurar – e mostrar – o layout de qualquer gaita de botões, nos seus mais diversos modelos.
                    Quero deixar aqui, meus especiais agradecimentos ao 
@@ -350,24 +350,24 @@ notação abc, tablatura "/>
         <script type="text/javascript" src="javascripts/bootstrap-dropdown.js"></script>
         <script type="text/javascript" src="javascripts/edit_area_full.js"></script>
         <script type="text/javascript" src="raphael/raphael_2.1.3-min.js"></script>
-        <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_3.27-min.js"></script>
-        <script type="text/javascript" src="javascripts/language.js"></script>
+        
         <!-- suporte a MIDI -->
         <script type="text/javascript" src="MIDI.js/MIDI_2.04-min.js"></script>
         
+        <!-- suporte a arquivos -->
+        <script type="text/javascript" src="file/filemanager.js"></script>
+        
         <!-- suporte a arquivos ABC -->
-        <!--script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_30.21-min.js" ></script-->
         <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs.js" ></script>
         
         <!-- suporte mapas de acordeons -->
-        <!--script type="text/javascript" src="diatonic/diatonic_3.21-min.js"></script-->
         <script type="text/javascript" src="diatonic/diatonic.js"></script>
 
+        <!-- site -->
+        <script type="text/javascript" src="javascripts/language.js"></script>
         <script type="text/javascript" src="draggable/draggable.js"></script>
-        
-        <script type="text/javascript" src="site/mapa.js"></script>
         <script type="text/javascript" src="site/estudio.js"></script>
+        <script id="siteLib" type="text/javascript" src="site/mapa.js"></script>
         
         <script id="mainScript" type="text/javascript">
 
@@ -379,6 +379,7 @@ notação abc, tablatura "/>
             var isChrome = !!window.chrome && !isOpera;              // Chrome 1+
             var isIE = /*@cc_on!@*/false || !!document.documentMode; // At least IE6    
             
+            var vSite = getSITEversion();
             var producao = getABCXversion();
 
             //var sourceScripts = [ {id:"abcxjs/abcxjs", version:producao}];
@@ -745,6 +746,19 @@ notação abc, tablatura "/>
                 myStudio.fireChanged(0, "force");
             };
 
+            function getSITEversion() {
+                var str = document.getElementById("siteLib").src;
+                var res = str.match(/[0-9]*\.[0-9][0-9]/g);
+                
+                if( res ) {
+                   document.getElementById("siteVerI").innerHTML = 'v' + res ;
+                   return res[0];
+                } else {
+                   document.getElementById("siteVerI").innerHTML = 'debug';
+                   return false;
+               }   
+            }
+            
             function getABCXversion() {
                 var str = document.getElementById("mainABCX").src;
                 var res = str.match(/[0-9]*\.[0-9][0-9]/g);
