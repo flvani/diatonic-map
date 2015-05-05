@@ -677,7 +677,7 @@ SITE.Estudio.prototype.highlight = function(abcelem) {
     if(this.textVisible) {
         this.editArea.setSelection(abcelem.startChar, abcelem.endChar);
     }    
-    if(this.mapVisible) {
+    if(this.mapVisible && !this.midiPlayer.playing) {
         this.accordion.clearKeyboard(true);
         if(abcelem.bellows)
             this.selectButton(abcelem);
