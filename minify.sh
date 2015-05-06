@@ -11,4 +11,4 @@ echo "Concatenating all files..."
 cat javascripts/language.js draggable/draggable.js site/mapa.js site/estudio.js > tmp/site.js
 
 echo "Compressing Site $1..."
-java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.2.jar  --line-break 7000 -o site_%versao%-min.js tmp/site.js
+java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.2.jar  --line-break 7000 -o site_$1-min.js tmp/site.js
