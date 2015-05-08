@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Mapa para Acordeons Diatônicos</title>
+
+        <meta name="author" content="Flávio Luiz Vani">
+        <meta name="viewport" content="height=device-height, minimum-scale=0.5, maximum-scale=2.0">
+        <meta name="description" content="Um mapa de referência para a aprendizagem de acordeons diatônicos" id="DR_description"/>
+
+        <meta name="robots" content="index,follow"/>
+        <meta name="revisit-after" content="7 days"/>
+
+        <meta name="keywords" content="diatonic accordion, notation, learning, practice, repertoire, abc tunes, midi, tablature
+acordeon diatônico, gaita de oito baixos, gaita ponto, notação musical, aprendizagem, prática, repertorio, 
+notação abc, tablatura "/>
+    
+        <!-- Estilos para a página e popups -->
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/draggable.css" rel="stylesheet">
+        <link href="css/tab2part.css" rel="stylesheet">
+        <link rel="icon" type="image/icon" href="http://flvani.github.io/diatonic-map/img/favicon6.ico">
+    </head>
+    <body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container" id="divTitulo" style="margin-left: 0px; margin-top: 0px; height: 50px; width: 100%; background-color:#5ba4a4;" >
+                <header>
+                    <div style="margin-left: 4px;">
+                        <table><tr>
+                            <td id="DR_appName"><h1>Gerador de Partituras</h1></td>
+                            <td style="width:20px;"></td>
+                            <td>
+                                <!--table style="height: 36px;">
+                                    <tr >
+                                      <td >
+                                        <div id="divMenuAccordions" class="btn-group">
+                                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_accordions">Acordeons</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                                            <input id="fileLoadMap" type="file" accept="text/abc" style="display: none;" multiple/>
+                                            <ul class="dropdown-menu" id="opcoes_gaita"></ul>
+                                        </div>
+                                      </td >
+                                      <td >
+                                        <div id="divMenuRepertoire" class="btn-group">
+                                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_repertoire">Repertório</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                                            <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" style="display: none;" multiple />
+                                            <ul class="dropdown-menu" id="opcoes_repertorio">
+                                                <li><a href="#" id="DR_original" onclick="reloadRepertoire();">Restaurar o original</a></li>
+                                                <li><a href="#" id="DR_localLoad" onclick="document.getElementById('fileLoadRepertoire').click()">Carregar do drive local</a></li>
+                                                <li style="display:inline;"><a href="#" id="DR_localSave" onclick="saveRepertoire();">Exportar para drive local</a></li>
+                                            </ul>
+                                        </div>
+                                      </td >
+                                      <td >
+                                        <div id="divMenuHelp" class="btn-group">
+                                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_info">Informações</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                                            <ul class="dropdown-menu" id="opcoes_teoria">
+                                              <li><a id="DR_accordion_maps" target="_blank" href="html/mapas.pt_BR.html" >Mapas para acordeons</a></li>
+                                              <li><a id="DR_tablature" target="_blank" href="html/tablatura.pt_BR.html" >Tablaturas para acordeons</a></li>
+                                              <li><a id="DR_abc_editor" target="_blank" href="html/estudioABCX.pt_BR.html" >Estúdio ABCX</a></li>
+                                              <li><a id="DR_abc_format" target="_blank" href="html/formatoABCX.pt_BR.html" >Formato ABCX</a></li>
+                                              <li><a id="DR_about" href="#modalAbout" >Sobre</a></li>
+                                            </ul>
+                                        </div>
+                                      </td >
+                                    </tr>
+                                </table-->
+                            </td></tr>
+                        </table>
+                    </div>
+                </header>
+            </div>
+        </div> <!-- /navbar -->
+        
+        <div id="t2pDiv">
+            <div id="t2pContentDiv">
+                <div id="t2pMenu" class="draggableMenu">
+                    <div id="t2p_btnCloseStudio" class="dButton" draggable="false">
+                        <a href="#" title="Fechar" id="t2p_dMINUSButtonA" onclick="closeT2P(); return false;" draggable="false"><i class="icon-minus icon-white"></i></a>
+                    </div>
+                    <div id="t2p_btnRestoreStudio" class="dButton" draggable="false">
+                        <a href="#" title="Restaurar" id="t2p_dRESTOREButtonA" onclick="restoreT2P(); return false;" draggable="false"><img alt="" src="img/restore.png" class="icon-white"></a>
+                    </div>
+                    <div class="dTitle"><span id="t2p_spanTitleStudio" style="padding-left: 5px;">Tablatura -> Partitura</span><span id="t2pSpanAccordeon" style="padding-left: 5px;"></span></div>
+                </div>
+                <div id="t2pHeader">
+                    <textarea id="t2pTextarea"></textarea>
+                    <div id="t2pControlDiv" >
+                        <div id="t2p_controlDiv1" style="float:left;" >
+                            <button id="t2pShowMapBtn" class="btn" title="Exibir/Ocultar Teclado" onclick=""><i id="t2p_I_showMap" class="icon-folder-close"></i>&nbsp;<span id="t2p_DR_showMap">Teclado</span></button>
+                            <button id="t2pShowMapEditor" class="btn" title="Exibir/Ocultar Editor" onclick=""><i id="t2p_I_showEditor" class="icon-folder-close"></i>&nbsp;<span id="t2p_DR_showEditor">Editor</span></button>
+                            <button id="t2pPrintBtn" class="btn" title="Imprimir" onclick="" ><i class="icon-print"></i>&nbsp;Imprimir</button>
+                            <button id="t2pSaveBtn" class="btn" title="Salvar Local" ><i class="icon-download-alt"></i>&nbsp;Salvar Local</button>
+                            <button id="t2pForceRefresh" class="btn" title="Atualizar" onclick="" >Atualizar</button>
+                        </div>
+                        <div id="t2p_divNormalPlayControls" style="float:left; margin-left: 4px;">
+                            <button id="t2pPlayBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
+                            <button id="t2pStopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
+                        </div>
+                    </div>    
+                </div> <!-- /studioHeader-->    
+                <div id="t2p_studioCanvasDiv" >
+                    <div id="t2p_warningsDiv"></div>
+                    <div id="t2p_canvasDiv"></div>
+                </div> <!--studioCanvasDiv-->    
+                <div id="t2pEditorDiv" class="draggableWindow" style="left:40px; top:120px;" ></div>
+                <!-- /editorDiv -->
+                <div id="t2pKeyboardDiv" class="draggableWindow" style="left:900px; top:120px; "></div> 
+                <!-- /keyboardDiv-->    
+            </div> <!-- /studioContentDiv -->
+        </div> <!-- /studioDiv -->
+        <div id="t2pPrintPreviewDiv" class="container"></div>
+        
+        <script type="text/javascript" src="proto_noconflict.js" ></script>
+        <script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="javascripts/bootstrap-dropdown.js"></script>
+        <script type="text/javascript" src="javascripts/edit_area_full.js"></script>
+        <script type="text/javascript" src="raphael/raphael_2.1.3-min.js"></script>
+        
+        <!-- suporte a MIDI -->
+        <script type="text/javascript" src="MIDI.js/MIDI_2.04-min.js"></script>
+        
+        <!-- suporte a arquivos -->
+        <script type="text/javascript" src="file/filemanager_3.30-min.js"></script>
+        
+        <!-- suporte a arquivos ABC -->
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_3.30-min.js" ></script>
+        
+        <!-- suporte mapas de acordeons -->
+        <script type="text/javascript" src="diatonic/diatonic_3.30-min.js"></script>
+
+        <!-- site -->
+        <script type="text/javascript" src="javascripts/language.js"></script>
+        <script type="text/javascript" src="draggable/draggable.js"></script>
+        <script type="text/javascript" src="site/tab2part.js"></script>
+        
+        <script id="mainScript" type="text/javascript">
+            var myPartGen;
+
+            DIATONIC.map.loadAccordionMaps(
+               [
+                 'accordions/hohner.gc.accordion'
+                ,'accordions/hohner.cf.club.br.accordion'
+                //,'accordions/hohner.adg.corona.accordion'
+                //,'accordions/hohner.cf.club.accordion'
+               ]
+            );
+    
+            window.addEventListener('load', initApp, false);
+
+            var isOpera = !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+                // Opera 8.0+ (UA detection to detect Blink/v8-powered Opera)
+            var isFirefox = typeof InstallTrigger !== 'undefined';   // Firefox 1.0+
+            var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+                // At least Safari 3+: "[object HTMLElementConstructor]"
+            var isChrome = !!window.chrome && !isOpera;              // Chrome 1+
+            var isIE = /*@cc_on!@*/false || !!document.documentMode; // At least IE6    
+            
+            var w1 = new DRAGGABLE.Div( 1, 't2pEditorDiv', 'Editor ABCX', ['move|Mover'], 'w1Callback', false );
+            var w2 = new DRAGGABLE.Div( 2, 't2pKeyboardDiv', '', [ 'move|Mover', 'retweet|Rotacionar', 'zoom-in|Zoom','globe|Mudar Notação'], 'w2Callback', false );
+
+            var request = { getParameter: _getParameter };  
+
+            function _getParameter(querystring)  {  
+               var querystr = new Array();  
+               if(!window.location.search) {
+                   return null;
+                   
+               }
+               var loc = window.location.search.substr(1).split('&');
+               
+                for (var p = 0; p < loc.length; p ++ )  {  
+                    if(loc[p].indexOf('=') >= 0) {
+                        var q = loc[p].split('=');  
+                        querystr[q[0]] = q[1];  
+                    }    
+                }  
+               return querystr[querystring];  
+            }  
+            
+            function initApp() {
+                
+                // returns -1 (wait), 0 (success) and 1 (fail)
+                switch( FILEMANAGER.checkResources() ) {
+                    case -1: 
+                        window.setTimeout(function(){ initApp() ; },100);
+                        return;
+                    case 1:
+                        alert('Timeouts: ' + FILEMANAGER.timeouts + '\n\n' + FILEMANAGER.errors + '\n\nPor favor, verifique o nome dos arquivos e recarregue (F5) esta página!');
+                        return;
+                    case 0:    
+                        console.log('Timeouts: ' + FILEMANAGER.timeouts + '\n\n' + FILEMANAGER.success);
+                }
+                
+                var accordion = request.getParameter('accordion') || FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_HOHNER_GC';
+
+                myPartGen = new SITE.PartGen(
+                    {   // interfaceParams
+                        showMapBtn: 't2pShowMapBtn'
+                       ,showEditorBtn: 't2pShowEditorBtn'
+                       ,printBtn:'t2pPrintBtn'
+                       ,saveBtn:'t2pSaveBtn'
+                       ,updateBtn:'t2pForceRefresh'
+                       ,editorWindow: w1
+                       ,keyboardWindow: w2
+                       ,textarea:'t2pTextarea'
+                       ,accordion_options: {
+                             id: accordion
+                            ,accordionMaps: DIATONIC.map.accordionMaps
+                            ,render_keyboard_opts:{transpose:false, mirror: false, scale:0.8, draggable:true, show:false}}
+                    }
+                );
+            }
+   
+//                    {   // editorParams
+//                       textArea: "textareaABC"
+//                      ,canvas_id: "canvasDiv"
+//                      ,refreshController_id: "chkAutoRefresh"
+//                      ,warnings_id: "warningsDiv"
+//                      ,generate_warnings: true
+//                      ,generate_midi: true
+//                      ,generate_tablature: 'accordion'
+//                  } 
+//                  , {   // playerParams
+//                        modeBtn: "modeBtn"
+//                      , playBtn: "playBtn2"
+//                      , stopBtn: "stopBtn2"
+//                      , clearBtn: "clearBtn"
+//                      , gotoMeasureBtn: "gotoMeasureBtn"
+//                      , untilMeasureBtn: "untilMeasureBtn"
+//                      , stepBtn: "stepBtn"
+//                      , repeatBtn: "repeatBtn"
+//                      , stepMeasureBtn: "stepMeasureBtn"
+//                      , tempoBtn: "tempoBtn"
+//                      , currentPlayTimeLabel: "currentPlayTimeLabel2"
+//                  } 
+//                  
+//                  myMap = new SITE.Mapa(
+//                    {   // interfaceParams
+//                        ckPiano: 'checkboxPiano'
+//                      , ckAccordion: 'checkboxAcordeon'
+//                      , ckMirror: 'checkboxEspelho'
+//                      , ckHorizontal: 'checkboxHorizontal'
+//                      , btChangeNotation: 'buttonChangeNotation'
+//                      , accordionNamePlaceHolder: 'a_nome_gaita'
+//                      , accordionImagePlaceHolder: 'td_imagem_gaita'
+//                      , tuneContainerDiv: 'tuneContainerDiv'
+//                      , printBtn: 'printBtn'
+//                      , toolsBtn: 'toolsBtn'
+//                      ,keyboardDiv: "contentKeyboard"
+//                      ,accordion_options: {
+//                             id: accordion
+//                            ,accordionMaps: DIATONIC.map.accordionMaps
+//                            ,render_keyboard_opts:{transpose:true, mirror: false, scale:1, draggable:false, show:true}}
+//                  }
+//                  , {   // tabParams
+//                        songSelectorParms: { div: 'divSongs', ul: 'ulSongs', span: 'spanSongs' }
+//                      , songDiv: 'tabTunesDiv'
+//                      , chordSelectorParms:  { div: 'divChords', ul: 'ulChords', span: 'spanChords' }
+//                      , chordDiv: 'tabChordsDiv'
+//                      , practiceSelectorParms: { div: 'divPractices', ul: 'ulPractices', span: 'spanPractices' }
+//                      , practiceDiv: 'tabPracticesDiv'
+//                      , studio: myStudio
+//                  }
+//                  , {   // playerParams
+//                        playBtn: "playBtn"
+//                      , stopBtn: "stopBtn"
+//                      , currentPlayTimeLabel: "currentPlayTimeLabel"
+//                  } 
+//                );
+//
+//                myMap.defineActiveTab( 'tabTunes' );
+                
+//                myMap.setup({
+//                    accordionId: 'TESTE_GC'
+//                    //,songTitle:"J'ai vu le loup, le renard et la belette"
+//                    //,songTitle:"Valsa Sertaneja"
+//                    ,songTitle:"Hino do Grêmio"
+//                });
+
+
+//            function getDate(){
+//                var today = new Date();
+//                var dd = today.getDate();
+//                var mm = today.getMonth()+1; //January is 0!
+//                var yyyy = today.getFullYear();
+//
+//                if(dd<10) {
+//                    dd='0'+dd;
+//                } 
+//
+//                if(mm<10) {
+//                    mm='0'+mm;
+//                } 
+//
+//                return parseInt(yyyy+mm+dd);
+//            }
+
+//            function postPlugin() {
+//                $("#tabs li:first").attr("id","current"); // Activate the first tab
+//                $("#tuneContainerDiv #tabTunesDiv" ).fadeIn(); // Show first tab's content
+//                document.getElementById("modalAD").style.display = 'inline';
+//                document.getElementById("modalAbout").style.display = 'inline';
+//                
+//                $('#hintsDiv').fadeIn('slow');
+//                
+//                if( getDate() <= 20150515 ) {
+//                    $('#releaseDiv').fadeIn('slow');
+//                }
+//                
+//                $("#clustrmaps-widget").find("a").attr('target','_blank');
+//                
+//                if(!isChrome) {
+//                    $('#useChromeDiv').html('<img src="img/chrome.png">');
+//                    setTimeout(function() { $('#useChromeDiv').fadeIn('slow'); }, 2000);
+//                    setTimeout(function() { $('#useChromeDiv').fadeOut('slow'); }, 17000);
+//                }    
+//            };
+            
+            function w1Callback(e) {
+                myTabGen.editorCallback(e);
+            };
+            
+            function w2Callback(e) {
+                myTabGen.keyboardCallback(e);
+            };
+
+            function restoreT2P() {
+                myTabGen.restore();
+            };
+            
+            function closeT2P() {
+                window.close();
+            };
+
+      </script>
+        
+    </body>
+</html>
