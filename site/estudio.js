@@ -1,6 +1,4 @@
 
-// TODO: corrigir a rotina setKeyboardCanvasId
-
 if (!window.SITE)
     window.SITE = {};
 
@@ -60,14 +58,15 @@ SITE.EditArea.prototype.setString = function(str) {
   this.textarea.selectionEnd = 0;  
 };
 
-SITE.EditArea.prototype.appendString = function(str ) {
-  //retira \n ao final  
-  var t = this.textarea.value;
-  while( t.charAt(t.length-1) === '\n' ) {
-    t = t.substr(0,t.length-1);
-  }
-  this.setString(t+str );
-};
+//SITE.EditArea.prototype.appendString = function(str ) {
+//  //retira \n ao final  
+//  var t = this.textarea.value;
+//  while( t.charAt(t.length-1) === '\n' ) {
+//    t = t.substr(0,t.length-1);
+//  }
+//  this.setString(t+str );
+//};
+//
 
 SITE.EditArea.prototype.getElem = function() {
   return this.textarea;
@@ -634,27 +633,19 @@ SITE.Estudio.prototype.parseABC = function(transpose) {
           this.transposer = new ABCXJS.parse.Transposer( transpose );
     }
     
-    var text =  this.editArea.getString();
     var abcParser = new ABCXJS.parse.Parse( this.transposer, this.accordion );
     
-    abcParser.parse(text, this.parserparams );
-
-    if( this.transposer ) { 
-        if( this.transposer.offSet !== 0 ) {
-          var lines = abcParser.tuneHouseKeeping(text);
-          this.editArea.setString( this.transposer.updateEditor( lines ), "norefresh" );
-        }
-        if(this.keySelector) 
-            this.keySelector.set( this.transposer.keyToNumber( this.transposer.getKeyVoice(0) ) );       
-    }
+    abcParser.parse(this.editArea.getString(), this.parserparams );
     
-    if( this.accordion ) { 
-        // obtem possiveis linhas inferidas para tablatura
-        this.editArea.appendString( this.accordion.updateEditor() );
-    }
-    
-    this.renderedTune.text = this.editArea.getString();
     this.renderedTune.abc = abcParser.getTune();
+    this.renderedTune.text = abcParser.getStrTune();
+    
+    // transposição e geracao de tablatura podem ter alterado o texto ABC
+    this.editArea.setString( this.renderedTune.text );
+    
+    if( this.transposer && this.keySelector ) {
+        this.keySelector.set( this.transposer.keyToNumber( this.transposer.getKeyVoice(0) ) );       
+    }
     
     var warnings = abcParser.getWarnings() || [];
     for (var j=0; j<warnings.length; j++) {
@@ -738,7 +729,7 @@ SITE.Estudio.prototype.fireChanged2 = function (transpose, force, loader) {
     
         this.lastYpos = document.getElementById("studioCanvasDiv").scrollTop || 0;               
 
-        if (this.parseABC(transpose)) {
+        if( this.parseABC(transpose) ) {
             this.modelChanged();
         }
     }

@@ -1090,8 +1090,13 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
     var tune = new window.ABCXJS.data.Tune();
     var tokenizer = new window.ABCXJS.parse.tokenizer();
 
+    var strTune = '';
+
     this.getTune = function() {
         return tune;
+    };
+    this.getStrTune = function() {
+        return strTune;
     };
 
     var multilineVars = {
@@ -2637,12 +2642,16 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
             if (multilineVars.clef.type === "accordionTab") {
                 var startOfLine = this.getMultilineVars().iChar;
                 if (this.accordion) {
-                    var voice = this.accordion.parseTabVoice(ret.str, this.getMultilineVars(), this.getTune());
-                    if (voice.length > 0) {
-                        startNewLine();
-                        tune.restsInTab = multilineVars.restsintab || false;
-                        for (var i = 0; i < voice.length; i++) {
-                            tune.appendElement(voice[i].el_type, startOfLine + voice[i].startChar, startOfLine + voice[i].endChar, voice[i]);
+                    if( this.transposer && this.transposer.offSet !== 0) {
+                        this.transposer.deleteTabLine(lineNumber);
+                    } else {
+                        var voice = this.accordion.parseTabVoice(ret.str, this.getMultilineVars(), this.getTune());
+                        if (voice.length > 0) {
+                            startNewLine();
+                            tune.restsInTab = multilineVars.restsintab || false;
+                            for (var i = 0; i < voice.length; i++) {
+                                tune.appendElement(voice[i].el_type, startOfLine + voice[i].startChar, startOfLine + voice[i].endChar, voice[i]);
+                            }
                         }
                     }
                 } else {
@@ -2650,7 +2659,7 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                 }
             } else {
                 if (this.transposer && this.transposer.offSet !== 0) {
-                    ret.str = this.transposer.transposeRegularMusicLine(ret.str, line, lineNumber);
+                    ret.str = this.transposer.transposeRegularMusicLine(line, lineNumber);
                 }
                 this.parseRegularMusicLine(ret.str);
             }
@@ -2665,7 +2674,7 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
             this.parseLine(ret.str);
     };
 
-    this.tuneHouseKeeping = function(strTune) {
+    this.strTuneHouseKeeping = function() {
         // Take care of whatever line endings come our way
         strTune = window.ABCXJS.parse.gsub(strTune, '\r\n', '\n');
         strTune = window.ABCXJS.parse.gsub(strTune, '\r', '\n');
@@ -2682,20 +2691,31 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
             lines.pop();
         return lines;
     };
+    
+    this.appendString = function(newLines) {
+        //retira \n ao final  
+        var t = strTune;
+        while( t.charAt(t.length-1) === '\n' ) {
+            t = t.substr(0,t.length-1);
+        }
+        return t + newLines;
+    };
+    
 
-    this.parse = function(strTune, switches) {
+    this.parse = function(tuneTxt, switches) {
         // the switches are optional and cause a difference in the way the tune is parsed.
         // switches.header_only : stop parsing when the header is finished
         // switches.stop_on_warning : stop at the first warning encountered.
         // switches.print: format for the page instead of the browser.
         //window.ABCXJS.parse.transpose = transpose;
+        strTune = tuneTxt;
         tune.reset();
         if (switches && switches.print)
             tune.media = 'print';
         multilineVars.reset();
         header.reset(tokenizer, warn, multilineVars, tune);
 
-        var lines = this.tuneHouseKeeping(strTune);
+        var lines = this.strTuneHouseKeeping();
         //try {
             for (var lineNumber = 0; lineNumber < lines.length; lineNumber++) {
                 var line = lines[lineNumber];
@@ -2737,6 +2757,10 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
             
             tune.cleanUp(multilineVars.barsperstaff, multilineVars.staffnonote);
             
+            if( this.transposer && this.transposer.offSet !== 0 ) {
+                strTune = this.transposer.updateEditor( lines );
+            }
+            
             if (tune.hasTablature) {
                 // necessário inferir a tablatura
                 if (tune.lines[0].staffs[tune.tabStaffPos].voices[0].length === 0) {
@@ -2754,13 +2778,16 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                     if (this.accordion) {
                         for (var t = 0; t < tune.lines.length; t++) {
                            if (tune.lines[t].staffs ) {
-                              var voice = this.accordion.inferTabVoice(t, tune, strTune, multilineVars);
+                              var voice = this.accordion.inferTabVoice(t, tune/*, strTune*/, multilineVars);
                               if (voice.length > 0) {
                                   tune.lines[t].staffs[tune.tabStaffPos].voices[0] = voice;
                                   tune.restsInTab = multilineVars.restsintab || false;
                               }
                            }  
                         }
+                        // obtem possiveis linhas inferidas para tablatura
+                        strTune = this.appendString( this.accordion.updateEditor() );
+                        
                     } else {
                         addWarning("+Warn: Cannot infer tablature line: no accordion defined!");
                     }
@@ -4221,11 +4248,8 @@ window.ABCXJS.parse.parseKeyVoice = {};
 				break;
 			default:
                                 if( transposer ) {
-                                   if( transposer.offSet !== 0 ) 
-                                     tokens = transposer.transposeKey( tokenizer, str, line, lineNumber);
-                                   else 
-                                     transposer.registerKey( tokenizer, str);  
-                                } 
+                                    tokens = transposer.transposeKey( str, line, lineNumber );
+                                }    
                                 
 				var retPitch = tokenizer.getKeyPitch(tokens[0].token);
 				if (retPitch.len > 0) {
@@ -5415,13 +5439,15 @@ if (!window.ABCXJS.parse)
     
 window.ABCXJS.parse.Transposer = function ( offSet ) {
     
-    this.pitches           = window.ABCXJS.parse.pitches;
-    this.key2number        = window.ABCXJS.parse.key2number;
-    this.number2keyflat    = window.ABCXJS.parse.number2keyflat;
-    this.number2keysharp   = window.ABCXJS.parse.number2keysharp;
-    this.number2key_br     = window.ABCXJS.parse.number2key_br;
-    this.number2staff      = window.ABCXJS.parse.number2staff;
-    this.number2staffSharp = window.ABCXJS.parse.number2staffSharp;
+    this.pitches           = ABCXJS.parse.pitches;
+    this.key2number        = ABCXJS.parse.key2number;
+    this.number2keyflat    = ABCXJS.parse.number2keyflat;
+    this.number2keysharp   = ABCXJS.parse.number2keysharp;
+    this.number2key_br     = ABCXJS.parse.number2key_br;
+    this.number2staff      = ABCXJS.parse.number2staff;
+    this.number2staffSharp = ABCXJS.parse.number2staffSharp;
+    
+    this.tokenizer         = new ABCXJS.parse.tokenizer();
     
     this.reset( offSet );
     
@@ -5433,6 +5459,7 @@ window.ABCXJS.parse.Transposer.prototype.reset = function( offSet ) {
     this.newKeyAcc       = [];
     this.oldKeyAcc       = [];
     this.changedLines    = [];
+    this.deletedLines    = [];
     this.newX            =  0;
     this.workingX        =  0;
     this.workingLine     = -1;
@@ -5479,11 +5506,8 @@ window.ABCXJS.parse.Transposer.prototype.numberToStaff = function(number, newKac
     return s;
 };
 
-window.ABCXJS.parse.Transposer.prototype.transposeRegularMusicLine = function(str, line, lineNumber) {
+window.ABCXJS.parse.Transposer.prototype.transposeRegularMusicLine = function(line, lineNumber) {
 
-    if( str.trim() !== line.trim() ) 
-        alert( "window.ABCXJS.parse.Transposer.prototype.TransposeRegularMusicLine: isto não devia acontecer!\nstr.:"+str+".\nline:"+line+".");
-    
     var index = 0;
     var found = false;
     var inside = false;
@@ -5508,19 +5532,17 @@ window.ABCXJS.parse.Transposer.prototype.transposeRegularMusicLine = function(st
         found = false;
         inside = false;
         lastState = 0;
-        while (index < line.length && !found) {
+        while (index < line.length && !found && line.charAt(index) !== '%') {
             
             // ignora o conteúdo de accents
-            if( exclusionSyms.indexOf(line.charAt(index)) >= 0 ) {
+            if( !inside && exclusionSyms.indexOf(line.charAt(index)) >= 0 ) {
                 var nextPos = line.substr( index+1 ).indexOf(line.charAt(index));
                 if( nextPos < 0 ) {
                     index = line.length;
                 } else {
                     if(line.charAt(index)==='"') {
-                        //transpor acorde textual - aqui não está tratando bemois e sustenidos...
-                        //alem disso, trata com abc note, ou seja, tem maiusculas e minusculas
-                        this.transposeNote(index+1, 1);
-                    }
+                        this.transposeChord( index+1, nextPos ); 
+                    }    
                     index += nextPos + 2;
                 }
                 continue;
@@ -5552,11 +5574,37 @@ window.ABCXJS.parse.Transposer.prototype.transposeRegularMusicLine = function(st
             } else {
               index++;
             }   
+            
         }
-        if(inside && !found)
-          this.transposeNote(xi, index - xi);
+        
+        if(inside && !found) {
+            this.transposeNote(xi, index - xi);
+        }
+        
+        if(line.charAt(index) === '%' ){
+            index = line.length;
+        }
+      
     }
     return this.changedLines[ this.workingLineIdx ].text;
+};
+
+window.ABCXJS.parse.Transposer.prototype.transposeChord = function ( xi, size ) {
+    
+    var c = this.workingLine.substring(xi,xi+size);
+    var rex = c.match(/[ABCDEFG][#b]*[°]*[0-9]*(\/*[0-9])*/g);
+    
+    if( Math.abs(this.offSet)%12 === 0 || !rex || c!==rex[0]  ) return ;
+    
+    var cKey = this.parseKey( c );
+    
+    var newKey = this.keyToNumber( cKey );
+    var cNewKey = this.denormalizeAcc( this.numberToKey(newKey + this.offSet ));
+    
+    var newStr  = c.replace(cKey, cNewKey );
+   
+    this.updateWorkingLine( newStr, xi, size/*, cNewKey.length*/ );
+    //this.workingLine = this.workingLine.substr(0, xi) + cNewKey + this.workingLine.substr(xi+size);
 };
 
 window.ABCXJS.parse.Transposer.prototype.transposeNote = function(xi, size )
@@ -5618,15 +5666,18 @@ window.ABCXJS.parse.Transposer.prototype.transposeNote = function(xi, size )
     var key = this.numberToKey(this.staffNoteToCromatic(this.extractStaffNote(pitch)));
     txtAcc = newElem.accidental;
     abcNote = this.getAbcNote(key, txtAcc, oct);
+    this.updateWorkingLine( abcNote, xi, size/*, abcNote.length */);
+    return newElem;
+};
+
+window.ABCXJS.parse.Transposer.prototype.updateWorkingLine = function( newText, xi, size/*, newSize*/ ) {
     var p0 = this.changedLines[this.workingLineIdx].text.substr(0, this.newX);
     var p1 = this.workingLine.substr(this.workingX, xi - this.workingX);
     var p2 = this.workingLine.substr(xi + size);
     this.workingX = xi + size;
-    this.changedLines[this.workingLineIdx].text = p0 + p1 + abcNote;
+    this.changedLines[this.workingLineIdx].text = p0 + p1 + newText;
     this.newX = this.changedLines[this.workingLineIdx].text.length;
     this.changedLines[this.workingLineIdx].text += p2;
-    return newElem;
-
 };
 
 window.ABCXJS.parse.Transposer.prototype.getAbcNote = function( key, txtAcc, oct) {
@@ -5641,35 +5692,14 @@ window.ABCXJS.parse.Transposer.prototype.getAbcNote = function( key, txtAcc, oct
    return this.accNameToABC(txtAcc) + key + cOct;
 };
 
-window.ABCXJS.parse.Transposer.prototype.registerKey = function ( tokenizer, str ) {
-    var cKey = "C";
-    var tokens = tokenizer.tokenize(str, 0, str.length);
-    var retPitch = tokenizer.getKeyPitch(tokens[0].token);
+window.ABCXJS.parse.Transposer.prototype.transposeKey = function ( str, line, lineNumber ) {
 
-    if (retPitch.len > 0) {
-        // The accidental and mode might be attached to the pitch, so we might want to just remove the first character.
-        cKey = retPitch.token;
-        if (tokens[0].token.length > 1)
-            tokens[0].token = tokens[0].token.substring(1);
-        else
-            tokens.shift();
-        // We got a pitch to start with, so we might also have an accidental and a mode
-        if (tokens.length > 0) {
-            var retAcc = tokenizer.getSharpFlat(tokens[0].token);
-            if (retAcc.len > 0) {
-                cKey += retAcc.token;
-            }
-        }
-    }
+    var cKey = this.parseKey( str );
     
     this.currKey[this.currKey.length] = cKey;
     
-    return cKey;
-};
-
-window.ABCXJS.parse.Transposer.prototype.transposeKey = function ( tokenizer, str, line, lineNumber ) {
+    if( Math.abs(this.offSet)%12 === 0 || ! cKey ) return this.tokenizer.tokenize(str, 0, str.length);
     
-    var cKey = this.registerKey( tokenizer, str );
     var newKey = this.keyToNumber( cKey );
     var cNewKey = this.denormalizeAcc( this.numberToKey(newKey + this.offSet ));
     
@@ -5680,20 +5710,54 @@ window.ABCXJS.parse.Transposer.prototype.transposeKey = function ( tokenizer, st
     
     this.changedLines[ this.changedLines.length ] = { line:lineNumber, text: newLine };
 
-    this.oldKeyAcc = window.ABCXJS.parse.parseKeyVoice.standardKey(this.denormalizeAcc(cKey));
-    this.newKeyAcc = window.ABCXJS.parse.parseKeyVoice.standardKey(this.denormalizeAcc(cNewKey));
+    this.oldKeyAcc = ABCXJS.parse.parseKeyVoice.standardKey(this.denormalizeAcc(cKey));
+    this.newKeyAcc = ABCXJS.parse.parseKeyVoice.standardKey(this.denormalizeAcc(cNewKey));
     
-    return tokenizer.tokenize(newStr, 0, newStr.length);
+    return this.tokenizer.tokenize(newStr, 0, newStr.length);
+};
+
+window.ABCXJS.parse.Transposer.prototype.parseKey = function ( str ) {
+    var cKey = null;
+    var tokens = this.tokenizer.tokenize(str, 0, str.length);
+    var retPitch = this.tokenizer.getKeyPitch(tokens[0].token);
+
+    if (retPitch.len > 0) {
+        // The accidental and mode might be attached to the pitch, so we might want to just remove the first character.
+        cKey = retPitch.token;
+        if (tokens[0].token.length > 1)
+            tokens[0].token = tokens[0].token.substring(1);
+        else
+            tokens.shift();
+        // We got a pitch to start with, so we might also have an accidental and a mode
+        if (tokens.length > 0) {
+            var retAcc = this.tokenizer.getSharpFlat(tokens[0].token);
+            if (retAcc.len > 0) {
+                cKey += retAcc.token;
+            }
+        }
+    }
+    
+    return cKey;
+};
+
+
+window.ABCXJS.parse.Transposer.prototype.deleteTabLine = function ( n ) {
+    this.deletedLines[n] = true;
 };
 
 window.ABCXJS.parse.Transposer.prototype.updateEditor = function ( lines ) {
     for( i = 0; i < this.changedLines.length; i++ ){
         lines[this.changedLines[i].line] = this.changedLines[i].text;
     }
-    var newStr = lines[0];
-    for( i = 1; i < lines.length; i++ ){
-        newStr += '\n' + lines[i];
+    
+    var newStr = lines[0]; // supoe q a linha zero nunca sera apagada
+    
+    for( var i = 1; i < lines.length; i++ ){
+        if( ! this.deletedLines[i] ) {
+            newStr += '\n' + lines[i];
+        }
     }
+    this.deletedLines = [];
     this.changedLines = [];
     return newStr;
 };
@@ -8775,7 +8839,7 @@ for (var n = window.ABCXJS.midi.minNote; n <= window.ABCXJS.midi.maxNote; n++) {
  *     Nota: aparentemente o ABC não implementa simbolos como D.S al fine
  *   - Ok - imprimir endings somente no compasso onde ocorrem
  *   - Ok - tratar endings em compassos com repeat bar (tratar adequadamente endings/skippings)
- *   - Ok - tratar notas longas - tanto quanto possível, as notas longas serão reiniciadas
+ *   - Ok - tratar notas longas - tanto quganto possível, as notas longas serão reiniciadas
  *          porém a qualidade não é boa pois o reinício é perceptível
  */
 
@@ -9733,7 +9797,7 @@ ABCXJS.tablature.Accordion = function( params ) {
         throw new Error( 'No accordionMap found!');
     }
     
-    this.render_keyboard_opts = params.render_keyboard_opts || {transpose:false, mirror: false, scale:1, draggable:false, show:false};
+    this.render_keyboard_opts = params.render_keyboard_opts || {transpose:false, mirror: false, scale:1, draggable:false, show:false, label:false};
 
     if( params.id )
         this.loadById( params.id );
@@ -9773,16 +9837,17 @@ ABCXJS.tablature.Accordion.prototype.accordionIsCurrent = function(id) {
     return ret;
 };
 
-ABCXJS.tablature.Accordion.prototype.changeNotation = function() {
-    this.accordions[this.selected].keyboard.changeNotation();
-};
-
 ABCXJS.tablature.Accordion.prototype.clearKeyboard = function(full) {
     this.accordions[this.selected].keyboard.clear(full);
 };
 
+ABCXJS.tablature.Accordion.prototype.changeNotation = function() {
+    this.render_keyboard_opts.label = ! this.render_keyboard_opts.label;
+    this.redrawKeyboard();
+};
+
 ABCXJS.tablature.Accordion.prototype.redrawKeyboard = function() {
-    this.accordions[this.selected].keyboard.redraw();
+    this.getKeyboard().redraw(this.render_keyboard_opts);
 };
 
 ABCXJS.tablature.Accordion.prototype.rotateKeyboard = function(div) {
@@ -9879,8 +9944,8 @@ ABCXJS.tablature.Accordion.prototype.getNoteName = function( item, keyAcc, barAc
 
 //TODO: resolver isso para que não tenha que instanciar uma vez para cada linha de texto
 // além disso, os warnings de inferencia ficariam melhores se consolidados ao final 
-ABCXJS.tablature.Accordion.prototype.inferTabVoice = function( line, tune, strTUne, vars ) {
-    var i = new ABCXJS.tablature.Infer( this, tune, strTUne, vars );
+ABCXJS.tablature.Accordion.prototype.inferTabVoice = function( line, tune, /*strTUne,*/ vars ) {
+    var i = new ABCXJS.tablature.Infer( this, tune, /*strTUne,*/ vars );
     return i.inferTabVoice( line );
 };
 
@@ -10283,9 +10348,9 @@ if (!window.ABCXJS)
 if (!window.ABCXJS.tablature)
 	window.ABCXJS.tablature = {};
     
-ABCXJS.tablature.Infer = function( accordion, tune, strTune, vars ) {
+ABCXJS.tablature.Infer = function( accordion, tune/*, strTune*/, vars ) {
     this.accordion = accordion;
-    this.abcText = strTune;
+    //this.abcText = strTune;
     this.vars = vars || {} ;
     this.tune = tune;
     this.offset = 8.9;
@@ -10295,6 +10360,24 @@ ABCXJS.tablature.Infer = function( accordion, tune, strTune, vars ) {
         if (!this.vars.warnings) this.vars.warnings = [];
         this.vars.warnings.push(str);
     };
+    
+    this.barTypes = { 
+        "bar"         : "|"
+      , "bar_thin"         : "|"
+      , "bar_thin_thin"    : "||"
+      , "bar_thick_thin"   : "[|"
+      , "bar_thin_thick"   : "|]"
+      , "bar_dbl_repeat"   : ":|:"
+      //, "bar_dbl_repeat"   : ":||:"
+      //, "bar_dbl_repeat"   : "::"
+      , "bar_left_repeat"  : "|:"
+      //, "bar_left_repeat"  : "||:"
+      //, "bar_left_repeat"  : "[|:"
+      , "bar_right_repeat" : ":|"
+      //, "bar_right_repeat" : ":||"
+      //, "bar_right_repeat" : ":|]"
+    };
+    
 };
 
 ABCXJS.tablature.Infer.prototype.reset = function() {
@@ -10306,7 +10389,7 @@ ABCXJS.tablature.Infer.prototype.reset = function() {
     this.count = 0;
     this.lastButton = -1;
     this.closing = true;
-    this.currInterval = 0;
+    this.currInterval = 1;
     this.alertedMissSync = false;
     
     // limite para inversão o movimento do fole - baseado no tempo de um compasso
@@ -10334,7 +10417,7 @@ ABCXJS.tablature.Infer.prototype.inferTabVoice = function(line) {
     var trebVoices = trebStaff.voices;
     this.accTrebKey = trebStaff.key.accidentals;
     for( var i = 0; i < trebVoices.length; i ++ ) {
-        voices.push( { voz:trebVoices[i], pos:-1, st:'waiting for data', bass:false, wi: {}, ties:[] } ); // wi - work item
+        voices.push( { voz:trebVoices[i], pos:-1, st:'waiting for data', bass:false, wi: {}, ties:[]} ); // wi - work item
     }
     
     if( this.tune.tabStaffPos === 2 ) {
@@ -10360,8 +10443,7 @@ ABCXJS.tablature.Infer.prototype.inferTabVoice = function(line) {
 
         for( var j = 0; j < voices.length-1; j ++ ) {
             if( voices[j].st !== voices[j+1].st && ! this.alertedMissSync) {
-                var n = parseInt(this.currInterval);
-                this.addWarning('Possível falta de sincronismo no compasso ' + n + '.' ) ;
+                this.addWarning('Possível falta de sincronismo no compasso ' + this.currInterval + '.' ) ;
                 j = voices.length;
                 this.alertedMissSync = true;
             }
@@ -10430,7 +10512,7 @@ ABCXJS.tablature.Infer.prototype.read = function(p_source, item) {
     
     if( source.pos < source.voz.length ) {
         source.wi = ABCXJS.parse.clone(source.voz[source.pos]);
-        if( source.wi.barNumber && source.wi.barNumber !== this.currInterval ) {
+        if( source.wi.barNumber && source.wi.barNumber !== this.currInterval && item === 0 ) {
             this.currInterval = source.wi.barNumber;
         }
         this.checkTies(source);
@@ -10547,8 +10629,15 @@ ABCXJS.tablature.Infer.prototype.checkTies = function(voice) {
 ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
 
     if (token.el_type !== "note") {
+        var xf = 0;
+        if( this.barTypes[token.type] ){
+            xf = this.registerLine(this.barTypes[token.type] + 
+                    (token.startEnding?token.startEnding:"") + " ");
+        } else {
+            throw new Error( 'ABCXJS.tablature.Infer.prototype.addTABChild (token_type): ' + token.type );
+            //xf = this.registerLine(this.abcText.substr(token.startChar, token.endChar - token.startChar) + " ");
+        }
         var xi = this.getXi();
-        var xf = this.registerLine(this.abcText.substr(token.startChar, token.endChar - token.startChar) + " ");
         this.add(token, xi, xf - 1 );
         return;
     }
@@ -10713,7 +10802,7 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
 ABCXJS.tablature.Infer.prototype.registerMissingButton = function(close,item) {
     if( ! this.missingButtons ) this.missingButtons = {};
     if( ! this.missingButtons[item.note] )  this.missingButtons[item.note] = [];
-    this.missingButtons[item.note].push(this.currInterval);
+    this.missingButtons[item.note].push(parseInt(this.currInterval));
 };
 
 ABCXJS.tablature.Infer.prototype.getXi = function() {

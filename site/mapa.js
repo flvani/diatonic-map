@@ -204,6 +204,8 @@ SITE.Mapa.prototype.showStudio = function () {
 };
 SITE.Mapa.prototype.showStudio2 = function (loader) {
     
+    this.midiPlayer.stopPlay();
+    
     $("#mapContainerDiv").hide();
     document.getElementById("divMenuAccordions").style.pointerEvents = 'none';
     document.getElementById("divMenuRepertoire").style.pointerEvents = 'none';
@@ -231,6 +233,7 @@ SITE.Mapa.prototype.setupProps = function () {
         this.studio.accordion.render_keyboard_opts.scale = parseFloat(props[7]);
         this.studio.accordion.render_keyboard_opts.mirror  = (props[8] === 'true');
         this.studio.accordion.render_keyboard_opts.transpose = (props[9] === 'true');
+        this.studio.accordion.render_keyboard_opts.label = (props[10] === 'true');
         
         this.studio.textVisible    = ! this.studio.textVisible;
         this.studio.editorVisible  = ! this.studio.editorVisible;
@@ -252,6 +255,7 @@ SITE.Mapa.prototype.restoreStudio = function () {
     this.studio.accordion.render_keyboard_opts.scale = 0.8;
     this.studio.accordion.render_keyboard_opts.mirror = false;
     this.studio.accordion.render_keyboard_opts.transpose = false;
+    this.studio.accordion.render_keyboard_opts.label = false;
     
     FILEMANAGER.saveLocal( 'property.studio.settings', 
         this.studio.textVisible 
@@ -264,6 +268,7 @@ SITE.Mapa.prototype.restoreStudio = function () {
         + '|' + this.studio.accordion.render_keyboard_opts.scale
         + '|' + this.studio.accordion.render_keyboard_opts.mirror
         + '|' + this.studio.accordion.render_keyboard_opts.transpose
+        + '|' + this.studio.accordion.render_keyboard_opts.label
         );
 
     this.setupProps();
@@ -276,6 +281,9 @@ SITE.Mapa.prototype.closeStudio = function () {
 };
     
 SITE.Mapa.prototype.closeStudio2 = function (loader) {
+    
+    this.studio.midiPlayer.stopPlay();
+    
     FILEMANAGER.saveLocal( 'property.studio.settings', 
         this.studio.textVisible 
         + '|' + this.studio.editorVisible 
@@ -287,6 +295,7 @@ SITE.Mapa.prototype.closeStudio2 = function (loader) {
         + '|' + this.studio.accordion.render_keyboard_opts.scale
         + '|' + this.studio.accordion.render_keyboard_opts.mirror
         + '|' + this.studio.accordion.render_keyboard_opts.transpose
+        + '|' + this.studio.accordion.render_keyboard_opts.label
         );
 
     $("#studioDiv").fadeOut();
@@ -716,6 +725,7 @@ SITE.Mapa.prototype.startLoader = function(id, start, stop) {
 SITE.Mapa.prototype.parseABC = function(tab) {
     var transposer = null;
     var abcParser = new ABCXJS.parse.Parse( transposer, this.accordion );
+    
     abcParser.parse(tab.text, this.parserparams );
     tab.abc = abcParser.getTune();
 

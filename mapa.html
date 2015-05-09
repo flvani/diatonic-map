@@ -122,43 +122,44 @@ notação abc, tablatura "/>
             <div id="mediaDiv" class="draggableWindow" style="left:900px; top:80px; width:250px; height: auto; display:none; z-index:10000;"></div> 
     
             <div id="div_principal" class="span12" style="float:left; margin-left: 8px; margin-top: 8px; width: 930px;" >
-              <div style="margin:0; padding:0; width:100%;">  
-              <ul id="faketab">
-                  <li><a href="#" id="a_nome_gaita">LOADING...</a></li>
-                  <li>
-                      <div id="divMapControls" style="margin-left: 8px; margin-top:1px; display:none;" >
-                        <table><tr><td>
-                            <table class="table-bordered table-final" style="background-color: white; margin-top:1px; height: 24px;"> 
-                            <tr > 
-                              <td >
-                                  &nbsp;<b id="DR_layout">Layout:</b>&nbsp;&nbsp;
-                                  <input type="checkbox" id="checkboxHorizontal" checked >&nbsp;<span id="DR_horizontal">Horizontal</span>
-                                  &nbsp;&nbsp;
-                                  <input type="checkbox" id="checkboxEspelho">&nbsp;<span id="DR_espelho">Espelho</span>&nbsp;
-                              </td >
-                            </tr>
+                <div style="margin:0; padding:0; width:100%;">  
+                <ul id="faketab">
+                    <li><a href="#" id="a_nome_gaita">LOADING...</a></li>
+                    <li>
+                        <div id="divMapControls" style="margin-left: 8px; margin-top:1px;"  >
+                            <table><tr>
+                                <td>
+                                    <button id="buttonChangeNotation" class="btn" style="background-color: white; margin-top:1px; height: 24px;">
+                                        <i class="icon-globe"></i>&nbsp;<span id="DR_chlabel">Mudar notação</span>
+                                    </button>
+                                </td><td>
+                                    <table class="table-bordered table-final" style="background-color: white; margin-top:1px; height: 24px; display:none;"> 
+                                        <tr><td>
+                                            &nbsp;<b id="DR_layout">Layout:</b>&nbsp;&nbsp;
+                                            <input type="checkbox" id="checkboxHorizontal" checked >&nbsp;<span id="DR_horizontal">Horizontal</span>
+                                            &nbsp;&nbsp;
+                                            <input type="checkbox" id="checkboxEspelho">&nbsp;<span id="DR_espelho">Espelho</span>&nbsp;
+                                        </td></tr>
+                                    </table>
+                                </td></tr>
                             </table>
-                            </td><td>
-                                <button id="buttonChangeNotation" class="btn" style="background-color: white; margin-top:1px; height: 24px;"><i class="icon-globe"></i>&nbsp;<span id="DR_chlabel">Mudar notação</span></button>
-                            </td></tr>
+                        </div>  
+                    </li>
+                </ul>
+                </div>  
+                <div id="divContent" style="margin:0; padding:0; width:95%;" > 
+                    <div id="contentKeyboard" style="width: auto; float: left; min-height: 302px;" ></div>
+                    <div id="contentInfo" style="position: absolute; top: 0; right: 0; margin-top: 8px; margin-right: 8px;">
+                        <table class="table table-bordered table-final" style="min-width: 200px;">
+                            <tr>
+                            <td style="height:200px;" id="td_imagem_gaita" >
+                                <b>Loading...</b>
+                            </td>
+                            </tr>
                         </table>
-                      </div>  
-                  </li>
-              </ul>
-              </div>  
-              <div id="divContent" style="margin:0; padding:0; width:95%;" > 
-                <div id="contentKeyboard" style="width: auto; float: left; min-height: 302px;" ></div>
-                <div id="contentInfo" style="position: absolute; top: 0; right: 0; margin-top: 8px; margin-right: 8px;">
-                    <table class="table table-bordered table-final" style="min-width: 200px;">
-                    <tr>
-                      <td style="height:200px;" id="td_imagem_gaita" >
-                          <b>Loading...</b>
-                      </td>
-                    </tr>
-                  </table>
+                    </div>
+                    <div id="divABCXversion" style="position: absolute; bottom: 0; right: 0; margin-right: 5px;"></div>
                 </div>
-                <div id="divABCXversion" style="position: absolute; bottom: 0; right: 0; margin-right: 5px;"></div>
-              </div>
             </div> <!-- /div_principal --> 
             
             <div id="div_detalhes" style="float:left; margin-left: 8px; margin-top: 8px; width:100%;"> 
@@ -355,16 +356,16 @@ notação abc, tablatura "/>
         <script type="text/javascript" src="MIDI.js/MIDI_2.04-min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_3.30-min.js"></script>
+        <script type="text/javascript" src="file/filemanager_3.32-min.js"></script>
         
         <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_3.30-min.js" ></script>
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_3.32-min.js" ></script>
         
         <!-- suporte mapas de acordeons -->
-        <script type="text/javascript" src="diatonic/diatonic_3.30-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic_3.32-min.js"></script>
 
         <!-- site -->
-        <script id="siteLib" type="text/javascript" src="site_3.04-min.js"></script>
+        <script id="siteLib" type="text/javascript" src="site_3.05-min.js"></script>
         
         <script id="mainScript" type="text/javascript">
 
@@ -482,7 +483,7 @@ notação abc, tablatura "/>
                       ,accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps
-                            ,render_keyboard_opts:{transpose:false, mirror: false, scale:0.8, draggable:true, show:false}}
+                            ,render_keyboard_opts:{transpose:false, mirror:false, scale:0.8, draggable:true, show:false, label:false}}
                       ,onchange: function( studio ) { studio.onChange(); }
                   } 
                   , {   // playerParams
@@ -516,7 +517,7 @@ notação abc, tablatura "/>
                       ,accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps
-                            ,render_keyboard_opts:{transpose:true, mirror: false, scale:1, draggable:false, show:true}}
+                            ,render_keyboard_opts:{transpose:true, mirror:false, scale:1, draggable:false, show:true, label:false}}
                   }
                   , {   // tabParams
                         songSelectorParms: { div: 'divSongs', ul: 'ulSongs', span: 'spanSongs' }

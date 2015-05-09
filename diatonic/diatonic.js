@@ -204,7 +204,7 @@ if (!window.DIATONIC.map)
     window.DIATONIC.map = {};
 
 DIATONIC.map.Keyboard = function (keyMap, pedalInfo) {
-    this.showLabel = false;
+    //this.showLabel = false;
     this.pedalInfo = pedalInfo;
     this.layout = keyMap.layout;
     this.keys = keyMap.keys;
@@ -284,7 +284,7 @@ DIATONIC.map.Keyboard.prototype.setup = function (keyMap) {
             btn.tabButton = (i + 1) + Array(j + 1).join("'");
             btn.openNote = this.parseNote(openRow[i], bass);
             btn.closeNote = this.parseNote(closeRow[i], bass);
-            btn.setText( this.showLabel );
+            btn.setText( false );
             
             //noteName = btn.openNote.key + (bass?'':btn.openNote.octave);
             noteVal = this.getNoteVal(btn.openNote);
@@ -335,6 +335,7 @@ DIATONIC.map.Keyboard.prototype.print = function (div, options ) {
     options.scale = options.scale || 1;
     options.mirror = options.mirror || false;
     options.transpose = options.transpose || false;
+    options.label = options.label|| false;
     
     this.legenda.draw(this.paper, this.limits, options);
     this.legenda.setOpen();
@@ -394,22 +395,23 @@ DIATONIC.map.Keyboard.prototype.parseNote = function(txtNota, isBass) {
   nota.isSetima   = nota.complement.substr(0,2).indexOf( '7' ) >= 0;
   
   if (typeof (nota.value) === "undefined" ) {
+      // para debug veja this.abctune.lines[this.line].staffs[this.staff].voices[this.voice][this.pos]
       throw new Error( 'Nota inválida: ' + txtNota );
   };
 
   return nota;
 };
 
-DIATONIC.map.Keyboard.prototype.changeNotation = function() {
-    this.showLabel = !this.showLabel;
-    this.redraw();
-};
+//DIATONIC.map.Keyboard.prototype.changeNotation = function() {
+//    this.showLabel = !this.showLabel;
+//    this.redra();
+//};
 
-DIATONIC.map.Keyboard.prototype.redraw = function() {
+DIATONIC.map.Keyboard.prototype.redraw = function(opts) {
     for (var j = 0; j < this.keyMap.length; j++) {
         for (var i = 0; i < this.keyMap[j].length; i++) {
             var key = this.keyMap[j][i];
-            key.setText( this.showLabel );
+            key.setText( opts.label );
         }
     }
 };
@@ -528,6 +530,8 @@ DIATONIC.map.Button.prototype.draw = function( paper, limits, options ) {
             .attr({"fill": "none", "stroke": this.color, "stroke-width": this.stroke});
     this.paper.path( ["M", currX-currRadius, currY+(5*options.scale), "L", currX+currRadius, currY-(5*options.scale) ] )
             .attr({"fill": "none", "stroke": this.color, "stroke-width": this.stroke});
+    
+    this.setText( options.label );
 };
 
 DIATONIC.map.Button.prototype.clear = function(delay) {
@@ -564,25 +568,49 @@ DIATONIC.map.Button.prototype.setClose = function(delay) {
 
 DIATONIC.map.Button.prototype.getLabel = function(nota, showLabel) {
     var l = '';
+    if (showLabel) {
+        l= DIATONIC.map.number2key_br[nota.value];
+    } else {
+        l = DIATONIC.map.number2key[nota.value];
+    }
+    
+    if( showLabel )  {
+        l = l.toUpperCase() + '';
+    }
+    
+    if ( nota.isChord ) {
+       l = l.toLowerCase() + '';
+    }    
+    
+    if( nota.isMinor ) {
+        l+='-';
+    }
+    return l;
+};
+  
+
+DIATONIC.map.Button.prototype.getLabelOld = function(nota, showLabel) {
+    var l = '';
     if (nota.isChord) {
         l = DIATONIC.map.number2key[ nota.value ].toLowerCase() + '';
     } else {
         if (showLabel) {
-            l = nota.key = DIATONIC.map.number2key_br[nota.value ];
+            l= DIATONIC.map.number2key_br[nota.value ];
         } else {
-            l = nota.key = DIATONIC.map.number2key[nota.value ];
+            l = DIATONIC.map.number2key[nota.value ];
         }
     }
     if( nota.isMinor ) {
         l+='-';
     }
-    
     return l;
 };
-  
+
 DIATONIC.map.Button.prototype.setText = function( showLabel ) {
-    this.setTextOpen( this.getLabel( this.openNote, showLabel ) );
-    this.setTextClose( this.getLabel( this.closeNote, showLabel ) );
+    if(this.openNote) {
+        this.setTextOpen( this.getLabel( this.openNote, showLabel ) );
+        this.setTextClose( this.getLabel( this.closeNote, showLabel ) );
+    }    
 };
 
 DIATONIC.map.Button.prototype.setTextClose = function(t) {
