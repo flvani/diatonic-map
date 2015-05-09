@@ -154,13 +154,12 @@ SITE.Mapa.prototype.setup = function (tabParams) {
         FILEMANAGER.saveLocal('property.accordion', gaita.getId());
     }
 
+    this.accordion.printKeyboard(this.keyboardDiv);
     this.showAccordionName();
     this.showAccordionImage();
     this.midiPlayer.reset();
 
     this.loadOriginalRepertoire(tabParams);
-
-    return gaita;
 
 };
 SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
