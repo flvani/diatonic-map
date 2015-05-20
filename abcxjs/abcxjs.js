@@ -803,6 +803,8 @@ window.ABCXJS.data.Tune = function() {
                 This.appendElement('scale', null, null, {size: params.scale});
         };
         var createStaff = function(params) {
+            if (params.transpose)
+                params.clef.transpose = params.transpose;
             This.lines[This.lineNum].staffs[This.staffNum] =
                     {voices: [], clef: params.clef, key: params.key, workingClef: params.clef, subtitle: params.subtitle, lyricsRows: 0};
             if (params.vocalfont)
@@ -2064,6 +2066,8 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                 params.scale = multilineVars.currentVoice.scale;
             if (multilineVars.currentVoice.style)
                 params.style = multilineVars.currentVoice.style;
+            if (multilineVars.currentVoice.transpose)
+                params.transpose = multilineVars.currentVoice.transpose;
         }
         tune.startNewLine(params);
 
@@ -7403,6 +7407,12 @@ ABCXJS.write.Layout.prototype.printNote = function(elem, nostem, dontDraw) { //s
     for (var tot = Math.pow(2, durlog), inc = tot / 2; tot < duration; dot++, tot += inc, inc /= 2)
         ;
 
+    if (elem.startTriplet) {
+        if (elem.startTriplet === 2)
+            this.tripletmultiplier = 3/2;
+        else
+            this.tripletmultiplier=(elem.startTriplet-1)/elem.startTriplet;
+    }
 
     var abselem = new ABCXJS.write.AbsoluteElement(elem, duration * this.tripletmultiplier, 1);
 
@@ -8871,7 +8881,7 @@ ABCXJS.midi.Parse = function( options ) {
 
 ABCXJS.midi.Parse.prototype.reset = function() {
     
-    this.vars.warnings = [];
+    this.vars = { warnings: [] };
     
     this.multiplier = 1;
     this.timecount = 0;
@@ -8900,11 +8910,16 @@ ABCXJS.midi.Parse.prototype.reset = function() {
 ABCXJS.midi.Parse.prototype.parse = function(tune, keyboard) {
     
     var self = this;
-    var currBar = 0;
+    var currBar = 0; // marcador do compasso corrente - não conta os compassos repetidos por ritornellos
     
     this.reset();
 
     this.abctune = tune;
+    
+    this.transposeTab = 0;
+    if(tune.hasTablature){
+        this.transposeTab = tune.lines[0].staffs[tune.tabStaffPos].clef.transpose || 0;
+    }
     
     this.midiTune.keyboard = keyboard;
 
@@ -8929,26 +8944,25 @@ ABCXJS.midi.Parse.prototype.parse = function(tune, keyboard) {
     
     //cria a playlist a partir dos elementos obtidos acima  
     this.parsedElements.forEach( function( item, time ) {
+        
         if( item.end.pitches.length + item.end.abcelems.length + item.end.buttons.length > 0 ) {
             self.midiTune.playlist.push( {item: item.end, time: time, start: false } );
         }
         
         if( item.start.pitches.length + item.start.abcelems.length + item.start.buttons.length > 0 ) {
+            var pl = {item: null, time: time, start: true };
             if( item.start.barNumber ) {
-               this.lastBar = item.start.barNumber > currBar? item.start.barNumber:null;
-            }
-            
-            self.handleButtons(item.start.pitches, item.start.buttons );
-            if( item.start.barNumber ) {
+                this.lastBar = null; // identifica o compasso onde os botões da tablatura não condizem com a partitura
                 if( item.start.barNumber > currBar ) {
-                    currBar = item.start.barNumber;
+                    currBar = this.lastBar = item.start.barNumber;
                     self.midiTune.measures[currBar] = self.midiTune.playlist.length;
                 }
-                self.midiTune.playlist.push( {item: item.start, time: time, barNumber: item.start.barNumber, start: true } );
-            } else {
-                self.midiTune.playlist.push( {item: item.start, time: time, start: true } );
-            }
+                pl.barNumber = item.start.barNumber;
+            } 
             delete item.start.barNumber;
+            self.handleButtons(item.start.pitches, item.start.buttons );
+            pl.item = item.start;
+            self.midiTune.playlist.push( pl );
         }
     });
     
@@ -8958,7 +8972,7 @@ ABCXJS.midi.Parse.prototype.parse = function(tune, keyboard) {
     return this.midiTune;
 };
 
-ABCXJS.midi.Parse.prototype.handleButtons = function(pitches, buttons, currBar) {
+ABCXJS.midi.Parse.prototype.handleButtons = function(pitches, buttons ) {
     var note, midipitch, key, pitch;
     var self = this;
     buttons.forEach( function( item ) {
@@ -8967,9 +8981,9 @@ ABCXJS.midi.Parse.prototype.handleButtons = function(pitches, buttons, currBar) 
             return;
         }
         if( item.button.closing )  {
-            note = item.button.button.closeNote;
+            note = ABCXJS.parse.clone(item.button.button.closeNote);
         } else {
-            note = item.button.button.openNote;
+            note = ABCXJS.parse.clone(item.button.button.openNote);
         }
         if(note.isBass) {
             if(note.isChord){
@@ -8978,6 +8992,16 @@ ABCXJS.midi.Parse.prototype.handleButtons = function(pitches, buttons, currBar) 
                 key = note.key;
             }
         } else {
+            
+            if( self.transposeTab ) {
+                switch(self.transposeTab){
+                    case 8: note.octave --; break;
+                    case -8: note.octave ++; break;
+                    default:
+                        this.addWarning('Possível transpor a tablatura uma oitava acima ou abaixo +/-8. Ignorando transpose.') ;
+                }
+            }
+            
             midipitch = 12 + 12 * note.octave + DIATONIC.map.key2number[ note.key ];
         }
         
@@ -8986,27 +9010,26 @@ ABCXJS.midi.Parse.prototype.handleButtons = function(pitches, buttons, currBar) 
         // por hora, procuro a primeira nota que corresponda e não esteja com botão associado (! pitches[r].button)
         var hasBass=false, hasTreble=false;
         for( var r = 0; r < pitches.length; r ++ ) {
-            if(note.isBass && pitches[r].clef === 'bass') {
-                pitch = pitches[r].midipitch % 12;
+            if(note.isBass && pitches[r].midipitch.clef === 'bass') {
+                pitch = pitches[r].midipitch.midipitch % 12;
                 hasBass=true;
                 if( pitch === DIATONIC.map.key2number[ key ] && ! pitches[r].button ){
                     pitches[r].button = item.button;
                     item.button = null;
                     return;
                 }
-            } else if(!note.isBass && pitches[r].clef !== 'bass') { 
+            } else if(!note.isBass && pitches[r].midipitch.clef !== 'bass') { 
                 hasTreble=true;
-                if( pitches[r].midipitch === midipitch ) {
+                if( pitches[r].midipitch.midipitch === midipitch ) {
                     pitches[r].button = item.button;
                     item.button = null;
                     return;
                 }
             }
         }
-        // está quase certo: precisa tratar o caso de ter mais de uma voz sobreposta.
-        //if((note.isBass && hasBass) || (!note.isBass && hasTreble && this.lastBar )) {
-        //    self.addWarning( 'Compasso '+this.lastBar+': Botao '+item.button.button.tabButton+' ('+item.button.button.closeLabel+'/'+item.button.button.openLabel+') não corresponde a nenhuma nota em execução.');
-        //}    
+        if(this.lastBar && ((note.isBass && hasBass) || (!note.isBass && hasTreble && this.lastBar ))) {
+            self.addWarning( 'Compasso '+this.lastBar+': Botao '+item.button.button.tabButton+' ('+item.button.button.closeLabel+'/'+item.button.button.openLabel+') não corresponde a nenhuma nota em execução.');
+        }    
     });
     
     
@@ -9070,6 +9093,7 @@ ABCXJS.midi.Parse.prototype.writeNote = function(elem) {
         this.multiplier = (elem.startTriplet === 2) ? 3 / 2 : (elem.startTriplet - 1) / elem.startTriplet;
     }
 
+    //var mididuration = this.checkMinNote(parseFloat(Number(elem.duration * this.wholeNote * this.multiplier).toFixed(7)));
     var mididuration = this.checkMinNote(elem.duration * this.wholeNote * this.multiplier);
 
     var intervalo = { totalDur:0, elem:null, midipitch:null };
@@ -9105,11 +9129,11 @@ ABCXJS.midi.Parse.prototype.writeNote = function(elem) {
                     startInterval.elem.openTies --;
                     startInterval.totalDur += mididuration;
                     startInterval.midipitch.mididuration = startInterval.totalDur;
-                    this.addEnd( this.timecount+mididuration, startInterval.midipitch, null, null );
+                    this.addEnd( this.timecount+mididuration, startInterval.midipitch, null/*, null*/ );
                     
                     if( startInterval.elem.openTies === 0 ) {
                         delete startInterval.elem.openTies;
-                        this.addEnd( this.timecount+mididuration, null, startInterval.elem, null );
+                        this.addEnd( this.timecount+mididuration, null, startInterval.elem/*, null*/ );
                     } 
                     
                     //TIES EM SERIE: PASSO 2 - trar intervalos intermediários
@@ -9119,12 +9143,10 @@ ABCXJS.midi.Parse.prototype.writeNote = function(elem) {
                         interInter.totalDur += mididuration;
                         if( interInter.elem.openTies === 0 ) {
                             delete interInter.elem.openTies;
-                            this.addEnd( this.timecount+mididuration, null, interInter.elem, null );
+                            this.addEnd( this.timecount+mididuration, null, interInter.elem/*, null*/ );
                         } 
                     }
-                    
                     this.startTieInterval[midipitch] = [false];
-                    
                 }
             } else if (note.tie && note.tie.id_start ) { // só inicia
                 var mp = {channel:this.channel, midipitch:midipitch, mididuration:mididuration};
@@ -9139,7 +9161,7 @@ ABCXJS.midi.Parse.prototype.writeNote = function(elem) {
                   var mp = {channel:this.channel, midipitch:midipitch, mididuration:mididuration};
                   intervalo = { totalDur:mididuration, elem:elem, midipitch:mp }; 
                   this.addStart( this.timecount, mp, null, null );
-                  this.addEnd( this.timecount+mididuration, mp, null, null );
+                  this.addEnd( this.timecount+mididuration, mp, null/*, null*/ );
                 }
             } 
         }
@@ -9147,18 +9169,26 @@ ABCXJS.midi.Parse.prototype.writeNote = function(elem) {
 
     this.addStart( this.timecount, null, elem, null );
     if( ! elem.openTies ) {
-        this.addEnd( this.timecount+mididuration, null, elem, null );
+        this.addEnd( this.timecount+mididuration, null, elem/*, null*/ );
     }
     
-    this.timecount += mididuration;
-
+    this.setTimeCount( mididuration );
+    
     if (elem.endTriplet) {
         this.multiplier = 1;
     }
 };
 
+ABCXJS.midi.Parse.prototype.setTimeCount = function(dur) {
+    this.timecount += dur;
+    // corrigir erro de arredondamento
+    if( this.timecount%1.0 > 0.9999 ) {
+        this.timecount = Math.round( this.timecount );
+    }
+};
+
 ABCXJS.midi.Parse.prototype.checkMinNote = function(dur) {
-    if( dur < 1 ) {
+    if( dur < 0.99 ) {
         dur = 1;
         if( !this.alertedMin ) {
             this.addWarning( 'Nota(s) com duração menor que o mínimo suportado: 1/' + this.wholeNote + '.');
@@ -9172,8 +9202,11 @@ ABCXJS.midi.Parse.prototype.checkMinNote = function(dur) {
 
 ABCXJS.midi.Parse.prototype.selectButtons = function(elem) {
     
-    var mididuration = this.checkMinNote(elem.duration * this.wholeNote);
+    if (elem.startTriplet) {
+        this.multiplier = (elem.startTriplet === 2) ? 3 / 2 : (elem.startTriplet - 1) / elem.startTriplet;
+    }
     
+    var mididuration = elem.duration * this.wholeNote * this.multiplier;
     
     if (elem.pitches) {
         
@@ -9204,16 +9237,22 @@ ABCXJS.midi.Parse.prototype.selectButtons = function(elem) {
                     this.lastTabElem[10+i-bassCounter] = button;
                 }
             }
-            //if( ! tie ) {
+            if( ! tie ) {
                 this.addStart( this.timecount, null, null, { button: button, closing: (elem.bellows === '+'), duration: elem.duration } );
-                this.addEnd( this.timecount+mididuration, null, null, { button: button, closing: (elem.bellows === '+') } );
-            //}    
+                //this.addEnd( this.timecount+mididuration, null, null/*, { button: button, closing: (elem.bellows === '+') } */);
+            }    
         }
     }
     
     this.addStart( this.timecount, null, elem, null );
-    this.addEnd( this.timecount+mididuration, null, elem, null );
-    this.timecount += mididuration;
+    this.addEnd( this.timecount+mididuration, null, elem/*, null*/ );
+    
+    this.setTimeCount( mididuration );
+    
+    if (elem.endTriplet) {
+        this.multiplier = 1;
+    }
+    
 };
 
 ABCXJS.midi.Parse.prototype.handleBar = function(elem) {
@@ -9267,9 +9306,9 @@ ABCXJS.midi.Parse.prototype.clearTies = function() {
         if( !arr[0] ) return;
         arr[0].elem.openTies--;
         if(arr[0].elem.openTies>0) {
-            self.addEnd( self.timecount, arr[0].midipitch, null, null ); 
+            self.addEnd( self.timecount, arr[0].midipitch, null/*, null*/ ); 
         } else {
-            self.addEnd( self.timecount, arr[0].midipitch, arr[0].elem, null ); 
+            self.addEnd( self.timecount, arr[0].midipitch, arr[0].elem/*, null*/ ); 
             delete arr[0].elem.openTies;
         }   
         self.startTieInterval[index] = [false];
@@ -9295,24 +9334,30 @@ ABCXJS.midi.Parse.prototype.getParsedElement = function(time) {
 };
 
 ABCXJS.midi.Parse.prototype.addStart = function( time, midipitch, abcelem, button ) {
+    var delay = (time%1.0);
+    time -= delay;
+    
     var pE = this.getParsedElement(time);
     if( abcelem ) {
-        pE.start.abcelems.push({abcelem:abcelem,channel:this.channel});
+        pE.start.abcelems.push({abcelem:abcelem,channel:this.channel, delay:delay});
         if(this.staff === 0 && this.voice === 0 && abcelem.barNumber ) 
             pE.start.barNumber = pE.start.barNumber || abcelem.barNumber;
     }    
     if( midipitch ) {
         midipitch.clef = this.getStaff().clef.type;
-        pE.start.pitches.push(midipitch);
+        //midipitch.startDelay = delay;
+        pE.start.pitches.push( {midipitch: midipitch, delay:delay} );
     }
-    if( button    ) pE.start.buttons.push({button:button,abcelem:abcelem});
+    if( button) pE.start.buttons.push({button:button,abcelem:abcelem, delay:delay});
 };
 
-ABCXJS.midi.Parse.prototype.addEnd = function( time, midipitch, abcelem, button ) {
+ABCXJS.midi.Parse.prototype.addEnd = function( time, midipitch, abcelem/*, button*/ ) {
+    var delay = (time%1);
+    time -= delay;
     var pE = this.getParsedElement(time);
-    if( abcelem   ) pE.end.abcelems.push({abcelem:abcelem});
-    if( midipitch ) pE.end.pitches.push(midipitch);
-    if( button    ) pE.end.buttons.push({button:button,abcelem:abcelem});
+    if( abcelem   ) pE.end.abcelems.push({abcelem:abcelem, delay:delay});
+    if( midipitch ) pE.end.pitches.push({midipitch: midipitch, delay:delay});
+    //if( button    ) pE.end.buttons.push({button:button,abcelem:abcelem, delay:delay});
 };
 
 ABCXJS.midi.Parse.prototype.getMark = function() {
@@ -9465,8 +9510,10 @@ if (!window.ABCXJS.midi)
     window.ABCXJS.midi = {}; 
 
 ABCXJS.midi.Player = function( options ) {
+    
     this.reset(options);
     
+    this.playableClefs = "TB"; // indica que baixo (B) e melodia (T) serao executadas.
     this.ticksPerInterval = 1;
     
     this.callbackOnStart = null;
@@ -9475,6 +9522,14 @@ ABCXJS.midi.Player = function( options ) {
     this.callbackOnScroll = null;
     this.callbackOnChangeBar = null;
     
+};
+
+ABCXJS.midi.Player.prototype.setPlayableClefs = function(letters) {
+    this.playableClefs = letters;
+};
+
+ABCXJS.midi.Player.prototype.playClef = function(letter) {
+    return this.playableClefs.indexOf( letter.toUpperCase() )>=0;
 };
 
 ABCXJS.midi.Player.prototype.reset = function(options) {
@@ -9608,6 +9663,7 @@ ABCXJS.midi.Player.prototype.startDidacticPlay = function(what, type, value, val
         case 'note': // step-by-step
             what.printer.clearSelection();
             what.keyboard.clear(true);
+            if(!that.playlist[that.i]) return false;
             that.initTime = that.playlist[that.i].time;
             criteria = function () { 
                 return that.initTime === that.playlist[that.i].time;
@@ -9642,7 +9698,7 @@ ABCXJS.midi.Player.prototype.startDidacticPlay = function(what, type, value, val
             } else {
                console.log('play-measure: measure \''+value+'\' not found!');
                this.pausePlay(true);
-               return;
+               return false;
             }   
             break;
     }
@@ -9705,51 +9761,63 @@ ABCXJS.midi.Player.prototype.executa = function(pl) {
     
     var self = this;
     var loudness = 256;
+    var delay = 0;
 
     try {
         if( pl.start ) {
+            
             pl.item.pitches.forEach( function( elem ) {
-                MIDI.noteOn(elem.channel, elem.midipitch, loudness, 0);
+                
+                delay = self.calcTempo( elem.delay );
+                
+                if(  self.playClef( elem.midipitch.clef.charAt(0) ) ) {
+                    MIDI.noteOn(elem.midipitch.channel, elem.midipitch.midipitch, loudness, delay);
+                    var k = 2.2, t = k, resto = self.calcTempo( elem.midipitch.mididuration ) - k;
 
-                var k = 2.2, t = k, resto = ( (elem.mididuration * self.tempo ) / 1000) - k;
-                // a nota midi dura k segundos (k), então notas mais longas são reiniciadas quantas vezes forem necessárias
-                while( resto > 0 ) {
-                    MIDI.noteOff(elem.channel, elem.midipitch,  t);
-                    MIDI.noteOn(elem.channel, elem.midipitch, loudness, t);
-                    t += k;
-                    resto -= k;
+                    // a nota midi dura k segundos (k), então notas mais longas são reiniciadas quantas vezes forem necessárias
+                    while( resto > 0 ) {
+                        MIDI.noteOff(elem.midipitch.channel, elem.midipitch.midipitch,  t+delay);
+                        MIDI.noteOn(elem.midipitch.channel, elem.midipitch.midipitch, loudness, t+delay);
+                        t += k;
+                        resto -= k;
+                    }
                 }
                 
                 if(elem.button && elem.button.button) {
                     if(elem.button.closing) {
-                        elem.button.button.setClose();
+                        elem.button.button.setClose(delay);
                     }else{
-                        elem.button.button.setOpen();
+                        elem.button.button.setOpen(delay);
                     }
                     if( self.type !== 'note' ) {
                         //o andamento é considerado somente para o modo didatico
                         var andamento = self.type?(1/self.currentAndamento):1;
                         //limpa o botão uma fração de tempo antes do fim da nota - para dar ideia visual de botão pressionado/liberado antes da proxima nota
-                        var clearTime = (self.tempo * andamento) *.5;
-                        elem.button.button.clear( ( elem.mididuration * self.tempo * andamento ) - clearTime  );
+                        elem.button.button.clear( self.calcTempo( (elem.midipitch.mididuration-0.5)*andamento ) + delay );
                     }    
                 }
                 
             });
             pl.item.abcelems.forEach( function( elem ) {
+                
+                delay = self.calcTempo( elem.delay );
                 if( self.callbackOnScroll ) {
                     self.currAbsElem = elem.abcelem.abselem;
                     self.currChannel = elem.channel;
                     self.callbackOnScroll(self);
                 }
-                if( self.printer ) self.printer.notifySelect(elem.abcelem.abselem);
+                self.highlight(elem.abcelem.abselem, true, delay);
             });
         } else {
             pl.item.pitches.forEach( function( elem ) {
-                MIDI.noteOff(elem.channel, elem.midipitch, 0);
-            });
+                if(  self.playClef( elem.midipitch.clef.charAt(0) ) ) {
+                    delay = self.calcTempo( elem.delay );
+                    MIDI.noteOff(elem.midipitch.channel, elem.midipitch.midipitch, delay);
+                }
+           });
             pl.item.abcelems.forEach( function( elem ) {
-                elem.abcelem.abselem.unhighlight();
+                delay = self.calcTempo( elem.delay );
+                self.highlight(elem.abcelem.abselem, false, delay);
             });
         }
     } catch( err ) {
@@ -9758,6 +9826,23 @@ ABCXJS.midi.Player.prototype.executa = function(pl) {
         this.addWarning( 'PlayList['+this.onError.idx+'] - Erro: ' + this.onError.erro + '.' );
     }
 };
+
+ABCXJS.midi.Player.prototype.calcTempo = function( val ) {
+  return  val * this.tempo / 1000;   
+}
+ABCXJS.midi.Player.prototype.highlight = function( abselem, select, delay ) {
+    var that = this;
+    if(delay) {
+        window.setTimeout(function(){ that.highlight(abselem, select); }, delay*1000);
+        return;
+    }   
+    if(select) {
+        if( that.printer ) that.printer.notifySelect(abselem);
+    } else {
+        abselem.unhighlight();
+    }
+};
+
 
 ABCXJS.midi.Player.prototype.getTime = function() {
     var pad =  function(n, width, z) {
@@ -9977,360 +10062,6 @@ ABCXJS.tablature.Accordion.prototype.updateEditor = function () {
 
 /*
  * TODO:
- * - Verificar porque no caso de slur a ordem dos elementos não está sendo respeitada
-*/
-
-/*
- 
-            Definição da sintaxe para tablatura
-        
-           " |: G+5'2g-6>-5 | G-3'2d-5d-[678]1/2 | G+5d-5d-> | G-xd-5d-6 | +{786'}2 | +11/2 | c+ac+b |"
-        
-           Linha de tablatura ::= { <comentario> | <barra> | <coluna> }*
-        
-           comentario := "%[texto]"
-
-           barra ::=  "|", "||", ":|", "|:", ":|:", ":||:", "::", ":||", ":||", "[|", "|]", "|[|", "|]|" [endings]
-        
-           coluna ::=  [<bassNote>]<bellows><note>[<duration>] 
-        
-           bassNote ::=  { "abcdefgABCDEFG>xz" }*
-          
-           bellows ::= "-"|"+" 
-        
-           note ::= <button>[<row>] | chord 
-        
-           chord ::= "[" {<button>[<row>]}* "]" 
-        
-           button ::=  {hexDigit} | "x" | "z" | ">"
-        
-           row ::= { "'" }*
-
-           duration ::=  number|fracao 
-
- */
-
-if (!window.ABCXJS)
-	window.ABCXJS = {};
-
-if (!window.ABCXJS.tablature)
-	window.ABCXJS.tablature = {};
-
-ABCXJS.tablature.Parse = function( str, vars ) {
-    this.invalid = false;
-    this.finished = false;
-    this.line = str;
-    this.vars = vars || {} ;
-    this.bassNoteSyms = "abcdefgABCDEFG>xz";
-    this.trebNoteSyms = "0123456789abcdefABCDEF>xz";
-    this.durSyms = "0123456789/.";
-    this.belSyms = "+-";
-    this.barSyms = ":]|[";
-    this.accSyms = "♭♯";
-    this.i = 0;
-    this.xi = 0;
-    this.offset = 8.9;
-    
-    this.warn = function(str) {
-        var bad_char = this.line.charAt(this.i);
-        if (bad_char === ' ')
-            bad_char = "SPACE";
-        var clean_line = this.encode(this.line.substring(0, this.i)) +
-                '<span style="text-decoration:underline;font-size:1.3em;font-weight:bold;">' + bad_char + '</span>' +
-                this.encode(this.line.substring(this.i + 1));
-        this.addWarning("Music Line:" + /*line*/ 0 + ":" + /*column*/(this.i + 1) + ': ' + str + ": " + clean_line);
-    };
-    
-    this.addWarning = function(str) {
-        if (!this.vars.warnings) this.vars.warnings = [];
-        this.vars.warnings.push(str);
-    };
-
-    this.encode = function(str) {
-        var ret = window.ABCXJS.parse.gsub(str, '\x12', ' ');
-        ret = window.ABCXJS.parse.gsub(ret, '&', '&amp;');
-        ret = window.ABCXJS.parse.gsub(ret, '<', '&lt;');
-        return window.ABCXJS.parse.gsub(ret, '>', '&gt;');
-    };
-
-};
-
-ABCXJS.tablature.Parse.prototype.parseTabVoice = function( ) {
-    var voice  = [];
-    this.i = 0;
-    var token = { el_type: "unrecognized" };
-    
-    while (this.i < this.line.length && !this.finished) {
-        token = this.getToken();
-        switch (token.el_type) {
-            case "bar":
-                token.startChar = this.xi;
-                token.endChar = this.i;
-                if( ! this.invalid )
-                  voice[voice.length] = token;
-                break;
-            case "note":
-                if( ! this.invalid )
-                  voice[voice.length] = this.formatChild(token);
-                break;
-            case "comment":
-            case "unrecognized":
-            default:
-                break;
-        }
-    }
-    return voice;
-};
-
-ABCXJS.tablature.Parse.prototype.formatChild = function(token) {
-  var child = {
-        el_type: token.el_type 
-        ,startChar:this.xi 
-        ,endChar:this.i
-        ,pitches: []
-        ,duration: token.duration * this.vars.default_length
-        ,bellows: token.bellows
-  };
-  
-  var pitchBase = 18;
-  var tt = "tabText";
-  
-  if(token.bassNote.length>1) {
-     pitchBase = 21.3;
-     tt = "tabText2";
-  }
-  for( var b = 0; b < token.bassNote.length; ++ b ) {
-    if(token.bassNote[b] === "z")
-      child.pitches[b] = { bass:true, type: "rest", c: '', pitch: 0.7 + pitchBase - (b*3)};
-    else
-      child.pitches[b] = { bass:true, type: tt, c: this.getTabSymbol(token.bassNote[b]), pitch: pitchBase -(b*3) - 0.5};
-  }
-
-  var qtd = token.buttons.length;
-  
-  for(var i = 0; i < token.buttons.length; i ++ ) {
-    var n = child.pitches.length;
-    if(token.buttons[i] === "z")
-      child.pitches[n] = { c: "", type: "rest", pitch: token.bellows === "+"? 13.2 : 13.2-this.offset };
-    else {
-      var offset = (qtd>=3?-(this.offset-(2.8*(qtd-2))):-this.offset);
-      var p = (qtd === 1 ? 11.7 : 13.4 - ( i * 2.8)) + (token.bellows === "+"? 0 : offset);
-      child.pitches[n] = { c: this.getTabSymbol(token.buttons[i]), type: "tabText"+(qtd>1?"2":""), pitch: p };
-    } 
-    
-  }
-  
-  return child;
-};
-
-ABCXJS.tablature.Parse.prototype.getTabSymbol = function(text) {
-    switch(text) {
-        case '>': return '-->';
-        default: return text;
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getToken = function() {
-    this.invalid = false;
-    this.parseMultiCharToken( ' \t' );
-    this.xi = this.i;
-    switch(this.line.charAt(this.i)) {
-        case '%':
-          this.finished = true;  
-          return { el_type:"comment",  token: this.line.substr( this.i+1 ) };
-        case '|':
-        case ':':
-          return this.getBarLine();
-        case '[': // se o proximo caracter não for um pipe, deve ser tratado como uma coluna de notas
-          if( this.line.charAt(this.i+1) === '|' ) {
-            return this.getBarLine();
-          }
-        default:    
-          return this.getColumn();
-    }
-   
-};
-
-ABCXJS.tablature.Parse.prototype.parseMultiCharToken = function( syms ) {
-    while (this.i < this.line.length && syms.indexOf(this.line.charAt(this.i)) >= 0) {
-        this.i++;
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getBarLine = function() {
-  var endings  =   '1234567890,'; // due syntax conflict I will not consider the  dash '-'.
-  var validBars = { 
-        "|"   : "bar_thin"
-      , "||"  : "bar_thin_thin"
-      , "[|"  : "bar_thick_thin"
-      , "|]"  : "bar_thin_thick"
-      , ":|:" : "bar_dbl_repeat"
-      , ":||:": "bar_dbl_repeat"
-      , "::"  : "bar_dbl_repeat" 
-      , "|:"  : "bar_left_repeat"
-      , "||:" : "bar_left_repeat"
-      , "[|:" : "bar_left_repeat"
-      , ":|"  : "bar_right_repeat"
-      , ":||" : "bar_right_repeat"
-      , ":|]" : "bar_right_repeat"
-  };
-  
-  var token = { el_type:"bar", type:"bar", token: undefined };
-  var p = this.i;
-  
-  this.parseMultiCharToken(this.barSyms);
-  
-  token.token = this.line.substr( p, this.i-p );
-  this.finished =  this.i >= this.line.length;
-  
-  // validar o tipo de barra
-  token.type = validBars[token.token];
-  this.invalid = !token.type;
-
-  if(! this.invalid) {
-    this.parseMultiCharToken( ' \t' );
-    if (this.vars.inEnding ) {
-            token.endDrawEnding = true;
-            if( token.type !== 'bar_thin') {
-                token.endEnding = true;
-                this.vars.inEnding = false;
-            }    
-    }
-    if(endings.indexOf(this.line.charAt(this.i))>=0) {
-        token.startEnding = this.line.charAt(this.i);
-        if (this.vars.inEnding) {
-            token.endDrawEnding = true;
-            token.endEnding = true;
-        }    
-        this.vars.inEnding = true;
-        this.i++;
-    }
-  }
-  return token;
-};
-
-ABCXJS.tablature.Parse.prototype.getColumn = function() {
-    var token = {el_type: "note", type: "note", bassNote: undefined, bellows: "", buttons: [], duration: 1};
-    token.bassNote = [];
-    
-    while (this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-      token.bassNote[token.bassNote.length] = this.getBassNote();
-    }
-    token.bellows = this.getBelows();
-    token.buttons = this.getNote();
-    token.duration = this.getDuration();
-    this.finished = this.i >= this.line.length;
-    return token;
-
-};
-
-ABCXJS.tablature.Parse.prototype.getBassNote = function() {
-  var note = "";
-  if( this.bassNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-    this.warn( "Expected Bass Note but found " + this.line.charAt(this.i) );
-    this.i++;
-  } else {
-    note = this.line.charAt(this.i);
-    this.i++;
-    if( this.accSyms.indexOf(this.line.charAt(this.i)) >= 0 ) {
-      note += this.line.charAt(this.i);
-      this.i++;
-    }
-  }
-  return note;
-};
-
-ABCXJS.tablature.Parse.prototype.getDuration = function() {
-    var dur = 1;
-    var p = this.i;
-
-    this.parseMultiCharToken(this.durSyms);
-    
-    if (p !== this.i) {
-        dur = this.line.substr(p, this.i - p);
-        if (isNaN(eval(dur))) {
-          this.warn( "Expected numeric or fractional note duration, but found " + dur);
-        } else {
-            dur = eval(dur);
-        }
-    }
-    return dur;
-};
-
-ABCXJS.tablature.Parse.prototype.getBelows = function() {
-    if(this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-       this.warn( "Expected belows information, but found " + this.line.charAt(this.i) );
-       this.invalid = true;
-       return '+';
-    } else {
-        this.i++;
-        return this.line.charAt(this.i-1);
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getNote = function() {
-  var b = [];
-  switch( this.line.charAt(this.i) ) {
-      case '[':
-         this.i++;
-         b = this.getChord();
-         break;
-      default: 
-         b[b.length] = this.getButton();
-  }
-  return b;
-};
-
-ABCXJS.tablature.Parse.prototype.getChord = function( token ) {
-    var b = [];
-    while (this.i < this.line.length && this.line.charAt(this.i) !== ']' ) {
-        b[b.length] = this.getButton();
-    }
-    if( this.line.charAt(this.i) !== ']' ) {
-       this.warn( "Expected end of chord - ']'");
-       this.invalid = true;
-    } else {
-        this.i++;
-    }
-    return b;
-};
-
-ABCXJS.tablature.Parse.prototype.getButton = function() {
-    var c = "x";
-    var row = "";
-    
-    if(this.trebNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-       this.warn( "Expected button number, but found " + this.line.charAt(this.i));
-    } else {
-        c = this.line.charAt(this.i);
-        switch(c) {
-            case '>':
-            case 'x':
-            case 'z':
-               break;
-            default:   
-                c = isNaN(parseInt(c, 16))? 'x': parseInt(c, 16).toString();
-        }
-    }
-    this.i++;
-    
-    var p = this.i;
-
-    this.parseMultiCharToken("'");
-    
-    if (p !== this.i) 
-        row = this.line.substr(p, this.i - p);
-        
-    return c + row;
-};
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * TODO:
  *   - Tratar inversões de fole e inTie (+/-)
  *   - Verificar currInterval e suas implicações quando se está no último compasso
  *   - Tratar adequadamente os acordes de baixo
@@ -10349,6 +10080,7 @@ if (!window.ABCXJS.tablature)
 	window.ABCXJS.tablature = {};
     
 ABCXJS.tablature.Infer = function( accordion, tune/*, strTune*/, vars ) {
+    this.multiplier = 1;
     this.accordion = accordion;
     //this.abcText = strTune;
     this.vars = vars || {} ;
@@ -10356,13 +10088,15 @@ ABCXJS.tablature.Infer = function( accordion, tune/*, strTune*/, vars ) {
     this.offset = 8.9;
     this.reset();
     
+    this.transposeTab = tune.lines[0].staffs[tune.tabStaffPos].clef.transpose || 0;
+    
     this.addWarning = function(str) {
         if (!this.vars.warnings) this.vars.warnings = [];
         this.vars.warnings.push(str);
     };
     
     this.barTypes = { 
-        "bar"         : "|"
+        "bar"              : "|"
       , "bar_thin"         : "|"
       , "bar_thin_thin"    : "||"
       , "bar_thick_thin"   : "[|"
@@ -10515,6 +10249,18 @@ ABCXJS.tablature.Infer.prototype.read = function(p_source, item) {
         if( source.wi.barNumber && source.wi.barNumber !== this.currInterval && item === 0 ) {
             this.currInterval = source.wi.barNumber;
         }
+        
+        if( source.wi.startTriplet){
+            source.triplet = true;
+            this.startTriplet = source.wi.startTriplet;
+            this.multiplier = this.startTriplet===2?1.5:(this.startTriplet-1)/this.startTriplet;
+        }
+//        if( source.wi.endTriplet){
+//            this.endTriplet = true;
+//            source.triplet = false;
+//            this.multiplier = 1;
+//        }
+        
         this.checkTies(source);
         source.st = (source.wi.el_type && source.wi.el_type === "bar") ? "waiting end of interval" : "processing";
         return (source.wi.el_type && source.wi.el_type === "bar") ? 1 : 2;
@@ -10529,12 +10275,13 @@ ABCXJS.tablature.Infer.prototype.extraiIntervalo = function(voices) {
     var minDur = 100;
     
     for( var i = 0; i < voices.length; i ++ ) {
-        if( voices[i].st === 'processing' && voices[i].wi.duration && voices[i].wi.duration > 0  && voices[i].wi.duration < minDur ) {
-            minDur = voices[i].wi.duration;
+        if( voices[i].st === 'processing' && voices[i].wi.duration && voices[i].wi.duration > 0  
+                && voices[i].wi.duration*(voices[i].triplet?this.multiplier:1) < minDur ) {
+            minDur = voices[i].wi.duration*(voices[i].triplet?this.multiplier:1);
         }
     }
-    
-    var wf = { el_type: 'note', duration: minDur, startChar: 0, endChar: 0, pitches:[], bassNote: [] }; // wf - final working item
+    ;
+    var wf = { el_type: 'note', duration: Number((minDur/this.multiplier).toFixed(5)), startChar: 0, endChar: 0, pitches:[], bassNote: [] }; // wf - final working item
     
     for( var i = 0; i < voices.length; i ++ ) {
         if(voices[i].st !== 'processing' ) continue;
@@ -10569,8 +10316,8 @@ ABCXJS.tablature.Infer.prototype.extraiIntervalo = function(voices) {
         this.setTies(voices[i]);
         
         if( voices[i].wi.duration ) {
-            voices[i].wi.duration -= minDur;
-            if( voices[i].wi.duration <= 0 ) {
+            voices[i].wi.duration -= minDur/(voices[i].triplet?this.multiplier:1);
+            if( voices[i].wi.duration <= 0.0001 ) {
                voices[i].st = 'waiting for data';
             } else {
                 if(voices[i].wi.pitches) {
@@ -10581,6 +10328,16 @@ ABCXJS.tablature.Infer.prototype.extraiIntervalo = function(voices) {
             }
         }
     }
+    
+    for( var i = 0; i < voices.length; i ++ ) {
+        var elem = voices[i];
+        if( elem.wi.endTriplet){
+            this.endTriplet = true;
+            elem.triplet = false;
+            this.multiplier = 1;
+        }
+    }    
+        
     
     //trata intervalo vazio (quando há pausa em todas as vozes e não são visíveis)
     if(wf.pitches.length === 0 && wf.bassNote.length === 0 )
@@ -10661,6 +10418,17 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
 
     var qtd = column.length;
     
+    if( this.startTriplet ) {
+        child.startTriplet = this.startTriplet;
+        this.startTriplet = false;
+        this.registerLine( '(' + child.startTriplet + ' ' );
+    }
+    
+    if( this.endTriplet ) {
+        child.endTriplet = true;
+        this.endTriplet = false;
+    }
+    
     // inicialmente as notas estão na posição "fechando". Se precisar alterar para "abrindo" este é offset da altura
     var offset = (qtd>=3?-(this.offset-(2.8*(qtd-2))):-this.offset);
 
@@ -10709,6 +10477,16 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
                 break
             default:
                 var note = this.accordion.getNoteName(item, this.accTrebKey, this.trebBarAcc, false);
+                
+                if( this.transposeTab ) {
+                    switch(this.transposeTab){
+                        case 8: note.octave ++; break;
+                        case -8: note.octave --; break;
+                        default:
+                            this.addWarning('Possível transpor a tablatura uma oitava acima ou abaixo +/-8. Ignorando transpose.') ;
+                    }
+                }
+                
                 item.buttons = this.accordion.getKeyboard().getButtons(note);
                 item.note = note.key + note.octave;
                 item.c = item.inTie ? '-->' :  item.note;
@@ -10796,6 +10574,11 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
     }
     var dur = child.duration / this.vars.default_length;
     var xf = this.registerLine((qtd > 1 ? "]" : "") + (dur !== 1 ? dur.toString() : "") + " ");
+    
+    if( child.endTriplet ) {
+        this.registerLine( ') ' );
+    }
+    
     this.add(child, xi, xf-1);
 };
 
@@ -10885,6 +10668,7 @@ ABCXJS.tablature.Layout = function( tuneCurrVoice, tuneCurrStaff, abcstaff, glyp
    this.abcstaff = abcstaff;
    this.glyphs = glyphs;
    this.restsInTab = restsInTab;
+   this.tripletmultiplier = 1;
 };
 
 ABCXJS.tablature.Layout.prototype.getElem = function() {
@@ -10934,12 +10718,20 @@ ABCXJS.tablature.Layout.prototype.printTABElement = function() {
 ABCXJS.tablature.Layout.prototype.printTabNote = function(elem) {
     var p, pp;
     
+    if (elem.startTriplet) {
+        if (elem.startTriplet === 2)
+            this.tripletmultiplier = 3/2;
+        else
+            this.tripletmultiplier=(elem.startTriplet-1)/elem.startTriplet;
+    }
+    
+    
     var duration = ABCXJS.write.getDuration(elem);
     if (duration === 0) {
         duration = 0.25;
     }   // PER: zero duration will draw a quarter note head.
     var durlog = ABCXJS.write.getDurlog(duration);
-    var abselem = new ABCXJS.write.AbsoluteElement(elem, duration , 1);
+    var abselem = new ABCXJS.write.AbsoluteElement(elem, duration*this.tripletmultiplier, 1);
 
     // determine averagepitch, minpitch, maxpitch and stem direction
     var sum = 0;
@@ -10970,6 +10762,10 @@ ABCXJS.tablature.Layout.prototype.printTabNote = function(elem) {
             rel.type = curr.type;
         }
         abselem.addHead(rel);
+    }
+    
+    if( elem.endTriplet ) {
+        this.tripletmultiplier =1;
     }
 
     return abselem;
@@ -11074,4 +10870,404 @@ ABCXJS.tablature.Layout.prototype.printBarLine = function (elem) {
 
   return abselem;	
 
+};
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * TODO:
+ * - Verificar porque no caso de slur a ordem dos elementos não está sendo respeitada
+*/
+
+/*
+ 
+            Definição da sintaxe para tablatura
+        
+           " |: G+5'2g-6>-5 | G-3'2d-5d-[678]1/2 | G+5d-5d-> | G-xd-5d-6 | +{786'}2 | +11/2 | c+ac+b |"
+        
+           Linha de tablatura ::= { <comentario> | <barra> | <coluna> }*
+        
+           comentario := "%[texto]"
+
+           barra ::=  "|", "||", ":|", "|:", ":|:", ":||:", "::", ":||", ":||", "[|", "|]", "|[|", "|]|" [endings]
+        
+           coluna ::=  ["("<triplet>][<bassNote>]<bellows><note>[<duration>] [")"] 
+        
+           bassNote ::=  { "abcdefgABCDEFG>xz" }*
+          
+           bellows ::= "-"|"+" 
+        
+           note ::= <button>[<row>] | chord 
+        
+           chord ::= "[" {<button>[<row>]}* "]" 
+        
+           button ::=  {hexDigit} | "x" | "z" | ">"
+        
+           row ::= { "'" }*
+
+           duration ::=  number|fracao 
+
+ */
+
+if (!window.ABCXJS)
+	window.ABCXJS = {};
+
+if (!window.ABCXJS.tablature)
+	window.ABCXJS.tablature = {};
+
+ABCXJS.tablature.Parse = function( str, vars ) {
+    this.invalid = false;
+    this.finished = false;
+    this.line = str;
+    this.vars = vars || {} ;
+    this.bassNoteSyms = "abcdefgABCDEFG>xz";
+    this.trebNoteSyms = "0123456789abcdefABCDEF>xz";
+    this.durSyms = "0123456789/.";
+    this.belSyms = "+-";
+    this.barSyms = ":]|[";
+    this.accSyms = "♭♯";
+    this.i = 0;
+    this.xi = 0;
+    this.offset = 8.9;
+    
+    this.warn = function(str) {
+        var bad_char = this.line.charAt(this.i);
+        if (bad_char === ' ')
+            bad_char = "SPACE";
+        var clean_line = this.encode(this.line.substring(0, this.i)) +
+                '<span style="text-decoration:underline;font-size:1.3em;font-weight:bold;">' + bad_char + '</span>' +
+                this.encode(this.line.substring(this.i + 1));
+        this.addWarning("Music Line:" + /*line*/ 0 + ":" + /*column*/(this.i + 1) + ': ' + str + ": " + clean_line);
+    };
+    
+    this.addWarning = function(str) {
+        if (!this.vars.warnings) this.vars.warnings = [];
+        this.vars.warnings.push(str);
+    };
+
+    this.encode = function(str) {
+        var ret = window.ABCXJS.parse.gsub(str, '\x12', ' ');
+        ret = window.ABCXJS.parse.gsub(ret, '&', '&amp;');
+        ret = window.ABCXJS.parse.gsub(ret, '<', '&lt;');
+        return window.ABCXJS.parse.gsub(ret, '>', '&gt;');
+    };
+
+};
+
+ABCXJS.tablature.Parse.prototype.parseTabVoice = function( ) {
+    var voice  = [];
+    this.i = 0;
+    var token = { el_type: "unrecognized" };
+    
+    while (this.i < this.line.length && !this.finished) {
+        token = this.getToken();
+        switch (token.el_type) {
+            case "bar":
+                token.startChar = this.xi;
+                token.endChar = this.i;
+                if( ! this.invalid )
+                  voice[voice.length] = token;
+                break;
+            case "note":
+                if( ! this.invalid )
+                  voice[voice.length] = this.formatChild(token);
+                break;
+            case "comment":
+            case "unrecognized":
+            default:
+                break;
+        }
+    }
+    return voice;
+};
+
+ABCXJS.tablature.Parse.prototype.formatChild = function(token) {
+  var child = {
+        el_type: token.el_type 
+        ,startChar:this.xi 
+        ,endChar:this.i
+        ,pitches: []
+        ,duration: token.duration * this.vars.default_length
+        ,bellows: token.bellows
+  };
+  
+  var pitchBase = 18;
+  var tt = "tabText";
+  
+  if(token.bassNote.length>1) {
+     pitchBase = 21.3;
+     tt = "tabText2";
+  }
+  for( var b = 0; b < token.bassNote.length; ++ b ) {
+    if(token.bassNote[b] === "z")
+      child.pitches[b] = { bass:true, type: "rest", c: '', pitch: 0.7 + pitchBase - (b*3)};
+    else
+      child.pitches[b] = { bass:true, type: tt, c: this.getTabSymbol(token.bassNote[b]), pitch: pitchBase -(b*3) - 0.5};
+  }
+
+  var qtd = token.buttons.length;
+  
+  for(var i = 0; i < token.buttons.length; i ++ ) {
+    var n = child.pitches.length;
+    if(token.buttons[i] === "z")
+      child.pitches[n] = { c: "", type: "rest", pitch: token.bellows === "+"? 13.2 : 13.2-this.offset };
+    else {
+      var offset = (qtd>=3?-(this.offset-(2.8*(qtd-2))):-this.offset);
+      var p = (qtd === 1 ? 11.7 : 13.4 - ( i * 2.8)) + (token.bellows === "+"? 0 : offset);
+      child.pitches[n] = { c: this.getTabSymbol(token.buttons[i]), type: "tabText"+(qtd>1?"2":""), pitch: p };
+    } 
+    
+  }
+  
+  if( token.startTriplet) {
+      child.startTriplet = token.startTriplet;
+  }
+  
+  if( token.endTriplet) {
+      child.endTriplet = token.endTriplet;
+  }
+  
+  return child;
+};
+
+ABCXJS.tablature.Parse.prototype.getTabSymbol = function(text) {
+    switch(text) {
+        case '>': return '-->';
+        default: return text;
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getToken = function() {
+    this.invalid = false;
+    this.parseMultiCharToken( ' \t' );
+    this.xi = this.i;
+    switch(this.line.charAt(this.i)) {
+        case '%':
+          this.finished = true;  
+          return { el_type:"comment",  token: this.line.substr( this.i+1 ) };
+        case '|':
+        case ':':
+          return this.getBarLine();
+          
+        case '[': // se o proximo caracter não for um pipe, deve ser tratado como uma coluna de notas
+          if( this.line.charAt(this.i+1) === '|' ) {
+            return this.getBarLine();
+          }
+        default:    
+          return this.getColumn();
+    }
+   
+};
+
+ABCXJS.tablature.Parse.prototype.parseMultiCharToken = function( syms ) {
+    while (this.i < this.line.length && syms.indexOf(this.line.charAt(this.i)) >= 0) {
+        this.i++;
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getBarLine = function() {
+  var endings  =   '1234567890,'; // due syntax conflict I will not consider the  dash '-'.
+  var validBars = { 
+        "|"   : "bar_thin"
+      , "||"  : "bar_thin_thin"
+      , "[|"  : "bar_thick_thin"
+      , "|]"  : "bar_thin_thick"
+      , ":|:" : "bar_dbl_repeat"
+      , ":||:": "bar_dbl_repeat"
+      , "::"  : "bar_dbl_repeat" 
+      , "|:"  : "bar_left_repeat"
+      , "||:" : "bar_left_repeat"
+      , "[|:" : "bar_left_repeat"
+      , ":|"  : "bar_right_repeat"
+      , ":||" : "bar_right_repeat"
+      , ":|]" : "bar_right_repeat"
+  };
+  
+  if(this.triplet) {
+    this.triplet = false;
+    this.warn( "Expected triplet end but found " + this.line.charAt(this.i) );
+  }
+
+  var token = { el_type:"bar", type:"bar", token: undefined };
+  var p = this.i;
+  
+  this.parseMultiCharToken(this.barSyms);
+  
+  token.token = this.line.substr( p, this.i-p );
+  this.finished =  this.i >= this.line.length;
+  
+  // validar o tipo de barra
+  token.type = validBars[token.token];
+  this.invalid = !token.type;
+
+  if(! this.invalid) {
+    this.parseMultiCharToken( ' \t' );
+    if (this.vars.inEnding ) {
+            token.endDrawEnding = true;
+            if( token.type !== 'bar_thin') {
+                token.endEnding = true;
+                this.vars.inEnding = false;
+            }    
+    }
+    if(endings.indexOf(this.line.charAt(this.i))>=0) {
+        token.startEnding = this.line.charAt(this.i);
+        if (this.vars.inEnding) {
+            token.endDrawEnding = true;
+            token.endEnding = true;
+        }    
+        this.vars.inEnding = true;
+        this.i++;
+    }
+  }
+  return token;
+};
+
+ABCXJS.tablature.Parse.prototype.getColumn = function() {
+    var token = {el_type: "note", type: "note", bassNote: undefined, bellows: "", buttons: [], duration: 1};
+    token.bassNote = [];
+    
+    if(this.line.charAt(this.i) === "(") {
+        token.startTriplet = this.getTripletDef();
+        this.triplet = true;
+    }
+    
+    while (this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+      token.bassNote[token.bassNote.length] = this.getBassNote();
+    }
+    
+    token.bellows = this.getBelows();
+    token.buttons = this.getNote();
+    token.duration = this.getDuration();
+    
+    if( this.isTripletEnd() ) {
+        token.endTriplet = true;
+    }
+    
+    this.finished = this.i >= this.line.length;
+    return token;
+
+};
+
+ABCXJS.tablature.Parse.prototype.getTripletDef = function() {
+    this.i++;
+    this.parseMultiCharToken( ' \t' );
+    var t =  this.line.charAt(this.i); //espero um único número como indicador de triplet
+    this.i++;
+    this.parseMultiCharToken( ' \t' );
+    return t;    
+};
+
+ABCXJS.tablature.Parse.prototype.isTripletEnd = function() {
+    this.parseMultiCharToken( ' \t' );
+    if( this.line.charAt(this.i) === ')' ) {
+        this.i++;
+        this.triplet = false;
+        return true;
+    } 
+    
+    return false;
+};
+
+
+ABCXJS.tablature.Parse.prototype.getBassNote = function() {
+  var note = "";
+  if( this.bassNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+    this.warn( "Expected Bass Note but found " + this.line.charAt(this.i) );
+    this.i++;
+  } else {
+    note = this.line.charAt(this.i);
+    this.i++;
+    if( this.accSyms.indexOf(this.line.charAt(this.i)) >= 0 ) {
+      note += this.line.charAt(this.i);
+      this.i++;
+    }
+  }
+  return note;
+};
+
+ABCXJS.tablature.Parse.prototype.getDuration = function() {
+    var dur = 1;
+    var p = this.i;
+
+    this.parseMultiCharToken(this.durSyms);
+    
+    if (p !== this.i) {
+        dur = this.line.substr(p, this.i - p);
+        if (isNaN(eval(dur))) {
+          this.warn( "Expected numeric or fractional note duration, but found " + dur);
+        } else {
+            dur = eval(dur);
+        }
+    }
+    return dur;
+};
+
+ABCXJS.tablature.Parse.prototype.getBelows = function() {
+    if(this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+       this.warn( "Expected belows information, but found " + this.line.charAt(this.i) );
+       this.invalid = true;
+       return '+';
+    } else {
+        this.i++;
+        return this.line.charAt(this.i-1);
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getNote = function() {
+  var b = [];
+  switch( this.line.charAt(this.i) ) {
+      case '[':
+         this.i++;
+         b = this.getChord();
+         break;
+      default: 
+         b[b.length] = this.getButton();
+  }
+  return b;
+};
+
+ABCXJS.tablature.Parse.prototype.getChord = function( token ) {
+    var b = [];
+    while (this.i < this.line.length && this.line.charAt(this.i) !== ']' ) {
+        b[b.length] = this.getButton();
+    }
+    if( this.line.charAt(this.i) !== ']' ) {
+       this.warn( "Expected end of chord - ']'");
+       this.invalid = true;
+    } else {
+        this.i++;
+    }
+    return b;
+};
+
+ABCXJS.tablature.Parse.prototype.getButton = function() {
+    var c = "x";
+    var row = "";
+    
+    if(this.trebNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+       this.warn( "Expected button number, but found " + this.line.charAt(this.i));
+    } else {
+        c = this.line.charAt(this.i);
+        switch(c) {
+            case '>':
+            case 'x':
+            case 'z':
+               break;
+            default:   
+                c = isNaN(parseInt(c, 16))? 'x': parseInt(c, 16).toString();
+        }
+    }
+    this.i++;
+    
+    var p = this.i;
+
+    this.parseMultiCharToken("'");
+    
+    if (p !== this.i) 
+        row = this.line.substr(p, this.i - p);
+        
+    return c + row;
 };
