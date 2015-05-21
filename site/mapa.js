@@ -675,8 +675,9 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
             break;
     };
     
-    if (tab.title === "") {
+    if (tab.title === "" || tab.text === undefined ) {
         tab.text = undefined;
+        tab.title === "";
         return;
     }
     

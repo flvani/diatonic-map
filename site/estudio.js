@@ -58,16 +58,6 @@ SITE.EditArea.prototype.setString = function(str) {
   this.textarea.selectionEnd = 0;  
 };
 
-//SITE.EditArea.prototype.appendString = function(str ) {
-//  //retira \n ao final  
-//  var t = this.textarea.value;
-//  while( t.charAt(t.length-1) === '\n' ) {
-//    t = t.substr(0,t.length-1);
-//  }
-//  this.setString(t+str );
-//};
-//
-
 SITE.EditArea.prototype.getElem = function() {
   return this.textarea;
 };
@@ -123,6 +113,8 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.textVisible = true;
     this.editorWindow = editorParams.editorWindow;
     this.keyboardWindow = editorParams.keyboardWindow;
+    this.playTreble = true;
+    this.playBass = true;
     
     this.setupEditor();
     
@@ -179,6 +171,8 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
 
     // player control
     this.modeButton = document.getElementById(playerParams.modeBtn);
+    this.FClefButton = document.getElementById(playerParams.FClefBtn);
+    this.GClefButton = document.getElementById(playerParams.GClefBtn);
     this.playButton = document.getElementById(playerParams.playBtn);
     this.stopButton = document.getElementById(playerParams.stopBtn);
     this.gotoMeasureButton = document.getElementById(playerParams.gotoMeasureBtn);
@@ -224,6 +218,24 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
 
     this.modeButton.addEventListener('click', function () {
         that.changePlayMode();
+    }, false);
+
+    this.FClefButton.addEventListener('click', function () {
+        if( that.playBass) {
+            this.innerHTML = '<img src="img/clave.fa.off.png" alt="" width="20" height="20">';
+        } else {
+            this.innerHTML = '<img src="img/clave.fa.on.png" alt="" width="20" height="20">';
+        }
+        that.playBass = ! that.playBass;
+    }, false);
+
+    this.GClefButton.addEventListener('click', function () {
+        if( that.playTreble) {
+            this.innerHTML = '<img src="img/clave.sol.off.png" alt="" width="20" height="20">';
+        } else {
+            this.innerHTML = '<img src="img/clave.sol.on.png" alt="" width="20" height="20">';
+        }
+        that.playTreble = ! that.playTreble;
     }, false);
 
     this.playButton.addEventListener("click", function () {
@@ -609,12 +621,14 @@ SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
     } else {
         this.accordion.clearKeyboard();
         if(type==="normal") {
+            this.midiPlayer.setPlayableClefs('TB');
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
                 this.playButton.title = DR.getResource("DR_pause");
                 this.playButton.innerHTML = '&nbsp;<i class="icon-pause"></i>&nbsp;';
                 this.ypos = 1000;
             }
         } else {
+            this.midiPlayer.setPlayableClefs( (this.playTreble?"T":"")+(this.playBass?"B":""));
             if( this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value, valueF ) ) {
                 this.ypos = 1000;
             }
