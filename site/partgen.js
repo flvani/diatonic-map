@@ -53,6 +53,11 @@ SITE.PartGen = function( interfaceParams ) {
     
     this.textarea.value = 
         "%elementos são posicionais e separados por espaços.\n" +
+        "%cada elemento tem duracao L.\n" +
+        "%ausência de conteúdo é marcada hífen '-'.\n" +
+        "%a duração do elemento é computada até encontrar o próximo ou a barra de compasso.\n" +
+        "%ties são marcadas com sinal de maior '>'.\n" +
+        "%ritornellos são marcados com ':'.\n" +
         "%linha começa com '|' e continuação de linha com '/'.\n\n" + 
         "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nK:G\n\n" +
         "| z -  -  -  | C        c  C     c     | G        g  G     g     | G        g  G     g     | " + "\n" +
@@ -61,8 +66,6 @@ SITE.PartGen = function( interfaceParams ) {
     ;
     
     this.textarea.value = 
-        "%elementos são posicionais e separados por espaços.\n" +
-        "%linha começa com '|' e continuação de linha com '/'.\n\n" + 
         "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nK:G\n\n" +
         "| z          | C        c  C     c     | G        g  G     g     | G        g  G     g     |" + "\n" +
         "|            | c                       |                         |                         |" + "\n" +
