@@ -79,6 +79,12 @@ SITE.PartGen = function( interfaceParams ) {
         "/            |                         |                         |                      3' |" + "\n" 
     ;
     
+    this.textarea.value = 
+        "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nK:G\n\n" +
+        "| C        c  C     c     |"  + "\n" +
+        "| 5' 5' 6' 4' 5' 5' 6' 4' |"  + "\n" +
+        "|                         |" 
+    ;
     
     abcText = tabParser.parse(this.textarea.value);
     

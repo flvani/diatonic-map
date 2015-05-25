@@ -12,18 +12,17 @@ ABCXJS.Tab2Part = function () {
     this.tabText;
     this.tabLines;
     this.currLine;
-    this.currToken;
     this.currBar;
     this.currStaff;
     this.barSyms = ":]|[";
     this.currColumn = 0; // posicao onde todas linhas da staff tem espaços
+    this.barDuration = 0; // conta unidades de tempo a cada novo compasso
     
     this.init();
 };
 ABCXJS.Tab2Part.prototype.init = function () {
     this.currLine = 0;
     this.abcText = "";
-    this.currToken = 0;
     this.currBar = 1;
     this.currStaff = -1;    
     this.tablature = [];
@@ -77,7 +76,6 @@ ABCXJS.Tab2Part.prototype.addLine = function (ll) {
 ABCXJS.Tab2Part.prototype.parseStaff = function () {
     var voices = this.idStaff();
     var st = 1; // 0 - fim; 1 - barra; 2 dados; - 1 para garantir a entrada
-    this.currToken = 0;
     while( st > 0 ) {
         
         st = 0; // 0 para garantir a saida, caso não haja nada para ler
@@ -100,6 +98,7 @@ ABCXJS.Tab2Part.prototype.parseStaff = function () {
             case 1: // incluir a barra na tablatura
                 // neste caso, todas as vozes são "bar", mesmo que algumas já terminaram 
                 this.tablature[this.currStaff] =+ voices[0].token.str + ' ';
+                this.barDuration = 0;
 
                 for( var i = 0; i < voices.length; i ++ ) {
                     if(voices[i].st !== 'closed')
@@ -107,6 +106,7 @@ ABCXJS.Tab2Part.prototype.parseStaff = function () {
                 }
                 break;
             case 2:
+                this.barDuration++;
                 this.addTABChild(this.extraiIntervalo(voices));
                 break;
         }
@@ -138,10 +138,14 @@ ABCXJS.Tab2Part.prototype.idStaff = function () {
 ABCXJS.Tab2Part.prototype.posiciona = function(voices) {
     var found = false;
     var syms= ' \t';
+    var qtd = 0;
+    
+    // procura a primeira coluna vazia
     while( ! found ) {
         found = true;
         for( var j = 0;  found && j < voices.length;  j++ ) {
             var voice = voices[j];
+            qtd += voice.linhas.length;
             for( var i = 0; found && i < voice.linhas.length; i ++ ) {
                 var l = this.tabLines[voice.linhas[i].l];
                 if( this.currColumn < l.length && syms.indexOf( l.charAt(this.currColumn) ) < 0 ){
@@ -151,6 +155,24 @@ ABCXJS.Tab2Part.prototype.posiciona = function(voices) {
             }
         }
     }
+    // procura a primeira coluna não-vazia
+    this.currColumn ++;
+    while( ! found ) {
+        found = true;
+        for( var j = 0;  found && j < voices.length;  j++ ) {
+            var voice = voices[j];
+            qtd += voice.linhas.length;
+            for( var i = 0; found && i < voice.linhas.length; i ++ ) {
+                var l = this.tabLines[voice.linhas[i].l];
+                if( this.currColumn < l.length && syms.indexOf( l.charAt(this.currColumn) ) >= 0 ){
+                    found = false;
+                    this.currColumn ++;
+                }
+            }
+        }
+    }
+    
+    
 };
 
 ABCXJS.Tab2Part.prototype.read = function(p_source, item) {
@@ -222,7 +244,7 @@ ABCXJS.Tab2Part.prototype.getToken = function(voice) {
         }
     }
     
-    return { str: token, durIni: this.currToken, barNumber: this.currBar, type:type};
+    return { str: token, barNumber: this.currBar, type:type};
 };
 
 ABCXJS.Tab2Part.prototype.skipSyms = function( voice, syms ) {
