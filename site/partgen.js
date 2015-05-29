@@ -11,10 +11,8 @@ if (!window.SITE)
 SITE.PartGen = function( interfaceParams ) {
 
     var     that = this;
-    var     tabParser = new ABCXJS.Tab2Part();
-    var     abcText;
-    
 
+    this.tabParser = new ABCXJS.Tab2Part();
     this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
     this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
     
@@ -33,7 +31,7 @@ SITE.PartGen = function( interfaceParams ) {
     }, false);
     
     this.updateButton.addEventListener("click", function() {
-        
+        that.update();
     }, false);
 
     // inicio do setup do mapa    
@@ -81,12 +79,50 @@ SITE.PartGen = function( interfaceParams ) {
     
     this.textarea.value = 
         "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nK:G\n\n" +
-        "| C        c  C     c     |"  + "\n" +
-        "| 5' 5' 6' 4' 5' 5' 6' 4' |"  + "\n" +
-        "|                         |" 
+        "| C         am     c     |: D  d  :|"  + "\n" +
+        "| c " + "\n" +
+        "|           5' 6' 4' 4' |  8      |"  + "\n" +
+        "| 5' 5' 4 3             |     8   |"  + "\n" +
+        "+ 3  2                     2  4  "+ "\n" + "\n" +
+        "| G        g  G     g     |"  + "\n" +
+        "|             5' 5' 6' 4' |"  + "\n" +
+        "| 5' 5' 6' 4'             |" 
     ;
     
-    abcText = tabParser.parse(this.textarea.value);
+    this.update();
     
 };
+SITE.PartGen.prototype.update = function() {
+    var     abcText;
+    var abcText = this.tabParser.parse(this.textarea.value);
+    this.printABC( abcText );
+};
+
+SITE.PartGen.prototype.printABC = function(abcText) {
+    var tab = {text:abcText, abc:null, title:null, div:null };
+    
+    tab.div = document.getElementById("t2p_canvasDiv");
+    
+    this.parseABC(tab);
+    
+    tab.div.innerHTML = "";
+    var paper = Raphael(tab.div, 700, 200);
+    var printer = new ABCXJS.write.Printer( paper );
+    
+    printer.printABC(tab.abc);
+    
+    
+};
+
+SITE.PartGen.prototype.parseABC = function(tab) {
+    var transposer = null;
+    var abcParser = new ABCXJS.parse.Parse( transposer, this.accordion );
+    
+    abcParser.parse(tab.text, this.parserparams );
+    tab.abc = abcParser.getTune();
+
+    if ( this.midiParser ) {
+        this.midiParser.parse( tab.abc, this.accordion.getKeyboard() );
+    }
+};        
 

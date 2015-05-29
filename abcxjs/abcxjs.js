@@ -962,6 +962,15 @@ window.ABCXJS.parse.clone = function(obj) {
     throw new Error("Unable to copy obj! Its type isn't supported.");
 };
 
+window.ABCXJS.parse.normalizeAcc = function ( cKey ) {
+    return cKey.replace(/([ABCDEFG])#/g,'$1♯').replace(/([ABCDEFG])b/g,'$1♭');
+};
+
+window.ABCXJS.parse.denormalizeAcc = function ( cKey ) {
+    return cKey.replace(/([ABCDEFG])♯/g,'$1#').replace(/([ABCDEFG])♭/g,'$1b');
+};
+
+
 window.ABCXJS.parse.gsub = function(source, pattern, replacement) {
 	return source.split(pattern).join(replacement);
 };
@@ -5771,11 +5780,11 @@ return (this.currKey[idx]?this.currKey[idx]:"C");
 };
 
 window.ABCXJS.parse.Transposer.prototype.normalizeAcc = function ( cKey ) {
-    return cKey.replace(/([ABCDEFG])#/g,'$1♯').replace(/([ABCDEFG])b/g,'$1♭');
+    return ABCXJS.parse.normalizeAcc(cKey);
 };
 
 window.ABCXJS.parse.Transposer.prototype.denormalizeAcc = function ( cKey ) {
-    return cKey.replace(/([ABCDEFG])♯/g,'$1#').replace(/([ABCDEFG])♭/g,'$1b');
+    return ABCXJS.parse.denormalizeAcc(cKey);
 };
 
 window.ABCXJS.parse.Transposer.prototype.getKeyAccOffset = function(note, keyAcc)
@@ -7187,11 +7196,12 @@ ABCXJS.write.Layout.prototype.getNextElem = function() {
     return this.currVoice[this.pos + 1];
 };
 
-ABCXJS.write.Layout.prototype.layoutABCLine = function( abctune, line ) {
+ABCXJS.write.Layout.prototype.layoutABCLine = function( abctune, line, width ) {
 
     this.tune = abctune;
     this.tuneCurrLine = line;
     this.staffgroup = new ABCXJS.write.StaffGroupElement();
+    this.width = width;
 
     for (this.tuneCurrStaff = 0; this.tuneCurrStaff < this.tune.lines[this.tuneCurrLine].staffs.length; this.tuneCurrStaff++) {
         var abcstaff = this.tune.lines[this.tuneCurrLine].staffs[this.tuneCurrStaff];
@@ -7242,8 +7252,7 @@ ABCXJS.write.Layout.prototype.layoutStaffGroup = function() {
     for (var it = 0; it < 3; it++) { // TODO shouldn't need this triple pass any more
         this.staffgroup.layout(newspace, this.printer, false);
         if (this.tuneCurrLine && this.tuneCurrLine === this.tune.lines.length - 1 &&
-                this.staffgroup.w / this.width < 0.66
-                && !this.tune.formatting.stretchlast)
+                this.staffgroup.w / this.width < 0.66 && !this.tune.formatting.stretchlast)
             break; // don't stretch last line too much unless it is 1st
         var relspace = this.staffgroup.spacingunits * newspace;
         var constspace = this.staffgroup.w - relspace;
@@ -7254,7 +7263,6 @@ ABCXJS.write.Layout.prototype.layoutStaffGroup = function() {
             }
         }
     }
-    
 };
 
 ABCXJS.write.Layout.prototype.printABCVoice = function() {
@@ -8752,7 +8760,7 @@ ABCXJS.write.Printer.prototype.printSubtitleLine = function(subtitle) {
 
 ABCXJS.write.Printer.prototype.printStaffLine = function (abctune, line) {
     var n = this.staffgroups.length;
-    this.staffgroups[n] = this.layouter.layoutABCLine(abctune, line);
+    this.staffgroups[n] = this.layouter.layoutABCLine(abctune, line, this.width);
     this.staffgroups[n].draw( this, line );
     return this.staffgroups[n];
 };
