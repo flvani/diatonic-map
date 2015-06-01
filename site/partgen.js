@@ -48,21 +48,7 @@ SITE.PartGen = function( interfaceParams ) {
     
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
     document.getElementById("t2pSpanAccordeon").innerHTML = ' (' + this.accordion.getTxtModel() + ')'; 
-    
-    this.textarea.value = 
-        "%elementos são posicionais e separados por espaços.\n" +
-        "%cada elemento tem duracao L.\n" +
-        "%ausência de conteúdo é marcada hífen '-'.\n" +
-        "%a duração do elemento é computada até encontrar o próximo ou a barra de compasso.\n" +
-        "%ties são marcadas com sinal de maior '>'.\n" +
-        "%ritornellos são marcados com ':'.\n" +
-        "%linha começa com '|' e continuação de linha com '/'.\n\n" + 
-        "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nK:G\n\n" +
-        "| z -  -  -  | C        c  C     c     | G        g  G     g     | G        g  G     g     | " + "\n" +
-        "| z 5' 6' 4' | 5' 5' 6' 4' 5' 5' 6' 4' |                         |                         | " + "\n" +
-        "|            |                         | 5' 5' 6' 4' 5' 5' 6' 4' | 5' 5' 6' 4' 5' 5' 6' 4' | " + "\n" 
-    ;
-    
+  
     this.textarea.value = 
         "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nK:G\n\n" +
         "| z          | C        c  C     c     | G        g  G     g     | G        g  G     g     |" + "\n" +
@@ -79,8 +65,8 @@ SITE.PartGen = function( interfaceParams ) {
     
     this.textarea.value = 
         "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nK:G\n\n" +
-        "| C         am     c     |: D  d  :|"  + "\n" +
-        "| c " + "\n" +
+        "| C         am    c     |: D  d  :|"  + "\n" +
+        "%| c " + "\n" +
         "|           5' 6' 4' 4' |  8      |"  + "\n" +
         "| 5' 5' 4 3             |     8   |"  + "\n" +
         "+ 3  2                     2  4  "+ "\n" + "\n" +
@@ -89,17 +75,38 @@ SITE.PartGen = function( interfaceParams ) {
         "| 5' 5' 6' 4'             |" 
     ;
     
+    this.textarea.value = 
+        "%elementos são posicionais e separados por espaços.\n" +
+        "%cada elemento tem duracao L.\n" +
+        "%ligadura é marcada hífen '-'.\n" +
+        "%a duração do elemento é computada até encontrar o próximo ou a barra de compasso.\n" +
+        "%elementos terminados com ponto são inseridos sem espaço após.\n" +
+        "%ritornellos são marcados com ':'.\n" +
+        "%linha começa com '|' e continuação de linha com '/'.\n\n" + 
+        "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nQ:80\nK:C\n\n" +
+        "|: C.   c     | C.       c  C.    c     | G.       g  G.    g     | G.       g  G.    g     |" + "\n" +
+        "|  z 5'.6'.4' | 5'.5'.6'.4' 5'.5'.6'.4' |                         |                         |" + "\n" +
+        "|             |                         | 5'.5'.6'.4' 5'.5'.6'.4' | 5'.5'.6'.4' 5'.5'.6'.4' |" + "\n" + "\n"  +
+        "| C.       c  C.    c     | C.       c  C.    c     | G.       g  G.   g    | G.      g  G.   g    | C. c :|" + "\n" +
+        "| 5'.5'.6'.4' 5'.5'.6'.4' | 5'.5'.6'.4' 5'.5'.6'.4' |                       |                      |       |" + "\n" +
+        "|                         |                         | 5'.5'.4'.5  3'.4.2'.3 | 1'.1'.3.1' 2.1'.3.2' | 3'    |" + "\n" +
+        "+                                                                                                    3" + "\n" 
+    ;
+     
     this.update();
     
 };
 SITE.PartGen.prototype.update = function() {
     var     abcText;
-    var abcText = this.tabParser.parse(this.textarea.value);
+    var abcText = this.tabParser.parse(this.textarea.value, this.accordion.getKeyboard());
     this.printABC( abcText );
 };
 
 SITE.PartGen.prototype.printABC = function(abcText) {
     var tab = {text:abcText, abc:null, title:null, div:null };
+    var divTxt = document.getElementById("t2p_warningsDiv");
+    
+    divTxt.innerHTML = tab.text.replace(/\n/g,'\<br\>');
     
     tab.div = document.getElementById("t2p_canvasDiv");
     

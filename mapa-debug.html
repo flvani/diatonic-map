@@ -46,7 +46,7 @@ notação abc, tablatura "/>
         <link href="css/studio.css" rel="stylesheet">
         <link rel="icon" type="image/icon" href="http://flvani.github.io/diatonic-map/img/favicon6.ico">
     </head>
-    <body onresize="resizeStudio()">
+    <body onresize="resizeStudio();">
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container" id="divTitulo" style="margin-left: 0px; margin-top: 0px; height: 50px; width: 100%; background-color:#5ba4a4;" >
                 <header>
@@ -72,6 +72,7 @@ notação abc, tablatura "/>
                                                 <li><a href="#" id="DR_original" onclick="reloadRepertoire();">Restaurar o original</a></li>
                                                 <li><a href="#" id="DR_localLoad" onclick="document.getElementById('fileLoadRepertoire').click()">Carregar do drive local</a></li>
                                                 <li style="display:inline;"><a href="#" id="DR_localSave" onclick="saveRepertoire();">Exportar para drive local</a></li>
+                                                <li style="display:inline;"><a href="tab2part.html" target="_blank" id="DR_tab2part" onclick="">Tablatura --> Partitura</a></li>
                                             </ul>
                                         </div>
                                       </td >
@@ -113,7 +114,7 @@ notação abc, tablatura "/>
             </div>
         </div> <!-- /navbar -->
         
-        <div id="mapContainerDiv" class="container" style="display: inline; float:left; margin-top: 0; margin-left: 0px;" >
+        <div id="mapContainerDiv">
             
             <div id="hintsDiv" class="draggableWindow" style="left:900px; top:80px; width:200px; height: auto; display:none; z-index:10000;"></div> 
             <div id="releaseDiv" class="draggableWindow" style="left:900px; top:240px; width:200px; height: auto; display:none; z-index:10000;"></div> 
@@ -121,7 +122,7 @@ notação abc, tablatura "/>
             <div id="useChromeDiv" style="position:absolute; left:925px; top:270px; width:150px; height: auto; display:none; z-index:10000;"></div> 
             <div id="mediaDiv" class="draggableWindow" style="left:900px; top:80px; width:250px; height: auto; display:none; z-index:10000;"></div> 
     
-            <div id="div_principal" class="span12" style="float:left; margin-left: 8px; margin-top: 8px; width: 930px;" >
+            <div id="div_principal"  >
                 <div style="margin:0; padding:0; width:100%;">  
                 <ul id="faketab">
                     <li><a href="#" id="a_nome_gaita">LOADING...</a></li>
@@ -147,7 +148,7 @@ notação abc, tablatura "/>
                     </li>
                 </ul>
                 </div>  
-                <div id="divContent" style="margin:0; padding:0; width:95%;" > 
+                <div id="divContent" > 
                     <div id="contentKeyboard" style="width: auto; float: left; min-height: 302px;" ></div>
                     <div id="contentInfo" style="position: absolute; top: 0; right: 0; margin-top: 8px; margin-right: 8px;">
                         <table class="table table-bordered table-final" style="min-width: 200px;">
@@ -162,7 +163,7 @@ notação abc, tablatura "/>
                 </div>
             </div> <!-- /div_principal --> 
             
-            <div id="div_detalhes" style="float:left; margin-left: 8px; margin-top: 8px; width:100%;"> 
+            <div id="div_detalhes" > 
                 <div id="div1" style="float:left;  margin-right:0px; width:100%;" >
                     <div id="div2" style="float:left;  margin-right:0px;" >
                         <ul id="tabs">
@@ -178,15 +179,15 @@ notação abc, tablatura "/>
                                 <div id="divSelectPlayControls" style="margin: 0px;">
                                   <div class="btn-group" id="divPractices" style="display: none; margin: 0px;">
                                       <button id="btnPractices" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left;"><span id="spanPractices">...</span>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                                      <ul class="dropdown-menu" id="ulPractices" style="text-align: left; margin-left: 5px; margin-top: 12px"></ul>
+                                      <ul class="dropdown-menu menuDinamico" id="ulPractices"></ul>
                                   </div>
                                   <div class="btn-group"  id="divSongs" style="display: inline; margin: 0px;">
                                       <button id="btnSongs" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left;"><span id="spanSongs">...</span>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                                      <ul class="dropdown-menu" id="ulSongs" style="text-align: left; margin-left: 5px; margin-top: 12px"></ul>
+                                      <ul class="dropdown-menu menuDinamico" id="ulSongs"></ul>
                                   </div>
                                   <div class="btn-group" id="divChords" style="display: none; margin: 0px;">
                                       <button id="btnChords" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left;"><span id="spanChords">...</span>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                                      <ul class="dropdown-menu" id="ulChords" style="text-align: left; margin-left: 5px; margin-top: 12px"></ul>
+                                      <ul class="dropdown-menu menuDinamico" id="ulChords"></ul>
                                   </div>
                                 </div>
                             </td><td>
@@ -211,10 +212,7 @@ notação abc, tablatura "/>
                     <div id="tabPracticesDiv" ></div>
                 </div>
             </div> <!-- /div_detalhes --> 
-            
-            <div id= "bottomMargin" style="float:left; margin-top:0px; margin-left:0px; margin-bottom: 0px;  
-                 width:1150px; min-height: 10px;" > 
-            </div> <!-- /bottomMargin -->
+
             
         </div> <!-- /mapContainerDiv -->
         
@@ -715,8 +713,9 @@ notação abc, tablatura "/>
                 myMap.restoreStudio();
             };
             
-            function resizeStudio()    {
+            function resizeStudio() {
                 myStudio.resize();
+                myMap.resize();
             };
             
             function closeEditor() {
@@ -740,6 +739,10 @@ notação abc, tablatura "/>
 
             function saveRepertoire() {
                 myMap.salvaRepertorio();
+            };
+
+            function tab2Part() {
+                myMap.tab2Part();
             };
 
             function doTranspose(value) {

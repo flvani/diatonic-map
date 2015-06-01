@@ -139,6 +139,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     DR.addAgent( this ); // register for translate
     
     this.accordion.printKeyboard(this.keyboardDiv);
+    this.resize();
 };
 
 SITE.Mapa.prototype.setup = function (tabParams) {
@@ -154,14 +155,27 @@ SITE.Mapa.prototype.setup = function (tabParams) {
         FILEMANAGER.saveLocal('property.accordion', gaita.getId());
     }
 
-    this.accordion.printKeyboard(this.keyboardDiv);
     this.showAccordionName();
     this.showAccordionImage();
     this.midiPlayer.reset();
 
     this.loadOriginalRepertoire(tabParams);
+    
+    this.accordion.printKeyboard(this.keyboardDiv);
+    this.resize();
 
 };
+
+SITE.Mapa.prototype.resize = function( ) {
+
+    var h = document.getElementById( 'div_principal');
+    var o = document.getElementById( 'mapContainerDiv');
+    var i = document.getElementById( 'tuneContainerDiv');
+
+
+    i.style.height = (o.clientHeight - h.clientHeight  - 50) + "px";
+};
+
 SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
     var self = this;
     var loader = this.startLoader( "LoadRepertoire" );
