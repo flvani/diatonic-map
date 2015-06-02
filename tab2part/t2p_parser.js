@@ -20,7 +20,16 @@ ABCXJS.Tab2Part = function () {
 
     this.bassOctave = 2;
     this.init();
+    
+    this.addWarning = function ( msg ) {
+        this.warnings.push(msg);
+    };
+    
+    this.getWarnings = function () {
+        return this.warnings.join('<br>');
+    };
 };
+
 ABCXJS.Tab2Part.prototype.init = function () {
     this.tabText;
     this.tabLines;
@@ -33,8 +42,12 @@ ABCXJS.Tab2Part.prototype.init = function () {
     this.parsedLines = [];
     this.currLine = 0;
     this.abcText = "";
-    this.currBar = 1;
-    this.currStaff = -1;    
+    this.updateBarNumberOnNextNote = false;
+    this.alertedBarNumber = 0;
+    this.currBar = 0;
+    this.currStaff = -1;   
+    
+    this.warnings = [];
 };
 
 ABCXJS.Tab2Part.prototype.parse = function (text, keyboard) {
@@ -42,38 +55,42 @@ ABCXJS.Tab2Part.prototype.parse = function (text, keyboard) {
     this.tabText  = text;
     this.tabLines = this.extractLines();
     this.keyboard = keyboard;
+    this.hasErrors    = false;
 
-    while(this.currLine < this.tabLines.length) {
+    while((!this.hasErrors) && this.currLine < this.tabLines.length) {
         if( this.skipEmptyLines() ) {
             this.parseLine();
             this.currLine++;
         }
     }
     
-    //adicionar vozes treble
-    this.addLine( 'V:1 treble' );
-    var t= "";
-    this.parsedLines.forEach( function(item) {
-       t += item.treble  + '\n';   
-    });
-    this.addLine( t.slice(0,-1) );
+    if( ! this.hasErrors ) {
+        //adicionar vozes treble
+        this.addLine( 'V:1 treble' );
+        var t= "";
+        this.parsedLines.forEach( function(item) {
+           t += item.treble  + '\n';   
+        });
+        this.addLine( t.slice(0,-1) );
 
-    //adicionar vozes bass
-    this.addLine( 'V:2 bass' );
-    var t= "";
-    this.parsedLines.forEach( function(item) {
-       t += item.basses[0]  + '\n';   
-    });
-    this.addLine( t.slice(0,-1) );
+        //adicionar vozes bass
+        this.addLine( 'V:2 bass' );
+        var t= "";
+        this.parsedLines.forEach( function(item) {
+           t += item.basses[0]  + '\n';   
+        });
+        this.addLine( t.slice(0,-1) );
+
+        //adicionar accordionTab
+        this.addLine( 'V:3 accordionTab' );
+
+         t= "";
+        this.parsedLines.forEach( function(item) {
+           t += item.tablature  + '\n';   
+        });
+        this.addLine( t.slice(0,-1) );
+    }
     
-    //adicionar accordionTab
-    this.addLine( 'V:3 accordionTab' );
-    
-     t= "";
-    this.parsedLines.forEach( function(item) {
-       t += item.tablature  + '\n';   
-    });
-    this.addLine( t.slice(0,-1) );
     
     return this.abcText;
 };
@@ -129,7 +146,8 @@ ABCXJS.Tab2Part.prototype.parseStaff = function () {
         }
     } 
     if( ! cnt ) {
-        throw new Error( 'Não pude processar tablatura após 1000 ciclos. Possivel desalinhamento de texto.');
+        this.addWarning('Não pude processar tablatura após 1000 ciclos. Possivel desalinhamento de texto.');
+        this.hasErrors = true;
     }
 };
 
@@ -155,10 +173,18 @@ ABCXJS.Tab2Part.prototype.addBar = function (staffs, bar ) {
 };
 
 ABCXJS.Tab2Part.prototype.addNotes = function(staffs) {
-    var startTreble = true;
-    var opening = true;
     var str;
+    var opening = true;
     
+    var startTreble = true;
+    for( var i = 0; startTreble && i < staffs.length; i ++ ) {
+        if(staffs[i].st === 'processing' && !staffs[i].bass ){
+            opening = staffs[i].open;
+            startTreble = false;
+        }
+    } 
+    
+    startTreble = true;
     for( var i = 0; i < staffs.length; i ++ ) {
         if(staffs[i].st === 'processing' ) {
             if( staffs[i].token.added && staffs[i].token.str !== "z" ) {
@@ -172,20 +198,28 @@ ABCXJS.Tab2Part.prototype.addNotes = function(staffs) {
                 str = note.pitch;
                 this.addTabElem(str);
                 if( staffs[i].token.final ) {
-                    this.addBassElem(staffs[i].idBass, staffs[i]);
+                    if(!this.checkBass(staffs[i].token.str, opening)){
+                        if( this.alertedBarNumber !== staffs[i].token.barNumber ) {
+                            this.addWarning("Compasso "+staffs[i].token.barNumber+": Baixo não encontrado ou não compatível com o movimento do fole.");
+                            this.alertedBarNumber = staffs[i].token.barNumber;
+                        }    
+                    }
+                    this.addBassElem(staffs[i].idBass, staffs[i], opening );
                     this.setStaffState(staffs[i]);
                 }
             } else {
                 if(startTreble){
-                    opening = staffs[i].open;
-                    startTreble = false;
                     this.addTabElem(opening?"-":"+");
+                    startTreble = false;
                 }
                 if( (opening && staffs[i].open) || (!opening && !staffs[i].open) ) {
-                    this.addTabElem(str);
                     this.addTrebleElem(staffs[i]);
+                    this.addTabElem(this.toHex(str));
                 } else {
-                    // não posso ter ambos (open e close)
+                    if( this.alertedBarNumber !== staffs[i].token.barNumber ) {
+                        this.addWarning( 'Compasso '+staffs[i].token.barNumber+': Não é possível ter ambos (abrindo e fechando) movimento de fole.');
+                        this.alertedBarNumber = staffs[i].token.barNumber;
+                    }    
                 } 
             }
         }
@@ -376,7 +410,7 @@ ABCXJS.Tab2Part.prototype.idStaff = function () {
             for( var i = 0; i < staff.linhas.length; i ++ ) {
                 var l = this.tabLines[staff.linhas[i].l];
                 if( l.length > k && l.charAt(k) !== "|" ){
-                    throw new Error( 'Possível falta de sincronismo na pauta '+(this.currStaff+1)+', linha '+(j+1)+', coluna '+(k+1)+'. Barras desalinhadas.');
+                    this.addWarning( 'Possível falta de sincronismo na pauta '+(this.currStaff+1)+', linha '+(j+1)+', coluna '+(k+1)+'. Barras desalinhadas.');
                 }
             }
         }
@@ -510,9 +544,15 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
                 type='triplet';
             } else {
                 type='bar';
+                this.updateBarNumberOnNextNote = true;
             }
         } else {
             type = 'note';
+            if( this.updateBarNumberOnNextNote ) {
+                this.updateBarNumberOnNextNote = false;
+                this.currBar ++;
+            }
+            
             if(qtd>1) {
                 token = '['+token+']';
             }
@@ -557,82 +597,6 @@ ABCXJS.Tab2Part.prototype.skipSyms = function( staff, syms ) {
     }
 };
 
-ABCXJS.Tab2Part.prototype.addNotesUnused = function(staffs) {
-    
-    var minDur = 100;
-    
-    for( var i = 0; i < staffs.length; i ++ ) {
-        if( staffs[i].st === 'processing' && staffs[i].wi.duration && staffs[i].wi.duration > 0  
-                && staffs[i].wi.duration*(staffs[i].triplet?this.multiplier:1) < minDur ) {
-            minDur = staffs[i].wi.duration*(staffs[i].triplet?this.multiplier:1);
-        }
-    }
-    ;
-    var wf = { el_type: 'note', duration: Number((minDur/this.multiplier).toFixed(5)), startChar: 0, endChar: 0, pitches:[], bassNote: [] }; // wf - final working item
-    
-    for( var i = 0; i < staffs.length; i ++ ) {
-        if(staffs[i].st !== 'processing' ) continue;
-        var elem = staffs[i].wi;
-        if( elem.rest ) {
-            switch (elem.rest.type) {
-                case "rest":
-                    if( staffs[i].bass ) 
-                        wf.bassNote[wf.bassNote.length] = ABCXJS.parse.clone(elem.rest);
-                    else    
-                        wf.pitches[wf.pitches.length] = ABCXJS.parse.clone(elem.rest);
-                    break;
-                case "invisible":
-                case "spacer":
-                    break;
-            }        
-        }else if( elem.pitches ) {
-            ABCXJS.write.sortPitch(elem.pitches);
-            if( staffs[i].bass ) {
-                //todo: tratar adequadamente os acordes
-                var isChord = elem.pitches.length>1;
-                elem.pitches.splice(1, elem.pitches.length - 1);
-                elem.pitches[0].chord=isChord;
-                wf.bassNote[wf.bassNote.length] = ABCXJS.parse.clone(elem.pitches[0]);
-            } else {
-                for( var j = 0; j < elem.pitches.length; j ++  ) {
-                    wf.pitches[wf.pitches.length] = ABCXJS.parse.clone(elem.pitches[j]);
-                }
-            }
-        }
-        
-        this.setTies(staffs[i]);
-        
-        if( staffs[i].wi.duration ) {
-            staffs[i].wi.duration -= minDur/(staffs[i].triplet?this.multiplier:1);
-            if( staffs[i].wi.duration <= 0.0001 ) {
-               staffs[i].st = 'waiting for data';
-            } else {
-                if(staffs[i].wi.pitches) {
-                    for( var j = 0; j < staffs[i].wi.pitches.length; j ++  ) {
-                        staffs[i].wi.pitches[j].inTie = true;
-                    }
-                }
-            }
-        }
-    }
-    
-    for( var i = 0; i < staffs.length; i ++ ) {
-        var elem = staffs[i];
-        if( elem.wi.endTriplet){
-            this.endTriplet = true;
-            elem.triplet = false;
-            this.multiplier = 1;
-        }
-    }    
-    
-    //trata intervalo vazio (quando há pausa em todas as vozes e não são visíveis)
-    if(wf.pitches.length === 0 && wf.bassNote.length === 0 )
-        wf.pitches[0] = {type:'rest'}; 
-    
-    return wf;
-    
-};
-
 ABCXJS.Tab2Part.prototype.getButton = function( b ) {
     if( b === 'x' || !this.keyboard ) return null;
     var kb = this.keyboard;
@@ -642,4 +606,32 @@ ABCXJS.Tab2Part.prototype.getButton = function( b ) {
     if(kb.keyMap[row][button]) 
         return kb.keyMap[row][button];
     return null;
+};
+
+ABCXJS.Tab2Part.prototype.checkBass = function( b, opening ) {
+    var found = false;
+    if( b === '-->' || !this.keyboard ) return false;
+    var kb = this.keyboard;
+    var nota = kb.parseNote(b, true );
+    for( var j = kb.keyMap.length; !found && j > kb.keyMap.length - 2; j-- ) {
+        for( var i = 0; !found && i < kb.keyMap[j-1].length; i++ ) {
+            var tecla = kb.keyMap[j-1][i];
+            if( (opening && tecla.openNote.key === nota.key)
+                || (!opening && tecla.closeNote.key === nota.key) ) {
+                found = true;      
+            } 
+        }   
+    }
+    return found;
+};
+
+ABCXJS.Tab2Part.prototype.toHex = function( s ) {
+    
+    if( s === 'z' || s === '>') return s;
+    
+    var p = s.indexOf( '\'' );
+    var s1 = s.substr( 0, p );
+    var s2 = s.substr( p );
+
+    return ( p < 0 ) ? parseInt(s).toString(16) : parseInt(s1).toString(16) + s2;
 };

@@ -260,7 +260,7 @@ SITE.Mapa.prototype.setupProps = function () {
 SITE.Mapa.prototype.restoreStudio = function () {
     this.studio.textVisible = true;
     this.studio.editorVisible = false;
-    this.studio.mapVisible = false
+    this.studio.mapVisible = false;
     this.studio.editorWindow.topDiv.style.top = "120px";
     this.studio.editorWindow.topDiv.style.left = "40px";
     this.studio.keyboardWindow.topDiv.style.top = "120px";
@@ -565,6 +565,9 @@ SITE.Mapa.prototype.defineActiveTab = function( which ) {
             break;
     }
     this.currentABC.selector.style.display  = 'inline';
+    if(this.currentABC.abc) {
+        this.showMedia(this.currentABC.abc.metaText.url);
+    }    
 };
 
 SITE.Mapa.prototype.printTab = function( ) {
@@ -710,12 +713,25 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
     this.showMedia(tab.abc.metaText.url);
 };
 
+SITE.Mapa.prototype.mediaCallback = function( e ) {
+    switch(e) {
+        case 'MOVE':
+            break;
+        case 'MINUS':
+            this.showMedia();
+            break;
+    }
+    return false;
+};
+
 SITE.Mapa.prototype.showMedia = function(url) {
     if(url) {
-        $("#mediaDiv").find("[id^='draggableData']").html(url);
+        var  embbed = '<iframe width="300" height="167" src="'+url+'?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>';
+        $("#mediaDiv").find("[id^='draggableData']").html(embbed);
         $('#mediaDiv').fadeIn('slow');
     } else {
         $('#mediaDiv').fadeOut('slow');
+        $("#mediaDiv").find("[id^='draggableData']").html("");
     }
 };
 

@@ -10,7 +10,11 @@ if (!window.SITE)
 
 SITE.PartGen = function( interfaceParams ) {
 
-    var     that = this;
+    var that = this;
+    
+    this.tab = { text:null, abc:null, title:null, div:null };
+    
+    this.mapVisible = false;
 
     this.tabParser = new ABCXJS.Tab2Part();
     this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
@@ -19,20 +23,67 @@ SITE.PartGen = function( interfaceParams ) {
     this.printButton = document.getElementById(interfaceParams.printBtn);
     this.saveButton = document.getElementById(interfaceParams.saveBtn);
     this.updateButton = document.getElementById(interfaceParams.updateBtn);
+
+    // player control
+    this.playButton = document.getElementById(interfaceParams.playBtn);
+    this.stopButton = document.getElementById(interfaceParams.stopBtn);
+    this.currentPlayTimeLabel = document.getElementById(interfaceParams.currentPlayTimeLabel);
     
     this.textarea = document.getElementById(interfaceParams.textarea);
-   
+
     this.printButton.addEventListener("click", function() {
-    
+        that.printPreview(that.tab.div.innerHTML, ["#divTitulo","#t2pDiv"]);
     }, false);
 
     this.saveButton.addEventListener("click", function() {
-        
+        that.salvaPartitura();
+    }, false);
+    
+    this.showMapButton.addEventListener("click", function() {
+        that.showMap();
     }, false);
     
     this.updateButton.addEventListener("click", function() {
         that.update();
     }, false);
+    
+    this.playerCallBackOnScroll = function( player ) {
+        that.setScrolling(player.currAbsElem.y, player.currChannel );
+    };
+
+    this.playerCallBackOnPlay = function( player ) {
+        var strTime = player.getTime().cTime;
+        if(that.gotoMeasureButton)
+            that.gotoMeasureButton.value = player.currentMeasure;
+        if(that.currentPlayTimeLabel)
+            that.currentPlayTimeLabel.innerHTML = strTime;
+    };
+
+    this.playerCallBackOnEnd = function( player ) {
+        var warns = that.midiPlayer.getWarnings();
+        that.playButton.title = DR.getResource("playBtn");
+        that.playButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
+        that.tab.abc.midi.printer.clearSelection();
+        that.accordion.clearKeyboard(true);
+        if(that.currentPlayTimeLabel)
+            that.currentPlayTimeLabel.innerHTML = "00:00.00";
+        if( warns ) {
+            var wd =  document.getElementById("warningsDiv");
+            var txt = "";
+            warns.forEach(function(msg){ txt += msg + '<br>'; });
+            wd.style.color = 'blue';
+            wd.innerHTML = '<hr>'+txt+'<hr>';
+        }
+    };
+
+    this.playButton.addEventListener("click", function() {
+        that.startPlay( 'normal' );
+    }, false);
+
+    this.stopButton.addEventListener("click", function() {
+        that.midiPlayer.stopPlay();
+    }, false);
+    
 
     // inicio do setup do mapa    
     this.midiParser = new ABCXJS.midi.Parse();
@@ -76,13 +127,14 @@ SITE.PartGen = function( interfaceParams ) {
     ;
     
     this.textarea.value = 
-        "%elementos são posicionais e separados por espaços.\n" +
-        "%cada elemento tem duracao L.\n" +
-        "%ligadura é marcada hífen '-'.\n" +
-        "%a duração do elemento é computada até encontrar o próximo ou a barra de compasso.\n" +
-        "%elementos terminados com ponto são inseridos sem espaço após.\n" +
-        "%ritornellos são marcados com ':'.\n" +
-        "%linha começa com '|' e continuação de linha com '/'.\n\n" + 
+//        "%elementos são posicionais e separados por espaços.\n" +
+//        "%cada elemento tem duracao L.\n" +
+//        "%ligadura é marcada hífen '-'.\n" +
+//        "%a duração do elemento é computada até encontrar o próximo ou a barra de compasso.\n" +
+//        "%elementos terminados com ponto são inseridos sem espaço após.\n" +
+//        "%ritornellos são marcados com ':'.\n" +
+//        "%linha começa com '|' e continuação de linha com '/'.\n\n" + 
+//        "%%barnumbers 1\n" + 
         "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nQ:80\nK:C\n\n" +
         "|: C.   c     | C.       c  C.    c     | G.       g  G.    g     | G.       g  G.    g     |" + "\n" +
         "|  z 5'.6'.4' | 5'.5'.6'.4' 5'.5'.6'.4' |                         |                         |" + "\n" +
@@ -92,32 +144,39 @@ SITE.PartGen = function( interfaceParams ) {
         "|                         |                         | 5'.5'.4'.5  3'.4.2'.3 | 1'.1'.3.1' 2.1'.3.2' | 3'    |" + "\n" +
         "+                                                                                                    3" + "\n" 
     ;
-     
+    
+    this.resize();
     this.update();
     
 };
 SITE.PartGen.prototype.update = function() {
-    var     abcText;
     var abcText = this.tabParser.parse(this.textarea.value, this.accordion.getKeyboard());
     this.printABC( abcText );
 };
 
 SITE.PartGen.prototype.printABC = function(abcText) {
-    var tab = {text:abcText, abc:null, title:null, div:null };
-    var divTxt = document.getElementById("t2p_warningsDiv");
+    this.tab.text = abcText;
+    var divWarn = document.getElementById("t2pWarningsDiv");
     
-    divTxt.innerHTML = tab.text.replace(/\n/g,'\<br\>');
+//    divTxt.innerHTML = tab.text.replace(/\n/g,'\<br\>');
+    var warns = this.tabParser.getWarnings();
+    if(warns) {
+        divWarn.innerHTML = warns;
+        divWarn.style.color = 'red';
+    } else {
+        divWarn.innerHTML = 'Partitura gerada com sucesso!';
+        divWarn.style.color = 'green';
+    }
     
-    tab.div = document.getElementById("t2p_canvasDiv");
+    this.tab.div = document.getElementById("t2pCanvasDiv");
     
-    this.parseABC(tab);
+    this.parseABC(this.tab);
     
-    tab.div.innerHTML = "";
-    var paper = Raphael(tab.div, 700, 200);
+    this.tab.div.innerHTML = "";
+    var paper = Raphael(this.tab.div, 700, 200);
     var printer = new ABCXJS.write.Printer( paper );
     
-    printer.printABC(tab.abc);
-    
+    printer.printABC(this.tab.abc);
     
 };
 
@@ -133,3 +192,124 @@ SITE.PartGen.prototype.parseABC = function(tab) {
     }
 };        
 
+SITE.PartGen.prototype.resize = function( ) {
+    var t = document.getElementById( 't2pTextarea');
+    var m = document.getElementById( 't2pMenu');
+    var h = document.getElementById( 't2pHeader');
+    var o = document.getElementById( 't2pContentDiv');
+    var i = document.getElementById( 't2pStudioCanvasDiv');
+
+    t.style.width = parseInt(m.clientWidth) - 24 + "px";
+    i.style.height = (o.clientHeight - h.clientHeight - m.clientHeight - 10) + "px";
+};
+
+SITE.PartGen.prototype.hideMap = function() {
+    this.mapVisible = false;
+    this.accordion.render_keyboard_opts.show = this.mapVisible;
+    this.keyboardWindow.topDiv.style.display = 'none';
+    this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
+    document.getElementById('t2p_I_showMap').setAttribute('class', 'icon-folder-close' );
+};
+
+SITE.PartGen.prototype.showMap = function() {
+    this.mapVisible = ! this.mapVisible;
+    this.accordion.render_keyboard_opts.show = this.mapVisible;
+    if(this.mapVisible) {
+        this.keyboardWindow.topDiv.style.display = 'inline';
+        this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
+        document.getElementById('t2p_I_showMap').setAttribute('class', 'icon-folder-open' );
+    } else {
+        this.hideMap();
+    }
+};
+
+SITE.PartGen.prototype.keyboardCallback = function( e ) {
+    switch(e) {
+        case 'MOVE':
+            break;
+        case 'MINUS':
+            this.hideMap();
+            break;
+        case 'RETWEET':
+            this.accordion.rotateKeyboard(this.keyboardWindow.dataDiv);
+            break;
+        case 'ZOOM-IN':
+            this.accordion.scaleKeyboard(this.keyboardWindow.dataDiv);
+            break;
+        case 'GLOBE':
+            this.accordion.changeNotation();
+            break;
+        default:
+            alert(e);
+    }
+};
+
+SITE.PartGen.prototype.salvaPartitura = function() {
+    if (FILEMANAGER.requiredFeaturesAvailable()) {
+        var name = this.tab.abc.metaText.title + ".abcx";
+        var conteudo = this.tab.text;
+        FILEMANAGER.download(name, conteudo);
+    } else {
+        alert(DR.getResource("DR_err_saving"));
+    }
+};
+
+SITE.PartGen.prototype.printPreview = function (html, divsToHide) {
+    var bg = document.body.style.backgroundColor;
+    var dv = document.getElementById('t2pPrintPreviewDiv');
+    
+    divsToHide.forEach( function( div ) {
+        $(div).hide();
+    });
+    $("#t2pPrintPreviewDiv").show();
+    
+    dv.innerHTML = html;
+    
+    document.body.style.paddingTop = '0px';
+    document.body.style.backgroundColor = '#fff';
+    window.print();
+    document.body.style.backgroundColor = bg;
+    document.body.style.paddingTop = '50px';
+    
+    $("#t2pPrintPreviewDiv").hide();
+    divsToHide.forEach( function( div ) {
+        $(div).show();
+    });
+
+};
+
+SITE.PartGen.prototype.startPlay = function( type, value ) {
+    if( this.midiPlayer.playing) {
+        
+        this.ypos = 1000;
+        if (type === "normal" ) {
+            this.playButton.title = DR.getResource("playBtn");
+            this.playButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
+            this.midiPlayer.pausePlay();
+        } else {
+            this.midiPlayer.pausePlay(true);
+        }    
+        
+    } else {
+        this.accordion.clearKeyboard();
+        if(type==="normal") {
+            if( this.midiPlayer.startPlay(this.tab.abc.midi) ) {
+                this.playButton.title = DR.getResource("DR_pause");
+                this.playButton.innerHTML = '&nbsp;<i class="icon-pause"></i>&nbsp;';
+                this.ypos = 1000;
+            }
+        } else {
+            if( this.midiPlayer.startDidacticPlay(this.tab.abc.midi, type, value ) ) {
+                this.ypos = 1000;
+            }
+        }
+    }
+};
+
+SITE.PartGen.prototype.setScrolling = function(y, channel) {
+//    if( !this.tuneContainerDiv || channel > 0 ) return;
+//    if( y !== this.ypos ) {
+//        this.ypos = y;
+//        this.tuneContainerDiv.scrollTop = this.ypos - 40;    
+//    }
+};

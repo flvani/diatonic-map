@@ -115,6 +115,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.keyboardWindow = editorParams.keyboardWindow;
     this.playTreble = true;
     this.playBass = true;
+    this.clefsToPlay = (this.playTreble?"T":"")+(this.playBass?"B":"");
     
     this.setupEditor();
     
@@ -227,7 +228,8 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
             this.innerHTML = '<img src="img/clave.fa.on.png" alt="" width="20" height="20">';
         }
         that.playBass = ! that.playBass;
-    }, false);
+        that.clefsToPlay = (that.playTreble?"T":"")+(that.playBass?"B":"");
+}, false);
 
     this.GClefButton.addEventListener('click', function () {
         if( that.playTreble) {
@@ -236,6 +238,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
             this.innerHTML = '<img src="img/clave.sol.on.png" alt="" width="20" height="20">';
         }
         that.playTreble = ! that.playTreble;
+        that.clefsToPlay = (that.playTreble?"T":"")+(that.playBass?"B":"");
     }, false);
 
     this.playButton.addEventListener("click", function () {
@@ -250,10 +253,10 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         that.renderedTune.printer.clearSelection();
         that.accordion.clearKeyboard(true);
         that.ypos = 1000;
-        that.gotoMeasureButton.value = DR.getResource("DR_goto");
-        that.untilMeasureButton.value = DR.getResource("DR_until");
+        //that.gotoMeasureButton.value = DR.getResource("DR_goto");
+        //that.untilMeasureButton.value = DR.getResource("DR_until");
         that.currentPlayTimeLabel.innerHTML = "00:00.00";
-        that.midiPlayer.clearDidacticPlay();
+        that.midiPlayer.stopPlay();
     }, false);
 
 
@@ -334,6 +337,9 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
                 that.gotoMeasureButton.value = player.currentMeasure;
             if(that.currentPlayTimeLabel)
                 that.currentPlayTimeLabel.innerHTML = strTime;
+            
+            that.midiPlayer.setPlayableClefs( that.clefsToPlay );
+
         };
 
         this.playerCallBackOnEnd = function( player ) {
@@ -628,7 +634,7 @@ SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
                 this.ypos = 1000;
             }
         } else {
-            this.midiPlayer.setPlayableClefs( (this.playTreble?"T":"")+(this.playBass?"B":""));
+            this.midiPlayer.setPlayableClefs( this.clefsToPlay );
             if( this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value, valueF ) ) {
                 this.ypos = 1000;
             }

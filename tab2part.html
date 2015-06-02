@@ -21,7 +21,7 @@ notação abc, tablatura "/>
         <link href="css/tab2part.css" rel="stylesheet">
         <link rel="icon" type="image/icon" href="http://flvani.github.io/diatonic-map/img/favicon6.ico">
     </head>
-    <body>
+    <body onresize="resizeT2P();" >
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container" id="divTitulo" style="margin-left: 0px; margin-top: 0px; height: 50px; width: 100%; background-color:#5ba4a4;" >
                 <header>
@@ -74,33 +74,34 @@ notação abc, tablatura "/>
         <div id="t2pDiv">
             <div id="t2pContentDiv">
                 <div id="t2pMenu" class="draggableMenu">
-                    <div id="t2p_btnCloseStudio" class="dButton" draggable="false">
+                    <div id="t2pB_btnCloseStudio" class="dButton" draggable="false">
                         <a href="#" title="Fechar" id="t2p_dMINUSButtonA" onclick="closeT2P(); return false;" draggable="false"><i class="icon-minus icon-white"></i></a>
                     </div>
                     <div id="t2p_btnRestoreStudio" class="dButton" draggable="false">
                         <a href="#" title="Restaurar" id="t2p_dRESTOREButtonA" onclick="restoreT2P(); return false;" draggable="false"><img alt="" src="img/restore.png" class="icon-white"></a>
                     </div>
-                    <div class="dTitle"><span id="t2p_spanTitleStudio" style="padding-left: 5px;">Tablatura -> Partitura</span><span id="t2pSpanAccordeon" style="padding-left: 5px;"></span></div>
+                    <div class="dTitle"><span id="t2p_spanTitleStudio" style="padding-left: 5px;">Tablatura --> Partitura</span><span id="t2pSpanAccordeon" style="padding-left: 5px;"></span></div>
                 </div>
                 <div id="t2pHeader">
                     <textarea id="t2pTextarea"></textarea>
                     <div id="t2pControlDiv" >
-                        <div id="t2p_controlDiv1" style="float:left;" >
+                        <div id="t2pControlDiv1" style="float:left;" >
                             <button id="t2pShowMapBtn" class="btn" title="Exibir/Ocultar Teclado" onclick=""><i id="t2p_I_showMap" class="icon-folder-close"></i>&nbsp;<span id="t2p_DR_showMap">Teclado</span></button>
-                            <button id="t2pShowMapEditor" class="btn" title="Exibir/Ocultar Editor" onclick=""><i id="t2p_I_showEditor" class="icon-folder-close"></i>&nbsp;<span id="t2p_DR_showEditor">Editor</span></button>
+                            <!--button id="t2pShowMapEditor" class="btn" title="Exibir/Ocultar Editor" onclick=""><i id="t2p_I_showEditor" class="icon-folder-close"></i>&nbsp;<span id="t2p_DR_showEditor">Editor</span></button-->
                             <button id="t2pPrintBtn" class="btn" title="Imprimir" onclick="" ><i class="icon-print"></i>&nbsp;Imprimir</button>
                             <button id="t2pSaveBtn" class="btn" title="Salvar Local" ><i class="icon-download-alt"></i>&nbsp;Salvar Local</button>
                             <button id="t2pForceRefresh" class="btn" title="Atualizar" onclick="" >Atualizar</button>
                         </div>
-                        <div id="t2p_divNormalPlayControls" style="float:left; margin-left: 4px;">
-                            <button id="t2pPlayBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
-                            <button id="t2pStopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
+                        <div id="t2pDivNormalPlayControls" style="float:left; margin-left: 4px;">
+                            <button id="playBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
+                            <button id="stopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
+                            <span id="currentPlayTimeLabel" class="playTimeLabel">00:00.00</span>
                         </div>
                     </div>    
                 </div> <!-- /studioHeader-->    
-                <div id="t2p_studioCanvasDiv" >
-                    <div id="t2p_warningsDiv"></div>
-                    <div id="t2p_canvasDiv"></div>
+                <div id="t2pStudioCanvasDiv" >
+                    <div id="t2pWarningsDiv"></div>
+                    <div id="t2pCanvasDiv"></div>
                 </div> <!--studioCanvasDiv-->    
                 <div id="t2pEditorDiv" class="draggableWindow" style="left:40px; top:120px;" ></div>
                 <!-- /editorDiv -->
@@ -120,7 +121,7 @@ notação abc, tablatura "/>
         <script type="text/javascript" src="MIDI.js/MIDI_2.04-min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_3.36-min.js"></script>
+        <script type="text/javascript" src="file/filemanager.js"></script>
         
         <!-- suporte a arquivos ABC -->
         <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs.js" ></script>
@@ -195,6 +196,22 @@ notação abc, tablatura "/>
                         console.log('Timeouts: ' + FILEMANAGER.timeouts + '\n\n' + FILEMANAGER.success);
                 }
                 
+                MIDI.loader = new widgets.Loader();
+                MIDI.loadPlugin({
+                    soundfontUrl: "./soundfont/"
+                   ,instruments: "accordion"
+                   ,callback: function() {
+                        MIDI.loader.stop();
+                        MIDI.programChange(0, 21); // canais para accordeon
+                        MIDI.programChange(1, 21); // 
+                        MIDI.programChange(2, 21); // 
+                        MIDI.programChange(3, 21); // 
+                        MIDI.programChange(4, 21); // 
+                        MIDI.programChange(5, 21); // 
+                        //postPlugin();
+                    }
+                });
+                
                 var accordion = request.getParameter('accordion') || FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_HOHNER_GC';
 
                 myPartGen = new SITE.PartGen(
@@ -207,12 +224,17 @@ notação abc, tablatura "/>
                        ,editorWindow: w1
                        ,keyboardWindow: w2
                        ,textarea:'t2pTextarea'
+                       ,playBtn: "playBtn"
+                       ,stopBtn: "stopBtn"
+                       ,currentPlayTimeLabel: "currentPlayTimeLabel"
                        ,accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps
                             ,render_keyboard_opts:{transpose:false, mirror: false, scale:0.8, draggable:true, show:false, label:false}}
                     }
                 );
+        
+                myPartGen.resize();
             }
    
 //                    {   // editorParams
@@ -329,11 +351,15 @@ notação abc, tablatura "/>
             };
 
             function restoreT2P() {
-                myPartGen.restore();
+                //myPartGen.restore();
             };
             
             function closeT2P() {
-                window.close();
+                //window.close();
+            };
+            
+            function resizeT2P() {
+                myPartGen.resize();
             };
 
       </script>

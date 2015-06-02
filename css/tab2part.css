@@ -67,7 +67,7 @@ and open the template in the editor.
     border-bottom: 1px solid #8bc4ea;
 }
 
-#t2pCanvasDiv {
+#t2pStudioCanvasDiv {
     position: relative;
     height: 422px;
     overflow-y: auto;
@@ -95,13 +95,13 @@ and open the template in the editor.
     font-size: 15px;
 }
 
-#warningsDiv {
+#t2pWarningsDiv {
     margin: 0;
     padding: 0;
     margin-left: 4px;
 }
 
-#canvasDiv {
+#t2pCanvasDiv {
     margin: 0px;
     margin-left: 4px;
 }
@@ -190,3 +190,10 @@ and open the template in the editor.
 
 .btn:hover { color: #000; }
 .btn:focus{ color: #000; }
+
+.playTimeLabel {
+    font-weight: bold; 
+    color: orangered; 
+    padding-left: 8px; 
+    padding-right: 4px;
+}
