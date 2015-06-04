@@ -701,6 +701,7 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
     if (tab.title === "" || tab.text === undefined ) {
         tab.text = undefined;
         tab.title === "";
+        this.showMedia();
         return;
     }
     
