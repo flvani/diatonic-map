@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html><head><!--
+<html><head>
+<!--
 
 To change this license header, choose License Headers in Project Properties.
 
@@ -33,6 +34,39 @@ and open the template in the editor.
 <div id="helpContainer" class="helpContent">
 <h1>Notas de Lançamento<br>
 </h1>
+<h2>Versão 3.10<br>
+</h2>
+
+<p>Junho/2015: Introduzindo gerador de partituras<br>
+</p>
+
+<ul>
+<li>Gerador de partituras derivadas de tablaturas. A partir de uma
+tablatura associada ao mapa de teclado do acordeon e com a sintaxe
+levemente modificada, é possível produzir uma partitura. Esta é a
+primeira versão e ainda não está totalmente funcional.</li>
+  <li>Execução parcial de vozes da partitura. Agora, no modo didático,
+é possível selecionar quais vozes serão executadas no MIDI player. É
+possível executar uma partitura sem os seus baixos ou sem sua melodia,
+facilitando a aprendizagem. As vozes podem ser mudadas em tempo real, durante a execução do MIDI. Use os botões com as claves de Fá e Sol para controlar.<br>
+  </li>
+<li>Tablaturas transpostas. Em alguns casos a partitura foi escrita
+considerando a nota mais aguda de cada botão (ou seja, uma oitava
+acima). Se a tablatura for diretamente gerada da partitura, serão
+usados os botões mais altos do acordeon. Agora é possível fazer com que
+a tablatura seja gerada em uma oitava diferente da partitura, para cima
+ou para baixo. O efeito é obtido incluindo na linha onde é definida a
+tablatura, uma chave '<span style="font-weight: bold;">transpose</span>'. Os valores permitidos são + ou - 8., por exemplo: <span style="font-weight: bold;">"V:tab accordionTab transpose=-8</span>".<br>
+</li>
+  <li>Inclusão de um acordeon afinado na "<span style="font-weight: bold;">escala cromática nordestina</span>", também conhecida como "<span style="font-weight: bold;">afinação transportada"</span>. Na capa, foi usada uma foto de um modelo da marca Leticce.<br>
+  </li>
+  <li>Substituição do acordeon Hohner Beija-Flor (G/C) pelo modelo equivalente, da marca Minuano. O repertório permaneceu inalterado.<br>
+  </li>
+  <li>Suporte à execução de tercinas. <br>
+  </li>
+  <li>Inclusão de alguns novos itens no repertório e associação com algumas vídeo-aulas.<br>
+  </li>
+</ul>
 <h2>Versão 3.0<br>
 </h2>
 <p>Maio/2015: Melhorias na apresentação do site.</p>

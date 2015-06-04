@@ -117,10 +117,10 @@ notação abc, tablatura "/>
         <div id="mapContainerDiv" >
             
             <div id="hintsDiv" class="draggableWindow" style="left:900px; top:80px; width:200px; height: auto; display:none; z-index:10000;"></div> 
-            <div id="releaseDiv" class="draggableWindow" style="left:900px; top:240px; width:200px; height: auto; display:none; z-index:10000;"></div> 
+            <div id="releaseDiv" class="draggableWindow" style="left:900px; top:240px; width:200px; height: auto; display:none; z-index:10001;"></div> 
             <div id="ADDiv" class="draggableWindow" style="left:940px; top:160px; width:200px; height: auto; display:none; z-index:10000;"></div> 
             <div id="useChromeDiv" style="position:absolute; left:925px; top:270px; width:150px; height: auto; display:none; z-index:10000;"></div> 
-            <div id="mediaDiv" class="draggableWindow" style="left:920px; top:120px; width:auto; height: auto; display:none; z-index:10000;"></div> 
+            <div id="mediaDiv" class="draggableWindow" style="left:920px; top:120px; min-width: 300px; min-height: 167px; width:auto; height: auto; display:none; z-index:10000;"></div> 
     
             <div id="div_principal" >
                 <div style="margin:0; padding:0; width:100%;">  
@@ -355,13 +355,13 @@ notação abc, tablatura "/>
         <script type="text/javascript" src="MIDI.js/MIDI_2.04-min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_3.37-min.js"></script>
+        <script type="text/javascript" src="file/filemanager_3.38-min.js"></script>
         
         <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_3.37-min.js" ></script>
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_3.38-min.js" ></script>
         
         <!-- suporte mapas de acordeons -->
-        <script type="text/javascript" src="diatonic/diatonic_3.37-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic_3.38-min.js"></script>
 
         <!-- site -->
         <script id="siteLib" type="text/javascript" src="site_3.10-min.js"></script>
@@ -455,7 +455,7 @@ notação abc, tablatura "/>
                     +'</table>';
             
                 w5.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
-                   + '<h3>Versão 3.00</h3>'
+                   + '<h3>Versão 3.10</h3>'
                    + '<a target="_blank" href="html/release.pt_BR.html" >Veja as notas<br>de lançamento.</a>'
                    + '</b></center><br>';
       
@@ -605,8 +605,11 @@ notação abc, tablatura "/>
 
                 DIATONIC.map.loadAccordionMaps(
                    [
-                     'accordions/hohner.gc.accordion'
+                     'accordions/minuano.gc.accordion'
+                    ,'accordions/leticce.cf.ne.accordion'
                     ,'accordions/hohner.cf.club.br.accordion'
+                    // 'accordions/hohner.gc.accordion'
+                    //,'accordions/hohner.cf.club.br.accordion'
                     //,'accordions/hohner.adg.corona.accordion'
                     //,'accordions/hohner.cf.club.accordion'
                    ]
@@ -666,7 +669,7 @@ notação abc, tablatura "/>
                 
                 $('#hintsDiv').fadeIn('slow');
                 
-                if( getDate() <= 20150515 ) {
+                if( getDate() <= 20150610 ) {
                     $('#releaseDiv').fadeIn('slow');
                 }
                 

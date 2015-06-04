@@ -567,7 +567,10 @@ SITE.Mapa.prototype.defineActiveTab = function( which ) {
     this.currentABC.selector.style.display  = 'inline';
     if(this.currentABC.abc) {
         this.showMedia(this.currentABC.abc.metaText.url);
-    }    
+    } else {
+        this.showMedia();
+    } 
+    
 };
 
 SITE.Mapa.prototype.printTab = function( ) {
@@ -657,6 +660,8 @@ SITE.Mapa.prototype.loadABCList = function(type) {
             break;
     };
     
+    tab.abc = tab.text = undefined;
+    
     $('#' + tab.parms.ul ).empty();
     $('#' + tab.parms.span ).empty();
 
@@ -707,10 +712,10 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
     $("#" + tab.div.id).fadeIn();
     printer.printABC(tab.abc);
     $("#" + tab.div.id).hide();
-    if (alreadyOnPage)
+    if (alreadyOnPage) {
         $("#" + tab.div.id).fadeIn();
-    
-    this.showMedia(tab.abc.metaText.url);
+        this.showMedia(tab.abc.metaText.url);
+    }
 };
 
 SITE.Mapa.prototype.mediaCallback = function( e ) {
