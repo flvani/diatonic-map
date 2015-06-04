@@ -1,6 +1,6 @@
 {
    "id":"GAITA_MINUANO_GC"
-  ,"menuOrder" : 10
+  ,"menuOrder" : 5
   ,"model":"Minuano"
   ,"tuning":["G","C"]
   ,"buttons":["21","8"]
