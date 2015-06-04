@@ -661,6 +661,7 @@ SITE.Mapa.prototype.loadABCList = function(type) {
     };
     
     tab.abc = tab.text = undefined;
+    tab.div.innerHTML = "";
     
     $('#' + tab.parms.ul ).empty();
     $('#' + tab.parms.span ).empty();
