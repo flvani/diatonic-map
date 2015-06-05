@@ -1,0 +1,23 @@
+X:1009
+%%barnumbers 0
+%%papersize A4
+T:Rancheira
+C:Tradicional
+M:3/4
+L:1/8
+Q:120
+K:G
+Z:Flavio Vani
+V:1 clef=treble
+V:2 clef=bass
+[V:1]| z2 z B dB                 | dB dB dB               | f2 z  c dc              | dc dc dc            |      
+[V:2]| z6                         | "G"G,,2 [G,B,D]2 [G,B,D]2 | "D"D,,2 [D,F,A,]2 [D,F,A,]2 | D,,2 [D,F,A,]2 [D,F,A,]2  |
+[V:1]| dcB2 z B                 | dB dB dB               | dcA2 z c                 | dc dc dc            |
+[V:2]| "G"G,,2 [G,B,D]2 [G,B,D]2  | G,,2 [G,B,D]2 [G,B,D]2    | "D"D,,2 [D,F,A,]2 [D,F,A,]2 | D,,2 [D,F,A,]2 [D,F,A,]2  |
+[V:1]| dcB2 z G                 | BB BB dB                 | A4 z e                     | de dc BA              |
+[V:2]| "G"G,,2 [G,B,D]2 [G,B,D]2  | G,,2 [G,B,D]2 [G,B,D]2    | "D"D,,2 [D,F,A,]2 [D,F,A,]2 | D,,2 [D,F,A,]2 [D,F,A,]2  |
+[V:1]|: G4 d2                    | c2 G2 d2                | c2 A2 d2                  | c2 A2 d2                |
+[V:2]|: "G"G,,2 [G,B,D]2 [G,B,D]2 | G,,2 [G,B,D]2 [G,B,D]2    | "D"D,,2 [D,F,A,]2 [D,F,A,]2 | D,,2 [D,F,A,]2 [D,F,A,]2  |
+[V:1]| G4 d2                     | B2 G2 d2                 | c2 A2 d2                  | fe dc BA             :|  G2 [GBdg]4     |
+[V:2]| "G"G,,2 [G,B,D]2 [G,B,D]2  | G,,2 [G,B,D]2 [G,B,D]2    | "D"D,,2 [D,F,A,]2 [D,F,A,]2 | D,,2 [D,F,A,]2 [D,F,A,]2 :| "G"G,,2 [G,B,D]4  |
+V:3 accordionTab
