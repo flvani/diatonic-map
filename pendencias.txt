@@ -6,7 +6,7 @@ Mapa
 4) Atualizar documentacao
 
 Studio
-1) Mudar em tempo real a seleção de vozes em execucao
+-- 1) Mudar em tempo real a seleção de vozes em execucao
 
 Gerador
 -- 1) Verificar se o baixo existe para a direção do fole
@@ -19,3 +19,11 @@ Gerador
 
 4) Executar (verificar uma forma melhor de carregar o plugin)
 9) Criar conversor para club
+
+ABCXJS  
+
+1) MIDI.noteOff
+                if(  true /*self.playClef( elem.midipitch.clef.charAt(0) )*/ ) {
+                    delay = self.calcTempo( elem.delay );
+                    MIDI.noteOff(elem.midipitch.channel, elem.midipitch.midipitch, delay);
+                }
