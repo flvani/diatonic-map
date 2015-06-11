@@ -11,12 +11,14 @@ if (!window.SITE)
 SITE.PartGen = function( interfaceParams ) {
 
     var that = this;
+
+    var toClub = (interfaceParams.accordion_options.id === 'GAITA_HOHNER_CLUB_IIIM_BR' );
     
     this.tab = { text:null, abc:null, title:null, div:null };
     
     this.mapVisible = false;
 
-    this.tabParser = new ABCXJS.Tab2Part();
+    this.tabParser = new ABCXJS.Tab2Part(toClub);
     this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
     this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
     
@@ -29,6 +31,36 @@ SITE.PartGen = function( interfaceParams ) {
     this.stopButton = document.getElementById(interfaceParams.stopBtn);
     this.currentPlayTimeLabel = document.getElementById(interfaceParams.currentPlayTimeLabel);
     
+    this.ckShowWarns = document.getElementById(interfaceParams.ckShowWarns);
+    this.ckShowABC = document.getElementById(interfaceParams.ckShowABC);
+    this.ckConvertToClub = document.getElementById(interfaceParams.ckConvertToClub);
+    this.convert2club = document.getElementById('convert2club');
+    
+    this.ckConvertToClub.checked = toClub;
+    this.convert2club.style.display = toClub ? 'inline' : 'none';
+
+    this.ckShowWarns.addEventListener("click", function() {
+        var divWarn = document.getElementById("t2pWarningsDiv");
+        if( this.checked ) {
+            divWarn.style.display = 'inline';
+        } else {
+            divWarn.style.display = 'none';
+        }
+    }, false);
+
+    this.ckShowABC.addEventListener("click", function() {
+        var divABC = document.getElementById("t2pABCDiv");
+        if( this.checked ) {
+            divABC.style.display = 'inline';
+        } else {
+            divABC.style.display = 'none';
+        }
+    }, false);
+
+    this.ckConvertToClub.addEventListener("click", function() {
+        that.update();
+    }, false);
+
     this.textarea = document.getElementById(interfaceParams.textarea);
 
     this.printButton.addEventListener("click", function() {
@@ -68,7 +100,7 @@ SITE.PartGen = function( interfaceParams ) {
         if(that.currentPlayTimeLabel)
             that.currentPlayTimeLabel.innerHTML = "00:00.00";
         if( warns ) {
-            var wd =  document.getElementById("warningsDiv");
+            var wd =  document.getElementById("t2pWarningsDiv");
             var txt = "";
             warns.forEach(function(msg){ txt += msg + '<br>'; });
             wd.style.color = 'blue';
@@ -99,20 +131,61 @@ SITE.PartGen = function( interfaceParams ) {
     
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
     document.getElementById("t2pSpanAccordeon").innerHTML = ' (' + this.accordion.getTxtModel() + ')'; 
-  
+    
+    this.textarea.value = 
+        "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nQ:80\nK:C\n\n" +
+        "|: C.   c     | C.       c  C.    c     |  G.       g  G.    g      | G.       g  G.    g     |" + "\n" +
+        "|  z 5'.6'.4' | 5'.5'.6'.4' 5'.5'.6'.4' |                           |                         |" + "\n" +
+        "|             |                         |  5'.5'.6'.4' 5'.5'.6'.4'- | 4'.5'.6'.4' 5'.5'.6'.4' |" + "\n" + "\n"  +
+        "| C.       c  C.    c     | C.       c  C.    c     | G.       g  G.   g    | G.      g  G.   g    | C. c :|" + "\n" +
+        "| 5'.5'.6'.4' 5'.5'.6'.4' | 5'.5'.6'.4' 5'.5'.6'.4' |                       |                      |       |" + "\n" +
+        "|                         |                         | 5'.5'.4'.5  3'.4.2'.3 | 1'.1'.3.1' 2.1'.3.2' | 3'    |" + "\n" +
+        "+                                                                                                    3" + "\n" 
+    ;
+    
     this.textarea.value = 
         "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nK:G\n\n" +
-        "| z          | C        c  C     c     | G        g  G     g     | G        g  G     g     |" + "\n" +
-        "|            | c                       |                         |                         |" + "\n" +
-        "| z 5' 6' 4' | 5' 5' 6' 4' 5' 5' 6' 4' |                         |                         |" + "\n" +
-        "|            |                         | 5' >  6' 4' 5' 5' 6' 4' | 5' 5' 6' 4' 5' 5' 6' 4' |" + "\n" +
-        "/            |                         |                         |                      3' |" + "\n\n" +
-        "| z          | C        c  C     c     | G        g  G     g     | G        g  G     g     |" + "\n" +
-        "|            | c                       |                         |                         |" + "\n" +
-        "| z 5' 6' 4' | 5' 5' 6' 4' 5' 5' 6' 4' |                         |                         |" + "\n" +
-        "|            |                         | 5' >  6' 4' 5' 5' 6' 4' | 5' 5' 6' 4' 5' 5' 6' 4' |" + "\n" +
-        "/            |                         |                         |                      3' |" + "\n" 
+        "| C.  c  :|"  + "\n" +
+        "| 3'      |"  + "\n" +
+        "+ 3       |"  
     ;
+    
+    this.textarea.value =
+        "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nK:G\n\n" +
+        "| z          | C        c  C     c     | G     g  G     g      | G        g  G     g     |" + "\n" +
+        "| z 5' 6' 4' | 5' 5' 6' 4' 5' 5' 6' 4' |                       |                         |" + "\n" +
+        "|            |                         | 5' 6' 4' 5' 5' 6' 4'- | 4' 5' 6' 4' 5' 5' 6' 4' |" + "\n"
+    ;
+    
+    this.textarea.value = // este exemplo falha em processar as duas vozes do baixo
+        "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nK:G\n\n" +
+        "| z          | C        c  C     c     | G      g  G     g     | G        g  G     g     |" + "\n" +
+        "|            | c                       |                       |                         |" + "\n" +
+        "| z 5' 6' 4' | 5' 5' 6' 4' 5' 5' 6' 4' |                       |                         |" + "\n" +
+        "|            |                         | 5'  6' 4' 5' 5' 6' 4' | 5' 5' 6' 4' 5' 5' 6' 4' |" + "\n" +
+        "/            |                         |                       |                      3' |" + "\n\n" +
+        "| z          | C        c  C     c     | G      g  G     g     | G        g  G     g     |" + "\n" +
+        "|            | c                       |                       |                         |" + "\n" +
+        "| z 5' 6' 4' | 5' 5' 6' 4' 5' 5' 6' 4' |                       |                         |" + "\n" +
+        "|            |                         | 5'  6' 4' 5' 5' 6' 4' | 5' 5' 6' 4' 5' 5' 6' 4' |" + "\n" +
+        "/            |                         |                       |                      3' |" + "\n" 
+    ;
+  
+    this.textarea.value = 
+        "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nQ:80\nK:C\n\n" +
+        "|: C.   c     | C.       c  C.    c     | G.       g  G.    g     | G.       g  G.    g     |" + "\n" +
+        "|  z 5'.6'.4' | 5'.5'.6'.4' 5'.5'.6'.4' |                         |                         |" + "\n" +
+        "/    4'.5'.3' | 4'.4'.5'.3' 4'.4'.5'.3' |                         |                         |" + "\n" +
+        "|             |                         | 5'.5'.6'.4' 5'.5'.6'.4' | 5'.5'.6'.4' 5'.5'.6'.4' |" + "\n" + 
+        "/             |                         | 4'.4'.5'.3' 4'.4'.5'.3' | 4'.4'.5'.3' 4'.4'.5'.3' |" + "\n" + "\n" 
+    ;    
+    
+    this.textarea.value = 
+        "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nQ:80\nK:C\n\n" +
+        "|: C. c C. c     |" + "\n" +
+        "|  5'   6        |" + "\n" +
+        "|                |" + "\n" + "\n" 
+    ;    
     
     this.textarea.value = 
         "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nK:G\n\n" +
@@ -127,22 +200,30 @@ SITE.PartGen = function( interfaceParams ) {
     ;
     
     this.textarea.value = 
+        "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nK:G\n\n" +
+        "| C          am     A     |: C  d  :|"  + "\n" +
+        "| 5' 5' 4 2               |  8      |"  + "\n" +
+        "|            5'  6  4' 4' |     8   |"  + "\n" +
+        "+                            2  4  "  
+    ;
+    
+    this.textarea.value = 
 //        "%elementos são posicionais e separados por espaços.\n" +
 //        "%cada elemento tem duracao L.\n" +
-//        "%ligadura é marcada hífen '-'.\n" +
 //        "%a duração do elemento é computada até encontrar o próximo ou a barra de compasso.\n" +
-//        "%elementos terminados com ponto são inseridos sem espaço após.\n" +
-//        "%ritornellos são marcados com ':'.\n" +
+//        "%opcionalmente uma linha abaixo, iniciada com '+', pode ser usada para descrever a duração.\n" +
+//        "%ligadura é marcada hífen '-' após o elemento.\n" +
+//        "%elementos terminados com '.' indicam que a haste pode ser unida à próxima.\n" +
+//        "%ritornellos são marcados com ':' junto à barra de compasso e as chaves-de-volta com números após a barra.\n" +
 //        "%linha começa com '|' e continuação de linha com '/'.\n\n" + 
-//        "%%barnumbers 1\n" + 
         "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nQ:80\nK:C\n\n" +
         "|: C.   c     | C.       c  C.    c     | G.       g  G.    g     | G.       g  G.    g     |" + "\n" +
         "|  z 5'.6'.4' | 5'.5'.6'.4' 5'.5'.6'.4' |                         |                         |" + "\n" +
-        "|             |                         | 5'.5'.6'.4' 5'.5'.6'.4' | 5'.5'.6'.4' 5'.5'.6'.4' |" + "\n" + "\n"  +
+        "|             |                         | 5'.5'.6'.4' 5'.5'.6'.4' | 5'.5'.6'.4' 5'.5'.6'.4' |" + "\n" + "\n" +
         "| C.       c  C.    c     | C.       c  C.    c     | G.       g  G.   g    | G.      g  G.   g    | C. c :|" + "\n" +
         "| 5'.5'.6'.4' 5'.5'.6'.4' | 5'.5'.6'.4' 5'.5'.6'.4' |                       |                      |       |" + "\n" +
         "|                         |                         | 5'.5'.4'.5  3'.4.2'.3 | 1'.1'.3.1' 2.1'.3.2' | 3'    |" + "\n" +
-        "+                                                                                                    3" + "\n" 
+        "+                                                                                                    3" 
     ;
     
     this.resize();
@@ -150,15 +231,17 @@ SITE.PartGen = function( interfaceParams ) {
     
 };
 SITE.PartGen.prototype.update = function() {
-    var abcText = this.tabParser.parse(this.textarea.value, this.accordion.getKeyboard());
+    var abcText = this.tabParser.parse(this.textarea.value, this.accordion.getKeyboard(), this.ckConvertToClub.checked );
     this.printABC( abcText );
 };
 
 SITE.PartGen.prototype.printABC = function(abcText) {
     this.tab.text = abcText;
     var divWarn = document.getElementById("t2pWarningsDiv");
+    var divABC = document.getElementById("t2pABCDiv");
     
-//    divTxt.innerHTML = tab.text.replace(/\n/g,'\<br\>');
+    divABC.innerHTML = this.tab.text.replace(/\n/g,'\<br\>');
+   
     var warns = this.tabParser.getWarnings();
     if(warns) {
         divWarn.innerHTML = warns;

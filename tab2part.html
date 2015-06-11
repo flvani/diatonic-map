@@ -26,46 +26,7 @@ notação abc, tablatura "/>
             <div class="container" id="divTitulo" style="margin-left: 0px; margin-top: 0px; height: 50px; width: 100%; background-color:#5ba4a4;" >
                 <header>
                     <div style="margin-left: 4px;">
-                        <table><tr>
-                            <td id="DR_appName"><h1>Gerador de Partituras</h1></td>
-                            <td style="width:20px;"></td>
-                            <td>
-                                <!--table style="height: 36px;">
-                                    <tr >
-                                      <td >
-                                        <div id="divMenuAccordions" class="btn-group">
-                                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_accordions">Acordeons</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                                            <input id="fileLoadMap" type="file" accept="text/abc" style="display: none;" multiple/>
-                                            <ul class="dropdown-menu" id="opcoes_gaita"></ul>
-                                        </div>
-                                      </td >
-                                      <td >
-                                        <div id="divMenuRepertoire" class="btn-group">
-                                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_repertoire">Repertório</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                                            <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" style="display: none;" multiple />
-                                            <ul class="dropdown-menu" id="opcoes_repertorio">
-                                                <li><a href="#" id="DR_original" onclick="reloadRepertoire();">Restaurar o original</a></li>
-                                                <li><a href="#" id="DR_localLoad" onclick="document.getElementById('fileLoadRepertoire').click()">Carregar do drive local</a></li>
-                                                <li style="display:inline;"><a href="#" id="DR_localSave" onclick="saveRepertoire();">Exportar para drive local</a></li>
-                                            </ul>
-                                        </div>
-                                      </td >
-                                      <td >
-                                        <div id="divMenuHelp" class="btn-group">
-                                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_info">Informações</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                                            <ul class="dropdown-menu" id="opcoes_teoria">
-                                              <li><a id="DR_accordion_maps" target="_blank" href="html/mapas.pt_BR.html" >Mapas para acordeons</a></li>
-                                              <li><a id="DR_tablature" target="_blank" href="html/tablatura.pt_BR.html" >Tablaturas para acordeons</a></li>
-                                              <li><a id="DR_abc_editor" target="_blank" href="html/estudioABCX.pt_BR.html" >Estúdio ABCX</a></li>
-                                              <li><a id="DR_abc_format" target="_blank" href="html/formatoABCX.pt_BR.html" >Formato ABCX</a></li>
-                                              <li><a id="DR_about" href="#modalAbout" >Sobre</a></li>
-                                            </ul>
-                                        </div>
-                                      </td >
-                                    </tr>
-                                </table-->
-                            </td></tr>
-                        </table>
+                        <table><tr><td id="DR_appName"><h1>Gerador de Partituras</h1></td></tr></table>
                     </div>
                 </header>
             </div>
@@ -75,11 +36,11 @@ notação abc, tablatura "/>
             <div id="t2pContentDiv">
                 <div id="t2pMenu" class="draggableMenu">
                     <div id="t2pB_btnCloseStudio" class="dButton" draggable="false">
-                        <a href="#" title="Fechar" id="t2p_dMINUSButtonA" onclick="closeT2P(); return false;" draggable="false"><i class="icon-minus icon-white"></i></a>
+                        <a href="#" title="Fechar" id="t2p_dMINUSButtonA" onclick="return false;" draggable="false"><i class="icon-minus icon-white"></i></a>
                     </div>
-                    <div id="t2p_btnRestoreStudio" class="dButton" draggable="false">
+                    <!--div id="t2p_btnRestoreStudio" class="dButton" draggable="false">
                         <a href="#" title="Restaurar" id="t2p_dRESTOREButtonA" onclick="restoreT2P(); return false;" draggable="false"><img alt="" src="img/restore.png" class="icon-white"></a>
-                    </div>
+                    </div-->
                     <div class="dTitle"><span id="t2p_spanTitleStudio" style="padding-left: 5px;">Tablatura --> Partitura</span><span id="t2pSpanAccordeon" style="padding-left: 5px;"></span></div>
                 </div>
                 <div id="t2pHeader">
@@ -97,10 +58,16 @@ notação abc, tablatura "/>
                             <button id="stopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
                             <span id="currentPlayTimeLabel" class="playTimeLabel">00:00.00</span>
                         </div>
+                        <div id="t2pDivChecks" style="float:left; margin-left: 4px;">
+                            <input type="checkbox" id="ckShowWarns" checked >&nbsp;<span>Mostrar erros de geração</span><br>
+                            <input type="checkbox" id="ckShowABC" >&nbsp;<span>Mostrar o texto ABCX</span><br>
+                            <span id="convert2club" ><input type="checkbox" id="ckConvertToClub" >&nbsp;<span>Converter para Club IIIM (br)</span></span>
+                        </div>
                     </div>    
                 </div> <!-- /studioHeader-->    
                 <div id="t2pStudioCanvasDiv" >
                     <div id="t2pWarningsDiv"></div>
+                    <div id="t2pABCDiv" style="display:none;"></div>
                     <div id="t2pCanvasDiv"></div>
                 </div> <!--studioCanvasDiv-->    
                 <div id="t2pEditorDiv" class="draggableWindow" style="left:40px; top:120px;" ></div>
@@ -216,6 +183,9 @@ notação abc, tablatura "/>
                 });
                 
                 var accordion = request.getParameter('accordion') || FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_HOHNER_GC';
+                
+                //debug
+                accordion = 'GAITA_HOHNER_CLUB_IIIM_BR';
 
                 myPartGen = new SITE.PartGen(
                     {   // interfaceParams
@@ -230,6 +200,9 @@ notação abc, tablatura "/>
                        ,playBtn: "playBtn"
                        ,stopBtn: "stopBtn"
                        ,currentPlayTimeLabel: "currentPlayTimeLabel"
+                       ,ckShowWarns:'ckShowWarns'
+                       ,ckShowABC:'ckShowABC'
+                       ,ckConvertToClub:'ckConvertToClub'
                        ,accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps
@@ -240,111 +213,6 @@ notação abc, tablatura "/>
                 myPartGen.resize();
             }
    
-//                    {   // editorParams
-//                       textArea: "textareaABC"
-//                      ,canvas_id: "canvasDiv"
-//                      ,refreshController_id: "chkAutoRefresh"
-//                      ,warnings_id: "warningsDiv"
-//                      ,generate_warnings: true
-//                      ,generate_midi: true
-//                      ,generate_tablature: 'accordion'
-//                  } 
-//                  , {   // playerParams
-//                        modeBtn: "modeBtn"
-//                      , playBtn: "playBtn2"
-//                      , stopBtn: "stopBtn2"
-//                      , clearBtn: "clearBtn"
-//                      , gotoMeasureBtn: "gotoMeasureBtn"
-//                      , untilMeasureBtn: "untilMeasureBtn"
-//                      , stepBtn: "stepBtn"
-//                      , repeatBtn: "repeatBtn"
-//                      , stepMeasureBtn: "stepMeasureBtn"
-//                      , tempoBtn: "tempoBtn"
-//                      , currentPlayTimeLabel: "currentPlayTimeLabel2"
-//                  } 
-//                  
-//                  myMap = new SITE.Mapa(
-//                    {   // interfaceParams
-//                        ckPiano: 'checkboxPiano'
-//                      , ckAccordion: 'checkboxAcordeon'
-//                      , ckMirror: 'checkboxEspelho'
-//                      , ckHorizontal: 'checkboxHorizontal'
-//                      , btChangeNotation: 'buttonChangeNotation'
-//                      , accordionNamePlaceHolder: 'a_nome_gaita'
-//                      , accordionImagePlaceHolder: 'td_imagem_gaita'
-//                      , tuneContainerDiv: 'tuneContainerDiv'
-//                      , printBtn: 'printBtn'
-//                      , toolsBtn: 'toolsBtn'
-//                      ,keyboardDiv: "contentKeyboard"
-//                      ,accordion_options: {
-//                             id: accordion
-//                            ,accordionMaps: DIATONIC.map.accordionMaps
-//                            ,render_keyboard_opts:{transpose:true, mirror: false, scale:1, draggable:false, show:true}}
-//                  }
-//                  , {   // tabParams
-//                        songSelectorParms: { div: 'divSongs', ul: 'ulSongs', span: 'spanSongs' }
-//                      , songDiv: 'tabTunesDiv'
-//                      , chordSelectorParms:  { div: 'divChords', ul: 'ulChords', span: 'spanChords' }
-//                      , chordDiv: 'tabChordsDiv'
-//                      , practiceSelectorParms: { div: 'divPractices', ul: 'ulPractices', span: 'spanPractices' }
-//                      , practiceDiv: 'tabPracticesDiv'
-//                      , studio: myStudio
-//                  }
-//                  , {   // playerParams
-//                        playBtn: "playBtn"
-//                      , stopBtn: "stopBtn"
-//                      , currentPlayTimeLabel: "currentPlayTimeLabel"
-//                  } 
-//                );
-//
-//                myMap.defineActiveTab( 'tabTunes' );
-                
-//                myMap.setup({
-//                    accordionId: 'TESTE_GC'
-//                    //,songTitle:"J'ai vu le loup, le renard et la belette"
-//                    //,songTitle:"Valsa Sertaneja"
-//                    ,songTitle:"Hino do Grêmio"
-//                });
-
-
-//            function getDate(){
-//                var today = new Date();
-//                var dd = today.getDate();
-//                var mm = today.getMonth()+1; //January is 0!
-//                var yyyy = today.getFullYear();
-//
-//                if(dd<10) {
-//                    dd='0'+dd;
-//                } 
-//
-//                if(mm<10) {
-//                    mm='0'+mm;
-//                } 
-//
-//                return parseInt(yyyy+mm+dd);
-//            }
-
-//            function postPlugin() {
-//                $("#tabs li:first").attr("id","current"); // Activate the first tab
-//                $("#tuneContainerDiv #tabTunesDiv" ).fadeIn(); // Show first tab's content
-//                document.getElementById("modalAD").style.display = 'inline';
-//                document.getElementById("modalAbout").style.display = 'inline';
-//                
-//                $('#hintsDiv').fadeIn('slow');
-//                
-//                if( getDate() <= 20150515 ) {
-//                    $('#releaseDiv').fadeIn('slow');
-//                }
-//                
-//                $("#clustrmaps-widget").find("a").attr('target','_blank');
-//                
-//                if(!isChrome) {
-//                    $('#useChromeDiv').html('<img src="img/chrome.png">');
-//                    setTimeout(function() { $('#useChromeDiv').fadeIn('slow'); }, 2000);
-//                    setTimeout(function() { $('#useChromeDiv').fadeOut('slow'); }, 17000);
-//                }    
-//            };
-            
             function w1Callback(e) {
                 myPartGen.editorCallback(e);
             };
@@ -366,7 +234,7 @@ notação abc, tablatura "/>
             };
 
       </script>
-      <script>
+      <!--script>
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -374,6 +242,6 @@ notação abc, tablatura "/>
 
           ga('create', 'UA-62839199-1', 'auto');
           ga('send', 'pageview');
-      </script>        
+      </script-->
     </body>
 </html>
