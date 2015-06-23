@@ -1,0 +1,23 @@
+%%barnumbers 1
+%%papersize A4
+T:Asa Branca
+C:Humberto Teixeira
+M:4/4
+L:1/8
+Q:120
+K:F
+V:1 treble
+| z2 B G |: AF GE | FD EC | D C A, C |1 C2 B G :|2 C4- | C3 D | 
+| E2 G2 | G2 E2 | F2 F2 | z C2 D | E2 G2 | G2 F2 | E4 | 
+|: z C C D | E2 G2 | z G F E | C2 F2 | z E E D | 
+| D2 E2 | z D D C |1 C4 :|2 C2 B G | 
+V:2 bass
+| z2 B,, z |: A,,2 G,,2 | F,,2 E,,2 | D,, z A,, z |1 C,,2 B,, z :|2 z4 | z3 z | 
+| C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | F,,2 [F,,A,,C,]2 | F,,2 [F,,A,,C,]2 | C,,2 [C,E,G,]2 | F,,2 [F,,A,,C,]2 | C,,2 [C,E,G,]2 | 
+|: C,,2 [C,E,G,] z | C,,2 [C,E,G,]2 | C,,2 [B,,D,F,] z | F,,2 [F,,A,,C,]2 | F,,2 [F,,A,,C,]2 | 
+| D,,2 [G,,=B,,D,]2 | G,, z [D,^F,A,] z |1 C,,2 [C,E,G,]2 :|2 C,,2 B,, z | 
+V:3 accordionTab
+| z-z2 B♭-7 z+5' |: A-5' >-4' G+5' >+4' | F-4' >-3' E+4' >+3' | D-3' z+3' A-1' z+3' |1 C+3'2 B♭-7 z+5' :|2 z+3'4 | z+>3 z-3' | 
+| C+4'2 c+5'2 | C+5'2 c+4'2 | F-4'2 f-4'2 | F+z >+3' f+> >-3' | C+4'2 c+5'2 | F+5'2 f-4'2 | C+4'2 c+>2 | 
+|: C+z >+3' c+3' z-3' | C+4'2 c+5'2 | C+z >+5' b♭-4' z+4' | F+3'2 f-4'2 | F+z >+4' f+4' >-3' | 
+| D-3'2 g+4'2 | G+z z-3' d-3' z+3' |1 C+3'2 c+>2 :|2 C+3'2 B♭-7 z+5' | 

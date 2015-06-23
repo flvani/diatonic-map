@@ -211,10 +211,10 @@ SITE.PartGen = function( interfaceParams ) {
 //        "%elementos são posicionais e separados por espaços.\n" +
 //        "%cada elemento tem duracao L.\n" +
 //        "%a duração do elemento é computada até encontrar o próximo ou a barra de compasso.\n" +
-//        "%opcionalmente uma linha abaixo, iniciada com '+', pode ser usada para descrever a duração.\n" +
-//        "%ligadura é marcada hífen '-' após o elemento.\n" +
-//        "%elementos terminados com '.' indicam que a haste pode ser unida à próxima.\n" +
-//        "%ritornellos são marcados com ':' junto à barra de compasso e as chaves-de-volta com números após a barra.\n" +
+//        "%.\n" +
+//        "%\n" +
+//        "%\n" +
+//        "%\n" +
 //        "%linha começa com '|' e continuação de linha com '/'.\n\n" + 
         "T:Missioneiro\nC:Tio Bilia\nM:2/4\nL:1/16\nQ:80\nK:C\n\n" +
         "|: C.   c     | C.       c  C.    c     | G.       g  G.    g     | G.       g  G.    g     |" + "\n" +

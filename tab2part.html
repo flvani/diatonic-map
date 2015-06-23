@@ -38,6 +38,9 @@ notação abc, tablatura "/>
                     <div id="t2pB_btnCloseStudio" class="dButton" draggable="false">
                         <a href="#" title="Fechar" id="t2p_dMINUSButtonA" onclick="return false;" draggable="false"><i class="icon-minus icon-white"></i></a>
                     </div>
+                    <div id="t2pB_btnAjuda" class="dButton" draggable="false">
+                        <a href="html/geradorPartitura.pt_BR.html" target="_blank" title="Ajuda" id="t2p_dHELPButtonA" draggable="false">?</a>
+                    </div>
                     <!--div id="t2p_btnRestoreStudio" class="dButton" draggable="false">
                         <a href="#" title="Restaurar" id="t2p_dRESTOREButtonA" onclick="restoreT2P(); return false;" draggable="false"><img alt="" src="img/restore.png" class="icon-white"></a>
                     </div-->
@@ -182,10 +185,11 @@ notação abc, tablatura "/>
                     }
                 });
                 
-                var accordion = request.getParameter('accordion') || FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_HOHNER_GC';
+                var accordion = request.getParameter('accordion') || FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
                 
                 //debug
-                //accordion = 'GAITA_HOHNER_CLUB_IIIM_BR';
+                accordion = 'GAITA_MINUANO_GC';
+                accordion = 'GAITA_LETICCE_CF_NE';
 
                 myPartGen = new SITE.PartGen(
                     {   // interfaceParams

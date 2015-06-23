@@ -19,6 +19,8 @@ ABCXJS.Tab2Part = function (toClub) {
     
     this.ties = [];
     this.keyAcidentals = [];
+    this.barAccidentals = [];
+    this.barBassAccidentals = [];
     
     this.startSyms = "|/+%";
     this.barSyms = ":]|[";
@@ -107,7 +109,10 @@ ABCXJS.Tab2Part.prototype.parse = function (text, keyboard, toClub ) {
 
 ABCXJS.Tab2Part.prototype.extractLines = function () {
     var v = this.tabText.split('\n');
-    v.forEach( function(linha, i) { v[i] = linha.trim(); } );
+    v.forEach( function(linha, i) { 
+        var l = linha.split('%');
+        v[i] = l[0].trim(); 
+    } );
     return v;
 };
 
@@ -202,12 +207,21 @@ ABCXJS.Tab2Part.prototype.addNotes = function(staffs) {
     var opening = true;
     
     var startTreble = true;
+    var hasTreble = false;
     for( var i = 0; startTreble && i < staffs.length; i ++ ) {
         if(staffs[i].st === 'processing' && !staffs[i].bass ){
             opening = staffs[i].open;
             startTreble = false;
+            hasTreble = true;
         }
     } 
+    
+    if( ! hasTreble  ) {
+        if( this.alertedBarNumber !== staffs[0].token.barNumber ) {
+            this.addWarning( 'Compasso '+staffs[0].token.barNumber+': Pelo menos uma pausa deveria ser adicionada à melodia!.');
+            this.alertedBarNumber = staffs[0].token.barNumber;
+        }    
+    }    
     
     startTreble = true;
     //flavio - tratar duas notas ou mais de cada vez 
@@ -329,7 +343,7 @@ ABCXJS.Tab2Part.prototype.addBassElem = function (idx, el ) {
             } else if( note.isChord ) {
                str = this.getChord(note.pitch, note.isMinor );
             } else {
-                str = this.getTabNote( ABCXJS.parse.normalizeAcc(note.pitch), this.bassOctave );
+                str = this.getTabNote(note.pitch, this.bassOctave, true );
             }
             
             str += (el.token.duration!==1? el.token.duration:"") 
@@ -364,7 +378,7 @@ ABCXJS.Tab2Part.prototype.getPitch = function (el) {
             var b = this.getButton(p);
             if (b) {
                 var n = el.open ? b.openNote : b.closeNote;
-                p = this.getTabNote(n.key, n.octave);
+                p = this.getTabNote(n.key, n.octave, false);
             }
         }
         pp += p;
@@ -385,18 +399,37 @@ ABCXJS.Tab2Part.prototype.getChord = function ( pitch, isMinor ) {
     var n3 = base + 7;
     var oct = this.bassOctave + (base > 4 ? 0 : 1);
     
-    return '[' + this.getTabNote( ABCXJS.parse.number2keysharp[base%12], oct ) 
-                   + this.getTabNote( ABCXJS.parse.number2keysharp[n2%12], oct+Math.trunc(n2/12) ) 
-                       + this.getTabNote( ABCXJS.parse.number2keysharp[n3%12], oct+Math.trunc(n3/12) ) + ']';
+    return '[' + this.getTabNote( ABCXJS.parse.number2keysharp[base%12], oct, true ) 
+                   + this.getTabNote( ABCXJS.parse.number2keysharp[n2%12], oct+Math.trunc(n2/12), true ) 
+                       + this.getTabNote( ABCXJS.parse.number2keysharp[n3%12], oct+Math.trunc(n3/12), true ) + ']';
 
 };
 
-ABCXJS.Tab2Part.prototype.getTabNote = function (note, octave) {
+ABCXJS.Tab2Part.prototype.getTabNote = function (note, octave, bass) {
 
     var noteAcc = note.match(/[♯♭]/g);
-    var n = noteAcc ? note.replace(noteAcc[0], '') : note;
+    var n = noteAcc ? note.charAt(0) : note;
     var keyAcc = this.getKeyAccOffset(n);
-
+    
+    if (noteAcc && keyAcc === null ) {
+        var newNote, noteAcc2, n2, keyAcc2, base = ABCXJS.parse.key2number[note];
+        if( noteAcc[0] === '♯' ) {
+            newNote = ABCXJS.parse.number2keyflat[base%12];
+        } else {
+            newNote = ABCXJS.parse.number2keysharp[base%12];
+        }
+        noteAcc2 = newNote.match(/[♯♭]/g);
+        n2 = newNote.charAt(0);
+        keyAcc2 = this.getKeyAccOffset(n2);
+        
+        if( keyAcc2 ) {
+            note = newNote;
+            n = n2;
+            keyAcc = keyAcc2;
+            noteAcc = noteAcc2;
+        }
+    }
+    
     if (noteAcc) {
         if ((noteAcc[0] === '♯' && keyAcc === 'sharp') || (noteAcc[0] === '♭' && keyAcc === 'flat')) {
             // anula o acidente  - n já está correto
@@ -405,6 +438,36 @@ ABCXJS.Tab2Part.prototype.getTabNote = function (note, octave) {
         }
     } else if (keyAcc) {
         n = '=' + n; // naturaliza esta nota
+    }
+    
+    if(bass){
+        if(noteAcc) {
+            if( this.barBassAccidentals[ n ] ) {
+                if(this.barBassAccidentals[ n ] === noteAcc[0]){
+                    n = n.charAt(1);
+                }
+            } else {
+                this.barBassAccidentals[ n.charAt(1) ] = noteAcc[0];
+            } 
+        } else {
+            if( this.barBassAccidentals[ n ] ) {
+                n = '=' + n; // naturaliza esta nota
+            } 
+        }
+    } else {
+        if(noteAcc) {
+            if( this.barAccidentals[ n ] ) {
+                if(this.barAccidentals[ n ] === noteAcc[0]){
+                    n = n.charAt(1);
+                }
+            } else {
+                this.barAccidentals[ n.charAt(1) ] = noteAcc[0];
+            } 
+        } else {
+            if( this.barAccidentals[ n ] ) {
+                n = '=' + n; // naturaliza esta nota
+            } 
+        }
     }
 
     var ret = n;
@@ -424,6 +487,7 @@ ABCXJS.Tab2Part.prototype.setStaffState = function ( staff ) {
 };
 
 ABCXJS.Tab2Part.prototype.idStaff = function () {
+    // remover comentarios
     var p = [], i = -1, open = true, cntBasses = -1, maior=0, maiorLinha=0;
     
     this.endColumn = 0;
@@ -651,10 +715,13 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
                 type='triplet';
             } else {
                 type='bar';
+                this.barAccidentals = [];
+                this.barBassAccidentals = [];
                 this.updateBarNumberOnNextNote = true;
             }
         } else {
             type = 'note';
+            strToken = this.normalizeAcc(strToken);
             if( this.updateBarNumberOnNextNote ) {
                 this.updateBarNumberOnNextNote = false;
                 this.currBar ++;
@@ -672,6 +739,14 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
     }
     
     return { str: strToken, aStr: tokens, duration: dur, barNumber: this.currBar, type:type, final: final, added: false, lastChar: lastChar };
+};
+
+ABCXJS.Tab2Part.prototype.normalizeAcc = function(str) {
+    var ret = str.charAt(0);
+    if(str.length > 1) {
+        ret += str.charAt(1).replace(/#/g,'♯').replace(/b/g,'♭');
+    }
+    return ret;
 };
 
 ABCXJS.Tab2Part.prototype.updateToken = function(staff) {
