@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html><head><!--
+<html><head>
+<!--
 
 To change this license header, choose License Headers in Project Properties.
 
@@ -163,6 +164,26 @@ da tablatura, devido a características da
 nossa implementação, continua sendo o último elemento da canção, mas
 isso não é um problema em si, porque em um primeiro momento não vamos
 editar a tablatura, ela será automaticamente gerada.</p>
+<h3>Transpondo tablaturas<br>
+</h3>
+
+<p>Como se sabe, cada nota no acordeon é composta por duas ou mais vozes, a depender do modelo.
+Em geral, uma nota possui duas palhetas soando em oitavas diferentes.
+Em função disso, a partitura pode ser escrita considerando a oitava
+superior ou a inferior. Este site sempre considerou a oitava inferior,
+logo, se a partitura foi escrita considerando a outra oitava, a
+tablatura será gerada usando botões mais altos. Para resolver este
+problema, sem ter que alterar a partitura, podemos transpor a tablatura
+para uma oitava abaixo, assim:<br>
+</p>
+
+<pre>V:tablatura accordionTab transpose=-8<br></pre>
+<p>A inclusão da chave "transpose=-8" gerará a tablatura uma oitava
+abaixo em relação às notas da partitura. Os valores aceitos são "+8" e
+"-8", somente.<br>
+</p>
+
+
 <h2>Entendendo a geração tablatura</h2>
 <p>Como vimos acima, para a tablatura ser gerada precisamos de uma ou
 duas vozes nomeadas na partitura. Com relação a voz dos baixos, convém
