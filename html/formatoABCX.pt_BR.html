@@ -24,7 +24,16 @@ and open the template in the editor.
   <link href="../css/help.css" rel="stylesheet">
 
   
-  <script type="text/javascript" src="../javascripts/help.js"></script></head><body>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-62839199-3', 'auto');
+        ga('send', 'pageview');
+    </script>        
+    <script type="text/javascript" src="../javascripts/help.js"></script></head><body>
 <div id="helpHeader" class="helpHeader"> <span class="helpTit">O
 formato ABCX</span> <button id="printHelp" class="btn" title="Imprimir" onclick="printHelp();">Imprimir</button> <button id="closeHelp" class="btn" title="Fechar" onclick="window.close();">Fechar</button> </div>
 
