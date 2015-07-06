@@ -20,3 +20,12 @@ function printHelp() {
     doc.style.borderWidth = bWid;
     document.getElementById("helpHeader").style.display = 'inline';
 };
+
+
+function resizeHelp() {
+    var height = document.documentElement.clientHeight;
+    var h = document.getElementById( 'helpHeader');
+    var c = document.getElementById( 'helpFrame');
+
+    c.style.height = (height - h.clientHeight) -20 + "px";
+};

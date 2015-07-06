@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html><head>
+<!--
+
+To change this license header, choose License Headers in Project Properties.
+
+To change this template file, choose Tools | Templates
+
+and open the template in the editor.
+
+--><title>Mapas para Acordeon</title>
+
+
+
+
+  
+
+  
+  
+  <meta charset="UTF-8">
+
+  
+  <meta name="viewport" content="width=device-width">
+
+  
+  <link href="../css/help.css" rel="stylesheet">
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-62839199-3', 'auto');
+        ga('send', 'pageview');
+    </script>        
+    <script type="text/javascript" src="../javascripts/help.js"></script></head><body>
+<div id="helpHeader" class="helpHeader"> <span class="helpTit">Mapas
+para Acordeon</span> <button id="printHelp" class="btn" title="Imprimir" onclick="printHelp();">Imprimir</button> <button id="closeHelp" class="btn" title="Fechar" onclick="window.close();">Fechar</button>
+</div>
+
+<div id="helpContainer" class="helpContent">
+<h1>Mapas para Acordeon</h1>
+<h2>O que é um mapa de acordeon?</h2>
+<p>Um mapa de acordeon é o conceito que usamos para descrever um modelo
+de gaita. Para esta determinada gaita vamos definir coisas tais como:
+o nome,
+quantidade de botões, identificar a afinação e o botão pedal, além, é
+claro, de identificar as notas executadas em cada botão. Também
+chamamos de "mapa" a página inicial do nosso site (veja mais detalhes
+abaixo).<br>
+</p>
+<p>Para cada mapa é possível associar uma imagem à gaita e criar um
+repertório específico. O repertório pode ser dividido em 3 partes:
+canções, acordes e exercícios. <br>
+</p>
+<p>Ao acessar este site, alguns acordeons já virão pré-configurados,
+inclusive com repertório próprio. <br>
+</p>
+<p>Caso seja necessário, você pode criar o seu próprio mapa usando arquivos
+locais, cadastrando seu instrumento de acordo com suas peculiaridades,
+bem como, anexar a imagem da gaita e o repertório. Para isso, use o menu
+<b>"Acordeons"</b> e as opções <b>"Salvar mapa corrente"</b> e <b>"Carregar
+mapa do disco local"</b>. Maiores informações sobre mapas e repertório
+são
+encontradas abaixo.</p>
+<h3>A página inicial<br>
+</h3>
+
+<p>O mapa para acordeons possui na sua primeira página algumas
+funcionalidades básicas. O objetivo desta primeira página é criar um
+pequeno registro para cada tipo de acordeon, uma espécie de "cartão de
+visitas". Assim, para o acordeon selecionado, será mostrada uma imagem
+da gaita, a disposição do seu teclado e um repertório (composto de
+canções, acordes e exercícios, conforme dissemos acima). <br>
+</p>
+<p>É possível escolher qualquer item do repertório e executá-lo através
+do MIDI player imbutido nesta página. Também há opção para impressão da
+partitura. Contudo, se você está aprendendo a tocar este instrumento, o
+botão "<span style="font-weight: bold;">Ferramentas</span>" dará acesso
+a um pequeno "estúdio" para aprendizagem. Há ferramentas para modificar
+a partitura/tablatura, executá-la em modo normal ou mododidático. Para detalhes acesse o menu de ajuda " <span style="font-weight: bold;">Estúdio ABCX</span>".<br>
+ </p>
+
+<h3>Selecionando outro acordeon<br>
+</h3>
+
+<p>A lista de acordeons disponíveis pode ser encontrada no menu <b>"Acordeons", </b>no
+topo da página. Escolha qualquer um disponível. Sempre que o mapa de um
+acordeon é carregado, seu repertório também é restaurado a partir do
+servidor. Então, caso tenha modificado algum item do repertório, antes
+de fechar o site ou selecionar outro acordeon, lembre-se de salvar
+localmente o arquivo modificado. Veja informações na seção "<span style="font-weight: bold;">Repertório</span>", abaixo.<br>
+</p>
+
+<h3>Salvando um mapa</h3>
+<p>A opção <b>"Salvar mapa corrente"</b>, no menu <b>"Acordeons", </b>foi
+incluída com o intuito de permitir a geração de um modelo que
+facilite a criação de um mapa personalizado. O arquivo, que será gerado
+ao gravar o mapa, é exatamente o arquivo necessário para a posterior
+carga de um mapa personalizado.</p>
+<h3>Modificando um mapa</h3>
+<p>O arquivo do mapa gerado pelo site terá a seguinte aparência:</p>
+<pre>{<br>   "id": "GAITA"<br>  ,"menuOrder": 100<br>  ,"model": "Modelo"<br>  ,"tuning": ["A","D","G"]<br>  ,"buttons": ["31","8"]<br>  ,"pedal": [2,6]<br>  ,"keyboard": <br>    {<br>       "layout": [0.5, 0, 0.5]<br>      ,"keys":<br>      {<br>        "close": [<span style="font-style: italic;">lista-de-botoes</span>]<br>       , "open": [<span style="font-style: italic;">lista-de-botoes</span>]<br>      }<br>      ,"basses":<br>      {<br>        "close": [<span style="font-style: italic;">lista-de-botoes</span>]<br>       , "open": [<span style="font-style: italic;">lista-de-botoes</span>]<br>      }<br>    }<br>}<br></pre>
+<p>Este arquivo pode ser modificado, respeitadas algumas regras. Por
+exemplo, ele poderá receber qualquer nome, desde que preservada a
+extensão <i>".accordion" </i>que indica que o arquivo é um mapa de
+acordeon. Os campos descritores também podem ser
+alterados. Veja o que cada um representa:</p>
+<ul>
+  <li><span style="font-weight: bold;">id</span>: identificador
+exclusivo de cada gaita. Pode ser livremente
+criado e serve para identificar unicamente o mapa.</li>
+  <li><span style="font-weight: bold;">menuOrder</span>: indicador de
+ordem no menu <span style="font-weight: bold;">"Acordeons"</span>.
+Quando o mapa
+for carregado no site, o novo acordeon vai ser listado no menu de
+acordo com este número. Se desejar que o acordeon figure como o
+primeiro item do menu, use um número pequeno, zero, por exemplo.</li>
+  <li><span style="font-weight: bold;">model</span>: descrição do
+modelo ou nome do acordeon.</li>
+  <li><span style="font-weight: bold;">tuning</span>: afinação da
+gaita. Contém uma lista das afinações
+suportadas por este modelo de gaita.</li>
+  <li><span style="font-weight: bold;">buttons</span>: conjunto que
+representa a quantidade de botões, sendo que o primeiro item é número
+de botões de melodia e o segundo item é número de baixos.<br>
+  </li>
+  <li><span style="font-weight: bold;">pedal</span>: localização do
+botão pedal (ponto). Um par coordenado de
+números, indicando a linha e a coluna onde se encontra o botão pedal da
+gaita. Caso não seja uma gaita ponto, deixe o conjunto vazio, assim: [
+].</li>
+  <li><span style="font-weight: bold;">keyboard</span>: descritivo de
+todos os botões da gaita. Esta seção é a
+mais importante para a criação do mapa da gaita e está dividida em três
+partes: layout, keys e basses. Veja abaixo a descrição de cada um.</li>
+</ul>
+<p><b>Nota:</b> ao alterar o arquivo do mapa, certifique-se de
+preservar a sintaxe do mesmo, isto é: aspas, vírgulas, dois-pontos,
+colchetes e chaves devem ser mantidos.</p>
+<h4>Descrevendo os botões do teclado</h4>
+<p>Conforme dito acima, o teclado (<span style="font-style: italic; font-weight: bold;">keyboard</span>) possui
+três seções, são elas:</p>
+<ul>
+  <li><span style="font-weight: bold;">layout</span>: indica a posição
+de início de cada ilheira de botões no
+desenho do mapa. No exemplo acima, considerando-se uma gaita com três
+ilheiras, significa que a primeira ilheira iniciará com um recuo que
+mede exatamente o tamanho de meio botão, a segunda ilheira começará sem
+recuo e a terceira, terá também um recuo de meio botão (sempre em
+relação ao ponto zero onde se desenhará o teclado). Este item não afeta
+os botões da baixaria, somente os botões da melodia.</li>
+  <li><span style="font-weight: bold;">keys</span>: descritivo dos
+botões de melodia. Como a gaita ponto é
+bissonora, teremos duas listas: uma para os sons tocados com o fole
+fechando e outra para os sons. O formato da lista de botões será
+descrito abaixo.<br>
+  </li>
+  <li><span style="font-weight: bold;">basses</span>: descritivo dos
+botões da baixaria. Como a gaita ponto é
+bissonora, teremos duas listas: uma para os sons
+tocados com o fole fechando e outra para os sons. O formato da lista de
+botões será descrito abaixo.</li>
+</ul>
+<h4>Lista de botões</h4>
+<p>Cada lista de botões representa um conjunto de linhas. Cada linha é
+um conjunto de botões. Cada botão é descrito pela nota que ele
+representa, os acidentes (sustenido ou bemol) e pela oitava. Além
+disso, se for um acorde poderá
+ser descrito o modo (menor ou sétima).</p>
+<p>A sintaxe é essa:</p>
+<pre>   lista-de-botões ==&gt; [[linha 1],[linha 2],...,[linha n]]</pre>
+<pre>   linha ==&gt; ["botão 1", "botão 2",...,"botão n"]</pre>
+<pre>   botão ==&gt; "nota-acidente-oitava:modo"</pre>
+<p>Onde:</p>
+<ul>
+  <li>nota: letra seguindo a nomenclatura das cifras (C = Dó, D = Ré,
+..., B=Si). Se o botão representar um acorde, usar a letra minúscula<br>
+  </li>
+  <li>acidente: ou bemol (♭) ou sustenido (♯). Se não houver acidente,
+deixar vazio.</li>
+  <li>oitava: numero entre zero (0) e oito (8). Incluir sempre.</li>
+  <li>modo: indica acorde menor (m) ou com sétima (7). Deve ser
+precedido
+pelo sinal de dois-pontos (:).</li>
+</ul>
+<p>Exemplos de botões:</p>
+<ul>
+  <li>A4 - Lá natural, na quarta oitava, isto é, 440Hz.<br>
+  </li>
+  <li>C♯3 - Dó sustenido, na terceira oitava, frequência de 138.6Hz.<br>
+  </li>
+  <li>B♭6 - Si bemol, na sexta oitava, frequência de 1865Hz.</li>
+  <li>a2:m - Acorde de lá menor, na segunda oitava, frequência da nota
+base de 55Hz.</li>
+</ul>
+<p>Exemplo completo de um teclado:</p>
+<pre>,"keyboard": <br>    {<br>       "layout":[0,0.5]<br>      ,"keys":<br>      {<br>         "close":[<br>		   ["B2","D3","G3","B3","D4","G4","B4","D5","G5","B5","D6"]<br>		  ,["E3","G3","C4","E4","G4","C5","E5","G5","C6","E6"]<br>		 ]<br>        ,"open": [<br>		   ["D3","F♯3","A3","C4","E4","F♯4","A4","C5","E5","F♯5","A5"]<br>		  ,["G3","B3","D4","F4","G4","B4","D5","F5","G5","B5"]<br>		 ]<br>      }<br>      ,"basses":<br>      {<br>         "close": [ ["e2","E2","f1","F1"], ["g1","G1","c2","C2"] ]<br>        ,"open":  [ ["a1:m","A1","f1","F1"], ["d2","D2","g1","G1"] ]<br>     }<br>    }</pre>
+<p><b>Nota:</b> Observe que as ilheiras da mão direita (melodia) são
+descritas a partir da linha mais externa para a mais interna
+e que as linhas da baixaria são descritas da mais interna para a mais
+externa.</p>
+<h3>Carregando um mapa</h3>
+<p>Além do arquivo do mapa do acordeon (visto acima), também é possível
+anexar arquivos para compor o repertório do acordeon, bem como uma
+imagem ilustrativa da gaita. O único arquivo obrigatório é o que
+descreve a gaita em si, os demais arquivos são opcionais.
+O conjunto completo de arquivos é o seguinte:</p>
+<ul>
+  <li>arquivo.accordion - descritor da gaita, conforme sintaxe própria
+apresentada acima.</li>
+  <li>arquivo.gif - imagem ilustrativa da gaita.</li>
+  <li>arquivo.tunes - livro de repertório da gaita em formato ABCX (ver
+documentação sobre o formato ABCX).</li>
+  <li> arquivo.chords -&nbsp; arquivo contendo os acordes&nbsp; da
+gaita, também em formato
+ABCX.</li>
+  <li>aqruivo.practices - arquivo com exercícios práticos para a gaita,
+em formato ABCX.<br>
+  </li>
+</ul>
+<p>De posse destes arquivos (coloque-os todos em uma única pasta para,
+por comodidade), acesse o site, vá ao menu <span style="font-weight: bold;">"Acordeons"</span> e use a opção <b>"Carregar
+mapa do disco local"</b>.
+Na tela de seleção de arquivos, escolha todos os arquivos de uma única
+vez e clique em <span style="font-weight: bold;">"Abrir"</span>. O
+site irá configurar o acordeon mapeado,
+incluindo a imagem da gaita e o repertório (se estiverem presentes).</p>
+<h2>Repertório</h2>
+<p>Neste projeto, todas as partituras que compõem o repertório, sejam
+canções, exercícios ou acordes são escritos usando o formato ABC. As
+tablaturas geradas, são extensões do ABC. Veja a documentação sobre o
+"<span style="font-weight: bold;">Formato ABCX</span>", no menu de ajuda. Abaixo listamos algumas formas de&nbsp; modificar o
+repertório&nbsp; inicial.</p>
+<h3>Salvando o Repertório</h3>
+<p>Para ter uma visão geral de como foi estruturado o repertório inicial de um determinado acordeon, você pode acessar o menu <span style="font-weight: bold;">"Repertório"</span> e usar a opção <span style="font-weight: bold;">"Exportar para drive local"</span>. Este comando vai produzir um arquivo que será baixado no seu computador, na pasta de <span style="font-style: italic;">downloads</span>. Ele é o que podemos chamar de "tunebook", isto é, um livro de canções ou, propriamente, um repertório. <br>
+</p>
+<p>Você pode editá-lo com qualquer editor de texto e você verá que cada
+canção é uma peça em formato ABC. Veja a documentação sobre o
+formato ABC para saber detalhes de edição. </p>
+
+<h3>Carregando Repertório</h3>
+<p>Se você tem seu próprio arquivo de repertório ele pode ser carregado
+e usado indivualmente (ou seja, só estará disponível no seu computador)
+da mesma forma como é usado o repertório original. Para carregar o repertório, acesse o menu <span style="font-weight: bold;">"Repertório"</span> e clique em <span style="font-weight: bold;">"Carregar do drive local"</span>, escolha o(s) seu(s) arquivo(s) e clique em <span style="font-weight: bold;">"Abrir"</span>. O repertório atual do acordeon será substituido pelo novo repertório.<br>
+</p>
+<h3>Restaurando o Repertório</h3>
+<p>Se você alterou o repertório de um acordeon pré-configurado e deseja
+restaurar as canções originais, as mesmas podem ser facilmente
+recuperadas, ou através da recarga da página (F5) ou ainda usando o menu <span style="font-weight: bold;">"Repertório"</span>, opção <span style="font-weight: bold;">"Restaurar o original"</span>. O sistema irá buscar no servidor os itens originais.<br>
+</p>
+</div>
+
+</body></html>

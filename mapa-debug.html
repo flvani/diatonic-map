@@ -80,11 +80,12 @@ notação abc, tablatura "/>
                                         <div id="divMenuHelp" class="btn-group">
                                             <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_info">Informações</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
                                             <ul class="dropdown-menu" id="opcoes_teoria">
+                                              <!-- flavio help -->
+                                              <!--li><a href="#" id="DR_accordion_maps" onclick="showHelp('mapas.new.pt_BR');">Mapas para acordeons</a></li-->
                                               <li><a id="DR_accordion_maps" target="_blank" href="html/mapas.pt_BR.html" >Mapas para acordeons</a></li>
                                               <li><a id="DR_tablature" target="_blank" href="html/tablatura.pt_BR.html" >Tablaturas para acordeons</a></li>
                                               <li><a id="DR_abc_editor" target="_blank" href="html/estudioABCX.pt_BR.html" >Estúdio ABCX</a></li>
                                               <li><a id="DR_abc_format" target="_blank" href="html/formatoABCX.pt_BR.html" >Formato ABCX</a></li>
-                                              <!--li><a id="DR_didactic_mode" target="_blank" href="html/modoDidatico.pt_BR.html" >Modo didático</a></li-->
                                               <li><a id="DR_about" href="#modalAbout" >Sobre</a></li>
                                             </ul>
                                         </div>
@@ -114,6 +115,8 @@ notação abc, tablatura "/>
             </div>
         </div> <!-- /navbar -->
         
+        <div id="helpDiv" class="draggableWindow" style="left:200px; top:120px; min-width: 800px; min-height: 700px; width:1024px; height: auto; display:none; z-index:10001;"></div> 
+        
         <div id="mapContainerDiv">
             
             <div id="hintsDiv" class="draggableWindow" style="left:900px; top:80px; width:200px; height: auto; display:none; z-index:10000;"></div> 
@@ -121,6 +124,7 @@ notação abc, tablatura "/>
             <div id="ADDiv" class="draggableWindow" style="left:940px; top:160px; width:200px; height: auto; display:none; z-index:10000;"></div> 
             <div id="useChromeDiv" style="position:absolute; left:925px; top:270px; width:150px; height: auto; display:none; z-index:10000;"></div> 
             <div id="mediaDiv" class="draggableWindow" style="left:920px; top:120px; min-width: 300px; min-height: 167px; width:auto; height: auto; display:none; z-index:10000;"></div> 
+            <!-- flavio help -->
     
             <div id="div_principal"  >
                 <div style="margin:0; padding:0; width:100%;">  
@@ -435,6 +439,8 @@ notação abc, tablatura "/>
                 var w4 = new DRAGGABLE.Div( 4, 'ADDiv', 'Divulgação...', null, null, true );
                     w5 = new DRAGGABLE.Div( 5, 'releaseDiv', 'Lançamento...', null, null, true );
                     w6 = new DRAGGABLE.Div( 6, 'mediaDiv', 'Mídia...', null, 'w6Callback', true );
+                    // flavio help
+                    w7 = new DRAGGABLE.Div( 7, 'helpDiv', 'Ajuda...', ['move|Mover','print|Imprimir'], 'helpCallback', true );
                 
 //                w3.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
 //                   + 'O formato ABC é a base para toda a geração das partituras deste site. '
@@ -739,6 +745,72 @@ notação abc, tablatura "/>
             function saveMap() {
                 myMap.save();
             };
+            
+            // flavio help
+            function showHelp(url) {
+                if(url) {
+                    var embbed = '<iframe id="helpFrame" style="top:0;left:0,bottom:0,right:0;" class="helpFrame" src="html/'+url+'.html" ></iframe>';
+                    //var  embbed = '<iframe width="300" height="167" src="'+url+'?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>';
+                    var dd = $("#helpDiv").find("[id^='draggableData']");
+                    dd.html(embbed);
+                    var d = document.getElementById("draggableData7");
+                    var f = document.getElementById("helpFrame");
+                    
+                    f.style.width = "1012px";
+                    f.style.height = "680px";
+                    
+                    $('#helpDiv').fadeIn('slow');
+                } else {
+                    $('#helpDiv').fadeOut('slow');
+                    $("#helpDiv").find("[id^='draggableData']").html("");
+                }
+            };
+            
+            function helpCallback(e) {
+                switch(e) {
+                    case 'MOVE':
+                        break;
+                    case 'MINUS':
+                        showHelp();
+                        break;
+                    case 'PRINT':
+                        helpPrint(["#divTitulo","#mapContainerDiv"]);
+                        break;
+                }
+                return false;
+            };
+            
+            function helpPrint(divsToHide) {
+                
+                divsToHide.forEach( function( div ) {
+                    $(div).hide();
+                });
+                
+                var frame = document.getElementById("helpFrame");
+                //var header = document.getElementById("helpHeader");
+                var printer = document.getElementById('printPreviewDiv');
+
+
+                var d = frame.contentWindow || frame.contentDocument;
+                printer.innerHTML = (d.document ? d.document.body.innerHTML : d.body.innerHTML);
+
+                frame.style.display = 'none';
+                //header.style.display = 'none';
+                printer.style.display = 'inline';
+
+                window.print();
+
+                printer.style.display = 'none';
+                frame.style.display = 'inline';
+                //header.style.display = 'inline';
+                
+                divsToHide.forEach( function( div ) {
+                    $(div).show();
+                });
+                
+            };
+
+            
 
             function reloadRepertoire() {
                 myMap.carregaRepertorio(true);

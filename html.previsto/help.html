@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!--
+
+  To change this license header, choose License Headers in Project Properties.
+  To change this template file, choose Tools | Templates
+  and open the template in the editor.
+
+-->
+
+<html>
+    <head>
+        <title>Mapas para Acordeon</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link href="../css/help.css" rel="stylesheet">
+        <script type="text/javascript" src="../javascripts/help.js"></script>
+    </head>
+    <body  onresize="resizeHelp()" onload="resizeHelp();" >
+        <div id="helpHeader" class="helpHeader"> 
+            <span class="helpTit">Mapas para Acordeon</span>
+            <button id="printHelp" class="btn" title="Imprimir" onclick="printHelpNew();">Imprimir</button> 
+            <button id="closeHelp" class="btn" title="Fechar" onclick="window.close();">Fechar</button>
+        </div>
+        <iframe id="helpFrame" class="helpFrame" src="tablatura.new.pt_BR.html" ></iframe>
+        <div id="printPreviewDiv" class="container"></div>
+    </body>
+</html>
