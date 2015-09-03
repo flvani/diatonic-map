@@ -118,7 +118,7 @@ notação abc, tablatura "/>
             
             <div id="hintsDiv" class="draggableWindow" style="left:900px; top:80px; width:240px; height: auto; display:none; z-index:10000;"></div> 
             <div id="releaseDiv" class="draggableWindow" style="left:900px; top:240px; width:200px; height: auto; display:none; z-index:10001;"></div> 
-            <div id="ADDiv" class="draggableWindow" style="left:940px; top:160px; width:200px; height: auto; display:none; z-index:10000;"></div> 
+            <div id="ADDiv" class="draggableWindow" style="left:250px; top:300px; width:400px; height: 265px; display:none; z-index:10000;"></div> 
             <div id="useChromeDiv" style="position:absolute; left:925px; top:270px; width:150px; height: auto; display:none; z-index:10000;"></div> 
             <div id="mediaDiv" class="draggableWindow" style="left:920px; top:120px; min-width: 300px; min-height: 167px; width:auto; height: auto; display:none; z-index:10000;"></div> 
     
@@ -428,7 +428,7 @@ notação abc, tablatura "/>
                 var w1 = new DRAGGABLE.Div( 1, 'editorDiv', 'Editor ABCX', ['move|Mover'], 'w1Callback', true );
                 var w2 = new DRAGGABLE.Div( 2, 'keyboardDiv', '', [ 'move|Mover', 'retweet|Rotacionar', 'zoom-in|Zoom','globe|Mudar Notação'], 'w2Callback', true );
                     w3 = new DRAGGABLE.Div( 3, 'hintsDiv', 'Dica...', null, null, true );
-                var w4 = new DRAGGABLE.Div( 4, 'ADDiv', 'Divulgação...', null, null, true );
+                    w4 = new DRAGGABLE.Div( 4, 'ADDiv', 'Divulgação...', null, null, true );
                     w5 = new DRAGGABLE.Div( 5, 'releaseDiv', 'Lançamento...', null, null, true );
                     w6 = new DRAGGABLE.Div( 6, 'mediaDiv', 'Mídia...', null, 'w6Callback', true );
                 
@@ -449,11 +449,11 @@ notação abc, tablatura "/>
                    + '<br>A canção Prenda Minha foi adicionada.</b></center>';
            
                 w4.dataDiv.innerHTML = 
-                     '<table class="table table-bordered table-final" style="min-width: 200px;">'
+                     '<table class="table table-bordered table-final" style="min-width: 300px;">'
                     +  '<tr>'
                     +   '<td ><center>'
-                    +  '<a href="#modalAD">'
-                    +  '<img src="img/EncontroDeGaiteiros.mini.jpg" alt="Encontro de Gaiteiros" title="Encontro de Gaiteiros">'
+                    +  '<a target="_blank" href="https://www.facebook.com/photo.php?fbid=859901210773136&set=a.341659775930618.77559.100002597949118&type=1&theater" >'
+                    +  '<img src="img/EncontroDeGaiteiros.2.png" alt="2º Encontro de Gaiteiros" title="Encontro de Gaiteiros">'
                     +  '</a>'
                     +   '</td>'
                     + '</tr>'
@@ -673,6 +673,10 @@ notação abc, tablatura "/>
                 document.getElementById("modalAbout").style.display = 'inline';
                 
                 $('#hintsDiv').fadeIn('slow');
+                
+                if( getDate() <= 20150913 ) {
+                    $('#ADDiv').fadeIn('slow');
+                }
                 
                 if( getDate() <= 20150610 ) {
                     $('#releaseDiv').fadeIn('slow');
