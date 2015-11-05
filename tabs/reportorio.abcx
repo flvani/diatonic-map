@@ -1,0 +1,87 @@
+﻿X:1
+%%barnumbers 1
+%%papersize A4
+T:Stairway To Heaven
+C:Led Zepelin
+C:(arr. Cezar Ferreira)
+F:https://www.youtube-nocookie.com/embed/7Rk3avrL-es
+Z:Flávio Vani
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
+M:4/4
+L:1/8
+Q:60
+K:C
+V:1 treble
+|: AA, CA | BC EB | GG, B,G | ^FA, C^F | EA, CE- | E ECA, | 
+| [G,B,D] [A,CE] [A,CE]2- |1 [A,CE] A, F E :|2 [A,CE]2 A ^F | cE Ge | ^fd A^f | ec Ae | 
+| BA AB | cE Ge | gd Gg | e ^f [d^F] [d^F]- | [d^F]2 AB | 
+| cE Ge | ^fd A^f | ec Ae | BA AB | cE Ge | ^fd A^f | 
+| [Ace] [Ace] [Ace]2- | [Ace] A, F E | 
+V:2 bass
+|: A,,4 | E,,4 | G,,4 | D,,4 | F,,4 | z E,, C,, A,, | 
+| G,, A,, A,,2 |1 z A,, F,, E,, :|2 z2 A,, G,, | C,,4 | D,,4 | F,,4 | 
+| A,,2 A,, G,, | C,,4 | G,,4 | D,,4 | z2 A,, G,, | 
+| C,,4 | D,,4 | F,,4 | A,,2 A,, G,, | C,,4 | D,,4 | 
+| F,, F,, F,,2 | z A,, F,, E,, | 
+V:3 accordionTab
+|: A-7 >-3 >-4 >-7 | E+7 >+3' >+4' >+7 | G+6 >+3 >+4 >+6 | D-6 >-3 >-4 >-6 | F-5 >-3 >-4 >-5 | z-> E+4' C+3' A-3 | 
+| G+[345] A-[345] A-[345]2 |1 z-[>>>] A-3 F-4' E+4' :|2 z-[345]2 A-7 G-6 | C+6' >+4' >+5' >+7' | D-a >-7' >-7 >-a | F-9 >-8 >-7 >-9 | 
+| A-6' >-7 A-7 G-6' | C+6' >+4' >+5' >+7' | G-9' >-7' >-5' >-9' | D-9 >-a >-[7'6] >-[7'6] | z-[>>]2 A-7 G-6' | 
+| C+6' >+4' >+5' >+7' | D-a >-7' >-7 >-a | F-9 >-8 >-7 >-9 | A-6' >-7 A-7 G-6' | C+6' >+4' >+5' >+7' | D-a >-7' >-7 >-a | 
+| F-[789] F-[789] F-[789]2 | z-[>>>] A-3 F-4' E+4' | 
+
+
+X:2
+%%barnumbers 1
+%%papersize A4
+T:Juazeiro (Catingueira)
+C:Luiz Gonzaga
+C:(arr. Cezar Ferreira)
+M:4/4
+L:1/8
+Q:100
+F:https://www.youtube-nocookie.com/embed/2c7w1UmARYE
+Z:Flávio Vani
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
+K:C
+V:1 treble
+| z cde |: fc Af | eB Ge | de fB |1 c2 de :|2 c z CE | 
+|: GE cA | G2 GA | GE DC | EC CE | GE cA | c2 cA | 
+| GE DC |1 C2 CE :|2 C2 DE |: F2 A,C | EC EG | FE DC | 
+| EC DE | F2 A,C | EC EG | FE DC |1 C2 DE :|2 Cc de | 
+V:2 bass
+| z4 |: F,, [F,,A,,C,] [F,,A,,C,] [F,,A,,C,] | E,, [G,,B,,D,] [G,,B,,D,] [G,,B,,D,] | D,, [F,,A,,C,] G,, [G,,B,,D,] |1 C,, [C,E,G,] [C,E,G,] [C,E,G,] :|2 C,, [C,E,G,] [C,E,G,] [C,E,G,] | 
+|: C,, [C,E,G,] [C,E,G,] A,, | C,, [C,E,G,] [C,E,G,] A,, | G,, [G,,B,,D,] [G,,B,,D,] [G,,B,,D,] | C,, [C,E,G,] [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] A,, | C,, [C,E,G,] [C,E,G,] A,, | 
+| G,, [G,,B,,D,] [G,,B,,D,] [G,,B,,D,] |1 C,, [C,E,G,] [C,E,G,] [C,E,G,] :|2 C,, [C,E,G,] [C,E,G,] [C,E,G,] |: F,, [F,,A,,C,] [F,,A,,C,] [F,,A,,C,] | C,, [C,E,G,] [C,E,G,] [C,E,G,] | G,, [G,,B,,D,] [G,,B,,D,] [G,,B,,D,] | 
+| C,, [C,E,G,] [C,E,G,] [C,E,G,] | F,, [F,,A,,C,] [F,,A,,C,] [F,,A,,C,] | C,, [C,E,G,] [C,E,G,] [C,E,G,] | D,, [F,,A,,C,] G,, [G,,B,,D,] |1 C,, [C,E,G,] [C,E,G,] [C,E,G,] :|2 C,, [C,E,G,] [C,E,G,] [C,E,G,] | 
+V:3 accordionTab
+| z+z z+6' z+8 z+7' |: F-8' f-8 f-7 f-8' | E+7' g+7 g+6 g+7' | D-7' f-9 G-8' g-6' |1 C+6' c+> c+8 c+7' :|2 C+6' c+z c+3' c+4' | 
+|: C+5' c+4' c+6' A-7 | C+5' c+> c+6 A-7 | G-5' g-5 g-3' g-4 | C+4' c+3' c+3' c+4' | C+5' c+4' c+6' A-7 | C+6' c+> c+6' A-7 | 
+| G-5' g-5 g-3' g-4 |1 C+3' c+> c+3' c+4' :|2 C+3' c+> c+5 c+4' |: F-4' f-> f-3 f-4 | C+4' c+3' c+4' c+5' | G-4' g-5 g-3' g-4 | 
+| C+4' c+3' c+5 c+4' | F-4' f-> f-3 f-4 | C+4' c+3' c+4' c+5' | D-4' f-5 G-3' g-4 |1 C+3' c+> c+5 c+4' :|2 C+3' c+6' c+8 c+7' | 
+
+X:3
+%%barnumbers 1
+%%papersize A4
+T:Felicidade
+C:Lupicínio Rodrigues
+C:(arr. Cezar Ferreira)
+F:https://www.youtube-nocookie.com/embed/SLQm1POy2_0
+Z:Flávio Vani
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
+M:4/4
+L:1/8
+Q:90
+K:G
+V:1 treble
+| z BBc |: d3 B | b3 g | ef ed | cd cB | A3 F | 
+| f3 e | de dc | Bc BA | G3 B | e3 d | cd cB | 
+| AB AG | F3 D | B3 A | G4- |1 z B B c :|2 G4 | 
+V:2 bass
+| z4 |: G,,2 [G,,B,,D,]2 | E,,2 [G,,B,,D,]2 | A,,2 [A,,C,E,]2 | A,,2 [A,,C,E,]2 | D,,2 [D,F,A,]2 | 
+| D,,2 [D,F,A,]2 | G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,] z | E,,2 [G,,B,,D,]2 | E,,2 [G,,B,,D,] z | A,,2 [A,,C,E,]2 | 
+| A,,2 [A,,C,E,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,,B,,D,]2 |1 G,,2 [G,,B,,D,]2 :|2 G,,2 [G,,B,,D,]2 | 
+V:3 accordionTab
+| z+z z+7 z+7 z+6' |: G+82 g+> >+7 | E+a2 g+> >-9' | A-9 >-a a-9 >-7' | A-8 >-7' a-8 >-6' | D-72 d-> >-6 | 
+| D-a2 d-> >-9 | G+8 >+7' g+8 >+6' | G+7 >+6' g+7 z-7 | E+62 g+> >+7 | E+7'2 g+> z-7' | A-8 >-7' a-8 >-6' | 
+| A-7 >-6' a-7 >-5' | D-62 d-> >-3' | D-6'2 d-> >-7 | G+62 g+>2 |1 G+z >+7 g+7 >+6' :|2 G+62 g+>2 | 
