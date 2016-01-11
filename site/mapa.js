@@ -60,6 +60,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.printButton.addEventListener("click", function() {
 
         if(  that.currentABC.div.innerHTML && that.studio )  {
+            ga('send', 'event', 'Partitura', 'print', 'Mapa');
             that.studio.printPreview(that.currentABC.div.innerHTML, ["#divTitulo","#mapContainerDiv"]);
         }
         
@@ -68,6 +69,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.toolsButton.addEventListener("click", function() {
         
         if( that.currentABC.div.innerHTML && that.studio ) {
+            ga('send', 'event', 'Partitura', 'edit', 'Mapa');
             that.showStudio();
         }
         
@@ -115,6 +117,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     };
 
     this.playButton.addEventListener("click", function() {
+        ga('send', 'event', 'Partitura', 'play', 'Mapa');
         that.startPlay( 'normal' );
     }, false);
 
