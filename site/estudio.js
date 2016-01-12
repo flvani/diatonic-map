@@ -212,6 +212,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
 
     this.printButton.addEventListener("click", function () {
         
+        ga('send', 'event', 'Estúdio', 'print', that.renderedTune.title);
         that.printPreview(that.renderedTune.div.innerHTML, ["#divTitulo","#studioDiv"]);
         return;
 
@@ -629,12 +630,14 @@ SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
         if(type==="normal") {
             this.midiPlayer.setPlayableClefs('TB');
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
+                ga('send', 'event', 'Estúdio', 'play', this.renderedTune.title);
                 this.playButton.title = DR.getResource("DR_pause");
                 this.playButton.innerHTML = '&nbsp;<i class="icon-pause"></i>&nbsp;';
                 this.ypos = 1000;
             }
         } else {
             this.midiPlayer.setPlayableClefs( this.clefsToPlay );
+            ga('send', 'event', 'Estúdio', 'didactic-play', this.renderedTune.title);
             if( this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value, valueF ) ) {
                 this.ypos = 1000;
             }

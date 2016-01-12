@@ -60,7 +60,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.printButton.addEventListener("click", function() {
 
         if(  that.currentABC.div.innerHTML && that.studio )  {
-            ga('send', 'event', 'Partitura', 'print', 'Mapa');
+            ga('send', 'event', 'Mapa', 'print', that.currentABC.title);
             that.studio.printPreview(that.currentABC.div.innerHTML, ["#divTitulo","#mapContainerDiv"]);
         }
         
@@ -69,7 +69,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.toolsButton.addEventListener("click", function() {
         
         if( that.currentABC.div.innerHTML && that.studio ) {
-            ga('send', 'event', 'Partitura', 'edit', 'Mapa');
+            ga('send', 'event', 'Mapa', 'edit', that.currentABC.title);
             that.showStudio();
         }
         
@@ -117,7 +117,6 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     };
 
     this.playButton.addEventListener("click", function() {
-        ga('send', 'event', 'Partitura', 'play', 'Mapa');
         that.startPlay( 'normal' );
     }, false);
 
@@ -340,12 +339,14 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
         this.accordion.clearKeyboard();
         if(type==="normal") {
             if( this.midiPlayer.startPlay(this.currentABC.abc.midi) ) {
+                ga('send', 'event', 'Mapa', 'play', this.currentABC.title);
                 this.playButton.title = DR.getResource("DR_pause");
                 this.playButton.innerHTML = '&nbsp;<i class="icon-pause"></i>&nbsp;';
                 this.ypos = 1000;
             }
         } else {
             if( this.midiPlayer.startDidacticPlay(this.currentABC.abc.midi, type, value ) ) {
+                ga('send', 'event', 'Mapa', 'didactic-play', this.currentABC.title);
                 this.ypos = 1000;
             }
         }
