@@ -69,7 +69,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.toolsButton.addEventListener("click", function() {
         
         if( that.currentABC.div.innerHTML && that.studio ) {
-            ga('send', 'event', 'Mapa', 'edit', that.currentABC.title);
+            ga('send', 'event', 'Mapa', 'tools', that.currentABC.title);
             that.showStudio();
         }
         
