@@ -1,4 +1,4 @@
-﻿X:1010
+X:1010
 %%barnumbers 1
 %%papersize a4
 T:Meu Cabelo (pau-de-fita)
@@ -7,14 +7,19 @@ Z:Flávio Vani
 N:Mapa para Acordeons Diatônicos powered by ABCXJS.
 M:3/4
 L:1/8
-Q:90
+Q:130
 K:G
 V:1 treble
 | z2 z2 Bc |: dd B2 c2 | dd B2 c2 | dd d2 e2 |
+w:Mui-tas vez me dá uma rai-va De fa-zer cer-tas bes-
 | cc A2 B2 | cc A2 B2 | cc A2 B2 | cc c2 d2 |
+w:nei-ras de ras-gar ban-dei-ri-nha da Ma-ria Bra-si-le-i 
 |1 B4 Bc :|2 B4 d2 |: gg gg a2 | ff f2 g2 |
+w:ra Mui-tas ra Eu não sei que tem meu ca-be-lo que
 | ee e2 f2 | dd B2 c2 | dd d2 e2 | cc A2 B2 |
+w:Com a goma não com-bina Quan-to mais eu pas-so o pente, mais meu
 | cc c2 d2 |1 B4 d2 :|2 B6 |
+w: ca-be-lo se em-pina empina
 V:2 bass
 | z6 |: G,,2 [G,B,D]2 [G,B,D]2 | G,,2 [G,B,D]2 [G,B,D]2 | G,,2 [G,B,D]2 [G,B,D]2 |
 | D,,2 [D,F,A,]2 [D,F,A,]2 | D,,2 [D,F,A,]2 [D,F,A,]2 | D,,2 [D,F,A,]2 [D,F,A,]2 | D,,2 [D,F,A,]2 [D,F,A,]2 |
@@ -22,32 +27,41 @@ V:2 bass
 | C,,2 [C,E,G,]2 z2 | G,,2 [G,B,D]2 [G,B,D]2 | G,,2 [G,B,D]2 [G,B,D]2 | D,,2 [D,F,A,]2 [D,F,A,]2 |
 | D,,2 [D,F,A,]2 [D,F,A,]2 |1 G,,2 [G,B,D]2 z2 :|2 G,,2 [G,B,D]4 |
 V:3 accordionTab
+| z+z2 z+z2 z+7 z+6' |: G+8 >+8 g+72 g+6'2 | G+8 >+8 g+72 g+6'2 | G+8 >+8 g+82 g+7'2 |
+| D-8 >-8 d-72 d-6'2 | D-8 >-8 d-72 d-6'2 | D-8 >-8 d-72 d-6'2 | D-8 >-8 d-82 d-7'2 |
+|1 G+72 g+>2 z+7 z+6' :|2 G+72 g+>2 z+82 |: G+8' >+8' g+8' >+8' z-b2 | D-a >-a d-a2 z-9'2 |
+| C+7' >+7' c+7'2 z-a2 | G+8 >+8 g+72 g+6'2 | G+8 >+8 g+82 g+7'2 | D-8 >-8 d-72 d-6'2 |
+| D-8 >-8 d-82 d-7'2 |1 G+72 g+>2 z+82 :|2 G+72 g+>4 | 
  
- 
-                       G7 
-Não sei que tem meu cabelo 
-       F           C 
-Com a goma não combina 
-                        G7     Bis 
-Quanto mais eu passo o pente 
-                      C 
-Mais meu cabelo se empina 
-Int. 
-                       G7 
-Não sei que tem meu cabelo 
-        F          C 
-Não combina com a banha 
-                        G7     Bis 
-Quanto mais eu passo o pente 
-                      C 
-Mais meu cabelo se assanha 
-Int. 
-                      G7 
-Muitas vez me dá uma raiva 
-      F            C 
-De fazer certas asneiras 
-                   G7     Bis 
-De rasgar a bandeirinha 
-               C 
-Da Maria Brasileira 
-Int.  
+W:Não sei que tem meu cabelo 
+W:Não combina com a banha 
+W:Quanto mais eu passo o pente 
+W:Mais meu cabelo se assanha 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

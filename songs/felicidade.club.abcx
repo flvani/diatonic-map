@@ -1,0 +1,37 @@
+﻿%%barnumbers 0
+%%papersize A4
+T:Felicidade (club)
+C:Lupínio Rodrigues
+C:(arr. Cezar Ferreira)
+Z:Flávio Vani
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/SLQm1POy2_0
+M:2/4
+L:1/8
+Q:80
+T:Felicidade
+C:Lupínio Rodrigues
+C:(arr. Cezar Ferreira)
+M:2/4
+L:1/8
+Q:80
+K:C
+V:1 treble
+| z eef +segno+|: g3 e | e'3 c' | ab ag | fg fe | d3 B | 
+| b3 a | ga gf | ef ed | c3 e | a3 g | fg fe | 
+| de dc | B3 G | e3 d | c4 |1 z e e f :|2 z [eg] [eg] [fa] | 
+|: [fa] [eg] [eg] [fa] | [fa] [eg] [eg] [gb] | [gb] [fa] [fa] [gb] | [gb] [fa] [fa] [gb] | [gb] [fa] [fa] [gb] | 
+| [gb] [fa] [fa] [eg] | [eg]2 z2 |1 z [eg] [eg] [fa] :|2 z e e f +segno+| 
+V:2 bass
+| z4 |: C,,2 [C,E,G,]2 | A,,2 [C,E,G,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,,B,,D,]2 | 
+| G,,2 [G,,B,,D,]2 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,] z | A,,2 [C,E,G,]2 | A,,2 [C,E,G,] z | D,,2 [D,F,A,]2 | 
+| D,,2 [D,F,A,]2 | G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,]2 | C,,2 [C,E,G,]2 |1 C,,2 [C,E,G,]2 :|2 C,,2 [C,E,G,]2 | 
+|: C,,2 [C,E,G,]2 | C,,2 [C,E,G,] z | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,,B,,D,]2 | 
+| G,,2 [G,,B,,D,] z | C,,2 [C,E,G,]2 |1 C,,2 [C,E,G,]2 :|2 C,,2 [C,E,G,]2 | 
+V:3 accordionTab
+| z+z z+8 z+8 z+7' |: C+92 c+> >+8 | A+b2 c+> >-a' | D-a >-b d-a >-8' | D-9 >-8' d-9 >-7' | G-82 g-> >-7 | 
+| G-b2 g-> >-a | C+9 >+8' c+9 >+7' | C+8 >+7' c+8 z-8 | A+72 c+> >+8 | A+8'2 c+> z-8' | D-9 >-8' d-9 >-7' | 
+| D-8 >-7' d-8 >-6' | G-72 g-> >-4' | G-7'2 g-> >-8 | C+72 c+>2 |1 C+z >+8 c+8 >+7' :|2 C+z >+[89] c+[89] >+[7'8'] | 
+|: C+[7'8'] >+[89] c+[89] >+[7'8'] | C+[7'8'] >+[89] c+[89] z-[8'b] | D-[8'b] >-[9a] d-[9a] >-[8'b] | D-[8'b] >-[9a] d-[9a] >-[8'b] | G-[8'b] >-[9a] g-[9a] >-[8'b] | 
+| G-[8'b] >-[9a] g-[9a] z+[89] | C+[89]2 c+z2 |1 C+z >+[89] c+[89] >+[7'8'] :|2 C+z >+8 c+8 >+7' | 
+
