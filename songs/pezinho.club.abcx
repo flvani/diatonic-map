@@ -2,20 +2,26 @@
 %%papersize A4
 T:Pezinho (club)
 C:Tradicional
+Z:Flávio Vani
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
 M:2/4
 L:1/8
 Q:90
 K:C
 V:1 treble
 | z ggg |: eggg | ag fe | g2 d2 | z dde | 
+w: oi bo-ta~a-qui, oi bo-ta~a-li o teu pe-zi-nho o teu pe-
 | fede | fefg | e4 |1 z ggg :|2 z2 gg | 
+w:zi-nho bem jun-ti-nho com o meu oi bo-ta~a- e de-
 |: c'4 | z bag | b2 f2 | z2 gg | b4 | 
+w: pois não vá di-ze-er que vo-cê 
 | z agf |1 a2 e2 | z2 g g :|2 e4- | e2 z2 | 
+w:já me es-que-ceu e de- ce-u
 V:2 bass
-| z4 |: C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | G,,2 [G,,B,,D,]2 | [G,,B,,D,]2 z2 | 
-| G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,]2 | C,,2 [C,E,G,]2 |1 [C,E,G,]2 z2 :|2 [C,E,G,]2 z2 | 
-|: C,,2 [C,E,G,]2 | [C,E,G,]2 z2 | G,,2 [G,,B,,D,]2 | [G,,B,,D,]2 z2 | G,,2 [G,,B,,D,]2 | 
-| [G,,B,,D,]2 z2 |1 C,,2 [C,E,G,]2 | [C,E,G,]2 z2 :|2 C,,2 [C,E,G,]2 | [C,E,G,]2 z2 | 
+| z4 |: C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | G,,2 [G,B,D]2 | [G,B,D]2 z2 | 
+| G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | C,,2 [C,E,G,]2 |1 [C,E,G,]2 z2 :|2 [C,E,G,]2 z2 | 
+|: C,,2 [C,E,G,]2 | [C,E,G,]2 z2 | G,,2 [G,B,D]2 | [G,B,D]2 z2 | G,,2 [G,B,D]2 | 
+| [G,B,D]2 z2 |1 C,,2 [C,E,G,]2 | [C,E,G,]2 z2 :|2 C,,2 [C,E,G,]2 | [C,E,G,]2 z2 | 
 V:3 accordionTab
 | z+z z+9 z+9 z+9 |: C+8 >+9 c+9 >+9 | C+8' >+9 c+7' >+8 | G-8'2 g-82 | g-z >-8 z-8 z-7' | 
 | G-9 >-7' g-8 >-7' | G-9 >-7' g-9 >-8' | C+82 c+>2 |1 c+z >+9 z+9 z+9 :|2 c+z2 z+9 z+9 | 
