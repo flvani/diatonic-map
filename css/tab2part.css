@@ -75,7 +75,7 @@ and open the template in the editor.
     margin-left: 4px;
 }
 
-#t2pTextarea {
+.sourceTextarea {
     width: 97.5%; 
     height: 15em;
     margin: 4px;

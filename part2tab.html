@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -28,7 +28,7 @@ notação abc, tablatura "/>
                     <div style="margin-left: 4px;">
                         <table><tr><td id="DR_appName"><h1>Gerador de Tablaturas</h1></td></tr></table>
                     </div>
-                    <textarea id="lixo" style="display: none;">
+<textarea id="lixo" style="display: none;">
 X:1003
 %%scale 1
 %%papersize A4
@@ -47,11 +47,11 @@ V:Melodia treble
 P:Parte I
 | zA, CE [FA][EG] |: [D2F2] [EG][DF]- [DF][EG] | [D2F2] [EG][FA]- [FA][DF] | [C2E2] [DF] [CE]-[CE] [DF] |
 V:Tablatura accordionTab
-|z+z z-3 z-4 z-5 z-[4'7] z-[55']|:1 D-[3'4'] f-[>>] D-[55'] f-[3'4'] D-[>>] z-[55'] | G-[3'4'] g-[>>] G-[55'] g-[4'7] G-[>>] z-[3'4'] | C+[3'4'] c+[>>] F-[3'4'] f-[45] F-[>>] z-[3'4'] |
+| z+z z-3 z-4 z-5 z-[4'7] z-[55'] |: D-[3'4'] f-[>>] D-[55'] f-[3'4'] D-[>>] z-[55'] | G-[3'4'] g-[>>] G-[55'] g-[4'7] G-[>>] z-[3'4'] | C+[3'4'] c+[>>] F-[3'4'] f-[45] F-[>>] z-[3'4'] |
 | F-[45] f-[>>] F-[3'4'] f-[55'] F-[>>] z-[45] | E+[45] e+[>>] E+[3'4'] e+[45] E+[>>] z+[3'4'] | E+[45] e+[>>] E+[3'4'] z-[3'4'] E+[z] z-[2'3'] |1 A-[45] a-[>>] A-[>>] a-[>>] A-[>>] z-[>>] | A-z a-3 A-4 a-5 A-[4'7] z-[55'] :|
 |2 A-[34] a-z A-[45] a-[3'4'] A-z z-[3'4'] |: A-[45] a-z A-[45] a-[3'4'] A-z z-[45] | E+[45] e+z E+[45] z+[3'4'] E+z z+[3'4'] | E+[45] e+z E+[45] z+[3'4'] E+z z+[45] | A-[45] a-z A-[45] a-[3'4'] A-z z-[3'4'] |
 | A-[45] a-z A-[45] a-[3'4'] A-z z-[3'4'] | E+[4'6'7']2 >+[4'6'7'] D-[3'6'7'] >-[>>>] >-[3'6'7'] | C+[3'4'6']2 >+[3'4'6'] E+[457] >+[>>>] >+[457] |1 A-[34] a-z A-[45] a-[3'4'] A-z z-[3'4'] :|2 A-[347] a-[>>>] A-[>>>] a-[>>>] A-[>>>] z-[>>>] |
-                    </textarea>>
+</textarea>
                 </header>
             </div>
         </div> <!-- /navbar -->
@@ -71,7 +71,7 @@ V:Tablatura accordionTab
                     <div class="dTitle"><span id="t2p_spanTitleStudio" style="padding-left: 5px;">Partitura --> Tablatura</span><span id="t2pSpanAccordeon" style="padding-left: 5px;"></span></div>
                 </div>
                 <div id="t2pHeader">
-                    <textarea id="t2pTextarea"></textarea>
+                    <textarea id="t2pTextarea" class="sourceTextarea"></textarea>
                     <div id="t2pControlDiv" >
                         <div id="t2pControlDiv1" style="float:left;" >
                             <button id="t2pShowMapBtn" class="btn" title="Exibir/Ocultar Teclado" onclick=""><i id="t2p_I_showMap" class="icon-folder-close"></i>&nbsp;<span id="t2p_DR_showMap">Teclado</span></button>
@@ -87,14 +87,14 @@ V:Tablatura accordionTab
                         </div>
                         <div id="t2pDivChecks" style="float:left; margin-left: 4px;">
                             <input type="checkbox" id="ckShowWarns" checked >&nbsp;<span>Mostrar erros de geração</span><br>
-                            <input type="checkbox" id="ckShowABC" >&nbsp;<span>Mostrar o texto da tablatura</span><br>
-                            <span id="convert2club" ><input type="checkbox" id="ckConvertToClub" >&nbsp;<span>Converter para Club IIIM (br)</span></span>
+                            <input type="checkbox" id="ckShowABC" checked>&nbsp;<span>Mostrar o texto da tablatura</span><br>
+                            <!--span id="convert2club" ><input type="checkbox" id="ckConvertToClub" >&nbsp;<span>Converter para Club IIIM (br)</span></span-->
                         </div>
                     </div>    
                 </div> <!-- /studioHeader-->    
                 <div id="t2pStudioCanvasDiv" >
                     <div id="t2pWarningsDiv"></div>
-                    <div id="t2pABCDiv" style="display:none;"></div>
+                    <div id="t2pABCDiv" style="display:inline;"></div>
                     <div id="t2pCanvasDiv"></div>
                 </div> <!--studioCanvasDiv-->    
                 <div id="t2pEditorDiv" class="draggableWindow" style="left:40px; top:120px;" ></div>

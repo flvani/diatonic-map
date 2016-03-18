@@ -12,13 +12,11 @@ SITE.TabGen = function( interfaceParams ) {
 
     var that = this;
 
-    var toClub = (interfaceParams.accordion_options.id === 'GAITA_HOHNER_CLUB_IIIM_BR' );
-    
     this.tab = { text:null, abc:null, title:null, div:null };
     
     this.mapVisible = false;
 
-    this.tabParser = new ABCXJS.Part2Tab(toClub);
+    this.tabParser = new ABCXJS.Part2Tab();
     this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
     this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
     
@@ -33,11 +31,11 @@ SITE.TabGen = function( interfaceParams ) {
     
     this.ckShowWarns = document.getElementById(interfaceParams.ckShowWarns);
     this.ckShowABC = document.getElementById(interfaceParams.ckShowABC);
-    this.ckConvertToClub = document.getElementById(interfaceParams.ckConvertToClub);
-    this.convert2club = document.getElementById('convert2club');
+    //this.ckConvertToClub = document.getElementById(interfaceParams.ckConvertToClub);
+    //this.convert2club = document.getElementById('convert2club');
     
-    this.ckConvertToClub.checked = toClub;
-    this.convert2club.style.display = toClub ? 'inline' : 'none';
+    //this.ckConvertToClub.checked = toClub;
+    //this.convert2club.style.display = toClub ? 'inline' : 'none';
 
     this.ckShowWarns.addEventListener("click", function() {
         var divWarn = document.getElementById("t2pWarningsDiv");
@@ -57,9 +55,9 @@ SITE.TabGen = function( interfaceParams ) {
         }
     }, false);
 
-    this.ckConvertToClub.addEventListener("click", function() {
-        that.update();
-    }, false);
+//    this.ckConvertToClub.addEventListener("click", function() {
+//        that.update();
+//    }, false);
 
     this.textarea = document.getElementById(interfaceParams.textarea);
 
@@ -140,7 +138,7 @@ SITE.TabGen = function( interfaceParams ) {
 };
 
 SITE.TabGen.prototype.update = function() {
-    var abcText = this.tabParser.parse(this.textarea.value, this.accordion.getKeyboard(), this.ckConvertToClub.checked );
+    var abcText = this.tabParser.parse(this.textarea.value, this.accordion.getKeyboard() );
     this.printABC( abcText );
 };
 
@@ -149,7 +147,7 @@ SITE.TabGen.prototype.printABC = function(abcText) {
     var divWarn = document.getElementById("t2pWarningsDiv");
     var divABC = document.getElementById("t2pABCDiv");
     
-    divABC.innerHTML = this.tab.text.replace(/\n/g,'\<br\>');
+    divABC.innerHTML ='<textarea class="sourceTextarea" style="height:90%;">' +  this.tab.text + '</textarea>'; // .replace(/\n/g,'\<br\>');
    
     var warns = this.tabParser.getWarnings();
     if(warns) {

@@ -28,10 +28,65 @@ notação abc, tablatura "/>
                     <div style="margin-left: 4px;">
                         <table><tr><td id="DR_appName"><h1>Gerador de Partituras</h1></td></tr></table>
                     </div>
+<textarea id="lixo" style="display: none;">
+T:Hino do Grêmio
+C:Lupicínio Rodrigues
+C:(adapt. Cezar Ferreira)
+L:1/8
+Q:140
+M:4/4
+K:C
+|: C c       C  c       | G  g  G g | C c       C  c       | G  g G g   g   |
+|: 9 7'  8   6' 8   7'  |           | 9 7'  8   6' 8   7'  |                |
+|:                      | 7' 5'   z |                      | 7'   z 9   9   |
++  2 1.5 0.5 2  1.5 0.5   2  2  2 2   2 1.5 0.5 2  1.5 0.5   2  2 2 1.5 1.5 
+
+| C  z   z   A z   z  | F   f F f       | C  g      G  g       | C  c C c :| 
+| 8'                  |                 | 8'                   | 6'     z :| 
+|    10  9'  2 9'  0  | 10' 2 z 9   8'  |    1  9'  7' 8'  9   |          :| 
++ 2  1.5 0.5   1.5 .5   2     2 1.5 0.5   2  .5 0.5 2  1.5 0.5   2  2 2 2    
+</textarea>
+<textarea id="lixo2" style="display: none;">
+T:Mercedita
+C:Ramón Sixto Rios
+C:Adapt. para gaita-ponto por Cezar Ferreira.
+Q:108
+L:1/8
+M:3/4
+K:C 
+| z z z z z  z  |: D  f D  f  D z  | G  g G  g  G z  | C  c F  f F z  | 
+| z             |:                 |                 | 3'             | 
+/               |:                 |                 | 4'             | 
+|   3 4 5 4' 5  |: 3'   5  3'   5  | 3'   5  4'   3' |      3' 4   3' | 
+/         7  5' |: 4'   5' 4'   5' | 4'   5' 7    4' |      4' 5   4' | 
++                                                                       
+
+| F f F  f  F z | E e E  e E z  | E e E  z  E z  |1 A a A a A z | A a A a A  z  :| 
+|               | 4   3' 4   3' | 4   3'    z    |1             |               :| 
+/               | 5   4' 5   4' | 5   4'         |1             |               :| 
+| 4   3' 5    4 |               |        3'   2' |1 4           | z 3 4 5 4' 5  :| 
+/ 5   4' 5'   5 |               |        4'   3' |1 5           |         7  5' :| 
++                                                                                  
+
+|2 A a A a  A z  |: A a A a  A z | E e E z  E z  | E e E z  E z | A a A a  A z  | 
+|2               |:              | 4 z 4 3' z 3' | 4 z 4 3' z 4 |               | 
+/                |:              | 5   5 4'   4' | 5   5 4'   5 |               | 
+|2 3 z 4 3' z 3' |: 4 z 4 3' z 4 |               |              | 4 z 4 3' z 3' | 
+/  4   5 4'   4' |: 5   5 4'   5 |               |              | 5   5 4'   4' | 
++                                                                                 
+
+| A a A a  A z  | E     D         | C     E      |1 A a A a  A z  :|2 A a A a A z | 
+|               | 4' 4'           | 3' 3' 4- 4 4 |1               :|2             | 
+/               | 6' 6'           | 4' 4' 5- 5 5 |1               :|2             | 
+/               | 7' 7'           | 6' 6' 7- 7 7 |1               :|2             | 
+| 4 z 4 3' z 3' |       3'- 3' 3' |              |1 3 z 4 3' z 3' :|2 3           | 
+/ 5   5 4'   4' |       6'- 6' 6' |              |1 4   5 4'   4' :|2 4           | 
+/               |       7'- 7' 7' |              |1               :|2 7           | 
++                 2                 2                                               
+</textarea>
                 </header>
             </div>
         </div> <!-- /navbar -->
-        
         <div id="t2pDiv">
             <div id="t2pContentDiv">
                 <div id="t2pMenu" class="draggableMenu">
@@ -47,7 +102,7 @@ notação abc, tablatura "/>
                     <div class="dTitle"><span id="t2p_spanTitleStudio" style="padding-left: 5px;">Tablatura --> Partitura</span><span id="t2pSpanAccordeon" style="padding-left: 5px;"></span></div>
                 </div>
                 <div id="t2pHeader">
-                    <textarea id="t2pTextarea"></textarea>
+                    <textarea id="t2pTextarea" class="sourceTextarea" ></textarea>
                     <div id="t2pControlDiv" >
                         <div id="t2pControlDiv1" style="float:left;" >
                             <button id="t2pShowMapBtn" class="btn" title="Exibir/Ocultar Teclado" onclick=""><i id="t2p_I_showMap" class="icon-folder-close"></i>&nbsp;<span id="t2p_DR_showMap">Teclado</span></button>

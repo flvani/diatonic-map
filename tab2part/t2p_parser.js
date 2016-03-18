@@ -237,13 +237,14 @@ ABCXJS.Tab2Part.prototype.addNotes = function(staffs) {
                 }
                 this.addTabElem(str);
                 if( staffs[i].token.final ) {
-                    if(!this.checkBass(note.pitch, opening)){
+                    var bas = this.checkBass(note.pitch, opening);
+                    if(!bas){
                         if( this.alertedBarNumber !== staffs[i].token.barNumber ) {
                             this.addWarning("Compasso "+staffs[i].token.barNumber+": Baixo não encontrado ou não compatível com o movimento do fole.");
                             this.alertedBarNumber = staffs[i].token.barNumber;
                         }    
                     }
-                    this.addBassElem(staffs[i].idBass, staffs[i] );
+                    this.addBassElem(staffs[i].idBass, staffs[i], bas );
                     this.setStaffState(staffs[i]);
                 }
             } else {
@@ -330,7 +331,7 @@ ABCXJS.Tab2Part.prototype.handleBassNote = function (note) {
     return {pitch:note, isRest: isRest, isMinor:isMinor, isChord:isChord};
 };
 
-ABCXJS.Tab2Part.prototype.addBassElem = function (idx, el ) {
+ABCXJS.Tab2Part.prototype.addBassElem = function (idx, el, bas ) {
     if(typeof( el ) === 'string' ) {
         this.parsedLines[this.currStaff].basses[idx] += el;
     } else {
@@ -341,7 +342,7 @@ ABCXJS.Tab2Part.prototype.addBassElem = function (idx, el ) {
             if( note.isRest ) {
                str = note.pitch;
             } else if( note.isChord ) {
-               str = this.getChord(note.pitch, note.isMinor );
+               str = this.getChord(note.pitch, (bas.isMinor !==undefined? bas.isMinor : note.isMinor ) );
             } else {
                 str = this.getTabNote(note.pitch, this.bassOctave, true );
             }
@@ -690,7 +691,7 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
                         case 'G': token = 'C'; break;
                         case 'g': token = 'c'; break;
                         case 'A': token = 'D'; break;
-                        case 'am': token = 'dm'; break;
+                        case 'a': token = 'd'; break;
                     }
                 } else {
                     //move para o botão imediatamente abaixo
@@ -791,21 +792,20 @@ ABCXJS.Tab2Part.prototype.getButton = function( b ) {
 };
 
 ABCXJS.Tab2Part.prototype.checkBass = function( b, opening ) {
-    var found = false;
     if( b === '-->' || !this.keyboard ) return false;
     if( b === 'z' ) return true;
     var kb = this.keyboard;
     var nota = kb.parseNote(b, true );
-    for( var j = kb.keyMap.length; !found && j > kb.keyMap.length - 2; j-- ) {
-        for( var i = 0; !found && i < kb.keyMap[j-1].length; i++ ) {
+    for( var j = kb.keyMap.length; j > kb.keyMap.length - 2; j-- ) {
+        for( var i = 0; i < kb.keyMap[j-1].length; i++ ) {
             var tecla = kb.keyMap[j-1][i];
             if( (opening && tecla.openNote.key === nota.key)
                 || (!opening && tecla.closeNote.key === nota.key) ) {
-                found = true;      
+                return opening ? tecla.openNote: tecla.closeNote.key;      
             } 
         }   
     }
-    return found;
+    return false;
 };
 
 ABCXJS.Tab2Part.prototype.toHex = function( s ) {
