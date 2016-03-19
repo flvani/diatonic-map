@@ -736,7 +736,7 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
     
     var dur = 1;
     if( this.columnDuration && this.columnDuration.length ) {
-        dur = parseInt(this.columnDuration);
+        dur = parseFloat(this.columnDuration);
     }
     
     return { str: strToken, aStr: tokens, duration: dur, barNumber: this.currBar, type:type, final: final, added: false, lastChar: lastChar };
@@ -761,7 +761,7 @@ ABCXJS.Tab2Part.prototype.updateToken = function(staff) {
     }    
     var dur = 1;
     if( this.columnDuration && this.columnDuration.length ) {
-        dur = parseInt(this.columnDuration);
+        dur = parseFloat(this.columnDuration);
     }
     staff.token.duration += dur;
     
