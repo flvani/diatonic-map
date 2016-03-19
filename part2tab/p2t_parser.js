@@ -342,7 +342,7 @@ ABCXJS.Part2Tab.prototype.getNotes = function (strBass, strNote, closing) {
         d = t[0][2];
         l = Math.max(l, d.length);
 
-        nn = regexp_match(t[0][1], /(\>|z|[a..f]|[0-9])(\'{0,})/gi);
+        nn = regexp_match(t[0][1], /(\>|z|[a-f]|[0-9])(\'{0,})/gi);
         nn.forEach(function (e) {
             var v = toDecimalNote(e[1]) + e[2];
             n.push(v);
@@ -351,7 +351,7 @@ ABCXJS.Part2Tab.prototype.getNotes = function (strBass, strNote, closing) {
 
     } else {
         //nota única e duração
-        t = regexp_match(strNote, /(\>|z|[a..f]|[0-9])(\'{0,})(\d{0,1}[\.|\/]{0,1}\d{0,2})/gi);
+        t = regexp_match(strNote, /(\>|z|[a-f]|[0-9])(\'{0,})(\d{0,1}[\.|\/]{0,1}\d{0,2})/gi);
         if (t.length === 1) {
 
             n.push(toDecimalNote(t[0][1]) + t[0][2]);
