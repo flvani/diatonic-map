@@ -106,6 +106,9 @@ and open the template in the editor.
     margin: 0px;
     margin-left: 4px;
 //    pointer-events: auto;
+    -moz-box-shadow: 8px 8px 10px #444;
+    -webkit-box-shadow: 8px 8px 10px #444;
+    box-shadow: 8px 8px 10px #444;
     background-color: #f1f1dd; 
 
 }
