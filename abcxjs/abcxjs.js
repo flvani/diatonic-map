@@ -1914,6 +1914,7 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                 case '9':
                 case '0':
                 case '/':
+                case '.':
                     if (state === 'octave' || state === 'duration') {
                         var fraction = tokenizer.getFraction(line, index);
                         if (!durationSetByPreviousNote)
@@ -2513,7 +2514,9 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                                             case '7':
                                             case '8':
                                             case '9':
+                                            case '0':
                                             case '/':
+                                            case '.':
                                                 var fraction = tokenizer.getFraction(line, i);
                                                 chordDuration = fraction.value;
                                                 i = fraction.index;
@@ -6164,6 +6167,8 @@ if (!window.ABCXJS)
 if (!window.ABCXJS.write)
     window.ABCXJS.write = {};
 
+ABCXJS.write.highLightColor = "#5151ff";
+
 ABCXJS.write.StaffGroupElement = function() {
     this.voices = [];
 };
@@ -6698,7 +6703,7 @@ ABCXJS.write.AbsoluteElement.prototype.setClass = function(addClass, removeClass
 };
 
 ABCXJS.write.AbsoluteElement.prototype.highlight = function() {
-    this.setClass("note_selected", "", "#ff0000");
+    this.setClass("note_selected", "", ABCXJS.write.highLightColor );
 };
 
 ABCXJS.write.AbsoluteElement.prototype.unhighlight = function() {
@@ -8734,17 +8739,17 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune) {
         extraText = "";
     }
     if (abctune.metaText.book)
-        extraText += "Book: " + abctune.metaText.book + "\n";
+        extraText += "Livro: " + abctune.metaText.book + "\n";
     if (abctune.metaText.source)
-        extraText += "Source: " + abctune.metaText.source + "\n";
+        extraText += "Fonte: " + abctune.metaText.source + "\n";
     if (abctune.metaText.discography)
-        extraText += "Discography: " + abctune.metaText.discography + "\n";
+        extraText += "Discografia: " + abctune.metaText.discography + "\n";
     if (abctune.metaText.notes)
-        extraText += "Notes: " + abctune.metaText.notes + "\n";
+        extraText += abctune.metaText.notes + "\n";
     if (abctune.metaText.transcription)
-        extraText += "Transcription: " + abctune.metaText.transcription + "\n";
+        extraText += "Transcrito por " + abctune.metaText.transcription + "\n";
     if (abctune.metaText.history)
-        extraText += "History: " + abctune.metaText.history + "\n";
+        extraText += "Histórico: " + abctune.metaText.history + "\n";
     text2 = this.paper.text(this.paddingleft, this.y * this.scale + 25 * this.scale, extraText).attr({"text-anchor": "start", "font-family": "serif", "font-size": 17 * this.scale});
     height = text2.getBBox().height;
     if (!height)
