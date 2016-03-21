@@ -34,7 +34,6 @@ and open the template in the editor.
     -webkit-transition: opacity 400ms ease-in;
     -moz-transition: opacity 400ms ease-in;
     transition: opacity 400ms ease-in;
-//    pointer-events: none;
     background-color: #ddd; 
     color:black;     
 }
@@ -43,8 +42,6 @@ and open the template in the editor.
 
 #studioContentDiv {
     position: absolute;
-//    width: 98.5%;
-//    height: 98%;
     top: 0;
     right: 0;
     left: 0;
@@ -70,7 +67,6 @@ and open the template in the editor.
     position: relative;
     height: 422px;
     overflow-y: auto;
-//    pointer-events: auto;
     margin: 0px;
     margin-left: 4px;
 }
@@ -83,7 +79,6 @@ and open the template in the editor.
     font-family: monospace; 
     font-size: 12px; 
     line-height: 14px;
-//    pointer-events: auto;
     resize: none;
 }
 
@@ -91,7 +86,6 @@ and open the template in the editor.
     margin: 4px;
     margin-bottom: 0px;
     display: inline-block;
-//    pointer-events: auto;
     font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 15px;
 }
@@ -105,12 +99,11 @@ and open the template in the editor.
 #canvasDiv {
     margin: 0px;
     margin-left: 4px;
-//    pointer-events: auto;
     -moz-box-shadow: 8px 8px 10px #444;
     -webkit-box-shadow: 8px 8px 10px #444;
     box-shadow: 8px 8px 10px #444;
     background-color: #f1f1dd; 
-
+    border-bottom-right-radius: 4px;
 }
 
 .ok, .close, .cancel {
