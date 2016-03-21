@@ -13,12 +13,13 @@ SITE.PartGen = function( interfaceParams ) {
     var that = this;
 
     var toClub = (interfaceParams.accordion_options.id === 'GAITA_HOHNER_CLUB_IIIM_BR' );
+    var fromClub = (interfaceParams.accordion_options.id !== 'GAITA_HOHNER_CLUB_IIIM_BR' );
     
     this.tab = { text:null, abc:null, title:null, div:null };
     
     this.mapVisible = false;
 
-    this.tabParser = new ABCXJS.Tab2Part(toClub);
+    this.tabParser = new ABCXJS.Tab2Part(toClub, fromClub);
     this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
     this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
     
@@ -34,10 +35,16 @@ SITE.PartGen = function( interfaceParams ) {
     this.ckShowWarns = document.getElementById(interfaceParams.ckShowWarns);
     this.ckShowABC = document.getElementById(interfaceParams.ckShowABC);
     this.ckConvertToClub = document.getElementById(interfaceParams.ckConvertToClub);
-    this.convert2club = document.getElementById('convert2club');
-    
+    this.convertToClub = document.getElementById('convertToClub');
+
+    this.ckConvertFromClub = document.getElementById(interfaceParams.ckConvertFromClub);
+    this.convertFromClub = document.getElementById('convertFromClub');
+        
     this.ckConvertToClub.checked = toClub;
-    this.convert2club.style.display = toClub ? 'inline' : 'none';
+    this.convertToClub.style.display = toClub ? 'inline' : 'none';
+
+    this.ckConvertFromClub.checked = false;
+    this.convertFromClub.style.display = fromClub ? 'inline' : 'none';
 
     this.ckShowWarns.addEventListener("click", function() {
         var divWarn = document.getElementById("t2pWarningsDiv");
@@ -58,6 +65,10 @@ SITE.PartGen = function( interfaceParams ) {
     }, false);
 
     this.ckConvertToClub.addEventListener("click", function() {
+        that.update();
+    }, false);
+
+    this.ckConvertFromClub.addEventListener("click", function() {
         that.update();
     }, false);
 
@@ -139,7 +150,7 @@ SITE.PartGen = function( interfaceParams ) {
     
 };
 SITE.PartGen.prototype.update = function() {
-    var abcText = this.tabParser.parse(this.textarea.value, this.accordion.getKeyboard(), this.ckConvertToClub.checked );
+    var abcText = this.tabParser.parse(this.textarea.value, this.accordion.getKeyboard(), this.ckConvertToClub.checked, this.ckConvertFromClub.checked );
     this.printABC( abcText );
 };
 

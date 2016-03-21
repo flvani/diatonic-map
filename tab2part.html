@@ -119,7 +119,8 @@ K:C
                         <div id="t2pDivChecks" style="float:left; margin-left: 4px;">
                             <input type="checkbox" id="ckShowWarns" checked >&nbsp;<span>Mostrar erros de geração</span><br>
                             <input type="checkbox" id="ckShowABC" >&nbsp;<span>Mostrar o texto ABCX</span><br>
-                            <span id="convert2club" ><input type="checkbox" id="ckConvertToClub" >&nbsp;<span>Converter para Club IIIM (br)</span></span>
+                            <span id="convertToClub" style="display: none;"><input type="checkbox" id="ckConvertToClub">&nbsp;<span>Converter para Club IIIM (br)</span></span>
+                            <span id="convertFromClub" style="display: none;"><input type="checkbox" id="ckConvertFromClub">&nbsp;<span>Converter de Club IIIM (br)</span></span>
                         </div>
                     </div>    
                 </div> <!-- /studioHeader-->    
@@ -262,6 +263,7 @@ K:C
                        ,ckShowWarns:'ckShowWarns'
                        ,ckShowABC:'ckShowABC'
                        ,ckConvertToClub:'ckConvertToClub'
+                       ,ckConvertFromClub:'ckConvertFromClub'
                        ,accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps

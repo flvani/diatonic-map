@@ -13,9 +13,10 @@ ABCXJS.Tab2PartLine = function () {
     this.tablature = "";
 };
 
-ABCXJS.Tab2Part = function (toClub) {
+ABCXJS.Tab2Part = function (toClub, fromClub) {
     
     this.toClub = toClub || false;
+    this.fromClub = fromClub || false;
     
     this.ties = [];
     this.keyAcidentals = [];
@@ -58,13 +59,14 @@ ABCXJS.Tab2Part.prototype.init = function () {
     this.warnings = [];
 };
 
-ABCXJS.Tab2Part.prototype.parse = function (text, keyboard, toClub ) {
+ABCXJS.Tab2Part.prototype.parse = function (text, keyboard, toClub, fromClub ) {
     this.init();
     this.tabText   = text;
     this.tabLines  = this.extractLines();
     this.keyboard  = keyboard;
     this.hasErrors = false;
     this.toClub = toClub;
+    this.fromClub = fromClub;
     
     this.addLine('%%barnumbers 1');
     this.addLine('%%papersize A4');
@@ -130,6 +132,12 @@ ABCXJS.Tab2Part.prototype.parseLine = function () {
                         case 'G': k = 'C'; break;
                         case 'Am': k = 'Dm'; break;
                         case 'C': k = 'F';
+                    }
+                } else if ( this.fromClub ) {
+                    switch( k ) {
+                        case 'C': k = 'G'; break;
+                        case 'Dm': k = 'Am'; break;
+                        case 'F': k = 'C';
                     }
                 }
                 header[0] = 'K:' + k;
@@ -698,6 +706,30 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
                     var x = token.match(/^[0-9]*/g);
                     var a = token.replace( x[0], '' );
                     token = (parseInt(x[0])+1) + a;
+                }
+            }
+            if( this.fromClub && syms.indexOf( token.charAt(0) ) < 0 && token !== 'z' ) {
+                if( staff.bass ) {
+                    // flavio - transpose bass
+                    switch(token) {
+                        case 'A': token = 'E'; break;
+                        case 'a': token = 'e';  break;
+                        case 'B♭': token = 'F'; break;
+                        case 'b♭': token = 'f'; break;
+                        case 'C': token = 'G'; break;
+                        case 'c': token = 'g'; break;
+                        case 'D': token = 'A'; break;
+                        case 'd': token = 'a'; break;
+                        case 'F': token = 'C'; break;
+                        case 'f': token = 'c'; break;
+                        case 'G': token = 'D'; break;
+                        case 'g': token = 'd'; break;
+                    }
+                } else {
+                    //move para o botão imediatamente abaixo
+                    var x = token.match(/^[0-9]*/g);
+                    var a = token.replace( x[0], '' );
+                    token = (parseInt(x[0])-1) + a;
                 }
             }
             

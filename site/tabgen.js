@@ -32,10 +32,10 @@ SITE.TabGen = function( interfaceParams ) {
     this.ckShowWarns = document.getElementById(interfaceParams.ckShowWarns);
     this.ckShowABC = document.getElementById(interfaceParams.ckShowABC);
     //this.ckConvertToClub = document.getElementById(interfaceParams.ckConvertToClub);
-    //this.convert2club = document.getElementById('convert2club');
+    //this.convertToClub = document.getElementById('convertToClub');
     
     //this.ckConvertToClub.checked = toClub;
-    //this.convert2club.style.display = toClub ? 'inline' : 'none';
+    //this.convertToClub.style.display = toClub ? 'inline' : 'none';
 
     this.ckShowWarns.addEventListener("click", function() {
         var divWarn = document.getElementById("t2pWarningsDiv");
