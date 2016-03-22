@@ -237,8 +237,12 @@ ABCXJS.Part2Tab.prototype.addBar = function (tabline, token) {
 ABCXJS.Part2Tab.prototype.addNotes = function(tabline, line) {
     
     var parsedNotes = line.parsedNotes;
+//    if( parsedNotes.empty ){
+//      var x =1;  
+//    };
     
-    if( parsedNotes.empty ) {
+    if( parsedNotes.empty &&  (line.parsedNotes.bas.trim().length === 0 || line.parsedNotes.currBar !== line.lastParsedNotes.currBar )) {
+        line.lastParsedNotes.currBar = line.parsedNotes.currBar;
         var lastNotes = line.lastParsedNotes.notes;
         if(parsedNotes.closing) {
             var i = tabline.close[0].lastIndexOf( lastNotes[0] ) + line.lastParsedNotes.maxL;
@@ -364,7 +368,7 @@ ABCXJS.Part2Tab.prototype.getNotes = function (strBass, strNote, closing) {
     }
     
     var pn = {bas: b[0], notes: n, duration: d, closing: closing, maxL: l, currBar: this.currBar, empty:false };
-    var checkEmpty = pn.bas;
+    var checkEmpty = ' '; //pn.bas;
     pn.notes.forEach( function(e) { checkEmpty+=e;});
     if( checkEmpty.trim().length === 0 ) {
        pn.empty = true; 
@@ -432,7 +436,9 @@ ABCXJS.Part2Tab.prototype.getToken = function(line) {
     }   
     
     if(found && line.tokenType===2) {
-        line.lastParsedNotes = line.parsedNotes;
+        if( line.parsedNotes !== undefined && ! line.parsedNotes.empty ) {
+            line.lastParsedNotes = line.parsedNotes;
+        }
         line.parsedNotes = this.parseNotes( line.currToken ) ;
         if( line.parsedNotes === null ) {
             line.tokenType=-1;

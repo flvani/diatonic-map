@@ -7,6 +7,11 @@
 if (!window.ABCXJS)
     window.ABCXJS = {};
 
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
 ABCXJS.Tab2PartLine = function () {
     this.basses = [];
     this.treble = "";
@@ -275,17 +280,26 @@ ABCXJS.Tab2Part.prototype.addNotes = function(staffs) {
                 
                 if( (opening && staffs[i].open) || (!opening && !staffs[i].open) ) {
                     
-                    if( this.ties.length > 0 ) {
+                    if( this.ties.length > 0 )  {
                         var t = this.ties.pop();
-                        if( t === str ) {
-                            str = '>';
-                        }   
-                    } 
+                        if( t !== str ) {
+                            this.ties.push(t);
+                        } else {
+                            str = "";
+                            for(var j = 0; j < staffs[i].token.aStr.length; j ++ ) {
+                                  str += ">";
+                            }  
+                            if(staffs[i].token.aStr.length > 1) {
+                                str = '['+str+']';
+                            }
+                        }
+                    }  else {
 
-                    if(staffs[i].token.lastChar.indexOf( '-' )>=0){
-                        this.ties.push(str);
-                    }
-                    
+                        if(staffs[i].token.lastChar.indexOf( '-' )>=0) {
+                            //staffs[i].token.lastChar = '';
+                            this.ties.push(str);
+                        }
+                    }  
                     this.addTabElem(str);
                     if(  (this.trebleStaffs.open && this.trebleStaffs.open.token.final) 
                             || (this.trebleStaffs.close && this.trebleStaffs.close.token.final)){
@@ -777,7 +791,7 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
 ABCXJS.Tab2Part.prototype.normalizeAcc = function(str) {
     var ret = str.charAt(0);
     if(str.length > 1) {
-        ret += str.charAt(1).replace(/#/g,'♯').replace(/b/g,'♭');
+        ret += str.substr(1).replace(new RegExp('#', 'g'),'♯').replace(new RegExp('b', 'g'),'♭');
     }
     return ret;
 };
