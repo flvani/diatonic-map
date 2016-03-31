@@ -1,0 +1,27 @@
+﻿%%barnumbers 0
+%%papersize A4
+T:Juazeiro (Catingueira)
+C:Luiz Gonzaga
+C:(arr. Cezar Ferreira)
+Z:Flávio Vani
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/2c7w1UmARYE
+M:4/4
+L:1/8
+Q:100
+K:C
+V:1 treble
+| z cde +segno+|: fc Af | eB Ge | de fB |1 c2 de :|2 c z CE | 
+|: GE cA | G2 GA | GE DC | EC CE | GE cA | c2 cA | 
+| GE DC |1 C2 CE :|:2 C2 DE | F2 A,C | EC EG | FE DC | 
+| EC DE | F2 A,C | EC EG | FE DC :| C cde +segno+|
+V:2 bass
+| z4 |: F,,[F,A,C] [F,A,C][F,A,C] | E,,[G,B,D] [G,B,D][G,B,D] | D,,[F,A,C] G,,[G,B,D] |1 C,,[C,E,G,] [C,E,G,][C,E,G,] :|2 C,,[C,E,G,] [C,E,G,][C,E,G,] | 
+|: C,,[C,E,G,] [C,E,G,]A,, | C,,[C,E,G,] [C,E,G,]A,, | G,,[G,B,D] [G,B,D][G,B,D] | C,,[C,E,G,] [C,E,G,][C,E,G,] | C,,[C,E,G,] [C,E,G,]A,, | C,,[C,E,G,] [C,E,G,]A,, | 
+| G,,[G,B,D] [G,B,D][G,B,D] |1 C,,[C,E,G,] [C,E,G,][C,E,G,] :|:2 C,,[C,E,G,] [C,E,G,][C,E,G,] | F,,[F,A,C] [F,A,C][F,A,C] | C,,[C,E,G,] [C,E,G,][C,E,G,] | G,,[G,B,D] [G,B,D][G,B,D] | 
+| C,,[C,E,G,] [C,E,G,][C,E,G,] | F,,[F,A,C] [F,A,C][F,A,C] | C,,[C,E,G,] [C,E,G,][C,E,G,] | D,,[F,A,C] G,,[G,B,D] :| C,,[C,E,G,] [C,E,G,][C,E,G,] | 
+V:3 accordionTab
+| z+z z+6' z+8 z+7' |: F-8' f-8 f-7 f-8' | E+7' g+7 g+6 g+7' | D-7' f-9 G-8' g-6' |1 C+6' c+> c+8 c+7' :|2 C+6' c+z c+3' c+4' | 
+|: C+5' c+4' c+6' A-7 | C+5' c+> c+6 A-7 | G-5' g-5 g-3' g-4 | C+4' c+3' c+3' c+4' | C+5' c+4' c+6' A-7 | C+6' c+> c+6' A-7 | 
+| G-5' g-5 g-3' g-4 |1 C+3' c+> c+3' c+4' :|:2 C+3' c+> c+5 c+4' | F-4' f-> f-3 f-4 | C+4' c+3' c+4' c+5' | G-4' g-5 g-3' g-4 | 
+| C+4' c+3' c+5 c+4' | F-4' f-> f-3 f-4 | C+4' c+3' c+4' c+5' | D-4' f-5 G-3' g-4 :| C+3' c+6' c+8 c+7' |

@@ -1,0 +1,27 @@
+﻿%%barnumbers 0
+%%papersize A4
+T:Stairway To Heaven
+C:Led Zepelin
+C:(arr. Cezar Ferreira)
+Z:Flávio Vani
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/7Rk3avrL-es
+M:4/4
+L:1/8
+Q:60
+K:G
+V:1 treble
+|z A, =F E +segno+|: AA, CA | BC EB | GG, B,G | FA, CF | EA, CE- | EE CA, | 
+|1 [G,B,D] [A,CE] [A,CE]2- | [A,CE] A, =F E :|2 [G,B,D] [A,CE] [A,CE]2- | [A,CE]2 A F | cE Ge | fd Af | ec Ae | 
+| BA AB | cE Ge | gd Gg | e f [dF] [dF]- | [dF]2 AB |  cE Ge |
+| fd Af | ec Ae | BA AB | cE Ge | fd Af | [Ace] [Ace] [Ace]2- | [Ace] A, =F E +segno+| 
+V:2 bass
+| z4 |: A,,4 | E,,4 | G,,4 | D,,4 | =F,,4 | z E,, C,, A,, | 
+|1 G,, A,, A,,2 | z A,, =F,, E,, :|2 G,, A,, A,,2 | z2 A,, G,, | C,,4 | D,,4 | =F,,4 | 
+| A,,2 A,, G,, | C,,4 | G,,4 | D,,4 | z2 A,, G,, |  C,,4 |
+| D,,4 | =F,,4 | A,,2 A,, G,, | C,,4 | D,,4 | =F,, =F,, =F,,2 | z A,, =F,, E,, | 
+V:3 accordionTab
+ z-z A-3 F-4' E+4' |: A-7 >-3 >-4 >-7 | E+7 >+3' >+4' >+7 | G+6 >+3 >+4 >+6 | D-6 >-3 >-4 >-6 | F-5 >-3 >-4 >-5 | z-> E+4' C+3' A-3 | 
+|1 G+[345] A-[345] A-[345]2 | z-[>>>] A-3 F-4' E+4' :|G+[345] A-[345] A-[345]2 |2 z-[>>>]2 A-7 G-6 | C+6' >+4' >+5' >+7' | D-a >-7' >-7 >-a | F-9 >-8 >-7 >-9 | 
+| A-6' >-7 A-7 G-6' | C+6' >+4' >+5' >+7' | G-9' >-7' >-5' >-9' | D-9 >-a >-[7'6] >-[7'6] | z-[>>]2 A-7 G-6' |  C+6' >+4' >+5' >+7' |
+| D-a >-7' >-7 >-a | F-9 >-8 >-7 >-9 | A-6' >-7 A-7 G-6' | C+6' >+4' >+5' >+7' | D-a >-7' >-7 >-a | F-[789] F-[789] F-[789]2 | z-[>>>] A-3 F-4' E+4' | 

@@ -1,0 +1,18 @@
+﻿%%barnumbers 0
+%%papersize A4
+T:Paraíba Masculina
+C:Luiz Gonzaga & Humberto Teixeira
+Z:Flávio Vani
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/69rv13vRK98
+M:2/4
+L:1/16
+Q:100
+K:G
+V:1 treble
+|: [Bdg]8 | [GBd]8 | [GBe]8 | [DGB]8 | [Ed]6 [DG]2 | [EA]2[EG] 2 [EC]2[EG]2 |1 [B,DG]8 | [DFA]8 :|2  [B,DG]8- | [B,DG]4 z4 |
+w: Ei-tá! Ei-tá! Mu-ié macho, * sim se-nhor! * nhor!
+V:2 bass
+|: "G" G,,3[G,B,D] G,,2[G,B,D]2| G,,2[G,B,D] 2 G,,2[G,B,D]2 | G,,3[G,B,D] G,,2[G,B,D]2 | G,,2[G,B,D] 2 G,,2[G,B,D]2 | "C7" C,,3[C,E,G,] C,,2[C,E,G,] 2 | A,,2[C,E,G,] 2 C,,2[C,E,G,] 2 |1 "G" G,,3[G,B,D] G,,2[G,B,D]2| G,,2[G,B,D] 2 G,,2[G,B,D]2 :|2 G,,2[G,B,D] 2 G,,4- | G,,4 z4 |
+V:3 accordionTab
+|: G+[788']3 g+[>>>] G+[>>>]2 g+[>>>]2 | G-[5'6'7']2 g-[>>>]2 G-[>>>]2 g-[>>>]2 | G+[677']3 g+[>>>] G+[>>>]2 g+[>>>]2 | G-[3'5'6']2 g-[>>>]2 G-[>>>]2 g-[>>>]2 | C+[4'8]3 c+[>>] C+[>>]2 c+[55']2 | A-[57]2 c+[4'5']2 C+[3'4']2 c+[4'5']2 |1 G+[455']3 g+[>>>] G+[>>>]2 g+[>>>]2 | G-[3'67]2 g-[>>>]2 G-[>>>]2 g-[>>>]2 :|2 G+[455']2 g+[>>>]2 G+[>>>]4 | >+[>>>]4 z-z4 |
