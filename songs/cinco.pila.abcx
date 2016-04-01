@@ -1,4 +1,4 @@
-﻿%%barnumbers 1
+﻿%%barnumbers 0
 %%papersize A4
 T:Cinco Pila
 C:Recolhido do folclore por Tio Bilia
@@ -11,8 +11,8 @@ L:1/8
 Q:160
 K:G
 V:1 treble stem=down
-|: e2 dc | [Bd]2 z2 | [Bd]2 z2 | [Ac]2 z2 | d2 cB | [Ac]2 z2 | [Ac]2 z2 | [GB]2 z2 :| 
-|: z  (4GBcd | [eg]2 z2 | [eg]2 z2 | [df]2 ed | cB cd | [df]2 z2 | [ce]2 z2 | [Bd]2 ed | 
+|:[P:Parte I] e2 dc | [Bd]2 z2 | [Bd]2 z2 | [Ac]2 z2 | d2 cB | [Ac]2 z2 | [Ac]2 z2 | [GB]2 z2 :| 
+|:[P:Parte II] z  (4GBcd | [eg]2 z2 | [eg]2 z2 | [df]2 ed | cB cd | [df]2 z2 | [ce]2 z2 | [Bd]2 ed | 
 | Gc Bc | [Bd]2 z2 | [Bd]2 z2 | [Ac]2 FA | Bc de | [df]2 ed | cc BA | G2- [GBd]2 :| 
 V:2 bass
 |: G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,,B,,D,]2 :| 
