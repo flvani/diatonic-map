@@ -7,17 +7,17 @@ N:Mapa para Acordeons Diatônicos powered by ABCXJS.
 F:https://www.youtube-nocookie.com/embed/69rv13vRK98
 M:2/4
 L:1/16
-Q:90
+Q:100
 K:G
 V:1 treble
 |: [Bdg]8 | [GBd]8 | [GBe]8 | [DGB]8 | [Ed]6 [DG]2 | [EA]2[EG] 2 [EC]2[EG]2  |1 [B,DG]8 | [DFA]8 :|
 |2 [B,DG]4 z "G" D2G | B2d2 d2d2 | d3B B2B2 | A2G2 F2=F2 | "Am" E4 z C2E | A2c2 c2c2 |
-w:* * Quando * a~la-ma vi-rou pe-dra e man-da-ca-ru se-cou, quando * o Ri-ba-ção
-| c3A "D7" A2G2 | F2F2 E2E2 | "G" D4 z B2d | A2G2 B2d2 | A3G- GA2G | A2G2 A2B2 |
+w:* * Quando * a~la-ma vi-rou pe-dra e man-da-ca-ru se-cou, quando * o ri-ba-ção
+| c3A "D7" A2G2 | F2F2 E2E2 | "G" D4 z B2d | A2G2 B2d2 | "G7" A3G- GA2G | A2G2 A2B2 |
 w:de se-de  ba-teu asa e vo-ou, foi aí que eu vim m'em-bo-ra, car-re-gan-do a mi-nha 
 | "C" c4 z A2B | "Cm" cA2B cB2A  | "G" BB2G E2D2 | g2bg "D7" e2ge | "C" d2ed B2 z2 |
 w: dor. Hoje eu mando * um abraço * pra ti, pe-que-ni-na!  
-|: D2D2 G2G2 | B2B2 "Am" A2A2 | c2c2 "D7" B2B2 | A2A2 "G" G4 :|
+|: "G" D2D2 G2G2 | B2B2 "Am" A2A2 | c2c2 "D7" B2B2 | A2A2 "G" G4 :|
 w: Pa-ra-í-ba, mas-cu-li-na, mu-lher ma-cho, sim, se-nhor!
 | "G" B3G- GD2F | E3D- DG2F | E2D2 G2E2 | "Am" F8 |
 w:Ei-tá, * pau pe-rei-ra, * Qu'em Prin-ce-sa já ron-cou!
@@ -28,7 +28,7 @@ w:Ei-tá, * pau pe-rei-ra, * meu bo-do-que não que-brou. Hoje eu
 | "Cm" cA2B cB2A  | "G" BB2G E2D2 | g2bg "D7" e2ge | "C" d2ed B2 z2 |
 w: mando * Um abraço * pra ti, pe-que-ni-na! 
 |: D2D2 G2G2 | B2B2 "Am" A2A2 | c2c2 "D7" B2B2 | A2A2 "G" G4 :|
-w: Pa-ra-í-ba, mas-cu-li-na, mu-lher ma-cho, sim, se-nhor!
+w: "G" Pa-ra-í-ba, mas-cu-li-na, mu-lher ma-cho, sim, se-nhor!
 |: "G" [Bdg]8 | [GBd]8 | [GBe]8 | [DGB]8 | "C7" [Ed]6 [DG]2 | [EA]2[EG] 2 [EC]2[EG]2  |1  "G" [B,DG]8 | [DFA]8 :|2  [B,DG]8- | [B,DG]4 z4 |
 w: Ei-tá! Ei-tá! Mu-ié macho, * sim se-nhor! * nhor!
 V:2 bass
