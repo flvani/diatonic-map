@@ -1,0 +1,22 @@
+﻿%%barnumbers 0
+%%papersize A4
+T:Numa Sala de Reboco 
+C:Luiz Gonzaga & José Marcolino
+Z:Flávio Vani
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/sDmyJswmwIA
+M:2/4
+L:1/16
+Q:70
+K:Am
+V:1 treble 
+| [P:Parte I] z2AA ccee +segno+|: "Am" e2AA ccee | "E7" e2EE ^GG BB | eedd ccBB |1 "Am" A2AA cc ee :|
+|2 "Am" A2A2 e3d |: ccee ccee | "E7" BBdd  ddff | eedd ccBB |1 "Am" A2A2 e3d :|
+|2 "Am" A2A2- Afff | "D7" ^fffd "Dm" =fffd | "Am" c2gg gggg |  "D7" ^fffd "Dm" =fffd | "Am" c4- cggg |
+| "D7" ^fffd "Dm" =fffd | "Am" c2cc ceee | "E7" BBdd ccBB | A2AA ccee +coda+| A2 z2 [Ace]2 z2 |
+V:2 bass
+|: z8 |:  A,,3[A,,C,E,]  E,,2[A,,C,E,]2 | E,,3[E,^G,B,] E,,2[E,^G,B,]2 | E,,3[E,^G,B,] E,,2[E,^G,B,]2 |1  A,,3[A,,C,E,]  E,,2[A,,C,E,]2 :|
+|2 A,,2A,,2 z4 |:  A,,3[A,,C,E,]  E,,2[A,,C,E,]2 | E,,3[E,^G,B,] E,,2[E,^G,B,]2 | E,,3[E,^G,B,] E,,2[E,^G,B,]2 |1  A,,2A,,2 z4 :|
+|2 A,,2A,,2 z4 | D,,3[D,^F,A,] D,,2[D,F,A,]2 | A,,3[A,,C,E,] E,,2[A,,C,E,]2 | D,,3[D,^F,A,] D,,2[D,F,A,]2 | A,,2A,,2 z4 |
+| D,,3[D,^F,A,] D,,2[D,F,A,]2 | A,,3[A,,C,E,]  E,,2[A,,C,E,]2 | E,,3[E,^G,B,] E,,2[E,^G,B,]2 | A,,2 z2 z4 | A,,2 z2  A,,2 z2 | 
+V:3 accordionTab
