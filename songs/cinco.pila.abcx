@@ -1,7 +1,7 @@
 ﻿%%barnumbers 1
 %%papersize A4
 T:Cinco Pila
-C:Tio Bilia
+C:Recolhido do folclore por Tio Bilia
 C:(Arr. Cezar Ferreira)
 Z:Flávio Vani
 N:Mapa para Acordeons Diatônicos powered by ABCXJS.
@@ -17,8 +17,8 @@ V:1 treble stem=down
 V:2 bass
 |: G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,,B,,D,]2 :| 
 |: G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,,B,,D,]2 | 
-| G,,2 [G,,B,,D,]2 | G,,4 | G,,2 [G,,B,,D,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,,B,,D,]2 :| 
+| G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,,B,,D,]2 :| 
 V:3 accordionTab
 |: G+7'2 g+8 >+6' | G+[78]2 g+z2 | G+[78]2 g+z2 | D-[78]2 d-z2 | D-7'2 d-8 >-6' | D-[78]2 d-z2 | D-[78]2 d-z2 | G+[67]2 g+z2 :| 
 |: G+z (4 >+6 g+7 >+6' >+8 ) | G+[7'9]2 g+z2 | G+[7'9]2 g+z2 | D-[7'a]2 d-9 >-7' | D-8 >-6' d-8 >-7' | D-[7'a]2 d-z2 | D-[89]2 d-z2 | G+[78]2 g+7' >+8 | 
-| G+6 >+6' g+7 >+6' | G+[78]2 >+z2 | G+[78]2 g+z2 | D-[78]2 d-6 >-7 | D-6' >-8 d-7' >-9 | D-[7'a]2 d-9 >-7' | D-8 >-8 d-6' >-7 | G+62 g+[>78]2 :|
+| G+6 >+6' g+7 >+6' | G+[78]2 g+z2 | G+[78]2 g+z2 | D-[78]2 d-6 >-7 | D-6' >-8 d-7' >-9 | D-[7'a]2 d-9 >-7' | D-8 >-8 d-6' >-7 | G+62 g+[>78]2 :|
