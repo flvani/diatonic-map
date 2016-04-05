@@ -2809,6 +2809,14 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                     }
                 }
             }
+            // flavio
+            if(multilineVars.missingButtons){
+                for( var m in multilineVars.missingButtons ) {
+                    addWarning('Nota ' + m + ' não disponível nos compassos: ' + multilineVars.missingButtons[m].join(", ") + '.' ) ;
+                }
+            }
+    
+            
         //} catch (err) {
         //    if (err !== "normal_abort")
         //        throw err;
@@ -8903,22 +8911,28 @@ ABCXJS.midi.Parse = function( options ) {
 ABCXJS.midi.Parse.prototype.reset = function() {
     
     this.vars = { warnings: [] };
+    this.globalJumps = [];
+    
+    this.channel = -1;
+    this.timecount = 0;
+    this.playlistpos = 0;
+    this.pass = 1;
+    this.maxPass = 2;
+    this.countBar = 0;
+    this.currEnding = null;
+    this.afterRepeatBlock = false;
+    this.next = null;
+    this.restarting = false;
+    this.restart = {line: 0, staff: 0, voice: 0, pos: 0};
+    this.startSegno = null;
+    this.segnoUsed = false;
     
     this.multiplier = 1;
-    this.timecount = 0;
     this.alertedMin = false;
-    this.repeating = false;
-    this.skipping = false;
-    this.inEnding = false;
-    this.next = null;
-    this.visited = {};
-    this.lastMark = {};       
-    this.restart = {line: 0, staff: 0, voice: 0, pos: 0};
     
     this.startTieInterval = [];
     this.lastTabElem = [];
     this.baraccidentals = [];
-    this.channel = -1;
     this.parsedElements = [];
     
     this.midiTune = { 
@@ -9048,7 +9062,7 @@ ABCXJS.midi.Parse.prototype.handleButtons = function(pitches, buttons ) {
                 }
             }
         }
-        if(this.lastBar && ((note.isBass && hasBass) || (!note.isBass && hasTreble && this.lastBar ))) {
+        if(this.lastBar && ((note.isBass && hasBass) || (!note.isBass && hasTreble /* flavio && this.lastBar */))) {
             self.addWarning( 'Compasso '+this.lastBar+': Botao '+item.button.button.tabButton+' ('+item.button.button.closeLabel+'/'+item.button.button.openLabel+') não corresponde a nenhuma nota em execução.');
         }    
     });
@@ -9276,47 +9290,99 @@ ABCXJS.midi.Parse.prototype.selectButtons = function(elem) {
     
 };
 
-ABCXJS.midi.Parse.prototype.handleBar = function(elem) {
-    this.baraccidentals = [];
+// Esta função é fundamental pois controla todo o fluxo de execução das notas do MIDI
+ABCXJS.midi.Parse.prototype.handleBar = function (elem) {
     
-    var repeat     = (elem.type === "bar_right_repeat" || elem.type === "bar_dbl_repeat");
-    var setrestart = (elem.type === "bar_left_repeat" || elem.type === "bar_dbl_repeat" || 
-                      elem.type === "bar_thick_thin" || elem.type === "bar_thin_thick" || 
+    this.countBar++; // contagem das barras de compasso de uma linha, para auxiliar na execução de saltos como "segno".
+
+   // bar_dbl_repeat só pode ser considerada repetição se não for encontrada após salto de repetição, caso em que será apenas, o ponto de restart.
+    var repeat = (elem.type === "bar_right_repeat" || (elem.type === "bar_dbl_repeat" && !this.restarting));
+    
+    // todas estas barras indicam ponto de restart em caso de repetição
+    var setrestart = (elem.type === "bar_left_repeat" || elem.type === "bar_dbl_repeat" ||
+                      elem.type === "bar_thick_thin" || elem.type === "bar_thin_thick" ||
                       elem.type === "bar_thin_thin" || elem.type === "bar_right_repeat");
+              
+    // salva o ponto prévio de restart (que pode ser modificado durante a interpreatação da barra corrente
+    var restart_next = this.restart;
 
-    if ( this.isVisited() ) {
-        if( ! this.repeating && this.getMarkString(this.lastMark) !== this.getMarkString() )
-            this.next = this.lastMark;
-    } else {
-        if( this.repeating ) {
-            this.repeating = false;
+    //reset de váriaveis para o processamento das notas dentro do compasso
+    this.baraccidentals = [];
+    this.restarting = false;
+
+   // este bloco trata os "endings" ou chaves de 1ª e  2ª vez  (ou chaves de finalização).
+   // são importantes para determinar a quantidade de vezes que o bloco será repetido e quais compassos
+   // devem ser ignorados em cada passada
+   
+   // encerra uma chave de finalização
+    if (elem.endEnding) {
+        this.currEnding = null;
+    }
+
+   // inicia uma chave de finalização e faz o parse da quantidade repetições necessarias
+   // a chave de finalização imediatamente  após um bloco de repetição ter sido terminado será ignorada
+   // e enquanto o bloco estiver sendo repetido, também
+    if (elem.startEnding &&  !this.afterRepeatBlock &&  !repeat ) {
+        var a = elem.startEnding.split('-');
+        this.currEnding = {};
+        this.currEnding.min = parseInt(a[0]);
+        this.currEnding.max = a.length > 1 ? parseInt(a[1]) : this.currEnding.min;
+        this.maxPass = Math.max(this.currEnding.max, 2);
+    }
+
+    //ignora notas em função da quantidade de vezes que o bloco foi repetido e o tipo de "ending"
+    this.skipping = (this.currEnding !== null && (this.currEnding.min > this.pass || this.pass > this.currEnding.max));
+
+    // marca um ponto de recomeço
+    if (setrestart) {
+        this.afterRepeatBlock = false;
+        this.restart = this.getMark();
+    }
+
+    // verifica se deve encerrar a repetição do bloco
+    if (repeat) {
+        if (this.pass < this.maxPass) {
+            this.pass++;
+            this.next = restart_next;
+            this.restarting = true;
+            this.clearTies();
+            return;
         } else {
-            
-            this.inEnding   = elem.endEnding && !elem.startEnding ? false : this.inEnding;
-            this.skipping   = this.skipping || this.inEnding && elem.startEnding !== undefined && elem.startEnding !== this.inEnding;
-            this.inEnding   = elem.startEnding || this.inEnding;
-
-            if( this.skipping ) {
-                if( elem.startEnding ) this.lastMark = this.getMark();
-                if( ! repeat ) return;
+            this.pass = 1;
+            this.maxPass = 2;
+            this.afterRepeatBlock = true;
+        }
+    }
+    
+/*
+    Tratamento das decorações, especialmente o "segno", mas anda incompleto.
+    Característica: apenas as decorações da primeira staff são consideradas e aplicadas a todas as outras
+*/
+    
+    if ( this.staff === 0 )   {
+        if (elem.decoration)  {
+            for (var d = 0; d < elem.decoration.length; d++) {
+                if (elem.decoration[d] === 'segno') {
+                    if (this.startSegno !== null && !this.segnoUsed && this.getMarkString(this.startSegno) !== this.getMarkString()) {
+                        this.globalJumps[this.countBar] = this.getMark();
+                        this.next = this.startSegno;
+                        this.segnoUsed = true;
+                        //return;
+                    } else if (this.startSegno === null ) {
+                        this.startSegno = this.getMark();
+                        this.globalJumps[this.countBar] = this.startSegno;
+                    }
+                }
             }
-
-            if( !this.skipping && (repeat || this.inEnding) ) {
-                this.setVisited();
-            }
-            
-            if ( repeat ) {
-                this.clearTies();
-                if(!this.skipping)
-                    this.lastMark = this.getMark();
-                this.skipping = false;
-                this.inEnding = false;
-                this.repeating = true;
-                this.next = this.restart;
-            }
-            if ( setrestart ) {
-                this.restart = this.getMark();
-            }
+        }
+    } else {
+        if( this.globalJumps[this.countBar]) {
+                if (this.startSegno !== null && !this.segnoUsed && this.getMarkString(this.startSegno) !== this.getMarkString()) {
+                    this.next = this.startSegno;
+                    this.segnoUsed = true;
+                } else if (this.startSegno === null ) {
+                    this.startSegno = this.getMark();
+                }
         }
     }
 };
@@ -9334,14 +9400,6 @@ ABCXJS.midi.Parse.prototype.clearTies = function() {
         }   
         self.startTieInterval[index] = [false];
     });
-};
-
-ABCXJS.midi.Parse.prototype.setVisited = function() {
-    this.visited[this.getMarkString()] = true;
-};
-
-ABCXJS.midi.Parse.prototype.isVisited = function() {
-    return  this.visited[this.getMarkString()];
 };
 
 ABCXJS.midi.Parse.prototype.getParsedElement = function(time) {
@@ -9416,6 +9474,16 @@ ABCXJS.midi.Parse.prototype.startTrack = function() {
     this.channel ++;
     this.timecount = 0;
     this.playlistpos = 0;
+    this.pass = 1;
+    this.maxPass = 2;
+    this.countBar = 0;
+    this.currEnding = null;
+    this.afterRepeatBlock = false;
+    this.next = null;
+    this.restarting = false;
+    this.restart = {line: 0, staff: 0, voice: 0, pos: 0};
+    this.startSegno = null;
+    this.segnoUsed = false;
 };
 
 ABCXJS.midi.Parse.prototype.endTrack = function() {
@@ -10105,6 +10173,8 @@ ABCXJS.tablature.Infer = function( accordion, tune/*, strTune*/, vars ) {
     this.accordion = accordion;
     //this.abcText = strTune;
     this.vars = vars || {} ;
+    this.vars.missingButtons = this.vars.missingButtons || {};
+
     this.tune = tune;
     this.offset = 8.9;
     this.reset();
@@ -10231,12 +10301,6 @@ ABCXJS.tablature.Infer.prototype.inferTabVoice = function(line) {
                 break;
         }
     } 
-    
-    if(this.missingButtons){
-        for( var m in this.missingButtons ) {
-            this.addWarning('Nota ' + m + ' não disponível nos compassos: ' + this.missingButtons[m].join(",") + '.' ) ;
-        }
-    }
     
     this.accordion.setTabLine(this.producedLine);
     
@@ -10588,7 +10652,7 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
                         item.c = this.elegeBotao(this.closing ? item.buttons.close : item.buttons.open);
                         this.registerLine(this.button2Hex(item.c));
                         if( item.c === 'x'){
-                            this.registerMissingButton(this.closing, item);
+                            this.registerMissingButton(item);
                        }
                     }
             }
@@ -10604,10 +10668,14 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
     this.add(child, xi, xf-1);
 };
 
-ABCXJS.tablature.Infer.prototype.registerMissingButton = function(close,item) {
-    if( ! this.missingButtons ) this.missingButtons = {};
-    if( ! this.missingButtons[item.note] )  this.missingButtons[item.note] = [];
-    this.missingButtons[item.note].push(parseInt(this.currInterval));
+ABCXJS.tablature.Infer.prototype.registerMissingButton = function(item) {
+    if( ! this.vars.missingButtons[item.note] )  
+        this.vars.missingButtons[item.note] = [];
+    var bar = parseInt(this.currInterval);
+    for( var i=0; i < this.vars.missingButtons[item.note].length; i++) {
+        if ( this.vars.missingButtons[item.note][i] === bar ) return; // already listed
+    }
+    this.vars.missingButtons[item.note].push(bar);
 };
 
 ABCXJS.tablature.Infer.prototype.getXi = function() {
