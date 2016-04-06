@@ -204,7 +204,7 @@ SITE.Mapa.prototype.resize = function( ) {
     var m = document.getElementById("mediaDiv");
     var x = parseInt(m.style.left.replace('px', ''));
     
-    if( x + 300 /*largura pré-definida desta janela*/ > w ) {
+    if( x + this.mediaWidth /*largura pré-definida desta janela*/ > w ) {
         m.style.left = (w - (this.mediaWidth + 50))+"px";
     }
     
