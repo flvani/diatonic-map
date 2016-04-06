@@ -21,6 +21,9 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.currentTab = '';
     this.currentABC = null;
     
+    this.mediaWidth = 300;
+    this.mediaHeight = this.mediaWidth * 0.55666667;
+    
     this.studio = tabParams.studio;
     
     // tab control
@@ -192,11 +195,17 @@ SITE.Mapa.prototype.resize = function( ) {
     
    // posiciona a janela de midia
     var w = window.innerWidth;
+ 
+    if( w > 1500 )  {
+        this.mediaWidth = 500;
+        this.mediaHeight = this.mediaWidth * 0.55666667;
+    }
+    
     var m = document.getElementById("mediaDiv");
     var x = parseInt(m.style.left.replace('px', ''));
     
     if( x + 300 /*largura pré-definida desta janela*/ > w ) {
-        m.style.left = (w - 350)+"px";
+        m.style.left = (w - (this.mediaWidth + 50))+"px";
     }
     
 };
@@ -762,7 +771,7 @@ SITE.Mapa.prototype.mediaCallback = function( e ) {
 
 SITE.Mapa.prototype.showMedia = function(url) {
     if(url) {
-        var  embbed = '<iframe width="300" height="167" src="'+url+'?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>';
+        var  embbed = '<iframe width="'+this.mediaWidth+'" height="'+this.mediaHeight+'" src="'+url+'?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>';
         $("#mediaDiv").find("[id^='draggableData']").html(embbed);
         $('#mediaDiv').fadeIn('slow');
     } else {
