@@ -141,6 +141,19 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     DR.addAgent( this ); // register for translate
     
     this.accordion.printKeyboard(this.keyboardDiv);
+
+    // posiciona a janela de mídia, se disponível
+    var m = document.getElementById("mediaDiv");
+    if (m) {
+        var props = FILEMANAGER.loadLocal('property.mediaDiv.settings');
+
+        if (props) {
+            props = props.split('|');
+            m.style.top = props[0];
+            m.style.left = props[1];
+        }
+    }
+    
     this.resize();
 };
 
@@ -170,12 +183,22 @@ SITE.Mapa.prototype.setup = function (tabParams) {
 
 SITE.Mapa.prototype.resize = function( ) {
 
+   // redimensiona a tela partitura
     var h = document.getElementById( 'div_principal');
     var o = document.getElementById( 'mapContainerDiv');
     var i = document.getElementById( 'tuneContainerDiv');
 
-
     i.style.height = (o.clientHeight - h.clientHeight  - 50) + "px";
+    
+   // posiciona a janela de midia
+    var w = window.innerWidth;
+    var m = document.getElementById("mediaDiv");
+    var x = parseInt(m.style.left.replace('px', ''));
+    
+    if( x + 300 /*largura pré-definida desta janela*/ > w ) {
+        m.style.left = (w - 350)+"px";
+    }
+    
 };
 
 SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
@@ -727,6 +750,8 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
 SITE.Mapa.prototype.mediaCallback = function( e ) {
     switch(e) {
         case 'MOVE':
+            var m = document.getElementById("mediaDiv");
+            FILEMANAGER.saveLocal( 'property.mediaDiv.settings',  m.style.top  + '|' + m.style.left );
             break;
         case 'MINUS':
             this.showMedia();

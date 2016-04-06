@@ -71,9 +71,13 @@ DRAGGABLE.Div = function(id, topDiv, title, aButtons, callBack, translate ) {
         window.removeEventListener('mousemove', self.divMove, false);
         window.removeEventListener('mouseout', self.divMove, false);
         self.dataDiv.style.pointerEvents = "auto";
+        if(callBack) {
+            window[callBack]('MOVE');
+        }
     };
 
     this.mouseDown = function (e) {
+        window.addEventListener('mouseup', self.mouseUp, false);
         self.stopMouse(e);
         self.dataDiv.style.pointerEvents = "none";
         window.addEventListener('mousemove', self.divMove, false);
@@ -85,7 +89,6 @@ DRAGGABLE.Div = function(id, topDiv, title, aButtons, callBack, translate ) {
     //TODO: tratar todos os botões da janela com stopMouse
     this.closeButton.addEventListener( 'mousedown', this.stopMouse, false);
     this.moveButton.addEventListener( 'mousedown', this.mouseDown, false);
-    window.addEventListener('mouseup', this.mouseUp, false);
     
     this.close = function(e) {
         self.topDiv.style.display='none';
