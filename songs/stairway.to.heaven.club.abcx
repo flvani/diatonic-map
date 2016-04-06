@@ -1,0 +1,24 @@
+﻿%%barnumbers 0
+%%papersize A4
+T:Stairway To Heaven (club)
+C:Led Zepelin
+C:(arr. Cezar Ferreira)
+M:2/4
+L:1/8
+Q:70
+K:Dm
+V:1 treble
+| z DBA |: dD Fd | eF Ae | fF Af | =BD G=B | AD FA- | AA FD | 
+|1 [CEG][DFA] [DFA]2- | [DFA] DBA :|2 [CEG][DFA] [DFA]2- | [DFA]2 de | fA ca | =bg d=b | af da | 
+| ed de | fA ca | c'g cc' | c'=b [g=B][g=B]- | [g=B]2 de | fA ca | 
+| =bg d=b | af da | ed de | fA ca | =bg d=b | [dfa][dfa] [dfa]2- | [dfa] DBA | D4 | 
+V:2 bass
+| z D,, B,, A,, |: D,,4 | A,,4 | C,,4 | G,,4 | B,,4 | z A,, F,, D,, | 
+|1 C,, D,, D,,2 | z D,, B,, A,, :|2 C,, D,, D,,2 | z2 D,, C,, | F,,4 | G,,4 | B,,4 | 
+| D,,2 D,, C,, | F,,4 | C,,4 | G,,4 | z2 D,, C,, | F,,4 | 
+| G,,4 | B,,4 | D,,2 D,, C,, | F,,4 | G,,4 | B,, B,, B,,2 | z D,, B,, A,, | D,,4 | 
+V:3 accordionTab
+| z-z D-4 B♭-5' A+5' |: D-8 >-4 >-5 >-8 | A+8 >+4' >+5' >+8 | C+7' >+4' >+5' >+7' | G-7 >-4 >-4' >-7 | B♭-6 >-4 >-5 >-6 | z-> A+5' F+4' D-4 | 
+|1 C+[456] D-[456] D-[456]2 | z-[>>>] D-4 B♭-5' A+5' :|2 C+[456] D-[456] D-[456]2 | z-[>>>]2 D-8 C-7' | F+7' >+5' >+6' >+8' | G-b >-8' >-8 >-b | B♭-a >-9 >-8 >-a | 
+| D-7' >-8 D-8 C-7' | F+7' >+5' >+6' >+8' | C-a' >-8' >-6' >-a' | G-a' >-b >-[8'7] >-[8'7] | z-[>>]2 D-8 C-7' | F+7' >+5' >+6' >+8' | 
+| G-b >-8' >-8 >-b | B♭-a >-9 >-8 >-a | D-7' >-8 D-8 C-7' | F+7' >+5' >+6' >+8' | G-b >-8' >-8 >-b | B♭-[89a] B♭-[89a] B♭-[89a]2 | z-[>>>] D-4 B♭-5' A+5' | D-44 | 
