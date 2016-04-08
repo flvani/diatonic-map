@@ -1140,9 +1140,16 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
             this.ignoredDecorations = [];
             this.textBlock = "";
             this.score_is_present = false;	// Can't have original V: lines when there is the score directive
+/*
+
+Estas variávies foram modificadas de tal forma que existe um controle para voz diferente na partitura.
+Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_directive
+            
             this.inEnding = false;
             this.inTie = false;
             this.inTieChord = {};
+
+ */
         }
     };
 
@@ -2358,20 +2365,20 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                     if (bar.type.length === 0)
                         warn("Unknown bar type", line, i);
                     else {
-                        if (multilineVars.inEnding ) {
+                        if (multilineVars.staves[multilineVars.currentVoice.staffNum].inEnding[multilineVars.currentVoice.index] ) {
                             bar.endDrawEnding = true;
                             if(  bar.type !== 'bar_thin') {
                                 bar.endEnding = true;
-                                multilineVars.inEnding = false;
+                                multilineVars.staves[multilineVars.currentVoice.staffNum].inEnding[multilineVars.currentVoice.index] = false;
                             }
                         }
                         if (ret[2]) {
                             bar.startEnding = ret[2];
-                            if (multilineVars.inEnding) {
+                            if (multilineVars.staves[multilineVars.currentVoice.staffNum].inEnding[multilineVars.currentVoice.index]) {
                                 bar.endDrawEnding = true;
                                 bar.endEnding = true;
                             }
-                            multilineVars.inEnding = true;
+                            multilineVars.staves[multilineVars.currentVoice.staffNum].inEnding[multilineVars.currentVoice.index] = true;
                         }
                         if (el.decoration !== undefined)
                             bar.decoration = el.decoration;
@@ -2436,12 +2443,12 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                                     } else	// Just ignore the note lengths of all but the first note. The standard isn't clear here, but this seems less confusing.
                                         el.pitches.push(chordNote);
 
-                                    if (multilineVars.inTieChord[el.pitches.length]) {
+                                    if (multilineVars.staves[multilineVars.currentVoice.staffNum].inTieChord[multilineVars.currentVoice.index][el.pitches.length]) {
                                         chordNote.endTie = true;
-                                        multilineVars.inTieChord[el.pitches.length] = undefined;
+                                        multilineVars.staves[multilineVars.currentVoice.staffNum].inTieChord[multilineVars.currentVoice.index][el.pitches.length] = undefined;
                                     }
                                     if (chordNote.startTie)
-                                        multilineVars.inTieChord[el.pitches.length] = true;
+                                        multilineVars.staves[multilineVars.currentVoice.staffNum].inTieChord[multilineVars.currentVoice.index][el.pitches.length] = true;
 
                                 }
                                 i = chordNote.endChar;
@@ -2458,17 +2465,17 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
 
                                     if (multilineVars.next_note_duration !== 0) {
                                         el.duration = el.duration * multilineVars.next_note_duration;
-//											window.ABCXJS.parse.each(el.pitches, function(p) {
-//												p.duration = p.duration * multilineVars.next_note_duration;
-//											});
+                                        //  window.ABCXJS.parse.each(el.pitches, function(p) {
+                                        //      p.duration = p.duration * multilineVars.next_note_duration;
+                                        //  });
                                         multilineVars.next_note_duration = 0;
                                     }
 
-                                    if (multilineVars.inTie) {
+                                    if (multilineVars.staves[multilineVars.currentVoice.staffNum].inTie[multilineVars.currentVoice.index]) {
                                         window.ABCXJS.parse.each(el.pitches, function(pitch) {
                                             pitch.endTie = true;
                                         });
-                                        multilineVars.inTie = false;
+                                        multilineVars.staves[multilineVars.currentVoice.staffNum].inTie[multilineVars.currentVoice.index] = false;
                                     }
 
                                     if (tripletNotesLeft > 0) {
@@ -2496,7 +2503,7 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                                                 window.ABCXJS.parse.each(el.pitches, function(pitch) {
                                                     pitch.startTie = {};
                                                 });
-                                                multilineVars.inTie = true;
+                                                multilineVars.staves[multilineVars.currentVoice.staffNum].inTie[multilineVars.currentVoice.index] = true;
                                                 break;
                                             case '>':
                                             case '<':
@@ -2563,7 +2570,7 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                         var el2 = {};
                         var core = getCoreNote(line, i, el2, true);
                         if (el2.endTie !== undefined)
-                            multilineVars.inTie = true;
+                            multilineVars.staves[multilineVars.currentVoice.staffNum].inTie[multilineVars.currentVoice.index] = true;
                         if (core !== null) {
                             if (core.pitch !== undefined) {
                                 el.pitches = [{}];
@@ -2607,15 +2614,15 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                             if (core.graceNotes !== undefined)
                                 el.graceNotes = core.graceNotes;
                             delete el.startSlur;
-                            if (multilineVars.inTie) {
+                            if (multilineVars.staves[multilineVars.currentVoice.staffNum].inTie[multilineVars.currentVoice.index]) {
                                 if (el.pitches !== undefined)
                                     el.pitches[0].endTie = true;
                                 else
                                     el.rest.endTie = true;
-                                multilineVars.inTie = false;
+                                multilineVars.staves[multilineVars.currentVoice.staffNum].inTie[multilineVars.currentVoice.index] = false;
                             }
                             if (core.startTie || el.startTie)
-                                multilineVars.inTie = true;
+                                multilineVars.staves[multilineVars.currentVoice.staffNum].inTie[multilineVars.currentVoice.index] = true;
                             i = core.endChar;
 
                             if (tripletNotesLeft > 0) {
@@ -2792,27 +2799,31 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                         }
                     }
                     if (this.accordion) {
+                        multilineVars.closing = true;
+                        multilineVars.missingButtons = {};
                         for (var t = 0; t < tune.lines.length; t++) {
                            if (tune.lines[t].staffs ) {
-                              var voice = this.accordion.inferTabVoice(t, tune/*, strTune*/, multilineVars);
+                              var voice = this.accordion.inferTabVoice(t, tune, multilineVars);
                               if (voice.length > 0) {
                                   tune.lines[t].staffs[tune.tabStaffPos].voices[0] = voice;
                                   tune.restsInTab = multilineVars.restsintab || false;
                               }
                            }  
                         }
+                        if(multilineVars.missingButtons){
+                            for( var m in multilineVars.missingButtons ) {
+                                addWarning('Nota ' + m + ' não disponível nos compassos: ' + multilineVars.missingButtons[m].join(", ") + '.' ) ;
+                            }
+                        }
+                        delete multilineVars.closing;
+                        delete multilineVars.missingButtons;
+                        
                         // obtem possiveis linhas inferidas para tablatura
                         strTune = this.appendString( this.accordion.updateEditor() );
                         
                     } else {
                         addWarning("+Warn: Cannot infer tablature line: no accordion defined!");
                     }
-                }
-            }
-            // flavio
-            if(multilineVars.missingButtons){
-                for( var m in multilineVars.missingButtons ) {
-                    addWarning('Nota ' + m + ' não disponível nos compassos: ' + multilineVars.missingButtons[m].join(", ") + '.' ) ;
                 }
             }
     
@@ -3145,13 +3156,16 @@ window.ABCXJS.parse.parseDirective = {};
 				multilineVars.score_is_present = true;
 				var addVoice = function(id, newStaff, bracket, brace, continueBar) {
 					if (newStaff || multilineVars.staves.length === 0) {
-						multilineVars.staves.push({index: multilineVars.staves.length, numVoices: 0});
+						multilineVars.staves.push({index: multilineVars.staves.length, numVoices: 0, inEnding : [], inTie : [], inTieChord : [] });
 					}
 					var staff = window.ABCXJS.parse.last(multilineVars.staves);
 					if (bracket !== undefined) staff.bracket = bracket;
 					if (brace !== undefined) staff.brace = brace;
 					if (continueBar) staff.connectBarLines = 'end';
 					if (multilineVars.voices[id] === undefined) {
+                                                                                                            staff.inEnding[staff.numVoices] = false;
+                                                                                                            staff.inTie[staff.numVoices] = false;
+                                                                                                            staff.inTieChord[staff.numVoices] ={};
 						multilineVars.voices[id] = {staffNum: staff.index, index: staff.numVoices};
 						staff.numVoices++;
 					}
@@ -4670,7 +4684,7 @@ window.ABCXJS.parse.parseKeyVoice = {};
 		// now we've filled up staffInfo, figure out what to do with this voice
 		// TODO-PER: It is unclear from the standard and the examples what to do with brace, bracket, and staves, so they are ignored for now.
 		if (staffInfo.startStaff || multilineVars.staves.length === 0) {
-			multilineVars.staves.push({index: multilineVars.staves.length, meter: multilineVars.origMeter});
+			multilineVars.staves.push({index: multilineVars.staves.length, meter: multilineVars.origMeter, inEnding : [false], inTie : [false], inTieChord : [{}] });
 			if (!multilineVars.score_is_present)
 				multilineVars.staves[multilineVars.staves.length-1].numVoices = 0;
 		}
@@ -10117,9 +10131,8 @@ ABCXJS.tablature.Accordion.prototype.getNoteName = function( item, keyAcc, barAc
 };
 
 //TODO: resolver isso para que não tenha que instanciar uma vez para cada linha de texto
-// além disso, os warnings de inferencia ficariam melhores se consolidados ao final 
-ABCXJS.tablature.Accordion.prototype.inferTabVoice = function( line, tune, /*strTUne,*/ vars ) {
-    var i = new ABCXJS.tablature.Infer( this, tune, /*strTUne,*/ vars );
+ABCXJS.tablature.Accordion.prototype.inferTabVoice = function( line, tune, vars ) {
+    var i = new ABCXJS.tablature.Infer( this, tune, vars );
     return i.inferTabVoice( line );
 };
 
@@ -10151,10 +10164,10 @@ ABCXJS.tablature.Accordion.prototype.updateEditor = function () {
 
 /*
  * TODO:
- *   - Tratar inversões de fole e inTie (+/-)
  *   - Verificar currInterval e suas implicações quando se está no último compasso
  *   - Tratar adequadamente os acordes de baixo
- *   - Ok Bug quando ligaduras de expressão estão presentes
+ *   - OK Tratar inversões de fole e inTie 
+ *   - OK Bug quando ligaduras de expressão estão presentes
  *   - OK inverter o movimento do fole baseado no tempo do compasso
  *   - OK tratar ligaduras de expressão (como se fossem ligaduras de articulacao)
  *   - OK acertar a posição dos elementos de pausa (quando presentes na tablatura)
@@ -10168,12 +10181,10 @@ if (!window.ABCXJS)
 if (!window.ABCXJS.tablature)
 	window.ABCXJS.tablature = {};
     
-ABCXJS.tablature.Infer = function( accordion, tune/*, strTune*/, vars ) {
+ABCXJS.tablature.Infer = function( accordion, tune, vars ) {
     this.multiplier = 1;
     this.accordion = accordion;
-    //this.abcText = strTune;
     this.vars = vars || {} ;
-    this.vars.missingButtons = this.vars.missingButtons || {};
 
     this.tune = tune;
     this.offset = 8.9;
@@ -10187,20 +10198,14 @@ ABCXJS.tablature.Infer = function( accordion, tune/*, strTune*/, vars ) {
     };
     
     this.barTypes = { 
-        "bar"              : "|"
-      , "bar_thin"         : "|"
+        "bar"                    : "|"
+      , "bar_thin"            : "|"
       , "bar_thin_thin"    : "||"
       , "bar_thick_thin"   : "[|"
       , "bar_thin_thick"   : "|]"
       , "bar_dbl_repeat"   : ":|:"
-      //, "bar_dbl_repeat"   : ":||:"
-      //, "bar_dbl_repeat"   : "::"
-      , "bar_left_repeat"  : "|:"
-      //, "bar_left_repeat"  : "||:"
-      //, "bar_left_repeat"  : "[|:"
+      , "bar_left_repeat"   : "|:"
       , "bar_right_repeat" : ":|"
-      //, "bar_right_repeat" : ":||"
-      //, "bar_right_repeat" : ":|]"
     };
     
 };
@@ -10213,9 +10218,9 @@ ABCXJS.tablature.Infer.prototype.reset = function() {
     this.producedLine = "";
     this.count = 0;
     this.lastButton = -1;
-    this.closing = true;
     this.currInterval = 1;
     this.alertedMissSync = false;
+    this.alertedIncompatibleBass = 0;
     
     // limite para inversão o movimento do fole - baseado no tempo de um compasso
     if( this.tune.lines &&
@@ -10258,6 +10263,7 @@ ABCXJS.tablature.Infer.prototype.inferTabVoice = function(line) {
             this.addWarning('Possível falta da definição da linha de baixos.') ;
         }
     }  
+    
     var st = 1; // 0 - fim; 1 - barra; 2 dados; - 1 para garantir a entrada
     while( st > 0 ) {
         
@@ -10341,11 +10347,6 @@ ABCXJS.tablature.Infer.prototype.read = function(p_source, item) {
             this.startTriplet = source.wi.startTriplet;
             this.multiplier = this.startTriplet===2?1.5:(this.startTriplet-1)/this.startTriplet;
         }
-//        if( source.wi.endTriplet){
-//            this.endTriplet = true;
-//            source.triplet = false;
-//            this.multiplier = 1;
-//        }
         
         this.checkTies(source);
         source.st = (source.wi.el_type && source.wi.el_type === "bar") ? "waiting end of interval" : "processing";
@@ -10424,7 +10425,6 @@ ABCXJS.tablature.Infer.prototype.extraiIntervalo = function(voices) {
         }
     }    
         
-    
     //trata intervalo vazio (quando há pausa em todas as vozes e não são visíveis)
     if(wf.pitches.length === 0 && wf.bassNote.length === 0 )
         wf.pitches[0] = {type:'rest'}; 
@@ -10477,8 +10477,7 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
             xf = this.registerLine(this.barTypes[token.type] + 
                     (token.startEnding?token.startEnding:"") + " ");
         } else {
-            throw new Error( 'ABCXJS.tablature.Infer.prototype.addTABChild (token_type): ' + token.type );
-            //xf = this.registerLine(this.abcText.substr(token.startChar, token.endChar - token.startChar) + " ");
+            throw new Error( 'ABCXJS.tablature.Infer.prototype.addTABChild(token_type): ' + token.type );
         }
         var xi = this.getXi();
         this.add(token, xi, xf - 1 );
@@ -10528,7 +10527,7 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
     }
     
     for (var b = 0; b < token.bassNote.length; ++b) {
-        inTie = (token.bassNote.inTie|| inTie);
+        inTie = (token.bassNote[b].inTie|| inTie);
         switch(token.bassNote[b].type) {
             case 'rest':
             case 'invisible':
@@ -10589,37 +10588,41 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
     if( inTie ) {
         // inversão impossível
         this.count += child.duration;
+        if (((this.vars.closing && !baixoClose)  || (!this.vars.closing && !baixoOpen)) &&  this.alertedIncompatibleBass < this.currInterval ) {
+                this.addWarning('Baixo incompatível com movimento fole no compasso ' + this.currInterval + '.' ) ;
+                this.alertedIncompatibleBass = this.currInterval;
+        }
     } else {
         // verifica tudo: baixo e melodia
-        if ((this.closing && baixoClose && allClose) || (!this.closing && baixoOpen && allOpen)) {
+        if ((this.vars.closing && baixoClose && allClose) || (!this.vars.closing && baixoOpen && allOpen)) {
             // manteve o rumo, mas verifica o fole, virando se necessario (e possivel)
             if ( this.count < this.limit) {
                 this.count += child.duration;
             } else {
                 // neste caso só muda se é possível manter baixo e melodia    
-                if ((!this.closing && baixoClose && allClose) || (this.closing && baixoOpen && allOpen)) {
+                if ((!this.vars.closing && baixoClose && allClose) || (this.vars.closing && baixoOpen && allOpen)) {
                     this.count = child.duration;
-                    this.closing = !this.closing;
+                    this.vars.closing = !this.vars.closing;
                 } else {
                     this.count += child.duration;
                 }
             }
-        } else if ((!this.closing && baixoClose && allClose) || (this.closing && baixoOpen && allOpen)) {
+        } else if ((!this.vars.closing && baixoClose && allClose) || (this.vars.closing && baixoOpen && allOpen)) {
             //mudou o rumo, mantendo baixo e melodia
             this.count = child.duration;
-            this.closing = !this.closing;
+            this.vars.closing = !this.vars.closing;
         } else {
             // não tem teclas de melodia e baixo simultaneamente: privilegia o baixo, se houver.
-            if ((this.closing && ((bass && baixoClose) || allClose)) || (!this.closing && ((bass && baixoOpen) || allOpen))) {
+            if ((this.vars.closing && ((bass && baixoClose) || allClose)) || (!this.vars.closing && ((bass && baixoOpen) || allOpen))) {
                 this.count += child.duration;
-            } else if ((!this.closing && ((bass && baixoClose) || allClose)) || (this.closing && ((bass && baixoOpen) || allOpen))) {
+            } else if ((!this.vars.closing && ((bass && baixoClose) || allClose)) || (this.vars.closing && ((bass && baixoOpen) || allOpen))) {
                 if (  this.count < this.limit) {
                     this.count += child.duration;
                 } else {
                     // neste caso só muda se é possível manter baixo ou melodia    
-                    if ((!this.closing && (bass && baixoClose) && allClose) || (this.closing && (bass && baixoOpen) && allOpen)) {
+                    if ((!this.vars.closing && (bass && baixoClose) && allClose) || (this.vars.closing && (bass && baixoOpen) && allOpen)) {
                         this.count = child.duration;
-                        this.closing = !this.closing;
+                        this.vars.closing = !this.vars.closing;
                     } else {
                         this.count += child.duration;
                     }
@@ -10628,7 +10631,7 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
         }
     }
 
-    child.bellows = this.closing ? "+" : "-";
+    child.bellows = this.vars.closing ? "+" : "-";
     this.registerLine(child.bellows);
     this.registerLine(qtd > 1 ? "[" : "");
 
@@ -10637,7 +10640,7 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
     for (var c = 0; c < column.length; c++) {
         var item = column[c];
         if (!item.bass) {
-            if (!this.closing)
+            if (!this.vars.closing)
                 item.pitch += offset;
             switch(item.type) {
                 case 'rest':
@@ -10649,7 +10652,7 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
                     if ( item.inTie  ) {
                         this.registerLine('>');
                     } else {
-                        item.c = this.elegeBotao(this.closing ? item.buttons.close : item.buttons.open);
+                        item.c = this.elegeBotao(this.vars.closing ? item.buttons.close : item.buttons.open);
                         this.registerLine(this.button2Hex(item.c));
                         if( item.c === 'x'){
                             this.registerMissingButton(item);
