@@ -8630,9 +8630,16 @@ ABCXJS.write.Printer.prototype.printTempo = function (tempo, paper, layouter, y,
 };
 
 ABCXJS.write.Printer.prototype.skipPage = function() {
+    this.printPageNumber();  
     this.y = this.estimatedPageLength*this.pageNumber + this.paddingtop + this.paddingbottom;
     this.pageNumber++;
 };
+
+ABCXJS.write.Printer.prototype.printPageNumber = function() {
+    this.y =this.estimatedPageLength*this.pageNumber -13;
+    this.paper.text((this.width)*this.scale, this.y*this.scale, "- pág. "+this.pageNumber+" -").attr({"font-size": 12 * this.scale, "font-family": "serif", 'font-weight': 'bold'}); // code duplicated below  // don't scale this as we ask for the bbox
+};
+
 
 ABCXJS.write.Printer.prototype.printTune = function(abctune) {
     
@@ -8700,13 +8707,11 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune) {
         composerLine += ' (' + abctune.metaText.origin + ')';
 
     if (composerLine.length > 0) {
-        this.paper.text(this.width * this.scale, this.y, composerLine).attr({"text-anchor": "end", "font-style": "italic", "font-family": "serif", "font-size": 12 * this.scale});
-        //this.y += 15* this.scale;
+        this.paper.text(this.width * this.scale, this.y, composerLine).attr({"text-anchor": "end", "font-style": "italic", "font-family": "serif", 'font-weight': 'bold', "font-size": 14 * this.scale});
         meta = true;
     }
     if (abctune.metaText.author) {
-        this.paper.text(this.width * this.scale, this.y, abctune.metaText.author).attr({"text-anchor": "end", "font-style": "italic", "font-family": "serif", "font-size": 12 * this.scale});
-        //this.y += 15* this.scale;
+        this.paper.text(this.width * this.scale, this.y, abctune.metaText.author).attr({"text-anchor": "end", "font-style": "italic", "font-family": "serif", 'font-weight': 'bold', "font-size": 14 * this.scale});
         meta = true;
     }
 
@@ -8718,8 +8723,7 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune) {
     (meta) && (this.y += 15 * this.scale);
 
     var maxwidth = this.width;
-    //var d = new Date();
-    //console.log("pre-linhas"+d.getTime() + " #" + abctune.lines.length);
+    
     for (var line = 0; line < abctune.lines.length; line++) {
         var abcline = abctune.lines[line];
         if (abcline.text) {
@@ -8735,8 +8739,6 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune) {
             maxwidth = Math.max(staffgroup.w, maxwidth);
         }
     }
-    //var d = new Date();
-    //console.log("pos-linhas"+d.getTime());
 
     var extraText = "";
     var text2;
@@ -8777,6 +8779,9 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune) {
     if (!height)
         height = 25 * this.scale;	// TODO-PER: Hack! Don't know why Raphael chokes on this sometimes and returns NaN. Perhaps only when printing to PDF? Possibly if the SVG is hidden?
     text2.translate(0, height / 2);
+    
+    this.printPageNumber();
+   
     this.y += 25 * this.scale + height * this.scale;
     var sizetoset = {w: (maxwidth + this.paddingright) * this.scale, h: (this.y + this.paddingbottom) * this.scale};
     this.paper.setSize(sizetoset.w, sizetoset.h);
