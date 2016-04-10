@@ -2,6 +2,8 @@ X:1007
 %%barnumbers 1
 %%score 0 (1 2) 3
 %%papersize A4
+%%landscape
+%%pagenumbering
 T:Parabéns Crioulo
 T:Parabéns Gaúcho
 C:Dimas Costa e Eleu Salvador
