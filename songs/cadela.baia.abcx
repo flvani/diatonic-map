@@ -16,7 +16,7 @@ V:1 clef=treble
 | z G,CE |: GG,CE GG,CE | GG,B,D GG,B,D | GG,B,D GG,B,D | 
 | GG,CE GG,CE | GG,CE GG,CE | GG,B,D GG,B,D | GG,B,D GFED | C z3 G,CE :| 
 V:2 bass
-| |: C,,3[C,E,G,] C,,2[C,E,G,]2 | G,,3[G,,B,,D,] G,,2[G,,B,,D,]2 | G,,3[G,,B,,D,] G,,2[G,,B,,D,]2 | 
+| z4 |: C,,3[C,E,G,] C,,2[C,E,G,]2 | G,,3[G,,B,,D,] G,,2[G,,B,,D,]2 | G,,3[G,,B,,D,] G,,2[G,,B,,D,]2 | 
 | C,,3[C,E,G,] C,,2[C,E,G,]2 | C,,3[C,E,G,] C,,2[C,E,G,]2 | G,,3[G,,B,,D,] G,,2[G,,B,,D,]2 | G,,3[G,,B,,D,] G,,2[G,,B,,D,]2 | C,,2[C,E,G,] C,,2[C,E,G,]2 :| 
 V:3 accordionTab
 | +z +2' +3' +4' |: C+5' >+2' >+3' c+4' C+5' >+2' c+3' >+4' | G-5' >-1' >-2' g-3' G-5' >-1' g-2' >-3' | G-5' >-1' >-2' g-3' G-5' >-1' g-2' >-3' | 
