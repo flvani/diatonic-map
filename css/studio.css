@@ -7,6 +7,20 @@ and open the template in the editor.
     Created on : 07/04/2015, 19:06:40
 */
 
+.printPreviewClass {
+    position:relative;
+    display:none;
+    top:0;
+    left:0;
+    margin: 0;
+    margin-left: 0px;
+    padding: 0;
+    width:1056px; 
+    z-index: 20000;
+    //background-color: #ffc;
+    background-color: #fff;
+}
+
 .playTimeLabel {
     font-weight: bold; 
     color: orangered; 
@@ -159,21 +173,6 @@ and open the template in the editor.
     position: fixed;
     z-index: 401;
 }
-
-#printPreviewDiv {
-    position:relative;
-    display:none;
-    top:0;
-    left:0;
-    margin: 0;
-    margin-left: 40px;
-    padding: 0;
-    width:1056px; 
-    z-index: 20000;
-    //background-color: #ffc;
-    background-color: #fff;
-}
-
 
 #gotoMeasureBtn, #untilMeasureBtn {
     width: 4em;

@@ -64,7 +64,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
 
         if(  that.currentABC.div.innerHTML && that.studio )  {
             ga('send', 'event', 'Mapa', 'print', that.currentABC.title);
-            that.studio.printPreview(that.currentABC.div.innerHTML, ["#divTitulo","#mapContainerDiv"]);
+            that.studio.printPreview(that.currentABC.div.innerHTML, ["#divTitulo","#mapContainerDiv"], that.currentABC.abc.formatting.landscape );
         }
         
     }, false);

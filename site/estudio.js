@@ -213,7 +213,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.printButton.addEventListener("click", function () {
         
         ga('send', 'event', 'Estúdio', 'print', that.renderedTune.title);
-        that.printPreview(that.renderedTune.div.innerHTML, ["#divTitulo","#studioDiv"]);
+        that.printPreview(that.renderedTune.div.innerHTML, ["#divTitulo","#studioDiv"], that.renderedTune.abc.formatting.landscape);
         return;
 
     }, false);
@@ -406,7 +406,15 @@ SITE.Estudio.prototype.keyboardCallback = function( e ) {
     }
 };
 
-SITE.Estudio.prototype.printPreview = function (html, divsToHide) {
+SITE.Estudio.prototype.changePageOrientation = function (orientation) {
+    var style = document.createElement('style');
+    document.head.appendChild(style);
+    style.innerHTML = '@page {margin: 1cm; size: ' + orientation + '}';
+
+};
+
+SITE.Estudio.prototype.printPreview = function (html, divsToHide, landscape ) {
+    var orientation = landscape? 'landscape': 'portrait';
     var bg = document.body.style.backgroundColor;
     var dv = document.getElementById('printPreviewDiv');
     
@@ -414,6 +422,8 @@ SITE.Estudio.prototype.printPreview = function (html, divsToHide) {
         $(div).hide();
     });
     $("#printPreviewDiv").show();
+    
+   this.changePageOrientation(orientation);
     
     dv.innerHTML = html;
     
