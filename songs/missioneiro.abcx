@@ -1,6 +1,8 @@
-﻿%%barnumbers 0
+﻿X:1010
+%%barnumbers 0
 %%score 0 (1 2) 3
 %%papersize A4
+%%pagenumbering
 T:Missioneiro
 C:Tio Bilia
 C:(arr. Cezar Ferreira)

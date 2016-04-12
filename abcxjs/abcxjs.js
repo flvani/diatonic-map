@@ -209,6 +209,8 @@ window.ABCXJS.data.Tune = function() {
         var ls = vars.landscape || false;
         var pn = vars.pagenumbering || false;
         
+        var defaultMargin = 10/25.4; // 10mm
+                
         switch (ps.toLowerCase()) {
             case "letter":
                 ph = 11 * 72;
@@ -218,15 +220,20 @@ window.ABCXJS.data.Tune = function() {
                 pw = 8.5 * 72;
                 break;
             case "a4":
-                ph = 11.7 * 72;
-                pw = 8.3 * 72;
+                ph = 11.69 * 72;
+                pw = 8.27 * 72;
                 break;
         }
-        if (ls) {
+        if (ls) { // landscape
             var x = ph;
             ph = pw;
             pw = x;
         }
+        
+        if(ls)
+            this.formatting.pageratio = (ph-(1*defaultMargin*72))/(pw-(2.05*defaultMargin*72)); // ???
+        else
+            this.formatting.pageratio = (ph-(1*defaultMargin*72))/(pw-(1.96*defaultMargin*72)); // ???
 
         if (!this.formatting.landscape)
             this.formatting.landscape = ls;
@@ -239,13 +246,9 @@ window.ABCXJS.data.Tune = function() {
         if (!this.formatting.pagenumbering)
             this.formatting.pagenumbering = pn;
         
-        if(ls)
-            this.formatting.pageratio = (ph+(0.68*72))/(pw+(0.68*72)); // ??? 
-        else
-            this.formatting.pageratio = (ph-(1.58*72))/(pw-(1.58*72)); // ???
     };
 
-    this.cleanUp = function( barsperstaff, staffnonote) {
+    this.cleanUp = function(barsperstaff) {
         this.closeLine();	// Close the last line.
 
         // Remove any blank lines
@@ -1187,18 +1190,67 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
         return multilineVars.warnings;
     };
     
-    this.addTuneElement = function(type, startOfLine, xi, xf, elem) {
-        this.handleTie( elem );
-        this.handleSlur( elem );
+    this.addTuneElement = function(type, startOfLine, xi, xf, elem, line) {
+        switch(type) {
+            case 'bar':
+                multilineVars.barAccidentals = [];                        
+                break;
+            case 'note':
+                if( elem.pitches )  {
+                    elem.pitches.forEach( function( p ) { 
+                        if(p.accidental === undefined && multilineVars.barAccidentals[p.pitch]!==undefined ) {
+                            p.barAccidental = multilineVars.barAccidentals[p.pitch]; // apenas um marcador para instruir o tratamento de slur e tie abaixo
+                        }
+                    });
+                }
+                break;
+        }
+
+        this.handleTie( elem, line, xi );
+        this.handleSlur( elem, line, xi );
         tune.appendElement(type, startOfLine + xi, startOfLine + xf, elem);
     };
     
-    this.handleSlur = function(elem) {
+
+    this.handleTie = function(elem, line, i ) {
+        var self = this;
+        if( ! elem.pitches ) return;
+        if( this.anyTieEnd(elem) )  {
+            var tieCnt = this.tieCnt;
+            var startEl = this.aTies.pop();
+            if( startEl && startEl.pitches ) {
+                startEl.pitches.forEach( function( startPitch ) {
+                    if(elem.pitches) { 
+                        elem.pitches.forEach( function( pitch ) { 
+                            if(self.equalsPitch( pitch, startPitch )  ) {
+                                startPitch.tie = { id_start: tieCnt };
+                                pitch.tie =  { id_end: tieCnt };
+                                tieCnt ++;
+                            }
+                        });
+                    }
+                });
+            }
+            this.tieCnt = tieCnt;
+        }
+        if( this.anyTieStart(elem) )  {
+            if( !this.aTies ) this.aTies = [];
+            this.aTies.push(elem);
+        }
+    };
+    
+    this.handleSlur = function(elem, line, i) {
+        var self = this;
         if( !elem.pitches ) return;
         var ss = this.anySlurEnd(elem);
         while( ss )  {
             var tieCnt = this.tieCnt;
             var el = this.aSlurs.pop();
+            if( el === undefined ) {
+                //throw "Slur not open";
+                warn("Slur not open", line, i);
+                return;
+            }
             if(el.qtd > 1 ) {
                 el.qtd--;
                 this.aSlurs.push(el);
@@ -1208,7 +1260,7 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
                 startEl.pitches.forEach( function( startPitch ) {
                     if(elem.pitches) { 
                         elem.pitches.forEach( function( pitch ) { 
-                            if(pitch.pitch === startPitch.pitch ) {
+                            if( self.equalsPitch( pitch, startPitch )  ) {
                                 
                                 if(startPitch.tie) {
                                     startPitch.tie.id_start = tieCnt;
@@ -1246,6 +1298,23 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
         return found;
     };
     
+    this.equalsPitch = function(p1, p2) {
+        var p1acc='noacc', p2acc = 'noacc';
+        if( p1.accidental !== undefined ) {
+            p1acc= p1.accidental;
+        } else if ( p1.barAccidental !== undefined ) {
+            p1acc= p1.barAccidental;
+        } 
+        if( p2.accidental !== undefined ) {
+            p2acc= p2.accidental;
+        } else if ( p2.barAccidental !== undefined ) {
+            p2acc= p2.barAccidental;
+        } 
+        
+        return ( p1.pitch === p2.pitch && p1acc === p2acc );
+        
+    };
+    
     this.anySlurStart = function(elem) {
         var found = 0;
         if( elem.startSlur ) return elem.startSlur;
@@ -1255,32 +1324,6 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
             });
         }
         return found;
-    };
-
-    this.handleTie = function(elem) {
-        if( ! elem.pitches ) return;
-        if( this.anyTieEnd(elem) )  {
-            var tieCnt = this.tieCnt;
-            var startEl = this.aTies.pop();
-            if( startEl && startEl.pitches ) {
-                startEl.pitches.forEach( function( startPitch ) {
-                    if(elem.pitches) { 
-                        elem.pitches.forEach( function( pitch ) { 
-                            if(pitch.pitch === startPitch.pitch ) {
-                                startPitch.tie = { id_start: tieCnt };
-                                pitch.tie =  { id_end: tieCnt };
-                                tieCnt ++;
-                            }
-                        });
-                    }
-                });
-            }
-            this.tieCnt = tieCnt;
-        }
-        if( this.anyTieStart(elem) )  {
-            if( !this.aTies ) this.aTies = [];
-            this.aTies.push(elem);
-        }
     };
     
     this.anyTieEnd = function(elem) {
@@ -2217,6 +2260,9 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
     var nonDecorations = "ABCDEFGabcdefgxyzZ[]|^_{";	// use this to prescreen so we don't have to look for a decoration at every note.
 
     this.parseRegularMusicLine = function(line) {
+        
+        multilineVars.barAccidentals = [];
+        
         header.resolveTempo();
         //multilineVars.havent_set_length = false;	// To late to set this now.
         multilineVars.is_in_header = false;	// We should have gotten a key header by now, but just in case, this is definitely out of the header.
@@ -2578,9 +2624,11 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
                             if (core.pitch !== undefined) {
                                 el.pitches = [{}];
                                 // TODO-PER: straighten this out so there is not so much copying: getCoreNote shouldn't change e'
-                                if (core.accidental !== undefined)
-                                    el.pitches[0].accidental = core.accidental;
                                 el.pitches[0].pitch = core.pitch;
+                                if (core.accidental !== undefined) {
+                                    el.pitches[0].accidental = core.accidental;
+                                    multilineVars.barAccidentals[core.pitch] = core.accidental;
+                                }    
                                 if (core.endSlur !== undefined)
                                     el.pitches[0].endSlur = core.endSlur;
                                 if (core.endTie !== undefined)
@@ -2645,7 +2693,7 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
                                 multilineVars.barNumOnNextNote = null;
                                 multilineVars.barNumOnNextNoteVisible = null;
                             }
-                            this.addTuneElement('note', startOfLine, startI, i, el);
+                            this.addTuneElement('note', startOfLine, startI, i, el, line);
                             multilineVars.measureNotEmpty = true;
                             el = {};
                         }
@@ -2781,7 +2829,7 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
             }
             tune.setFormat(multilineVars);
             
-            tune.cleanUp(multilineVars.barsperstaff, multilineVars.staffnonote);
+            tune.cleanUp(multilineVars.barsperstaff);
             
             if( this.transposer && this.transposer.offSet !== 0 ) {
                 strTune = this.transposer.updateEditor( lines );
@@ -8286,8 +8334,8 @@ ABCXJS.write.Printer = function(paper, params ) {
   this.staffwidth = params.staffwidth || 1024;
   this.paddingtop = params.paddingtop || 15;
   this.paddingbottom = params.paddingbottom || 30;
-  this.paddingright = params.paddingright || 50;
   this.paddingleft = params.paddingleft || 15;
+  this.paddingright = params.paddingright || 30;
   this.editable = params.editable || false;
   this.staffgroups = [];
   
@@ -8295,7 +8343,6 @@ ABCXJS.write.Printer = function(paper, params ) {
 
 // notify all listeners that a graphical element has been selected
 ABCXJS.write.Printer.prototype.notifySelect = function (abselem) {
-  //this.selected = [abselem];
   this.selected[this.selected.length]=abselem;
   abselem.highlight();
   for (var i=0; i<this.listeners.length;i++) {
@@ -8645,8 +8692,12 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune) {
     if( abctune.midi) {
         abctune.midi.printer = this;
     }
+    
     this.landscape = abctune.formatting.landscape;
     this.pagenumbering = abctune.formatting.pagenumbering;
+    
+    this.paddingtop = this.landscape? 10 : 15;
+    this.paddingright = this.landscape? 50 : 30;
     
     this.layouter = new ABCXJS.write.Layout( this, abctune.formatting.bagpipes );
     
@@ -8677,7 +8728,7 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune) {
     }
 
     if (abctune.metaText.rhythm) {
-        this.paper.text(this.paddingleft, this.y, abctune.metaText.rhythm).attr({"text-anchor": "start", "font-style": "italic", "font-family": "serif", "font-size": 12 * this.scale});
+        this.paper.text(this.paddingleft*3*this.scale, this.y, abctune.metaText.rhythm).attr({"text-anchor": "start", "font-style": "italic", "font-family": "serif", "font-size": 12 * this.scale});
         !(abctune.metaText.author || abctune.metaText.origin || abctune.metaText.composer) && (this.y += 15 * this.scale);
     }
 
@@ -8706,6 +8757,7 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune) {
 
     var maxwidth = this.width;
     
+    // impressão dos grupos de pautas
     for (var line = 0; line < abctune.lines.length; line++) {
         var abcline = abctune.lines[line];
         if (abcline.text) {
@@ -8722,57 +8774,73 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune) {
         }
     }
     
-    var extraText = "";
-    var text2;
-    var height;
-    if (abctune.metaText.partOrder)
-        extraText += "Part Order: " + abctune.metaText.partOrder + "\n";
+    var extraText1 = "", extraText2 = "",  t, height = 0, h1=0, h2=0;
+    
     if (abctune.metaText.unalignedWords) {
         for (var j = 0; j < abctune.metaText.unalignedWords.length; j++) {
-            if (typeof abctune.metaText.unalignedWords[j] === 'string')
-                extraText += abctune.metaText.unalignedWords[j] + "\n";
-            else {
-                for (var k = 0; k < abctune.metaText.unalignedWords[j].length; k++) {
-                    extraText += " FONT " + abctune.metaText.unalignedWords[j][k].text;
-                }
-                extraText += "\n";
+            if (typeof abctune.metaText.unalignedWords[j] === 'string') {
+                extraText1 += abctune.metaText.unalignedWords[j] + "\n";
+                h1 ++;
             }
         }
-        text2 = this.paper.text(this.paddingleft * this.scale + 50 * this.scale, this.y * this.scale + 25 * this.scale, extraText).attr({"text-anchor": "start", "font-family": "serif", "font-size": 17 * this.scale});
-        height = text2.getBBox().height + 17 * this.scale;
-        text2.translate(0, height / 2);
-        this.y += height;
-        extraText = "";
     }
-    if (abctune.metaText.book)
-        extraText += "Livro: " + abctune.metaText.book + "\n";
-    if (abctune.metaText.source)
-        extraText += "Fonte: " + abctune.metaText.source + "\n";
-    if (abctune.metaText.discography)
-        extraText += "Discografia: " + abctune.metaText.discography + "\n";
-    if (abctune.metaText.notes)
-        extraText += abctune.metaText.notes + "\n";
-    if (abctune.metaText.transcription)
-        extraText += "Transcrito por " + abctune.metaText.transcription + "\n";
-    if (abctune.metaText.history)
-        extraText += "Histórico: " + abctune.metaText.history + "\n";
-    text2 = this.paper.text(this.paddingleft, this.y * this.scale + 25 * this.scale, extraText).attr({"text-anchor": "start", "font-family": "serif", "font-size": 17 * this.scale});
-    height = text2.getBBox().height;
-    if (!height)
-        height = 25 * this.scale;	// TODO-PER: Hack! Don't know why Raphael chokes on this sometimes and returns NaN. Perhaps only when printing to PDF? Possibly if the SVG is hidden?
-    text2.translate(0, height / 2);
-
-    if( ( this.pageNumber - ((this.y+height)/this.estimatedPageLength) ) < 0 ) {
-       this.skipPage();
+    if (abctune.metaText.book) {
+         h2 ++;
+         extraText2 += "Livro: " + abctune.metaText.book + "\n";
+    }    
+    if (abctune.metaText.source) {
+         h2 ++;
+        extraText2+= "Fonte: " + abctune.metaText.source + "\n";
+    }    
+    if (abctune.metaText.discography) {
+         h2 ++;
+        extraText2 += "Discografia: " + abctune.metaText.discography + "\n";
+    }    
+    if (abctune.metaText.notes) {
+         h2 ++;
+        extraText2 += abctune.metaText.notes + "\n";
+    }    
+    if (abctune.metaText.transcription) {
+         h2 ++;
+        extraText2 += "Transcrito por " + abctune.metaText.transcription + "\n";
+    }    
+    if (abctune.metaText.history) {
+         h2 ++;
+        extraText2+= "Histórico: " + abctune.metaText.history + "\n";
+    }    
+    
+    if( h1+h2 ===  0)  {
+         this.skipPage(); // nada mais para imprimir
+    } else  {
+        
+        if(h1> 0) {
+            height = ABCXJS.write.spacing.STEP*3*this.scale + h1*1.5*17* this.scale; // 1.5??? ver translate...
+            if( ( this.pageNumber - ((this.y+height)/this.estimatedPageLength) ) < 0 ) {
+               this.skipPage();
+            } else {
+                this.y += ABCXJS.write.spacing.STEP*3*this.scale; 
+            }
+            this.y += this.printExtraText( extraText1, this.paddingleft+50);
+        }
+        
+        if(h2> 0) {
+            height = ABCXJS.write.spacing.STEP*3*this.scale + h2*1.5*17* this.scale;
+            if( ( this.pageNumber - ((this.y+height)/this.estimatedPageLength) ) < 0 ) {
+               this.skipPage();
+            } else {
+                this.y += ABCXJS.write.spacing.STEP*3*this.scale; 
+            }
+            this.y += this.printExtraText( extraText2, this.paddingleft);
+        }
     }
-
-    this.y += height;
     
-    this.skipPage();
+    //for(var r=0; r < 10; r++) 
+        this.skipPage();
     
-    this.y -= (this.landscape?30:28); // corrigir problema com pagina extra após o pagenumber
+    this.y -=(this.paddingtop+10);
     
-    var sizetoset = {w: Math.ceil((maxwidth + this.paddingright) * this.scale), h: (this.y) * this.scale};
+    var sizetoset = {w: (maxwidth + this.paddingright) * this.scale, h: this.y* this.scale};
+    
     this.paper.setSize(sizetoset.w, sizetoset.h);
     
     // Correct for IE problem in calculating height
@@ -8781,23 +8849,27 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune) {
         this.paper.canvas.parentNode.style.width = "" +  sizetoset.w + "px";
         this.paper.canvas.parentNode.style.height = "" + sizetoset.h + "px";
     } else {
-        this.paper.canvas.parentNode.setAttribute("style", "width:" + sizetoset.w + "px"); //; 'height':" + sizetoset.h + "px;");
+        this.paper.canvas.parentNode.setAttribute("style", "width:" + sizetoset.w + "px"); 
+       // this.paper.canvas.parentNode.setAttribute("style", "height:" + sizetoset.h + "px");
+       // this.paper.canvas.setAttribute("style", "background-color: #ffe"); 
     }
-
-    
 };
 
 ABCXJS.write.Printer.prototype.skipPage = function() {
-    if( this.pagenumbering ) {
-        this.y = (this.estimatedPageLength*this.pageNumber) - (this.landscape?20:20);
-        this.paper.text(this.width+18*this.scale, this.y*this.scale, "- "+this.pageNumber+" -")
-                .attr({"font-size": 13 * this.scale, "font-family": "serif", 'font-weight': 'bold'}); 
-//        this.paper.text(this.width*this.scale, this.y*this.scale, "- pág. "+this.pageNumber+" -")
-//                .attr({"font-size": 12 * this.scale, "font-family": "serif", 'font-weight': 'bold'}); 
-    }
-    
     this.y = this.estimatedPageLength*this.pageNumber + this.paddingtop;
+    if (this.pagenumbering) {
+         this.paper.text(this.width + 18 * this.scale, (this.y - this.paddingtop - (this.landscape ? 15 : 15)) * this.scale, "- " + this.pageNumber + " -")
+              .attr({"font-size": 13 * this.scale, "font-family": "serif", 'font-weight': 'bold'});
+    }
     this.pageNumber++;
+};
+
+ABCXJS.write.Printer.prototype.printExtraText = function(text, x) {
+    var t = this.paper.text(x*this.scale, this.y * this.scale, text).attr({"text-anchor": "start", "font-family": "serif", "font-size": 17 * this.scale});
+    var height = t.getBBox().height;
+    if (!height)  height = 25 * this.scale; // TODO-PER: Hack! Raphael sometimes and returns NaN. Perhaps only when printing to PDF? Possibly if the SVG is hidden?
+    t.translate(0, height / 2);
+    return height;
 };
 
 ABCXJS.write.Printer.prototype.printSubtitleLine = function(subtitle) {
@@ -10175,406 +10247,6 @@ ABCXJS.tablature.Accordion.prototype.updateEditor = function () {
 
 /*
  * TODO:
- * - Verificar porque no caso de slur a ordem dos elementos não está sendo respeitada
-*/
-
-/*
- 
-            Definição da sintaxe para tablatura
-        
-           " |: G+5'2g-6>-5 | G-3'2d-5d-[678]1/2 | G+5d-5d-> | G-xd-5d-6 | +{786'}2 | +11/2 | c+ac+b |"
-        
-           Linha de tablatura ::= { <comentario> | <barra> | <coluna> }*
-        
-           comentario := "%[texto]"
-
-           barra ::=  "|", "||", ":|", "|:", ":|:", ":||:", "::", ":||", ":||", "[|", "|]", "|[|", "|]|" [endings]
-        
-           coluna ::=  ["("<triplet>][<bassNote>]<bellows><note>[<duration>] [")"] 
-        
-           bassNote ::=  { "abcdefgABCDEFG>xz" }*
-          
-           bellows ::= "-"|"+" 
-        
-           note ::= <button>[<row>] | chord 
-        
-           chord ::= "[" {<button>[<row>]}* "]" 
-        
-           button ::=  {hexDigit} | "x" | "z" | ">"
-        
-           row ::= { "'" }*
-
-           duration ::=  number|fracao 
-
- */
-
-if (!window.ABCXJS)
-	window.ABCXJS = {};
-
-if (!window.ABCXJS.tablature)
-	window.ABCXJS.tablature = {};
-
-ABCXJS.tablature.Parse = function( str, vars ) {
-    this.invalid = false;
-    this.finished = false;
-    this.line = str;
-    this.vars = vars || {} ;
-    this.bassNoteSyms = "abcdefgABCDEFG>xz";
-    this.trebNoteSyms = "0123456789abcdefABCDEF>xz";
-    this.durSyms = "0123456789/.";
-    this.belSyms = "+-";
-    this.barSyms = ":]|[";
-    this.accSyms = "♭♯";
-    this.i = 0;
-    this.xi = 0;
-    this.offset = 8.9;
-    
-    this.warn = function(str) {
-        var bad_char = this.line.charAt(this.i);
-        if (bad_char === ' ')
-            bad_char = "SPACE";
-        var clean_line = this.encode(this.line.substring(0, this.i)) +
-                '<span style="text-decoration:underline;font-size:1.3em;font-weight:bold;">' + bad_char + '</span>' +
-                this.encode(this.line.substring(this.i + 1));
-        this.addWarning("Music Line:" + /*line*/ 0 + ":" + /*column*/(this.i + 1) + ': ' + str + ": " + clean_line);
-    };
-    
-    this.addWarning = function(str) {
-        if (!this.vars.warnings) this.vars.warnings = [];
-        this.vars.warnings.push(str);
-    };
-
-    this.encode = function(str) {
-        var ret = window.ABCXJS.parse.gsub(str, '\x12', ' ');
-        ret = window.ABCXJS.parse.gsub(ret, '&', '&amp;');
-        ret = window.ABCXJS.parse.gsub(ret, '<', '&lt;');
-        return window.ABCXJS.parse.gsub(ret, '>', '&gt;');
-    };
-
-};
-
-ABCXJS.tablature.Parse.prototype.parseTabVoice = function( ) {
-    var voice  = [];
-    this.i = 0;
-    var token = { el_type: "unrecognized" };
-    
-    while (this.i < this.line.length && !this.finished) {
-        token = this.getToken();
-        switch (token.el_type) {
-            case "bar":
-                token.startChar = this.xi;
-                token.endChar = this.i;
-                if( ! this.invalid )
-                  voice[voice.length] = token;
-                break;
-            case "note":
-                if( ! this.invalid )
-                  voice[voice.length] = this.formatChild(token);
-                break;
-            case "comment":
-            case "unrecognized":
-            default:
-                break;
-        }
-    }
-    return voice;
-};
-
-ABCXJS.tablature.Parse.prototype.formatChild = function(token) {
-  var child = {
-        el_type: token.el_type 
-        ,startChar:this.xi 
-        ,endChar:this.i
-        ,pitches: []
-        ,duration: token.duration * this.vars.default_length
-        ,bellows: token.bellows
-  };
-  
-  var pitchBase = 18;
-  var tt = "tabText";
-  
-  if(token.bassNote.length>1) {
-     pitchBase = 21.3;
-     tt = "tabText2";
-  }
-  for( var b = 0; b < token.bassNote.length; ++ b ) {
-    if(token.bassNote[b] === "z")
-      child.pitches[b] = { bass:true, type: "rest", c: '', pitch: 0.7 + pitchBase - (b*3)};
-    else
-      child.pitches[b] = { bass:true, type: tt, c: this.getTabSymbol(token.bassNote[b]), pitch: pitchBase -(b*3) - 0.5};
-  }
-
-  var qtd = token.buttons.length;
-  
-  for(var i = 0; i < token.buttons.length; i ++ ) {
-    var n = child.pitches.length;
-    if(token.buttons[i] === "z")
-      child.pitches[n] = { c: "", type: "rest", pitch: token.bellows === "+"? 13.2 : 13.2-this.offset };
-    else {
-      var offset = (qtd>=3?-(this.offset-(2.8*(qtd-2))):-this.offset);
-      var p = (qtd === 1 ? 11.7 : 13.4 - ( i * 2.8)) + (token.bellows === "+"? 0 : offset);
-      child.pitches[n] = { c: this.getTabSymbol(token.buttons[i]), type: "tabText"+(qtd>1?"2":""), pitch: p };
-    } 
-    
-  }
-  
-  if( token.startTriplet) {
-      child.startTriplet = token.startTriplet;
-  }
-  
-  if( token.endTriplet) {
-      child.endTriplet = token.endTriplet;
-  }
-  
-  return child;
-};
-
-ABCXJS.tablature.Parse.prototype.getTabSymbol = function(text) {
-    switch(text) {
-        case '>': return '-->';
-        default: return text;
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getToken = function() {
-    this.invalid = false;
-    this.parseMultiCharToken( ' \t' );
-    this.xi = this.i;
-    switch(this.line.charAt(this.i)) {
-        case '%':
-          this.finished = true;  
-          return { el_type:"comment",  token: this.line.substr( this.i+1 ) };
-        case '|':
-        case ':':
-          return this.getBarLine();
-          
-        case '[': // se o proximo caracter não for um pipe, deve ser tratado como uma coluna de notas
-          if( this.line.charAt(this.i+1) === '|' ) {
-            return this.getBarLine();
-          }
-        default:    
-          return this.getColumn();
-    }
-   
-};
-
-ABCXJS.tablature.Parse.prototype.parseMultiCharToken = function( syms ) {
-    while (this.i < this.line.length && syms.indexOf(this.line.charAt(this.i)) >= 0) {
-        this.i++;
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getBarLine = function() {
-  var endings  =   '1234567890,'; // due syntax conflict I will not consider the  dash '-'.
-  var validBars = { 
-        "|"   : "bar_thin"
-      , "||"  : "bar_thin_thin"
-      , "[|"  : "bar_thick_thin"
-      , "|]"  : "bar_thin_thick"
-      , ":|:" : "bar_dbl_repeat"
-      , ":||:": "bar_dbl_repeat"
-      , "::"  : "bar_dbl_repeat" 
-      , "|:"  : "bar_left_repeat"
-      , "||:" : "bar_left_repeat"
-      , "[|:" : "bar_left_repeat"
-      , ":|"  : "bar_right_repeat"
-      , ":||" : "bar_right_repeat"
-      , ":|]" : "bar_right_repeat"
-  };
-  
-  if(this.triplet) {
-    this.triplet = false;
-    this.warn( "Expected triplet end but found " + this.line.charAt(this.i) );
-  }
-
-  var token = { el_type:"bar", type:"bar", token: undefined };
-  var p = this.i;
-  
-  this.parseMultiCharToken(this.barSyms);
-  
-  token.token = this.line.substr( p, this.i-p );
-  this.finished =  this.i >= this.line.length;
-  
-  // validar o tipo de barra
-  token.type = validBars[token.token];
-  this.invalid = !token.type;
-
-  if(! this.invalid) {
-    this.parseMultiCharToken( ' \t' );
-    if (this.vars.inEnding ) {
-            token.endDrawEnding = true;
-            if( token.type !== 'bar_thin') {
-                token.endEnding = true;
-                this.vars.inEnding = false;
-            }    
-    }
-    if(endings.indexOf(this.line.charAt(this.i))>=0) {
-        token.startEnding = this.line.charAt(this.i);
-        if (this.vars.inEnding) {
-            token.endDrawEnding = true;
-            token.endEnding = true;
-        }    
-        this.vars.inEnding = true;
-        this.i++;
-    }
-  }
-  return token;
-};
-
-ABCXJS.tablature.Parse.prototype.getColumn = function() {
-    var token = {el_type: "note", type: "note", bassNote: undefined, bellows: "", buttons: [], duration: 1};
-    token.bassNote = [];
-    
-    if(this.line.charAt(this.i) === "(") {
-        token.startTriplet = this.getTripletDef();
-        this.triplet = true;
-    }
-    
-    while (this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-      token.bassNote[token.bassNote.length] = this.getBassNote();
-    }
-    
-    token.bellows = this.getBelows();
-    token.buttons = this.getNote();
-    token.duration = this.getDuration();
-    
-    if( this.isTripletEnd() ) {
-        token.endTriplet = true;
-    }
-    
-    this.finished = this.i >= this.line.length;
-    return token;
-
-};
-
-ABCXJS.tablature.Parse.prototype.getTripletDef = function() {
-    this.i++;
-    this.parseMultiCharToken( ' \t' );
-    var t =  this.line.charAt(this.i); //espero um único número como indicador de triplet
-    this.i++;
-    this.parseMultiCharToken( ' \t' );
-    return t;    
-};
-
-ABCXJS.tablature.Parse.prototype.isTripletEnd = function() {
-    this.parseMultiCharToken( ' \t' );
-    if( this.line.charAt(this.i) === ')' ) {
-        this.i++;
-        this.triplet = false;
-        return true;
-    } 
-    
-    return false;
-};
-
-
-ABCXJS.tablature.Parse.prototype.getBassNote = function() {
-  var note = "";
-  if( this.bassNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-    this.warn( "Expected Bass Note but found " + this.line.charAt(this.i) );
-    this.i++;
-  } else {
-    note = this.line.charAt(this.i);
-    this.i++;
-    if( this.accSyms.indexOf(this.line.charAt(this.i)) >= 0 ) {
-      note += this.line.charAt(this.i);
-      this.i++;
-    }
-  }
-  return note;
-};
-
-ABCXJS.tablature.Parse.prototype.getDuration = function() {
-    var dur = 1;
-    var p = this.i;
-
-    this.parseMultiCharToken(this.durSyms);
-    
-    if (p !== this.i) {
-        dur = this.line.substr(p, this.i - p);
-        if (isNaN(eval(dur))) {
-          this.warn( "Expected numeric or fractional note duration, but found " + dur);
-        } else {
-            dur = eval(dur);
-        }
-    }
-    return dur;
-};
-
-ABCXJS.tablature.Parse.prototype.getBelows = function() {
-    if(this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-       this.warn( "Expected belows information, but found " + this.line.charAt(this.i) );
-       this.invalid = true;
-       return '+';
-    } else {
-        this.i++;
-        return this.line.charAt(this.i-1);
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getNote = function() {
-  var b = [];
-  switch( this.line.charAt(this.i) ) {
-      case '[':
-         this.i++;
-         b = this.getChord();
-         break;
-      default: 
-         b[b.length] = this.getButton();
-  }
-  return b;
-};
-
-ABCXJS.tablature.Parse.prototype.getChord = function( token ) {
-    var b = [];
-    while (this.i < this.line.length && this.line.charAt(this.i) !== ']' ) {
-        b[b.length] = this.getButton();
-    }
-    if( this.line.charAt(this.i) !== ']' ) {
-       this.warn( "Expected end of chord - ']'");
-       this.invalid = true;
-    } else {
-        this.i++;
-    }
-    return b;
-};
-
-ABCXJS.tablature.Parse.prototype.getButton = function() {
-    var c = "x";
-    var row = "";
-    
-    if(this.trebNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-       this.warn( "Expected button number, but found " + this.line.charAt(this.i));
-    } else {
-        c = this.line.charAt(this.i);
-        switch(c) {
-            case '>':
-            case 'x':
-            case 'z':
-               break;
-            default:   
-                c = isNaN(parseInt(c, 16))? 'x': parseInt(c, 16).toString();
-        }
-    }
-    this.i++;
-    
-    var p = this.i;
-
-    this.parseMultiCharToken("'");
-    
-    if (p !== this.i) 
-        row = this.line.substr(p, this.i - p);
-        
-    return c + row;
-};
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * TODO:
  *   - Verificar currInterval e suas implicações quando se está no último compasso
  *   - Tratar adequadamente os acordes de baixo
  *   - OK Tratar inversões de fole e inTie 
@@ -11375,4 +11047,404 @@ ABCXJS.tablature.Layout.prototype.printBarLine = function (elem) {
 
   return abselem;	
 
+};
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * TODO:
+ * - Verificar porque no caso de slur a ordem dos elementos não está sendo respeitada
+*/
+
+/*
+ 
+            Definição da sintaxe para tablatura
+        
+           " |: G+5'2g-6>-5 | G-3'2d-5d-[678]1/2 | G+5d-5d-> | G-xd-5d-6 | +{786'}2 | +11/2 | c+ac+b |"
+        
+           Linha de tablatura ::= { <comentario> | <barra> | <coluna> }*
+        
+           comentario := "%[texto]"
+
+           barra ::=  "|", "||", ":|", "|:", ":|:", ":||:", "::", ":||", ":||", "[|", "|]", "|[|", "|]|" [endings]
+        
+           coluna ::=  ["("<triplet>][<bassNote>]<bellows><note>[<duration>] [")"] 
+        
+           bassNote ::=  { "abcdefgABCDEFG>xz" }*
+          
+           bellows ::= "-"|"+" 
+        
+           note ::= <button>[<row>] | chord 
+        
+           chord ::= "[" {<button>[<row>]}* "]" 
+        
+           button ::=  {hexDigit} | "x" | "z" | ">"
+        
+           row ::= { "'" }*
+
+           duration ::=  number|fracao 
+
+ */
+
+if (!window.ABCXJS)
+	window.ABCXJS = {};
+
+if (!window.ABCXJS.tablature)
+	window.ABCXJS.tablature = {};
+
+ABCXJS.tablature.Parse = function( str, vars ) {
+    this.invalid = false;
+    this.finished = false;
+    this.line = str;
+    this.vars = vars || {} ;
+    this.bassNoteSyms = "abcdefgABCDEFG>xz";
+    this.trebNoteSyms = "0123456789abcdefABCDEF>xz";
+    this.durSyms = "0123456789/.";
+    this.belSyms = "+-";
+    this.barSyms = ":]|[";
+    this.accSyms = "♭♯";
+    this.i = 0;
+    this.xi = 0;
+    this.offset = 8.9;
+    
+    this.warn = function(str) {
+        var bad_char = this.line.charAt(this.i);
+        if (bad_char === ' ')
+            bad_char = "SPACE";
+        var clean_line = this.encode(this.line.substring(0, this.i)) +
+                '<span style="text-decoration:underline;font-size:1.3em;font-weight:bold;">' + bad_char + '</span>' +
+                this.encode(this.line.substring(this.i + 1));
+        this.addWarning("Music Line:" + /*line*/ 0 + ":" + /*column*/(this.i + 1) + ': ' + str + ": " + clean_line);
+    };
+    
+    this.addWarning = function(str) {
+        if (!this.vars.warnings) this.vars.warnings = [];
+        this.vars.warnings.push(str);
+    };
+
+    this.encode = function(str) {
+        var ret = window.ABCXJS.parse.gsub(str, '\x12', ' ');
+        ret = window.ABCXJS.parse.gsub(ret, '&', '&amp;');
+        ret = window.ABCXJS.parse.gsub(ret, '<', '&lt;');
+        return window.ABCXJS.parse.gsub(ret, '>', '&gt;');
+    };
+
+};
+
+ABCXJS.tablature.Parse.prototype.parseTabVoice = function( ) {
+    var voice  = [];
+    this.i = 0;
+    var token = { el_type: "unrecognized" };
+    
+    while (this.i < this.line.length && !this.finished) {
+        token = this.getToken();
+        switch (token.el_type) {
+            case "bar":
+                token.startChar = this.xi;
+                token.endChar = this.i;
+                if( ! this.invalid )
+                  voice[voice.length] = token;
+                break;
+            case "note":
+                if( ! this.invalid )
+                  voice[voice.length] = this.formatChild(token);
+                break;
+            case "comment":
+            case "unrecognized":
+            default:
+                break;
+        }
+    }
+    return voice;
+};
+
+ABCXJS.tablature.Parse.prototype.formatChild = function(token) {
+  var child = {
+        el_type: token.el_type 
+        ,startChar:this.xi 
+        ,endChar:this.i
+        ,pitches: []
+        ,duration: token.duration * this.vars.default_length
+        ,bellows: token.bellows
+  };
+  
+  var pitchBase = 18;
+  var tt = "tabText";
+  
+  if(token.bassNote.length>1) {
+     pitchBase = 21.3;
+     tt = "tabText2";
+  }
+  for( var b = 0; b < token.bassNote.length; ++ b ) {
+    if(token.bassNote[b] === "z")
+      child.pitches[b] = { bass:true, type: "rest", c: '', pitch: 0.7 + pitchBase - (b*3)};
+    else
+      child.pitches[b] = { bass:true, type: tt, c: this.getTabSymbol(token.bassNote[b]), pitch: pitchBase -(b*3) - 0.5};
+  }
+
+  var qtd = token.buttons.length;
+  
+  for(var i = 0; i < token.buttons.length; i ++ ) {
+    var n = child.pitches.length;
+    if(token.buttons[i] === "z")
+      child.pitches[n] = { c: "", type: "rest", pitch: token.bellows === "+"? 13.2 : 13.2-this.offset };
+    else {
+      var offset = (qtd>=3?-(this.offset-(2.8*(qtd-2))):-this.offset);
+      var p = (qtd === 1 ? 11.7 : 13.4 - ( i * 2.8)) + (token.bellows === "+"? 0 : offset);
+      child.pitches[n] = { c: this.getTabSymbol(token.buttons[i]), type: "tabText"+(qtd>1?"2":""), pitch: p };
+    } 
+    
+  }
+  
+  if( token.startTriplet) {
+      child.startTriplet = token.startTriplet;
+  }
+  
+  if( token.endTriplet) {
+      child.endTriplet = token.endTriplet;
+  }
+  
+  return child;
+};
+
+ABCXJS.tablature.Parse.prototype.getTabSymbol = function(text) {
+    switch(text) {
+        case '>': return '-->';
+        default: return text;
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getToken = function() {
+    this.invalid = false;
+    this.parseMultiCharToken( ' \t' );
+    this.xi = this.i;
+    switch(this.line.charAt(this.i)) {
+        case '%':
+          this.finished = true;  
+          return { el_type:"comment",  token: this.line.substr( this.i+1 ) };
+        case '|':
+        case ':':
+          return this.getBarLine();
+          
+        case '[': // se o proximo caracter não for um pipe, deve ser tratado como uma coluna de notas
+          if( this.line.charAt(this.i+1) === '|' ) {
+            return this.getBarLine();
+          }
+        default:    
+          return this.getColumn();
+    }
+   
+};
+
+ABCXJS.tablature.Parse.prototype.parseMultiCharToken = function( syms ) {
+    while (this.i < this.line.length && syms.indexOf(this.line.charAt(this.i)) >= 0) {
+        this.i++;
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getBarLine = function() {
+  var endings  =   '1234567890,'; // due syntax conflict I will not consider the  dash '-'.
+  var validBars = { 
+        "|"   : "bar_thin"
+      , "||"  : "bar_thin_thin"
+      , "[|"  : "bar_thick_thin"
+      , "|]"  : "bar_thin_thick"
+      , ":|:" : "bar_dbl_repeat"
+      , ":||:": "bar_dbl_repeat"
+      , "::"  : "bar_dbl_repeat" 
+      , "|:"  : "bar_left_repeat"
+      , "||:" : "bar_left_repeat"
+      , "[|:" : "bar_left_repeat"
+      , ":|"  : "bar_right_repeat"
+      , ":||" : "bar_right_repeat"
+      , ":|]" : "bar_right_repeat"
+  };
+  
+  if(this.triplet) {
+    this.triplet = false;
+    this.warn( "Expected triplet end but found " + this.line.charAt(this.i) );
+  }
+
+  var token = { el_type:"bar", type:"bar", token: undefined };
+  var p = this.i;
+  
+  this.parseMultiCharToken(this.barSyms);
+  
+  token.token = this.line.substr( p, this.i-p );
+  this.finished =  this.i >= this.line.length;
+  
+  // validar o tipo de barra
+  token.type = validBars[token.token];
+  this.invalid = !token.type;
+
+  if(! this.invalid) {
+    this.parseMultiCharToken( ' \t' );
+    if (this.vars.inEnding ) {
+            token.endDrawEnding = true;
+            if( token.type !== 'bar_thin') {
+                token.endEnding = true;
+                this.vars.inEnding = false;
+            }    
+    }
+    if(endings.indexOf(this.line.charAt(this.i))>=0) {
+        token.startEnding = this.line.charAt(this.i);
+        if (this.vars.inEnding) {
+            token.endDrawEnding = true;
+            token.endEnding = true;
+        }    
+        this.vars.inEnding = true;
+        this.i++;
+    }
+  }
+  return token;
+};
+
+ABCXJS.tablature.Parse.prototype.getColumn = function() {
+    var token = {el_type: "note", type: "note", bassNote: undefined, bellows: "", buttons: [], duration: 1};
+    token.bassNote = [];
+    
+    if(this.line.charAt(this.i) === "(") {
+        token.startTriplet = this.getTripletDef();
+        this.triplet = true;
+    }
+    
+    while (this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+      token.bassNote[token.bassNote.length] = this.getBassNote();
+    }
+    
+    token.bellows = this.getBelows();
+    token.buttons = this.getNote();
+    token.duration = this.getDuration();
+    
+    if( this.isTripletEnd() ) {
+        token.endTriplet = true;
+    }
+    
+    this.finished = this.i >= this.line.length;
+    return token;
+
+};
+
+ABCXJS.tablature.Parse.prototype.getTripletDef = function() {
+    this.i++;
+    this.parseMultiCharToken( ' \t' );
+    var t =  this.line.charAt(this.i); //espero um único número como indicador de triplet
+    this.i++;
+    this.parseMultiCharToken( ' \t' );
+    return t;    
+};
+
+ABCXJS.tablature.Parse.prototype.isTripletEnd = function() {
+    this.parseMultiCharToken( ' \t' );
+    if( this.line.charAt(this.i) === ')' ) {
+        this.i++;
+        this.triplet = false;
+        return true;
+    } 
+    
+    return false;
+};
+
+
+ABCXJS.tablature.Parse.prototype.getBassNote = function() {
+  var note = "";
+  if( this.bassNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+    this.warn( "Expected Bass Note but found " + this.line.charAt(this.i) );
+    this.i++;
+  } else {
+    note = this.line.charAt(this.i);
+    this.i++;
+    if( this.accSyms.indexOf(this.line.charAt(this.i)) >= 0 ) {
+      note += this.line.charAt(this.i);
+      this.i++;
+    }
+  }
+  return note;
+};
+
+ABCXJS.tablature.Parse.prototype.getDuration = function() {
+    var dur = 1;
+    var p = this.i;
+
+    this.parseMultiCharToken(this.durSyms);
+    
+    if (p !== this.i) {
+        dur = this.line.substr(p, this.i - p);
+        if (isNaN(eval(dur))) {
+          this.warn( "Expected numeric or fractional note duration, but found " + dur);
+        } else {
+            dur = eval(dur);
+        }
+    }
+    return dur;
+};
+
+ABCXJS.tablature.Parse.prototype.getBelows = function() {
+    if(this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+       this.warn( "Expected belows information, but found " + this.line.charAt(this.i) );
+       this.invalid = true;
+       return '+';
+    } else {
+        this.i++;
+        return this.line.charAt(this.i-1);
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getNote = function() {
+  var b = [];
+  switch( this.line.charAt(this.i) ) {
+      case '[':
+         this.i++;
+         b = this.getChord();
+         break;
+      default: 
+         b[b.length] = this.getButton();
+  }
+  return b;
+};
+
+ABCXJS.tablature.Parse.prototype.getChord = function( token ) {
+    var b = [];
+    while (this.i < this.line.length && this.line.charAt(this.i) !== ']' ) {
+        b[b.length] = this.getButton();
+    }
+    if( this.line.charAt(this.i) !== ']' ) {
+       this.warn( "Expected end of chord - ']'");
+       this.invalid = true;
+    } else {
+        this.i++;
+    }
+    return b;
+};
+
+ABCXJS.tablature.Parse.prototype.getButton = function() {
+    var c = "x";
+    var row = "";
+    
+    if(this.trebNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+       this.warn( "Expected button number, but found " + this.line.charAt(this.i));
+    } else {
+        c = this.line.charAt(this.i);
+        switch(c) {
+            case '>':
+            case 'x':
+            case 'z':
+               break;
+            default:   
+                c = isNaN(parseInt(c, 16))? 'x': parseInt(c, 16).toString();
+        }
+    }
+    this.i++;
+    
+    var p = this.i;
+
+    this.parseMultiCharToken("'");
+    
+    if (p !== this.i) 
+        row = this.line.substr(p, this.i - p);
+        
+    return c + row;
 };

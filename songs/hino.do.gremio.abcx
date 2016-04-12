@@ -1,7 +1,8 @@
-X:1005
-%%papersize A4
-%%landscape  true
+X:1006
 %%barnumbers 1
+%%papersize A4
+%%landscape
+%%pagenumbering
 T:Hino do Grêmio
 C:Lupicínio Rodrigues
 C:(adapt. Cezar Ferreira)
