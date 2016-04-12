@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-    <!--
+<html><head><!--
         To change this license header, choose License Headers in Project Properties.
         To change this template file, choose Tools | Templates
         and open the template in the editor.
-    -->
-<html>
-    <head>
-        <title>Notas de Lançamento</title>
+    --><title>Notas de Lançamento</title>
+    
+
+    
+        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
-        <meta name="robots" content="index,follow"/>
-        <meta name="revisit-after" content="7 days"/>
+        <meta name="robots" content="index,follow">
+        <meta name="revisit-after" content="7 days">
 
         <meta name="keywords" content="diatonic accordion, notation, learning, practice, repertoire, abc tunes, midi, tablature
 acordeon diatônico, gaita de oito baixos, gaita ponto, notação musical, aprendizagem, prática, repertorio, 
-notação abc, tablatura "/>
+notação abc, tablatura ">
         
         <link href="../css/help.css" rel="stylesheet">
         <script>
@@ -26,9 +27,7 @@ notação abc, tablatura "/>
             ga('create', 'UA-62839199-3', 'auto');
             ga('send', 'pageview');
         </script>        
-        <script type="text/javascript" src="../javascripts/help.js"></script>
-    </head>
-    <body>
+        <script type="text/javascript" src="../javascripts/help.js"></script></head><body>
         <div id="helpHeader" class="helpHeader"> 
             <span class="helpTit">Notas de Lançamento</span> 
             <button id="printHelp" class="btn" title="Imprimir" onclick="printHelp();">Imprimir</button> 
@@ -38,25 +37,34 @@ notação abc, tablatura "/>
         <div id="helpContainer" class="helpContent">
             <h1>Notas de Lançamento<br>
             </h1>
-            <h2>Versão 3.13<br>
+            <h2>Versão 3.15<br>
             </h2>
-            <p>Abril/2016: Novo gerador de MIDI<br>
+            <p>Abril/2016: Novo gerador de MIDI e Impressão melhorada<br>
             </p>
             <ul>
                 <li>Novo algoritmo para geração do MIDI, controlando melhor a sequência de execução dos compassos.</li>
                 <li>O marcador <i>segno</i> agora é considerado no MIDI Player.</li>
                 <li>Melhoria no posicionamento da janela de Mídia.</li>
-                <li>Repertório ampliado.</li>
+                <li>Impressão de números de página (diretiva %%pagenumbering)<br>
+</li>
+  <li>Controle do espaço entre os grupos de pauta (diretiva %%staffsep)</li>
+  <li>Controle da margem de impressão e formato de página: retrato ou paisagem (diretiva %%landscape)<br>
+  </li>
+  <li>Repertório ampliado.</li>
+
             </ul>
             <h2>Versão 3.12<br>
             </h2>
             <p>Março/2016: Introduzindo o extrator de tablaturas<br>
             </p>
             <ul>
-                <li>Extrator de tablaturas. A partir de um arquivo de partitura ABCX, esta ferramenta extrai a tablatura. Com
-                isso é possível obter a tablatura já bem definida para um modelo de acordeon e gerar uma partitura para outro modelo
-                de acordeon. Por exemplo, de uma partitura para um acordeon G/C, extrai-se a tablatura e, usa-se o gerador de partituras, 
-                convertendo a tablatura para uma partitura de um acordeon C/F Club.</li>
+                <li>Extrator
+de tablaturas. A partir de um arquivo de partitura ABCX, esta
+ferramenta extrai a tablatura. Com isso é possível obter a tablatura já
+bem definida para um modelo de acordeon e gerar uma partitura para
+outro modelo de acordeon. Por exemplo, de uma partitura para um
+acordeon G/C, extrai-se a tablatura e, usa-se o gerador de partituras,
+convertendo a tablatura para uma partitura de um acordeon C/F Club.</li>
             </ul>
             <h2>Versão 3.10<br>
             </h2>
