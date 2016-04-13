@@ -1,7 +1,8 @@
 ﻿X:1001
-%%barnumbers 1
+%%barnumbers 0
 %%papersize a4
 %%pagenumbering
+%%staffsep 20
 T:Asa Branca
 C:Luiz Gonzaga & Humberto Teixeira
 Z:Flávio Vani

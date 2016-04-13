@@ -1,6 +1,8 @@
 ﻿X:2003
-%%barnumbers 1
-%%papersize legal
+%%barnumbers 0
+%%papersize a4
+%%pagenumbering
+%%staffsep 20
 T:Asa Branca (club)
 C:Luiz Gonzaga & Humberto Teixeira
 Z:Flávio Vani
