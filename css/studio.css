@@ -7,18 +7,23 @@ and open the template in the editor.
     Created on : 07/04/2015, 19:06:40
 */
 
+@page  {
+    margin:1cm;
+}
+
 .printPreviewClass {
     position:relative;
     display:none;
     top:0;
     left:0;
     margin: 0;
-    margin-left: 0px;
+    //margin-left: 0px;
     padding: 0;
     width:1056px; 
-    z-index: 20000;
+    z-index: 0;
     //background-color: #ffc;
     background-color: #fff;
+    float:left;
 }
 
 .playTimeLabel {

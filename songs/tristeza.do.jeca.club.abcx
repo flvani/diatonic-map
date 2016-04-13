@@ -2,6 +2,8 @@
 %%barnumbers 1
 %%papersize A4
 %%landscape
+%%pagenumbering
+%%staffsep 20
 T:Tristeza do Jeca (club)
 C:Angelino de Oliveira
 Z:Flávio Vani

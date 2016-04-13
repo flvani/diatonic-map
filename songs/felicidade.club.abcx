@@ -1,6 +1,8 @@
 X:2004
 ﻿%%barnumbers 0
 %%papersize A4
+%%pagenumbering
+%%staffsep 20
 T:Felicidade (club)
 C:Lupínio Rodrigues
 C:(arr. Cezar Ferreira)

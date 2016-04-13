@@ -1,7 +1,8 @@
 ﻿X:2017
-%%scale 1
-%%barnumbers 1
+%%barnumbers 0
 %%papersize A4
+%%pagenumbering
+%%staffsep 20
 T:Merceditas (club)
 C:Ramón Sixto Rios
 C:(arr. Cezar Ferreira)

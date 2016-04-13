@@ -232,9 +232,9 @@ window.ABCXJS.data.Tune = function() {
         }
         
         if(ls)
-            this.formatting.pageratio = (ph-(1*defaultMargin*72))/(pw-(2.08*defaultMargin*72)); // ???
+            this.formatting.pageratio = (ph-(1*defaultMargin*72))/(pw-(1.80*defaultMargin*72)); // ???
         else
-            this.formatting.pageratio = (ph-(1*defaultMargin*72))/(pw-(1.98*defaultMargin*72)); // ???
+            this.formatting.pageratio = (ph-(1*defaultMargin*72))/(pw-(1.85*defaultMargin*72)); // ???
 
         if (!this.formatting.landscape)
             this.formatting.landscape = ls;
@@ -8849,35 +8849,30 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune) {
         extraText2+= "Histórico: " + abctune.metaText.history + "\n";
     }    
     
-    if( h1+h2 ===  0)  {
-         this.skipPage(); // nada mais para imprimir
-    } else  {
-        
-        if(h1> 0) {
-            height = ABCXJS.write.spacing.STEP*3*this.scale + h1*1.5*17* this.scale; // 1.5??? ver translate...
-            if( ( this.pageNumber - ((this.y+height)/this.estimatedPageLength) ) < 0 ) {
-               this.skipPage();
-            } else {
-                this.y += ABCXJS.write.spacing.STEP*3*this.scale; 
-            }
-            this.y += this.printExtraText( extraText1, this.paddingleft+50);
+    if(h1> 0) {
+        height = ABCXJS.write.spacing.STEP*3*this.scale + h1*1.5*17* this.scale; // 1.5??? ver translate...
+        if( ( this.pageNumber - ((this.y+height)/this.estimatedPageLength) ) < 0 ) {
+           this.skipPage();
+        } else {
+            this.y += ABCXJS.write.spacing.STEP*3*this.scale; 
         }
-        
-        if(h2> 0) {
-            height = ABCXJS.write.spacing.STEP*3*this.scale + h2*1.5*17* this.scale;
-            if( ( this.pageNumber - ((this.y+height)/this.estimatedPageLength) ) < 0 ) {
-               this.skipPage();
-            } else {
-                this.y += ABCXJS.write.spacing.STEP*3*this.scale; 
-            }
-            this.y += this.printExtraText( extraText2, this.paddingleft);
+        this.y += this.printExtraText( extraText1, this.paddingleft+50);
+    }
+
+    if(h2> 0) {
+        height = ABCXJS.write.spacing.STEP*3*this.scale + h2*1.5*17* this.scale;
+        if( ( this.pageNumber - ((this.y+height)/this.estimatedPageLength) ) < 0 ) {
+           this.skipPage();
+        } else {
+            this.y += ABCXJS.write.spacing.STEP*3*this.scale; 
         }
+        this.y += this.printExtraText( extraText2, this.paddingleft);
     }
     
    //for(var r=0; r < 10; r++) 
         this.skipPage();
     
-    this.y -= (this.landscape ? 15 : 15);
+    this.y -= (this.paddingtop+5); // to avoid extra page at end of the print
     
     var sizetoset = {w: (maxwidth + this.paddingright) * this.scale, h: this.y* this.scale};
     
@@ -8898,7 +8893,7 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune) {
 ABCXJS.write.Printer.prototype.skipPage = function() {
     this.y = this.estimatedPageLength*this.pageNumber + this.paddingtop;
     if (this.pagenumbering) {
-         this.paper.text((this.width+25)* this.scale, (this.y - this.paddingtop - (this.landscape ? 13 : 13)) * this.scale, "- " + this.pageNumber + " -")
+         this.paper.text((this.width+25)* this.scale, (this.y - this.paddingtop - 13) * this.scale, "- " + this.pageNumber + " -")
               .attr({"text-anchor": "end", "font-size": 13 * this.scale, "font-family": "serif", 'font-weight': 'bold'});
     }
     this.pageNumber++;

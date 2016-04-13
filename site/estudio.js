@@ -414,26 +414,25 @@ SITE.Estudio.prototype.changePageOrientation = function (orientation) {
 };
 
 SITE.Estudio.prototype.printPreview = function (html, divsToHide, landscape ) {
-    var orientation = landscape? 'landscape': 'portrait';
     var bg = document.body.style.backgroundColor;
+    var pt = document.body.style.paddingTop;
     var dv = document.getElementById('printPreviewDiv');
     
     divsToHide.forEach( function( div ) {
         $(div).hide();
     });
-    $("#printPreviewDiv").show();
     
-   this.changePageOrientation(orientation);
+   this.changePageOrientation(landscape? 'landscape': 'portrait');
     
+    dv.style.display = 'inline';
     dv.innerHTML = html;
-    
     document.body.style.paddingTop = '0px';
     document.body.style.backgroundColor = '#fff';
     window.print();
     document.body.style.backgroundColor = bg;
-    document.body.style.paddingTop = '50px';
+    document.body.style.paddingTop = pt;
+   dv.style.display = 'none';
     
-    $("#printPreviewDiv").hide();
     divsToHide.forEach( function( div ) {
         $(div).show();
     });

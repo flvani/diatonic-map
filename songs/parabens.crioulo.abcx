@@ -3,6 +3,7 @@ X:1011
 %%score 0 (1 2) 3
 %%papersize A4
 %%landscape
+%%staffsep 20
 %%pagenumbering
 T:Parabéns Crioulo
 T:Parabéns Gaúcho

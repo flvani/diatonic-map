@@ -46,7 +46,7 @@ notação abc, tablatura "/>
         <link href="css/studio.css" rel="stylesheet">
         <link rel="icon" type="image/icon" href="http://flvani.github.io/diatonic-map/img/favicon6.ico">
     </head>
-    <body onresize="resizeStudio();">
+    <body class="mapa" onresize="resizeStudio();">
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container" id="divTitulo" style="margin-left: 0px; margin-top: 0px; height: 50px; width: 100%; background-color:#5ba4a4;" >
                 <header>
@@ -118,7 +118,7 @@ notação abc, tablatura "/>
         <div id="mapContainerDiv" >
             
             <div id="hintsDiv" class="draggableWindow" style="left:900px; top:80px; width:300px; height: auto; display:none; z-index:10000;"></div> 
-            <div id="releaseDiv" class="draggableWindow" style="left:900px; top:240px; width:200px; height: auto; display:none; z-index:10001;"></div> 
+            <div id="releaseDiv" class="draggableWindow" style="left:400px; top:440px; min-width:300px; height: auto; display:none; z-index:10000;"></div> 
             <div id="ADDiv" class="draggableWindow" style="left:250px; top:300px; width:400px; height: 265px; display:none; z-index:10000;"></div> 
             <div id="useChromeDiv" style="position:absolute; left:925px; top:270px; width:150px; height: auto; display:none; z-index:10000;"></div> 
             <div id="mediaDiv" class="draggableWindow" style="left:980px; top:160px; min-width: 300px; min-height: 167px; width:auto; height: auto; display:none; z-index:10000;"></div> 
@@ -442,8 +442,8 @@ notação abc, tablatura "/>
                     +'</table>';
             
                 w5.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
-                   + '<h3>Versão 3.10</h3>'
-                   + '<a target="_blank" href="html/release.pt_BR.html" >Veja as notas<br>de lançamento.</a>'
+                   + '<h3>Versão 3.15</h3>'
+                   + '<a target="_blank" href="html/release.pt_BR.html" >Clique aqui e conheça as novidades<br> desta versão.</a>'
                    + '</b></center><br>';
 
                 // flavio - agora é azul -- ABCXJS.write.highLightColor = '#ff0000';
@@ -653,8 +653,9 @@ notação abc, tablatura "/>
                     $('#ADDiv').fadeIn('slow');
                 }
                 
-                if( getDate() <= 20150610 ) {
+                if( getDate() <= 20160420 ) {
                     $('#releaseDiv').fadeIn('slow');
+                    setTimeout(function() { $('#releaseDiv').fadeOut('slow'); }, 15000);
                 }
                 
                 $("#clustrmaps-widget").find("a").attr('target','_blank');
