@@ -2,6 +2,7 @@ X:1013
 %%papersize A4
 %%barnumbers 1
 %%pagenumbering
+%%barsperstaff 8
 T:Primeira Valsinha
 C:Orlandinho
 C:(adap. Cezar Ferreira)
@@ -17,7 +18,6 @@ V:Treb
 |B G F | B G F | c G E | c G E | 
 |c G E | c G E | B G F | B G F | 
 |B A G | F E D | C z2   || C D E | 
-%%newpage
 |[F3A3]   | [A3F3]   | [G3E3]   | [G3E3]   | [F3D3]   | 
 |[F3D3]   | [E3C3]   | C D E | [A3F3]   | 
 |[A3F3]   | [G3E3]   | E G E | B A G | 
