@@ -1,24 +1,41 @@
-﻿X:2001
+﻿X:2002
 %%barnumbers 1
-%%papersize a4
+%%papersize A4
 %%pagenumbering
-%%landscape
-T:A canoa virou (club)
+%landscape
+%%barsperstaff 4
+%%staffsep 8
+T:Alecrim dourado (club)
 C:Tradicional
-Z:Flávio Vani
+Z:Flávio Vani 
 N:Mapa para Acordeons Diatônicos powered by ABCXJS.
-M:2/4
-L:1/8
-Q:120
 K:C
-V:1 treble
-V:2 bass
-[V:1]| z2 GG |: G2 GF | E2 EG | c2 cB | A2 AA | d2 dc | B2 BA | G2 GF | E2 GG | 
-w:A ca-no-a vi-rou por dei-xar ela vi-rar foi por causa do gu-ri que não sou-be re-mar se'u fos-
-[V:2]| z4    |: C,,2 [A,,C,E,]2 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,_B,]2 | F,,2 [F,A,C]2 | F,,2 [F,A,C]2 |  G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | C,,2 [C,E,G,]2 |
-[V:1]| G2 GF | E2 EG | c2 cB | A2 AA | d2 dc | B2 BA | G2 AB | c4 |1 z2 GG :|2 z4 |
-w:se~um pei-xi-nho, se'u sou-bes-se na-dar, eu ti-ra-va o gu-ri do fun-do do mar * A ca-
-[V:2]| C,,2 [A,,C,E,]2 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,_B,]2 | F,,2 [F,A,C]2 | F,,2 [F,A,C]2 |  G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | C,,2 [C,E,G,]2 |1 C,,2 [C,E,G,]2 :|2  C,,2 [C,E,G,]2 |
-V:3 accordionTab
-| z+z2 z+6 z+6 |: C+62 a+6 >+4' | C-3'2 c-3' >-4' | C-6'2 c-6' >-7 | F+5'2 f+5' >+5' | F+5''2 f+5'' >+6' | G-72 g-7 >-6 | G-4'2 g-4' >-5 | C+52 c+6 >+6 |
-| C+62 a+6 >+4' | C-3'2 c-3' >-4' | C-6'2 c-6' >-7 | F+5'2 f+5' >+5' | F+5''2 f+5'' >+6' | G-72 g-7 >-6 | G-4'2 g-6 >-7 | C+72 c+>2 |1 C+z2 c+6 >+6 :|2 C+z2 c+z2 |
+L:1/4
+M:C
+V:1 clef=treble melodia
+V:2 clef=bass baixo
+[V:1]| z2 "G7"gf |: "C"e e/2d/2 e g | "F"f/2f/2f/2e/2 fg | f/2f/2f/2e/2 fg  |
+w: A-le-crim, A-le-crim dou-ra-do que nas-ceu no cam-po sem ser se-me-
+[V:2]| z4    |: C,, [C,E,G,] C,, [C,E,G,] |  F,, [F,A,C] F,, [F,A,C] | F,, [F,A,C] F,, [F,A,C] |
+[V:1]| "C"ee  "G7"gf | "C"e e/2d/2 e g | "F"f/2f/2f/2e/2 f g | f/2f/2f/2e/2 f g |
+w:a-do. A-le-crim, A-le-crim dou-ra-do que nas-ceu no cam-po sem ser se-me-
+[V:2]| C,, [C,E,G,] G,, [G,B,D] | C,, [C,E,G,] C,, [C,E,G,] | F,, [F,A,C] F,, [F,A,C] | F,, [F,A,C] F,, [F,A,C] |
+[V:1]| "C"e e z/2 "C7"c/2 [df]/2c/2 | "F"[fa] [fa]/2[ea]/2 [db] [fa] | "C"[eg] [eg]/2[dg]/2 [ca] [eg] | "G7"[df]/2[df]/2[df]/2[ca]/2 [Bg] [Bf] | "C"e e z/2 "C7"c/2 [df]/2c/2 |
+w:a-do. Foi meu a-mor que me dis-se assim que a flor do cam-po é o a-le-crim. * Foi meu a-
+[V:2]| C,, [C,E,G,] C,, [C,E,G,] | F,, [F,A,C] D,, [D,F,A,] |  C,, [C,E,G,] C,, [C,E,G,] |  G,, [G,B,D]  G,, [G,B,D] | C,, [C,E,G,] C,, [C,E,G,] |
+[V:1]| "F"[fa] [fa]/2[ea]/2 [db] [fa] | "G"[eg] [eg]/2[dg]/2 [ca] [eg] | "G7"[df]/2[df]/2[df]/2[ca]/2 [Bg] [Bf] |1 "C"[ce]2 "G7"gf :|2 "C"[ce]4 |
+w:mor que me dis-se assim que a flor do cam-po é o a-le-crim. A-le-crim.
+[V:2]| F,, [F,A,C] D,, [D,F,A,] |  C,, [C,E,G,] C,, [C,E,G,] |  G,, [G,B,D]  G,, [G,B,D] |1 C,, [C,E,G,] G,, [G,B,D] :|2 C,, [C,E,G,]  C,, [C,E,G,] |
+V:3 tablatura
+K:accordionTab
+| z+z2 z-8' z-9 |: C-7' c-7'0.5 >-80.5 C-7' c-8' | F+7'0.5 >+7'0.5 f+7'0.5 >+80.5 F+7' f+9 |F+7'0.5 >+7'0.5 f+7'0.5 >+80.5 F+7' f+9 | 
+| C-7' c-7' G-8' g-9 | C-7' c-7'0.5 >-80.5 C-7' c-8' | F+7'0.5 >+7'0.5 f+7'0.5 >+80.5 F+7' f+9 | F+7'0.5 >+7'0.5 f+7'0.5 >+80.5 F+7' f+9 |
+| C-7' c-7' C-z0.5 >-6'0.5 c-[89]0.5 >-6'0.5 | F+[7'8'] f+[7'8']0.5 >+[88']0.5 D-[8b] d-[9a] | C-[7'8'] c-[7'8']0.5 >-[88']0.5 C-[6'a] c-[7'8'] | G-[89]0.5 >-[89]0.5 g-[89]0.5 >-[6'a]0.5 G-[78'] g-[79] | C+8 c+8 C+z0.5 >+70.5 c+[5''7']0.5 >+70.5 |
+| F+[7'8'] f+[7'8']0.5 >+[88']0.5 D-[8b] d-[9a] | C-[7'8'] c-[7'8']0.5 >-[88']0.5 C-[6'a] c-[7'8'] | G-[89]0.5 >-[89]0.5 g-[89]0.5 >-[6'a]0.5 G-[78'] g-[79] |1 C+[78] c+[>>] G-8' g-9 :|2 C-[6'7'] c-[>>] C-[>>] c-[>>] |
+
+
+
+
+
+
+
