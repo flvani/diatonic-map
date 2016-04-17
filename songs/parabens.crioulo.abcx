@@ -1,31 +1,31 @@
-  X:1011
-  %%barnumbers 1
-  %%score 0 (1 2) 3
-  %%papersize A4
-  %%landscape
-  %%staffsep 20
-  %%pagenumbering
-  T:Parabéns Crioulo
-  T:Parabéns Gaúcho
-  C:Dimas Costa e Eleu Salvador
-  Z:Flávio Vani
-  N:Mapa para Acordeons Diatônicos powered by ABCXJS.
-  F:https://www.youtube-nocookie.com/embed/xP7g7MbuDNc
-  M:C
-  L:1/4
-  Q:120
-  K:C
-  V:0 clef=treble
-  V:1 clef=bass stem=down
-  V:2 clef=bass stem=up
-  [V:0]| z E1/2F1/4^F1/4|: G z2 c3/4B1/4 | A z2  d | B G z1/2 G1/2A1/2B1/2         | d c2 c3/4c1/4      | c3/2 A1/2 A3/4A1/4 c3/4c1/4  |
-  w:Pa-ra- - béns!  Pa-ra-béns! Sa-ú-de, fe-li-ci-da-de! Que tu co-lhas, sem-pre, to-do
-  [V:1]| x2 |: x C,, C,, x | x F,,, F,,, x | x4 | x4 | x4 |
-  [V:2]| z2 |: z [C,E,G,] [C,E,G,] z | z [F,,A,,C,] [F,,A,,C,] z | G,, [G,,B,,D,] G,, [G,,B,,D,] | C,, [C,E,G,] C,, z | F,, [F,,A,,C,] F,, [F,,A,,C,] |
-  [V:0]| c G  G3/4G1/4 G3/4G1/4    | A3/4A1/4 A3/4A1/4 B3/4B1/4 A3/4G1/4  |1 d c2 E1/2F1/4^F1/4 :|2 c G  G3/4G1/4 G3/4G1/4    | A3/4A1/4 A3/4A1/4 B3/4B1/4 A3/4G1/4  | d c2-c             |]
-  w: di-a, paz e a-le-gri-a na la-vou-ra da ami-za-de Pa-ra-* za-de, paz e a-le-gri-a na la-vou-ra da ami-za-de!
-  [V:1]| x4 | x4 |1 x4 :|2 x4 | x4 | x4 |]
-  [V:2]| C,, [C,E,G,] C,, [C,E,G,] | F,, [F,,A,,C,] G,, [G,,B,,D,]        |1 C,, [C,E,G,] C,, z :|2 C,, [C,E,G,] C,, [C,E,G,] | F,, [F,,A,,C,] G,, [G,,B,,D,]        | C,, [C,E,G,] C,, [C,E,G,] |]
-  V:3 accordionTab
-  | z+z z-50.5 z-4'0.25 z-60.25 |: z-5' Cc+z Cc+z z-80.75 z-6'0.25 | z-7 Ff-z Ff-z z-7' | G-6' g-5' G-z0.5 >-5'0.5 g-70.5 >-6'0.5 | C+8 c+6' C+> z-80.75 z-80.25 | F-8 f->0.5 >-70.5 F-70.75 >-70.25 f-80.75 >-80.25 |
-  | C+6' c+5' C+5'0.75 >+5'0.25 c+5'0.75 >+5'0.25 | F-70.75 >-70.25 f-70.75 >-70.25 G-6'0.75 >-6'0.25 g-70.75 >-5'0.25 |1 C+8 c+6' C+> z-50.5 z-4'0.25 z-60.25 :|2 C+6' c+5' C+5'0.75 >+5'0.25 c+5'0.75 >+5'0.25 | F-70.75 >-70.25 f-70.75 >-70.25 G-6'0.75 >-6'0.25 g-70.75 >-5'0.25 | C+8 c+6' C+> c+> |]
+X:1011
+%%barnumbers 1
+%%score 0 (1 2) 3
+%%papersize A4
+%%landscape
+%%staffsep 20
+%%pagenumbering
+T:Parabéns Crioulo
+T:Parabéns Gaúcho
+C:Dimas Costa e Eleu Salvador
+Z:Flávio Vani
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/xP7g7MbuDNc
+M:C
+L:1/4
+Q:120
+K:C
+V:0 clef=treble
+V:1 clef=bass stem=down
+V:2 clef=bass stem=up
+[V:0]| z E1/2F1/4^F1/4|: G z2 c3/4B1/4 | A z2  d | B G z1/2 G1/2A1/2B1/2         | d c2 c3/4c1/4      | c3/2 A1/2 A3/4A1/4 c3/4c1/4  |
+w:Pa-ra- - béns!  Pa-ra-béns! Sa-ú-de, fe-li-ci-da-de! Que tu co-lhas, sem-pre, to-do
+[V:1]| x2 |: x C,, C,, x | x F,,, F,,, x | x4 | x4 | x4 |
+[V:2]| z2 |: z [C,E,G,] [C,E,G,] z | z [F,,A,,C,] [F,,A,,C,] z | G,, [G,,B,,D,] G,, [G,,B,,D,] | C,, [C,E,G,] C,, z | F,, [F,,A,,C,] F,, [F,,A,,C,] |
+[V:0]| c G  G3/4G1/4 G3/4G1/4    | A3/4A1/4 A3/4A1/4 B3/4B1/4 A3/4G1/4  |1 d c2 E1/2F1/4^F1/4 :|2 c G  G3/4G1/4 G3/4G1/4    | A3/4A1/4 A3/4A1/4 B3/4B1/4 A3/4G1/4  | d c2-c             |]
+w: di-a, paz e a-le-gri-a na la-vou-ra da ami-za-de Pa-ra-* za-de, paz e a-le-gri-a na la-vou-ra da ami-za-de!
+[V:1]| x4 | x4 |1 x4 :|2 x4 | x4 | x4 |]
+[V:2]| C,, [C,E,G,] C,, [C,E,G,] | F,, [F,,A,,C,] G,, [G,,B,,D,]        |1 C,, [C,E,G,] C,, z :|2 C,, [C,E,G,] C,, [C,E,G,] | F,, [F,,A,,C,] G,, [G,,B,,D,]        | C,, [C,E,G,] C,, [C,E,G,] |]
+V:3 accordionTab
+| z+z z-50.5 z-4'0.25 z-60.25 |: z-5' Cc+z Cc+z z-80.75 z-6'0.25 | z-7 Ff-z Ff-z z-7' | G-6' g-5' G-z0.5 >-5'0.5 g-70.5 >-6'0.5 | C+8 c+6' C+> z-80.75 z-80.25 | F-8 f->0.5 >-70.5 F-70.75 >-70.25 f-80.75 >-80.25 |
+| C+6' c+5' C+5'0.75 >+5'0.25 c+5'0.75 >+5'0.25 | F-70.75 >-70.25 f-70.75 >-70.25 G-6'0.75 >-6'0.25 g-70.75 >-5'0.25 |1 C+8 c+6' C+> z-50.5 z-4'0.25 z-60.25 :|2 C+6' c+5' C+5'0.75 >+5'0.25 c+5'0.75 >+5'0.25 | F-70.75 >-70.25 f-70.75 >-70.25 G-6'0.75 >-6'0.25 g-70.75 >-5'0.25 | C+8 c+6' C+> c+> |]
