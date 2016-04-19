@@ -23,31 +23,46 @@
 
     Implementar pagina de producao
 -->
-
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <meta charset="utf-8">
-        <title>Mapa para Acordeons Diatônicos</title>
+        <!--meta name="description" content="Um mapa de referência para a aprendizagem de acordeons diatônicos" id="DR_description" /-->
 
-        <meta name="author" content="Flávio Luiz Vani">
-        <meta name="viewport" content="height=device-height, minimum-scale=0.5, maximum-scale=2.0">
-        <meta name="description" content="Um mapa de referência para a aprendizagem de acordeons diatônicos" id="DR_description"/>
+        <title>Mapa para Acordeons Diatônicos</title>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        
+        <meta name="viewport" content="height=device-height, minimum-scale=0.5, maximum-scale=2.0"/>
 
         <meta name="robots" content="index,follow"/>
         <meta name="revisit-after" content="7 days"/>
+        <meta name="description" content="Um mapa de referência para a aprendizagem de acordeons diatônicos" />
+        
+
+        <meta name="author" content="Flávio Luiz Vani"/>
 
         <meta name="keywords" content="diatonic accordion, notation, learning, practice, repertoire, abc tunes, midi, tablature
 acordeon diatônico, gaita de oito baixos, gaita ponto, notação musical, aprendizagem, prática, repertorio, 
-notação abc, tablatura "/>
-    
+notação abc, tablatura " />   
+        
         <!-- Estilos para a página e popups -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/draggable.css" rel="stylesheet">
-        <link href="css/mapa.css" rel="stylesheet">
-        <link href="css/studio.css" rel="stylesheet">
-        <link rel="icon" type="image/icon" href="http://flvani.github.io/diatonic-map/img/favicon6.ico">
+        
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <link href="css/draggable.css" rel="stylesheet"/>
+        <link href="css/mapa.css" rel="stylesheet"/>
+        <link href="css/studio.css" rel="stylesheet"/>
+        <link rel="icon" type="image/icon" href="http://flvani.github.io/diatonic-map/img/favicon6.ico"/>
+        
+        <script type="text/javascript">
+        //<![CDATA[
+        window.onresize = function()
+        {
+            resizeStudio();
+        }
+        //]]>
+        </script>
+        
     </head>
-    <body class="mapa" onresize="resizeStudio();">        
+    <body class="mapa">        
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container" id="divTitulo" style="margin-left: 0px; margin-top: 0px; height: 50px; width: 100%; background-color:#5ba4a4;" >
                 <header>
