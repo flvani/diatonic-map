@@ -20,6 +20,7 @@ DR.initializeTranslator = function ( strResources ) {
     DR.createResources(strResources);
 
     // create and select the menu option for the inicial language
+    $('#opcoes_idioma').empty();
     DR.createMenuOption("pt_BR", "Português do Brasil" );
 
     //load each avaliable languague resource file
@@ -123,7 +124,7 @@ DR.createResources = function (strResources) {
     //some of the translation resources need to be manually adjusted as they are not simply HTML elements
     DR.resource["DR_image"] = []; // create DR_image empty array;
     DR.resource["DR_title"] = [document.title];
-    //DR.resource["DR_description"] = [document.getElementById('DR_description').content];
+    DR.resource["DR_description"] = [document.getElementById('DR_description').content];
     DR.resource["DR_push"]  = ['Fecha'];
     DR.resource["DR_pull"]  = ['Abre'];
     DR.resource["DR_pause"] = ['Pausar'];

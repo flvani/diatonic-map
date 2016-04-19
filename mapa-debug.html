@@ -25,7 +25,7 @@
 -->
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <!--meta name="description" content="Um mapa de referência para a aprendizagem de acordeons diatônicos" id="DR_description" /-->
+        <!--meta name="description" content="Um mapa de referência para a aprendizagem de acordeons diatônicos" /-->
 
         <title>Mapa para Acordeons Diatônicos</title>
         
@@ -35,7 +35,7 @@
 
         <meta name="robots" content="index,follow"/>
         <meta name="revisit-after" content="7 days"/>
-        <meta name="description" content="Um mapa de referência para a aprendizagem de acordeons diatônicos" />
+        <meta name="description" id="DR_description" content="Um mapa de referência para a aprendizagem de acordeons diatônicos" />
         
 
         <meta name="author" content="Flávio Luiz Vani"/>
@@ -66,14 +66,14 @@ notação abc, tablatura " />
                                   <td >
                                     <div id="divMenuAccordions" class="btn-group">
                                         <button class="btn dropdown-toggle" data-toggle="dropdown" ><span id="DR_accordions">Acordeons</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                                        <input id="fileLoadMap" type="file" accept="text/abc" style="display: none;" multiple="multiple" />
+                                        <input id="fileLoadMap" type="file" accept="text/abc" multiple="multiple" style="display: none;"/>
                                         <ul class="dropdown-menu" id="opcoes_gaita" ><li>Não disponível</li></ul>
                                     </div>
                                   </td >
                                   <td >
                                     <div id="divMenuRepertoire" class="btn-group">
                                         <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_repertoire">Repertório</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                                        <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" style="display: none;" multiple="multiple" />
+                                        <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" multiple="multiple" style="display: none;"/>
                                         <ul class="dropdown-menu" id="opcoes_repertorio">
                                             <li><a href="#" id="DR_original" onclick="reloadRepertoire();">Restaurar o original</a></li>
                                             <li><a href="#" id="DR_localLoad" onclick="document.getElementById('fileLoadRepertoire').click()">Carregar do drive local</a></li>
