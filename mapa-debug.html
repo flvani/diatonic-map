@@ -394,11 +394,6 @@ notação abc, tablatura " />
             var vSite = getSITEversion();
             var producao = getABCXversion();
             
-            window.onresize = function()
-            {
-                resizeStudio();
-            }
-
             //var sourceScripts = [ {id:"abcxjs/abcxjs", version:producao}];
             
             if( producao ) {
@@ -428,6 +423,11 @@ notação abc, tablatura " />
             document.getElementById('fileLoadRepertoire').addEventListener('change', loadRepertoire, false);        
 
             window.addEventListener('load', initApp, false);
+            
+            window.onresize = function()
+            {
+                resizeStudio();
+            };
 
             function initApp() {
 
