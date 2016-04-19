@@ -196,7 +196,7 @@ notação abc, tablatura " />
                                   </div>
                                   <div class="btn-group" id="divChords" style="display: none; margin: 0px;">
                                       <button id="btnChords" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left;"><span id="spanChords">...</span>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                                      <ul class="dropdown-menu menuDinamico" id="ulChords"></ul>
+                                      <ul class="dropdown-menu menuDinamico" id="ulChords"><li>Não disponível</li></ul>
                                   </div>
                                 </div>
                             </td><td>
@@ -307,12 +307,12 @@ notação abc, tablatura " />
                         <a href="#" title="Fechar" id="dMINUSButtonA" onclick="closeStudio(); return false;" ><i class="icon-minus icon-white"></i></a>
                     </div>
                     <div id="btnRestoreStudio" class="dButton" >
-                        <a href="#" title="Restaurar" id="dRESTOREButtonA" onclick="restoreStudio(); return false;" ><img alt="" src="img/restore.png" class="icon-white"></a>
+                        <a href="#" title="Restaurar" id="dRESTOREButtonA" onclick="restoreStudio(); return false;" ><img alt="" src="img/restore.png" class="icon-white"/></a>
                     </div>
                     <div class="dTitle"><span id="spanTitleStudio" style="padding-left: 5px;">Estúdio ABCX</span><span id="spanStudioAccordeon" style="padding-left: 5px;"></span></div>
                 </div>
                 <div id="studioHeader">
-                    <textarea id="textareaABC" rows="10"></textarea>
+                    <textarea id="textareaABC" rows="10" cols="120"></textarea>
                     <div id="studioControlDiv" >
                         <div id="controlDiv1" style="float:left;" >
                             <button id="showTextBtn" class="btn" title="Exibir/Ocultar Texto ABCX" onclick="" ><i id="I_showText" class="icon-folder-open"></i>&nbsp;<span id="DR_showText">ABCX</span></button>
@@ -349,8 +349,8 @@ notação abc, tablatura " />
                 <div id="studioCanvasDiv" >
                     <div id="warningsDiv"></div>
                     <div id="canvasDiv"></div>
-                    <hr style="visibility: hidden;">
-                    <hr style="visibility: hidden;">
+                    <hr style="visibility: hidden;"/>
+                    <hr style="visibility: hidden;"/>
                 </div> <!--studioCanvasDiv-->    
                 <div id="editorDiv" class="draggableWindow" style="left:40px; top:120px;" ></div>
                 <!-- /editorDiv -->
