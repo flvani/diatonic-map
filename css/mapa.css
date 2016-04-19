@@ -13,6 +13,23 @@
      background: #bbbbaa;
 }
 
+.mapa h1 {
+	font-size: 28px;
+	line-height: 28px;
+	margin-top: 5px;
+	margin-left: 0px;
+	position:  relative;
+        float: left;
+	font-weight: 300;
+	color: #fff;
+	text-shadow: 2px 2px 2px rgba(255,255,255,0.7);
+
+}
+.mapa span {
+	font-weight: 700;
+}
+
+
 .btn {
   border: 1px outset buttonface;
   color: buttontext;
@@ -28,21 +45,6 @@
     width: 1160px;
 }
 
-.tit_font {
-	font-size: 28px;
-	line-height: 28px;
-	margin-top: 5px;
-	margin-left: 0px;
-	position:  relative;
-        float: left;
-	font-weight: 300;
-	color: #fff;
-	text-shadow: 2px 2px 2px rgba(255,255,255,0.7);
-
-}
-.tit_font span {
-	font-weight: 700;
-}
 
 .modalWindow {
   position: fixed;

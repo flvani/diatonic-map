@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <!--
   TODO: 
     ok Acertar label de todos os botões
@@ -23,95 +25,98 @@
     Implementar pagina de producao
 -->
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <meta charset="utf-8">
         <title>Mapa para Acordeons Diatônicos</title>
-
-        <meta name="author" content="Flávio Luiz Vani">
-        <meta name="viewport" content="height=device-height, minimum-scale=0.5, maximum-scale=2.0">
-        <meta name="description" content="Um mapa de referência para a aprendizagem de acordeons diatônicos" id="DR_description"/>
+        
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        
+        <meta name="viewport" content="height=device-height, minimum-scale=0.5, maximum-scale=2.0"/>
 
         <meta name="robots" content="index,follow"/>
         <meta name="revisit-after" content="7 days"/>
+        <meta name="description" id="DR_description" content="Um mapa de referência para a aprendizagem de acordeons diatônicos" />
+        
+
+        <meta name="author" content="Flávio Luiz Vani"/>
 
         <meta name="keywords" content="diatonic accordion, notation, learning, practice, repertoire, abc tunes, midi, tablature
 acordeon diatônico, gaita de oito baixos, gaita ponto, notação musical, aprendizagem, prática, repertorio, 
-notação abc, tablatura "/>
-    
+notação abc, tablatura " />   
+        
         <!-- Estilos para a página e popups -->
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/draggable.css" rel="stylesheet">
-        <link href="css/mapa.css" rel="stylesheet">
-        <link href="css/studio.css" rel="stylesheet">
-        <link rel="icon" type="image/icon" href="http://flvani.github.io/diatonic-map/img/favicon6.ico">
+        
+        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <link href="css/draggable.css" rel="stylesheet"/>
+        <link href="css/mapa.css" rel="stylesheet"/>
+        <link href="css/studio.css" rel="stylesheet"/>
+        <link rel="icon" type="image/icon" href="http://flvani.github.io/diatonic-map/img/favicon6.ico"/>
+        
     </head>
-    <body class="mapa" onresize="resizeStudio();">
+    <body class="mapa">
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container" id="divTitulo" style="margin-left: 0px; margin-top: 0px; height: 50px; width: 100%; background-color:#5ba4a4;" >
-                <header>
-                    <div style="margin-left: 4px;">
-                        <table><tr>
-                            <td id="DR_appName"><h1>Mapa&nbsp;para&nbsp;<span>Acordeons&nbsp;Diatônicos</span></h1></td>
-                            <td style="width:20px;"></td>
-                            <td>
-                                <table style="height: 36px;">
-                                    <tr >
-                                      <td >
-                                        <div id="divMenuAccordions" class="btn-group">
-                                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_accordions">Acordeons</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                                            <input id="fileLoadMap" type="file" accept="text/abc" style="display: none;" multiple/>
-                                            <ul class="dropdown-menu" id="opcoes_gaita"></ul>
-                                        </div>
-                                      </td >
-                                      <td >
-                                        <div id="divMenuRepertoire" class="btn-group">
-                                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_repertoire">Repertório</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                                            <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" style="display: none;" multiple />
-                                            <ul class="dropdown-menu" id="opcoes_repertorio">
-                                                <li><a href="#" id="DR_original" onclick="reloadRepertoire();">Restaurar o original</a></li>
-                                                <li><a href="#" id="DR_localLoad" onclick="document.getElementById('fileLoadRepertoire').click()">Carregar do drive local</a></li>
-                                                <li style="display:inline;"><a href="#" id="DR_localSave" onclick="saveRepertoire();">Exportar para drive local</a></li>
-                                                <li style="display:inline;"><a href="part2tab.html" target="_blank" id="DR_tab2part" onclick="">Partitura --> Tablatura</a></li>
-                                                <li style="display:inline;"><a href="tab2part.html" target="_blank" id="DR_tab2part" onclick="">Tablatura --> Partitura</a></li>
-                                            </ul>
-                                        </div>
-                                      </td >
-                                      <td >
-                                        <div id="divMenuHelp" class="btn-group">
-                                            <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_info">Informações</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                                            <ul class="dropdown-menu" id="opcoes_teoria">
-                                              <li><a id="DR_accordion_maps" target="_blank" href="html/mapas.pt_BR.html" >Mapas para acordeons</a></li>
-                                              <li><a id="DR_tablature" target="_blank" href="html/tablatura.pt_BR.html" >Tablaturas para acordeons</a></li>
-                                              <li><a id="DR_abc_editor" target="_blank" href="html/estudioABCX.pt_BR.html" >Estúdio ABCX</a></li>
-                                              <li><a id="DR_abc_format" target="_blank" href="html/formatoABCX.pt_BR.html" >Formato ABCX</a></li>
-                                              <!--li><a id="DR_didactic_mode" target="_blank" href="html/modoDidatico.pt_BR.html" >Modo didático</a></li-->
-                                              <li><a id="DR_about" href="#modalAbout" >Sobre</a></li>
-                                            </ul>
-                                        </div>
-                                      </td >
-                                    </tr>
-                                </table>
-                            </td></tr>
-                        </table>
+                <div style="margin-left: 4px;">
+                    <table><tr>
+                        <td id="DR_appName" ><h1>Mapa&nbsp;para&nbsp;<span>Acordeons&nbsp;Diatônicos</span></h1></td>
+                        <td style="width:20px;"></td>
+                        <td>
+                            <table style="height: 36px;">
+                                <tr >
+                                  <td >
+                                    <div id="divMenuAccordions" class="btn-group">
+                                        <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_accordions">Acordeons</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                                        <input id="fileLoadMap" type="file" accept="text/abc" style="display: none;" multiple/>
+                                        <ul class="dropdown-menu" id="opcoes_gaita"></ul>
+                                    </div>
+                                  </td >
+                                  <td >
+                                    <div id="divMenuRepertoire" class="btn-group">
+                                        <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_repertoire">Repertório</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                                        <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" style="display: none;" multiple />
+                                        <ul class="dropdown-menu" id="opcoes_repertorio">
+                                            <li><a href="#" id="DR_original" onclick="reloadRepertoire();">Restaurar o original</a></li>
+                                            <li><a href="#" id="DR_localLoad" onclick="document.getElementById('fileLoadRepertoire').click()">Carregar do drive local</a></li>
+                                            <li style="display:inline;"><a href="#" id="DR_localSave" onclick="saveRepertoire();">Exportar para drive local</a></li>
+                                            <li style="display:inline;"><a href="part2tab.html" target="_blank" id="DR_tab2part" onclick="">Partitura --> Tablatura</a></li>
+                                            <li style="display:inline;"><a href="tab2part.html" target="_blank" id="DR_tab2part" onclick="">Tablatura --> Partitura</a></li>
+                                        </ul>
+                                    </div>
+                                  </td >
+                                  <td >
+                                    <div id="divMenuHelp" class="btn-group">
+                                        <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_info">Informações</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
+                                        <ul class="dropdown-menu" id="opcoes_teoria">
+                                          <li><a id="DR_accordion_maps" target="_blank" href="html/mapas.pt_BR.html" >Mapas para acordeons</a></li>
+                                          <li><a id="DR_tablature" target="_blank" href="html/tablatura.pt_BR.html" >Tablaturas para acordeons</a></li>
+                                          <li><a id="DR_abc_editor" target="_blank" href="html/estudioABCX.pt_BR.html" >Estúdio ABCX</a></li>
+                                          <li><a id="DR_abc_format" target="_blank" href="html/formatoABCX.pt_BR.html" >Formato ABCX</a></li>
+                                          <!--li><a id="DR_didactic_mode" target="_blank" href="html/modoDidatico.pt_BR.html" >Modo didático</a></li-->
+                                          <li><a id="DR_about" href="#modalAbout" >Sobre</a></li>
+                                        </ul>
+                                    </div>
+                                  </td >
+                                </tr>
+                            </table>
+                        </td></tr>
+                    </table>
+                </div>
+                <div style="position: absolute; top: 0; right:0; margin-top: 5px; margin-right: 5px;">
+                    <div class="btn-group" style="margin-top:0;">
+                        <span class="btn label dropdown-toggle" style="padding: 2px; height: 34px; width: 34px; background-color: white;">
+                            <a target="_blank" href="mailto:flavio.vani@gmail.com?Subject=Comentário sobre o site Diatonic-Map">
+                                <img id="DR_message" src="img/mail_80x80.png" width="32" height="32" alt="Deixe uma mensagem" title="Deixe uma mensagem">
+                            </a>                          
+                        </span>
                     </div>
-                    <div style="position: absolute; top: 0; right:0; margin-top: 5px; margin-right: 5px;">
-                        <div class="btn-group" style="margin-top:0;">
-                            <span class="btn label dropdown-toggle" style="padding: 2px; height: 34px; width: 34px; background-color: white;">
-                                <a target="_blank" href="mailto:flavio.vani@gmail.com?Subject=Comentário sobre o site Diatonic-Map">
-                                    <img id="DR_message" src="img/mail_80x80.png" width="32" height="32" alt="Deixe uma mensagem" title="Deixe uma mensagem">
-                                </a>                          
-                            </span>
-                        </div>
-                        <div class="btn-group" style="margin-top:0;">
-                            <button class="btn label dropdown-toggle" data-toggle="dropdown" id="btn_idioma" style="padding: 2px; height: 40px; width: 40px; background-color: white">
-                                <img src="img/pt_BR.png" width="32" height="32" alt="idiomas">                          
-                            </button>
-                            <ul class="dropdown-menu" id="opcoes_idioma" style="padding: 1px; min-width: 32px; background-color: white">
-                            </ul>
-                        </div>
+                    <div class="btn-group" style="margin-top:0;">
+                        <button class="btn label dropdown-toggle" data-toggle="dropdown" id="btn_idioma" style="padding: 2px; height: 40px; width: 40px; background-color: white">
+                            <img src="img/pt_BR.png" width="32" height="32" alt="idiomas">                          
+                        </button>
+                        <ul class="dropdown-menu" id="opcoes_idioma" style="padding: 1px; min-width: 32px; background-color: white">
+                        </ul>
                     </div>
-                </header>
+                </div>
             </div>
         </div> <!-- /navbar -->
         
@@ -365,6 +370,7 @@ notação abc, tablatura "/>
         <script id="siteLib" type="text/javascript" src="site_3.15-min.js"></script>
         
         <script id="mainScript" type="text/javascript">
+        //<![CDATA[
 
             var isOpera = !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
                 // Opera 8.0+ (UA detection to detect Blink/v8-powered Opera)
@@ -770,8 +776,6 @@ notação abc, tablatura "/>
                }   
             }
 
-      </script>
-      <script>
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -779,6 +783,7 @@ notação abc, tablatura "/>
 
           ga('create', 'UA-62839199-1', 'auto');
           ga('send', 'pageview');
+        //]]>
       </script>        
     </body>
 </html>
