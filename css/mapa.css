@@ -7,42 +7,47 @@
 }
 
 .mapa {
-     margin: 0px;
-     display:block;
-     padding-top: 50px; /* 50px to make the container go all the way to the bottom of the topbar */
-     background: #bbbbaa;
+    margin: 0px;
+    display:block;
+    padding-top: 50px; /* 50px to make the container go all the way to the bottom of the topbar */
+    background: #bbbbaa;
 }
 
 .mapa h1 {
-	font-size: 28px;
-	line-height: 28px;
-	margin-top: 5px;
-	margin-left: 0px;
-	position:  relative;
-        float: left;
-	font-weight: 300;
-	color: #fff;
-	text-shadow: 2px 2px 2px rgba(255,255,255,0.7);
+    font-size: 28px;
+    line-height: 28px;
+    margin-top: 5px;
+    margin-left: 0px;
+    position:  relative;
+    float: left;
+    font-weight: 300;
+    color: #fff;
+    text-shadow: 2px 2px 2px rgba(255,255,255,0.7);
 
 }
 .mapa span {
-	font-weight: 700;
+    font-weight: 700;
 }
 
 
 .btn {
-  border: 1px outset buttonface;
-  color: buttontext;
-  background-color: buttonface;
-  height: 26px;
-  padding: 1px 6px;
+    border: 1px outset buttonface;
+    color: buttontext;
+    background-color: buttonface;
+    height: 26px;
+    padding: 1px 6px;
 }
 
 .btn:hover { color: #000; }
 .btn:focus{ color: #000; }
 
-.container {
-    width: 1160px;
+.topMenuBar {
+    margin-left: 0px;
+    margin-top: 0px; 
+    height: 50px; 
+    width: 100%; 
+    background-color:#5ba4a4;
+    //width: 1160px;
 }
 
 
