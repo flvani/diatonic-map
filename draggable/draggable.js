@@ -37,7 +37,6 @@ DRAGGABLE.Div = function(id, topDiv, title, aButtons, callBack, translate ) {
     var div = document.createElement("DIV");
     div.setAttribute("id", "dMenu" +  this.id ); 
     div.setAttribute("class", "draggableMenu" ); 
-    div.setAttribute("draggable", "false" ); 
     div.innerHTML = this.addButtons(this.id, aButtons, callBack ) + this.addTitle(this.id, title );
     this.topDiv.appendChild( div );
     this.menuDiv = div;
@@ -132,7 +131,7 @@ DRAGGABLE.Div.prototype.addButtons = function( id,  aButtons, callBack ) {
         }
 
         txt += '<div id="d'+label[0].toUpperCase() +'Button'+id+
-                '" class="dButton" draggable="false"><a href="#" id="d'+label[0].toUpperCase() +'ButtonA'+id+'" title="'+label[1]+
+                '" class="dButton"><a href="#" id="d'+label[0].toUpperCase() +'ButtonA'+id+'" title="'+label[1]+
                 '" onclick="'+txtCallback+'"><i class="icon-'
                 +label[0].toLowerCase()+' icon-white"></i></a></div>';
     });

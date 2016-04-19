@@ -57,9 +57,13 @@ and open the template in the editor.
   float:left;
   background: #606061;
   color: #FFFFFF;
-  line-height: 22px;
+//  line-height: 22px;
+//  font-size: 20px;
   width:22px; 
+  height: 20px;
   text-align: center;
+  padding-top: 2px;
+  padding-left: 2px;
   text-decoration: none;
   font-weight: bold;
   -webkit-border-radius: 2px;
