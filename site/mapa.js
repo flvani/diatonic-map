@@ -205,9 +205,12 @@ SITE.Mapa.prototype.resize = function( ) {
     var x = parseInt(m.style.left.replace('px', ''));
     
     if( x + this.mediaWidth /*largura pré-definida desta janela*/ > w ) {
-        m.style.left = (w - (this.mediaWidth + 50))+"px";
+        x = (w - (this.mediaWidth + 50));
     }
-    if(m.style.left< 0) m.style.left = "10px";
+    
+    if(x < 0) x = 10;
+    
+    m.style.left = x+"px";
     
 };
 
