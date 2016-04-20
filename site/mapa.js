@@ -211,6 +211,18 @@ SITE.Mapa.prototype.resize = function( ) {
     if(x < 0) x = 10;
     
     m.style.left = x+"px";
+
+//    para posicionar o keyboard, melhorar as informações de largura da janela    
+//    var m = this.studio.keyboardWindow.topDiv;
+//    var x = parseInt(m.style.left.replace('px', ''));
+//    
+//    if( x + 200 /*largura pré-definida desta janela*/ > w ) {
+//        x = (w - (200 + 50));
+//    }
+//    
+//    if(x < 0) x = 10;
+//    
+//    this.studio.keyboardWindow.topDiv.style.left = x+"px";
     
 };
 
