@@ -246,7 +246,7 @@ SITE.Mapa.prototype.loadOriginalRepertoire2 = function (tabParams, loader) {
 SITE.Mapa.prototype.showStudio = function () {
     var self = this;
     var loader = this.startLoader( "Studio" );
-    loader.start(  function() { self.showStudio2(loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'</br></br>' );
+    loader.start(  function() { self.showStudio2(loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
 
 };
 SITE.Mapa.prototype.showStudio2 = function (loader) {
@@ -324,7 +324,7 @@ SITE.Mapa.prototype.restoreStudio = function () {
 SITE.Mapa.prototype.closeStudio = function () {
     var self = this;
     var loader = this.startLoader( "Studio" );
-    loader.start(  function() { self.closeStudio2(loader); }, '</br>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'</br></br>' );
+    loader.start(  function() { self.closeStudio2(loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
 };
     
 SITE.Mapa.prototype.closeStudio2 = function (loader) {
