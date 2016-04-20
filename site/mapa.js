@@ -206,6 +206,7 @@ SITE.Mapa.prototype.resize = function( ) {
     
     if( x + this.mediaWidth /*largura pré-definida desta janela*/ > w ) {
         m.style.left = (w - (this.mediaWidth + 50))+"px";
+        if(m.style.left< 0) m.style.left = "10px";
     }
     
 };
