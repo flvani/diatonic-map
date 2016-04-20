@@ -611,13 +611,19 @@ SITE.Estudio.prototype.changePlayMode = function() {
 };
 
 SITE.Estudio.prototype.resize = function( ) {
-    var t = document.getElementById( 'textareaABC');
+    
     var m = document.getElementById( 'studioMenu');
     var h = document.getElementById( 'studioHeader');
-    var o = document.getElementById( 'studioContentDiv');
-    var i = document.getElementById( 'studioCanvasDiv');
 
+    var t = document.getElementById( 'textareaABC');
     t.style.width = parseInt(m.clientWidth) - 24 + "px";
+    
+    var o = document.getElementById( 'studioContentDiv');
+    
+    o.style.height = (window.innerHeight -50 /*topdiv*/ - 20) + "px";
+
+    var i = document.getElementById( 'studioCanvasDiv');
+    
     i.style.height = (o.clientHeight - h.clientHeight - m.clientHeight - 10) + "px";
 };
 
