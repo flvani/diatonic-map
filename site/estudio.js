@@ -277,13 +277,13 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         var andamento = that.midiPlayer.adjustAndamento();
         switch (andamento) {
             case 1:
-                that.tempoButton.innerHTML = '<b>&nbsp;1&nbsp;<b>';
+                that.tempoButton.innerHTML = '<b>&#160;1&#160;<b>';
                 break;
             case 1 / 2:
-                that.tempoButton.innerHTML = '<b>&nbsp;&#189;&nbsp;<b>';
+                that.tempoButton.innerHTML = '<b>&#160;&#189;&#160;<b>';
                 break;
             case 1 / 4:
-                that.tempoButton.innerHTML = '<b>&nbsp;&#188;&nbsp;<b>';
+                that.tempoButton.innerHTML = '<b>&#160;&#188;&#160;<b>';
                 break;
         }
     }, false);
@@ -346,7 +346,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         this.playerCallBackOnEnd = function( player ) {
             var warns = that.midiPlayer.getWarnings();
             that.playButton.title = DR.getResource("playBtn");
-            that.playButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
+            that.playButton.innerHTML = '&#160;<i class="icon-play"></i>&#160;';
             that.renderedTune.printer.clearSelection();
             that.accordion.clearKeyboard(true);
             if(that.currentPlayTimeLabel)
@@ -354,9 +354,9 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
             if( warns ) {
                 var wd =  document.getElementById("warningsDiv");
                 var txt = "";
-                warns.forEach(function(msg){ txt += msg + '<br>'; });
+                warns.forEach(function(msg){ txt += msg + '<br/>'; });
                 wd.style.color = 'blue';
-                wd.innerHTML = '<hr>'+txt+'<hr>';
+                wd.innerHTML = '<hr/>'+txt+'<hr/>';
             }
         };
         
@@ -513,11 +513,11 @@ SITE.Estudio.prototype.setupEditor = function() {
     var that = this;
     var ks = "selKey";
     this.editorWindow.dataDiv.innerHTML =     
-        '<textarea id="editorTextArea" rows="25"></textarea>'
+        '<textarea id="editorTextArea" cols="10" rows="25"></textarea>'
         + '<div style="width: 100%; padding:2px; margin-left:2px;" >'
         +    '<select id="'+ks+'" ></select>'
-        +    '<button id="octaveUpBtn" class="btn" title="+ Oitava" onclick="" ><i class="icon-arrow-up"></i>&nbsp;Oitava</button>'
-        +    '<button id="octaveDwBtn" class="btn" title="- Oitava" onclick="" ><i class="icon-arrow-down"></i>&nbsp;Oitava</button>'
+        +    '<button id="octaveUpBtn" class="btn" title="+ Oitava" onclick="" ><i class="icon-arrow-up"></i>&#160;Oitava</button>'
+        +    '<button id="octaveDwBtn" class="btn" title="- Oitava" onclick="" ><i class="icon-arrow-down"></i>&#160;Oitava</button>'
         +    '<button id="forceRefresh2" class="btn" title="Atualizar" onclick="" >Atualizar</button>'
         + '</div>';
                             
@@ -628,7 +628,7 @@ SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
         this.ypos = 1000;
         if (type === "normal" ) {
             this.playButton.title = DR.getResource("playBtn");
-            this.playButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
+            this.playButton.innerHTML = '&#160;<i class="icon-play"></i>&#160;';
             this.midiPlayer.pausePlay();
         } else {
             this.midiPlayer.pausePlay(true);
@@ -641,7 +641,7 @@ SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
                 ga('send', 'event', 'Estúdio', 'play', this.renderedTune.title);
                 this.playButton.title = DR.getResource("DR_pause");
-                this.playButton.innerHTML = '&nbsp;<i class="icon-pause"></i>&nbsp;';
+                this.playButton.innerHTML = '&#160;<i class="icon-pause"></i>&#160;';
                 this.ypos = 1000;
             }
         } else {
@@ -750,7 +750,7 @@ SITE.Estudio.prototype.endEditorChanged = function () {
 SITE.Estudio.prototype.fireChanged = function (transpose, force) {
     var self = this;
     var loader = this.startLoader( "FC" );
-    loader.start(  function() { self.fireChanged2(transpose, force, loader); }, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
+    loader.start(  function() { self.fireChanged2(transpose, force, loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
 };
 
 SITE.Estudio.prototype.fireChanged2 = function (transpose, force, loader) {
@@ -786,7 +786,7 @@ SITE.Estudio.prototype.modelChanged = function() {
     
     if (this.warningsdiv) {
         this.warningsdiv.style.color = this.warnings.length > 0 ? "red" : "green";
-        this.warningsdiv.innerHTML = '<hr>' + (this.warnings.length > 0 ? this.warnings.join("<br>") : "No warnings or errors.") + '<hr>';
+        this.warningsdiv.innerHTML = '<hr/>' + (this.warnings.length > 0 ? this.warnings.join("<br/>") : "No warnings or errors.") + '<hr/>';
     }
     
     this.renderedTune.printer.addSelectListener(this);
@@ -806,7 +806,7 @@ SITE.Estudio.prototype.setup = function(tab, accordionId) {
     this.renderedTune.abc = tab.abc;
     this.editArea.setString(this.renderedTune.text);
     editAreaLoader.setValue("editorTextArea", this.renderedTune.text );
-    this.editorWindow.setTitle('-&nbsp;' + tab.title);
+    this.editorWindow.setTitle('-&#160;' + tab.title);
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
     document.getElementById("spanStudioAccordeon").innerHTML = ' - ' + this.accordion.getTxtModel(); 
     document.getElementById( 'studioCanvasDiv').scrollTop = 0;

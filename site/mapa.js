@@ -105,7 +105,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.playerCallBackOnEnd = function( player ) {
         var warns = that.midiPlayer.getWarnings();
         that.playButton.title = DR.getResource("playBtn");
-        that.playButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
+        that.playButton.innerHTML = '&#160;<i class="icon-play"></i>&#160;';
         that.currentABC.abc.midi.printer.clearSelection();
         that.accordion.clearKeyboard(true);
         if(that.currentPlayTimeLabel)
@@ -113,9 +113,9 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         if( warns ) {
             var wd =  document.getElementById("warningsDiv");
             var txt = "";
-            warns.forEach(function(msg){ txt += msg + '<br>'; });
+            warns.forEach(function(msg){ txt += msg + '<br/>'; });
             wd.style.color = 'blue';
-            wd.innerHTML = '<hr>'+txt+'<hr>';
+            wd.innerHTML = '<hr/>'+txt+'<hr/>';
         }
     };
 
@@ -213,7 +213,7 @@ SITE.Mapa.prototype.resize = function( ) {
 SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
     var self = this;
     var loader = this.startLoader( "LoadRepertoire" );
-    loader.start(  function() { self.loadOriginalRepertoire2(tabParams,loader); }, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
+    loader.start(  function() { self.loadOriginalRepertoire2(tabParams,loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
 };
     
 SITE.Mapa.prototype.loadOriginalRepertoire2 = function (tabParams, loader) {
@@ -246,7 +246,7 @@ SITE.Mapa.prototype.loadOriginalRepertoire2 = function (tabParams, loader) {
 SITE.Mapa.prototype.showStudio = function () {
     var self = this;
     var loader = this.startLoader( "Studio" );
-    loader.start(  function() { self.showStudio2(loader); }, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
+    loader.start(  function() { self.showStudio2(loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'</br></br>' );
 
 };
 SITE.Mapa.prototype.showStudio2 = function (loader) {
@@ -324,7 +324,7 @@ SITE.Mapa.prototype.restoreStudio = function () {
 SITE.Mapa.prototype.closeStudio = function () {
     var self = this;
     var loader = this.startLoader( "Studio" );
-    loader.start(  function() { self.closeStudio2(loader); }, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
+    loader.start(  function() { self.closeStudio2(loader); }, '</br>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'</br></br>' );
 };
     
 SITE.Mapa.prototype.closeStudio2 = function (loader) {
@@ -361,7 +361,7 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
         this.ypos = 1000;
         if (type === "normal" ) {
             this.playButton.title = DR.getResource("playBtn");
-            this.playButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
+            this.playButton.innerHTML = '&#160;<i class="icon-play"></i>&#160;';
             this.midiPlayer.pausePlay();
         } else {
             this.midiPlayer.pausePlay(true);
@@ -373,7 +373,7 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
             if( this.midiPlayer.startPlay(this.currentABC.abc.midi) ) {
                 ga('send', 'event', 'Mapa', 'play', this.currentABC.title);
                 this.playButton.title = DR.getResource("DR_pause");
-                this.playButton.innerHTML = '&nbsp;<i class="icon-pause"></i>&nbsp;';
+                this.playButton.innerHTML = '&#160;<i class="icon-pause"></i>&#160;';
                 this.ypos = 1000;
             }
         } else {
@@ -420,7 +420,7 @@ SITE.Mapa.prototype.loadAccordionList  = function() {
     }
 
     $('#opcoes_gaita')
-        .append('<hr style="height: 3px; margin: 5px;">')
+        .append('<hr style="height: 3px; margin: 5px;" />')
         .append('<li><a id="extra1" href="#" onclick="saveMap();">' + DR.getResource('DR_save_map') + '</a></li>')
         .append('<li><a id="extra2" href="#" onclick="document.getElementById(\'fileLoadMap\').click();">' + DR.getResource('DR_load_map') + '</a></li>');
 };
@@ -650,7 +650,7 @@ SITE.Mapa.prototype.getSelectedAccordion = function() {
 SITE.Mapa.prototype.showABC = function(type, i) {
     var self = this;
     var loader = this.startLoader( "TABLoader" + type );
-    loader.start(  function() { self.showABC2(type, i, loader); }, '<br>&nbsp;&nbsp;&nbsp;'+DR.getResource('DR_wait')+'<br><br>' );
+    loader.start(  function() { self.showABC2(type, i, loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
 };
 
 SITE.Mapa.prototype.showABC2 = function(type, i, loader ) {
@@ -771,7 +771,7 @@ SITE.Mapa.prototype.mediaCallback = function( e ) {
 
 SITE.Mapa.prototype.showMedia = function(url) {
     if(url) {
-        var  embbed = '<iframe width="'+this.mediaWidth+'" height="'+this.mediaHeight+'" src="'+url+'?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>';
+        var  embbed = '<iframe width="'+this.mediaWidth+'" height="'+this.mediaHeight+'" src="'+url+'?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
         $("#mediaDiv").find("[id^='draggableData']").html(embbed);
         $('#mediaDiv').fadeIn('slow');
     } else {
@@ -818,17 +818,17 @@ SITE.Mapa.prototype.translate = function() {
   document.title = DR.getResource("DR_title");  
   
   document.getElementById("DR_description").setAttribute("content",DR.getResource("DR_description"));
-  document.getElementById("toolsBtn").innerHTML = '<i class="icon-wrench"></i>&nbsp;'+DR.getResource("toolsBtn");
-  document.getElementById("printBtn2").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.getResource("printBtn");
-  document.getElementById("pdfBtn").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.getResource("pdfBtn");
+  document.getElementById("toolsBtn").innerHTML = '<i class="icon-wrench"></i>&#160;'+DR.getResource("toolsBtn");
+  document.getElementById("printBtn2").innerHTML = '<i class="icon-print"></i>&#160;'+DR.getResource("printBtn");
+  document.getElementById("pdfBtn").innerHTML = '<i class="icon-print"></i>&#160;'+DR.getResource("pdfBtn");
   document.getElementById("DR_message").alt = DR.getResource("DR_message");
   
   document.getElementById("octaveUpBtn").title = DR.getResource("DR_octave");
-  document.getElementById("octaveUpBtn").innerHTML = '<i class="icon-arrow-up"></i>&nbsp;'+DR.getResource("DR_octave");
+  document.getElementById("octaveUpBtn").innerHTML = '<i class="icon-arrow-up"></i>&#160;'+DR.getResource("DR_octave");
   document.getElementById("octaveDwBtn").title = DR.getResource("DR_octave");
-  document.getElementById("octaveDwBtn").innerHTML = '<i class="icon-arrow-down"></i>&nbsp;'+DR.getResource("DR_octave");
-  document.getElementById("printBtn").innerHTML = '<i class="icon-print"></i>&nbsp;'+DR.getResource("printBtn");
-  document.getElementById("saveBtn").innerHTML = '<i class="icon-download-alt"></i>&nbsp;'+DR.getResource("saveBtn");
+  document.getElementById("octaveDwBtn").innerHTML = '<i class="icon-arrow-down"></i>&#160;'+DR.getResource("DR_octave");
+  document.getElementById("printBtn").innerHTML = '<i class="icon-print"></i>&#160;'+DR.getResource("printBtn");
+  document.getElementById("saveBtn").innerHTML = '<i class="icon-download-alt"></i>&#160;'+DR.getResource("saveBtn");
   document.getElementById("forceRefresh").innerHTML = DR.getResource("forceRefresh");
   document.getElementById("forceRefresh2").innerHTML = DR.getResource("forceRefresh");
   document.getElementById("gotoMeasureBtn").value = DR.getResource("DR_goto");

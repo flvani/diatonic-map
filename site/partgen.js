@@ -105,7 +105,7 @@ SITE.PartGen = function( interfaceParams ) {
     this.playerCallBackOnEnd = function( player ) {
         var warns = that.midiPlayer.getWarnings();
         that.playButton.title = DR.getResource("playBtn");
-        that.playButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
+        that.playButton.innerHTML = '&#160;<i class="icon-play"></i>&#160;';
         that.tab.abc.midi.printer.clearSelection();
         that.accordion.clearKeyboard(true);
         if(that.currentPlayTimeLabel)
@@ -286,7 +286,7 @@ SITE.PartGen.prototype.startPlay = function( type, value ) {
         this.ypos = 1000;
         if (type === "normal" ) {
             this.playButton.title = DR.getResource("playBtn");
-            this.playButton.innerHTML = '&nbsp;<i class="icon-play"></i>&nbsp;';
+            this.playButton.innerHTML = '&#160;<i class="icon-play"></i>&#160;';
             this.midiPlayer.pausePlay();
         } else {
             this.midiPlayer.pausePlay(true);
@@ -297,7 +297,7 @@ SITE.PartGen.prototype.startPlay = function( type, value ) {
         if(type==="normal") {
             if( this.midiPlayer.startPlay(this.tab.abc.midi) ) {
                 this.playButton.title = DR.getResource("DR_pause");
-                this.playButton.innerHTML = '&nbsp;<i class="icon-pause"></i>&nbsp;';
+                this.playButton.innerHTML = '&#160;<i class="icon-pause"></i>&#160;';
                 this.ypos = 1000;
             }
         } else {

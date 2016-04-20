@@ -98,7 +98,7 @@ DR.translate = function (id) {
 DR.createMenuOption = function( id, langName ) {
     var v = DR[id];
 
-    DR.resource["DR_image"][v] = '<img src="img/'+id+'.png" width="32" height="32" alt="'+langName+'" title="'+langName+'" >';
+    DR.resource["DR_image"][v] = '<img src="img/'+id+'.png" width="32" height="32" alt="'+langName+'" title="'+langName+'" />';
 
     $('#opcoes_idioma')
             .append('<li><a style="padding: 2px; width: 34px;" onclick="DR.translate(DR.'+id+');">'
