@@ -60,6 +60,10 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.printButton = document.getElementById(interfaceParams.printBtn);
     this.toolsButton = document.getElementById(interfaceParams.toolsBtn);
    
+    this.printButton.addEventListener("touchstart", function(evt) {
+        evt.preventDefault();
+    }, false);
+    
     this.printButton.addEventListener("click", function(evt) {
         evt.preventDefault();
         this.blur();
@@ -68,6 +72,10 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
             that.studio.printPreview(that.currentABC.div.innerHTML, ["#divTitulo","#mapContainerDiv"], that.currentABC.abc.formatting.landscape );
         }
         
+    }, false);
+
+    this.toolsButton.addEventListener("touchstart", function(evt) {
+        evt.preventDefault();
     }, false);
 
     this.toolsButton.addEventListener("click", function(evt) {
