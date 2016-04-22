@@ -5,7 +5,10 @@
  */
 
 
-function printHelp() {
+function printHelp(p) {
+    
+    ga('send', 'event', 'Ajuda', 'print', p );
+               
     var doc = document.getElementById("helpContainer");
     var mTop = doc.style.marginTop;
     var bWid = doc.style.borderWidth ;
@@ -19,8 +22,13 @@ function printHelp() {
     doc.style.marginTop = mTop;
     doc.style.borderWidth = bWid;
     document.getElementById("helpHeader").style.display = 'inline';
+   
 };
 
+function gotoSite(p) {
+   ga('send', 'event', 'Ajuda', 'goto-site', p);
+   document.location='..';
+};
 
 function resizeHelp() {
     var height = document.documentElement.clientHeight;
