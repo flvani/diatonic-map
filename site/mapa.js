@@ -62,6 +62,11 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
    
     this.printButton.addEventListener("touchstart", function(evt) {
         evt.preventDefault();
+        this.blur();
+        if(  that.currentABC.div.innerHTML && that.studio )  {
+            ga('send', 'event', 'Mapa', 'print', that.currentABC.title);
+            that.studio.printPreview(that.currentABC.div.innerHTML, ["#divTitulo","#mapContainerDiv"], that.currentABC.abc.formatting.landscape );
+        }
     }, false);
     
     this.printButton.addEventListener("click", function(evt) {
@@ -76,6 +81,11 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
 
     this.toolsButton.addEventListener("touchstart", function(evt) {
         evt.preventDefault();
+        this.blur();
+        if( that.currentABC.div.innerHTML && that.studio ) {
+            ga('send', 'event', 'Mapa', 'tools', that.currentABC.title);
+            that.showStudio();
+        }
     }, false);
 
     this.toolsButton.addEventListener("click", function(evt) {
