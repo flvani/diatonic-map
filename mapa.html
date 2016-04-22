@@ -395,7 +395,7 @@ notação abc, tablatura " />
             
             window.onresize = function()
             {
-                resizeStudio();
+                resizeSite();
             };
 
             function initApp() {
@@ -716,9 +716,12 @@ notação abc, tablatura " />
                 myMap.restoreStudio();
             };
             
-            function resizeStudio()    {
-                myStudio.resize();
-                myMap.resize();
+            function resizeSite()    {
+                if( myStudio.visible) {
+                    myStudio.resize();
+                } else {     
+                    myMap.resize();
+                }    
             };
             
             function closeEditor() {

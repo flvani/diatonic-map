@@ -251,6 +251,7 @@ SITE.Mapa.prototype.showStudio2 = function (loader) {
     document.getElementById("DR_accordions").style.color = 'gray';
     document.getElementById("DR_repertoire").style.color = 'gray';
     $("#studioDiv").show();
+    this.studio.visible = true;
     this.studio.setup(this.currentABC, this.getSelectedAccordion().getId());
     this.setupProps();
     loader.stop();
@@ -338,6 +339,7 @@ SITE.Mapa.prototype.closeStudio2 = function (loader) {
         );
 
     $("#studioDiv").fadeOut();
+    this.studio.visible = false;
     document.getElementById("divMenuAccordions").style.pointerEvents = 'auto';
     document.getElementById("divMenuRepertoire").style.pointerEvents = 'auto';
     document.getElementById("DR_accordions").style.color = 'inherit';

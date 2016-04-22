@@ -104,6 +104,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.ypos = 0;
     this.lastYpos = 0;
     var that = this;
+    this.visible = false;
     
     this.oldAbcText = null;
     this.warnings = [];
