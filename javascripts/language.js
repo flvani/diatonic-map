@@ -119,12 +119,35 @@ DR.getResource = function(res) {
   }
 };
 
+DR.setDescription = function () {
+    var metas = document.getElementsByTagName("meta");
+
+    for (var i = 0; i < metas.length; i++) {
+        if (metas[i].getAttribute("name") && metas[i].getAttribute("name") === "description") {
+            metas[i].setAttribute("content", DR.getResource("DR_description") );
+            i = metas.length;
+        }
+    }
+};
+
+DR.getDescription = function () {
+    var metas = document.getElementsByTagName("meta");
+
+    for (var i = 0; i < metas.length; i++) {
+        if (metas[i].getAttribute("name") && metas[i].getAttribute("name") === "description") {
+            return metas[i].getAttribute("content");
+        }
+    }
+    return "";
+};
+
+
 //create the initial resources (brazilian portuguese)
 DR.createResources = function (strResources) {
     //some of the translation resources need to be manually adjusted as they are not simply HTML elements
     DR.resource["DR_image"] = []; // create DR_image empty array;
     DR.resource["DR_title"] = [document.title];
-    DR.resource["DR_description"] = [document.getElementById('DR_description').content];
+    DR.resource["DR_description"] = this.getDescription();
     DR.resource["DR_push"]  = ['Fecha'];
     DR.resource["DR_pull"]  = ['Abre'];
     DR.resource["DR_pause"] = ['Pausar'];

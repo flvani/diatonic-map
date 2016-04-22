@@ -27,13 +27,13 @@
     <head>
         <title>Mapa para Acordeons Diatônicos</title>
         
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta http-equiv="Content-Type" content="text/xhtml+xml; charset=utf-8"/>
         
         <meta name="viewport" content="height=device-height, minimum-scale=0.5, maximum-scale=2.0"/>
 
         <meta name="robots" content="index,follow"/>
         <meta name="revisit-after" content="7 days"/>
-        <meta name="description" id="DR_description" content="Um mapa de referência para a aprendizagem de acordeons diatônicos" />
+        <meta name="description" content="Um mapa de referência para a aprendizagem de acordeons diatônicos" />
         
 
         <meta name="author" content="Flávio Luiz Vani"/>
@@ -124,7 +124,7 @@ notação abc, tablatura " />
             <div id="releaseDiv" class="draggableWindow" style="left:400px; top:440px; min-width:300px; height: auto; display:none; z-index:10000;"></div> 
             <div id="ADDiv" class="draggableWindow" style="left:940px; top:160px; min-width:200px; height: auto; display:none; z-index:10000;"></div> 
             <div id="useChromeDiv" style="position:absolute; left:925px; top:270px; min-width:150px; height: auto; display:none; z-index:10000;"></div> 
-            <div id="mediaDiv" class="draggableWindow" style="left:1500px; top:120px; min-width: 300px; min-height: 167px; width:auto; height: auto; display:none; z-index:10000;"></div> 
+            <div id="mediaDiv" class="draggableWindow" style="left:1500px; top:120px; min-width: 300px; min-height: 167px; display:none; z-index:10000;"></div> 
             <!-- flavio help -->
     
             <div id="div_principal"  >
@@ -197,7 +197,7 @@ notação abc, tablatura " />
                                 </div>
                             </td><td>
                                 <div style="margin: 0px;" >
-                                  <button id="toolsBtn" class="btn" title="Ferramentas" onclick=""><i class="icon-wrench"></i>&#160;Ferramentas</button>
+                                  <button id="toolsBtn" class="btn" title="Ferramentas"  readonly="true" onclick=""><i class="icon-wrench"></i>&#160;Ferramentas</button>
                                   <button id="printBtn" class="btn" title="Imprimir" onclick=""><i class="icon-print"></i>&#160;Imprimir</button>
                                   <button id="pdfBtn" class="btn" title="Salvar em PDF" onclick="" style="display: none;">PDF</button>
                                 </div>
@@ -867,8 +867,8 @@ notação abc, tablatura " />
             }
 
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
           })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
           ga('create', 'UA-62839199-4', 'auto');

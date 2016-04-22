@@ -60,8 +60,9 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.printButton = document.getElementById(interfaceParams.printBtn);
     this.toolsButton = document.getElementById(interfaceParams.toolsBtn);
    
-    this.printButton.addEventListener("click", function() {
-
+    this.printButton.addEventListener("click", function(evt) {
+        evt.stopPropagation();
+        this.blur();
         if(  that.currentABC.div.innerHTML && that.studio )  {
             ga('send', 'event', 'Mapa', 'print', that.currentABC.title);
             that.studio.printPreview(that.currentABC.div.innerHTML, ["#divTitulo","#mapContainerDiv"], that.currentABC.abc.formatting.landscape );
@@ -69,8 +70,9 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         
     }, false);
 
-    this.toolsButton.addEventListener("click", function() {
-        
+    this.toolsButton.addEventListener("click", function(evt) {
+        evt.stopPropagation();
+        this.blur();
         if( that.currentABC.div.innerHTML && that.studio ) {
             ga('send', 'event', 'Mapa', 'tools', that.currentABC.title);
             that.showStudio();
@@ -78,7 +80,9 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         
     }, false);
 
-    this.buttonChangeNotation.addEventListener("click", function() {
+    this.buttonChangeNotation.addEventListener("click", function(evt) {
+        evt.stopPropagation();
+        this.blur();
         that.accordion.changeNotation();
     }, false );
     
@@ -194,36 +198,8 @@ SITE.Mapa.prototype.resize = function( ) {
     i.style.height = (o.clientHeight - h.clientHeight  - 50) + "px";
     
    // posiciona a janela de midia
-    var w = window.innerWidth;
- 
-    if( w > 1500 )  {
-        this.mediaWidth = 500;
-        this.mediaHeight = this.mediaWidth * 0.55666667;
-    }
-    
-    var m = document.getElementById("mediaDiv");
-    var x = parseInt(m.style.left.replace('px', ''));
-    
-    if( x + this.mediaWidth /*largura pré-definida desta janela*/ > w ) {
-        x = (w - (this.mediaWidth + 50));
-    }
-    
-    if(x < 0) x = 10;
-    
-    m.style.left = x+"px";
+   this.posicionaMidia();
 
-//    para posicionar o keyboard, melhorar as informações de largura da janela    
-//    var m = this.studio.keyboardWindow.topDiv;
-//    var x = parseInt(m.style.left.replace('px', ''));
-//    
-//    if( x + 200 /*largura pré-definida desta janela*/ > w ) {
-//        x = (w - (200 + 50));
-//    }
-//    
-//    if(x < 0) x = 10;
-//    
-//    this.studio.keyboardWindow.topDiv.style.left = x+"px";
-    
 };
 
 SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
@@ -787,13 +763,36 @@ SITE.Mapa.prototype.mediaCallback = function( e ) {
 
 SITE.Mapa.prototype.showMedia = function(url) {
     if(url) {
+        if( window.innerWidth > 1500 )  {
+            this.mediaWidth = 500;
+            this.mediaHeight = this.mediaWidth * 0.55666667;
+        }
         var  embbed = '<iframe width="'+this.mediaWidth+'" height="'+this.mediaHeight+'" src="'+url+'?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
         $("#mediaDiv").find("[id^='draggableData']").html(embbed);
         $('#mediaDiv').fadeIn('slow');
+        this.posicionaMidia();
     } else {
         $('#mediaDiv').fadeOut('slow');
         $("#mediaDiv").find("[id^='draggableData']").html("");
     }
+};
+
+SITE.Mapa.prototype.posicionaMidia = function () {
+    
+    var m = document.getElementById("mediaDiv");
+
+    if( m.style.display === 'none') return;
+
+    var w = window.innerWidth;
+    var x = parseInt(m.style.left.replace('px', ''));
+    
+    if( x + this.mediaWidth > w ) {
+        x = (w - (this.mediaWidth + 50));
+    }
+    
+    if(x < 0) x = 10;
+    
+    m.style.left = x+"px";
 };
 
 SITE.Mapa.prototype.startLoader = function(id, start, stop) {
@@ -833,7 +832,9 @@ SITE.Mapa.prototype.translate = function() {
   
   document.title = DR.getResource("DR_title");  
   
-  document.getElementById("DR_description").setAttribute("content",DR.getResource("DR_description"));
+  
+  DR.setDescription();
+  
   document.getElementById("toolsBtn").innerHTML = '<i class="icon-wrench"></i>&#160;'+DR.getResource("toolsBtn");
   document.getElementById("printBtn2").innerHTML = '<i class="icon-print"></i>&#160;'+DR.getResource("printBtn");
   document.getElementById("pdfBtn").innerHTML = '<i class="icon-print"></i>&#160;'+DR.getResource("pdfBtn");

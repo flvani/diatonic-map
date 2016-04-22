@@ -35,7 +35,7 @@
 
         <meta name="robots" content="index,follow"/>
         <meta name="revisit-after" content="7 days"/>
-        <meta name="description" id="DR_description" content="Um mapa de referência para a aprendizagem de acordeons diatônicos" />
+        <meta name="description" content="Um mapa de referência para a aprendizagem de acordeons diatônicos" />
         
 
         <meta name="author" content="Flávio Luiz Vani"/>
@@ -126,7 +126,7 @@ notação abc, tablatura " />
             <div id="releaseDiv" class="draggableWindow" style="left:400px; top:440px; min-width:300px; height: auto; display:none; z-index:10000;"></div> 
             <div id="ADDiv" class="draggableWindow" style="left:250px; top:300px; width:400px; height: 265px; display:none; z-index:10000;"></div> 
             <div id="useChromeDiv" style="position:absolute; left:925px; top:270px; width:150px; height: auto; display:none; z-index:10000;"></div> 
-            <div id="mediaDiv" class="draggableWindow" style="left:980px; top:160px; min-width: 300px; min-height: 167px; width:auto; height: auto; display:none; z-index:10000;"></div> 
+            <div id="mediaDiv" class="draggableWindow" style="left:980px; top:160px; min-width: 300px; min-height: 167px; display:none; z-index:10000;"></div> 
     
             <div id="div_principal" >
                 <div style="margin:0; padding:0; width:100%;">  
@@ -246,7 +246,9 @@ notação abc, tablatura " />
                 <a href="#close" title="Fechar" class="close">X</a>
               </div>
               <div class="modalContent">
-                <div id="clustrmaps-widget" style="float:right;   margin-left:1em;"><script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?u=rUO7&d=1J7gP1r2nA3yuIH7qXcClQmW6EGCZo6pj85He9J5Yaw"></script></div>
+                <div id="clustrmaps-widget" style="float:right;   margin-left:1em;">
+                    <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?u=rUO7&d=1J7gP1r2nA3yuIH7qXcClQmW6EGCZo6pj85He9J5Yaw"></script>
+                </div>
                 <h3>Diatonic-Map <i id="siteVerI">v3.00</i><br><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
                 <p>Este projeto pretende ser um mapa de referência para acordeons diatônicos. 
                    Com ele é possível configurar – e mostrar – o layout de qualquer gaita de botões, nos seus mais diversos modelos.
@@ -355,7 +357,7 @@ notação abc, tablatura " />
         <script type="text/javascript" src="raphael/raphael_2.1.4-min.js"></script>
         
         <!-- suporte a MIDI -->
-        <script type="text/javascript" src="MIDI.js/MIDI_2.04-min.js"></script>
+        <script type="text/javascript" src="MIDI.js/MIDI_2.05-min.js"></script>
         
         <!-- suporte a arquivos -->
         <script type="text/javascript" src="file/filemanager_3.47-min.js"></script>
@@ -782,8 +784,8 @@ notação abc, tablatura " />
             }
 
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
           })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
           ga('create', 'UA-62839199-1', 'auto');
