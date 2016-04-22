@@ -793,6 +793,8 @@ SITE.Estudio.prototype.selectButton = function(elem) {
 
 SITE.Estudio.prototype.onChange = function() {
     document.getElementById("studioCanvasDiv").scrollTop = this.lastYpos;
+    this.resize();
+
 };
 
 SITE.Estudio.prototype.editorChanged = function (transpose, force) {
@@ -860,7 +862,6 @@ SITE.Estudio.prototype.modelChanged = function() {
 };
 
 SITE.Estudio.prototype.setup = function(tab, accordionId) {
-    this.resize();
     this.accordion.loadById(accordionId);
     this.renderedTune.text = tab.text;
     this.renderedTune.title = tab.title;
