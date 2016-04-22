@@ -187,25 +187,25 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.tempoButton = document.getElementById(playerParams.tempoBtn);
     
     this.forceRefreshButton.addEventListener("click", function (evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         that.fireChanged(0, "force");
     }, false);
     
     this.saveButton.addEventListener("click", function (evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         that.salvaMusica();
     }, false);
 
     this.showMapButton.addEventListener("click", function (evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         that.showMap();
     }, false);
     
     this.showTextButton.addEventListener("click", function (evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         that.showABCXText();
     }, false);
@@ -220,7 +220,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     }
 
     this.printButton.addEventListener("click", function (evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         ga('send', 'event', 'Estúdio', 'print', that.renderedTune.title);
         that.printPreview(that.renderedTune.div.innerHTML, ["#divTitulo","#studioDiv"], that.renderedTune.abc.formatting.landscape);
@@ -229,13 +229,13 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     }, false);
 
     this.modeButton.addEventListener('click', function (evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         that.changePlayMode();
     }, false);
 
     this.FClefButton.addEventListener('click', function (evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         if( that.playBass) {
             this.innerHTML = '<img src="img/clave.fa.off.png" alt="" width="20" height="20">';
@@ -247,7 +247,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
 }, false);
 
     this.GClefButton.addEventListener('click', function (evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         if( that.playTreble) {
             this.innerHTML = '<img src="img/clave.sol.off.png" alt="" width="20" height="20">';
@@ -259,19 +259,19 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     }, false);
 
     this.playButton.addEventListener("click", function (evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         that.startPlay('normal');
     }, false);
 
     this.stopButton.addEventListener("click", function (evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         that.midiPlayer.stopPlay();
     }, false);
 
     this.clearButton.addEventListener("click", function (evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         that.renderedTune.printer.clearSelection();
         that.accordion.clearKeyboard(true);
@@ -284,7 +284,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
 
 
     this.stepButton.addEventListener("click", function (evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         that.startPlay('note');
     }, false);
@@ -294,13 +294,13 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     }, false);
 
     this.repeatButton.addEventListener("click", function (evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         that.startPlay('repeat', that.gotoMeasureButton.value, that.untilMeasureButton.value );
     }, false);
 
     this.tempoButton.addEventListener("click", function (evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         var andamento = that.midiPlayer.adjustAndamento();
         switch (andamento) {
@@ -556,19 +556,19 @@ SITE.Estudio.prototype.setupEditor = function() {
     this.keySelector.addChangeListener(this);
     
     document.getElementById('octaveUpBtn').addEventListener("click", function (evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         that.editorChanged(12, "force");
     }, false);
     
     document.getElementById('octaveDwBtn').addEventListener("click", function (evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         that.editorChanged(-12, "force");
     }, false);
     
     document.getElementById('forceRefresh2').addEventListener("click", function (evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         that.editorChanged(0, "force");
     }, false);

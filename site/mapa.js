@@ -61,7 +61,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.toolsButton = document.getElementById(interfaceParams.toolsBtn);
    
     this.printButton.addEventListener("click", function(evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         if(  that.currentABC.div.innerHTML && that.studio )  {
             ga('send', 'event', 'Mapa', 'print', that.currentABC.title);
@@ -71,7 +71,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     }, false);
 
     this.toolsButton.addEventListener("click", function(evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         if( that.currentABC.div.innerHTML && that.studio ) {
             ga('send', 'event', 'Mapa', 'tools', that.currentABC.title);
@@ -81,7 +81,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     }, false);
 
     this.buttonChangeNotation.addEventListener("click", function(evt) {
-        evt.stopPropagation();
+        evt.preventDefault();
         this.blur();
         that.accordion.changeNotation();
     }, false );
