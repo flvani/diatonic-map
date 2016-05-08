@@ -165,7 +165,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     
     DR.addAgent( this ); // register for translate
     
-    this.accordion.printKeyboard(this.keyboardDiv);
+    this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white'});
 
     // posiciona a janela de mídia, se disponível
     var m = document.getElementById("mediaDiv");
@@ -213,7 +213,7 @@ SITE.Mapa.prototype.resize = function( ) {
     var o = document.getElementById( 'mapContainerDiv');
     var i = document.getElementById( 'tuneContainerDiv');
 
-    i.style.height = (o.clientHeight - h.clientHeight  - 50) + "px";
+    i.style.height = (o.clientHeight - h.clientHeight  - 50 - 16) + "px"; // 16 é o padding
     
    // posiciona a janela de midia
    this.posicionaMidia();
@@ -755,12 +755,13 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
     
     this.parseABC(tab);
     
-    tab.div.innerHTML = "";
-    var paper = Raphael(tab.div, 700, 200);
+    var paper = new SVG.Printer( tab.div );
     var printer = new ABCXJS.write.Printer(paper, params);
     
     $("#" + tab.div.id).fadeIn();
-    printer.printABC(tab.abc);
+    //printer.printTune( tab.abc, {color:'red', backgroundColor:'#ffd', beamColor:'blue' } ); 
+    printer.printTune( tab.abc ); 
+    
     $("#" + tab.div.id).hide();
     if (alreadyOnPage) {
         $("#" + tab.div.id).fadeIn();
@@ -846,8 +847,7 @@ SITE.Mapa.prototype.parseABC = function(tab) {
 
 SITE.Mapa.prototype.translate = function() {
     
-  this.getSelectedAccordion().keyboard.legenda.setTextOpen( DR.getResource('DR_pull') );
-  this.getSelectedAccordion().keyboard.legenda.setTextClose( DR.getResource('DR_push') );
+  this.getSelectedAccordion().keyboard.legenda.setText( true, DR.getResource('DR_pull'), DR.getResource('DR_push') );
   this.showAccordionName();
   
   document.title = DR.getResource("DR_title");  

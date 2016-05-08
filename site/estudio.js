@@ -843,9 +843,9 @@ SITE.Estudio.prototype.modelChanged = function() {
         return;
     }
 
-    var paper = Raphael(this.renderedTune.div, 1100, 700);
+    var paper = new SVG.Printer( this.renderedTune.div );
     this.renderedTune.printer = new ABCXJS.write.Printer(paper, this.printerparams );
-    this.renderedTune.printer.printABC(this.renderedTune.abc);
+    this.renderedTune.printer.printTune( this.renderedTune.abc, {color:'red'}  ); // {color:'red', backgroundColor:'#ffd', beamColor:'blue' }
     
     if (this.warningsdiv) {
         this.warningsdiv.style.color = this.warnings.length > 0 ? "red" : "green";
