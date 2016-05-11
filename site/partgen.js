@@ -91,7 +91,7 @@ SITE.PartGen = function( interfaceParams ) {
     }, false);
     
     this.playerCallBackOnScroll = function( player ) {
-        that.setScrolling(player.currAbsElem.y, player.currChannel );
+        that.setScrolling(player.currAbsElem.screenY, player.currChannel );
     };
 
     this.playerCallBackOnPlay = function( player ) {

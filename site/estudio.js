@@ -42,9 +42,18 @@ SITE.EditArea.prototype.addChangeListener = function (listener) {
     };
 };
 
-SITE.EditArea.prototype.setSelection = function (start, end) {
+SITE.EditArea.prototype.setSelection = function  (start, end, line) {
     this.textarea.setSelectionRange(start, end);
+    (line) && this.scrollTo(line);
     this.textarea.focus();
+};
+
+SITE.EditArea.prototype.scrollTo = function(line)
+{
+  line = line || 0;
+  var lineHeight = this.textarea.clientHeight / this.textarea.rows;
+  var jump = (line - 1) * lineHeight;
+  this.textarea.scrollTop = jump;
 };
 
 SITE.EditArea.prototype.getString = function() {
@@ -357,7 +366,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     if (editorParams.generate_midi) {
         
         this.playerCallBackOnScroll = function( player ) {
-            that.setScrolling(player.currAbsElem.y, player.currChannel );
+            that.setScrolling(player.currAbsElem.screenY, player.currChannel );
         };
 
         this.playerCallBackOnPlay = function( player ) {
@@ -759,7 +768,7 @@ SITE.Estudio.prototype.parseABC = function(transpose) {
 
 SITE.Estudio.prototype.highlight = function(abcelem) {
     if(this.textVisible) {
-        this.editArea.setSelection(abcelem.startChar, abcelem.endChar);
+        this.editArea.setSelection(abcelem.startChar, abcelem.endChar, abcelem.line);
     }    
     if(this.mapVisible && !this.midiPlayer.playing) {
         this.accordion.clearKeyboard(true);
@@ -767,7 +776,7 @@ SITE.Estudio.prototype.highlight = function(abcelem) {
             this.selectButton(abcelem);
     }    
     if(ABCXJS.misc.isChrome() && this.editorVisible) {
-        editAreaLoader.setSelectionRange("editorTextArea", abcelem.startChar, abcelem.endChar);
+        editAreaLoader.setSelectionRange("editorTextArea", abcelem.startChar, abcelem.endChar, abcelem.line);
     }    
 };
 

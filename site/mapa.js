@@ -113,7 +113,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     }, false );
    
     this.playerCallBackOnScroll = function( player ) {
-        that.setScrolling(player.currAbsElem.y, player.currChannel );
+        that.setScrolling(player.currAbsElem.screenY, player.currChannel );
     };
 
     this.playerCallBackOnPlay = function( player ) {
@@ -760,7 +760,7 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
     
     $("#" + tab.div.id).fadeIn();
     //printer.printTune( tab.abc, {color:'black', backgroundColor:'#ffd' } ); 
-    printer.printTune( tab.abc, {color:'green'} ); 
+    printer.printTune( tab.abc ); 
     
     $("#" + tab.div.id).hide();
     if (alreadyOnPage) {

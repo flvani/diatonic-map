@@ -7,10 +7,6 @@ and open the template in the editor.
     Created on : 07/04/2015, 19:06:40
 */
 
-@page  {
-    margin:1cm;
-}
-
 .printPreviewClass {
     position:relative;
     display:none;
@@ -110,6 +106,10 @@ and open the template in the editor.
     line-height: 14px;
     resize: none;
 }
+
+textarea::selection { background: #5151ff; color: aqua; } 
+textarea::-moz-selection { background:  #5151ff; color: aqua; } 
+textarea::-webkit-selection { background:  #5151ff; color: aqua; }
 
 #studioControlDiv {
     margin: 4px;

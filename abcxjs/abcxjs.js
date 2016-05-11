@@ -259,23 +259,7 @@ window.ABCXJS.data.Tune = function() {
         if (!this.formatting.staffwidth)    this.formatting.staffwidth = this.formatting.usablewidth;
         
     };
-    
-    this.afterPrint = function() {
-        return;
-        var lines = this.lines;
-        for(var l=0; l<lines.length;l++){
-            for(var s=0; lines[l].staffs && s <lines[l].staffs.length;s++){
-                for(var v=0; v <lines[l].staffs[s].voices.length;v++){
-                    for(var a=0; a <lines[l].staffs[s].voices[v].length;a++){
-                       var abs = lines[l].staffs[s].voices[v][a].abselem;
-                       if( !abs || !abs.gid ) continue;
-                       abs.setMouse(document.getElementById(abs.gid));
-                    }
-                }
-            }
-        }
-    };
-    
+
     this.handleBarsPerStaff = function() {
         function splitBar(left, right) {
             
@@ -6925,6 +6909,9 @@ ABCXJS.write.AbsoluteElement.prototype.draw = function(printer, staveInfo ) {
     //this.elemset.push(printer.endGroup());
     (l>0) && printer.endGroup();
     
+    this.abcelem.parent = this; 
+    this.abcelem.parent.screenY = printer.totalY + printer.y; // posição na tela, independe das quebras de página
+    
 //    if (this.klass)
 //        this.setClass("mark", "", "#00ff00");
     
@@ -6932,8 +6919,6 @@ ABCXJS.write.AbsoluteElement.prototype.draw = function(printer, staveInfo ) {
 //        printer.notifyClearNSelect(self);
 //    });
 
-    this.abcelem.abselem = this; /*fixme: o que é isso??? onde é usado*/
-    this.abcelem.abselem.y = printer.y;
 
 //    var spacing = ABCXJS.write.spacing.STEP ;
 
@@ -8532,6 +8517,7 @@ ABCXJS.write.Printer.prototype.printABC = function(abctunes, options) {
     abctunes = [abctunes];
   }
   this.y=0;
+  this.totalY = 0;
   
   //options = options || {};
   //options.color='red';
@@ -8645,6 +8631,7 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
     this.maxwidth = this.width;
     
     this.y = this.paddingtop;
+    this.totalY = 0;
     
     this.layouter = new ABCXJS.write.Layout( this, abctune.formatting.bagpipes );
     
@@ -8770,13 +8757,13 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
     
     this.formatPage(abctune);
     
+    //binds SVG elements
     var lines = abctune.lines;
-    
     for(var l=0; l<lines.length;l++){
         for(var s=0; lines[l].staffs && s <lines[l].staffs.length;s++){
             for(var v=0; v <lines[l].staffs[s].voices.length;v++){
                 for(var a=0; a <lines[l].staffs[s].voices[v].length;a++){
-                   var abs = lines[l].staffs[s].voices[v][a].abselem;
+                   var abs = lines[l].staffs[s].voices[v][a].parent;
                    if( !abs || !abs.gid ) continue;
                    abs.setMouse(this);
                 }
@@ -8931,7 +8918,7 @@ ABCXJS.write.Printer.prototype.printDebugMsg = function(x, y, msg ) {
 ABCXJS.write.Printer.prototype.printLyrics = function(x, staveInfo, msg) {
     //var y = staveInfo.lowest-ABCXJS.write.spacing.STEP*staveInfo.lyricsRows;
     //y += (staveInfo.lyricsRows-0.5);
-    y = this.calcY(staveInfo.lowest-(staveInfo.lyricsRows>1?0:3.5));
+    y = this.calcY(staveInfo.lowest-(staveInfo.lyricsRows>1?0:3.7));
     
     // para manter alinhado, quando uma das linhas for vazia, imprimo 3 pontos
     var i = msg.indexOf( "\n " );
@@ -9032,6 +9019,8 @@ ABCXJS.write.Printer.prototype.skipPage = function(lastPage) {
     if( ! lastPage || this.pageNumber > 1) {
         this.printPageNumber();
     }
+    this.totalY += this.y;
+    
     this.paper.endPage({w: (this.maxwidth + this.paddingright) , h: this.y });
     if( ! lastPage ) {
         this.y = this.paddingtop;
@@ -10174,11 +10163,11 @@ ABCXJS.midi.Player.prototype.executa = function(pl) {
                 
                 delay = self.calcTempo( elem.delay );
                 if( self.callbackOnScroll ) {
-                    self.currAbsElem = elem.abcelem.abselem;
+                    self.currAbsElem = elem.abcelem.parent;
                     self.currChannel = elem.channel;
                     self.callbackOnScroll(self);
                 }
-                self.highlight(elem.abcelem.abselem, true, delay);
+                self.highlight(elem.abcelem.parent, true, delay);
             });
         } else {
             pl.item.pitches.forEach( function( elem ) {
@@ -10189,7 +10178,7 @@ ABCXJS.midi.Player.prototype.executa = function(pl) {
            });
             pl.item.abcelems.forEach( function( elem ) {
                 delay = self.calcTempo( elem.delay );
-                self.highlight(elem.abcelem.abselem, false, delay);
+                self.highlight(elem.abcelem.parent, false, delay);
             });
         }
     } catch( err ) {
@@ -10965,7 +10954,7 @@ ABCXJS.tablature.Infer.prototype.inferTabVoice = function(line) {
                 var i = 0;
                 while ( i < voices.length) {
                     if(voices[i].wi.el_type && voices[i].wi.el_type === "bar" )     {
-                        this.addTABChild(ABCXJS.parse.clone(voices[i].wi));
+                        this.addTABChild(ABCXJS.parse.clone(voices[i].wi),line);
                         i = voices.length;
                     } else {
                         i++;
@@ -10981,7 +10970,7 @@ ABCXJS.tablature.Infer.prototype.inferTabVoice = function(line) {
 
                 break;
             case 2:
-                this.addTABChild(this.extraiIntervalo(voices));
+                this.addTABChild(this.extraiIntervalo(voices), line);
                 break;
         }
     } 
@@ -11046,7 +11035,7 @@ ABCXJS.tablature.Infer.prototype.extraiIntervalo = function(voices) {
         }
     }
     ;
-    var wf = { el_type: 'note', duration: Number((minDur/this.multiplier).toFixed(5)), startChar: 0, endChar: 0, pitches:[], bassNote: [] }; // wf - final working item
+    var wf = { el_type: 'note', duration: Number((minDur/this.multiplier).toFixed(5)), startChar: 0, endChar: 0, line:0, pitches:[], bassNote: [] }; // wf - final working item
     
     for( var i = 0; i < voices.length; i ++ ) {
         if(voices[i].st !== 'processing' ) continue;
@@ -11147,7 +11136,7 @@ ABCXJS.tablature.Infer.prototype.checkTies = function(voice) {
     }    
 };
 
-ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
+ABCXJS.tablature.Infer.prototype.addTABChild = function(token, line ) {
 
     if (token.el_type !== "note") {
         var xf = 0;
@@ -11158,7 +11147,7 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
             throw new Error( 'ABCXJS.tablature.Infer.prototype.addTABChild(token_type): ' + token.type );
         }
         var xi = this.getXi();
-        this.add(token, xi, xf - 1 );
+        this.add(token, xi, xf - 1, line );
         return;
     }
     
@@ -11166,6 +11155,7 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
          el_type: token.el_type 
         ,startChar: 0
         ,endChar: 0
+        ,line: 0
         ,pitches: []
         ,duration: token.duration
         ,bellows: ""
@@ -11346,7 +11336,7 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
         this.registerLine( ') ' );
     }
     
-    this.add(child, xi, xf-1);
+    this.add(child, xi, xf-1, line);
 };
 
 ABCXJS.tablature.Infer.prototype.registerMissingButton = function(item) {
@@ -11368,9 +11358,10 @@ ABCXJS.tablature.Infer.prototype.registerLine = function(appendStr) {
   return this.producedLine.length;
 };
 
-ABCXJS.tablature.Infer.prototype.add = function(child, xi, xf) {
+ABCXJS.tablature.Infer.prototype.add = function(child, xi, xf, line) {
   child.startChar = this.vars.iChar+xi;
   child.endChar = this.vars.iChar+xf;
+  child.line = line;
   this.voice.push(child);
 };
 
@@ -11755,7 +11746,7 @@ SVG.Printer.prototype.initDoc = function( docId, title, add_styles, options ) {
     
 };
 
-SVG.Printer.prototype.endDoc = function( owner ) {
+SVG.Printer.prototype.endDoc = function( ) {
 
     var output = '<div style="display:block; margin:0; padding: 0; width: fit-content; --fill-color:'+this.color+';  background-color:'+this.backgroundColor+'; ">\n' + this.svgHead( this.docId );
     
@@ -11775,12 +11766,7 @@ SVG.Printer.prototype.endDoc = function( owner ) {
     output +='</div>';
     
     this.topDiv.innerHTML = output;
-    
-    if( owner && owner.afterPrint ) {
-//    setTimeout(function(){
-        owner.afterPrint();
-//    }, 300);
-    }
+
 };
 
 SVG.Printer.prototype.initPage = function( scl ) {
@@ -12031,7 +12017,7 @@ SVG.Glyphs = function () {
       ,"noteheads.quarter": '<path style="fill: var(--fill-color, black);" id="noteheads.quarter" \nd="@@"/>'
       ,"noteheads.half": '<path style="fill: var(--fill-color, black);" id="noteheads.half" \nd="@@"/>'
       ,"noteheads.whole": '<path style="fill: var(--fill-color, black);" id="noteheads.whole" \nd="@@"/>'
-      ,"notehesad.dbl": '<g id="notehesad.dbl">\n<use xlink:href="#noteheads.whole"/>\n<path d="m-6 -4v8m12 0v-8" />\n</g>'
+      ,"notehesad.dbl": '<path style="fill: var(--fill-color, black);" id="noteheads.dbl" \nd="@@"/>'
       ,"rests.quarter": '<path style="fill: var(--fill-color, black);" id="rests.quarter" \nd="@@"/>'
       ,"rests.half": '<path style="fill: var(--fill-color, black);" id="rests.half" \nd="@@"/>'
       ,"rests.whole": '<path style="fill: var(--fill-color, black);" id="rests.whole" \nd="@@"/>'

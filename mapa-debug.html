@@ -724,6 +724,9 @@ notação abc, tablatura " />
             };
             
             function resizeSite() {
+                
+                if(! myStudio ) return;
+                
                 if( myStudio.visible) {
                     myStudio.resize();
                 } else {     
