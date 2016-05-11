@@ -346,7 +346,6 @@ notação abc, tablatura " />
                     <div id="warningsDiv"></div>
                     <div id="canvasDiv"></div>
                     <hr style="visibility: hidden;"/>
-                    <hr style="visibility: hidden;"/>
                 </div> <!--studioCanvasDiv-->    
                 <div id="editorDiv" class="draggableWindow" style="left:40px; top:120px;" ></div>
                 <!-- /editorDiv -->
@@ -382,15 +381,6 @@ notação abc, tablatura " />
         
         <script id="mainScript" type="text/javascript">
         //<![CDATA[
-
-            var isOpera = !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
-                // Opera 8.0+ (UA detection to detect Blink/v8-powered Opera)
-            var isFirefox = typeof InstallTrigger !== 'undefined';   // Firefox 1.0+
-            var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
-                // At least Safari 3+: "[object HTMLElementConstructor]"
-            var isChrome = !!window.chrome && !isOpera;              // Chrome 1+
-            var isIE = /*@cc_on!@*/false || !!document.documentMode; // At least IE6    
-            
             var vSite = getSITEversion();
             var producao = getABCXversion();
             
@@ -692,7 +682,7 @@ notação abc, tablatura " />
                 
                 $("#clustrmaps-widget").find("a").attr('target','_blank');
 
-                if(!isChrome) {
+                if(!ABCXJS.misc.isChrome()) {
                     $('#useChromeDiv').html('<img src="img/chrome.png">');
                     setTimeout(function() { $('#useChromeDiv').fadeIn('slow'); }, 2000);
                     setTimeout(function() { $('#useChromeDiv').fadeOut('slow'); }, 17000);

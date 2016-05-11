@@ -210,7 +210,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         that.showABCXText();
     }, false);
     
-    if( !isChrome ) {
+    if( !ABCXJS.misc.isChrome() ) {
         this.showEditorButton.style.pointerEvents = 'none';
         this.showEditorButton.style.color = 'gray';
     } else {
@@ -671,11 +671,11 @@ SITE.Estudio.prototype.resize = function( ) {
     
     var o = document.getElementById( 'studioContentDiv');
     
-    o.style.height = (window.innerHeight -50 /*topdiv*/ - 20) + "px";
+    o.style.height = (window.innerHeight -50 /*topdiv*/ - 17) + "px";
 
     var i = document.getElementById( 'studioCanvasDiv');
     
-    i.style.height = (o.clientHeight - h.clientHeight - m.clientHeight - 10) + "px";
+    i.style.height = (o.clientHeight - h.clientHeight - m.clientHeight - 2) + "px";
     
    // posiciona a janela de teclado
    this.posicionaTeclado();
@@ -766,7 +766,7 @@ SITE.Estudio.prototype.highlight = function(abcelem) {
         if(abcelem.bellows)
             this.selectButton(abcelem);
     }    
-    if(isChrome && this.editorVisible) {
+    if(ABCXJS.misc.isChrome() && this.editorVisible) {
         editAreaLoader.setSelectionRange("editorTextArea", abcelem.startChar, abcelem.endChar);
     }    
 };
@@ -845,7 +845,8 @@ SITE.Estudio.prototype.modelChanged = function() {
 
     var paper = new SVG.Printer( this.renderedTune.div );
     this.renderedTune.printer = new ABCXJS.write.Printer(paper, this.printerparams );
-    this.renderedTune.printer.printTune( this.renderedTune.abc, {color:'red'}  ); // {color:'red', backgroundColor:'#ffd', beamColor:'blue' }
+    //this.renderedTune.printer.printTune( this.renderedTune.abc, {color:'black', backgroundColor:'#ffd'} );
+    this.renderedTune.printer.printTune( this.renderedTune.abc ); 
     
     if (this.warningsdiv) {
         this.warningsdiv.style.color = this.warnings.length > 0 ? "red" : "green";

@@ -29,6 +29,7 @@ and open the template in the editor.
 .draggableData {
     width:100%; 
     height:100%; 
+    padding: 2px;
     pointer-events: auto;
 }
 

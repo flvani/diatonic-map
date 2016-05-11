@@ -270,7 +270,7 @@ SITE.Mapa.prototype.showStudio2 = function (loader) {
     document.getElementById("DR_repertoire").style.color = 'gray';
     $("#studioDiv").show();
     this.studio.visible = true;
-    this.studio.setup(this.currentABC, this.getSelectedAccordion().getId());
+    this.studio.setup(this.currentABC, this.getSelectedAccordion().getId() );
     this.setupProps();
     loader.stop();
 };
@@ -759,8 +759,8 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
     var printer = new ABCXJS.write.Printer(paper, params);
     
     $("#" + tab.div.id).fadeIn();
-    //printer.printTune( tab.abc, {color:'red', backgroundColor:'#ffd', beamColor:'blue' } ); 
-    printer.printTune( tab.abc ); 
+    //printer.printTune( tab.abc, {color:'black', backgroundColor:'#ffd' } ); 
+    printer.printTune( tab.abc, {color:'green'} ); 
     
     $("#" + tab.div.id).hide();
     if (alreadyOnPage) {

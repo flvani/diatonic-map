@@ -361,7 +361,9 @@
     background-color: #fff;
     background-size:100% 100%;
     background-repeat:no-repeat;
-    margin:0; padding:0; width:95%;   
+    margin:0; 
+    padding:0; 
+    width:95%;   
 }
 
 #tuneContainerDiv{
@@ -376,12 +378,12 @@
     overflow-y: auto;
     overflow-x: hidden;
     background: #fff;
+    padding: 8px;
+    padding-right: 2em;
 } 
 
 #divContent,
 #tuneContainerDiv {
-    padding: 8px;
-    padding-right: 2em;
     position: relative;
     z-index: 1;	
     border-radius: 0 5px 5px 5px;

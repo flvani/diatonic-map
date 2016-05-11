@@ -697,7 +697,7 @@ window.ABCXJS.data.Tune = function() {
         pushNote(hashParams);
     };
 
-    this.appendStartingElement = function(type, startChar, endChar, hashParams2)
+    this.appendStartingElement = function(type, currTexLineNum, startChar, endChar, hashParams2)
     {
         // If we're in the middle of beaming, then end the beam.
         this.closeLine();
@@ -988,7 +988,7 @@ window.ABCXJS.misc.isOpera = function() {
 };
 
 window.ABCXJS.misc.isChrome= function() {
-    return (( !!window.chrome && !isOpera() ) > 0 ); // Chrome 1+
+    return (( !!window.chrome && !ABCXJS.misc.isOpera() ) > 0 ); // Chrome 1+
 };
 
 window.ABCXJS.misc.isFirefox = function() {
@@ -3884,19 +3884,19 @@ window.ABCXJS.parse.ParseHeader = function(tokenizer, warn, multilineVars, tune,
 				case "[M:":
 					var meter = this.setMeter(line.substring(i+3, e));
 					if (tune.hasBeginMusic() && meter)
-						tune.appendStartingElement('meter', -1, -1, meter);
+						tune.appendStartingElement('meter', multilineVars.currTexLineNum, -1, -1, meter);
 					else
 						multilineVars.meter = meter;
 					return [ e-i+1+ws ];
 				case "[K:":
 					var result = window.ABCXJS.parse.parseKeyVoice.parseKey(line.substring(i+3, e), transposer );
 					if (result.foundClef && tune.hasBeginMusic())
-						tune.appendStartingElement('clef', -1, -1, multilineVars.clef);
+						tune.appendStartingElement('clef', multilineVars.currTexLineNum, -1, -1, multilineVars.clef);
 					if (result.foundKey && tune.hasBeginMusic())
-						tune.appendStartingElement('key', -1, -1, window.ABCXJS.parse.parseKeyVoice.fixKey(multilineVars.clef, multilineVars.key));
+						tune.appendStartingElement('key', multilineVars.currTexLineNum, -1, -1, window.ABCXJS.parse.parseKeyVoice.fixKey(multilineVars.clef, multilineVars.key));
 					return [ e-i+1+ws ];
 				case "[P:":
-					tune.appendElement('part', -1, -1, {title: line.substring(i+3, e)});
+					tune.appendElement('part', multilineVars.currTexLineNum, -1, -1, {title: line.substring(i+3, e)});
 					return [ e-i+1+ws ];
 				case "[L:":
 					this.setDefaultLength(line, i+3, e);
@@ -3904,8 +3904,8 @@ window.ABCXJS.parse.ParseHeader = function(tokenizer, warn, multilineVars, tune,
 				case "[Q:":
 					if (e > 0) {
 						var tempo = this.setTempo(line, i+3, e);
-						if (tempo.type === 'delaySet') tune.appendElement('tempo', -1, -1, this.calcTempo(tempo.tempo));
-						else if (tempo.type === 'immediate') tune.appendElement('tempo', -1, -1, tempo.tempo);
+						if (tempo.type === 'delaySet') tune.appendElement('tempo', multilineVars.currTexLineNum, -1, -1, this.calcTempo(tempo.tempo));
+						else if (tempo.type === 'immediate') tune.appendElement('tempo', multilineVars.currTexLineNum, -1, -1, tempo.tempo);
 						return [ e-i+1+ws, line.charAt(i+1), line.substring(i+3, e)];
 					}
 					break;
@@ -3936,18 +3936,18 @@ window.ABCXJS.parse.ParseHeader = function(tokenizer, warn, multilineVars, tune,
 				case "M:":
 					var meter = this.setMeter(line.substring(i+2));
 					if (tune.hasBeginMusic() && meter)
-						tune.appendStartingElement('meter', -1, -1, meter);
+						tune.appendStartingElement('meter', multilineVars.currTexLineNum, -1, -1, meter);
 					return [ line.length ];
 				case "K:":
 					var result = window.ABCXJS.parse.parseKeyVoice.parseKey(line.substring(i+2), transposer);
 					if (result.foundClef && tune.hasBeginMusic())
-						tune.appendStartingElement('clef', -1, -1, multilineVars.clef);
+						tune.appendStartingElement('clef', multilineVars.currTexLineNum, -1, -1, multilineVars.clef);
 					if (result.foundKey && tune.hasBeginMusic())
-						tune.appendStartingElement('key', -1, -1, window.ABCXJS.parse.parseKeyVoice.fixKey(multilineVars.clef, multilineVars.key));
+						tune.appendStartingElement('key', multilineVars.currTexLineNum, -1, -1, window.ABCXJS.parse.parseKeyVoice.fixKey(multilineVars.clef, multilineVars.key));
 					return [ line.length ];
 				case "P:":
 					if (tune.hasBeginMusic())
-						tune.appendElement('part', -1, -1, {title: line.substring(i+2)});
+						tune.appendElement('part', multilineVars.currTexLineNum, -1, -1, {title: line.substring(i+2)});
 					return [ line.length ];
 				case "L:":
 					this.setDefaultLength(line, i+2, line.length);
@@ -3956,8 +3956,8 @@ window.ABCXJS.parse.ParseHeader = function(tokenizer, warn, multilineVars, tune,
 					var e = line.indexOf('\x12', i+2);
 					if (e === -1) e = line.length;
 					var tempo = this.setTempo(line, i+2, e);
-					if (tempo.type === 'delaySet') tune.appendElement('tempo', -1, -1, this.calcTempo(tempo.tempo));
-					else if (tempo.type === 'immediate') tune.appendElement('tempo', -1, -1, tempo.tempo);
+					if (tempo.type === 'delaySet') tune.appendElement('tempo', multilineVars.currTexLineNum, -1, -1, this.calcTempo(tempo.tempo));
+					else if (tempo.type === 'immediate') tune.appendElement('tempo', multilineVars.currTexLineNum, -1, -1, tempo.tempo);
 				return [ e, line.charAt(i), window.ABCXJS.parse.strip(line.substring(i+2))];
 				case "V:":
 					window.ABCXJS.parse.parseKeyVoice.parseVoice(line, 2, line.length);
@@ -4023,10 +4023,10 @@ window.ABCXJS.parse.ParseHeader = function(tokenizer, warn, multilineVars, tune,
 							var result = window.ABCXJS.parse.parseKeyVoice.parseKey( line.substring(2), transposer, line, lineNumber );
 							if (!multilineVars.is_in_header && tune.hasBeginMusic()) {
 								if (result.foundClef) {
-									tune.appendStartingElement('clef', -1, -1, multilineVars.clef);
+									tune.appendStartingElement('clef', multilineVars.currTexLineNum, -1, -1, multilineVars.clef);
                                                                     }        
 								if (result.foundKey)
-									tune.appendStartingElement('key', -1, -1, window.ABCXJS.parse.parseKeyVoice.fixKey(multilineVars.clef, multilineVars.key));
+									tune.appendStartingElement('key', multilineVars.currTexLineNum, -1, -1, window.ABCXJS.parse.parseKeyVoice.fixKey(multilineVars.clef, multilineVars.key));
 							}
 							multilineVars.is_in_header = false;	// The first key signifies the end of the header.
 							break;
@@ -4823,6 +4823,7 @@ window.ABCXJS.parse.parseKeyVoice = {};
 					case 'merge':
 						staffInfo.startStaff = false;
 						break;
+					case 'stem':
 					case 'stems':
 						attr = tokenizer.getVoiceToken(line, start, end);
 						if (attr.warn !== undefined)
@@ -4856,6 +4857,9 @@ window.ABCXJS.parse.parseKeyVoice = {};
 					case 'transpose':
 						addNextTokenToVoiceInfo(id, 'transpose', 'number');
 						break;
+                                        default:
+                                                warn("Error parsing voice. Unknown token: " + token.token, line, start);
+
 				}
 			}
 			start += tokenizer.eatWhiteSpace(line, start);
@@ -6406,6 +6410,7 @@ if (!window.ABCXJS.write)
     window.ABCXJS.write = {};
 
 ABCXJS.write.highLightColor = "#5151ff";
+ABCXJS.write.unhighLightColor = 'black';
 
 ABCXJS.write.StaffGroupElement = function() {
     this.voices = [];
@@ -6543,7 +6548,7 @@ ABCXJS.write.StaffGroupElement.prototype.calcHeight = function(voz) {
     // calculo da altura da pauta + uma pequena folga
     var h = (2+voz.stave.highest-voz.stave.lowest) * ABCXJS.write.spacing.STEP;
     // inclui espaço para as linhas de texto
-    h += ABCXJS.write.spacing.STEP * 6 * voz.stave.lyricsRows;
+    h += 14 * voz.stave.lyricsRows;
     return h;
 };
 
@@ -6802,7 +6807,7 @@ ABCXJS.write.VoiceElement.prototype.draw = function(printer) {
         //var headerY = printer.calcY(textpitch)
         var headerY = (ve.stave.clef.type!=='accordionTab'? printer.calcY(6) : ve.stave.y ) +3;
         var headerX = printer.paddingleft;
-        printer.paper.text(headerX, headerY,  this.header, 'abc_voice_header', 'start' );
+        printer.printText(headerX, headerY,  this.header, 'abc_voice_header', 'start' );
     }
     
     // beams must be drawn first for proper printing of triplets, slurs and ties.
@@ -6901,7 +6906,7 @@ ABCXJS.write.AbsoluteElement.prototype.draw = function(printer, staveInfo ) {
     // imprimir primeiro ledger e mante-los fora do grupo de selecionaveis
     for (var i = 0; i < this.children.length; i++) {
         //this.elemset.push(this.children[i].draw(printer, this.x, staveInfo ));
-        if ( this.children[i].type === 'ledger' ) {
+        if ( this.children[i].type === 'ledger' || this.children[i].type === 'part' ) {
             this.children[i].draw(printer, this.x, staveInfo );
         } else {
             l++; // count notes, bars, etc
@@ -6914,7 +6919,7 @@ ABCXJS.write.AbsoluteElement.prototype.draw = function(printer, staveInfo ) {
     
     for (var i = 0; i < this.children.length; i++) {
         //this.elemset.push(this.children[i].draw(printer, this.x, staveInfo ));
-        ( this.children[i].type !== 'ledger' ) && this.children[i].draw(printer, this.x, staveInfo );
+        ( this.children[i].type !== 'ledger' && this.children[i].type !== 'part' ) && this.children[i].draw(printer, this.x, staveInfo );
     }
     
     //this.elemset.push(printer.endGroup());
@@ -6962,13 +6967,26 @@ ABCXJS.write.AbsoluteElement.prototype.setMouse = function(printer) {
  };
  
  
-ABCXJS.write.AbsoluteElement.prototype.click = function() {
-   printer.notifyClearNSelect(self); 
-};
+//ABCXJS.write.AbsoluteElement.prototype.click = function() {
+//   printer.notifyClearNSelect(self); 
+//};
 
 
-//ABCXJS.write.AbsoluteElement.prototype.setClass = function(addClass, removeClass, color) {
-//    this.elemset.attr({fill: color});
+ABCXJS.write.AbsoluteElement.prototype.setClass = function(addClass, removeClass, color) {
+    //this.elemset.attr({fill: color});
+    var kls = this.svgElem.getAttribute("class");
+    if (!kls)
+        kls = "";
+    kls = kls.replace(removeClass, "");
+    kls = kls.replace(addClass, "");
+    if (addClass.length > 0) {
+        if (kls.length > 0 && kls.charAt(kls.length - 1) !== ' ')
+            kls += " ";
+        kls += addClass;
+    }
+    this.svgElem.setAttribute("class", kls.trim() );
+    
+    
 //    if (!ABCXJS.misc.isIE()) {
 //        for (var i = 0; i < this.elemset.length; i++) {
 //            if (this.elemset[i][0].setAttribute) {
@@ -6986,16 +7004,20 @@ ABCXJS.write.AbsoluteElement.prototype.click = function() {
 //            }
 //        }
 //    }
-//};
+};
 
 ABCXJS.write.AbsoluteElement.prototype.highlight = function() {
-    this.svgElem.style.fill= ABCXJS.write.highLightColor;
-    //this.setClass("note_selected", "", ABCXJS.write.highLightColor );
+    //this.svgElem.style.fill= ABCXJS.write.highLightColor;
+    //this.setClass("selected", "", ABCXJS.write.highLightColor );
+    this.svgElem.style.setProperty( '--fill-color', ABCXJS.write.highLightColor );
+
 };
 
 ABCXJS.write.AbsoluteElement.prototype.unhighlight = function() {
-    this.svgElem.style.fill= 'black';
-    //this.setClass("", "note_selected", "black");
+    //this.svgElem.style.fill= 'black';
+    //this.setClass("", "selected", "black");
+    this.svgElem.style.setProperty( '--fill-color', ABCXJS.write.unhighLightColor );
+    //this.svgElem.style.setProperty( '--fill-color', 'black' );
 };
 
 ABCXJS.write.RelativeElement = function(c, dx, w, pitch, opt) {
@@ -7026,12 +7048,16 @@ ABCXJS.write.RelativeElement.prototype.draw = function(printer, x, staveInfo ) {
             this.graphelem = printer.printDebugMsg(this.x, staveInfo.highest+2, this.c);
             break;
         case "lyrics":
-            var y = staveInfo.lowest-ABCXJS.write.spacing.STEP*staveInfo.lyricsRows;
-            y += (staveInfo.lyricsRows-0.5);
-            this.graphelem = printer.printLyrics(this.x, y, this.c);
+            this.graphelem = printer.printLyrics(this.x, staveInfo, this.c);
+            break;
+        case "barnumber":
+            this.graphelem = printer.printText(this.x, this.pitch, this.c, 'abc_ending', 'middle');
+            break
+        case "part":
+            this.graphelem = printer.printText(this.x, this.pitch, this.c, 'abc_subtitle');
             break;
         case "text":
-            this.graphelem = printer.printText(this.x, this.pitch, this.c);
+            this.graphelem = printer.printText(this.x, this.pitch, this.c, 'abc_text');
             break;
         case "tabText":
             this.graphelem = printer.printTabText(this.x, this.pitch, this.c);
@@ -7072,7 +7098,7 @@ ABCXJS.write.RelativeElement.prototype.drawStem = function( printer ) {
         var dx = (beam.asc) ? -0.6 : 0.6;
         printer.printStem(x, dx, y, bary);        
     } else {
-        this.graphelem = printer.printStem(this.x, this.linewidth, printer.calcY(this.pitch), printer.calcY(this.pitch2));
+        this.graphelem = printer.printStem(this.x, 0.6*this.linewidth/*fixme: mudar linew para 0.6*/, printer.calcY(this.pitch), printer.calcY(this.pitch2));
     }
 };
 
@@ -7218,7 +7244,7 @@ ABCXJS.write.TripletElem.prototype.draw = function(printer, linestartx, lineendx
         }
 
 
-        printer.printText(xsum / 2, ypos + ydelta, this.number, "middle");
+        printer.printText(xsum / 2, ypos + ydelta, this.number, 'abc_ending', "middle");
 
     }
 };
@@ -7259,6 +7285,16 @@ ABCXJS.write.BeamElem.prototype.average = function() {
     } catch (e) {
         return 0;
     }
+};
+
+ABCXJS.write.BeamElem.prototype.calcDir = function() {
+    var average = this.average();
+    this.asc = (this.forceup || this.isgrace || average < 6) && (!this.forcedown); // hardcoded 6 is B
+    return this.asc;
+};
+
+ABCXJS.write.BeamElem.prototype.getBarYAt = function(x) {
+    return this.starty + (this.endy - this.starty) / (this.endx - this.startx) * (x - this.startx);
 };
 
 ABCXJS.write.BeamElem.prototype.draw = function(printer) {
@@ -7303,66 +7339,48 @@ ABCXJS.write.BeamElem.prototype.draw = function(printer) {
         this.endy = printer.calcY(6);
     }
     printer.paper.printBeam(this.startx, this.starty, this.endx, this.endy, this.endx, (this.endy + this.dy), this.startx, this.starty + this.dy);
+    
+    this.drawAuxBeams(printer);
 };
 
-ABCXJS.write.BeamElem.prototype.calcDir = function() {
-    var average = this.average();
-    this.asc = (this.forceup || this.isgrace || average < 6) && (!this.forcedown); // hardcoded 6 is B
-    return this.asc;
+ABCXJS.write.BeamElem.prototype.drawAuxBeams = function(printer) {
+    var auxbeams = [];  // auxbeam will be {x, y, durlog, single} auxbeam[0] should match with durlog=-4 (16th) (j=-4-durlog)
+    for (var i = 0, ii = this.elems.length; i < ii; i++) {
+        if (this.elems[i].abcelem.rest) continue;
+        var furthesthead = this.elems[i].heads[(this.asc) ? 0 : this.elems[i].heads.length - 1];
+        var x = this.elems[i].x + ((this.asc) ? furthesthead.w : 0);
+        var bary = this.getBarYAt(x);
+
+        var sy = (this.asc) ? 1.5 * ABCXJS.write.spacing.STEP : -1.5 * ABCXJS.write.spacing.STEP;
+        if (this.isgrace)
+            sy = sy * 2 / 3;
+        for (var durlog = ABCXJS.write.getDurlog(this.elems[i].abcelem.duration); durlog < -3; durlog++) { // get the duration via abcelem because of triplets
+            if (auxbeams[-4 - durlog]) {
+                auxbeams[-4 - durlog].single = false;
+            } else {
+                auxbeams[-4 - durlog] = {x: x + ((this.asc) ? -0.6 : 0), y: bary + sy * (-4 - durlog + 1),
+                    durlog: durlog, single: true};
+            }
+        }
+
+        for (var j = auxbeams.length - 1; j >= 0; j--) {
+            if (i === ii - 1 || ABCXJS.write.getDurlog(this.elems[i + 1].abcelem.duration) > (-j - 4)) {
+
+                var auxbeamendx = x;
+                var auxbeamendy = bary + sy * (j + 1);
+
+
+                if (auxbeams[j].single) {
+                    auxbeamendx = (i === 0) ? x + 5 : x - 5;
+                    auxbeamendy = this.getBarYAt(auxbeamendx) + sy * (j + 1);
+                }
+                // TODO I think they are drawn from front to back, hence the small x difference with the main beam
+                printer.paper.printBeam(auxbeams[j].x,auxbeams[j].y, auxbeamendx,auxbeamendy,auxbeamendx,(auxbeamendy + this.dy), auxbeams[j].x,(auxbeams[j].y + this.dy));
+                auxbeams = auxbeams.slice(0, j);
+            }
+        }
+    }
 };
-
-ABCXJS.write.BeamElem.prototype.getBarYAt = function(x) {
-    return this.starty + (this.endy - this.starty) / (this.endx - this.startx) * (x - this.startx);
-};
-
-
-//Old code: the stems are now printed among the note heads
-//ABCXJS.write.BeamElem.prototype.drawStems = function(printer) {
-//    var auxbeams = [];  // auxbeam will be {x, y, durlog, single} auxbeam[0] should match with durlog=-4 (16th) (j=-4-durlog)
-//    //printer.beginGroup();
-//    for (var i = 0, ii = this.elems.length; i < ii; i++) {
-//        if (this.elems[i].abcelem.rest)
-//            continue;
-//        var furthesthead = this.elems[i].heads[(this.asc) ? 0 : this.elems[i].heads.length - 1];
-//        var ovaldelta = (this.isgrace) ? 1 / 3 : 1 / 5;
-//        var pitch = furthesthead.pitch + ((this.asc) ? ovaldelta : -ovaldelta);
-//        var y = printer.calcY(pitch);
-//        var x = furthesthead.x + ((this.asc) ? furthesthead.w : 0);
-//        var bary = this.getBarYAt(x);
-//        var dx = (this.asc) ? -0.6 : 0.6;
-//        printer.printStem(x, dx, y, bary);
-//
-//        var sy = (this.asc) ? 1.5 * ABCXJS.write.spacing.STEP : -1.5 * ABCXJS.write.spacing.STEP;
-//        if (this.isgrace)
-//            sy = sy * 2 / 3;
-//        for (var durlog = ABCXJS.write.getDurlog(this.elems[i].abcelem.duration); durlog < -3; durlog++) { // get the duration via abcelem because of triplets
-//            if (auxbeams[-4 - durlog]) {
-//                auxbeams[-4 - durlog].single = false;
-//            } else {
-//                auxbeams[-4 - durlog] = {x: x + ((this.asc) ? -0.6 : 0), y: bary + sy * (-4 - durlog + 1),
-//                    durlog: durlog, single: true};
-//            }
-//        }
-//
-//        for (var j = auxbeams.length - 1; j >= 0; j--) {
-//            if (i === ii - 1 || ABCXJS.write.getDurlog(this.elems[i + 1].abcelem.duration) > (-j - 4)) {
-//
-//                var auxbeamendx = x;
-//                var auxbeamendy = bary + sy * (j + 1);
-//
-//
-//                if (auxbeams[j].single) {
-//                    auxbeamendx = (i === 0) ? x + 5 : x - 5;
-//                    auxbeamendy = this.getBarYAt(auxbeamendx) + sy * (j + 1);
-//                }
-//                // TODO I think they are drawn from front to back, hence the small x difference with the main beam
-//                printer.paper.printBeam(auxbeams[j].x,auxbeams[j].y, auxbeamendx,auxbeamendy,auxbeamendx,(auxbeamendy + this.dy), auxbeams[j].x,(auxbeams[j].y + this.dy));
-//                auxbeams = auxbeams.slice(0, j);
-//            }
-//        }
-//    }
-//    //printer.endGroup();
-//};
 //    abc_layout.js: Creates a data structure suitable for printing a line of abc
 //    Copyright (C) 2010 Gregory Dyke (gregdyke at gmail dot com)
 //
@@ -7586,7 +7604,7 @@ ABCXJS.write.Layout.prototype.printABCElement = function() {
   case "part":
     var abselem = new ABCXJS.write.AbsoluteElement(elem,0,0);
     //fixme: corrigir adequatamente os atributos deste titulo
-    abselem.addChild(new ABCXJS.write.RelativeElement(elem.title, 0, 0, 18, {type:"text", attributes:{"font-weight":"bold", "font-size":""+16+"px", "font-family":"serif"}}));
+    abselem.addChild(new ABCXJS.write.RelativeElement(elem.title, 0, 0, 18.5, {type:"part" })); //, attributes:{"font-weight":"bold", "font-size":""+16+"px", "font-family":"serif"}}));
     elemset[0] = abselem;
     break;
   default: 
@@ -7740,7 +7758,7 @@ ABCXJS.write.Layout.prototype.printNote = function(elem, nostem, dontDraw) { //s
         for (p = 0; p < elem.pitches.length; p++) {
 
             if (/*!nostem flavio*/ 1 ) { // vou retirar apenas flags
-                if (/*flavio*/nostem || (dir === "down" && p !== 0) || (dir === "up" && p !== pp - 1)) { // not the stemmed elem of the chord
+                if (/*flavio*/ nostem || (dir === "down" && p !== 0) || (dir === "up" && p !== pp - 1)) { // not the stemmed elem of the chord
                     flag = null;
                 } else {
                     flag = ABCXJS.write.chartable[(dir === "down") ? "dflags" : "uflags"][-durlog];
@@ -7878,9 +7896,9 @@ ABCXJS.write.Layout.prototype.printNote = function(elem, nostem, dontDraw) { //s
 
     if (elem.barNumber && elem.barNumberVisible && !dontDraw ) {
         if(this.lastAbs) {
-          this.lastAbs.addChild(new ABCXJS.write.RelativeElement(elem.barNumber, (elem.barNumber > 10?-8:-4), 0, 13, {type: "text"}));
+          this.lastAbs.addChild(new ABCXJS.write.RelativeElement(elem.barNumber, 0, 0, 12, {type: "barnumber"}));
         } else {
-          abselem.addChild(new ABCXJS.write.RelativeElement(elem.barNumber, (elem.barNumber > 10?8:4), 0, 13, {type: "text"}));
+          abselem.addChild(new ABCXJS.write.RelativeElement(elem.barNumber, 0, 0, 12, {type: "barnumber"}));
         }
     }
 
@@ -8519,7 +8537,7 @@ ABCXJS.write.Printer.prototype.printABC = function(abctunes, options) {
   //options.color='red';
   
   for (var i = 0; i < abctunes.length; i++) {
-    this.printTune( abctunes[i], options /*, {color:'red', backgroundColor:'#ffd', beamColor:'blue' }*/ );
+    this.printTune( abctunes[i], options /*, {color:'red', backgroundColor:'#ffd'}*/ );
   }
 
 };
@@ -8528,7 +8546,6 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
     
     options = options || {};
     options.color = options.color ||'black';
-    options.beamColor = options.beamColor ||'black';
     options.backgroundColor = options.backgroundColor ||'none';
     
     
@@ -8603,15 +8620,17 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
     \n\
     .abc_tabtext3 {\n\
         font-size: 10px;\n\
-    }\n\
-    \n\
-    .debug {\n\
-        stroke: red;\n\
-    }\n\
-    svg { fill:'+options.color+'; } \n\
-    .beam { fill:'+options.beamColor+'; stroke:'+options.beamColor+'; stroke-width:0.6; }\n\
-    .ledger { fill:none; stroke:'+options.beamColor+'; stroke-width:0.6; stroke-dasharray: 1 1; }';
+    }   ';
     
+    ABCXJS.write.unhighLightColor = options.color;
+    
+//     svg { --fill-color:'+options.color+'; } \n\
+//    .bar { fill: var(--fill-color, black); stroke:'+'none'+'; stroke-width:0.6; }\n\
+//    .stem { fill:'+'black'+'; stroke:'+'none'+'; stroke-width:0.6; }\n\
+//    .beam { fill:'+options.color+'; stroke:'none; }\n\
+//    .ledger { fill:white; stroke:'+options.color+'; stroke-width:0.6; stroke-dasharray: 1 1; }\n\
+//    .stave { fill:'+'none'+'; stroke:'+options.color+'; stroke-width:0.6; }\n  
+
     var svg_title = 'Partitura ' + abctune.metaText.title + ' criada por ABCXJS.';
     
     if( abctune.midi) {
@@ -8642,10 +8661,10 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
 
     if (abctune.lines[0].staffs[0].subtitle) {
         this.printSubtitleLine(abctune.lines[0].staffs[0].subtitle);
-        //this.y += 20;
     }
     
-    var composerLine = "", meta = false;
+    var composerLine = "";
+    
     if (abctune.metaText.composer)
         composerLine += abctune.metaText.composer;
     if (abctune.metaText.origin)
@@ -8654,21 +8673,19 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
         composerLine += (composerLine.length> 0?'\n':'') + abctune.metaText.author;
 
     if (composerLine.length > 0) {
-        this.paper.text(this.width, 30, composerLine, 'abc_author', 'end' );
-        meta = true;
+        var n = composerLine.split('\n').length;
+        var dy = (n>1?(n>2?0:15):30);
+        this.paper.text(this.width, dy, composerLine, 'abc_author', 'end' );
     } 
     
     var xtempo ;
     if (abctune.metaText.tempo && !abctune.metaText.tempo.suppress) {
         xtempo = this.printTempo(this.paddingleft*2, abctune.metaText.tempo );
-        meta = true;
     }
     if (abctune.metaText.rhythm) {
         this.paper.text( xtempo || this.paddingleft*3+5, this.y, abctune.metaText.rhythm, 'abc_rhythm', 'start');
-        meta = true;
     }
     
-    //(meta) && (this.y += 10);
     this.y += 20;
 
     // impressão dos grupos de pautas
@@ -8723,7 +8740,7 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
     }    
     
     if(h1> 0) {
-        height = ABCXJS.write.spacing.STEP*3 + h1*1.5*17; // 1.5??? ver translate...
+        height = ABCXJS.write.spacing.STEP*3 + h1*1.5*17; 
         if( ( this.pageNumber - ((this.y+height)/this.estimatedPageLength) ) < 0 ) {
            this.skipPage();
         } else {
@@ -8851,13 +8868,13 @@ ABCXJS.write.Printer.prototype.printTieArc = function(x1, x2, pitch1, pitch2, ab
 
 ABCXJS.write.Printer.prototype.printStave = function (startx, endx, staff ) {
     if(staff.numLines === 4) {
-      this.paper.printStaveLine(startx,endx,this.calcY(19.5), 'ledger' ); 
+      this.printLedger(startx,endx, 19.5); 
       
       // imprimo duas linhas para efeito
       this.paper.printStaveLine(startx,endx,this.calcY(15)-0.5 ); 
       this.paper.printStaveLine(startx,endx,this.calcY(15) ); 
       
-      this.paper.printStaveLine(startx,endx,this.calcY(7.5), 'ledger' ); 
+      this.printLedger(startx,endx, 7.5 ); 
       
       this.paper.printStaveLine(startx,endx,this.calcY(0)); 
     } else {
@@ -8868,21 +8885,25 @@ ABCXJS.write.Printer.prototype.printStave = function (startx, endx, staff ) {
 };
 
 ABCXJS.write.Printer.prototype.printDebugLine = function (x1,x2, y, fill ) {
-   this.paper.printStaveLine(x1,x2, y, 'stave', fill ) ; 
+   this.paper.printStaveLine(x1,x2, y, fill ) ; 
 };
 
 ABCXJS.write.Printer.prototype.printLedger = function (x1, x2, pitch) {
-    if( pitch < 2 || pitch > 10 ) {
-      this.paper.printStaveLine(x1, x2, this.calcY(pitch), 'ledger' );
-    } else {
-      return null;
-    }  
+      this.paper.printLedger(x1, this.calcY(pitch), x2, this.calcY(pitch) );
+      
+//    if( pitch < 2 || pitch > 10 ) {
+//      this.paper.printLedger(x1, this.calcY(pitch), Math.abs(x1-x2), 0.6 );
+//    } else {
+//      return null;
+//    }  
 };
 
-ABCXJS.write.Printer.prototype.printText = function (x, offset, text, anchor) {
+ABCXJS.write.Printer.prototype.printText = function (x, offset, text, kls, anchor ) {
     anchor = anchor || "start";
-    this.paper.text(x, this.calcY(offset), text, 'abc_text', anchor);
+    kls = kls || "abc_text";
+    this.paper.text(x, this.calcY(offset), text, kls, anchor);
 };
+
 ABCXJS.write.Printer.prototype.printTabText = function (x, offset, text, klass) {
     klass = klass || 'abc_tabtext';
     this.paper.tabText(x, this.calcY(offset)+5, text, klass, 'middle');
@@ -8907,8 +8928,11 @@ ABCXJS.write.Printer.prototype.printDebugMsg = function(x, y, msg ) {
   return this.paper.text(x, y, msg, 'abc_ending', 'start');
 };
 
-ABCXJS.write.Printer.prototype.printLyrics = function(x, ypos, msg) {
-    var y = this.calcY(ypos);
+ABCXJS.write.Printer.prototype.printLyrics = function(x, staveInfo, msg) {
+    //var y = staveInfo.lowest-ABCXJS.write.spacing.STEP*staveInfo.lyricsRows;
+    //y += (staveInfo.lyricsRows-0.5);
+    y = this.calcY(staveInfo.lowest-(staveInfo.lyricsRows>1?0:3.5));
+    
     // para manter alinhado, quando uma das linhas for vazia, imprimo 3 pontos
     var i = msg.indexOf( "\n " );
     if( i >= 0) msg = msg.substr(0, i) + "\n...";
@@ -8988,7 +9012,7 @@ ABCXJS.write.Printer.prototype.calcY = function(ofs) {
 };
 
 ABCXJS.write.Printer.prototype.calcPageLength = function() {
-    this.estimatedPageLength = (this.maxwidth+this.paddingright)*this.pageratio - this.paddingbottom;
+    this.estimatedPageLength = ((this.maxwidth+this.paddingright)*this.pageratio - this.paddingbottom)/this.scale;
 };
 
 ABCXJS.write.Printer.prototype.printPageNumber = function() {
@@ -9377,7 +9401,8 @@ ABCXJS.midi.Parse.prototype.handleButtons = function(pitches, buttons ) {
             }
         }
         if(this.lastBar && ((note.isBass && hasBass) || (!note.isBass && hasTreble /* flavio && this.lastBar */))) {
-            self.addWarning( 'Compasso '+this.lastBar+': Botao '+item.button.button.tabButton+' ('+item.button.button.closeLabel+'/'+item.button.button.openLabel+') não corresponde a nenhuma nota em execução.');
+            var b = item.button.button;
+            self.addWarning( 'Compasso '+this.lastBar+': Botao '+b.tabButton+' ('+b.closeNote.key+'/'+b.openNote.key+') não corresponde a nenhuma nota em execução.');
         }    
     });
 };
@@ -11701,7 +11726,7 @@ SVG.Printer = function ( d ) {
         var d = size? '' : 'display: none; ';
         kls = kls? 'class="'+kls+'"' : '' ;
         
-        return '<svg id="'+id+'" '+kls+' xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="'+d+'width:'+w+'; height: '+h+';" >\n';
+        return '<svg id="'+id+'" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="'+d+'width:'+w+'; height: '+h+';" >\n';
     };
 };
 
@@ -11710,6 +11735,7 @@ SVG.Printer.prototype.initDoc = function( docId, title, add_styles, options ) {
     this.docId = docId || 'dcto';
     this.title = title || '';
     this.backgroundColor = options.backgroundColor || 'none';
+    this.color = options.color || 'black';
     this.scale = 1.0;
     this.defines = '';
     this.defined_glyph = [];
@@ -11719,17 +11745,19 @@ SVG.Printer.prototype.initDoc = function( docId, title, add_styles, options ) {
     this.gid=0;
     this.styles = 
 '<style type="text/css">\n\
-    //<![CDATA[\n\
     @media print {\n\
         div.nobrk {page-break-inside: avoid}\n\
         div.newpage {page-break-before: always}\n\
-    }\n'+(add_styles||'')+'\n//]]>\n</style>\n';
+    }\n'+(add_styles||'')+'\n</style>\n';
+    
+//<![CDATA[\n\
+//]]>\n
     
 };
 
 SVG.Printer.prototype.endDoc = function( owner ) {
 
-    var output = '<div style="display:block; margin:0; padding: 0; width: fit-content;  background-color:'+this.backgroundColor+'; ">\n' + this.svgHead( this.docId );
+    var output = '<div style="display:block; margin:0; padding: 0; width: fit-content; --fill-color:'+this.color+';  background-color:'+this.backgroundColor+'; ">\n' + this.svgHead( this.docId );
     
     output += '<title>'+this.title+'</title>\n';
     output += this.styles;
@@ -11774,7 +11802,7 @@ SVG.Printer.prototype.endPage = function( size ) {
 };
 
 SVG.Printer.prototype.beginGroup = function (el_type) {
-    var kls = el_type==='bar'?' class="beam"':'';
+    var kls = "" ; //var kls = el_type==='bar'?' class="bar"':'';
     var id = 'p'+this.printerId+'g'+(++this.gid); 
     this.svg_pages[this.currentPage] += '<g id="'+id+'"'+kls+'>\n';  
     return id;
@@ -11796,21 +11824,26 @@ SVG.Printer.prototype.setDefine = function (s) {
     return true;
 };
 
-SVG.Printer.prototype.printLine = function (x,y,dx,dy,klass) {
-    klass = klass || 'beam';
-    var pathString = ABCXJS.write.sprintf('<path class="%s" d="M %.2f %.2f L %.2f %.2f"/>\n', klass, x, y, dx, dy);
+SVG.Printer.prototype.printLine = function (x,y,dx,dy) {
+    var pathString = ABCXJS.write.sprintf('<path style="stroke: var(--fill-color, black); stroke-width: 0.6;" d="M %.2f %.2f L %.2f %.2f"/>\n', x, y, dx, dy);
     this.svg_pages[this.currentPage] += pathString;
 };
 
-SVG.Printer.prototype.printStaveLine = function (x1, x2, y, klass, debug) {
-    
-    klass = klass || 'beam';
-    
-    if( debug ){ // debug
-        klass='debug';
-    }
-    
-    var pathString = ABCXJS.write.sprintf('<path class="%s" d="M%.2f %.2f H%.2f"/>\n', klass, x1, y, x2);
+SVG.Printer.prototype.printLedger = function (x,y,dx,dy) {
+    var pathString = ABCXJS.write.sprintf('<path style="fill:white; stroke: var(--fill-color, black); ; stroke-width:0.6; stroke-dasharray: 1 1; " d="M %.2f %.2f L %.2f %.2f"/>\n', x, y, dx, dy);
+    this.svg_pages[this.currentPage] += pathString;
+};
+
+SVG.Printer.prototype.printBeam = function (x1,y1,x2,y2,x3,y3,x4,y4) {
+    var pathString = ABCXJS.write.sprintf('<path style="fill: var(--fill-color, black); stroke: none;" d="M %.2f %.2f L %.2f %.2f L %.2f %.2f L %.2f %.2f z"/>\n',  x1, y1, x2, y2, x3, y3, x4, y4);
+    this.svg_pages[this.currentPage] += pathString;
+};
+
+SVG.Printer.prototype.printStaveLine = function (x1, x2, y, debug) {
+    var color = debug? debug : 'var(--fill-color, black)';
+    var dy =0.6;   
+    var pathString = ABCXJS.write.sprintf('<rect style="fill: %s;" x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', 
+                                                color, x1, y, Math.abs(x2-x1), dy );
     this.svg_pages[this.currentPage] += pathString;
 };
 
@@ -11825,7 +11858,7 @@ SVG.Printer.prototype.printBar = function (x, dx, y1, y2) {
     var dy = Math.abs(y2-y1);
     dx = Math.abs(dx); 
     
-    var pathString = ABCXJS.write.sprintf('<rect x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
+    var pathString = ABCXJS.write.sprintf('<rect style="fill: var(--fill-color, black);" x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
 
     this.svg_pages[this.currentPage] += pathString;
 };
@@ -11841,15 +11874,11 @@ SVG.Printer.prototype.printStem = function (x, dx, y1, y2) {
     var dy = Math.abs(y2-y1);
     dx = Math.abs(dx); 
     
-    var pathString = ABCXJS.write.sprintf('<rect x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
+    var pathString = ABCXJS.write.sprintf('<rect style="fill: var(--fill-color, black);" x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
 
     this.svg_pages[this.currentPage] += pathString;
 };
 
-SVG.Printer.prototype.printBeam = function (x1,y1,x2,y2,x3,y3,x4,y4) {
-    var pathString = ABCXJS.write.sprintf('<path d="M %.2f %.2f L %.2f %.2f L %.2f %.2f L %.2f %.2f z"/>\n',  x1, y1, x2, y2, x3, y3, x4, y4);
-    this.svg_pages[this.currentPage] += pathString;
-};
 
 SVG.Printer.prototype.printTieArc = function (x1,y1,x2,y2,up) {
     
@@ -11869,7 +11898,7 @@ SVG.Printer.prototype.printTieArc = function (x1,y1,x2,y2,up) {
     var controly2 = y2-flatten*uy+curve*ux;
     var thickness = 2;
     
-    var pathString = ABCXJS.write.sprintf('<path d="M %.2f %.2f C %.2f %.2f %.2f %.2f %.2f %.2f C %.2f %.2f %.2f %.2f %.2f %.2f z"/>\n', 
+    var pathString = ABCXJS.write.sprintf('<path style="fill: var(--fill-color, black);" d="M %.2f %.2f C %.2f %.2f %.2f %.2f %.2f %.2f C %.2f %.2f %.2f %.2f %.2f %.2f z"/>\n', 
                             x1, y1,
                             controlx1, controly1, controlx2, controly2, x2, y2, 
                             controlx2-thickness*uy, controly2+thickness*ux, controlx1-thickness*uy, controly1+thickness*ux, x1, y1 );
@@ -11897,7 +11926,7 @@ SVG.Printer.prototype.printBrace = function (x, y1, y2) {
     var sz = Math.abs(y1-y2); // altura esperada
     var scale = sz / 1027; // altura real do simbolo
     this.setDefine('scripts.lbrace');
-    var pathString = ABCXJS.write.sprintf('<use class="beam" x="0" y="0" xlink:href="#scripts.lbrace" transform="translate(%.2f %.2f) scale(0.13 %.5f)" />\n', x, y2, scale );
+    var pathString = ABCXJS.write.sprintf('<use x="0" y="0" xlink:href="#scripts.lbrace" transform="translate(%.2f %.2f) scale(0.13 %.5f)" />\n', x, y2, scale );
     this.svg_pages[this.currentPage] += pathString;
 };
 
@@ -11918,7 +11947,7 @@ SVG.Printer.prototype.tabText = function( x, y, str, clss, anch ) {
    x = x.toFixed(2);
    y = y.toFixed(2);
    
-   this.svg_pages[this.currentPage] += '<text class="'+clss+'" x="'+x+'" y="'+y+'" >'+str+'</text>\n';
+   this.svg_pages[this.currentPage] += '<text class="'+clss+'" style="fill: var(--fill-color, black);" x="'+x+'" y="'+y+'" >'+str+'</text>\n';
 };
 
 SVG.Printer.prototype.text = function( x, y, str, clss, anch ) {
@@ -11933,9 +11962,9 @@ SVG.Printer.prototype.text = function( x, y, str, clss, anch ) {
    y = y.toFixed(2);
    
    if(t.length < 2) {
-       this.svg_pages[this.currentPage] += '<text class="'+clss+'" x="'+x+'" y="'+y+'" text-anchor="'+anch+'">'+t[0]+'</text>\n';
+       this.svg_pages[this.currentPage] += '<text class="'+clss+'" style="fill: var(--fill-color, black);" x="'+x+'" y="'+y+'" text-anchor="'+anch+'">'+t[0]+'</text>\n';
    } else {
-       this.svg_pages[this.currentPage] += '<g class="'+clss+'" transform="translate('+x+' '+y+')">\n';
+       this.svg_pages[this.currentPage] += '<g class="'+clss+'" style="fill: var(--fill-color, black);" transform="translate('+x+' '+y+')">\n';
        this.svg_pages[this.currentPage] += '<text text-anchor="'+anch+'" x="0" y="0">\n';
        for(var i = 0; i < t.length; i++ )
            this.svg_pages[this.currentPage] += '<tspan x="0" dy="1.2em" >'+t[i]+'</tspan>\n';
@@ -11980,41 +12009,44 @@ SVG.Glyphs = function () {
     var abc_glyphs = new ABCXJS.write.Glyphs();
 
     var glyphs = { // the @@ will be replaced by the abc_glyph contents.
-       "1": '<path id="1" transform="scale(0.95)" \nd="@@"/>'
-      ,"2": '<path id="2" transform="scale(0.95)" \nd="@@"/>'
-      ,"3": '<path id="3" transform="scale(0.95)" \nd="@@"/>'
-      ,"4": '<path id="4" transform="scale(0.95)" \nd="@@"/>'
-      ,"5": '<path id="5" transform="scale(0.95)" \nd="@@"/>'
-      ,"6": '<path id="6" transform="scale(0.95)" \nd="@@"/>'
-      ,"7": '<path id="7" transform="scale(0.95)" \nd="@@"/>'
-      ,"8": '<path id="8" transform="scale(0.95)" \nd="@@"/>'
-      ,"9": '<path id="9" transform="scale(0.95)" \nd="@@"/>'
-      ,"clefs.G": '<path id="clefs.G" \nd="@@"/>'
-      ,"clefs.F": '<path id="clefs.F" \nd="@@"/>'
-      ,"clefs.C": '<path id="clefs.C" \nd="@@"/>'
-      ,"clefs.tab": '<path id="clefs.tab" class="abcr" transform="scale(0.9)" \nd="@@"/>'
-      ,"timesig.common": '<path id="timesig.common" \nd="@@"/>'
-      ,"dots.dot": '<path id="dots.dot" \nd="@@"/>'
-      ,"accidentals.nat": '<path id="accidentals.nat" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.sharp": '<path id="accidentals.sharp" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.flat": '<path id="accidentals.flat" transform="scale(0.8)" \nd="@@"/>'
+       "1": '<path style="fill: var(--fill-color, black);" id="1" transform="scale(0.95)" \nd="@@"/>'
+      ,"2": '<path style="fill: var(--fill-color, black);" id="2" transform="scale(0.95)" \nd="@@"/>'
+      ,"3": '<path style="fill: var(--fill-color, black);" id="3" transform="scale(0.95)" \nd="@@"/>'
+      ,"4": '<path style="fill: var(--fill-color, black);" id="4" transform="scale(0.95)" \nd="@@"/>'
+      ,"5": '<path style="fill: var(--fill-color, black);" id="5" transform="scale(0.95)" \nd="@@"/>'
+      ,"6": '<path style="fill: var(--fill-color, black);" id="6" transform="scale(0.95)" \nd="@@"/>'
+      ,"7": '<path style="fill: var(--fill-color, black);" id="7" transform="scale(0.95)" \nd="@@"/>'
+      ,"8": '<path style="fill: var(--fill-color, black);" id="8" transform="scale(0.95)" \nd="@@"/>'
+      ,"9": '<path style="fill: var(--fill-color, black);" id="9" transform="scale(0.95)" \nd="@@"/>'
+      ,"clefs.G": '<path style="fill: var(--fill-color, black);" id="clefs.G" \nd="@@"/>'
+      ,"clefs.F": '<path style="fill: var(--fill-color, black);" id="clefs.F" \nd="@@"/>'
+      ,"clefs.C": '<path style="fill: var(--fill-color, black);" id="clefs.C" \nd="@@"/>'
+      ,"clefs.tab": '<path style="fill: var(--fill-color, black);" id="clefs.tab" class="abcr" transform="scale(0.9)" \nd="@@"/>'
+      ,"timesig.common": '<path style="fill: var(--fill-color, black);" id="timesig.common" \nd="@@"/>'
+      ,"dots.dot": '<path style="fill: var(--fill-color, black);" id="dots.dot" \nd="@@"/>'
+      ,"accidentals.nat": '<path style="fill: var(--fill-color, black);" id="accidentals.nat" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.sharp": '<path style="fill: var(--fill-color, black);" id="accidentals.sharp" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.flat": '<path style="fill: var(--fill-color, black);" id="accidentals.flat" transform="scale(0.8)" \nd="@@"/>'
       ,"graceheads.quarter": '<g id="graceheads.quarter" transform="scale(0.6)" ><use xlink:href="#noteheads.quarter" /></g>'
-      ,"noteheads.quarter": '<path id="noteheads.quarter" \nd="@@"/>'
-      ,"noteheads.half": '<path id="noteheads.half" \nd="@@"/>'
-      ,"noteheads.whole": '<path id="noteheads.whole" \nd="@@"/>'
+      ,"noteheads.quarter": '<path style="fill: var(--fill-color, black);" id="noteheads.quarter" \nd="@@"/>'
+      ,"noteheads.half": '<path style="fill: var(--fill-color, black);" id="noteheads.half" \nd="@@"/>'
+      ,"noteheads.whole": '<path style="fill: var(--fill-color, black);" id="noteheads.whole" \nd="@@"/>'
       ,"notehesad.dbl": '<g id="notehesad.dbl">\n<use xlink:href="#noteheads.whole"/>\n<path d="m-6 -4v8m12 0v-8" />\n</g>'
-      ,"rests.quarter": '<path id="rests.quarter" \nd="@@"/>'
-      ,"rests.half": '<path id="rests.half" \nd="@@"/>'
-      ,"rests.8th": '<path id="rests.8th" \nd="@@"/>'
-      ,"rests.16th": '<path id="rests.16th" \nd="@@"/>'
-      ,"flags.d8th": '<path id="flags.d8th" \nd="@@"/>'
-      ,"flags.d16th": '<path id="flags.d16th" \nd="@@"/>'
-      ,"flags.u8th": '<path id="flags.u8th" \nd="@@"/>'
-      ,"flags.u16th": '<path id="flags.u16th" \nd="@@"/>'
+      ,"rests.quarter": '<path style="fill: var(--fill-color, black);" id="rests.quarter" \nd="@@"/>'
+      ,"rests.half": '<path style="fill: var(--fill-color, black);" id="rests.half" \nd="@@"/>'
+      ,"rests.whole": '<path style="fill: var(--fill-color, black);" id="rests.whole" \nd="@@"/>'
+      ,"rests.8th": '<path style="fill: var(--fill-color, black);" id="rests.8th" \nd="@@"/>'
+      ,"rests.16th": '<path style="fill: var(--fill-color, black);" id="rests.16th" \nd="@@"/>'
+      ,"rests.32nd": '<path style="fill: var(--fill-color, black);" id="rests.32nd" \nd="@@"/>'
+      ,"flags.d8th": '<path style="fill: var(--fill-color, black);" id="flags.d8th" \nd="@@"/>'
+      ,"flags.d32nd": '<path style="fill: var(--fill-color, black);" id="flags.d32nd" \nd="@@"/>'
+      ,"flags.u8th": '<path style="fill: var(--fill-color, black);" id="flags.u8th" \nd="@@"/>'
+      ,"flags.u16th": '<path style="fill: var(--fill-color, black);" id="flags.u16th" \nd="@@"/>'
+      ,"flags.u32nd": '<path style="fill: var(--fill-color, black);" id="flags.u32nd" \nd="@@"/>'
       ,"graceflags.d8th": '<g id="graceflags.d8th" transform="scale(0.6)" ><use xlink:href="#flags.d8th" /></g>'
       ,"graceflags.u8th": '<g id="graceflags.u8th" transform="scale(0.6)" ><use xlink:href="#flags.u8th" /></g>'
-      ,"scripts.segno": '<path id="scripts.segno" \nd="@@"/>'
-      ,"scripts.lbrace": '<path id="scripts.lbrace" \nd="@@"/>'
+      ,"scripts.segno": '<path style="fill: var(--fill-color, black);" id="scripts.segno" \nd="@@"/>'
+      ,"scripts.lbrace": '<path style="fill: var(--fill-color, black);" id="scripts.lbrace" \nd="@@"/>'
       ,"button": '<symbol id="button" viewBox= "0 0 56 56">\n\
     <circle cx="28" cy="28" r="26" style="fill: var(--fill-color, white); stroke=: var(--fill-color, white); stroke-width=0;" ></circle>\n\
     <path d="M 2 34 a26 26 0 0 1 52 -12" style="fill: var(--close-color, none)" stroke="none" stroke-width="0"></path>\n\
