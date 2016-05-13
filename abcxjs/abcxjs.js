@@ -968,11 +968,28 @@ if (!window.ABCXJS.parse)
 
 window.ABCXJS.misc.isOpera = function() {
     return ( !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0 );
-    
 };
 
 window.ABCXJS.misc.isChrome= function() {
-    return (( !!window.chrome && !ABCXJS.misc.isOpera() ) > 0 ); // Chrome 1+
+    var test1 =  (( !!window.chrome && !ABCXJS.misc.isOpera() ) > 0 ); // Chrome 1+
+   
+    if(!test1) return false;
+    
+    for (var i=0; i<navigator.plugins.length; i++)
+        if (navigator.plugins[i].name == 'Chrome PDF Viewer') return true;
+    
+    return false;
+};
+
+window.ABCXJS.misc.isChromium= function() {
+    var test1 =  (( !!window.chrome && !ABCXJS.misc.isOpera() ) > 0 ); // Chrome 1+
+   
+    if(!test1) return false;
+    
+    for (var i=0; i<navigator.plugins.length; i++)
+        if (navigator.plugins[i].name == 'Chrome PDF Viewer') return false;
+    
+    return true;
 };
 
 window.ABCXJS.misc.isFirefox = function() {
@@ -6950,15 +6967,8 @@ ABCXJS.write.AbsoluteElement.prototype.setMouse = function(printer) {
     this.svgElem.onmouseout =  function() {self.unhighlight(self);};
     this.svgElem.onclick =  function() {printer.notifyClearNSelect(self);};
  };
- 
- 
-//ABCXJS.write.AbsoluteElement.prototype.click = function() {
-//   printer.notifyClearNSelect(self); 
-//};
 
-
-ABCXJS.write.AbsoluteElement.prototype.setClass = function(addClass, removeClass, color) {
-    //this.elemset.attr({fill: color});
+ABCXJS.write.AbsoluteElement.prototype.setClass = function(addClass, removeClass) {
     var kls = this.svgElem.getAttribute("class");
     if (!kls)
         kls = "";
@@ -6970,39 +6980,21 @@ ABCXJS.write.AbsoluteElement.prototype.setClass = function(addClass, removeClass
         kls += addClass;
     }
     this.svgElem.setAttribute("class", kls.trim() );
-    
-    
-//    if (!ABCXJS.misc.isIE()) {
-//        for (var i = 0; i < this.elemset.length; i++) {
-//            if (this.elemset[i][0].setAttribute) {
-//                var kls = this.elemset[i][0].getAttribute("class");
-//                if (!kls)
-//                    kls = "";
-//                kls = kls.replace(removeClass, "");
-//                kls = kls.replace(addClass, "");
-//                if (addClass.length > 0) {
-//                    if (kls.length > 0 && kls.charAt(kls.length - 1) !== ' ')
-//                        kls += " ";
-//                    kls += addClass;
-//                }
-//                this.elemset[i][0].setAttribute("class", kls);
-//            }
-//        }
-//    }
 };
 
 ABCXJS.write.AbsoluteElement.prototype.highlight = function() {
-    //this.svgElem.style.fill= ABCXJS.write.highLightColor;
-    //this.setClass("selected", "", ABCXJS.write.highLightColor );
-    this.svgElem.style.setProperty( '--fill-color', ABCXJS.write.highLightColor );
+    if(ABCXJS.misc.isIE() || ABCXJS.misc.isChromium() ) 
+        this.setClass("selected", "" );
+    else
+        this.svgElem.style.setProperty( '--fill-color', ABCXJS.write.highLightColor );
 
 };
 
 ABCXJS.write.AbsoluteElement.prototype.unhighlight = function() {
-    //this.svgElem.style.fill= 'black';
-    //this.setClass("", "selected", "black");
-    this.svgElem.style.setProperty( '--fill-color', ABCXJS.write.unhighLightColor );
-    //this.svgElem.style.setProperty( '--fill-color', 'black' );
+    if(ABCXJS.misc.isIE() || ABCXJS.misc.isChromium() ) 
+        this.setClass("", "selected");
+    else
+        this.svgElem.style.setProperty( '--fill-color', ABCXJS.write.unhighLightColor );
 };
 
 ABCXJS.write.RelativeElement = function(c, dx, w, pitch, opt) {
@@ -8606,7 +8598,8 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
     \n\
     .abc_tabtext3 {\n\
         font-size: 10px;\n\
-    }   ';
+    }\n\
+    .selected { fill:red; }\n';
     
     ABCXJS.write.unhighLightColor = options.color;
     
@@ -8661,7 +8654,7 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
 
     if (composerLine.length > 0) {
         var n = composerLine.split('\n').length;
-        var dy = (n>1?(n>2?0:15):30);
+        var dy = (n>1?(n>2?0:5):30);
         this.paper.text(this.width, dy, composerLine, 'abc_author', 'end' );
     } 
     
@@ -8770,16 +8763,20 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
             }
         }
     }
-
     
+    if ( !ABCXJS.misc.isChrome() ) {
+        this.paper.topDiv.parentNode.style.width = "" +  (this.maxwidth + this.paddingright) + "px";
+    };
+    
+
 //    // Correct for IE problem in calculating height
 //    if (ABCXJS.misc.isIE()) {
-//        this.paper.canvas.parentNode.style.width = "" +  sizetoset.w + "px";
-//        this.paper.canvas.parentNode.style.height = "" + sizetoset.h + "px";
+//        this.paper.topDiv.parentNode.style.width = "" +  sizetoset.w + "px";
+//        this.paper.topDiv.parentNode.style.height = "" + sizetoset.h + "px";
 //    } else {
-//        this.paper.canvas.parentNode.setAttribute("style", "width:" + sizetoset.w + "px"); 
-//       // this.paper.canvas.parentNode.setAttribute("style", "height:" + sizetoset.h + "px");
-//       // this.paper.canvas.setAttribute("style", "background-color: #ffe"); 
+//        this.paper.topDiv.parentNode.setAttribute("style", "width:" + sizetoset.w + "px"); 
+//       // this.paper.topDiv.parentNode.setAttribute("style", "height:" + sizetoset.h + "px");
+//       // this.paper.topDiv.setAttribute("style", "background-color: #ffe"); 
 //    }
 
 };
@@ -10124,7 +10121,7 @@ ABCXJS.midi.Player.prototype.executa = function(pl) {
     var loudness = 256;
     var delay = 0;
 
-    try {
+    //try {
         if( pl.start ) {
             
             pl.item.pitches.forEach( function( elem ) {
@@ -10144,7 +10141,7 @@ ABCXJS.midi.Player.prototype.executa = function(pl) {
                     }
                 }
                 
-                if(elem.button && elem.button.button) {
+                if(elem.button && elem.button.button && elem.button.button.SVG && elem.button.button.SVG.button !==null) {
                     if(elem.button.closing) {
                         elem.button.button.setClose(delay);
                     }else{
@@ -10181,11 +10178,11 @@ ABCXJS.midi.Player.prototype.executa = function(pl) {
                 self.highlight(elem.abcelem.parent, false, delay);
             });
         }
-    } catch( err ) {
-        this.onError = { erro: err.message, idx: this.i, item: pl };
-        console.log ('PlayList['+this.onError.idx+'] - Erro: ' + this.onError.erro + '.');
-        this.addWarning( 'PlayList['+this.onError.idx+'] - Erro: ' + this.onError.erro + '.' );
-    }
+    //} catch( err ) {
+    //    this.onError = { erro: err.message, idx: this.i, item: pl };
+    //    console.log ('PlayList['+this.onError.idx+'] - Erro: ' + this.onError.erro + '.');
+    //    this.addWarning( 'PlayList['+this.onError.idx+'] - Erro: ' + this.onError.erro + '.' );
+    //}
 };
 
 ABCXJS.midi.Player.prototype.calcTempo = function( val ) {
@@ -10422,406 +10419,6 @@ ABCXJS.tablature.Accordion.prototype.updateEditor = function () {
     }
     this.tabLines = [];
     return ret;
-};
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * TODO:
- * - Verificar porque no caso de slur a ordem dos elementos não está sendo respeitada
-*/
-
-/*
- 
-            Definição da sintaxe para tablatura
-        
-           " |: G+5'2g-6>-5 | G-3'2d-5d-[678]1/2 | G+5d-5d-> | G-xd-5d-6 | +{786'}2 | +11/2 | c+ac+b |"
-        
-           Linha de tablatura ::= { <comentario> | <barra> | <coluna> }*
-        
-           comentario := "%[texto]"
-
-           barra ::=  "|", "||", ":|", "|:", ":|:", ":||:", "::", ":||", ":||", "[|", "|]", "|[|", "|]|" [endings]
-        
-           coluna ::=  ["("<triplet>][<bassNote>]<bellows><note>[<duration>] [")"] 
-        
-           bassNote ::=  { "abcdefgABCDEFG>xz" }*
-          
-           bellows ::= "-"|"+" 
-        
-           note ::= <button>[<row>] | chord 
-        
-           chord ::= "[" {<button>[<row>]}* "]" 
-        
-           button ::=  {hexDigit} | "x" | "z" | ">"
-        
-           row ::= { "'" }*
-
-           duration ::=  number|fracao 
-
- */
-
-if (!window.ABCXJS)
-	window.ABCXJS = {};
-
-if (!window.ABCXJS.tablature)
-	window.ABCXJS.tablature = {};
-
-ABCXJS.tablature.Parse = function( str, vars ) {
-    this.invalid = false;
-    this.finished = false;
-    this.line = str;
-    this.vars = vars || {} ;
-    this.bassNoteSyms = "abcdefgABCDEFG>xz";
-    this.trebNoteSyms = "0123456789abcdefABCDEF>xz";
-    this.durSyms = "0123456789/.";
-    this.belSyms = "+-";
-    this.barSyms = ":]|[";
-    this.accSyms = "♭♯";
-    this.i = 0;
-    this.xi = 0;
-    this.offset = 8.9;
-    
-    this.warn = function(str) {
-        var bad_char = this.line.charAt(this.i);
-        if (bad_char === ' ')
-            bad_char = "SPACE";
-        var clean_line = this.encode(this.line.substring(0, this.i)) +
-                '<span style="text-decoration:underline;font-size:1.3em;font-weight:bold;">' + bad_char + '</span>' +
-                this.encode(this.line.substring(this.i + 1));
-        this.addWarning("Music Line:" + /*line*/ 0 + ":" + /*column*/(this.i + 1) + ': ' + str + ": " + clean_line);
-    };
-    
-    this.addWarning = function(str) {
-        if (!this.vars.warnings) this.vars.warnings = [];
-        this.vars.warnings.push(str);
-    };
-
-    this.encode = function(str) {
-        var ret = window.ABCXJS.parse.gsub(str, '\x12', ' ');
-        ret = window.ABCXJS.parse.gsub(ret, '&', '&amp;');
-        ret = window.ABCXJS.parse.gsub(ret, '<', '&lt;');
-        return window.ABCXJS.parse.gsub(ret, '>', '&gt;');
-    };
-
-};
-
-ABCXJS.tablature.Parse.prototype.parseTabVoice = function( ) {
-    var voice  = [];
-    this.i = 0;
-    var token = { el_type: "unrecognized" };
-    
-    while (this.i < this.line.length && !this.finished) {
-        token = this.getToken();
-        switch (token.el_type) {
-            case "bar":
-                token.startChar = this.xi;
-                token.endChar = this.i;
-                if( ! this.invalid )
-                  voice[voice.length] = token;
-                break;
-            case "note":
-                if( ! this.invalid )
-                  voice[voice.length] = this.formatChild(token);
-                break;
-            case "comment":
-            case "unrecognized":
-            default:
-                break;
-        }
-    }
-    return voice;
-};
-
-ABCXJS.tablature.Parse.prototype.formatChild = function(token) {
-  var child = {
-        el_type: token.el_type 
-        ,startChar:this.xi 
-        ,endChar:this.i
-        ,pitches: []
-        ,duration: token.duration * this.vars.default_length
-        ,bellows: token.bellows
-  };
-  
-  var pitchBase = 18;
-  var tt = "tabText";
-  
-  if(token.bassNote.length>1) {
-     pitchBase = 21.3;
-     tt = "tabText2";
-  }
-  for( var b = 0; b < token.bassNote.length; ++ b ) {
-    if(token.bassNote[b] === "z")
-      child.pitches[b] = { bass:true, type: "rest", c: '', pitch: 0.7 + pitchBase - (b*3)};
-    else
-      child.pitches[b] = { bass:true, type: tt, c: this.getTabSymbol(token.bassNote[b]), pitch: pitchBase -(b*3) - 0.5};
-  }
-
-  var qtd = token.buttons.length;
-  
-  for(var i = 0; i < token.buttons.length; i ++ ) {
-    var n = child.pitches.length;
-    if(token.buttons[i] === "z")
-      child.pitches[n] = { c: "", type: "rest", pitch: token.bellows === "+"? 13.2 : 13.2-this.offset };
-    else {
-      var offset = (qtd>=3?-(this.offset-(2.8*(qtd-2))):-this.offset);
-      var p = (qtd === 1 ? 11.7 : 13.4 - ( i * 2.8)) + (token.bellows === "+"? 0 : offset);
-      child.pitches[n] = { c: this.getTabSymbol(token.buttons[i]), type: "tabText"+(qtd>1?"2":""), pitch: p };
-    } 
-    
-  }
-  
-  if( token.startTriplet) {
-      child.startTriplet = token.startTriplet;
-  }
-  
-  if( token.endTriplet) {
-      child.endTriplet = token.endTriplet;
-  }
-  
-  return child;
-};
-
-ABCXJS.tablature.Parse.prototype.getTabSymbol = function(text) {
-    switch(text) {
-        case '>': return '-->';
-        default: return text;
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getToken = function() {
-    this.invalid = false;
-    this.parseMultiCharToken( ' \t' );
-    this.xi = this.i;
-    switch(this.line.charAt(this.i)) {
-        case '%':
-          this.finished = true;  
-          return { el_type:"comment",  token: this.line.substr( this.i+1 ) };
-        case '|':
-        case ':':
-          return this.getBarLine();
-          
-        case '[': // se o proximo caracter não for um pipe, deve ser tratado como uma coluna de notas
-          if( this.line.charAt(this.i+1) === '|' ) {
-            return this.getBarLine();
-          }
-        default:    
-          return this.getColumn();
-    }
-   
-};
-
-ABCXJS.tablature.Parse.prototype.parseMultiCharToken = function( syms ) {
-    while (this.i < this.line.length && syms.indexOf(this.line.charAt(this.i)) >= 0) {
-        this.i++;
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getBarLine = function() {
-  var endings  =   '1234567890,'; // due syntax conflict I will not consider the  dash '-'.
-  var validBars = { 
-        "|"   : "bar_thin"
-      , "||"  : "bar_thin_thin"
-      , "[|"  : "bar_thick_thin"
-      , "|]"  : "bar_thin_thick"
-      , ":|:" : "bar_dbl_repeat"
-      , ":||:": "bar_dbl_repeat"
-      , "::"  : "bar_dbl_repeat" 
-      , "|:"  : "bar_left_repeat"
-      , "||:" : "bar_left_repeat"
-      , "[|:" : "bar_left_repeat"
-      , ":|"  : "bar_right_repeat"
-      , ":||" : "bar_right_repeat"
-      , ":|]" : "bar_right_repeat"
-  };
-  
-  if(this.triplet) {
-    this.triplet = false;
-    this.warn( "Expected triplet end but found " + this.line.charAt(this.i) );
-  }
-
-  var token = { el_type:"bar", type:"bar", token: undefined };
-  var p = this.i;
-  
-  this.parseMultiCharToken(this.barSyms);
-  
-  token.token = this.line.substr( p, this.i-p );
-  this.finished =  this.i >= this.line.length;
-  
-  // validar o tipo de barra
-  token.type = validBars[token.token];
-  this.invalid = !token.type;
-
-  if(! this.invalid) {
-    this.parseMultiCharToken( ' \t' );
-    if (this.vars.inEnding ) {
-            token.endDrawEnding = true;
-            if( token.type !== 'bar_thin') {
-                token.endEnding = true;
-                this.vars.inEnding = false;
-            }    
-    }
-    if(endings.indexOf(this.line.charAt(this.i))>=0) {
-        token.startEnding = this.line.charAt(this.i);
-        if (this.vars.inEnding) {
-            token.endDrawEnding = true;
-            token.endEnding = true;
-        }    
-        this.vars.inEnding = true;
-        this.i++;
-    }
-  }
-  return token;
-};
-
-ABCXJS.tablature.Parse.prototype.getColumn = function() {
-    var token = {el_type: "note", type: "note", bassNote: undefined, bellows: "", buttons: [], duration: 1};
-    token.bassNote = [];
-    
-    if(this.line.charAt(this.i) === "(") {
-        token.startTriplet = this.getTripletDef();
-        this.triplet = true;
-    }
-    
-    while (this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-      token.bassNote[token.bassNote.length] = this.getBassNote();
-    }
-    
-    token.bellows = this.getBelows();
-    token.buttons = this.getNote();
-    token.duration = this.getDuration();
-    
-    if( this.isTripletEnd() ) {
-        token.endTriplet = true;
-    }
-    
-    this.finished = this.i >= this.line.length;
-    return token;
-
-};
-
-ABCXJS.tablature.Parse.prototype.getTripletDef = function() {
-    this.i++;
-    this.parseMultiCharToken( ' \t' );
-    var t =  this.line.charAt(this.i); //espero um único número como indicador de triplet
-    this.i++;
-    this.parseMultiCharToken( ' \t' );
-    return t;    
-};
-
-ABCXJS.tablature.Parse.prototype.isTripletEnd = function() {
-    this.parseMultiCharToken( ' \t' );
-    if( this.line.charAt(this.i) === ')' ) {
-        this.i++;
-        this.triplet = false;
-        return true;
-    } 
-    
-    return false;
-};
-
-
-ABCXJS.tablature.Parse.prototype.getBassNote = function() {
-  var note = "";
-  if( this.bassNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-    this.warn( "Expected Bass Note but found " + this.line.charAt(this.i) );
-    this.i++;
-  } else {
-    note = this.line.charAt(this.i);
-    this.i++;
-    if( this.accSyms.indexOf(this.line.charAt(this.i)) >= 0 ) {
-      note += this.line.charAt(this.i);
-      this.i++;
-    }
-  }
-  return note;
-};
-
-ABCXJS.tablature.Parse.prototype.getDuration = function() {
-    var dur = 1;
-    var p = this.i;
-
-    this.parseMultiCharToken(this.durSyms);
-    
-    if (p !== this.i) {
-        dur = this.line.substr(p, this.i - p);
-        if (isNaN(eval(dur))) {
-          this.warn( "Expected numeric or fractional note duration, but found " + dur);
-        } else {
-            dur = eval(dur);
-        }
-    }
-    return dur;
-};
-
-ABCXJS.tablature.Parse.prototype.getBelows = function() {
-    if(this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-       this.warn( "Expected belows information, but found " + this.line.charAt(this.i) );
-       this.invalid = true;
-       return '+';
-    } else {
-        this.i++;
-        return this.line.charAt(this.i-1);
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getNote = function() {
-  var b = [];
-  switch( this.line.charAt(this.i) ) {
-      case '[':
-         this.i++;
-         b = this.getChord();
-         break;
-      default: 
-         b[b.length] = this.getButton();
-  }
-  return b;
-};
-
-ABCXJS.tablature.Parse.prototype.getChord = function( token ) {
-    var b = [];
-    while (this.i < this.line.length && this.line.charAt(this.i) !== ']' ) {
-        b[b.length] = this.getButton();
-    }
-    if( this.line.charAt(this.i) !== ']' ) {
-       this.warn( "Expected end of chord - ']'");
-       this.invalid = true;
-    } else {
-        this.i++;
-    }
-    return b;
-};
-
-ABCXJS.tablature.Parse.prototype.getButton = function() {
-    var c = "x";
-    var row = "";
-    
-    if(this.trebNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-       this.warn( "Expected button number, but found " + this.line.charAt(this.i));
-    } else {
-        c = this.line.charAt(this.i);
-        switch(c) {
-            case '>':
-            case 'x':
-            case 'z':
-               break;
-            default:   
-                c = isNaN(parseInt(c, 16))? 'x': parseInt(c, 16).toString();
-        }
-    }
-    this.i++;
-    
-    var p = this.i;
-
-    this.parseMultiCharToken("'");
-    
-    if (p !== this.i) 
-        row = this.line.substr(p, this.i - p);
-        
-    return c + row;
 };
 /* 
  * To change this license header, choose License Headers in Project Properties.
@@ -11640,6 +11237,494 @@ ABCXJS.tablature.Layout.prototype.printBarLine = function (elem) {
  * and open the template in the editor.
  */
 
+/*
+ * TODO:
+ * - Verificar porque no caso de slur a ordem dos elementos não está sendo respeitada
+*/
+
+/*
+ 
+            Definição da sintaxe para tablatura
+        
+           " |: G+5'2g-6>-5 | G-3'2d-5d-[678]1/2 | G+5d-5d-> | G-xd-5d-6 | +{786'}2 | +11/2 | c+ac+b |"
+        
+           Linha de tablatura ::= { <comentario> | <barra> | <coluna> }*
+        
+           comentario := "%[texto]"
+
+           barra ::=  "|", "||", ":|", "|:", ":|:", ":||:", "::", ":||", ":||", "[|", "|]", "|[|", "|]|" [endings]
+        
+           coluna ::=  ["("<triplet>][<bassNote>]<bellows><note>[<duration>] [")"] 
+        
+           bassNote ::=  { "abcdefgABCDEFG>xz" }*
+          
+           bellows ::= "-"|"+" 
+        
+           note ::= <button>[<row>] | chord 
+        
+           chord ::= "[" {<button>[<row>]}* "]" 
+        
+           button ::=  {hexDigit} | "x" | "z" | ">"
+        
+           row ::= { "'" }*
+
+           duration ::=  number|fracao 
+
+ */
+
+if (!window.ABCXJS)
+	window.ABCXJS = {};
+
+if (!window.ABCXJS.tablature)
+	window.ABCXJS.tablature = {};
+
+ABCXJS.tablature.Parse = function( str, vars ) {
+    this.invalid = false;
+    this.finished = false;
+    this.line = str;
+    this.vars = vars || {} ;
+    this.bassNoteSyms = "abcdefgABCDEFG>xz";
+    this.trebNoteSyms = "0123456789abcdefABCDEF>xz";
+    this.durSyms = "0123456789/.";
+    this.belSyms = "+-";
+    this.barSyms = ":]|[";
+    this.accSyms = "♭♯";
+    this.i = 0;
+    this.xi = 0;
+    this.offset = 8.9;
+    
+    this.warn = function(str) {
+        var bad_char = this.line.charAt(this.i);
+        if (bad_char === ' ')
+            bad_char = "SPACE";
+        var clean_line = this.encode(this.line.substring(0, this.i)) +
+                '<span style="text-decoration:underline;font-size:1.3em;font-weight:bold;">' + bad_char + '</span>' +
+                this.encode(this.line.substring(this.i + 1));
+        this.addWarning("Music Line:" + /*line*/ 0 + ":" + /*column*/(this.i + 1) + ': ' + str + ": " + clean_line);
+    };
+    
+    this.addWarning = function(str) {
+        if (!this.vars.warnings) this.vars.warnings = [];
+        this.vars.warnings.push(str);
+    };
+
+    this.encode = function(str) {
+        var ret = window.ABCXJS.parse.gsub(str, '\x12', ' ');
+        ret = window.ABCXJS.parse.gsub(ret, '&', '&amp;');
+        ret = window.ABCXJS.parse.gsub(ret, '<', '&lt;');
+        return window.ABCXJS.parse.gsub(ret, '>', '&gt;');
+    };
+
+};
+
+ABCXJS.tablature.Parse.prototype.parseTabVoice = function( ) {
+    var voice  = [];
+    this.i = 0;
+    var token = { el_type: "unrecognized" };
+    
+    while (this.i < this.line.length && !this.finished) {
+        token = this.getToken();
+        switch (token.el_type) {
+            case "bar":
+                token.startChar = this.xi;
+                token.endChar = this.i;
+                if( ! this.invalid )
+                  voice[voice.length] = token;
+                break;
+            case "note":
+                if( ! this.invalid )
+                  voice[voice.length] = this.formatChild(token);
+                break;
+            case "comment":
+            case "unrecognized":
+            default:
+                break;
+        }
+    }
+    return voice;
+};
+
+ABCXJS.tablature.Parse.prototype.formatChild = function(token) {
+  var child = {
+        el_type: token.el_type 
+        ,startChar:this.xi 
+        ,endChar:this.i
+        ,pitches: []
+        ,duration: token.duration * this.vars.default_length
+        ,bellows: token.bellows
+  };
+  
+  var pitchBase = 18;
+  var tt = "tabText";
+  
+  if(token.bassNote.length>1) {
+     pitchBase = 21.3;
+     tt = "tabText2";
+  }
+  for( var b = 0; b < token.bassNote.length; ++ b ) {
+    if(token.bassNote[b] === "z")
+      child.pitches[b] = { bass:true, type: "rest", c: '', pitch: 0.7 + pitchBase - (b*3)};
+    else
+      child.pitches[b] = { bass:true, type: tt, c: this.getTabSymbol(token.bassNote[b]), pitch: pitchBase -(b*3) - 0.5};
+  }
+
+  var qtd = token.buttons.length;
+  
+  for(var i = 0; i < token.buttons.length; i ++ ) {
+    var n = child.pitches.length;
+    if(token.buttons[i] === "z")
+      child.pitches[n] = { c: "", type: "rest", pitch: token.bellows === "+"? 13.2 : 13.2-this.offset };
+    else {
+      var offset = (qtd>=3?-(this.offset-(2.8*(qtd-2))):-this.offset);
+      var p = (qtd === 1 ? 11.7 : 13.4 - ( i * 2.8)) + (token.bellows === "+"? 0 : offset);
+      child.pitches[n] = { c: this.getTabSymbol(token.buttons[i]), type: "tabText"+(qtd>1?"2":""), pitch: p };
+    } 
+    
+  }
+  
+  if( token.startTriplet) {
+      child.startTriplet = token.startTriplet;
+  }
+  
+  if( token.endTriplet) {
+      child.endTriplet = token.endTriplet;
+  }
+  
+  return child;
+};
+
+ABCXJS.tablature.Parse.prototype.getTabSymbol = function(text) {
+    switch(text) {
+        case '>': return '-->';
+        default: return text;
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getToken = function() {
+    this.invalid = false;
+    this.parseMultiCharToken( ' \t' );
+    this.xi = this.i;
+    switch(this.line.charAt(this.i)) {
+        case '%':
+          this.finished = true;  
+          return { el_type:"comment",  token: this.line.substr( this.i+1 ) };
+        case '|':
+        case ':':
+          return this.getBarLine();
+          
+        case '[': // se o proximo caracter não for um pipe, deve ser tratado como uma coluna de notas
+          if( this.line.charAt(this.i+1) === '|' ) {
+            return this.getBarLine();
+          }
+        default:    
+          return this.getColumn();
+    }
+   
+};
+
+ABCXJS.tablature.Parse.prototype.parseMultiCharToken = function( syms ) {
+    while (this.i < this.line.length && syms.indexOf(this.line.charAt(this.i)) >= 0) {
+        this.i++;
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getBarLine = function() {
+  var endings  =   '1234567890,'; // due syntax conflict I will not consider the  dash '-'.
+  var validBars = { 
+        "|"   : "bar_thin"
+      , "||"  : "bar_thin_thin"
+      , "[|"  : "bar_thick_thin"
+      , "|]"  : "bar_thin_thick"
+      , ":|:" : "bar_dbl_repeat"
+      , ":||:": "bar_dbl_repeat"
+      , "::"  : "bar_dbl_repeat" 
+      , "|:"  : "bar_left_repeat"
+      , "||:" : "bar_left_repeat"
+      , "[|:" : "bar_left_repeat"
+      , ":|"  : "bar_right_repeat"
+      , ":||" : "bar_right_repeat"
+      , ":|]" : "bar_right_repeat"
+  };
+  
+  if(this.triplet) {
+    this.triplet = false;
+    this.warn( "Expected triplet end but found " + this.line.charAt(this.i) );
+  }
+
+  var token = { el_type:"bar", type:"bar", token: undefined };
+  var p = this.i;
+  
+  this.parseMultiCharToken(this.barSyms);
+  
+  token.token = this.line.substr( p, this.i-p );
+  this.finished =  this.i >= this.line.length;
+  
+  // validar o tipo de barra
+  token.type = validBars[token.token];
+  this.invalid = !token.type;
+
+  if(! this.invalid) {
+    this.parseMultiCharToken( ' \t' );
+    if (this.vars.inEnding ) {
+            token.endDrawEnding = true;
+            if( token.type !== 'bar_thin') {
+                token.endEnding = true;
+                this.vars.inEnding = false;
+            }    
+    }
+    if(endings.indexOf(this.line.charAt(this.i))>=0) {
+        token.startEnding = this.line.charAt(this.i);
+        if (this.vars.inEnding) {
+            token.endDrawEnding = true;
+            token.endEnding = true;
+        }    
+        this.vars.inEnding = true;
+        this.i++;
+    }
+  }
+  return token;
+};
+
+ABCXJS.tablature.Parse.prototype.getColumn = function() {
+    var token = {el_type: "note", type: "note", bassNote: undefined, bellows: "", buttons: [], duration: 1};
+    token.bassNote = [];
+    
+    if(this.line.charAt(this.i) === "(") {
+        token.startTriplet = this.getTripletDef();
+        this.triplet = true;
+    }
+    
+    while (this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+      token.bassNote[token.bassNote.length] = this.getBassNote();
+    }
+    
+    token.bellows = this.getBelows();
+    token.buttons = this.getNote();
+    token.duration = this.getDuration();
+    
+    if( this.isTripletEnd() ) {
+        token.endTriplet = true;
+    }
+    
+    this.finished = this.i >= this.line.length;
+    return token;
+
+};
+
+ABCXJS.tablature.Parse.prototype.getTripletDef = function() {
+    this.i++;
+    this.parseMultiCharToken( ' \t' );
+    var t =  this.line.charAt(this.i); //espero um único número como indicador de triplet
+    this.i++;
+    this.parseMultiCharToken( ' \t' );
+    return t;    
+};
+
+ABCXJS.tablature.Parse.prototype.isTripletEnd = function() {
+    this.parseMultiCharToken( ' \t' );
+    if( this.line.charAt(this.i) === ')' ) {
+        this.i++;
+        this.triplet = false;
+        return true;
+    } 
+    
+    return false;
+};
+
+
+ABCXJS.tablature.Parse.prototype.getBassNote = function() {
+  var note = "";
+  if( this.bassNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+    this.warn( "Expected Bass Note but found " + this.line.charAt(this.i) );
+    this.i++;
+  } else {
+    note = this.line.charAt(this.i);
+    this.i++;
+    if( this.accSyms.indexOf(this.line.charAt(this.i)) >= 0 ) {
+      note += this.line.charAt(this.i);
+      this.i++;
+    }
+  }
+  return note;
+};
+
+ABCXJS.tablature.Parse.prototype.getDuration = function() {
+    var dur = 1;
+    var p = this.i;
+
+    this.parseMultiCharToken(this.durSyms);
+    
+    if (p !== this.i) {
+        dur = this.line.substr(p, this.i - p);
+        if (isNaN(eval(dur))) {
+          this.warn( "Expected numeric or fractional note duration, but found " + dur);
+        } else {
+            dur = eval(dur);
+        }
+    }
+    return dur;
+};
+
+ABCXJS.tablature.Parse.prototype.getBelows = function() {
+    if(this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+       this.warn( "Expected belows information, but found " + this.line.charAt(this.i) );
+       this.invalid = true;
+       return '+';
+    } else {
+        this.i++;
+        return this.line.charAt(this.i-1);
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getNote = function() {
+  var b = [];
+  switch( this.line.charAt(this.i) ) {
+      case '[':
+         this.i++;
+         b = this.getChord();
+         break;
+      default: 
+         b[b.length] = this.getButton();
+  }
+  return b;
+};
+
+ABCXJS.tablature.Parse.prototype.getChord = function( token ) {
+    var b = [];
+    while (this.i < this.line.length && this.line.charAt(this.i) !== ']' ) {
+        b[b.length] = this.getButton();
+    }
+    if( this.line.charAt(this.i) !== ']' ) {
+       this.warn( "Expected end of chord - ']'");
+       this.invalid = true;
+    } else {
+        this.i++;
+    }
+    return b;
+};
+
+ABCXJS.tablature.Parse.prototype.getButton = function() {
+    var c = "x";
+    var row = "";
+    
+    if(this.trebNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+       this.warn( "Expected button number, but found " + this.line.charAt(this.i));
+    } else {
+        c = this.line.charAt(this.i);
+        switch(c) {
+            case '>':
+            case 'x':
+            case 'z':
+               break;
+            default:   
+                c = isNaN(parseInt(c, 16))? 'x': parseInt(c, 16).toString();
+        }
+    }
+    this.i++;
+    
+    var p = this.i;
+
+    this.parseMultiCharToken("'");
+    
+    if (p !== this.i) 
+        row = this.line.substr(p, this.i - p);
+        
+    return c + row;
+};
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+if (!window.SVG)
+    window.SVG = {};
+
+if (!window.SVG.Glyphs )
+    window.SVG.Glyphs = {};
+
+SVG.Glyphs = function () {
+    
+    var abc_glyphs = new ABCXJS.write.Glyphs();
+
+    var glyphs = { // the @@ will be replaced by the abc_glyph contents.
+       "1": '<path style="fill: var(--fill-color, black);" id="1" transform="scale(0.95)" \nd="@@"/>'
+      ,"2": '<path style="fill: var(--fill-color, black);" id="2" transform="scale(0.95)" \nd="@@"/>'
+      ,"3": '<path style="fill: var(--fill-color, black);" id="3" transform="scale(0.95)" \nd="@@"/>'
+      ,"4": '<path style="fill: var(--fill-color, black);" id="4" transform="scale(0.95)" \nd="@@"/>'
+      ,"5": '<path style="fill: var(--fill-color, black);" id="5" transform="scale(0.95)" \nd="@@"/>'
+      ,"6": '<path style="fill: var(--fill-color, black);" id="6" transform="scale(0.95)" \nd="@@"/>'
+      ,"7": '<path style="fill: var(--fill-color, black);" id="7" transform="scale(0.95)" \nd="@@"/>'
+      ,"8": '<path style="fill: var(--fill-color, black);" id="8" transform="scale(0.95)" \nd="@@"/>'
+      ,"9": '<path style="fill: var(--fill-color, black);" id="9" transform="scale(0.95)" \nd="@@"/>'
+      ,"clefs.G": '<path style="fill: var(--fill-color, black);" id="clefs.G" \nd="@@"/>'
+      ,"clefs.F": '<path style="fill: var(--fill-color, black);" id="clefs.F" \nd="@@"/>'
+      ,"clefs.C": '<path style="fill: var(--fill-color, black);" id="clefs.C" \nd="@@"/>'
+      ,"clefs.tab": '<path style="fill: var(--fill-color, black);" id="clefs.tab" class="abcr" transform="scale(0.9)" \nd="@@"/>'
+      ,"timesig.common": '<path style="fill: var(--fill-color, black);" id="timesig.common" \nd="@@"/>'
+      ,"dots.dot": '<path style="fill: var(--fill-color, black);" id="dots.dot" \nd="@@"/>'
+      ,"accidentals.nat": '<path style="fill: var(--fill-color, black);" id="accidentals.nat" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.sharp": '<path style="fill: var(--fill-color, black);" id="accidentals.sharp" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.flat": '<path style="fill: var(--fill-color, black);" id="accidentals.flat" transform="scale(0.8)" \nd="@@"/>'
+      ,"graceheads.quarter": '<g id="graceheads.quarter" transform="scale(0.6)" ><use xlink:href="#noteheads.quarter" /></g>'
+      ,"noteheads.quarter": '<path style="fill: var(--fill-color, black);" id="noteheads.quarter" \nd="@@"/>'
+      ,"noteheads.half": '<path style="fill: var(--fill-color, black);" id="noteheads.half" \nd="@@"/>'
+      ,"noteheads.whole": '<path style="fill: var(--fill-color, black);" id="noteheads.whole" \nd="@@"/>'
+      ,"notehesad.dbl": '<path style="fill: var(--fill-color, black);" id="noteheads.dbl" \nd="@@"/>'
+      ,"rests.quarter": '<path style="fill: var(--fill-color, black);" id="rests.quarter" \nd="@@"/>'
+      ,"rests.half": '<path style="fill: var(--fill-color, black);" id="rests.half" \nd="@@"/>'
+      ,"rests.whole": '<path style="fill: var(--fill-color, black);" id="rests.whole" \nd="@@"/>'
+      ,"rests.8th": '<path style="fill: var(--fill-color, black);" id="rests.8th" \nd="@@"/>'
+      ,"rests.16th": '<path style="fill: var(--fill-color, black);" id="rests.16th" \nd="@@"/>'
+      ,"rests.32nd": '<path style="fill: var(--fill-color, black);" id="rests.32nd" \nd="@@"/>'
+      ,"flags.d8th": '<path style="fill: var(--fill-color, black);" id="flags.d8th" \nd="@@"/>'
+      ,"flags.d32nd": '<path style="fill: var(--fill-color, black);" id="flags.d32nd" \nd="@@"/>'
+      ,"flags.u8th": '<path style="fill: var(--fill-color, black);" id="flags.u8th" \nd="@@"/>'
+      ,"flags.u16th": '<path style="fill: var(--fill-color, black);" id="flags.u16th" \nd="@@"/>'
+      ,"flags.u32nd": '<path style="fill: var(--fill-color, black);" id="flags.u32nd" \nd="@@"/>'
+      ,"graceflags.d8th": '<g id="graceflags.d8th" transform="scale(0.6)" ><use xlink:href="#flags.d8th" /></g>'
+      ,"graceflags.u8th": '<g id="graceflags.u8th" transform="scale(0.6)" ><use xlink:href="#flags.u8th" /></g>'
+      ,"scripts.segno": '<path style="fill: var(--fill-color, black);" id="scripts.segno" \nd="@@"/>'
+      ,"scripts.lbrace": '<path style="fill: var(--fill-color, black);" id="scripts.lbrace" \nd="@@"/>'
+      ,"button": '<symbol id="button" viewBox= "0 0 56 56">\n\
+    <circle cx="28" cy="28" r="26" style="fill: var(--fill-color, white); stroke=: var(--fill-color, white); stroke-width=0;" ></circle>\n\
+    <path d="M 2 34 a26 26 0 0 1 52 -12" style="fill: var(--close-color, none)" stroke="none" stroke-width="0"></path>\n\
+    <path d="M 54 22 a26 26 0 0 1 -52 12" style="fill: var(--open-color, none)" stroke-width="0"></path>\n\
+    <circle cx="28" cy="28" r="26" style="fill:none; stroke: var(--border-color, black ); stroke-width: var(--border-width, 1);" ></circle>\n\
+    <path d="m 2 34 l 52 -12" style="stroke: var(--border-color, black); stroke-width: var(--border-width, 1);" ></path>\n\</symbol>\n'
+    };
+    
+    this.getDefinition = function (gl) {
+        
+        
+        var g = glyphs[gl];
+        
+        if (!g) {
+            return "";
+        }
+        
+        // expande path se houver, buscando a definicao do original do ABCJS.
+        g = g.replace('@@', abc_glyphs.getTextSymbol(gl) );
+        
+        var i = 0, j = 0;
+
+        while (i>=0) {
+            i = g.indexOf('xlink:href="#', j );
+            if (i < 0) continue;
+            i += 13;
+            j = g.indexOf('"', i);
+            g += this.getDefinition(g.slice(i, j));
+        }
+
+        return '\n' +  g;
+    };
+};
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 /* 
     Created on : 27/04/2016, 10:55:16
     Author     : flavio.vani@gmail.com
@@ -11811,12 +11896,21 @@ SVG.Printer.prototype.setDefine = function (s) {
 };
 
 SVG.Printer.prototype.printLine = function (x,y,dx,dy) {
-    var pathString = ABCXJS.write.sprintf('<path style="stroke: var(--fill-color, black); stroke-width: 0.6;" d="M %.2f %.2f L %.2f %.2f"/>\n', x, y, dx, dy);
+    if( x === dx ) {
+        dx = ABCXJS.misc.isIE() ? 1: 0.6;
+        dy -=  y;
+    }
+    if( y === dy ) {
+        dy = ABCXJS.misc.isIE() ? 1: 0.6;
+        dx -=  x;
+    }
+    var pathString = ABCXJS.write.sprintf('<rect style="fill: var(--fill-color, black);" x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', x, y, dx, dy);
+    //var pathString = ABCXJS.write.sprintf('<path style="stroke: var(--fill-color, black); stroke-width: 0.6px;" d="M %.2f %.2f L %.2f %.2f"/>\n', x, y, dx, dy);
     this.svg_pages[this.currentPage] += pathString;
 };
 
 SVG.Printer.prototype.printLedger = function (x,y,dx,dy) {
-    var pathString = ABCXJS.write.sprintf('<path style="fill:white; stroke: var(--fill-color, black); ; stroke-width:0.6; stroke-dasharray: 1 1; " d="M %.2f %.2f L %.2f %.2f"/>\n', x, y, dx, dy);
+    var pathString = ABCXJS.write.sprintf('<path style="stroke: var(--fill-color, black); fill: white; stroke-width:1; stroke-dasharray: 1 1; " d="M %.2f %.2f h%.2f"/>\n', x, y, dx-x);
     this.svg_pages[this.currentPage] += pathString;
 };
 
@@ -11894,16 +11988,47 @@ SVG.Printer.prototype.printTieArc = function (x1,y1,x2,y2,up) {
     
 SVG.Printer.prototype.printButton = function (id, x, y, radius, button_class) {
     
-    var scale = radius/26; // 26 é o raio inicial do botão
+    var scale = radius/28; // 26 é o raio inicial do botão
     var gid = 'p'+this.printerId+id;
-    
-    this.setDefine('button');
-    
-    var pathString = ABCXJS.write.sprintf( '<g class="%s" transform="translate(%.2f %.2f) scale(%.5f)">\n\
-    <use id="%s" x="0" y="0" width="52" height="52" xlink:href="#button" />\n\
-    <text id="%s_tc" x="26" y="20" >...</text>\n\
-    <text id="%s_to" x="26" y="42" >...</text>\n</g>\n', button_class, x, y, scale, gid, gid, gid );
-    
+    var bclose = 'nofill';
+    var bopen = 'nofill';
+    var bpedal='normal';
+ 
+    switch( button_class) {
+        case 'blegenda':
+            bclose = 'bclose';
+            bopen = 'bopen';
+            bpedal='pedal';
+            break;
+        case 'bpedal':
+            bpedal='pedal';
+            break;
+        default:
+    }
+
+    var pathString = ABCXJS.write.sprintf( '<g id="%s" transform="translate(%.2f %.2f) scale(%.5f)">\n\
+        <circle cx="28" cy="28" r="26" style="fill: white;" ></circle>\n\
+        <path id="%s_ac" class="%s" d="M 2 34 a26 26 0 0 1 52 -12"></path>\n\
+        <path id="%s_ao" class="%s" d="M 54 22 a26 26 0 0 1 -52 12"></path>\n\
+        <circle class="%s" cx="28" cy="28" r="26"></circle>\n\
+        <path class="%s" d="m 2 34 l 52 -12" ></path>\n\
+        <text id="%s_tc" class="%s" x="27" y="22" >...</text>\n\
+        <text id="%s_to" class="%s" x="27" y="44" >...</text>\n</g>\n',
+        gid, x, y, scale, gid, bclose,  gid, bopen, bpedal, bpedal, gid, button_class, gid, button_class );
+        
+    this.svg_pages[this.currentPage] += pathString;
+    return gid;
+
+    if(ABCXJS.misc.isIE() || ABCXJS.misc.isChromium() ) {
+    } else {
+   
+        this.setDefine('button');
+
+        var pathString = ABCXJS.write.sprintf( '<g class="%s" transform="translate(%.2f %.2f) scale(%.5f)">\n\
+        <use id="%s" x="0" y="0" width="52" height="52" xlink:href="#button" />\n\
+        <text id="%s_tc" x="26" y="20" >...</text>\n\
+        <text id="%s_to" x="26" y="42" >...</text>\n</g>\n', button_class, x, y, scale, gid, gid, gid );
+    }    
     this.svg_pages[this.currentPage] += pathString;
     return gid;
 };
@@ -11978,91 +12103,3 @@ SVG.Printer.prototype.text = function( x, y, str, clss, anch ) {
 //    this.svg_pages[this.currentPage] += pathString;
 //};
 //
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-if (!window.SVG)
-    window.SVG = {};
-
-if (!window.SVG.Glyphs )
-    window.SVG.Glyphs = {};
-
-SVG.Glyphs = function () {
-    
-    var abc_glyphs = new ABCXJS.write.Glyphs();
-
-    var glyphs = { // the @@ will be replaced by the abc_glyph contents.
-       "1": '<path style="fill: var(--fill-color, black);" id="1" transform="scale(0.95)" \nd="@@"/>'
-      ,"2": '<path style="fill: var(--fill-color, black);" id="2" transform="scale(0.95)" \nd="@@"/>'
-      ,"3": '<path style="fill: var(--fill-color, black);" id="3" transform="scale(0.95)" \nd="@@"/>'
-      ,"4": '<path style="fill: var(--fill-color, black);" id="4" transform="scale(0.95)" \nd="@@"/>'
-      ,"5": '<path style="fill: var(--fill-color, black);" id="5" transform="scale(0.95)" \nd="@@"/>'
-      ,"6": '<path style="fill: var(--fill-color, black);" id="6" transform="scale(0.95)" \nd="@@"/>'
-      ,"7": '<path style="fill: var(--fill-color, black);" id="7" transform="scale(0.95)" \nd="@@"/>'
-      ,"8": '<path style="fill: var(--fill-color, black);" id="8" transform="scale(0.95)" \nd="@@"/>'
-      ,"9": '<path style="fill: var(--fill-color, black);" id="9" transform="scale(0.95)" \nd="@@"/>'
-      ,"clefs.G": '<path style="fill: var(--fill-color, black);" id="clefs.G" \nd="@@"/>'
-      ,"clefs.F": '<path style="fill: var(--fill-color, black);" id="clefs.F" \nd="@@"/>'
-      ,"clefs.C": '<path style="fill: var(--fill-color, black);" id="clefs.C" \nd="@@"/>'
-      ,"clefs.tab": '<path style="fill: var(--fill-color, black);" id="clefs.tab" class="abcr" transform="scale(0.9)" \nd="@@"/>'
-      ,"timesig.common": '<path style="fill: var(--fill-color, black);" id="timesig.common" \nd="@@"/>'
-      ,"dots.dot": '<path style="fill: var(--fill-color, black);" id="dots.dot" \nd="@@"/>'
-      ,"accidentals.nat": '<path style="fill: var(--fill-color, black);" id="accidentals.nat" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.sharp": '<path style="fill: var(--fill-color, black);" id="accidentals.sharp" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.flat": '<path style="fill: var(--fill-color, black);" id="accidentals.flat" transform="scale(0.8)" \nd="@@"/>'
-      ,"graceheads.quarter": '<g id="graceheads.quarter" transform="scale(0.6)" ><use xlink:href="#noteheads.quarter" /></g>'
-      ,"noteheads.quarter": '<path style="fill: var(--fill-color, black);" id="noteheads.quarter" \nd="@@"/>'
-      ,"noteheads.half": '<path style="fill: var(--fill-color, black);" id="noteheads.half" \nd="@@"/>'
-      ,"noteheads.whole": '<path style="fill: var(--fill-color, black);" id="noteheads.whole" \nd="@@"/>'
-      ,"notehesad.dbl": '<path style="fill: var(--fill-color, black);" id="noteheads.dbl" \nd="@@"/>'
-      ,"rests.quarter": '<path style="fill: var(--fill-color, black);" id="rests.quarter" \nd="@@"/>'
-      ,"rests.half": '<path style="fill: var(--fill-color, black);" id="rests.half" \nd="@@"/>'
-      ,"rests.whole": '<path style="fill: var(--fill-color, black);" id="rests.whole" \nd="@@"/>'
-      ,"rests.8th": '<path style="fill: var(--fill-color, black);" id="rests.8th" \nd="@@"/>'
-      ,"rests.16th": '<path style="fill: var(--fill-color, black);" id="rests.16th" \nd="@@"/>'
-      ,"rests.32nd": '<path style="fill: var(--fill-color, black);" id="rests.32nd" \nd="@@"/>'
-      ,"flags.d8th": '<path style="fill: var(--fill-color, black);" id="flags.d8th" \nd="@@"/>'
-      ,"flags.d32nd": '<path style="fill: var(--fill-color, black);" id="flags.d32nd" \nd="@@"/>'
-      ,"flags.u8th": '<path style="fill: var(--fill-color, black);" id="flags.u8th" \nd="@@"/>'
-      ,"flags.u16th": '<path style="fill: var(--fill-color, black);" id="flags.u16th" \nd="@@"/>'
-      ,"flags.u32nd": '<path style="fill: var(--fill-color, black);" id="flags.u32nd" \nd="@@"/>'
-      ,"graceflags.d8th": '<g id="graceflags.d8th" transform="scale(0.6)" ><use xlink:href="#flags.d8th" /></g>'
-      ,"graceflags.u8th": '<g id="graceflags.u8th" transform="scale(0.6)" ><use xlink:href="#flags.u8th" /></g>'
-      ,"scripts.segno": '<path style="fill: var(--fill-color, black);" id="scripts.segno" \nd="@@"/>'
-      ,"scripts.lbrace": '<path style="fill: var(--fill-color, black);" id="scripts.lbrace" \nd="@@"/>'
-      ,"button": '<symbol id="button" viewBox= "0 0 56 56">\n\
-    <circle cx="28" cy="28" r="26" style="fill: var(--fill-color, white); stroke=: var(--fill-color, white); stroke-width=0;" ></circle>\n\
-    <path d="M 2 34 a26 26 0 0 1 52 -12" style="fill: var(--close-color, none)" stroke="none" stroke-width="0"></path>\n\
-    <path d="M 54 22 a26 26 0 0 1 -52 12" style="fill: var(--open-color, none)" stroke-width="0"></path>\n\
-    <circle cx="28" cy="28" r="26" style="fill:none; stroke: var(--border-color, black ); stroke-width: var(--border-width, 1);" ></circle>\n\
-    <path d="m 2 34 l 52 -12" style="stroke: var(--border-color, black); stroke-width: var(--border-width, 1);" ></path>\n\</symbol>\n'
-    };
-    
-    this.getDefinition = function (gl) {
-        
-        
-        var g = glyphs[gl];
-        
-        if (!g) {
-            return "";
-        }
-        
-        // expande path se houver, buscando a definicao do original do ABCJS.
-        g = g.replace('@@', abc_glyphs.getTextSymbol(gl) );
-        
-        var i = 0, j = 0;
-
-        while (i>=0) {
-            i = g.indexOf('xlink:href="#', j );
-            if (i < 0) continue;
-            i += 13;
-            j = g.indexOf('"', i);
-            g += this.getDefinition(g.slice(i, j));
-        }
-
-        return '\n' +  g;
-    };
-};
