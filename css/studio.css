@@ -80,7 +80,6 @@ and open the template in the editor.
     overflow-y: auto;
     margin: 0px;
     margin-left: 4px;
-    
 }
 
 #canvasDiv {
@@ -91,7 +90,6 @@ and open the template in the editor.
     box-shadow: 8px 8px 10px #444;
     background-color: #f1f1dd; 
     border-bottom-right-radius: 4px;
-    width: fit-content;
     min-width:1024px; 
     min-height: 390px;
 }

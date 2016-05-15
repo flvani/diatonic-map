@@ -383,6 +383,7 @@ notação abc, tablatura " />
         //<![CDATA[
             var vSite = getSITEversion();
             var producao = getABCXversion();
+            var debug=false;
             
             //var sourceScripts = [ {id:"abcxjs/abcxjs", version:producao}];
             
@@ -533,7 +534,7 @@ notação abc, tablatura " />
                       ,accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps
-                            ,render_keyboard_opts:{transpose:true, mirror: false, draggable:false, show:true, label:false, scale:1.08 }}
+                            ,render_keyboard_opts:{transpose:true, mirror: false, draggable:false, show:true, label:false, scale:1 }}
                   }
                   , {   // tabParams
                         songSelectorParms: { div: 'divSongs', ul: 'ulSongs', span: 'spanSongs' }

@@ -678,6 +678,7 @@ SITE.Estudio.prototype.resize = function( ) {
     var t = document.getElementById( 'textareaABC');
     t.style.width = parseInt(m.clientWidth) - 24 + "px";
     
+    var s = document.getElementById( 'studioDiv');
     var o = document.getElementById( 'studioContentDiv');
     
     o.style.height = (window.innerHeight -50 /*topdiv*/ - 17) + "px";
@@ -685,7 +686,7 @@ SITE.Estudio.prototype.resize = function( ) {
     var i = document.getElementById( 'studioCanvasDiv');
     
     i.style.height = (o.clientHeight - h.clientHeight - m.clientHeight - 2) + "px";
-    
+    i.style.width = s.style.width;
    // posiciona a janela de teclado
    this.posicionaTeclado();
    
