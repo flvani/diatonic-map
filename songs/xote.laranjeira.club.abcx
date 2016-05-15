@@ -20,8 +20,7 @@ V:2 clef=bass
 [V:1]| [CE]2 [CEG]2 z  GFE   |: DG,GG, FG,ED                | CG,GG, EG,FE             | DG,GG, FG,ED                |1 [C]2 [CEG]2 z  GFE    :|
 [V:2]| C,,2 [C,E,G,]2 C,, z3 |: G,,2 [G,B,D]2 G,,2 [G,B,D]2 | C,,2 [C,E,G,]2 C,,2 A,,2 | G,,2 [G,B,D]2 G,,2 [G,B,D]2 |1 C,,2 [C,E,G,]2 C,, z3 :|
 %%newpage
-P: Parte II
-[V:1]| C2 C2 z GA"C"B|: [ce]2[eg]2[eg]2[df]2 | [ce]2 [ce]2 z GAB | [ce]2[eg]2[eg]2[eg]2 |
+[V:1]| [P: Parte II] C2 C2 z GA"C"B|: [ce]2[eg]2[eg]2[df]2 | [ce]2 [ce]2 z GAB | [ce]2[eg]2[eg]2[eg]2 |
 w: * * Mas deixe estar que eu vou me~em-bo-ra, eu vou vol-tar pro meu rin-
 [V:2]| C,,2 [C,E,G,]2 C,, z3 |: C,,2 [C,E,G,]2 C,,2 [G,B,D]2 | C,,2 [C,E,G,]2 C,, z3 | C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 |
 [V:1]| "G7"[df]4  z GGA| [Bd]2 [Bd]2 "F"[Ac]2 [Ac]2 | "G7"[GB]2 [GB]2 "F"[FA]2 [FA]2 | "C"[EG]2 [EG]2 "G7"[DF]2 [DF]2 |1 "C"[CE]4 z  GAB  :|
@@ -31,8 +30,7 @@ w: cão. * Que~é pra co-mer chur-ras-co gor-do, to-mar ma-te, chi-mar- ~ ~ ~ ~
 [V:1]| [CE]4 z  GFE   |: DG,GG, FG,ED                | CG,GG, EG,FE             | DG,GG, FG,ED                |1 [C]2 [CEG]2 z  GFE    :|2 [C]2 [CEG]2 z2 z2      |
 w: rão.
 [V:2]| C,,2 [C,E,G,]2 C,, z3 |: G,,2 [G,B,D]2 G,,2 [G,B,D]2 | C,,2 [C,E,G,]2 C,,2 A,,2 | G,,2 [G,B,D]2 G,,2 [G,B,D]2 |1 C,,2 [C,E,G,]2 C,, z3 :|2 C,,2 [C,E,G,]2 C,,2 z2 | 
-V:Tab
-K:none accordionTab
+V:Tab accordionTab
 
 W: Mas deixe estar que eu vou me embora, eu vou me embora pra fronteira
 W: Que é pra comer churrasco gordo, tomar café de chaleira.

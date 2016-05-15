@@ -42,9 +42,18 @@ SITE.EditArea.prototype.addChangeListener = function (listener) {
     };
 };
 
-SITE.EditArea.prototype.setSelection = function (start, end) {
+SITE.EditArea.prototype.setSelection = function  (start, end, line) {
     this.textarea.setSelectionRange(start, end);
+    (line) && this.scrollTo(line);
     this.textarea.focus();
+};
+
+SITE.EditArea.prototype.scrollTo = function(line)
+{
+  line = line || 0;
+  var lineHeight = this.textarea.clientHeight / this.textarea.rows;
+  var jump = (line - 1) * lineHeight;
+  this.textarea.scrollTop = jump;
 };
 
 SITE.EditArea.prototype.getString = function() {
@@ -210,7 +219,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         that.showABCXText();
     }, false);
     
-    if( !isChrome ) {
+    if( !ABCXJS.misc.isChrome() ) {
         this.showEditorButton.style.pointerEvents = 'none';
         this.showEditorButton.style.color = 'gray';
     } else {
@@ -357,7 +366,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     if (editorParams.generate_midi) {
         
         this.playerCallBackOnScroll = function( player ) {
-            that.setScrolling(player.currAbsElem.y, player.currChannel );
+            that.setScrolling(player.currAbsElem.screenY, player.currChannel );
         };
 
         this.playerCallBackOnPlay = function( player ) {
@@ -669,14 +678,15 @@ SITE.Estudio.prototype.resize = function( ) {
     var t = document.getElementById( 'textareaABC');
     t.style.width = parseInt(m.clientWidth) - 24 + "px";
     
+    var s = document.getElementById( 'studioDiv');
     var o = document.getElementById( 'studioContentDiv');
     
-    o.style.height = (window.innerHeight -50 /*topdiv*/ - 20) + "px";
+    o.style.height = (window.innerHeight -50 /*topdiv*/ - 17) + "px";
 
     var i = document.getElementById( 'studioCanvasDiv');
     
-    i.style.height = (o.clientHeight - h.clientHeight - m.clientHeight - 10) + "px";
-    
+    i.style.height = (o.clientHeight - h.clientHeight - m.clientHeight - 2) + "px";
+    i.style.width = s.style.width;
    // posiciona a janela de teclado
    this.posicionaTeclado();
    
@@ -759,15 +769,15 @@ SITE.Estudio.prototype.parseABC = function(transpose) {
 
 SITE.Estudio.prototype.highlight = function(abcelem) {
     if(this.textVisible) {
-        this.editArea.setSelection(abcelem.startChar, abcelem.endChar);
+        this.editArea.setSelection(abcelem.startChar, abcelem.endChar, abcelem.line);
     }    
     if(this.mapVisible && !this.midiPlayer.playing) {
         this.accordion.clearKeyboard(true);
         if(abcelem.bellows)
             this.selectButton(abcelem);
     }    
-    if(isChrome && this.editorVisible) {
-        editAreaLoader.setSelectionRange("editorTextArea", abcelem.startChar, abcelem.endChar);
+    if(ABCXJS.misc.isChrome() && this.editorVisible) {
+        editAreaLoader.setSelectionRange("editorTextArea", abcelem.startChar, abcelem.endChar, abcelem.line);
     }    
 };
 
@@ -843,9 +853,10 @@ SITE.Estudio.prototype.modelChanged = function() {
         return;
     }
 
-    var paper = Raphael(this.renderedTune.div, 1100, 700);
+    var paper = new SVG.Printer( this.renderedTune.div );
     this.renderedTune.printer = new ABCXJS.write.Printer(paper, this.printerparams );
-    this.renderedTune.printer.printABC(this.renderedTune.abc);
+    //this.renderedTune.printer.printTune( this.renderedTune.abc, {color:'black', backgroundColor:'#ffd'} );
+    this.renderedTune.printer.printTune( this.renderedTune.abc ); 
     
     if (this.warningsdiv) {
         this.warningsdiv.style.color = this.warnings.length > 0 ? "red" : "green";

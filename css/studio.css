@@ -7,21 +7,15 @@ and open the template in the editor.
     Created on : 07/04/2015, 19:06:40
 */
 
-@page  {
-    margin:1cm;
-}
-
 .printPreviewClass {
     position:relative;
     display:none;
     top:0;
     left:0;
     margin: 0;
-    //margin-left: 0px;
     padding: 0;
-    width:1056px; 
+    width:fit-content; 
     z-index: 0;
-    //background-color: #ffc;
     background-color: #fff;
     float:left;
 }
@@ -83,11 +77,9 @@ and open the template in the editor.
 
 #studioCanvasDiv {
     position: relative;
-//    height: 422px;
     overflow-y: auto;
     margin: 0px;
     margin-left: 4px;
-    
 }
 
 #canvasDiv {
@@ -98,9 +90,8 @@ and open the template in the editor.
     box-shadow: 8px 8px 10px #444;
     background-color: #f1f1dd; 
     border-bottom-right-radius: 4px;
-    width:1100px; 
+    min-width:1024px; 
     min-height: 390px;
-//    height:390px;
 }
 
 #textareaABC {
@@ -113,6 +104,10 @@ and open the template in the editor.
     line-height: 14px;
     resize: none;
 }
+
+textarea::selection { background: #5151ff; color: aqua; } 
+textarea::-moz-selection { background:  #5151ff; color: aqua; } 
+textarea::-webkit-selection { background:  #5151ff; color: aqua; }
 
 #studioControlDiv {
     margin: 4px;
@@ -141,7 +136,6 @@ and open the template in the editor.
     -moz-box-shadow: 1px 1px 3px #000;
     -webkit-box-shadow: 1px 1px 3px #000;
     box-shadow: 1px 1px 3px #000;
-//    pointer-events: auto;
 }
 .close {
     position: absolute;
@@ -166,14 +160,12 @@ and open the template in the editor.
     display: none; 
     position: fixed;
     z-index: 400;
-//    pointer-events: none;
 }
 
 #editorTextArea {
     margin: 0px; 
     color: #000; 
     font-family: monospace;
-//    pointer-events: auto;
 }
     
 #keyboardDiv{
