@@ -48,9 +48,6 @@ notação abc, tablatura " />
         
         <link href="css/bootstrap.min.css" rel="stylesheet" />
         <link href="site_4.00-min.css" rel="stylesheet"/>
-        <!--link href="css/draggable.css" rel="stylesheet"/>
-        <link href="css/mapa.css" rel="stylesheet"/>
-        <link href="css/studio.css" rel="stylesheet"/-->
         <link rel="icon" type="image/icon" href="http://flvani.github.io/diatonic-map/img/favicon6.ico"/>
         
     </head>
@@ -59,7 +56,7 @@ notação abc, tablatura " />
             <div id="divTitulo" class="topMenuBar" >
                 <div style="margin-left: 4px;">
                     <table><tr>
-                        <td id="DR_appName" ><h1>Mapa&nbsp;para&nbsp;<span>Acordeons&nbsp;Diatônicos</span></h1></td>
+                        <td id="DR_appName" ><h1>Mapa&#160;para&#160;<span>Acordeons&#160;Diatônicos</span></h1></td>
                         <td style="width:20px;"></td>
                         <td>
                             <table style="height: 36px;">
@@ -121,15 +118,18 @@ notação abc, tablatura " />
             </div>
         </div> <!-- /navbar -->
         
-        <div id="mapContainerDiv" >
+        <div id="helpDiv" class="draggableWindow" style="left:200px; top:120px; min-width: 800px; min-height: 700px; width:1024px; height: auto; display:none; z-index:10001;"></div> 
+        
+        <div id="mapContainerDiv">
             
-            <div id="hintsDiv" class="draggableWindow" style="left:900px; top:80px; width:300px; height: auto; display:none; z-index:10000;"></div> 
+            <div id="hintsDiv" class="draggableWindow" style="left:800px; top:110px; width:300px; height: auto; display:none; z-index:10000;"></div> 
             <div id="releaseDiv" class="draggableWindow" style="left:400px; top:440px; min-width:300px; height: auto; display:none; z-index:10000;"></div> 
-            <div id="ADDiv" class="draggableWindow" style="left:250px; top:300px; width:400px; height: 265px; display:none; z-index:10000;"></div> 
-            <div id="useChromeDiv" style="position:absolute; left:925px; top:270px; width:150px; height: auto; display:none; z-index:10000;"></div> 
-            <div id="mediaDiv" class="draggableWindow" style="left:980px; top:160px; min-width: 300px; min-height: 167px; display:none; z-index:10000;"></div> 
+            <div id="ADDiv" class="draggableWindow" style="left:940px; top:160px; min-width:200px; height: auto; display:none; z-index:10000;"></div> 
+            <div id="useChromeDiv" style="position:absolute; left:925px; top:270px; min-width:150px; height: auto; display:none; z-index:10000;"></div> 
+            <div id="mediaDiv" class="draggableWindow" style="left:1500px; top:120px; min-width: 300px; min-height: 167px; display:none; z-index:10000;"></div> 
+            <!-- flavio help -->
     
-            <div id="div_principal" >
+            <div id="div_principal"  >
                 <div style="margin:0; padding:0; width:100%;">  
                 <ul id="faketab">
                     <li><a href="#" id="a_nome_gaita">LOADING...</a></li>
@@ -138,15 +138,15 @@ notação abc, tablatura " />
                             <table><tr>
                                 <td>
                                     <button id="buttonChangeNotation" class="btn" style="background-color: white; margin-top:1px; height: 24px;">
-                                        <i class="icon-globe"></i>&nbsp;<span id="DR_chlabel">Mudar notação</span>
+                                        <i class="icon-globe"></i>&#160;<span id="DR_chlabel">Mudar notação</span>
                                     </button>
                                 </td><td>
                                     <table class="table-bordered table-final" style="background-color: white; margin-top:1px; height: 24px; display:none;"> 
                                         <tr><td>
-                                            &nbsp;<b id="DR_layout">Layout:</b>&nbsp;&nbsp;
-                                            <input type="checkbox" id="checkboxHorizontal" checked >&nbsp;<span id="DR_horizontal">Horizontal</span>
-                                            &nbsp;&nbsp;
-                                            <input type="checkbox" id="checkboxEspelho">&nbsp;<span id="DR_espelho">Espelho</span>&nbsp;
+                                            &#160;<b id="DR_layout">Layout:</b>&#160;&#160;
+                                            <input type="checkbox" id="checkboxHorizontal" checked='checked' />&#160;<span id="DR_horizontal">Horizontal</span>
+                                            &#160;&#160;
+                                            <input type="checkbox" id="checkboxEspelho" />&#160;<span id="DR_espelho">Espelho</span>&#160;
                                         </td></tr>
                                     </table>
                                 </td></tr>
@@ -185,28 +185,28 @@ notação abc, tablatura " />
                             <tr><td>
                                 <div id="divSelectPlayControls" style="margin: 0px;">
                                   <div class="btn-group" id="divPractices" style="display: none; margin: 0px;">
-                                      <button id="btnPractices" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left;"><span id="spanPractices">...</span>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                                      <ul class="dropdown-menu menuDinamico" id="ulPractices"></ul>
+                                      <button id="btnPractices" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left;"><span id="spanPractices">...</span>&#160;&#160;&#160;<span class="caret"></span></button>
+                                      <ul class="dropdown-menu menuDinamico" id="ulPractices" ><li>Não disponível</li></ul>
                                   </div>
                                   <div class="btn-group"  id="divSongs" style="display: inline; margin: 0px;">
-                                      <button id="btnSongs" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left;"><span id="spanSongs">...</span>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                                      <ul class="dropdown-menu menuDinamico" id="ulSongs"></ul>
+                                      <button id="btnSongs" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left;"><span id="spanSongs">...</span>&#160;&#160;&#160;<span class="caret"></span></button>
+                                      <ul class="dropdown-menu menuDinamico" id="ulSongs"><li>Não disponível</li></ul>
                                   </div>
                                   <div class="btn-group" id="divChords" style="display: none; margin: 0px;">
-                                      <button id="btnChords" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left;"><span id="spanChords">...</span>&nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                                      <ul class="dropdown-menu menuDinamico" id="ulChords"></ul>
+                                      <button id="btnChords" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left;"><span id="spanChords">...</span>&#160;&#160;&#160;<span class="caret"></span></button>
+                                      <ul class="dropdown-menu menuDinamico" id="ulChords"><li>Não disponível</li></ul>
                                   </div>
                                 </div>
                             </td><td>
                                 <div style="margin: 0px;" >
-                                  <button id="toolsBtn" class="btn" title="Ferramentas" onclick=""><i class="icon-wrench"></i>&nbsp;Ferramentas</button>
-                                  <button id="printBtn" class="btn" title="Imprimir" onclick=""><i class="icon-print"></i>&nbsp;Imprimir</button>
+                                  <button id="toolsBtn" class="btn" title="Ferramentas" ><i class="icon-wrench"></i>&#160;Ferramentas</button>
+                                  <button id="printBtn" class="btn" title="Imprimir" ><i class="icon-print"></i>&#160;Imprimir</button>
                                   <button id="pdfBtn" class="btn" title="Salvar em PDF" onclick="" style="display: none;">PDF</button>
                                 </div>
                             </td><td>
                                 <div style="margin: 0px;">
-                                  <button id="playBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
-                                  <button id="stopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
+                                  <button id="playBtn" class="btn" title="Executar" onclick="">&#160;<i class="icon-play"></i>&#160;</button>
+                                  <button id="stopBtn" class="btn" title="Parar" onclick="">&#160;<i class="icon-stop"></i>&#160;</button>
                                   <span id="currentPlayTimeLabel" class="playTimeLabel">00:00.00</span>
                                 </div>
                             </td></tr>
@@ -219,6 +219,7 @@ notação abc, tablatura " />
                     <div id="tabPracticesDiv" ></div>
                 </div>
             </div> <!-- /div_detalhes --> 
+
             
         </div> <!-- /mapContainerDiv -->
         
@@ -229,7 +230,7 @@ notação abc, tablatura " />
                 <a href="#close" title="Fechar" class="close">X</a>
               </div>
                 <div class="modalContent" style="height: 550px; overflow-y: scroll;">
-                <img src="img/EncontroDeGaiteiros.png" alt="Encontro de Gaiteiros" title="Encontro de Gaiteiros">
+                <img src="img/EncontroDeGaiteiros.png" alt="Encontro de Gaiteiros" title="Encontro de Gaiteiros" />
               </div>
               <div class="modalFooter">
                   Maiores informações: <b><a target="_blank" href="mailto:prof.cezar.ferreira@gmail.com?Subject=Informações sobre o Encontro de Gaiteiros">
@@ -247,28 +248,34 @@ notação abc, tablatura " />
                 <a href="#close" title="Fechar" class="close">X</a>
               </div>
               <div class="modalContent">
-                <div id="clustrmaps-widget" style="float:right;   margin-left:1em;">
-                    <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?u=rUO7&d=1J7gP1r2nA3yuIH7qXcClQmW6EGCZo6pj85He9J5Yaw"></script>
+                <noscript>
+                    <a href="http://www2.clustrmaps.com/user/617114918" target="_blank">
+                         <img src="http://www2.clustrmaps.com/stats/maps-no_clusters/flvani.github.io-thumb.jpg" alt="Localização dos visitantes desta página." />
+                    </a>
+                </noscript>
+                <!--div id="clustrmaps-widget" style="float:right;   margin-left:1em;"></div-->
+                <div id="fsfDiv" style="float:right;   margin-left:1em;">
+                    <a target="_blank" href="http://www.upgradefromwindows8.com"><img src="//static.fsf.org/fsforg/graphics/windows-infographic_share.png" height="200" width="200" alt="Close Windows, Open Doors"/></a>
                 </div>
-                <h3>Diatonic-Map <i id="siteVerI">v3.00</i><br><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&nbsp;Vani</strong></a></span> </h3>
+                <h3>Diatonic-Map <i id="siteVerI">v3.00</i><br/><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&#160;Vani</strong></a></span> </h3>
                 <p>Este projeto pretende ser um mapa de referência para acordeons diatônicos. 
                    Com ele é possível configurar – e mostrar – o layout de qualquer gaita de botões, nos seus mais diversos modelos.
                    Quero deixar aqui, meus especiais agradecimentos ao 
                        <a target="_blank" href="mailto:prof.cezar.ferreira@gmail.com"><strong>Prof. Cezar Ferreira</strong></a> - (<a href="http://www.youtube.com/watch?v=6_moobqpyyY">YouTube</a>), 
                    que forneceu o material necessário para criação dos layouts e as essenciais informações sobre tablaturas para acordeons, 
-                   bem como, músicas e exercícios para praticar diretamente na gaita.   
+                   bem como, músicas e exercícios para praticar diretamente na gaita.</p>   
                 <p>Para transformar o projeto em uma ferramenta de aprendizagem, juntamos uma biblioteca  
                    que permite editar partituras no formato ABC (<b>abjcs</b>) diretamente no browser. 
                    O editor foi estendido para incluir uma ferramenta de transposição de tonalidades 
                    e, principalmente, ampliamos a notação ABC (<i>non-standard</i>) para incluir 
                    uma sintaxe para produção de tablaturas para acordeons,
-                   juntando o modelo ABC com os mapas de acordeons aqui apresentados.
+                   juntando o modelo ABC com os mapas de acordeons aqui apresentados.</p>   
                 <p>Por fim, através da implementação das bibliotecas de MIDI para browsers (<b>MIDI.js</b>), 
                    tornou-se possível ouvir os sons produzidos pelo acordeon, na forma de canções e exercícios.
-                   Este recurso funciona inclusive em dispositivos móveis, tais como, celulares Android.  
+                   Este recurso funciona inclusive em dispositivos móveis, tais como, celulares Android.</p>   
                 <p>O objetivo final é proporcionar uma experiência visual e interativa para aqueles que estão iniciando 
-                    seus estudos na "Gaita Ponto".
-                <p>
+                    seus estudos na "Gaita Ponto".</p>   
+                <p/>
                 <h5>Ainda, meus sinceros agradecimentos aos autores destas bibliotecas:</h5>
                 <ul>
                   <li><b><a href="https://github.com/leandron/accordion-map/" target="_blank">accordion-map</a> by Leandro Nunes: "An interactive reference map for diatonic accordion chords".</b> This is where all started.
@@ -294,43 +301,43 @@ notação abc, tablatura " />
         <div id="studioDiv">
             <div id="studioContentDiv">
                 <div id="studioMenu" class="draggableMenu">
-                    <div id="btnCloseStudio" class="dButton" draggable="false">
-                        <a href="#" title="Fechar" id="dMINUSButtonA" onclick="closeStudio(); return false;" draggable="false"><i class="icon-minus icon-white"></i></a>
+                    <div id="btnCloseStudio" class="dButton" >
+                        <a href="#" title="Fechar" id="dMINUSButtonA" onclick="closeStudio(); return false;" ><i class="icon-minus icon-white"></i></a>
                     </div>
-                    <div id="btnRestoreStudio" class="dButton" draggable="false">
-                        <a href="#" title="Restaurar" id="dRESTOREButtonA" onclick="restoreStudio(); return false;" draggable="false"><img alt="" src="img/restore.png" class="icon-white"></a>
+                    <div id="btnRestoreStudio" class="dButton" >
+                        <a href="#" title="Restaurar" id="dRESTOREButtonA" onclick="restoreStudio(); return false;" ><img alt="" src="img/restore.png" class="icon-white"/></a>
                     </div>
                     <div class="dTitle"><span id="spanTitleStudio" style="padding-left: 5px;">Estúdio ABCX</span><span id="spanStudioAccordeon" style="padding-left: 5px;"></span></div>
                 </div>
                 <div id="studioHeader">
-                    <textarea id="textareaABC" rows="10"></textarea>
+                    <textarea id="textareaABC" rows="10" cols="120"></textarea>
                     <div id="studioControlDiv" >
                         <div id="controlDiv1" style="float:left;" >
-                            <button id="showTextBtn" class="btn" title="Exibir/Ocultar Texto ABCX" onclick="" ><i id="I_showText" class="icon-folder-open"></i>&nbsp;<span id="DR_showText">ABCX</span></button>
-                            <button id="showEditorBtn" class="btn" title="Exibir/Ocultar Editor ABCX" onclick="" ><i id="I_showEditor" class="icon-folder-close"></i>&nbsp;<span id="DR_showEditor">Editor</span></button>
-                            <button id="showMapBtn" class="btn" title="Exibir/Ocultar Teclado" onclick=""><i id="I_showMap" class="icon-folder-close"></i>&nbsp;<span id="DR_showMap">Teclado</span></button>
-                            <button id="printBtn2" class="btn" title="Imprimir" onclick="" ><i class="icon-print"></i>&nbsp;Imprimir</button>
-                            <button id="saveBtn" class="btn" title="Salvar Local" ><i class="icon-download-alt"></i>&nbsp;Salvar Local</button>
+                            <button id="showTextBtn" class="btn" title="Exibir/Ocultar Texto ABCX" onclick="" ><i id="I_showText" class="icon-folder-open"></i>&#160;<span id="DR_showText">ABCX</span></button>
+                            <button id="showEditorBtn" class="btn" title="Exibir/Ocultar Editor ABCX" onclick="" ><i id="I_showEditor" class="icon-folder-close"></i>&#160;<span id="DR_showEditor">Editor</span></button>
+                            <button id="showMapBtn" class="btn" title="Exibir/Ocultar Teclado" onclick=""><i id="I_showMap" class="icon-folder-close"></i>&#160;<span id="DR_showMap">Teclado</span></button>
+                            <button id="printBtn2" class="btn" title="Imprimir" onclick="" ><i class="icon-print"></i>&#160;Imprimir</button>
+                            <button id="saveBtn" class="btn" title="Salvar Local" ><i class="icon-download-alt"></i>&#160;Salvar Local</button>
                             <button id="forceRefresh" class="btn" title="Atualizar" onclick="" >Atualizar</button>
-                            <button id="modeBtn" class="btn" title="Modo normal/didático" onclick=""><img src="img/listening3.png" alt="" width="20" height="20"></button>
-                            <input  style="display: none;" type="checkbox" id="chkAutoRefresh" ><span style="display: none;" id="DR_refresh">Auto atualização</span> 
+                            <button id="modeBtn" class="btn" title="Modo normal/didático" onclick=""><img src="img/listening3.png" alt="" width="20" height="20"/></button>
+                            <input  style="display: none;" type="checkbox" id="chkAutoRefresh" /><span style="display: none;" id="DR_refresh">Auto atualização</span> 
                             <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
                         </div>
                         <div id="divDidacticPlayControls" style="float:left; margin-left: 4px; display: none;">
-                            <input id="gotoMeasureBtn" type="text" title="Ir para o compasso" value="Ir para...">
+                            <input id="gotoMeasureBtn" type="text" title="Ir para o compasso" value="Ir para..."/>
                             <b>..</b>
-                            <input id="untilMeasureBtn" type="text" title="Executar até o compasso" value="até...">
-                            <button id="stepBtn" class="btn" title="Passo a passo" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
-                            <button id="stepMeasureBtn" class="btn" title="Executar compasso" onclick="">&nbsp;<i class="icon-forward"></i>&nbsp;</button>
-                            <button id="repeatBtn" class="btn" title="Repetir compasso" onclick="">&nbsp;<i class="icon-repeat"></i>&nbsp;</button>
-                            <button id="clearBtn" class="btn" title="Limpar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
-                            <button id="tempoBtn" class="btn" title="Andamento" onclick=""><b>&nbsp;1&nbsp;</b></button>
-                            <button id="GClefBtn" class="btn" title="" onclick=""><img src="img/clave.sol.on.png" alt="" width="20" height="20"></button>
-                            <button id="FClefBtn" class="btn" title="" onclick=""><img src="img/clave.fa.on.png" alt="" width="20" height="20"></button>
+                            <input id="untilMeasureBtn" type="text" title="Executar até o compasso" value="até..."/>
+                            <button id="stepBtn" class="btn" title="Passo a passo" onclick="">&#160;<i class="icon-play"></i>&#160;</button>
+                            <button id="stepMeasureBtn" class="btn" title="Executar compasso" onclick="">&#160;<i class="icon-forward"></i>&#160;</button>
+                            <button id="repeatBtn" class="btn" title="Repetir compasso" onclick="">&#160;<i class="icon-repeat"></i>&#160;</button>
+                            <button id="clearBtn" class="btn" title="Limpar" onclick="">&#160;<i class="icon-stop"></i>&#160;</button>
+                            <button id="tempoBtn" class="btn" title="Andamento" onclick=""><b>&#160;1&#160;</b></button>
+                            <button id="GClefBtn" class="btn" title="" onclick=""><img src="img/clave.sol.on.png" alt="" width="20" height="20"/></button>
+                            <button id="FClefBtn" class="btn" title="" onclick=""><img src="img/clave.fa.on.png" alt="" width="20" height="20"/></button>
                         </div>
                         <div id="divNormalPlayControls" style="float:left; margin-left: 4px;">
-                            <button id="playBtn2" class="btn" title="Executar" onclick="">&nbsp;<i class="icon-play"></i>&nbsp;</button>
-                            <button id="stopBtn2" class="btn" title="Parar" onclick="">&nbsp;<i class="icon-stop"></i>&nbsp;</button>
+                            <button id="playBtn2" class="btn" title="Executar" onclick="">&#160;<i class="icon-play"></i>&#160;</button>
+                            <button id="stopBtn2" class="btn" title="Parar" onclick="">&#160;<i class="icon-stop"></i>&#160;</button>
                         </div>
                         <div id="playTimeDiv2" class="playTimeDiv" >
                             <span id="currentPlayTimeLabel2" class="playTimeLabel">00:00.00</span>
@@ -340,8 +347,7 @@ notação abc, tablatura " />
                 <div id="studioCanvasDiv" >
                     <div id="warningsDiv"></div>
                     <div id="canvasDiv"></div>
-                    <hr style="visibility: hidden;">
-                    <hr style="visibility: hidden;">
+                    <hr style="visibility: hidden;"/>
                 </div> <!--studioCanvasDiv-->    
                 <div id="editorDiv" class="draggableWindow" style="left:40px; top:120px;" ></div>
                 <!-- /editorDiv -->
@@ -355,7 +361,6 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="javascripts/bootstrap-dropdown.js"></script>
         <script type="text/javascript" src="javascripts/edit_area_full.js"></script>
-        <script type="text/javascript" src="raphael/raphael_2.1.4-min.js"></script>
         
         <!-- suporte a MIDI -->
         <script type="text/javascript" src="MIDI.js/MIDI_2.05-min.js"></script>
@@ -385,13 +390,44 @@ notação abc, tablatura " />
             document.getElementById('fileLoadMap').addEventListener('change', loadMap, false);        
             document.getElementById('fileLoadRepertoire').addEventListener('change', loadRepertoire, false);        
 
-            window.addEventListener('load', initApp, false);
-            
             window.onresize = function()
             {
                 resizeSite();
             };
 
+            function loadMIDI() {
+                MIDI.loader = new widgets.Loader();
+                
+                MIDI.loadPlugin({
+                    soundfontUrl: "./soundfont/"
+                   ,instruments: "accordion"
+                   ,callback: postLoadMIDI
+                });
+            }
+            
+            function postLoadMIDI() {
+                MIDI.loader.stop();
+                MIDI.programChange(0, 21); // canais para accordeon
+                MIDI.programChange(1, 21); // 
+                MIDI.programChange(2, 21); // 
+                MIDI.programChange(3, 21); // 
+                MIDI.programChange(4, 21); // 
+                MIDI.programChange(5, 21); // 
+                
+                DIATONIC.map.loadAccordionMaps(
+                    [
+                     'accordions/minuano.gc.accordion'
+                    ,'accordions/leticce.cf.ne.accordion'
+                    ,'accordions/hohner.cf.club.br.accordion'
+                    // 'accordions/hohner.gc.accordion'
+                    //,'accordions/hohner.cf.club.br.accordion'
+                    //,'accordions/hohner.adg.corona.accordion'
+                    //,'accordions/hohner.cf.club.accordion'
+                    ]
+                    ,initApp // call back after loading
+                );
+            }
+            
             function initApp() {
 
                 // returns -1 (wait), 0 (success) and 1 (fail)
@@ -415,26 +451,18 @@ notação abc, tablatura " />
                     w5 = new DRAGGABLE.Div( 5, 'releaseDiv', 'Lançamento...', null, null, true );
                     w6 = new DRAGGABLE.Div( 6, 'mediaDiv', 'Mídia...', null, 'w6Callback', true );
                 
-//                w3.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
-//                   + 'O formato ABC é a base para toda a geração das partituras deste site. '
-//                   + '<br><br>Quer saber mais sobre este formato livre? '
-//                   + '<a target="_blank" href="http://pt.wikipedia.org/wiki/ABC_%28nota%C3%A7%C3%A3o_musical%29" >Clique aqui!</a>'
-//                   + '<br></b></center>';
-           
-                w3.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
-                   + 'Conheça o novo<br>"Estúdio&nbsp;ABCX".<br>'
-                   + '<a target="_blank" href="html/estudioABCX.pt_BR.html" >Clique aqui!</a>'
-                   + '<br>O estúdio é acessado através do botão "Ferramentas".</b></center>';
-
-                w3.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
-                   + 'O acordeon Minuano substituiu o anterior, modelo Hohner.<br>'
-                   + 'O repertório, no entanto, permaneceu inalterado.'
-                   + '<br>A canção Prenda Minha foi adicionada.</b></center>';
-           
                 w3.dataDiv.innerHTML = '<center style="padding:4px; font-size:18px;"><b>'
                    + 'Você conhece o modo didático de execução de partituras?<p><p>'
                    + 'Com ele é possível executar trechos de uma partitura, em velocidades mais lentas'
                    + ' ou nota por nota. <p>Acesse através do botão "Ferramentas". Para maiores detalhes leia a ajuda <a target="_blank" href="html/estudioABCX.pt_BR.html" > aqui!.</a>  <p>Procure a seção "Executando uma partitura".</b></center>';
+           
+                w3.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
+                   + 'Você pode melhorar a visualização usando alguns atalhos. Por exemplo:</b></center><br>'
+                   + '<b>&nbsp;&nbsp;"F11" - Entra e sai do modo tela cheia.<br>'
+                   + '&nbsp;&nbsp;"Ctrl"+"+" - Aumenta o zoom.<br>'
+                   + '&nbsp;&nbsp;"Ctrl"+"-" - Diminui o zoom.<br>'
+                   + '&nbsp;&nbsp;"Ctrl"+"0" - Restaura o zoom para 100%.<br><br>'
+                   + '</b>';
            
            
                 w4.dataDiv.innerHTML = 
@@ -449,12 +477,10 @@ notação abc, tablatura " />
                     +'</table>';
             
                 w5.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
-                   + '<h3>Versão 3.15</h3>'
-                   + '<a target="_blank" href="html/release.pt_BR.html" >Clique aqui e conheça as novidades<br> desta versão.</a>'
+                   + '<h3>Versão 4.00</h3>'
+                   + '<a target="_blank" href="html/release.pt_BR.html" >Muito mais rápido!<br> Saiba mais.</a>'
                    + '</b></center><br>';
 
-                // flavio - agora é azul -- ABCXJS.write.highLightColor = '#ff0000';
-        
                 myStudio = new SITE.Estudio(
                     {   // interfaceParams
                         showMapBtn: 'showMapBtn'
@@ -597,36 +623,6 @@ notação abc, tablatura " />
                    ,'dRESTOREButtonA'
                 ]);
 
-                MIDI.loader = new widgets.Loader();
-
-                DIATONIC.map.loadAccordionMaps(
-                   [
-                     'accordions/minuano.gc.accordion'
-                    ,'accordions/leticce.cf.ne.accordion'
-                    ,'accordions/hohner.cf.club.br.accordion'
-                    // 'accordions/hohner.gc.accordion'
-                    //,'accordions/hohner.cf.club.br.accordion'
-                    //,'accordions/hohner.adg.corona.accordion'
-                    //,'accordions/hohner.cf.club.accordion'
-                   ]
-                );
-        
-                MIDI.loadPlugin({
-                    soundfontUrl: "./soundfont/"
-                   ,instruments: "accordion"
-                   ,callback: function() {
-                        DR.firstTranslation(); // garante que todos os itens de tela estejam traduzidos
-                        MIDI.loader.stop();
-                        MIDI.programChange(0, 21); // canais para accordeon
-                        MIDI.programChange(1, 21); // 
-                        MIDI.programChange(2, 21); // 
-                        MIDI.programChange(3, 21); // 
-                        MIDI.programChange(4, 21); // 
-                        MIDI.programChange(5, 21); // 
-                        postPlugin();
-                    }
-                });
-
                 $('#tabs a').click( function(e) {
                     e.preventDefault();
                     if ($(this).closest("li").attr("id") === "current"){ //detection for current tab
@@ -639,16 +635,13 @@ notação abc, tablatura " />
                       myMap.defineActiveTab( $(this).attr('id') );
                     }
                 });
+                
+                postReady();
+                loadMIDI();
+                
             });
-            function getDate(){
-                var today = new Date();
-                var dd = today.getDate();
-                var mm = today.getMonth()+1; //January is 0!
-                var yyyy = today.getFullYear();
-                return yyyy*10000+mm*100+dd;
-            }
-
-            function postPlugin() {
+            
+            function postReady() {
                 $("#tabs li:first").attr("id","current"); // Activate the first tab
                 $("#tuneContainerDiv #tabTunesDiv" ).fadeIn(); // Show first tab's content
                 document.getElementById("modalAD").style.display = 'inline';
@@ -660,7 +653,7 @@ notação abc, tablatura " />
                     $('#ADDiv').fadeIn('slow');
                 }
                 
-                if( getDate() <= 20160420 ) {
+                if( getDate() <= 20160601 ) {
                     $('#releaseDiv').fadeIn('slow');
                     setTimeout(function() { $('#releaseDiv').fadeOut('slow'); }, 15000);
                 }
@@ -676,6 +669,14 @@ notação abc, tablatura " />
                 }    
             };
             
+            function getDate(){
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+                return yyyy*10000+mm*100+dd;
+            }
+
             function w1Callback(e) {
                 myStudio.editorCallback(e);
             };

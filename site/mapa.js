@@ -364,6 +364,7 @@ SITE.Mapa.prototype.closeStudio2 = function (loader) {
     document.getElementById("DR_repertoire").style.color = 'inherit';
     $("#mapContainerDiv").fadeIn();
     this.printTab();
+    this.resize();
     loader.stop();
 };
 
@@ -440,7 +441,7 @@ SITE.Mapa.prototype.loadAccordionList  = function() {
 SITE.Mapa.prototype.salvaRepertorio = function() {
     if ( FILEMANAGER.requiredFeaturesAvailable() ) {
         var accordion = this.getSelectedAccordion();
-        var name = accordion.id + ".abcx";
+        var name = accordion.getId().toLowerCase() + ".repertorio.abcx";
         var conteudo = "";
         for( var title in accordion.songs.items) {
           conteudo += accordion.songs.items[title] + '\n\n';
@@ -477,7 +478,7 @@ SITE.Mapa.prototype.save = function() {
             '  }\n'+
             '}\n';
     
-    FILEMANAGER.download( accordion.getName() + '.accordion', txtAccordion );
+    FILEMANAGER.download( accordion.getId().toLowerCase() + '.accordion', txtAccordion );
 };
 
 SITE.Mapa.prototype.load = function(files) {

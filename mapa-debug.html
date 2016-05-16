@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <!--
   TODO: 
     ok Acertar label de todos os botões
@@ -359,7 +360,6 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="javascripts/bootstrap-dropdown.js"></script>
         <script type="text/javascript" src="javascripts/edit_area_full.js"></script>
-        <script type="text/javascript" src="raphael/raphael_2.1.4-min.js"></script>
         
         <!-- suporte a MIDI -->
         <script type="text/javascript" src="MIDI.js/MIDI.js"></script>
@@ -413,12 +413,44 @@ notação abc, tablatura " />
             document.getElementById('fileLoadMap').addEventListener('change', loadMap, false);        
             document.getElementById('fileLoadRepertoire').addEventListener('change', loadRepertoire, false);        
 
-            window.addEventListener('load', initApp, false);
-            
             window.onresize = function()
             {
                 resizeSite();
             };
+            
+            function loadMIDI() {
+                MIDI.loader = new widgets.Loader();
+                
+                MIDI.loadPlugin({
+                    soundfontUrl: "./soundfont/"
+                   ,instruments: "accordion"
+                   ,callback: postLoadMIDI
+                });
+            }
+            
+            function postLoadMIDI() {
+                MIDI.loader.stop();
+                MIDI.programChange(0, 21); // canais para accordeon
+                MIDI.programChange(1, 21); // 
+                MIDI.programChange(2, 21); // 
+                MIDI.programChange(3, 21); // 
+                MIDI.programChange(4, 21); // 
+                MIDI.programChange(5, 21); // 
+                
+                DIATONIC.map.loadAccordionMaps(
+                    [
+                     'accordions/minuano.gc.accordion'
+                    ,'accordions/leticce.cf.ne.accordion'
+                    ,'accordions/hohner.cf.club.br.accordion'
+                    // 'accordions/hohner.gc.accordion'
+                    //,'accordions/hohner.cf.club.br.accordion'
+                    //,'accordions/hohner.adg.corona.accordion'
+                    //,'accordions/hohner.cf.club.accordion'
+                    ]
+                    ,initApp // call back after loading
+                );
+            }
+            
 
             function initApp() {
 
@@ -617,35 +649,6 @@ notação abc, tablatura " />
                    ,'dRESTOREButtonA'
                 ]);
 
-                MIDI.loader = new widgets.Loader();
-
-                DIATONIC.map.loadAccordionMaps(
-                   [
-                     'accordions/minuano.gc.accordion'
-                    ,'accordions/leticce.cf.ne.accordion'
-                    ,'accordions/hohner.cf.club.br.accordion'
-                    // 'accordions/hohner.gc.accordion'
-                    //,'accordions/hohner.cf.club.br.accordion'
-                    //,'accordions/hohner.adg.corona.accordion'
-                    //,'accordions/hohner.cf.club.accordion'
-                   ]
-                );
-        
-                MIDI.loadPlugin({
-                    soundfontUrl: "./soundfont/"
-                   ,instruments: "accordion"
-                   ,callback: function() {
-                        DR.firstTranslation(); // garante que todos os itens de tela estejam traduzidos
-                        MIDI.loader.stop();
-                        MIDI.programChange(0, 21); // canais para accordeon
-                        MIDI.programChange(1, 21); // 
-                        MIDI.programChange(2, 21); // 
-                        MIDI.programChange(3, 21); // 
-                        MIDI.programChange(4, 21); // 
-                        MIDI.programChange(5, 21); // 
-                        postPlugin();
-                    }
-                });
 
                 $('#tabs a').click( function(e) {
                     e.preventDefault();
@@ -659,16 +662,14 @@ notação abc, tablatura " />
                       myMap.defineActiveTab( $(this).attr('id') );
                     }
                 });
+                postReady();
+                loadMIDI();
+                
             });
-            function getDate(){
-                var today = new Date();
-                var dd = today.getDate();
-                var mm = today.getMonth()+1; //January is 0!
-                var yyyy = today.getFullYear();
-                return yyyy*10000+mm*100+dd;
-            }
+            
+            function postReady() {
+                DR.firstTranslation(); // garante que todos os itens de tela estejam traduzidos
 
-            function postPlugin() {
                 $("#tabs li:first").attr("id","current"); // Activate the first tab
                 $("#tuneContainerDiv #tabTunesDiv" ).fadeIn(); // Show first tab's content
                 document.getElementById("modalAD").style.display = 'inline';
@@ -690,6 +691,14 @@ notação abc, tablatura " />
                 }    
             };
             
+            function getDate(){
+                var today = new Date();
+                var dd = today.getDate();
+                var mm = today.getMonth()+1; //January is 0!
+                var yyyy = today.getFullYear();
+                return yyyy*10000+mm*100+dd;
+            }
+
             function w1Callback(e) {
                 myStudio.editorCallback(e);
             };

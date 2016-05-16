@@ -8930,7 +8930,7 @@ ABCXJS.write.Printer.prototype.printDebugMsg = function(x, y, msg ) {
 ABCXJS.write.Printer.prototype.printLyrics = function(x, staveInfo, msg) {
     //var y = staveInfo.lowest-ABCXJS.write.spacing.STEP*staveInfo.lyricsRows;
     //y += (staveInfo.lyricsRows-0.5);
-    y = this.calcY(staveInfo.lowest-(staveInfo.lyricsRows>1?0:3.7));
+    var y = this.calcY(staveInfo.lowest-(staveInfo.lyricsRows>1?0:3.7));
     
     // para manter alinhado, quando uma das linhas for vazia, imprimo 3 pontos
     var i = msg.indexOf( "\n " );
@@ -11765,7 +11765,7 @@ SVG.Printer.prototype.initDoc = function( docId, title, add_styles, options ) {
 
 SVG.Printer.prototype.endDoc = function( ) {
 
-    var output = '<div class="normal" style="display:block; margin:0; padding: 0; width: fit-content; background-color:'+this.backgroundColor+'; ">\n' + this.svgHead( this.docId );
+    var output = '<div style="display:block; margin:0; padding: 0; width: fit-content; background-color:'+this.backgroundColor+'; ">\n' + this.svgHead( this.docId );
     
     output += '<title>'+this.title+'</title>\n';
     output += this.styles;
@@ -11997,6 +11997,8 @@ SVG.Printer.prototype.tabText = function( x, y, str, clss, anch ) {
 
 SVG.Printer.prototype.text = function( x, y, str, clss, anch ) {
    var t; 
+   var estilo = clss === 'abc_lyrics' ? '' : 'style="stroke:none; fill: '+this.color+';"' ;
+   
    str = ""+str;
    if( str.length===0) return;
    
@@ -12006,15 +12008,16 @@ SVG.Printer.prototype.text = function( x, y, str, clss, anch ) {
    x = x.toFixed(2);
    y = y.toFixed(2);
    
-   if(t.length < 2) {
-       this.svg_pages[this.currentPage] += '<text class="'+clss+'" style="stroke:none; fill: '+this.color+';" x="'+x+'" y="'+y+'" text-anchor="'+anch+'">'+t[0]+'</text>\n';
-   } else {
-       this.svg_pages[this.currentPage] += '<g class="'+clss+'" style="stroke:none; fill:  '+this.color+';" transform="translate('+x+' '+y+')">\n';
+   this.svg_pages[this.currentPage] += '<g class="'+clss+'" '+estilo+' transform="translate('+x+' '+y+')">\n';
+    if(t.length < 2) {
+       this.svg_pages[this.currentPage] += '<text text-anchor="'+anch+'" x="0" y="0" >'+t[0]+'</text>\n';
+    } else {
        this.svg_pages[this.currentPage] += '<text text-anchor="'+anch+'" x="0" y="0">\n';
        for(var i = 0; i < t.length; i++ )
            this.svg_pages[this.currentPage] += '<tspan x="0" dy="1.2em" >'+t[i]+'</tspan>\n';
-       this.svg_pages[this.currentPage] += '</text></g>\n';
-   }
+       this.svg_pages[this.currentPage] += '</text>\n';
+    }
+    this.svg_pages[this.currentPage] += '</g>\n';
 };
 
 //SVG.Printer.prototype.circularArc = function(centerX, centerY, radius, startAngle, endAngle) {
