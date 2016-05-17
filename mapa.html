@@ -662,7 +662,7 @@ notação abc, tablatura " />
                 $("#clustrmaps-widget").find("a").attr('href','http://www.clustrmaps.com/map/flvani.github.io');
                 
                 
-                if(!ABCXJS.misc.isChrome()) {
+                if(!(ABCXJS.misc.isChrome()||ABCXJS.misc.isChromium())) {
                     $('#useChromeDiv').html('<img src="img/chrome.png">');
                     setTimeout(function() { $('#useChromeDiv').fadeIn('slow'); }, 2000);
                     setTimeout(function() { $('#useChromeDiv').fadeOut('slow'); }, 17000);

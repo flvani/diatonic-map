@@ -684,7 +684,7 @@ notação abc, tablatura " />
                 
                 $("#clustrmaps-widget").find("a").attr('target','_blank');
 
-                if(!ABCXJS.misc.isChrome()) {
+                if(!(ABCXJS.misc.isChrome()||ABCXJS.misc.isChromium())) {
                     $('#useChromeDiv').html('<img src="img/chrome.png">');
                     setTimeout(function() { $('#useChromeDiv').fadeIn('slow'); }, 2000);
                     setTimeout(function() { $('#useChromeDiv').fadeOut('slow'); }, 17000);

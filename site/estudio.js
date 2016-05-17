@@ -219,7 +219,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         that.showABCXText();
     }, false);
     
-    if( !ABCXJS.misc.isChrome() ) {
+    if( !(ABCXJS.misc.isChrome()||ABCXJS.misc.isChromium()) ) {
         this.showEditorButton.style.pointerEvents = 'none';
         this.showEditorButton.style.color = 'gray';
     } else {
@@ -776,7 +776,7 @@ SITE.Estudio.prototype.highlight = function(abcelem) {
         if(abcelem.bellows)
             this.selectButton(abcelem);
     }    
-    if(ABCXJS.misc.isChrome() && this.editorVisible) {
+    if((ABCXJS.misc.isChrome()||ABCXJS.misc.isChromium()) && this.editorVisible) {
         editAreaLoader.setSelectionRange("editorTextArea", abcelem.startChar, abcelem.endChar, abcelem.line);
     }    
 };
