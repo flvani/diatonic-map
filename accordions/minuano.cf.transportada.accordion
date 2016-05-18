@@ -1,0 +1,36 @@
+{
+   "id":"GAITA_MINUANO_CF_TRANSPORTADA"
+  ,"menuOrder" : 10
+  ,"model":"Minuano (transportada)"
+  ,"tuning":["C","F"]
+  ,"buttons":["21","8"]
+  ,"pedal":[]
+  ,"image":"img/minuano.png"
+  ,"keyboard": 
+    {
+       "layout":[0,0.5]
+      ,"keys":
+      {
+         "close":[["C2","E3","F♯3","B3","D♯4","F♯4","B4","D♯5","F♯5","B5","D♯6"],["F3","G3","C4","E4","G4","C5","E5","G5","C6","E6"]]
+        ,"open":[["D3","G♯3","A♯3","C♯4","E4","G♯4","A♯4","C♯5","E5","G♯5","A♯5"],["A3","B3","D4","F4","A4","B4","D5","F5","A5","B5"]]
+      }
+      
+      ,"basses":
+      {
+         "close":[["e2","E2","f1","F1"],["g1","G1","c2","C2"]]
+        ,"open":[["a1:","A1","f1","F1"],["d2:m","D2","b♭1","B♭1"]]
+     }
+    }
+,"songPathList":
+    [
+        "songs/asa.branca.transportada.abcx"
+       ,"songs/numa.sala.de.reboco.transportada.abcx"
+       ,"songs/paraiba.masculina.transportada.abcx"
+    ]
+,"practicePathList":
+    [
+    ]
+,"chordPathList":
+    [
+    ]
+}

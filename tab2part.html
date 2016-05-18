@@ -141,7 +141,6 @@ K:C
         <script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="javascripts/bootstrap-dropdown.js"></script>
         <script type="text/javascript" src="javascripts/edit_area_full.js"></script>
-        <script type="text/javascript" src="raphael/raphael_2.1.3-min.js"></script>
         
         <!-- suporte a MIDI -->
         <script type="text/javascript" src="MIDI.js/MIDI_2.04-min.js"></script>
@@ -165,12 +164,13 @@ K:C
         
         <script id="mainScript" type="text/javascript">
             
+            var debug = false;
             var myPartGen;
 
                 DIATONIC.map.loadAccordionMaps(
                    [
                      'accordions/minuano.gc.accordion'
-                    ,'accordions/leticce.cf.ne.accordion'
+                    ,'accordions/minuano.cf.transportada.accordion'
                     ,'accordions/hohner.cf.club.br.accordion'
                     // 'accordions/hohner.gc.accordion'
                     //,'accordions/hohner.cf.club.br.accordion'

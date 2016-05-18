@@ -157,17 +157,6 @@ SITE.TabGen.prototype.printABC = function(abcText) {
         divWarn.innerHTML = 'Tablatura extraída com sucesso!';
         divWarn.style.color = 'green';
     }
-    
-//    this.tab.div = document.getElementById("t2pCanvasDiv");
-    
-//    this.parseABC(this.tab);
-    
-//    this.tab.div.innerHTML = "";
-//    var paper = Raphael(this.tab.div, 700, 200);
-//    var printer = new ABCXJS.write.Printer( paper );
-    
-//    printer.printABC(this.tab.abc);
-    
 };
 
 SITE.TabGen.prototype.parseABC = function(tab) {

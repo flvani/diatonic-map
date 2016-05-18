@@ -174,8 +174,7 @@ SITE.PartGen.prototype.printABC = function(abcText) {
     
     this.parseABC(this.tab);
     
-    this.tab.div.innerHTML = "";
-    var paper = Raphael(this.tab.div, 700, 200);
+    var paper = new SVG.Printer( this.tab.div );
     var printer = new ABCXJS.write.Printer( paper );
     
     printer.printABC(this.tab.abc);
