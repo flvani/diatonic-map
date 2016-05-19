@@ -558,6 +558,7 @@ notação abc, tablatura " />
                   } 
                 );
 
+                activateApp();
                 myMap.defineActiveTab( 'tabTunes' );
                 
 //                myMap.setup({
@@ -636,12 +637,11 @@ notação abc, tablatura " />
                     }
                 });
                 
-                postReady();
                 loadMIDI();
                 
             });
             
-            function postReady() {
+            function activateApp() {
                 $("#tabs li:first").attr("id","current"); // Activate the first tab
                 $("#tuneContainerDiv #tabTunesDiv" ).fadeIn(); // Show first tab's content
                 document.getElementById("modalAD").style.display = 'inline';

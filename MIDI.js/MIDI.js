@@ -407,7 +407,7 @@ if (window.AudioContext ) (function () {
                         audioBuffers[instrumentId + "" + nodeId] = buffer;
                     }
                     // flavio
-                    window.setTimeout(function () { callback(instrument); }, 5 );
+                    callback(instrument);
                 }
             });
 	};
@@ -519,7 +519,8 @@ if (window.AudioContext ) (function () {
         var oncomplete = function(instrument) {
             delete pending[instrument];
             for (var key in pending) break;
-            if (!key) conf.callback();
+            // flavio
+            if (!key) window.setTimeout(function () { conf.callback(); }, 5 );
         };
         for (var instrument in MIDI.Soundfont) {
             pending[instrument] = true;

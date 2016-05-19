@@ -466,6 +466,7 @@ notação abc, tablatura " />
                         console.log('Timeouts: ' + FILEMANAGER.timeouts + '\n\n' + FILEMANAGER.success);
                 }
                 
+
                 var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_HOHNER_GC';
 
                 var w1 = new DRAGGABLE.Div( 1, 'editorDiv', 'Editor ABCX', ['move|Mover'], 'w1Callback', true );
@@ -506,7 +507,6 @@ notação abc, tablatura " />
            
                 //ABCXJS.write.highLightColor = '#ff0000';
     
-
                 myStudio = new SITE.Estudio(
                     {   // interfaceParams
                         showMapBtn: 'showMapBtn'
@@ -584,6 +584,7 @@ notação abc, tablatura " />
                   } 
                 );
 
+                activateApp();
                 myMap.defineActiveTab( 'tabTunes' );
                 
 //                myMap.setup({
@@ -662,12 +663,12 @@ notação abc, tablatura " />
                       myMap.defineActiveTab( $(this).attr('id') );
                     }
                 });
-                postReady();
+                
                 loadMIDI();
                 
             });
             
-            function postReady() {
+            function activateApp() {
                 DR.firstTranslation(); // garante que todos os itens de tela estejam traduzidos
 
                 $("#tabs li:first").attr("id","current"); // Activate the first tab
