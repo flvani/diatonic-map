@@ -558,8 +558,10 @@ notação abc, tablatura " />
                   } 
                 );
 
-                activateApp();
-                myMap.defineActiveTab( 'tabTunes' );
+                window.setTimeout( function() {
+                    activateApp();
+                    myMap.defineActiveTab( 'tabTunes' );
+                }, 5 );
                 
 //                myMap.setup({
 //                    accordionId: 'TESTE_GC'
