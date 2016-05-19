@@ -413,8 +413,20 @@ notação abc, tablatura " />
             document.getElementById('fileLoadMap').addEventListener('change', loadMap, false);        
             document.getElementById('fileLoadRepertoire').addEventListener('change', loadRepertoire, false);        
 
-            window.onresize = function()
-            {
+            window.onblur = function() {
+                if(! myMap ) return;
+                if(myStudio.visible) {
+                    if( myStudio.midiPlayer.playing) {
+                        myStudio.startPlay('normal'); // pause
+                    }
+                } else {
+                    if( myMap.midiPlayer.playing) {
+                        myMap.startPlay('normal'); // pause
+                    }
+                }
+            };
+            
+            window.onresize = function() {
                 resizeSite();
             };
             
@@ -722,6 +734,9 @@ notação abc, tablatura " />
             };
 
             function setupGaita(value) {
+                if( myMap.midiPlayer.playing) {
+                    myMap.startPlay('normal'); // pause
+                }
                 myMap.setup({accordionId:value});
             };
 
