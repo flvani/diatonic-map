@@ -36,8 +36,15 @@ DIATONIC.map.loadAccordionMaps = function ( files, cb )  {
                 console.log( "Accordion Load Failed:\nLoading: " + data.responseText.substr(1,40) + '...\nError:\n ' + err );
             })
             .always(function() {
-                toLoad --;
-                if( toLoad === 0 && cb ) cb();
+                toLoad --; 
+                if(toLoad === 0 ) {
+                    DIATONIC.map.accordionMaps.sort( function(a,b) { 
+                        return a.menuOrder > b.menuOrder;
+                    });
+                }
+                if( toLoad === 0 && cb ) {
+                    cb();
+                }
             });
     }
 };

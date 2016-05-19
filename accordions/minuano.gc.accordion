@@ -1,11 +1,11 @@
 {
    "id":"GAITA_MINUANO_GC"
-  ,"menuOrder" : 5
+  ,"menuOrder" : 1
   ,"model":"Minuano"
   ,"tuning":["G","C"]
   ,"buttons":["21","8"]
   ,"pedal":[2,5]
-  ,"image":"img/minuano3.png"
+  ,"image":"img/minuano4.png"
   ,"keyboard": 
     {
        "layout":[0,0.5]

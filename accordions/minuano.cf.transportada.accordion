@@ -1,6 +1,6 @@
 {
    "id":"GAITA_MINUANO_CF_TRANSPORTADA"
-  ,"menuOrder" : 10
+  ,"menuOrder" : 2
   ,"model":"Minuano (transportada)"
   ,"tuning":["C","F"]
   ,"buttons":["21","8"]
