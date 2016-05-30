@@ -6443,8 +6443,6 @@ ABCXJS.write.StaffGroupElement.prototype.layout = function(spacing, printer, deb
         }
     }
     x += voiceheaderw + (voiceheaderw? printer.paddingleft:0); // 10% of 0 is 0
-    //x += voiceheaderw + printer.paddingleft; // fixme: deve ser mesmo sempre mais padding
-    // x += voiceheaderw;
     this.startx = x;
 
     var currentduration = 0;
@@ -6452,7 +6450,6 @@ ABCXJS.write.StaffGroupElement.prototype.layout = function(spacing, printer, deb
         console.log("init layout");
     for (i = 0; i < this.voices.length; i++) {
         this.voices[i].beginLayout(x);
-        // flavio - tentativa de encontrar lowest
         for (b = 0; b < this.voices[i].beams.length; b++) {
             for (be = 0; be < this.voices[i].beams[b].elems.length; be++) {
                 var elem = this.voices[i].beams[b].elems[be];
@@ -6677,7 +6674,6 @@ ABCXJS.write.StaffGroupElement.prototype.draw = function(printer, groupNumber) {
             printer.paper.printBrace(this.startx-10, top-10, bottom+10);  
         }
     }
-
     
     printer.y = yi + delta + height; // nova posição da impressora
     
@@ -6759,7 +6755,6 @@ ABCXJS.write.VoiceElement.prototype.beginLayout = function(startx) {
 // spacing - base spacing
 // can't call this function more than once per iteration
 ABCXJS.write.VoiceElement.prototype.layoutOneItem = function(x, spacing) {
-    // flavio - can use this.staff
     var child = this.children[this.i];
     if (!child)
         return 0;
@@ -6804,8 +6799,6 @@ ABCXJS.write.VoiceElement.prototype.draw = function(printer) {
     printer.y = ve.stave.y;
     
     if (this.header) { // print voice name
-        //var textpitch = 12 - (this.voicenumber + 1) * (12 / (this.voicetotal + 1));
-        //var headerY = printer.calcY(textpitch)
         var headerY = (ve.stave.clef.type!=='accordionTab'? printer.calcY(6) : ve.stave.y ) +3;
         var headerX = printer.paddingleft;
         printer.printText(headerX, headerY,  this.header, 'abc_voice_header', 'start' );
@@ -6825,7 +6818,6 @@ ABCXJS.write.VoiceElement.prototype.draw = function(printer) {
     for (var i = 0; i < this.otherchildren.length; i++) {
         this.otherchildren[i].draw(printer, ve.startx + 10, width, ve.stave, ve.staffnumber, ve.voicenumber );
     };
-    
 
 };
 
@@ -6899,7 +6891,6 @@ ABCXJS.write.AbsoluteElement.prototype.draw = function(printer, staveInfo ) {
     
     if (this.invisible) return;
 
-    var self = this;
     var l = 0;
     
     this.elemset = {};// printer.paper.set();
@@ -6914,50 +6905,23 @@ ABCXJS.write.AbsoluteElement.prototype.draw = function(printer, staveInfo ) {
         }
     }
     
-    if(l>0){
+    if( l > 0 ){
         printer.beginGroup(this);
     }
     
     for (var i = 0; i < this.children.length; i++) {
-        //this.elemset.push(this.children[i].draw(printer, this.x, staveInfo ));
-        ( this.children[i].type !== 'ledger' && this.children[i].type !== 'part' ) && this.children[i].draw(printer, this.x, staveInfo );
+        if ( this.children[i].type !== 'ledger' && this.children[i].type !== 'part' ) {
+            this.children[i].draw(printer, this.x, staveInfo );
+        }
     }
     
-    //this.elemset.push(printer.endGroup());
-    (l>0) && printer.endGroup();
+    if( l > 0 ){
+        printer.endGroup();
+    }
     
     this.abcelem.parent = this; 
     this.abcelem.parent.screenY = printer.totalY + printer.y; // posição na tela, independe das quebras de página
     
-//    if (this.klass)
-//        this.setClass("mark", "", "#00ff00");
-    
-//    this.elemset.mouseup(function(e) {
-//        printer.notifyClearNSelect(self);
-//    });
-
-
-//    var spacing = ABCXJS.write.spacing.STEP ;
-
-//    var start = function() {
-//        // storing original relative coordinates
-//        this.dy = 0;
-//    },
-//    move = function(dx, dy) {
-//        // move will be called with dx and dy
-//        dy = Math.round(dy / spacing) * spacing;
-//        this.translate(0, -this.dy);
-//        this.dy = dy;
-//        this.translate(0, this.dy);
-//    },
-//    up = function() {
-//        var delta = -Math.round(this.dy / spacing);
-//        self.abcelem.pitches[0].pitch += delta;
-//        self.abcelem.pitches[0].verticalPos += delta;
-//        printer.notifyChange();
-//    };
-//    if (this.abcelem.el_type === "note" && printer.editable)
-//        this.elemset.drag(move, start, up);
 };
 
 ABCXJS.write.AbsoluteElement.prototype.setMouse = function(printer) {
@@ -6968,45 +6932,12 @@ ABCXJS.write.AbsoluteElement.prototype.setMouse = function(printer) {
     this.svgElem.onclick =  function() {printer.notifyClearNSelect(self);};
  };
 
-ABCXJS.write.AbsoluteElement.prototype.setClass = function(addClass, removeClass) {
-    this.svgElem.setAttribute("class", addClass.trim() );
-};
-
-ABCXJS.write.AbsoluteElement.prototype.setClassOld = function(addClass, removeClass) {
-    var kls = this.svgElem.getAttribute("class");
-    if (!kls)
-        kls = "";
-    kls = kls.replace(removeClass, "");
-    kls = kls.replace(addClass, "");
-    if (addClass.length > 0) {
-        if (kls.length > 0 && kls.charAt(kls.length - 1) !== ' ')
-            kls += " ";
-        kls += addClass;
-    }
-    this.svgElem.setAttribute("class", kls.trim() );
-};
-
 ABCXJS.write.AbsoluteElement.prototype.highlight = function() {
     this.svgElem.style.setProperty( 'fill', ABCXJS.write.highLightColor );
-    return;
-    
-    this.setClass("selected" );
-    if(ABCXJS.misc.isIE() || ABCXJS.misc.isChromium() ) 
-        this.setClass("selected", "" );
-    else
-        this.svgElem.style.setProperty( '--fill-color', ABCXJS.write.highLightColor );
-
 };
 
 ABCXJS.write.AbsoluteElement.prototype.unhighlight = function() {
     this.svgElem.style.setProperty( 'fill', ABCXJS.write.unhighLightColor );
-    return;
-    
-    this.setClass("normal" );
-    if(ABCXJS.misc.isIE() || ABCXJS.misc.isChromium() ) 
-        this.setClass("", "selected");
-    else
-        this.svgElem.style.setProperty( '--fill-color', ABCXJS.write.unhighLightColor );
 };
 
 ABCXJS.write.RelativeElement = function(c, dx, w, pitch, opt) {
@@ -7136,7 +7067,6 @@ ABCXJS.write.TieElem.prototype.draw = function(printer, linestartx, lineendx, st
         }
     }
 
-
     printer.printTieArc(linestartx, lineendx, startpitch, endpitch, this.above);
 
 };
@@ -7174,8 +7104,6 @@ ABCXJS.write.EndingElem.prototype.draw = function(printer, linestartx, lineendx,
     
     printer.paper.printLine(linestartx, y, lineendx-5, y);  
 };
-
-
 
 ABCXJS.write.CrescendoElem = function(anchor1, anchor2, dir) {
     this.anchor1 = anchor1; // must have a .x and a .parent property or be null (means starts at the "beginning" of the line - after keysig)
@@ -7233,7 +7161,6 @@ ABCXJS.write.TripletElem.prototype.draw = function(printer, linestartx, lineendx
         } else {
             xsum += this.anchor2.w;
         }
-
 
         printer.printText(xsum / 2, ypos + ydelta, this.number, 'abc_ending', "middle");
 
@@ -7412,13 +7339,12 @@ ABCXJS.write.getDuration = function(elem) {
 };
 
 ABCXJS.write.getDurlog = function(duration) {
-	// TODO-PER: This is a hack to prevent a Chrome lockup. Duration should have been defined already,
-	// but there's definitely a case where it isn't. [Probably something to do with triplets.]
-	if (duration === undefined) {
-		return 0;
-	}
-//	console.log("getDurlog: " + duration);
-  return Math.floor(Math.log(duration)/Math.log(2));
+    // TODO-PER: This is a hack to prevent a Chrome lockup. Duration should have been defined already,
+    // but there's definitely a case where it isn't. [Probably something to do with triplets.]
+    if (duration === undefined) {
+        return 0;
+    }
+    return Math.floor(Math.log(duration)/Math.log(2));
 };
 
 ABCXJS.write.Layout = function(printer, bagpipes ) {
@@ -7594,8 +7520,7 @@ ABCXJS.write.Layout.prototype.printABCElement = function() {
     break;
   case "part":
     var abselem = new ABCXJS.write.AbsoluteElement(elem,0,0);
-    //fixme: corrigir adequatamente os atributos deste titulo
-    abselem.addChild(new ABCXJS.write.RelativeElement(elem.title, 0, 0, 18.5, {type:"part" })); //, attributes:{"font-weight":"bold", "font-size":""+16+"px", "font-family":"serif"}}));
+    abselem.addChild(new ABCXJS.write.RelativeElement(elem.title, 0, 0, 18.5, {type:"part" })); 
     elemset[0] = abselem;
     break;
   default: 
@@ -8421,21 +8346,19 @@ ABCXJS.write.Layout.prototype.printClef = function(elem) {
   return abselem;
 };
 
-
 ABCXJS.write.Layout.prototype.printKeySignature = function(elem) {
-  if(!elem.key) throw "Missing key element!";
-  var abselem = new ABCXJS.write.AbsoluteElement(elem.key,0,10);
-  var dx = 0;
-  if ( elem.key.accidentals) {
-	  window.ABCXJS.parse.each(elem.key.accidentals, function(acc) {
-		var symbol = (acc.acc === "sharp") ? "accidentals.sharp" : (acc.acc === "natural") ? "accidentals.nat" : "accidentals.flat";
-    		//var notes = { 'A': 5, 'B': 6, 'C': 0, 'D': 1, 'E': 2, 'F': 3, 'G':4, 'a': 12, 'b': 13, 'c': 7, 'd': 8, 'e': 9, 'f': 10, 'g':11 };
-		abselem.addRight(new ABCXJS.write.RelativeElement(symbol, dx, this.glyphs.getSymbolWidth(symbol), acc.verticalPos));
-		dx += this.glyphs.getSymbolWidth(symbol)+2;
-	  }, this);
-  }
-  this.startlimitelem = abselem; // limit ties here
-  return abselem;
+    if(!elem.key) throw "Missing key element!";
+    var abselem = new ABCXJS.write.AbsoluteElement(elem.key,0,10);
+    var dx = 0;
+    if ( elem.key.accidentals) {
+        ABCXJS.parse.each(elem.key.accidentals, function(acc) {
+            var symbol = (acc.acc === "sharp") ? "accidentals.sharp" : (acc.acc === "natural") ? "accidentals.nat" : "accidentals.flat";
+            abselem.addRight(new ABCXJS.write.RelativeElement(symbol, dx, this.glyphs.getSymbolWidth(symbol), acc.verticalPos));
+            dx += this.glyphs.getSymbolWidth(symbol)+2;
+        }, this);
+    }
+    this.startlimitelem = abselem; // limit ties here
+    return abselem;
 };
 
 ABCXJS.write.Layout.prototype.printTimeSignature= function(elem) {
@@ -8518,30 +8441,28 @@ ABCXJS.write.Printer = function (paper, params) {
 
 };
 
-ABCXJS.write.Printer.prototype.printABC = function(abctunes, options) {
-  if (abctunes[0]===undefined) {
-    abctunes = [abctunes];
-  }
-  this.y=0;
-  this.totalY = 0;
-  
-  //options = options || {};
-  //options.color='red';
-  
-  for (var i = 0; i < abctunes.length; i++) {
-    this.printTune( abctunes[i], options /*, {color:'red', backgroundColor:'#ffd'}*/ );
-  }
+ABCXJS.write.Printer.prototype.printABC = function (abctunes, options) {
+    if (abctunes[0] === undefined) {
+        abctunes = [abctunes];
+    }
+    this.y = 0;
+    this.totalY = 0; // screen position of an element
+
+    for (var i = 0; i < abctunes.length; i++) {
+        this.printTune(abctunes[i], options);
+    }
 
 };
 
 ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
     
+    if( abctune.lines.length === 0 ) return;
+    
     options = options || {};
     options.color = options.color ||'black';
     options.backgroundColor = options.backgroundColor ||'none';
     
-    
-    if( abctune.lines.length === 0 ) return;
+    ABCXJS.write.unhighLightColor = options.color;
     
     var estilo = 
 '\n\
@@ -8614,16 +8535,6 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
         font-size: 10px;\n\
     }';
     
-    ABCXJS.write.unhighLightColor = options.color;
-
-    
-//     svg { --fill-color:'+options.color+'; } \n\
-//    .bar { fill: var(--fill-color, black); stroke:'+'none'+'; stroke-width:0.6; }\n\
-//    .stem { fill:'+'black'+'; stroke:'+'none'+'; stroke-width:0.6; }\n\
-//    .beam { fill:'+options.color+'; stroke:'none; }\n\
-//    .ledger { fill:white; stroke:'+options.color+'; stroke-width:0.6; stroke-dasharray: 1 1; }\n\
-//    .stave { fill:'+'none'+'; stroke:'+options.color+'; stroke-width:0.6; }\n  
-
     var svg_title = 'Partitura ' + abctune.metaText.title + ' criada por ABCXJS.';
     
     if( abctune.midi) {
@@ -8642,14 +8553,13 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
     
     this.layouter = new ABCXJS.write.Layout( this, abctune.formatting.bagpipes );
     
-    
     this.calcPageLength();
     
     this.paper.initDoc( 'tune', svg_title, estilo, options );
     this.paper.initPage( this.scale );
 
     if (abctune.metaText.title) {
-        this.paper.text(this.width/2, this.y, abctune.metaText.title, "abc_title", "middle" );
+        this.paper.text(this.width/2, this.y+5, abctune.metaText.title, "abc_title", "middle" );
         this.y += 20;
     }    
 
@@ -8778,20 +8688,7 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
         }
     }
     
-    //if ( !ABCXJS.misc.isChrome() ) {
-        this.paper.topDiv.style.width = "" +  (this.maxwidth + this.paddingright) + "px";
-    //};
-    
-
-//    // Correct for IE problem in calculating height
-//    if (ABCXJS.misc.isIE()) {
-//        this.paper.topDiv.parentNode.style.width = "" +  sizetoset.w + "px";
-//        this.paper.topDiv.parentNode.style.height = "" + sizetoset.h + "px";
-//    } else {
-//        this.paper.topDiv.parentNode.setAttribute("style", "width:" + sizetoset.w + "px"); 
-//       // this.paper.topDiv.parentNode.setAttribute("style", "height:" + sizetoset.h + "px");
-//       // this.paper.topDiv.setAttribute("style", "background-color: #ffe"); 
-//    }
+    this.paper.topDiv.style.width = "" +  (this.maxwidth + this.paddingright) + "px";
 
 };
 
@@ -8805,8 +8702,8 @@ ABCXJS.write.Printer.prototype.printTempo = function (x, tempo) {
 
     if (tempo.preString) {
         this.paper.text(x, this.calcY(tempopitch-0.8), tempo.preString, 'abc_tempo', 'start');
-        //x += (text.getBBox().width + 20*printer.scale);
         //fixme: obter a largura do texto
+        //x += (text.getBBox().width + 20*printer.scale);
         x += tempo.preString.length*5 + 5;
     }
 
@@ -8890,13 +8787,7 @@ ABCXJS.write.Printer.prototype.printDebugLine = function (x1,x2, y, fill ) {
 };
 
 ABCXJS.write.Printer.prototype.printLedger = function (x1, x2, pitch) {
-      this.paper.printLedger(x1, this.calcY(pitch), x2, this.calcY(pitch) );
-      
-//    if( pitch < 2 || pitch > 10 ) {
-//      this.paper.printLedger(x1, this.calcY(pitch), Math.abs(x1-x2), 0.6 );
-//    } else {
-//      return null;
-//    }  
+    this.paper.printLedger(x1, this.calcY(pitch), x2, this.calcY(pitch) );
 };
 
 ABCXJS.write.Printer.prototype.printText = function (x, offset, text, kls, anchor ) {
@@ -8930,8 +8821,6 @@ ABCXJS.write.Printer.prototype.printDebugMsg = function(x, y, msg ) {
 };
 
 ABCXJS.write.Printer.prototype.printLyrics = function(x, staveInfo, msg) {
-    //var y = staveInfo.lowest-ABCXJS.write.spacing.STEP*staveInfo.lyricsRows;
-    //y += (staveInfo.lyricsRows-0.5);
     var y = this.calcY(staveInfo.lowest-(staveInfo.lyricsRows>1?0:3.7));
     
     // para manter alinhado, quando uma das linhas for vazia, imprimo 3 pontos
@@ -8940,6 +8829,10 @@ ABCXJS.write.Printer.prototype.printLyrics = function(x, staveInfo, msg) {
     
     this.paper.text(x, y, msg, 'abc_lyrics', 'start');
     
+};
+
+ABCXJS.write.Printer.prototype.addSelectListener = function (listener) {
+  this.listeners[this.listeners.length] = listener;
 };
 
 // notify all listeners that a graphical element has been selected
@@ -8970,10 +8863,6 @@ ABCXJS.write.Printer.prototype.clearSelection = function () {
   this.selected = [];
 };
 
-ABCXJS.write.Printer.prototype.addSelectListener = function (listener) {
-  this.listeners[this.listeners.length] = listener;
-};
-
 ABCXJS.write.Printer.prototype.rangeHighlight = function(start,end)
 {
     this.clearSelection();
@@ -8987,7 +8876,6 @@ ABCXJS.write.Printer.prototype.rangeHighlight = function(start,end)
 		var elStart = elems[elem].abcelem.startChar;
 		var elEnd = elems[elem].abcelem.endChar;
 		if ((end>elStart && start<elEnd) || ((end===start) && end===elEnd)) {
-		    //		if (elems[elem].abcelem.startChar>=start && elems[elem].abcelem.endChar<=end) {
 		    this.selected[this.selected.length]=elems[elem];
 		    elems[elem].highlight();
 		}
@@ -9017,13 +8905,11 @@ ABCXJS.write.Printer.prototype.calcPageLength = function() {
 };
 
 ABCXJS.write.Printer.prototype.printPageNumber = function() {
-    //return; // vamos usar page format
     
     this.y = this.estimatedPageLength;
     
     if (this.pagenumbering) {
          this.paper.text(this.maxwidth+this.paddingright, this.y, "- " + this.pageNumber + " -", 'abc_tempo', 'end');
-             // .attr({"text-anchor": "end", "font-size": 13 , "font-family": "serif", 'font-weight': 'bold'});
     }
 };
 
@@ -9036,6 +8922,7 @@ ABCXJS.write.Printer.prototype.skipPage = function(lastPage) {
     this.totalY += this.y;
     
     this.paper.endPage({w: (this.maxwidth + this.paddingright) , h: this.y });
+    
     if( ! lastPage ) {
         this.y = this.paddingtop;
         this.pageNumber++;
@@ -9048,18 +8935,6 @@ ABCXJS.write.Printer.prototype.formatPage = function(tune) {
     var orientation = tune.formatting.landscape?'landscape':'portrait';
     var style = document.getElementById('page_format');
     
-//    var pgnumber = '';
-//
-//    if ( tune.formatting.pagenumbering ) {
-//        pgnumber = 
-//'   @page: right {\n\
-//        @bottom-right {\n\
-//            content: "Pág. " counter(page) "/" counter(pages)".";\n\
-//            }\n\
-//    }\n';
-//        
-//    }
-
     var formato = 
 '   @page {\n\
         margin: '+tune.formatting.defaultMargin+'; size: '+tune.formatting.papersize+' ' + orientation + ';\n\
@@ -9077,17 +8952,14 @@ ABCXJS.write.Printer.prototype.formatPage = function(tune) {
 
 ABCXJS.write.Printer.prototype.printExtraText = function(text, x) {
     var t = this.paper.text(x, this.y , text, 'abc_title', 'start');
-            //.attr({"text-anchor": "start", "font-family": "serif", "font-size": 17 });
     var height ;//= t.getBBox().height;
-    if (!height)  height = 25 ; // TODO-PER: Hack! Raphael sometimes and returns NaN. Perhaps only when printing to PDF? Possibly if the SVG is hidden?
-    //t.translate(0, height / 2);
+    if (!height)  height = 25 ; //fixme: obter a altura do texto
     return height;
 };
 
 ABCXJS.write.Printer.prototype.printSubtitleLine = function(subtitle) {
     this.paper.text(this.width/2, this.y, subtitle, 'abc_subtitle', 'middle');
 };
-
 /**
  * sprintf() for JavaScript v.0.4
  *
@@ -11709,7 +11581,7 @@ if (! window.SVG.misc )
     window.SVG.misc = { printerId: 0 };
 
 if (! window.SVG.Printer )
-    window.SVG.Printer = { printerId: 0 };
+    window.SVG.Printer = {};
 
 SVG.Printer = function ( d ) {
     this.topDiv = d;
@@ -11730,12 +11602,16 @@ SVG.Printer = function ( d ) {
     this.initDoc();
     
     this.svgHead = function( id, kls, size ) {
+        
         var w = size? size.w*this.scale + 'px' : '0';
         var h = size? size.h*this.scale + 'px' : '0';
         var d = size? '' : 'display: none; ';
-        kls = kls? 'class="'+kls+'"' : '' ;
         
-        return '<svg id="'+id+'" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="'+d+'width:'+w+'; height: '+h+';" >\n';
+//        // not in use
+//        id = id? 'id="'+id+'"' : '' ;
+//        kls = kls? 'class="'+kls+'"' : '' ;
+        
+        return '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="'+d+'width:'+w+'; height: '+h+';" >\n';
     };
 };
 
@@ -11807,8 +11683,8 @@ SVG.Printer.prototype.endPage = function( size ) {
 };
 
 SVG.Printer.prototype.beginGroup = function (el_type) {
-    var kls = ' style="fill:'+this.color+'; stroke:none;" ' ; //var kls = el_type==='bar'?' class="bar"':'';
     var id = 'p'+this.printerId+'g'+(++this.gid); 
+    var kls = ' style="fill:'+this.color+'; stroke:none;" ' ;
     this.svg_pages[this.currentPage] += '<g id="'+id+'"'+kls+'>\n';  
     return id;
 };
@@ -11839,12 +11715,11 @@ SVG.Printer.prototype.printLine = function (x,y,dx,dy) {
         dx -=  x;
     }
     var pathString = ABCXJS.write.sprintf('<rect style="fill:'+this.color+';"  x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', x, y, dx, dy);
-    //var pathString = ABCXJS.write.sprintf('<path style="stroke: var(--fill-color, black); stroke-width: 0.6px;" d="M %.2f %.2f L %.2f %.2f"/>\n', x, y, dx, dy);
     this.svg_pages[this.currentPage] += pathString;
 };
 
 SVG.Printer.prototype.printLedger = function (x,y,dx,dy) {
-    var pathString = ABCXJS.write.sprintf('<path style="stroke:'+this.baseColor+'; fill: white; stroke-width:0.6; stroke-dasharray: 1 1; " d="M %.2f %.2f h%.2f"/>\n', x, y, dx-x);
+    var pathString = ABCXJS.write.sprintf('<path style="stroke:'+this.baseColor+'; fill: white; stroke-width:0.6; stroke-dasharray: 1 1;" d="M %.2f %.2f h%.2f"/>\n', x, y, dx-x);
     this.svg_pages[this.currentPage] += pathString;
 };
 
@@ -11864,7 +11739,7 @@ SVG.Printer.prototype.printStaveLine = function (x1, x2, y, debug) {
 SVG.Printer.prototype.printBar = function (x, dx, y1, y2, real) {
     
     var x2 = x+dx;
-    var kls = real?'':'style="stroke:none; fill:'+this.baseColor+'"'
+    var kls = real?'':'style="stroke:none; fill:'+this.baseColor+'"';
     
     if (ABCXJS.misc.isIE() && dx<1) {
       dx = 1;
@@ -11921,39 +11796,6 @@ SVG.Printer.prototype.printTieArc = function (x1,y1,x2,y2,up) {
     this.svg_pages[this.currentPage] += pathString;
 };
     
-SVG.Printer.prototype.printButton = function (id, x, y, options) {
-    
-    var scale = options.radius/26; // 26 é o raio inicial do botão
-    var gid = 'p'+this.printerId+id;
-    var estilo = 'stroke:'+options.borderColor+'; stroke-width:'+options.borderWidth+'px; fill: none;';
-
-    var pathString = ABCXJS.write.sprintf( '<g id="%s" transform="translate(%.2f %.2f) scale(%.5f)">\n\
-        <circle cx="28" cy="28" r="26" style="stroke:none; fill: %s;" ></circle>\n\
-        <path id="%s_ac" style="stroke: none; fill: %s;" d="M 2 34 a26 26 0 0 1 52 -12"></path>\n\
-        <path id="%s_ao" style="stroke: none; fill: %s;" d="M 54 22 a26 26 0 0 1 -52 12"></path>\n\
-        <circle style="'+estilo+'" cx="28" cy="28" r="26"></circle>\n\
-        <path style="'+estilo+'" d="m 2 34 l 52 -12" ></path>\n\
-        <text id="%s_tc" class="%s" style="stroke:none; fill: black;" x="27" y="22" >...</text>\n\
-        <text id="%s_to" class="%s" style="stroke:none; fill: black;" x="27" y="44" >...</text>\n</g>\n',
-        gid, x, y, scale, options.fillColor, gid, options.closeColor, gid, options.openColor, gid, options.kls, gid, options.kls );
-        
-    this.svg_pages[this.currentPage] += pathString;
-    return gid;
-
-    if(ABCXJS.misc.isIE() || ABCXJS.misc.isChromium() ) {
-    } else {
-   
-        this.setDefine('button');
-
-        var pathString = ABCXJS.write.sprintf( '<g class="%s" transform="translate(%.2f %.2f) scale(%.5f)">\n\
-        <use id="%s" x="0" y="0" width="52" height="52" xlink:href="#button" />\n\
-        <text id="%s_tc" x="26" y="20" >...</text>\n\
-        <text id="%s_to" x="26" y="42" >...</text>\n</g>\n', button_class, x, y, scale, gid, gid, gid );
-    }    
-    this.svg_pages[this.currentPage] += pathString;
-    return gid;
-};
-
 SVG.Printer.prototype.printBrace = function (x, y1, y2) {
     var sz = Math.abs(y1-y2); // altura esperada
     var scale = sz / 1027; // altura real do simbolo
@@ -11974,9 +11816,11 @@ SVG.Printer.prototype.printSymbol = function (x, y, symbol) {
 SVG.Printer.prototype.tabText = function( x, y, str, clss, anch ) {
     
    if( str === 'scripts.rarrow') {
+       //fixme: deveria mudar o tipe de tabtext para symbol, adequadamente
        this.printSymbol(x, y, str );
        return;
    }
+   
    str = ""+str;
    if( str.length===0) return;
    
@@ -12012,26 +11856,27 @@ SVG.Printer.prototype.text = function( x, y, str, clss, anch ) {
     this.svg_pages[this.currentPage] += '</g>\n';
 };
 
-//SVG.Printer.prototype.circularArc = function(centerX, centerY, radius, startAngle, endAngle) {
-//  var angle = 0;
-//  var startX = centerX+radius*Math.cos(startAngle*Math.PI/180); 
-//  var startY = centerY+radius*Math.sin(startAngle*Math.PI/180);
-//  var endX = centerX+radius*Math.cos(endAngle*Math.PI/180); 
-//  var endY = centerY+radius*Math.sin(endAngle*Math.PI/180);
-//  var arcSVG = [radius, radius, angle, 0, 1, endX-startX, endY-startY].join(' ');
-//  return this.arc(startX, startY, arcSVG);
-//};
-//
-//SVG.Printer.prototype.arc = function(startX, startY, arcSVG) {
-//    var pathString = ABCXJS.write.sprintf('<path d="M %.2f %.2f a%s"/>\n', startX, startY, arcSVG);
-//    this.svg_pages[this.currentPage] += pathString;
-//};
-//
-//SVG.Printer.prototype.circle = function(startX, startY, radius) {
-//    var pathString = ABCXJS.write.sprintf('<circle cx="%.2f" cy="%.2f" r="%.2f" stroke="black" stroke-width="2" fill="white" />\n', startX, startY, radius );
-//    this.svg_pages[this.currentPage] += pathString;
-//};
-//
+SVG.Printer.prototype.printButton = function (id, x, y, options) {
+    
+    var scale = options.radius/26; // 26 é o raio inicial do botão
+    var gid = 'p'+this.printerId+id;
+    var estilo = 'stroke:'+options.borderColor+'; stroke-width:'+options.borderWidth+'px; fill: none;';
+
+    var pathString = ABCXJS.write.sprintf( '<g id="%s" transform="translate(%.2f %.2f) scale(%.5f)">\n\
+        <circle cx="28" cy="28" r="26" style="stroke:none; fill: %s;" ></circle>\n\
+        <path id="%s_ac" style="stroke: none; fill: %s;" d="M 2 34 a26 26 0 0 1 52 -12"></path>\n\
+        <path id="%s_ao" style="stroke: none; fill: %s;" d="M 54 22 a26 26 0 0 1 -52 12"></path>\n\
+        <circle style="'+estilo+'" cx="28" cy="28" r="26"></circle>\n\
+        <path style="'+estilo+'" d="m 2 34 l 52 -12" ></path>\n\
+        <text id="%s_tc" class="%s" style="stroke:none; fill: black;" x="27" y="22" >...</text>\n\
+        <text id="%s_to" class="%s" style="stroke:none; fill: black;" x="27" y="44" >...</text>\n</g>\n',
+        gid, x, y, scale, options.fillColor, gid, options.closeColor, gid, options.openColor, gid, options.kls, gid, options.kls );
+        
+    this.svg_pages[this.currentPage] += pathString;
+    return gid;
+
+};
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
