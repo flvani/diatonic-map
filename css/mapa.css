@@ -6,6 +6,15 @@
 	.page-break	{ display: block; page-break-before: always; }
 }
 
+a {
+    text-decoration: none;
+    fill:brown;
+}
+
+a:hover {
+    opacity:0.5;
+}
+
 .mapa {
     margin: 0px;
     display:block;
