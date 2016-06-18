@@ -1,0 +1,42 @@
+X:2018
+%%barnumbers 0
+%%papersize A4
+%%barsperstaff 6
+T:Valsa dos Gomes
+C:Os Gomes
+Z:Flávio Vani
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/dPWmquXEJyM
+M:3/4
+L:1/4
+Q:150
+K:G
+P:Parte I
+V:1 treble
+|: z D C | B, C D | [EG]3 | [DF]3 | 
+| z E D | C D E | [DF]2 [CE] | [B,D]3 | 
+| z D C | B, C D | [CE]2 [B,D] | [A,C]3 | 
+| z C B, | A, B, C | [B,D]2 [A,C] | [G,B,]3 :| 
+P:Parte II
+|: z B0.5d0.5 B0.5d0.5 | [ce] [Bd] z | [ce] [Bd] z | [Bd] [Ac] z | 
+| z A0.5c0.5 A0.5c0.5 | [Bd] [Ac] z | [Bd] [Ac] z | [ce] [Bd] z | 
+| z B0.5d0.5 B0.5d0.5 | [ce] [Bd] z | [ce] [Bd] z | [Bd] [Ac] z | 
+| z B0.5c0.5 d0.5e0.5 | [df]3 | [ce] [Bd] [Ac] | [GB]3 :| 
+V:2 bass
+|: G,, [G,,B,,D,] [G,,B,,D,] | G,, [G,,B,,D,] [G,,B,,D,] | C,, [C,E,G,] [C,E,G,] | D,, [D,F,A,] [D,F,A,] | 
+| D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | G,, [G,,B,,D,] [G,,B,,D,] | 
+| G,, [G,,B,,D,] [G,,B,,D,] | G,, [G,,B,,D,] [G,,B,,D,] | C,, [C,E,G,] [C,E,G,] | D,, [D,F,A,] [D,F,A,] | 
+| D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | G,, [G,,B,,D,] [G,,B,,D,] :| 
+|: G,, [G,,B,,D,] [G,,B,,D,] | G,, [G,,B,,D,] [G,,B,,D,] | G,, [G,,B,,D,] [G,,B,,D,] | D,, [D,F,A,] [D,F,A,] | 
+| D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | G,, [G,,B,,D,] [G,,B,,D,] | 
+| G,, [G,,B,,D,] [G,,B,,D,] | G,, [G,,B,,D,] [G,,B,,D,] | G,, [G,,B,,D,] [G,,B,,D,] | D,, [D,F,A,] [D,F,A,] | 
+| D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | G,, [G,,B,,D,] [G,,B,,D,] :| 
+V:3 accordionTab
+|: G+z g+5 g+3' | G+4 g+3' g+5 | C+[4'5'] c+[>>] c+[>>] | D-[3'6] d-[>>] d-[>>] | 
+| D-z d-5 d-3' | D-4 d-3' d-5 | D-[3'6] d-[>>] d-[45] | G+[45] g+[>>] g+[>>] | 
+| G+z g+5 g+3' | G+4 g+3' g+5 | C+[3'4'] c+[>>] c+[45] | D-[34] d-[>>] d-[>>] | 
+| D-z d-4 d-2' | D-3 d-2' d-4 | D-[2'3'] d-[>>] d-[34] | G+[34] g+[>>] g+[>>] :| 
+|: G+z g+70.5 >+80.5 g+70.5 >+80.5 | G+[6'7'] g+[78] g+z | G+[6'7'] g+[78] g+z | D-[6'7'] d-[78] d-z | 
+| D-z d-70.5 >-80.5 d-70.5 >-80.5 | D-[6'7'] d-[78] d-z | D-[6'7'] d-[78] d-z | G+[6'7'] g+[78] g+z | 
+| G+z g+70.5 >+80.5 g+70.5 >+80.5 | G+[6'7'] g+[78] g+z | G+[6'7'] g+[78] g+z | D-[6'7'] d-[78] d-z | 
+| D-z d-6'0.5 >-80.5 d-7'0.5 >-90.5 | D-[7'a] d-[>>] d-[>>] | D-[89] d-[6'7'] d-[78] | G+[67] g+[>>] g+[>>] :| 
