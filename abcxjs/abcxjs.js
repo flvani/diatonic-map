@@ -1526,7 +1526,9 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
     var legalAccents = ["trill", "lowermordent", "uppermordent", "mordent", "pralltriller", "accent",
         "fermata", "invertedfermata", "tenuto", "0", "1", "2", "3", "4", "5", "+", "wedge",
         "open", "thumb", "snap", "turn", "roll", "breath", "shortphrase", "mediumphrase", "longphrase",
-        "segno", "coda", "D.S.", "D.C.", "fine", "crescendo(", "crescendo)", "diminuendo(", "diminuendo)",
+        "segno", "coda",
+        "dacoda", "dacapo", "dasegno", "dcalfine", "dcalcoda", "dsalfine", "dsalcoda"
+        , "D.S.", "D.C.", "fine", "crescendo(", "crescendo)", "diminuendo(", "diminuendo)",
         "p", "pp", "f", "ff", "mf", "mp", "ppp", "pppp", "fff", "ffff", "sfz", "repeatbar", "repeatbar2", "slide",
         "upbow", "downbow", "/", "//", "///", "////", "trem1", "trem2", "trem3", "trem4",
         "turnx", "invertedturn", "invertedturnx", "trill(", "trill)", "arpeggio", "xstem", "mark", "umarcato",
@@ -4709,7 +4711,9 @@ window.ABCXJS.parse.parseKeyVoice = {};
 			isNew = true;
 			if (multilineVars.score_is_present && id.toLowerCase().substr(0,3) !== "tab")
 				warn("Can't have an unknown V: id when the %score directive is present", line, start);
-		}
+		} else {
+                    multilineVars.clef = multilineVars.staves[ multilineVars.voices[id].staffNum].clef;
+                }
 		start += id.length;
 		start += tokenizer.eatWhiteSpace(line, start);
 
@@ -7078,7 +7082,9 @@ ABCXJS.write.DynamicDecoration = function(anchor, dec) {
 
 ABCXJS.write.DynamicDecoration.prototype.draw = function(printer, linestartx, lineendx, staveInfo) {
     var ypos = staveInfo.lowest-1;
-    printer.printSymbol(this.anchor.x, ypos, this.dec);
+    for( var r=0; r < this.dec.length; r ++ ) {
+        printer.printSymbol(this.anchor.x+r*10, ypos, this.dec[r]);
+    }    
 };
 
 ABCXJS.write.EndingElem = function(text, anchor1, anchor2) {
@@ -7425,7 +7431,7 @@ ABCXJS.write.Layout.prototype.layoutABCLine = function( abctune, line, width ) {
 
             if (abcstaff.clef.type !== "accordionTab") {
                 this.voice.addChild(this.printClef(abcstaff.clef));
-                this.voice.addChild(this.printKeySignature(abcstaff));
+                (abcstaff.key) && this.voice.addChild(this.printKeySignature(abcstaff.key));
                 (abcstaff.meter) && this.voice.addChild(this.printTimeSignature(abcstaff.meter));
                 this.printABCVoice();
             } else {
@@ -8347,11 +8353,10 @@ ABCXJS.write.Layout.prototype.printClef = function(elem) {
 };
 
 ABCXJS.write.Layout.prototype.printKeySignature = function(elem) {
-    if(!elem.key) throw "Missing key element!";
-    var abselem = new ABCXJS.write.AbsoluteElement(elem.key,0,10);
+    var abselem = new ABCXJS.write.AbsoluteElement(elem,0,10);
     var dx = 0;
-    if ( elem.key.accidentals) {
-        ABCXJS.parse.each(elem.key.accidentals, function(acc) {
+    if ( elem.accidentals) {
+        ABCXJS.parse.each(elem.accidentals, function(acc) {
             var symbol = (acc.acc === "sharp") ? "accidentals.sharp" : (acc.acc === "natural") ? "accidentals.nat" : "accidentals.flat";
             abselem.addRight(new ABCXJS.write.RelativeElement(symbol, dx, this.glyphs.getSymbolWidth(symbol), acc.verticalPos));
             dx += this.glyphs.getSymbolWidth(symbol)+2;
@@ -10321,406 +10326,6 @@ ABCXJS.tablature.Accordion.prototype.updateEditor = function () {
 
 /*
  * TODO:
- * - Verificar porque no caso de slur a ordem dos elementos não está sendo respeitada
-*/
-
-/*
- 
-            Definição da sintaxe para tablatura
-        
-           " |: G+5'2g-6>-5 | G-3'2d-5d-[678]1/2 | G+5d-5d-> | G-xd-5d-6 | +{786'}2 | +11/2 | c+ac+b |"
-        
-           Linha de tablatura ::= { <comentario> | <barra> | <coluna> }*
-        
-           comentario := "%[texto]"
-
-           barra ::=  "|", "||", ":|", "|:", ":|:", ":||:", "::", ":||", ":||", "[|", "|]", "|[|", "|]|" [endings]
-        
-           coluna ::=  ["("<triplet>][<bassNote>]<bellows><note>[<duration>] [")"] 
-        
-           bassNote ::=  { "abcdefgABCDEFG>xz" }*
-          
-           bellows ::= "-"|"+" 
-        
-           note ::= <button>[<row>] | chord 
-        
-           chord ::= "[" {<button>[<row>]}* "]" 
-        
-           button ::=  {hexDigit} | "x" | "z" | ">"
-        
-           row ::= { "'" }*
-
-           duration ::=  number|fracao 
-
- */
-
-if (!window.ABCXJS)
-	window.ABCXJS = {};
-
-if (!window.ABCXJS.tablature)
-	window.ABCXJS.tablature = {};
-
-ABCXJS.tablature.Parse = function( str, vars ) {
-    this.invalid = false;
-    this.finished = false;
-    this.line = str;
-    this.vars = vars || {} ;
-    this.bassNoteSyms = "abcdefgABCDEFG>xz";
-    this.trebNoteSyms = "0123456789abcdefABCDEF>xz";
-    this.durSyms = "0123456789/.";
-    this.belSyms = "+-";
-    this.barSyms = ":]|[";
-    this.accSyms = "♭♯";
-    this.i = 0;
-    this.xi = 0;
-    this.offset = 8.9;
-    
-    this.warn = function(str) {
-        var bad_char = this.line.charAt(this.i);
-        if (bad_char === ' ')
-            bad_char = "SPACE";
-        var clean_line = this.encode(this.line.substring(0, this.i)) +
-                '<span style="text-decoration:underline;font-size:1.3em;font-weight:bold;">' + bad_char + '</span>' +
-                this.encode(this.line.substring(this.i + 1));
-        this.addWarning("Music Line:" + /*line*/ 0 + ":" + /*column*/(this.i + 1) + ': ' + str + ": " + clean_line);
-    };
-    
-    this.addWarning = function(str) {
-        if (!this.vars.warnings) this.vars.warnings = [];
-        this.vars.warnings.push(str);
-    };
-
-    this.encode = function(str) {
-        var ret = window.ABCXJS.parse.gsub(str, '\x12', ' ');
-        ret = window.ABCXJS.parse.gsub(ret, '&', '&amp;');
-        ret = window.ABCXJS.parse.gsub(ret, '<', '&lt;');
-        return window.ABCXJS.parse.gsub(ret, '>', '&gt;');
-    };
-
-};
-
-ABCXJS.tablature.Parse.prototype.parseTabVoice = function( ) {
-    var voice  = [];
-    this.i = 0;
-    var token = { el_type: "unrecognized" };
-    
-    while (this.i < this.line.length && !this.finished) {
-        token = this.getToken();
-        switch (token.el_type) {
-            case "bar":
-                token.startChar = this.xi;
-                token.endChar = this.i;
-                if( ! this.invalid )
-                  voice[voice.length] = token;
-                break;
-            case "note":
-                if( ! this.invalid )
-                  voice[voice.length] = this.formatChild(token);
-                break;
-            case "comment":
-            case "unrecognized":
-            default:
-                break;
-        }
-    }
-    return voice;
-};
-
-ABCXJS.tablature.Parse.prototype.formatChild = function(token) {
-  var child = {
-        el_type: token.el_type 
-        ,startChar:this.xi 
-        ,endChar:this.i
-        ,pitches: []
-        ,duration: token.duration * this.vars.default_length
-        ,bellows: token.bellows
-  };
-  
-  var pitchBase = 18;
-  var tt = "tabText";
-  
-  if(token.bassNote.length>1) {
-     pitchBase = 21.3;
-     tt = "tabText2";
-  }
-  for( var b = 0; b < token.bassNote.length; ++ b ) {
-    if(token.bassNote[b] === "z")
-      child.pitches[b] = { bass:true, type: "rest", c: 'scripts.tabrest', pitch: 0.7 + pitchBase - (b*3)};
-    else
-      child.pitches[b] = { bass:true, type: tt, c: this.getTabSymbol(token.bassNote[b]), pitch: pitchBase -(b*3) - 0.5};
-  }
-
-  var qtd = token.buttons.length;
-  
-  for(var i = 0; i < token.buttons.length; i ++ ) {
-    var n = child.pitches.length;
-    if(token.buttons[i] === "z")
-      child.pitches[n] = { type: "rest", c: "scripts.tabrest", pitch: token.bellows === "+"? 13.2 : 13.2-this.offset };
-    else {
-      var offset = (qtd>=3?-(this.offset-(2.8*(qtd-2))):-this.offset);
-      var p = (qtd === 1 ? 11.7 : 13.4 - ( i * 2.8)) + (token.bellows === "+"? 0 : offset);
-      child.pitches[n] = { c: this.getTabSymbol(token.buttons[i]), type: "tabText"+(qtd>1?"2":""), pitch: p };
-    } 
-    
-  }
-  
-  if( token.startTriplet) {
-      child.startTriplet = token.startTriplet;
-  }
-  
-  if( token.endTriplet) {
-      child.endTriplet = token.endTriplet;
-  }
-  
-  return child;
-};
-
-ABCXJS.tablature.Parse.prototype.getTabSymbol = function(text) {
-    switch(text) {
-        case '>': return 'scripts.rarrow';
-        default: return text;
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getToken = function() {
-    this.invalid = false;
-    this.parseMultiCharToken( ' \t' );
-    this.xi = this.i;
-    switch(this.line.charAt(this.i)) {
-        case '%':
-          this.finished = true;  
-          return { el_type:"comment",  token: this.line.substr( this.i+1 ) };
-        case '|':
-        case ':':
-          return this.getBarLine();
-          
-        case '[': // se o proximo caracter não for um pipe, deve ser tratado como uma coluna de notas
-          if( this.line.charAt(this.i+1) === '|' ) {
-            return this.getBarLine();
-          }
-        default:    
-          return this.getColumn();
-    }
-   
-};
-
-ABCXJS.tablature.Parse.prototype.parseMultiCharToken = function( syms ) {
-    while (this.i < this.line.length && syms.indexOf(this.line.charAt(this.i)) >= 0) {
-        this.i++;
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getBarLine = function() {
-  var endings  =   '1234567890,'; // due syntax conflict I will not consider the  dash '-'.
-  var validBars = { 
-        "|"   : "bar_thin"
-      , "||"  : "bar_thin_thin"
-      , "[|"  : "bar_thick_thin"
-      , "|]"  : "bar_thin_thick"
-      , ":|:" : "bar_dbl_repeat"
-      , ":||:": "bar_dbl_repeat"
-      , "::"  : "bar_dbl_repeat" 
-      , "|:"  : "bar_left_repeat"
-      , "||:" : "bar_left_repeat"
-      , "[|:" : "bar_left_repeat"
-      , ":|"  : "bar_right_repeat"
-      , ":||" : "bar_right_repeat"
-      , ":|]" : "bar_right_repeat"
-  };
-  
-  if(this.triplet) {
-    this.triplet = false;
-    this.warn( "Expected triplet end but found " + this.line.charAt(this.i) );
-  }
-
-  var token = { el_type:"bar", type:"bar", token: undefined };
-  var p = this.i;
-  
-  this.parseMultiCharToken(this.barSyms);
-  
-  token.token = this.line.substr( p, this.i-p );
-  this.finished =  this.i >= this.line.length;
-  
-  // validar o tipo de barra
-  token.type = validBars[token.token];
-  this.invalid = !token.type;
-
-  if(! this.invalid) {
-    this.parseMultiCharToken( ' \t' );
-    if (this.vars.inEnding ) {
-            token.endDrawEnding = true;
-            if( token.type !== 'bar_thin') {
-                token.endEnding = true;
-                this.vars.inEnding = false;
-            }    
-    }
-    if(endings.indexOf(this.line.charAt(this.i))>=0) {
-        token.startEnding = this.line.charAt(this.i);
-        if (this.vars.inEnding) {
-            token.endDrawEnding = true;
-            token.endEnding = true;
-        }    
-        this.vars.inEnding = true;
-        this.i++;
-    }
-  }
-  return token;
-};
-
-ABCXJS.tablature.Parse.prototype.getColumn = function() {
-    var token = {el_type: "note", type: "note", bassNote: undefined, bellows: "", buttons: [], duration: 1};
-    token.bassNote = [];
-    
-    if(this.line.charAt(this.i) === "(") {
-        token.startTriplet = this.getTripletDef();
-        this.triplet = true;
-    }
-    
-    while (this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-      token.bassNote[token.bassNote.length] = this.getBassNote();
-    }
-    
-    token.bellows = this.getBelows();
-    token.buttons = this.getNote();
-    token.duration = this.getDuration();
-    
-    if( this.isTripletEnd() ) {
-        token.endTriplet = true;
-    }
-    
-    this.finished = this.i >= this.line.length;
-    return token;
-
-};
-
-ABCXJS.tablature.Parse.prototype.getTripletDef = function() {
-    this.i++;
-    this.parseMultiCharToken( ' \t' );
-    var t =  this.line.charAt(this.i); //espero um único número como indicador de triplet
-    this.i++;
-    this.parseMultiCharToken( ' \t' );
-    return t;    
-};
-
-ABCXJS.tablature.Parse.prototype.isTripletEnd = function() {
-    this.parseMultiCharToken( ' \t' );
-    if( this.line.charAt(this.i) === ')' ) {
-        this.i++;
-        this.triplet = false;
-        return true;
-    } 
-    
-    return false;
-};
-
-
-ABCXJS.tablature.Parse.prototype.getBassNote = function() {
-  var note = "";
-  if( this.bassNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-    this.warn( "Expected Bass Note but found " + this.line.charAt(this.i) );
-    this.i++;
-  } else {
-    note = this.line.charAt(this.i);
-    this.i++;
-    if( this.accSyms.indexOf(this.line.charAt(this.i)) >= 0 ) {
-      note += this.line.charAt(this.i);
-      this.i++;
-    }
-  }
-  return note;
-};
-
-ABCXJS.tablature.Parse.prototype.getDuration = function() {
-    var dur = 1;
-    var p = this.i;
-
-    this.parseMultiCharToken(this.durSyms);
-    
-    if (p !== this.i) {
-        dur = this.line.substr(p, this.i - p);
-        if (isNaN(eval(dur))) {
-          this.warn( "Expected numeric or fractional note duration, but found " + dur);
-        } else {
-            dur = eval(dur);
-        }
-    }
-    return dur;
-};
-
-ABCXJS.tablature.Parse.prototype.getBelows = function() {
-    if(this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-       this.warn( "Expected belows information, but found " + this.line.charAt(this.i) );
-       this.invalid = true;
-       return '+';
-    } else {
-        this.i++;
-        return this.line.charAt(this.i-1);
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getNote = function() {
-  var b = [];
-  switch( this.line.charAt(this.i) ) {
-      case '[':
-         this.i++;
-         b = this.getChord();
-         break;
-      default: 
-         b[b.length] = this.getButton();
-  }
-  return b;
-};
-
-ABCXJS.tablature.Parse.prototype.getChord = function( token ) {
-    var b = [];
-    while (this.i < this.line.length && this.line.charAt(this.i) !== ']' ) {
-        b[b.length] = this.getButton();
-    }
-    if( this.line.charAt(this.i) !== ']' ) {
-       this.warn( "Expected end of chord - ']'");
-       this.invalid = true;
-    } else {
-        this.i++;
-    }
-    return b;
-};
-
-ABCXJS.tablature.Parse.prototype.getButton = function() {
-    var c = "x";
-    var row = "";
-    
-    if(this.trebNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-       this.warn( "Expected button number, but found " + this.line.charAt(this.i));
-    } else {
-        c = this.line.charAt(this.i);
-        switch(c) {
-            case '>':
-            case 'x':
-            case 'z':
-               break;
-            default:   
-                c = isNaN(parseInt(c, 16))? 'x': parseInt(c, 16).toString();
-        }
-    }
-    this.i++;
-    
-    var p = this.i;
-
-    this.parseMultiCharToken("'");
-    
-    if (p !== this.i) 
-        row = this.line.substr(p, this.i - p);
-        
-    return c + row;
-};
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * TODO:
  *   - Verificar currInterval e suas implicações quando se está no último compasso
  *   - Tratar adequadamente os acordes de baixo
  *   - OK Tratar inversões de fole e inTie 
@@ -10887,10 +10492,17 @@ ABCXJS.tablature.Infer.prototype.read = function(p_source, item) {
             break;
                
     }
-    
+    // toda chave estranha às notas deve ser ignorada aqui
     while( source.voz[source.pos] &&  source.pos < source.voz.length 
-            && (source.voz[source.pos].direction || source.voz[source.pos].title) ) {
-       source.pos ++;
+            && (source.voz[source.pos].direction || source.voz[source.pos].title || source.voz[source.pos].root) ) {
+        if(source.voz[source.pos].el_type === 'key') {
+            if(source.bass) {
+              this.accBassKey = source.voz[source.pos].accidentals;
+            } else {
+              this.accTrebKey = source.voz[source.pos].accidentals;
+            }
+        }
+        source.pos ++;
     }
     
     if( source.pos < source.voz.length ) {
@@ -11530,6 +11142,531 @@ ABCXJS.tablature.Layout.prototype.printBarLine = function (elem) {
  * and open the template in the editor.
  */
 
+/*
+ * TODO:
+ * - Verificar porque no caso de slur a ordem dos elementos não está sendo respeitada
+*/
+
+/*
+ 
+            Definição da sintaxe para tablatura
+        
+           " |: G+5'2g-6>-5 | G-3'2d-5d-[678]1/2 | G+5d-5d-> | G-xd-5d-6 | +{786'}2 | +11/2 | c+ac+b |"
+        
+           Linha de tablatura ::= { <comentario> | <barra> | <coluna> }*
+        
+           comentario := "%[texto]"
+
+           barra ::=  "|", "||", ":|", "|:", ":|:", ":||:", "::", ":||", ":||", "[|", "|]", "|[|", "|]|" [endings]
+        
+           coluna ::=  ["("<triplet>][<bassNote>]<bellows><note>[<duration>] [")"] 
+        
+           bassNote ::=  { "abcdefgABCDEFG>xz" }*
+          
+           bellows ::= "-"|"+" 
+        
+           note ::= <button>[<row>] | chord 
+        
+           chord ::= "[" {<button>[<row>]}* "]" 
+        
+           button ::=  {hexDigit} | "x" | "z" | ">"
+        
+           row ::= { "'" }*
+
+           duration ::=  number|fracao 
+
+ */
+
+if (!window.ABCXJS)
+	window.ABCXJS = {};
+
+if (!window.ABCXJS.tablature)
+	window.ABCXJS.tablature = {};
+
+ABCXJS.tablature.Parse = function( str, vars ) {
+    this.invalid = false;
+    this.finished = false;
+    this.line = str;
+    this.vars = vars || {} ;
+    this.bassNoteSyms = "abcdefgABCDEFG>xz";
+    this.trebNoteSyms = "0123456789abcdefABCDEF>xz";
+    this.durSyms = "0123456789/.";
+    this.belSyms = "+-";
+    this.barSyms = ":]|[";
+    this.accSyms = "♭♯";
+    this.i = 0;
+    this.xi = 0;
+    this.offset = 8.9;
+    
+    this.warn = function(str) {
+        var bad_char = this.line.charAt(this.i);
+        if (bad_char === ' ')
+            bad_char = "SPACE";
+        var clean_line = this.encode(this.line.substring(0, this.i)) +
+                '<span style="text-decoration:underline;font-size:1.3em;font-weight:bold;">' + bad_char + '</span>' +
+                this.encode(this.line.substring(this.i + 1));
+        this.addWarning("Music Line:" + /*line*/ 0 + ":" + /*column*/(this.i + 1) + ': ' + str + ": " + clean_line);
+    };
+    
+    this.addWarning = function(str) {
+        if (!this.vars.warnings) this.vars.warnings = [];
+        this.vars.warnings.push(str);
+    };
+
+    this.encode = function(str) {
+        var ret = window.ABCXJS.parse.gsub(str, '\x12', ' ');
+        ret = window.ABCXJS.parse.gsub(ret, '&', '&amp;');
+        ret = window.ABCXJS.parse.gsub(ret, '<', '&lt;');
+        return window.ABCXJS.parse.gsub(ret, '>', '&gt;');
+    };
+
+};
+
+ABCXJS.tablature.Parse.prototype.parseTabVoice = function( ) {
+    var voice  = [];
+    this.i = 0;
+    var token = { el_type: "unrecognized" };
+    
+    while (this.i < this.line.length && !this.finished) {
+        token = this.getToken();
+        switch (token.el_type) {
+            case "bar":
+                token.startChar = this.xi;
+                token.endChar = this.i;
+                if( ! this.invalid )
+                  voice[voice.length] = token;
+                break;
+            case "note":
+                if( ! this.invalid )
+                  voice[voice.length] = this.formatChild(token);
+                break;
+            case "comment":
+            case "unrecognized":
+            default:
+                break;
+        }
+    }
+    return voice;
+};
+
+ABCXJS.tablature.Parse.prototype.formatChild = function(token) {
+  var child = {
+        el_type: token.el_type 
+        ,startChar:this.xi 
+        ,endChar:this.i
+        ,pitches: []
+        ,duration: token.duration * this.vars.default_length
+        ,bellows: token.bellows
+  };
+  
+  var pitchBase = 18;
+  var tt = "tabText";
+  
+  if(token.bassNote.length>1) {
+     pitchBase = 21.3;
+     tt = "tabText2";
+  }
+  for( var b = 0; b < token.bassNote.length; ++ b ) {
+    if(token.bassNote[b] === "z")
+      child.pitches[b] = { bass:true, type: "rest", c: 'scripts.tabrest', pitch: 0.7 + pitchBase - (b*3)};
+    else
+      child.pitches[b] = { bass:true, type: tt, c: this.getTabSymbol(token.bassNote[b]), pitch: pitchBase -(b*3) - 0.5};
+  }
+
+  var qtd = token.buttons.length;
+  
+  for(var i = 0; i < token.buttons.length; i ++ ) {
+    var n = child.pitches.length;
+    if(token.buttons[i] === "z")
+      child.pitches[n] = { type: "rest", c: "scripts.tabrest", pitch: token.bellows === "+"? 13.2 : 13.2-this.offset };
+    else {
+      var offset = (qtd>=3?-(this.offset-(2.8*(qtd-2))):-this.offset);
+      var p = (qtd === 1 ? 11.7 : 13.4 - ( i * 2.8)) + (token.bellows === "+"? 0 : offset);
+      child.pitches[n] = { c: this.getTabSymbol(token.buttons[i]), type: "tabText"+(qtd>1?"2":""), pitch: p };
+    } 
+    
+  }
+  
+  if( token.startTriplet) {
+      child.startTriplet = token.startTriplet;
+  }
+  
+  if( token.endTriplet) {
+      child.endTriplet = token.endTriplet;
+  }
+  
+  return child;
+};
+
+ABCXJS.tablature.Parse.prototype.getTabSymbol = function(text) {
+    switch(text) {
+        case '>': return 'scripts.rarrow';
+        default: return text;
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getToken = function() {
+    this.invalid = false;
+    this.parseMultiCharToken( ' \t' );
+    this.xi = this.i;
+    switch(this.line.charAt(this.i)) {
+        case '%':
+          this.finished = true;  
+          return { el_type:"comment",  token: this.line.substr( this.i+1 ) };
+        case '|':
+        case ':':
+          return this.getBarLine();
+          
+        case '[': // se o proximo caracter não for um pipe, deve ser tratado como uma coluna de notas
+          if( this.line.charAt(this.i+1) === '|' ) {
+            return this.getBarLine();
+          }
+        default:    
+          return this.getColumn();
+    }
+   
+};
+
+ABCXJS.tablature.Parse.prototype.parseMultiCharToken = function( syms ) {
+    while (this.i < this.line.length && syms.indexOf(this.line.charAt(this.i)) >= 0) {
+        this.i++;
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getBarLine = function() {
+  var endings  =   '1234567890,'; // due syntax conflict I will not consider the  dash '-'.
+  var validBars = { 
+        "|"   : "bar_thin"
+      , "||"  : "bar_thin_thin"
+      , "[|"  : "bar_thick_thin"
+      , "|]"  : "bar_thin_thick"
+      , ":|:" : "bar_dbl_repeat"
+      , ":||:": "bar_dbl_repeat"
+      , "::"  : "bar_dbl_repeat" 
+      , "|:"  : "bar_left_repeat"
+      , "||:" : "bar_left_repeat"
+      , "[|:" : "bar_left_repeat"
+      , ":|"  : "bar_right_repeat"
+      , ":||" : "bar_right_repeat"
+      , ":|]" : "bar_right_repeat"
+  };
+  
+  if(this.triplet) {
+    this.triplet = false;
+    this.warn( "Expected triplet end but found " + this.line.charAt(this.i) );
+  }
+
+  var token = { el_type:"bar", type:"bar", token: undefined };
+  var p = this.i;
+  
+  this.parseMultiCharToken(this.barSyms);
+  
+  token.token = this.line.substr( p, this.i-p );
+  this.finished =  this.i >= this.line.length;
+  
+  // validar o tipo de barra
+  token.type = validBars[token.token];
+  this.invalid = !token.type;
+
+  if(! this.invalid) {
+    this.parseMultiCharToken( ' \t' );
+    if (this.vars.inEnding ) {
+            token.endDrawEnding = true;
+            if( token.type !== 'bar_thin') {
+                token.endEnding = true;
+                this.vars.inEnding = false;
+            }    
+    }
+    if(endings.indexOf(this.line.charAt(this.i))>=0) {
+        token.startEnding = this.line.charAt(this.i);
+        if (this.vars.inEnding) {
+            token.endDrawEnding = true;
+            token.endEnding = true;
+        }    
+        this.vars.inEnding = true;
+        this.i++;
+    }
+  }
+  return token;
+};
+
+ABCXJS.tablature.Parse.prototype.getColumn = function() {
+    var token = {el_type: "note", type: "note", bassNote: undefined, bellows: "", buttons: [], duration: 1};
+    token.bassNote = [];
+    
+    if(this.line.charAt(this.i) === "(") {
+        token.startTriplet = this.getTripletDef();
+        this.triplet = true;
+    }
+    
+    while (this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+      token.bassNote[token.bassNote.length] = this.getBassNote();
+    }
+    
+    token.bellows = this.getBelows();
+    token.buttons = this.getNote();
+    token.duration = this.getDuration();
+    
+    if( this.isTripletEnd() ) {
+        token.endTriplet = true;
+    }
+    
+    this.finished = this.i >= this.line.length;
+    return token;
+
+};
+
+ABCXJS.tablature.Parse.prototype.getTripletDef = function() {
+    this.i++;
+    this.parseMultiCharToken( ' \t' );
+    var t =  this.line.charAt(this.i); //espero um único número como indicador de triplet
+    this.i++;
+    this.parseMultiCharToken( ' \t' );
+    return t;    
+};
+
+ABCXJS.tablature.Parse.prototype.isTripletEnd = function() {
+    this.parseMultiCharToken( ' \t' );
+    if( this.line.charAt(this.i) === ')' ) {
+        this.i++;
+        this.triplet = false;
+        return true;
+    } 
+    
+    return false;
+};
+
+
+ABCXJS.tablature.Parse.prototype.getBassNote = function() {
+  var note = "";
+  if( this.bassNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+    this.warn( "Expected Bass Note but found " + this.line.charAt(this.i) );
+    this.i++;
+  } else {
+    note = this.line.charAt(this.i);
+    this.i++;
+    if( this.accSyms.indexOf(this.line.charAt(this.i)) >= 0 ) {
+      note += this.line.charAt(this.i);
+      this.i++;
+    }
+  }
+  return note;
+};
+
+ABCXJS.tablature.Parse.prototype.getDuration = function() {
+    var dur = 1;
+    var p = this.i;
+
+    this.parseMultiCharToken(this.durSyms);
+    
+    if (p !== this.i) {
+        dur = this.line.substr(p, this.i - p);
+        if (isNaN(eval(dur))) {
+          this.warn( "Expected numeric or fractional note duration, but found " + dur);
+        } else {
+            dur = eval(dur);
+        }
+    }
+    return dur;
+};
+
+ABCXJS.tablature.Parse.prototype.getBelows = function() {
+    if(this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+       this.warn( "Expected belows information, but found " + this.line.charAt(this.i) );
+       this.invalid = true;
+       return '+';
+    } else {
+        this.i++;
+        return this.line.charAt(this.i-1);
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getNote = function() {
+  var b = [];
+  switch( this.line.charAt(this.i) ) {
+      case '[':
+         this.i++;
+         b = this.getChord();
+         break;
+      default: 
+         b[b.length] = this.getButton();
+  }
+  return b;
+};
+
+ABCXJS.tablature.Parse.prototype.getChord = function( token ) {
+    var b = [];
+    while (this.i < this.line.length && this.line.charAt(this.i) !== ']' ) {
+        b[b.length] = this.getButton();
+    }
+    if( this.line.charAt(this.i) !== ']' ) {
+       this.warn( "Expected end of chord - ']'");
+       this.invalid = true;
+    } else {
+        this.i++;
+    }
+    return b;
+};
+
+ABCXJS.tablature.Parse.prototype.getButton = function() {
+    var c = "x";
+    var row = "";
+    
+    if(this.trebNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+       this.warn( "Expected button number, but found " + this.line.charAt(this.i));
+    } else {
+        c = this.line.charAt(this.i);
+        switch(c) {
+            case '>':
+            case 'x':
+            case 'z':
+               break;
+            default:   
+                c = isNaN(parseInt(c, 16))? 'x': parseInt(c, 16).toString();
+        }
+    }
+    this.i++;
+    
+    var p = this.i;
+
+    this.parseMultiCharToken("'");
+    
+    if (p !== this.i) 
+        row = this.line.substr(p, this.i - p);
+        
+    return c + row;
+};
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+if (!window.SVG)
+    window.SVG = {};
+
+if (!window.SVG.Glyphs )
+    window.SVG.Glyphs = {};
+
+SVG.Glyphs = function () {
+    
+    var abc_glyphs = new ABCXJS.write.Glyphs();
+
+    var glyphs = { // the @@ will be replaced by the abc_glyph contents.
+       "0": '<path id="0" transform="scale(0.95)" \nd="@@"/>'
+      ,"1": '<path id="1" transform="scale(0.95)" \nd="@@"/>'
+      ,"2": '<path id="2" transform="scale(0.95)" \nd="@@"/>'
+      ,"3": '<path id="3" transform="scale(0.95)" \nd="@@"/>'
+      ,"4": '<path id="4" transform="scale(0.95)" \nd="@@"/>'
+      ,"5": '<path id="5" transform="scale(0.95)" \nd="@@"/>'
+      ,"6": '<path id="6" transform="scale(0.95)" \nd="@@"/>'
+      ,"7": '<path id="7" transform="scale(0.95)" \nd="@@"/>'
+      ,"8": '<path id="8" transform="scale(0.95)" \nd="@@"/>'
+      ,"9": '<path id="9" transform="scale(0.95)" \nd="@@"/>'
+      ,"f": '<path id="f" transform="scale(0.95)" \nd="@@"/>'
+      ,"m": '<path id="m" transform="scale(0.95)" \nd="@@"/>'
+      ,"p": '<path id="p" transform="scale(0.95)" \nd="@@"/>'
+      ,"r": '<path id="r" transform="scale(0.95)" \nd="@@"/>'
+      ,"s": '<path id="s" transform="scale(0.95)" \nd="@@"/>'
+      ,"z": '<path id="z" transform="scale(0.95)" \nd="@@"/>'
+      ,"+": '<path id="+" transform="scale(0.95)" \nd="@@"/>'
+      ,",": '<path id="," transform="scale(0.95)" \nd="@@"/>'
+      ,"-": '<path id="-" transform="scale(0.95)" \nd="@@"/>'
+      ,".": '<path id="." transform="scale(0.95)" \nd="@@"/>'
+      ,"accidentals.nat": '<path id="accidentals.nat" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.sharp": '<path id="accidentals.sharp" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.flat": '<path id="accidentals.flat" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.halfsharp": '<path id="accidentals.halfsharp" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.dblsharp": '<path id="accidentals.dblsharp" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.halfflat": '<path id="accidentals.halfflat" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.dblflat": '<path id="accidentals.dblflat" transform="scale(0.8)" \nd="@@"/>'
+      ,"clefs.C": '<path id="clefs.C" \nd="@@"/>'
+      ,"clefs.F": '<path id="clefs.F" \nd="@@"/>'
+      ,"clefs.G": '<path id="clefs.G" \nd="@@"/>'
+      ,"clefs.perc": '<path id="clefs.perc" \nd="@@"/>'
+      ,"clefs.tab": '<path id="clefs.tab" transform="scale(0.9)" \nd="@@"/>'
+      ,"dots.dot": '<path id="dots.dot" \nd="@@"/>'
+      ,"flags.d8th": '<path id="flags.d8th" \nd="@@"/>'
+      ,"flags.d16th": '<path id="flags.d16th" \nd="@@"/>'
+      ,"flags.d32nd": '<path id="flags.d32nd" \nd="@@"/>'
+      ,"flags.d64th": '<path id="flags.d64th" \nd="@@"/>'
+      ,"flags.dgrace": '<path id="flags.dgrace" \nd="@@"/>'
+      ,"flags.u8th": '<path id="flags.u8th" \nd="@@"/>'
+      ,"flags.u16th": '<path id="flags.u16th" \nd="@@"/>'
+      ,"flags.u32nd": '<path id="flags.u32nd" \nd="@@"/>'
+      ,"flags.u64th": '<path id="flags.u64th" \nd="@@"/>'
+      ,"flags.ugrace": '<path id="flags.ugrace" \nd="@@"/>'
+      ,"graceheads.quarter": '<g id="graceheads.quarter" transform="scale(0.6)" ><use xlink:href="#noteheads.quarter" /></g>'
+      ,"graceflags.d8th": '<g id="graceflags.d8th" transform="scale(0.6)" ><use xlink:href="#flags.d8th" /></g>'
+      ,"graceflags.u8th": '<g id="graceflags.u8th" transform="scale(0.6)" ><use xlink:href="#flags.u8th" /></g>'
+      ,"noteheads.quarter": '<path id="noteheads.quarter" \nd="@@"/>'
+      ,"noteheads.whole": '<path id="noteheads.whole" \nd="@@"/>'
+      ,"notehesad.dbl": '<path id="noteheads.dbl" \nd="@@"/>'
+      ,"noteheads.half": '<path id="noteheads.half" \nd="@@"/>'
+      ,"rests.whole": '<path id="rests.whole" \nd="@@"/>'
+      ,"rests.half": '<path id="rests.half" \nd="@@"/>'
+      ,"rests.quarter": '<path id="rests.quarter" \nd="@@"/>'
+      ,"rests.8th": '<path id="rests.8th" \nd="@@"/>'
+      ,"rests.16th": '<path id="rests.16th" \nd="@@"/>'
+      ,"rests.32nd": '<path id="rests.32nd" \nd="@@"/>'
+      ,"rests.64th": '<path id="rests.64th" \nd="@@"/>'
+      ,"rests.128th": '<path id="rests.128th" \nd="@@"/>'
+      ,"scripts.rarrow": '<path id="scripts.rarrow" \nd="M -6 -5 h 8 v -3 l 4 4 l -4 4 v -3 h -8 z"/>'
+      ,"scripts.tabrest": '<path id="scripts.tabrest" \nd="M -5 5 h 10 v 2 h -10 z"/>'
+      ,"scripts.lbrace": '<path id="scripts.lbrace" \nd="@@"/>'
+      ,"scripts.ufermata": '<path id="scripts.ufermata" \nd="@@"/>'
+      ,"scripts.dfermata": '<path id="scripts.dfermata" \nd="@@"/>'
+      ,"scripts.sforzato": '<path id="scripts.sforzato" \nd="@@"/>'
+      ,"scripts.staccato": '<path id="scripts.staccato" \nd="@@"/>'
+      ,"scripts.tenuto": '<path id="scripts.tenuto" \nd="@@"/>'
+      ,"scripts.umarcato": '<path id="scripts.umarcato" \nd="@@"/>'
+      ,"scripts.dmarcato": '<path id="scripts.dmarcato" \nd="@@"/>'
+      ,"scripts.stopped": '<path id="scripts.stopped" \nd="@@"/>'
+      ,"scripts.upbow": '<path id="scripts.upbow" \nd="@@"/>'
+      ,"scripts.downbow": '<path id="scripts.downbow" \nd="@@"/>'
+      ,"scripts.turn": '<path id="scripts.turn" \nd="@@"/>'
+      ,"scripts.trill": '<path id="scripts.trill" \nd="@@"/>'
+      ,"scripts.segno": '<path id="scripts.segno" transform="scale(0.8)" \nd="@@"/>'
+      ,"scripts.coda": '<path id="scripts.coda" transform="scale(0.8)" \nd="@@"/>'
+      ,"scripts.comma": '<path id="scripts.comma" \nd="@@"/>'
+      ,"scripts.roll": '<path id="scripts.roll" \nd="@@"/>'
+      ,"scripts.prall": '<path id="scripts.prall" \nd="@@"/>'
+      ,"scripts.mordent": '<path id="scripts.mordent" \nd="@@"/>'
+      ,"timesig.common": '<path id="timesig.common" \nd="@@"/>'
+      ,"timesig.cut": '<path id="timesig.cut" \nd="@@"/>'
+    };
+    
+    this.getDefinition = function (gl) {
+        
+        
+        var g = glyphs[gl];
+        
+        if (!g) {
+            return "";
+        }
+        
+        // expande path se houver, buscando a definicao do original do ABCJS.
+        g = g.replace('@@', abc_glyphs.getTextSymbol(gl) );
+        
+        var i = 0, j = 0;
+
+        while (i>=0) {
+            i = g.indexOf('xlink:href="#', j );
+            if (i < 0) continue;
+            i += 13;
+            j = g.indexOf('"', i);
+            g += this.getDefinition(g.slice(i, j));
+        }
+
+        return '\n' +  g;
+    };
+};
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 /* 
     Created on : 27/04/2016, 10:55:16
     Author     : flavio.vani@gmail.com
@@ -11877,128 +12014,3 @@ SVG.Printer.prototype.printButton = function (id, x, y, options) {
 
 };
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-if (!window.SVG)
-    window.SVG = {};
-
-if (!window.SVG.Glyphs )
-    window.SVG.Glyphs = {};
-
-SVG.Glyphs = function () {
-    
-    var abc_glyphs = new ABCXJS.write.Glyphs();
-
-    var glyphs = { // the @@ will be replaced by the abc_glyph contents.
-       "0": '<path id="0" transform="scale(0.95)" \nd="@@"/>'
-      ,"1": '<path id="1" transform="scale(0.95)" \nd="@@"/>'
-      ,"2": '<path id="2" transform="scale(0.95)" \nd="@@"/>'
-      ,"3": '<path id="3" transform="scale(0.95)" \nd="@@"/>'
-      ,"4": '<path id="4" transform="scale(0.95)" \nd="@@"/>'
-      ,"5": '<path id="5" transform="scale(0.95)" \nd="@@"/>'
-      ,"6": '<path id="6" transform="scale(0.95)" \nd="@@"/>'
-      ,"7": '<path id="7" transform="scale(0.95)" \nd="@@"/>'
-      ,"8": '<path id="8" transform="scale(0.95)" \nd="@@"/>'
-      ,"9": '<path id="9" transform="scale(0.95)" \nd="@@"/>'
-      ,"f": '<path id="f" transform="scale(0.95)" \nd="@@"/>'
-      ,"m": '<path id="m" transform="scale(0.95)" \nd="@@"/>'
-      ,"p": '<path id="p" transform="scale(0.95)" \nd="@@"/>'
-      ,"r": '<path id="s" transform="scale(0.95)" \nd="@@"/>'
-      ,"s": '<path id="r" transform="scale(0.95)" \nd="@@"/>'
-      ,"z": '<path id="z" transform="scale(0.95)" \nd="@@"/>'
-      ,"+": '<path id="+" transform="scale(0.95)" \nd="@@"/>'
-      ,",": '<path id="," transform="scale(0.95)" \nd="@@"/>'
-      ,"-": '<path id="-" transform="scale(0.95)" \nd="@@"/>'
-      ,".": '<path id="." transform="scale(0.95)" \nd="@@"/>'
-      ,"accidentals.nat": '<path id="accidentals.nat" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.sharp": '<path id="accidentals.sharp" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.flat": '<path id="accidentals.flat" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.halfsharp": '<path id="accidentals.halfsharp" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.dblsharp": '<path id="accidentals.dblsharp" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.halfflat": '<path id="accidentals.halfflat" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.dblflat": '<path id="accidentals.dblflat" transform="scale(0.8)" \nd="@@"/>'
-      ,"clefs.C": '<path id="clefs.C" \nd="@@"/>'
-      ,"clefs.F": '<path id="clefs.F" \nd="@@"/>'
-      ,"clefs.G": '<path id="clefs.G" \nd="@@"/>'
-      ,"clefs.perc": '<path id="clefs.perc" \nd="@@"/>'
-      ,"clefs.tab": '<path id="clefs.tab" transform="scale(0.9)" \nd="@@"/>'
-      ,"dots.dot": '<path id="dots.dot" \nd="@@"/>'
-      ,"flags.d8th": '<path id="flags.d8th" \nd="@@"/>'
-      ,"flags.d16th": '<path id="flags.d16th" \nd="@@"/>'
-      ,"flags.d32nd": '<path id="flags.d32nd" \nd="@@"/>'
-      ,"flags.d64th": '<path id="flags.d64th" \nd="@@"/>'
-      ,"flags.dgrace": '<path id="flags.dgrace" \nd="@@"/>'
-      ,"flags.u8th": '<path id="flags.u8th" \nd="@@"/>'
-      ,"flags.u16th": '<path id="flags.u16th" \nd="@@"/>'
-      ,"flags.u32nd": '<path id="flags.u32nd" \nd="@@"/>'
-      ,"flags.u64th": '<path id="flags.u64th" \nd="@@"/>'
-      ,"flags.ugrace": '<path id="flags.ugrace" \nd="@@"/>'
-      ,"graceheads.quarter": '<g id="graceheads.quarter" transform="scale(0.6)" ><use xlink:href="#noteheads.quarter" /></g>'
-      ,"graceflags.d8th": '<g id="graceflags.d8th" transform="scale(0.6)" ><use xlink:href="#flags.d8th" /></g>'
-      ,"graceflags.u8th": '<g id="graceflags.u8th" transform="scale(0.6)" ><use xlink:href="#flags.u8th" /></g>'
-      ,"noteheads.quarter": '<path id="noteheads.quarter" \nd="@@"/>'
-      ,"noteheads.whole": '<path id="noteheads.whole" \nd="@@"/>'
-      ,"notehesad.dbl": '<path id="noteheads.dbl" \nd="@@"/>'
-      ,"noteheads.half": '<path id="noteheads.half" \nd="@@"/>'
-      ,"rests.whole": '<path id="rests.whole" \nd="@@"/>'
-      ,"rests.half": '<path id="rests.half" \nd="@@"/>'
-      ,"rests.quarter": '<path id="rests.quarter" \nd="@@"/>'
-      ,"rests.8th": '<path id="rests.8th" \nd="@@"/>'
-      ,"rests.16th": '<path id="rests.16th" \nd="@@"/>'
-      ,"rests.32nd": '<path id="rests.32nd" \nd="@@"/>'
-      ,"rests.64th": '<path id="rests.64th" \nd="@@"/>'
-      ,"rests.128th": '<path id="rests.128th" \nd="@@"/>'
-      ,"scripts.rarrow": '<path id="scripts.rarrow" \nd="M -6 -5 h 8 v -3 l 4 4 l -4 4 v -3 h -8 z"/>'
-      ,"scripts.tabrest": '<path id="scripts.tabrest" \nd="M -5 5 h 10 v 2 h -10 z"/>'
-      ,"scripts.lbrace": '<path id="scripts.lbrace" \nd="@@"/>'
-      ,"scripts.ufermata": '<path id="scripts.ufermata" \nd="@@"/>'
-      ,"scripts.dfermata": '<path id="scripts.dfermata" \nd="@@"/>'
-      ,"scripts.sforzato": '<path id="scripts.sforzato" \nd="@@"/>'
-      ,"scripts.staccato": '<path id="scripts.staccato" \nd="@@"/>'
-      ,"scripts.tenuto": '<path id="scripts.tenuto" \nd="@@"/>'
-      ,"scripts.umarcato": '<path id="scripts.umarcato" \nd="@@"/>'
-      ,"scripts.dmarcato": '<path id="scripts.dmarcato" \nd="@@"/>'
-      ,"scripts.stopped": '<path id="scripts.stopped" \nd="@@"/>'
-      ,"scripts.upbow": '<path id="scripts.upbow" \nd="@@"/>'
-      ,"scripts.downbow": '<path id="scripts.downbow" \nd="@@"/>'
-      ,"scripts.turn": '<path id="scripts.turn" \nd="@@"/>'
-      ,"scripts.trill": '<path id="scripts.trill" \nd="@@"/>'
-      ,"scripts.segno": '<path id="scripts.segno" \nd="@@"/>'
-      ,"scripts.coda": '<path id="scripts.coda" \nd="@@"/>'
-      ,"scripts.comma": '<path id="scripts.comma" \nd="@@"/>'
-      ,"scripts.roll": '<path id="scripts.roll" \nd="@@"/>'
-      ,"scripts.prall": '<path id="scripts.prall" \nd="@@"/>'
-      ,"scripts.mordent": '<path id="scripts.mordent" \nd="@@"/>'
-      ,"timesig.common": '<path id="timesig.common" \nd="@@"/>'
-      ,"timesig.cut": '<path id="timesig.cut" \nd="@@"/>'
-    };
-    
-    this.getDefinition = function (gl) {
-        
-        
-        var g = glyphs[gl];
-        
-        if (!g) {
-            return "";
-        }
-        
-        // expande path se houver, buscando a definicao do original do ABCJS.
-        g = g.replace('@@', abc_glyphs.getTextSymbol(gl) );
-        
-        var i = 0, j = 0;
-
-        while (i>=0) {
-            i = g.indexOf('xlink:href="#', j );
-            if (i < 0) continue;
-            i += 13;
-            j = g.indexOf('"', i);
-            g += this.getDefinition(g.slice(i, j));
-        }
-
-        return '\n' +  g;
-    };
-};
