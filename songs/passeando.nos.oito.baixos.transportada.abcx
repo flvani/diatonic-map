@@ -16,7 +16,7 @@ V:1 treble
 !segno!|: AB cd | cc z2 | FG AB | AA z2 | DE FG | FD FA | 
 | c=B _BA |1 c2 z2 :|2 F2 z a |: af fd | dc c =B | =B_B BA | AF FD | 
 | DF FG | _AG GF |1 DF c2- | c2 z a :|2 DF F2- | F2 z F |: FE ED | 
-| D=B, B,D | EF ED | =B2 z F | FE ED | D=B, B,D | EF ED | D2 z F !segno!:| 
+| D=B, B,D | EF ED | A2 z F | FE ED | D=B, B,D | EF ED | D2 z F !segno!:| 
 V:2 bass stem=down
 |: x4 | x2 F,,2 | x4 | x2 F,,2 | x4 | x4 |
 | x4 |1 x2 C,,2 :|2 x2 F,,2 |: x4 | x4 | x4 | x4 | 
@@ -31,8 +31,4 @@ V:4 accordionTab
 |: z-5' z-7 z+6' z-7' | z+6' z+6' Ff+z2 | z-4' z+5' z-5' z-7 | z-5' z-5' Ff-z2 | z-3' z-5 z-4' z+5' | z-4' z-3' z-4' z-5' | 
 | z+6' z-6' z-7 z-5' |1 z+6'2 Cc+z2 :|2 z-4'2 Ff-z >-9' |: z-9' z-8' b♭-8' >-7' | F-7' >+6' f+6' >-6' | z-6' z-7 f-7 >-5' | F-5' >-4' f-4' >-3' | 
 | z-3' z-4' f-4' >+5' | B♭-6 z+5' c+5' z-4' |1 z-3' z-4' c+6'2 | C+>2 c+z z-9' :|2 z-3' z-4' b♭-4'2 | F->2 f-z >-4' |: z-4' z-5 a-5 >-3' | 
-| D-3' z+4 g+4 z-3' | z-5 z-4' d-5 >-3' | D-6'2 d-z >-4' | z-4' z-5 d-5 >-3' | D-3' z+4 g+4 z-3' | z-5 z-4' d-5 >-3' | D-3'2 d-z >-4' :|
-
-
-
-
+| D-3' z+4 g+4 z-3' | z-5 z-4' d-5 >-3' | D-5'2 d-z >-4' | z-4' z-5 d-5 >-3' | D-3' z+4 g+4 z-3' | z-5 z-4' d-5 >-3' | D-3'2 d-z >-4' :|
