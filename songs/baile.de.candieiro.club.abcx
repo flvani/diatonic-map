@@ -1,0 +1,40 @@
+﻿X:2020
+%%barnumbers 0
+%%papersize A4
+%%pagenumbering
+%%staffsep 20
+%barsperstaff 8
+T:Baile de Candieiro (club)
+R:rancheira
+Z:Flávio Vani
+L:1/8
+M:3/4
+Q:130
+K:F
+V:1 clef=treble
+|z CC[Ac]  CC !segno!|: [Bd]C C[Ac] CC | [GBc]C C[GBc] CC | [Ac]C C[GBc] CC | [FAc]C C[Ac] CC |
+| [Bd]C C[Ac] [GBc]F | [GBc]C C[GBc] CC | [CAc]3 B/2A/2 Gc |1 F[cg] C[Ac] CC :|2 F2 z [Ac][Ac][Bd] |
+|: [Bd][Ac] [Ac][GB] [GB][FBc] | [EBc][EBc] [EBc][EBce] [EBce][EBce] | [EBce][Bd] [Bd][Ac] [Ac][GBc] | F[FAf] [FAf][Ac] [Ac][Bd] | [Bd][Ac] [Ac][GB] [GB][FBc] |
+| E[EBce] [EBce][EBce] [EBce]d/2c/2 | [Bd]A Ac GB |1 F[FA] z [Ac] [Ac][Bd] :|2 A[Adf] C[Ac] CC |: [Bd]C C[Ac] CC |
+| [GBc]C C[GBc] CC | [Ac]C C[GBc] CC | [FAc]C C[Ac] CC | [Bd]C C[Ac] [GBc]F | [GBc]C C[GBc] CC |
+| [CAc]3 B/2A/2 Gc |1 F[cg] C[Ac] CC :|2 F[FAf] z cAG | FE_EDCB, | [Af]6 | [G^d]6 |
+| [Fd]6- | [Fd]6 | z [Ece] [Ece]2-[Ece]2 | z [Ece] [Ece]2 z2 | z [CAc] [CAc]2 z2 | z [CAc] z2 [CAc]A, | [ca]A [ca]A [ca]A |
+| [^dg]G [dg]G [dg]G | [df]F [df]F [df]F | [df]F [df]F [df]F | [ce]E [ce]E [ce]E | Bd Bd Bd |
+| F2 z [DBd] z2 |: [CAc] z2 [CAc] z2 | [CGBc] z2 [CAc] z2 | [CGBc] z2  [CAc] z [CGBc] | [FA]2 z [DBd] z2 :|
+| [CAc] z2 [CAc] z2 | z [Ece] z [Ece] z [Ece] | z [Bd] z [Ac] z [GBc] | [FA]C C[Ac] CC !segno!|: [Bd]C C[Ac] CC |
+| [GBc]C C[GBc] CC | [Ac]C C[GBc] CC | [FAc]C C[Ac] CC |1 [Bd]C C[Ac] [GBc]F | [GBc]C C[GBc] CC |
+| [CAc]3 B/2A/2 Gc | F[cg] C[Ac] CC :|2 [Bd]C C[Ac] z2 | z[Ece] z[Ece] z[Ece] | z[Bd] z[Ac] z[GBc] | F2 [FAcf]2 z2 |
+V:2 clef=bass
+| z6 |: F,,2 [F,A,C]2 A,,2 | G,,2 [C,E,G,]2 G,,2 | C,,2 [C,E,G,]2 [C,E,G,]2 | F,,2 [F,A,C]2 [F,A,C]2 |
+| B,,3 A,, G,,F,, | E,,2 [E,G,B,]2 [E,G,B,]2 | B,,2 [B,,D,F,]2 [B,,D,F,]2 |1 F,,2 [F,A,C]2 [F,A,C]2 :|2 F,,2 [F,A,C]2 [F,A,C]2 | 
+|: F,,2 [F,A,C]2 A,,2 | G,,2 [C,E,G,]2 [C,E,G,]2 | C,,2 D,,2 E,,2 | F,,2 [F,A,C]2 C,,2 | F,,2 E,,2 D,,2 |
+| C,,2 [C,E,G,]2 [C,E,G,]2 | C,,2 [C,E,G,]2 [C,E,G,]2 |1 F,,2 [F,A,C]2 C,,2 :|2 z6 |: F,,2 [F,A,C]2 A,,2 |
+| G,,2 [C,E,G,]2 G,,2 | C,,2 [C,E,G,]2 [C,E,G,]2 | F,,2 [F,A,C]2 [F,A,C]2 | B,,3 A,, G,,F,, | E,,2 [E,G,B,]2 [E,G,B,]2 |
+| B,,2 [B,,D,F,]2 [B,,D,F,]2 |1 F,,2 [F,A,C]2 [F,A,C]2 :|2 F,,2 [F,A,C] z z2 | z6 | A,,2 [F,A,C]2 [F,A,C]2 | F,,2 [F,A,C]2 [F,A,C]2 |
+| B,,2 [B,,D,F,]2 F,,2 | B,,A,, B,,2 B,,2 | C,, z C,,C,, z2 | C,, z C,,C,, z2 | F,, z F,,F,, z2 | F,, z F,,F,, z2 | F,,2 [F,A,C]2 [F,A,C]2 |
+| C,,2 [F,A,C]2 [F,A,C]2 | B,,2 [B,,D,F,]2 F,,2 | C,,2 [F,A,C]2 C,,2 | C,,2 [C,E,G,]2 [C,E,G,]2 | C,,2 D,,2 E,,2 |
+| F,,2 z2 C,,B,, |: z C,,F,, z C,,B,, | z C,,E,, z G,, B,, | z C,,E,, z G,, B,, | F,,2 [F,A,C]2 C,,B,, :|
+| z C,,A,, z (3 A,,B,,=B,, | C,, z C,, z z2 | B,,2 A,,2 G,,2 | F,,2 [F,A,C]2 [F,A,C]2 |: F,,2 [F,A,C]2 A,,2 |
+| G,,2 C,2 G,,2 | C,,2 C,2 C,2 | F,,2 [F,A,C]2 [F,A,C]2 |1 B,,3 A,,G,,F,, | E,,2 C,2 C,2 |
+| B,,2 B,,2 B,,2 | F,,2 F,2 F,2 :|2  A,,3 z (3A,,B,,=B,, |C,, z C,, z z2 | B,,2 A,,2 G,,2 | F,,2 [F,A,C]2 z2 |
+V:3 accordionTab

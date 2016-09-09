@@ -3897,7 +3897,8 @@ window.ABCXJS.parse.ParseHeader = function(tokenizer, warn, multilineVars, tune,
 						multilineVars.meter = meter;
 					return [ e-i+1+ws ];
 				case "[K:":
-					var result = window.ABCXJS.parse.parseKeyVoice.parseKey(line.substring(i+3, e), transposer );
+                                        // parseKey não precisa conhecer o transposer porque a string da linha já foi transposta integralmente antes deste ponto.
+					var result = window.ABCXJS.parse.parseKeyVoice.parseKey(line.substring(i+3, e) ); // flavio
 					if (result.foundClef && tune.hasBeginMusic())
 						tune.appendStartingElement('clef', multilineVars.currTexLineNum, -1, -1, multilineVars.clef);
 					if (result.foundKey && tune.hasBeginMusic())
@@ -4427,7 +4428,7 @@ window.ABCXJS.parse.parseKeyVoice = {};
 		}
 	};
 
-	window.ABCXJS.parse.parseKeyVoice.parseKey = function( str, transposer, line, lineNumber )	
+	window.ABCXJS.parse.parseKeyVoice.parseKey = function( str, transposer, line, lineNumber )
 	{
 		// returns:
 		//		{ foundClef: true, foundKey: true }
@@ -5810,9 +5811,9 @@ window.ABCXJS.parse.Transposer.prototype.transposeRegularMusicLine = function(li
             state = 0;
             
             if (found) {
-                this.transposeNote(xi, xf - xi);
+              this.transposeNote(xi, xf - xi);
             } else {
-              index++;
+              index = this.checkForInlineFields( index );
             }   
             
         }
@@ -5827,6 +5828,26 @@ window.ABCXJS.parse.Transposer.prototype.transposeRegularMusicLine = function(li
       
     }
     return this.changedLines[ this.workingLineIdx ].text;
+};
+
+window.ABCXJS.parse.Transposer.prototype.checkForInlineFields = function ( index ) {
+    var c = this.workingLine.substring(index);
+    var rex = c.match(/^\[([IKLMmNPQRrUV]\:.*?)\]/g);
+    var newidx = index;
+    if(rex) {
+        var key = rex[0].substr(1,rex[0].length-2).split(":");
+        switch(key[0]) {
+            case 'K':
+               this.transposeChord(index+3,key[1].length);
+               newidx+=rex[0].length;
+               break;
+            default:
+               newidx+=rex[0].length;
+        }
+    } else {
+        newidx+=1;
+    }
+    return newidx;
 };
 
 window.ABCXJS.parse.Transposer.prototype.transposeChord = function ( xi, size ) {

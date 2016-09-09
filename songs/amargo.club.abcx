@@ -1,0 +1,37 @@
+﻿X:1025
+%%barnumbers 0
+%%papersize A4
+%%pagenumbering
+%%staffsep 20
+T:Amargo
+C:Lupínio Rodrigues & Piratini
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
+Z:Flávio Vani
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/SLQm1POy2_0
+M:2/4
+L:1/16
+Q:70
+K:G
+V:1 treble
+| z4  zBef +segno+|: gBef gBfg | aBfg a^dfg | a^dfg afga | bega bega |
+| be^ga beab | c'^gab c'ba=g | fbab gbfb | ege^d eBef | gBef gBef |
+| aBfg | a^dfg | a^dfg afga | bega bega | be^ga beab | c'^gab c'ba=g |
+| fbab gbfb "to coda"| ege^d e2B2 | BG2E c2B2 | A2F2 zB2A | G3E E3^D |
+| F4 z2 B2 | BG2E c2B2 | A2F2 z B2A | G3E E3^D | F4 z2 B,2 |
+| EE2^G B2e2 | c2A2 zA2F | G3E F3^D |1 E4 zBfg :|2 E4 z2 e2 | [K:E] |
+|: ee2e e2d2 | f2d2 z2 d2 | dd2d d2c2 | e4 z c2c | c3d c3B |
+| B2A2 z2 A2 | AA2A A2G2 |1 B4 z2 E2 :|2 B6 B2 | cc2d c2B2 |
+| B2A2 [cA]2[cA]2 | [GB]2[G2B2] [FA]2[FA]2 | [EG]4 z Bef "D.S. al coda" | [K:G] !coda! egf^d e4 |
+V:2 accordionTab
+
+
+
+
+
+V:3 bass
+| z4 |: G,,2 [G,,B,,D,]2 | E,,2 [G,,B,,D,]2 | A,,2 [A,,C,E,]2 | A,,2 [A,,C,E,]2 | D,,2 [D,F,A,]2 | 
+| D,,2 [D,F,A,]2 | G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,] z | E,,2 [G,,B,,D,]2 | E,,2 [G,,B,,D,] z | A,,2 [A,,C,E,]2 | 
+| A,,2 [A,,C,E,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,,B,,D,]2 |1 G,,2 [G,,B,,D,]2 :|2 G,,2 [G,,B,,D,]2 | 
+|: G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,] z | A,,2 [A,,C,E,]2 | A,,2 [A,,C,E,]2 | D,,2 [D,F,A,]2 | 
+| D,,2 [D,F,A,] z | G,,2 [G,,B,,D,]2 |1 G,,2 [G,,B,,D,]2 :|2 G,,2 [G,,B,,D,]2 | 
