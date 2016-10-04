@@ -444,7 +444,7 @@ notação abc, tablatura " />
                                  }
                         }
                         ///
-                        var percent = this.totalSize ? Math.round(event.loaded / this.totalSize * 40)+10 : "";
+                        var percent = this.totalSize ? Math.round(event.loaded / this.totalSize * 40)+10 : 10;
                         MIDI.widget.setValue(percent);
                     }                            
                     ,callback: initApp
