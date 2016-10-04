@@ -555,7 +555,8 @@ if (window.AudioContext || window.webkitAudioContext) (function () {
                 
                 var percDone = pend[instrument].done / urlList.length * 100 >> 0;
 
-                
+                if( isNaN(percDone) ) percDone = 1;
+                    
                 var msg = url;
                 while (msg.length < 3) msg += "&#160;";
                 if (typeof (MIDI.loader) !== "undefined") {
