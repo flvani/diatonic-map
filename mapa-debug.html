@@ -408,45 +408,48 @@ notação abc, tablatura " />
             window.addEventListener('load', loadAccordions, false);
             
             function loadAccordions() {
-                
-//                MIDI.widget = new sketch.ui.Timer({size:180, cor1:'#ffffff', cor2:'#ffff88' });
+
+                //MIDI.widget = new sketch.ui.Timer({size:180, cor1:'#ffffff', cor2:'#ffff88' });
                 MIDI.widget = new sketch.ui.Timer({size:180 });
                 MIDI.widget.setFormat( 'Carregando...');
-                MIDI.widget.setValue(1);
 
                 DIATONIC.map.loadAccordionMaps(
                     [
-                     'accordions/minuano.gc.accordion'
-                    ,'accordions/minuano.cf.transportada.accordion'
-                    ,'accordions/hohner.cf.club.br.accordion'
-                    // 'accordions/hohner.gc.accordion'
-                    //,'accordions/hohner.cf.club.br.accordion'
-                    //,'accordions/hohner.adg.corona.accordion'
-                    //,'accordions/hohner.cf.club.accordion'
+                        'accordions/minuano.gc.accordion'
+                       ,'accordions/minuano.cf.transportada.accordion'
+                       ,'accordions/hohner.cf.club.br.accordion'
+                       // 'accordions/hohner.gc.accordion'
+                       //,'accordions/hohner.adg.corona.accordion'
+                       //,'accordions/hohner.cf.club.accordion'
                     ]
-                    ,loadMIDI // call back after loading
+                    , function () { 
+                        FILEMANAGER.waitResources( { 
+                            onProgress: function(event) {
+                                if(event.success){
+                                    MIDI.widget.setValue(0+Math.round(event.perc*.15));
+                                    //console.log('\nPercentual: '+ event.perc + '\nTimeouts: ' + event.timeouts + '\n' + event.success );
+                                } else {
+                                    MIDI.widget.setValue(0+Math.round(event.perc*.15));
+                                    //console.log('\nPercentual: '+ event.perc);
+                                }
+                            }
+                            ,onLoad: loadMIDI 
+                        });
+                    } 
                 );
             }
-            
+                     
             function loadMIDI() {
-                
-                MIDI.widget.setValue(10);
                 
                 MIDI.loadPlugin({
                      soundfontUrl: "./soundfont/"
                     ,instruments: "accordion" // default
                     ,onprogress: function(event) {
-                        if (!this.totalSize) {
-                                if (this.getResponseHeader("Content-Length-Raw")) {
-                                        this.totalSize = parseInt(this.getResponseHeader("Content-Length-Raw"));
-                                } else {
-                                        this.totalSize = event.total;
-                                 }
-                        }
-                        ///
-                        var percent = this.totalSize ? Math.round(event.loaded / this.totalSize * 40)+10 : 10;
-                        MIDI.widget.setValue(percent);
+                        MIDI.widget.setValue(Math.round(MIDI.getPercent(event)*.35)+15);
                     }                            
+                    ,onprogress2: function( percent ) {
+                        MIDI.widget.setValue(50+Math.round(percent/2));
+                    }        
                     ,callback: initApp
                 });
             }
@@ -454,19 +457,6 @@ notação abc, tablatura " />
             function initApp() {
                 
                 MIDI.widget.setValue(100);
-
-                // returns -1 (wait), 0 (success) and 1 (fail)
-                switch( FILEMANAGER.checkResources() ) {
-                    case -1: 
-                        window.setTimeout(function(){ initApp() ; },100);
-                        return;
-                    case 1:
-                        alert('Timeouts: ' + FILEMANAGER.timeouts + '\n\n' + FILEMANAGER.errors + '\n\nPor favor, verifique o nome dos arquivos e recarregue (F5) esta página!');
-                        return;
-                    case 0:    
-                        console.log('Timeouts: ' + FILEMANAGER.timeouts + '\n\n' + FILEMANAGER.success);
-                }
-                
 
                 var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_HOHNER_GC';
 
@@ -589,14 +579,6 @@ notação abc, tablatura " />
                     activateApp();
                     myMap.defineActiveTab( 'tabTunes' );
                 }, 5 );
-                
-//                myMap.setup({
-//                    accordionId: 'TESTE_GC'
-//                    //,songTitle:"J'ai vu le loup, le renard et la belette"
-//                    //,songTitle:"Valsa Sertaneja"
-//                    ,songTitle:"Hino do Grêmio"
-//                });
-
             }
 
             $(document).ready(function() {
@@ -826,8 +808,6 @@ notação abc, tablatura " />
                 });
                 
             };
-
-            
 
             function reloadRepertoire() {
                 myMap.carregaRepertorio(true);

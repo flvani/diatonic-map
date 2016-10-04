@@ -361,16 +361,16 @@ notação abc, tablatura " />
         <script type="text/javascript" src="javascripts/edit_area_full.js"></script>
         
         <!-- suporte a MIDI -->
-        <script type="text/javascript" src="MIDI.js/MIDI_2.06-min.js"></script>
+        <script type="text/javascript" src="MIDI.js/MIDI_3.00-min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_4.01-min.js"></script>
+        <script type="text/javascript" src="file/filemanager_4.10-min.js"></script>
         
         <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_4.03-min.js" ></script>
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_4.10-min.js" ></script>
         
         <!-- suporte mapas de acordeons -->
-        <script type="text/javascript" src="diatonic/diatonic_4.01-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic_4.10-min.js"></script>
 
         <!-- site -->
         <script id="siteLib" type="text/javascript" src="site_4.00-min.js"></script>
@@ -406,53 +406,59 @@ notação abc, tablatura " />
                 resizeSite();
             };
 
+            window.addEventListener('load', loadAccordions, false);
+            
+            function loadAccordions() {
+
+                //MIDI.widget = new sketch.ui.Timer({size:180, cor1:'#ffffff', cor2:'#ffff88' });
+                MIDI.widget = new sketch.ui.Timer({size:180 });
+                MIDI.widget.setFormat( 'Carregando...');
+
+                DIATONIC.map.loadAccordionMaps(
+                    [
+                        'accordions/minuano.gc.accordion'
+                       ,'accordions/minuano.cf.transportada.accordion'
+                       ,'accordions/hohner.cf.club.br.accordion'
+                       // 'accordions/hohner.gc.accordion'
+                       //,'accordions/hohner.adg.corona.accordion'
+                       //,'accordions/hohner.cf.club.accordion'
+                    ]
+                    , function () { 
+                        FILEMANAGER.waitResources( { 
+                            onProgress: function(event) {
+                                if(event.success){
+                                    MIDI.widget.setValue(0+Math.round(event.perc*.15));
+                                    //console.log('\nPercentual: '+ event.perc + '\nTimeouts: ' + event.timeouts + '\n' + event.success );
+                                } else {
+                                    MIDI.widget.setValue(0+Math.round(event.perc*.15));
+                                    //console.log('\nPercentual: '+ event.perc);
+                                }
+                            }
+                            ,onLoad: loadMIDI 
+                        });
+                    } 
+                );
+            }
+                     
             function loadMIDI() {
-                MIDI.loader = new widgets.Loader();
                 
                 MIDI.loadPlugin({
-                    soundfontUrl: "./soundfont/"
-                   ,instruments: "accordion"
-                   ,callback: postLoadMIDI
+                     soundfontUrl: "./soundfont/"
+                    ,instruments: "accordion" // default
+                    ,onprogress: function(event) {
+                        MIDI.widget.setValue(Math.round(MIDI.getPercent(event)*.35)+15);
+                    }                            
+                    ,onprogress2: function( percent ) {
+                        MIDI.widget.setValue(50+Math.round(percent/2));
+                    }        
+                    ,callback: initApp
                 });
             }
             
-            function postLoadMIDI() {
-                MIDI.loader.stop();
-                MIDI.programChange(0, 21); // canais para accordeon
-                MIDI.programChange(1, 21); // 
-                MIDI.programChange(2, 21); // 
-                MIDI.programChange(3, 21); // 
-                MIDI.programChange(4, 21); // 
-                MIDI.programChange(5, 21); // 
-                
-                DIATONIC.map.loadAccordionMaps(
-                    [
-                     'accordions/minuano.gc.accordion'
-                    ,'accordions/minuano.cf.transportada.accordion'
-                    ,'accordions/hohner.cf.club.br.accordion'
-                    // 'accordions/hohner.gc.accordion'
-                    //,'accordions/hohner.cf.club.br.accordion'
-                    //,'accordions/hohner.adg.corona.accordion'
-                    //,'accordions/hohner.cf.club.accordion'
-                    ]
-                    ,initApp // call back after loading
-                );
-            }
-            
             function initApp() {
-
-                // returns -1 (wait), 0 (success) and 1 (fail)
-                switch( FILEMANAGER.checkResources() ) {
-                    case -1: 
-                        window.setTimeout(function(){ initApp() ; },100);
-                        return;
-                    case 1:
-                        alert('Timeouts: ' + FILEMANAGER.timeouts + '\n\n' + FILEMANAGER.errors + '\n\nPor favor, verifique o nome dos arquivos e recarregue (F5) esta página!');
-                        return;
-                    case 0:    
-                        console.log('Timeouts: ' + FILEMANAGER.timeouts + '\n\n' + FILEMANAGER.success);
-                }
                 
+                MIDI.widget.setValue(100);
+
                 var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_HOHNER_GC';
 
                 var w1 = new DRAGGABLE.Div( 1, 'editorDiv', 'Editor ABCX', ['move|Mover'], 'w1Callback', true );
@@ -488,8 +494,8 @@ notação abc, tablatura " />
                     +'</table>';
             
                 w5.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
-                   + '<h3>Versão 4.00</h3>'
-                   + '<a target="_blank" href="html/release.pt_BR.html" >Muito mais rápido!<br> Saiba mais.</a>'
+                   + '<h3>Versão 4.10</h3>'
+                   + '<a target="_blank" href="html/release.pt_BR.html" >Suporte aos símbolos de repetição!<br>Saiba mais.</a>'
                    + '</b></center><br>';
 
                 myStudio = new SITE.Estudio(
@@ -573,14 +579,6 @@ notação abc, tablatura " />
                     activateApp();
                     myMap.defineActiveTab( 'tabTunes' );
                 }, 5 );
-                
-//                myMap.setup({
-//                    accordionId: 'TESTE_GC'
-//                    //,songTitle:"J'ai vu le loup, le renard et la belette"
-//                    //,songTitle:"Valsa Sertaneja"
-//                    ,songTitle:"Hino do Grêmio"
-//                });
-
             }
 
             $(document).ready(function() {
@@ -649,9 +647,6 @@ notação abc, tablatura " />
                       myMap.defineActiveTab( $(this).attr('id') );
                     }
                 });
-                
-                loadMIDI();
-                
             });
             
             function activateApp() {
@@ -660,13 +655,13 @@ notação abc, tablatura " />
                 document.getElementById("modalAD").style.display = 'inline';
                 document.getElementById("modalAbout").style.display = 'inline';
                 
-                $('#hintsDiv').fadeIn('slow');
+                //$('#hintsDiv').fadeIn('slow');
                 
                 if( getDate() <= 20150913 ) {
                     $('#ADDiv').fadeIn('slow');
                 }
                 
-                if( getDate() <= 20160601 ) {
+                if( getDate() <= 20161015 ) {
                     $('#releaseDiv').fadeIn('slow');
                     setTimeout(function() { $('#releaseDiv').fadeOut('slow'); }, 15000);
                 }

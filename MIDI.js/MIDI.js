@@ -147,7 +147,6 @@ var canPlayThrough = function (src) {
 	audio.id = "audio";
 	audio.setAttribute("preload", "auto");
 	audio.setAttribute("audiobuffer", true);
-        _Debug && debugToTitle('canPlayThrough ' + mime);        
         supports[mime] = null;
 	audio.addEventListener("error", function() {
                 body.removeChild(audio);
@@ -161,30 +160,23 @@ var canPlayThrough = function (src) {
 	audio.src = "data:" + src;
 	body.appendChild(audio);
     } catch(e) {
-        _Debug && debugToTitle('canPlayThrough exception ' + JSON.stringify(e));        
     }
 };
 
 MIDI.audioDetect = function(callback) {
-        _Debug && debugToTitle('MIDI.audioDetect');
 
 	// check whether <audio> tag is supported
 	if (typeof(Audio) === "undefined") return callback({});
-        _Debug && debugToTitle('MIDI.audioDetect 1');
 	// check whether canPlayType is supported
 	var audio = new Audio();
 	if (typeof(audio.canPlayType) === "undefined") return callback(supports);
-        _Debug && debugToTitle('MIDI.audioDetect 2');
 	// see what we can learn from the browser
 	var vorbis = audio.canPlayType('audio/ogg; codecs="vorbis"');
-        _Debug && debugToTitle('MIDI.audioDetect 3: vorbis = ' + vorbis);
 	vorbis = (vorbis === "probably" || vorbis === "maybe");
 	var mpeg = audio.canPlayType('audio/mpeg');
-        _Debug && debugToTitle('MIDI.audioDetect 3: mpeg = ' + mpeg);
 	mpeg = (mpeg === "probably" || mpeg === "maybe");
 	// maybe nothing is supported
 	if (!vorbis && !mpeg) {
-                _Debug && debugToTitle('maybe nothing is supported');
             
 		callback(supports);
 		return;
@@ -199,8 +191,6 @@ MIDI.audioDetect = function(callback) {
 		var maxExecution = now - time > 5000;
 		if (!pending || maxExecution) {
 			window.clearInterval(interval);
-                        _Debug && debugToTitle('MIDI.audioDetect interval: supports = ' + JSON.stringify(supports));
-                        
 			callback(supports);
 		}
 	}, 1);
@@ -228,13 +218,19 @@ if (typeof (MIDI.Soundfont) === "undefined") MIDI.Soundfont = {};
 var USE_JAZZMIDI = false; // Turn on to support JazzMIDI Plugin
 
 MIDI.getPercent = function(event) {
-    return Math.round(event.loaded / event.total * 100);
+    if (!this.totalSize) {
+        if (this.getResponseHeader && this.getResponseHeader("Content-Length-Raw")) {
+            this.totalSize = parseInt(this.getResponseHeader("Content-Length-Raw"));
+        } else {
+            this.totalSize = event.total;
+        }
+    }
+    ///
+    return !this.totalSize ? 0 : Math.round(event.loaded / this.totalSize * 100);
 };
 
 MIDI.loadPlugin = function(conf) {
     
-        _Debug && debugToTitle('MIDI.loadPlugin');
-        
 	if (typeof(conf) === "function") conf = {
 		callback: conf
 	};
@@ -269,8 +265,6 @@ MIDI.loadPlugin = function(conf) {
 		} else { // Internet Explorer
 			api = "flash";
 		}
-                
-                _Debug && debugToTitle('MIDI.audioDetect.callback#api=' + api);
                 
 		///
 		if (!connect[api]) return;
@@ -312,8 +306,11 @@ connect.flash = function(filetype, instruments, conf) {
 };
 
 connect.audiotag = function(filetype, instruments, conf) {
-	if (MIDI.loader) MIDI.loader.message("HTML5 Audio API...");
 	// works ok, kinda like a drunken tuna fish, across the board.
+
+        if (MIDI.loader) MIDI.loader.message("HTML5 Audio API...");
+        
+        var onload = conf.onload || defaultOnLoad;
 	var queue = createQueue({
 		items: instruments,
 		getNext: function(instrumentId) {
@@ -322,8 +319,7 @@ connect.audiotag = function(filetype, instruments, conf) {
 				onprogress: conf.onprogress || defaultOnProgress,
 				onload: function (response) {
 					addSoundfont(response.responseText);
-					if (MIDI.loader) MIDI.loader.update(null, "Downloading", 100);
-					if (MIDI.widget) MIDI.widget.setValue(50);
+                                        onload();
 					queue.getNext();
 				}
 			});
@@ -335,10 +331,11 @@ connect.audiotag = function(filetype, instruments, conf) {
 };
 
 connect.webaudio = function(filetype, instruments, conf) {
-	if (MIDI.loader) MIDI.loader.message("Web Audio API...");
 	// works awesome! safari, chrome and firefox support.
-        _Debug && debugToTitle('connect.webaudio');
+        
+	if (MIDI.loader) MIDI.loader.message("Web Audio API...");
          
+        var onload = conf.onload || defaultOnLoad;
 	var queue = createQueue({
 		items: instruments,
 		getNext: function(instrumentId) {
@@ -347,16 +344,13 @@ connect.webaudio = function(filetype, instruments, conf) {
 				onprogress: conf.onprogress || defaultOnProgress,
 				onload: function(response) {
 					addSoundfont(response.responseText);
-					if (MIDI.loader) MIDI.loader.update(null, "Downloading", 100);
-					if (MIDI.widget) MIDI.widget.setValue(50);
+                                        onload();
 					queue.getNext();
 				}
 			});
 		},
 		onComplete: function() {
-                        _Debug && debugToTitle('connect.webaudio complete');
-                     
-			MIDI.WebAudio.connect(conf);
+                    MIDI.WebAudio.connect(conf);
 		}
 	});
 };
@@ -381,7 +375,10 @@ var addSoundfont = function(text) {
 
 
 var defaultOnProgress = function( event ) {
-    if (MIDI.loader) MIDI.loader.update(null, "Downloading...", MIDI.getPercent(event));
+    MIDI.loader && MIDI.loader.update(null, "Downloading...", MIDI.getPercent(event));
+};
+var defaultOnLoad = function( event ) {
+    MIDI.loader && MIDI.loader.update(null, "Downloading", 100);
 };
 
 var createQueue = function(conf) {
@@ -535,51 +532,57 @@ if (window.AudioContext || window.webkitAudioContext) (function () {
 	var sources = {};
 	var masterVolume = 127;
 	var audioBuffers = {};
-	var audioLoader = function (instrument, urlList, index, bufferList, callback, pend) {
-            //_Debug && debugToTitle('audioLoader entered');
+        
+        var defaultOnProgress = function( percent, instrument, msg ) {
+            MIDI.loader && MIDI.loader.update( null, instrument + "<br/>Processing: " + percent + "%<br/>" + msg);
+        };        
+        
+	var audioLoader = function (instrument, urlList, index, bufferList, callback, pend, onProgress2) {
             
             var synth = MIDI.GeneralMIDI.byName[instrument];
             var instrumentId = synth.number;
+            var onProgress = onProgress2 || defaultOnProgress;
 
             var url = urlList[index];
+            
             if (!MIDI.Soundfont[instrument][url]) { // missing soundfont
-                    return callback(instrument);
+                return callback(instrument);
             }
 
             var base64 = MIDI.Soundfont[instrument][url].split(",")[1];
             var buffer = Base64Binary.decodeArrayBuffer(base64);
-            ctx.decodeAudioData(buffer, function (buffer) {
-                //_Debug && debugToTitle('ctx.decodeAudioData '+index);
-                pend[instrument].pend--;
-                pend[instrument].done++;
+            ctx.decodeAudioData(
+                 buffer
+                ,function (buffer) {
                 
-                var percDone = pend[instrument].done / urlList.length * 100 >> 0;
+                    pend[instrument].pend--;
+                    pend[instrument].done++;
 
-                if( isNaN(percDone) ) percDone = 1;
-                    
-                var msg = url;
-                while (msg.length < 3) msg += "&#160;";
-                if (typeof (MIDI.loader) !== "undefined") {
-                    MIDI.loader.update(null, synth.instrument + "<br/>Processing: " + percDone + "%<br/>" + msg);
-                }
-                if (typeof (MIDI.widget) !== "undefined") {
-                    MIDI.widget.setValue(50+percDone/2); // para este widtget, consideramos que a carga das notas equivale a 50%
-                }
-                buffer.id = url;
-                bufferList[index] = buffer;
-                //
-                //if (bufferList.length === urlList.length && pend[instrument].pend === 0) {
-                if (pend[instrument].done === urlList.length ) {
-                    while (bufferList.length) {
-                        buffer = bufferList.pop();
-                        if (!buffer) continue;
-                        var nodeId = MIDI.keyToNote[buffer.id];
-                        audioBuffers[instrumentId + "" + nodeId] = buffer;
+                    var msg = url;
+                    var percDone = pend[instrument].done / urlList.length * 100 >> 0;
+
+                    while (msg.length < 3) msg += "&#160;";
+
+                    onProgress(percDone, synth.instrument, msg);
+
+                    buffer.id = url;
+                    bufferList[index] = buffer;
+
+                    if (pend[instrument].done === urlList.length ) {
+                        while (bufferList.length) {
+                            buffer = bufferList.pop();
+                            if (!buffer) continue;
+                            var nodeId = MIDI.keyToNote[buffer.id];
+                            audioBuffers[instrumentId + "" + nodeId] = buffer;
+                        }
+                        callback(instrument);
+
                     }
-                    callback(instrument);
-                    
                 }
-            }, function(buffer) { console.log( 'Error loading' || url ); } );
+                ,function() { 
+                    console.log( 'Error loading' || url ); 
+                }
+            );
 	};
 
 	root.setVolume = function (channel, volume) {
@@ -677,11 +680,9 @@ if (window.AudioContext || window.webkitAudioContext) (function () {
     };
 
     root.connect = function (conf) {
-        _Debug && debugToTitle('setPlugin');
         setPlugin(root);
         //
         MIDI.Player.ctx = ctx = new AudioContext();
-        _Debug && debugToTitle('MIDI.Player.ctx new AudioContext');
         //
         var urlList = [];
         var keyToNote = MIDI.keyToNote;
@@ -693,14 +694,13 @@ if (window.AudioContext || window.webkitAudioContext) (function () {
             for (var key in pending) break;
             // flavio - tinha tentado resolver problema do Firefox, que as vezes não carrega todas as notas
             // if (!key) window.setTimeout(function () { conf.callback(); }, 5 );
-            _Debug && debugToTitle('audioLoader oncomplete');
             if (!key) conf.callback(); 
         };
         for (var instrument in MIDI.Soundfont) {
             pending[instrument] = { pend: 0, done: 0};
             for (var i = 0; i < urlList.length; i++) {
                 pending[instrument].pend ++;
-                audioLoader(instrument, urlList, i, bufferList, oncomplete, pending);
+                audioLoader(instrument, urlList, i, bufferList, oncomplete, pending, conf.onprogress2);
             }
         }
     };
