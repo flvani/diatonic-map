@@ -436,13 +436,24 @@ notação abc, tablatura " />
                      soundfontUrl: "./soundfont/"
                     ,instruments: "accordion" // default
                     ,onprogress: function(event) {
-                        MIDI.widget.setValue(Math.round(MIDI.getPercent(event)*.4)+10);
-                    }         
+                        if (!this.totalSize) {
+                                if (this.getResponseHeader("Content-Length-Raw")) {
+                                        this.totalSize = parseInt(this.getResponseHeader("Content-Length-Raw"));
+                                } else {
+                                        this.totalSize = event.total;
+                                 }
+                        }
+                        ///
+                        var percent = this.totalSize ? Math.round(event.loaded / this.totalSize * 40)+10 : "";
+                        MIDI.widget.setValue(percent);
+                    }                            
                     ,callback: initApp
                 });
             }
             
             function initApp() {
+                
+                MIDI.widget.setValue(100);
 
                 // returns -1 (wait), 0 (success) and 1 (fail)
                 switch( FILEMANAGER.checkResources() ) {
