@@ -259,11 +259,17 @@ window.ABCXJS.data.Tune = function() {
         if (!this.formatting.staffwidth)    this.formatting.staffwidth = this.formatting.usablewidth;
         
     };
-
+    
     this.handleBarsPerStaff = function() {
         function splitBar(left, right) {
             
+            if(  left.jumpInfo &&  (".fine.dacapo.dacoda.dasegno.").indexOf('.'+left.jumpInfo.type+'.') < 0  ) {
+                delete left.jumpInfo;
+            }
+            
             delete left.startEnding;
+            delete left.barNumber;
+            delete left.barNumberVisible;
             switch( left.type ) {
                 case 'bar_dbl_repeat': 
                 case 'bar_right_repeat': 
@@ -272,6 +278,10 @@ window.ABCXJS.data.Tune = function() {
                 case 'bar_thin': 
                 case 'bar_left_repeat':
                   left.type = 'bar_thin'; 
+            }
+            
+            if(  right.jumpInfo &&  (".fine.dacapo.dacoda.dasegno.").indexOf('.'+right.jumpInfo.type+'.') >= 0  ) {
+                delete right.jumpInfo;
             }
             
             delete right.endEnding;
@@ -368,6 +378,96 @@ window.ABCXJS.data.Tune = function() {
             }
         }
     };
+    
+    this.checkJumpInfo = function (addWarning) {
+        // esta rotina:
+        //   cria uma estrutura de auxilio para midi parser
+        //   ajuda no layout dos jump markers que devem impressos na última pauta de cada staff
+        //   verifica a conformidade das barras de compasso da primeira voz com as demais;
+        //
+        // Note: deveria ser chamada somente depois de handleBarsPerStaff que pode alterar os arrays gerados no parse.
+        
+        // identifica as vozes varrendo a primeira linha com staffs
+        var vozes = [];
+        for (var i = 0; i < this.lines.length; i++) {
+            if (this.lines[i].staffs !== undefined) {
+                for (var s = 0; s < this.lines[i].staffs.length; s++) {
+                    for (var v = 0; v < this.lines[i].staffs[s].voices.length; v++) {
+                        vozes.push( {el:0, sf: s, vc: v });
+                    }
+                }
+                break;
+            }
+        }
+        
+        // voz referencial        
+        var v0 = vozes[0]; // primeira
+        var vn = vozes[vozes.length-1]; // última
+        
+        for (var i = 0; i < this.lines.length; i++) {
+            if (this.lines[i].staffs !== undefined) {
+
+                for( var r = 0; r < vozes.length; r++){
+                    vozes[r].el = 0; // sempre recomeçar a varredura dos elementos em cada nova linha
+                }
+
+                this.lines[i].staffs[v0.sf].voices[v0.vc].firstVoice = true;
+                this.lines[i].staffs[vn.sf].voices[vn.vc].lastVoice = true;
+                
+                if( vozes.length < 2 ) continue; // apenas marca a única voz como primeira e última, em cada linha
+                
+                var a0 = this.lines[i].staffs[v0.sf].voices[v0.vc];
+                
+                while( v0.el < a0.length ) {
+                    
+                    while( v0.el < a0.length && a0[v0.el].el_type !== 'bar' ) {
+                        v0.el++;
+                    }
+
+                    if( ! a0[v0.el] || a0[v0.el].el_type !== 'bar' ) break;
+
+                    var bar = a0[v0.el];
+                    v0.el++; 
+
+                    for( var v = 1; v < vozes.length; v++ ) {
+                        var vi = vozes[v];
+                        var ai = this.lines[i].staffs[vi.sf].voices[vi.vc];
+                        
+                        while( vi.el < ai.length && ai[vi.el].el_type !== 'bar' ) {
+                            vi.el++;
+                        }
+                        if( ! ai[vi.el] || ai[vi.el].el_type !== 'bar' ) {
+                            addWarning('Line: '+(i+1)+', Staff: '+(vi.sf+1)+' - Numero de barras diferente da primeira voz');
+                        } else {
+
+                            var bari = ai[vi.el];
+                            vi.el++;
+
+                            if( bar.type !== bari.type )  {
+                                addWarning('Line: '+(i+1)+', Staff: '+(vi.sf+1)+' - Ajustando tipo de barra de compasso '+bar.barNumber+'.');
+                                bari.type = bar.type;
+                            }
+                            
+                            if( bar.startEnding && bar.startEnding !== bari.startEnding )  {
+                                addWarning('Line: '+(i+1)+', Staff: '+(vi.sf+1)+' - Ajustando ending do compasso '+bar.barNumber+'.');
+                                bari.startEnding = bar.startEnding;
+                            }
+                            
+                            if( bar.endEnding && bar.endEnding !== bari.endEnding )  {
+                                addWarning('Line: '+(i+1)+', Staff: '+(vi.sf+1)+' - Ajustando ending do compasso '+bar.barNumber+'.');
+                                bari.endEnding = bar.endEnding;
+                            }
+                            
+                            // todas as vozes terão a mesma informação de jump
+                            bari.jumpInfo = bar.jumpInfo;
+                        }
+                    }
+                }
+            }
+        }
+
+    };
+
 
     this.cleanUp = function() {
         
@@ -1188,6 +1288,23 @@ window.ABCXJS.parse.number2staffSharp   =
        ,{note:"A", acc:"sharp"} 
        ,{note:"B", acc:""} 
     ];
+
+window.ABCXJS.parse.stringify = function(objeto) {
+
+    var cache = [];
+    var ret = JSON.stringify(objeto, function(key, value) {
+        if (typeof value === 'object' && value !== null) {
+            if (cache.indexOf(value) !== -1) {
+                // Circular reference found, discard key
+                return;
+            }
+            // Store value in our collection
+            cache.push(value);
+        }
+        return value;
+    });
+    return ret;
+};
 //    abc_parse.js: parses a string representing ABC Music Notation into a usable internal structure.
 //    Copyright (C) 2010 Paul Rosen (paul at paulrosen dot net)
 //
@@ -1220,6 +1337,54 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
 
     this.tieCnt = 1;
     this.slurCnt = 1;
+    
+    var legalAccents = 
+    [
+        "trill", "lowermordent", "uppermordent", "mordent", "pralltriller", "accent",
+        "fermata", "invertedfermata", "tenuto", "0", "1", "2", "3", "4", "5", "+", "wedge",
+        "open", "thumb", "snap", "turn", "roll", "breath", "shortphrase", "mediumphrase", "longphrase",
+        "segno", "coda", "fine", "dacapo", "dasegno", "dacoda", "dcalfine", "dcalcoda", "dsalfine", "dsalcoda",
+        "crescendo(", "crescendo)", "diminuendo(", "diminuendo)",
+        "p", "pp", "f", "ff", "mf", "mp", "ppp", "pppp", "fff", "ffff", "sfz", "repeatbar", "repeatbar2", "slide",
+        "upbow", "downbow", "/", "//", "///", "////", "trem1", "trem2", "trem3", "trem4",
+        "turnx", "invertedturn", "invertedturnx", "trill(", "trill)", "arpeggio", "xstem", "mark", "umarcato",
+        "style=normal", "style=harmonic", "style=rhythm", "style=x"
+    ];
+    
+    var accentPsuedonyms = [
+        ["D.C.", "dacapo"], ["D.S.", "dasegno"],
+        ["<", "accent"],[">", "accent"], ["tr", "trill"], 
+        ["<(", "crescendo("], ["<)", "crescendo)"],
+        [">(", "diminuendo("], [">)", "diminuendo)"], 
+        ["plus", "+"], ["emphasis", "accent"]
+    ];
+    
+//   segno    - barra anterior - em cima - ponto de retorno
+//   coda     - barra anterior - em cima - ponto de retorno
+//   
+//   fine     - barra posterior - em cima - ponto de parada
+//   dacoda   - barra posterior - em cima - salta ao coda (se existir e flag dacoda)
+//   dasegno  - barra posterior - em cima - salta ao segno (se existir) - flag dasegno  
+//   dacapo   - barra posterior - em cima - volta ao começo - flag dacapo
+//   
+//   dcalfine - barra anterior - em baixo - ao final do compasso volta ao começo - flag fine
+//   dcalcoda - barra anterior - em baixo - ao final do compasso volta ao começo - flag dacoda
+//   dsalfine - barra anterior - em baixo - ao final do compasso volta ao ponto de retorno (se existir) - flag fine
+//   dsalcoda - barra anterior - em baixo - ao final do compasso volta ao ponto de retorno (se existir) - flag dacoda
+
+    var jumpMarkers  = {
+         segno: {nextBar:false, upper:true }
+        ,coda: {nextBar:false, upper:true }
+        ,fine: {nextBar:true, upper:true }
+        ,dacoda: {nextBar:true, upper:true }
+        ,dacapo: {nextBar:true, upper:true }
+        ,dasegno: {nextBar:true, upper:true }
+        ,dcalfine: {nextBar:false, upper:false }
+        ,dcalcoda: {nextBar:false, upper:false }
+        ,dsalfine: {nextBar:false, upper:false }
+        ,dsalcoda: {nextBar:false, upper:false }
+    };
+    
 
     if (transposer_)
         this.transposer = transposer_;
@@ -1263,22 +1428,15 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
             this.voices = {};
             this.staves = [];
             this.macros = {};
-            this.currBarNumber = 1;
+            //this.currBarNumber = 1;
+            //this.currTabBarNumber = 1;
             this.inTextBlock = false;
             this.inPsBlock = false;
             this.ignoredDecorations = [];
             this.textBlock = "";
             this.score_is_present = false;	// Can't have original V: lines when there is the score directive
-/*
+            this.currentVoice = { index:0, staffNum:0, currBarNumber: 1}; 
 
-Estas variávies foram modificadas de tal forma que existe um controle para voz diferente na partitura.
-Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_directive
-            
-            this.inEnding = false;
-            this.inTie = false;
-            this.inTieChord = {};
-
- */
         }
     };
 
@@ -1316,9 +1474,31 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
     this.addTuneElement = function(type, startOfLine, xi, xf, elem, line) {
         switch(type) {
             case 'bar':
-                multilineVars.barAccidentals = [];                        
+                multilineVars.measureNotEmpty = false;
+                
+                if(multilineVars.addToNextBar) {
+                    elem.jumpInfo = ABCXJS.parse.clone( multilineVars.addToNextBar );
+                    delete multilineVars.addToNextBar;
+                }
+                
+                //restart bar accidentals
+                multilineVars.barAccidentals = [];  
+                
+                //records the last bar elem
+                multilineVars.lastBarElem = elem;
                 break;
             case 'note':
+                multilineVars.measureNotEmpty = true;
+                
+                // coloca informação de numeracao na previa barra de compasso, já que o compasso não está vazio 
+                if (multilineVars.barNumOnNextNote ) {
+                    var mc = multilineVars.currentVoice; 
+                    multilineVars.lastBarElem.barNumber = multilineVars.barNumOnNextNote;
+                    multilineVars.lastBarElem.barNumberVisible = ( multilineVars.barNumOnNextNoteVisible && ( mc === undefined || (mc.staffNum === 0 && mc.index === 0 )));
+                    multilineVars.barNumOnNextNote = null;
+                    multilineVars.barNumOnNextNoteVisible = null;
+                }
+               
                 if( elem.pitches )  {
                     elem.pitches.forEach( function( p ) { 
                         if(p.accidental === undefined && multilineVars.barAccidentals[p.pitch]!==undefined ) {
@@ -1523,19 +1703,6 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
         return [0, ""];
     };
 
-    var legalAccents = ["trill", "lowermordent", "uppermordent", "mordent", "pralltriller", "accent",
-        "fermata", "invertedfermata", "tenuto", "0", "1", "2", "3", "4", "5", "+", "wedge",
-        "open", "thumb", "snap", "turn", "roll", "breath", "shortphrase", "mediumphrase", "longphrase",
-        "segno", "coda",
-        "dacoda", "dacapo", "dasegno", "dcalfine", "dcalcoda", "dsalfine", "dsalcoda"
-        , "D.S.", "D.C.", "fine", "crescendo(", "crescendo)", "diminuendo(", "diminuendo)",
-        "p", "pp", "f", "ff", "mf", "mp", "ppp", "pppp", "fff", "ffff", "sfz", "repeatbar", "repeatbar2", "slide",
-        "upbow", "downbow", "/", "//", "///", "////", "trem1", "trem2", "trem3", "trem4",
-        "turnx", "invertedturn", "invertedturnx", "trill(", "trill)", "arpeggio", "xstem", "mark", "umarcato",
-        "style=normal", "style=harmonic", "style=rhythm", "style=x"
-    ];
-    var accentPsuedonyms = [["<", "accent"], [">", "accent"], ["tr", "trill"], ["<(", "crescendo("], ["<)", "crescendo)"],
-        [">(", "diminuendo("], [">)", "diminuendo)"], ["plus", "+"], ["emphasis", "accent"]];
     var letter_to_accent = function(line, i)
     {
         var macro = multilineVars.macros[line.charAt(i)];
@@ -1567,33 +1734,6 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
                 return [1, 'downbow'];
             case '~':
                 return [1, 'irishroll'];
-            case '!':
-            case '+':
-                var ret = tokenizer.getBrackettedSubstring(line, i, 5);
-                // Be sure that the accent is recognizable.
-                if (ret[1].length > 0 && (ret[1].charAt(0) === '^' || ret[1].charAt(0) === '_'))
-                    ret[1] = ret[1].substring(1);	// TODO-PER: The test files have indicators forcing the ornament to the top or bottom, but that isn't in the standard. We'll just ignore them.
-                if (window.ABCXJS.parse.detect(legalAccents, function(acc) {
-                    return (ret[1] === acc);
-                }))
-                    return ret;
-
-                if (window.ABCXJS.parse.detect(accentPsuedonyms, function(acc) {
-                    if (ret[1] === acc[0]) {
-                        ret[1] = acc[1];
-                        return true;
-                    } else
-                        return false;
-                }))
-                    return ret;
-
-                // We didn't find the accent in the list, so consume the space, but don't return an accent.
-                // Although it is possible that ! was used as a line break, so accept that.
-                if (line.charAt(i) === '!' && (ret[0] === 1 || line.charAt(i + ret[0] - 1) !== '!'))
-                    return [1, null];
-                warn("Unknown decoration: " + ret[1], line, i);
-                ret[1] = "";
-                return ret;
             case 'H':
                 return [1, 'fermata'];
             case 'J':
@@ -1612,6 +1752,35 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
                 return [1, 'segno'];
             case 'T':
                 return [1, 'trill'];
+            case '!':
+            case '+':
+               var ret = tokenizer.getBrackettedSubstring(line, i, 5);
+                // Be sure that the accent is recognizable.
+                if (ret[1].length > 0 && (ret[1].charAt(0) === '^' || ret[1].charAt(0) === '_'))
+                    ret[1] = ret[1].substring(1);	// TODO-PER: The test files have indicators forcing the ornament to the top or bottom, but that isn't in the standard. We'll just ignore them.
+                
+                if (window.ABCXJS.parse.detect(legalAccents, function(acc) {
+                    return (ret[1] === acc);
+                }))
+                    return ret;
+
+                if (window.ABCXJS.parse.detect(accentPsuedonyms, function(acc) {
+                    if (ret[1] === acc[0]) {
+                        ret[1] = acc[1];
+                        return true;
+                    } else
+                        return false;
+                }))
+                    return ret;
+
+                // We didn't find the accent in the list, so consume the space, but don't return an accent.
+                // Although it is possible that ! was used as a line break, so accept that.
+                if (line.charAt(i) === '!' && (ret[0] === 1 /* flavio || line.charAt(i + ret[0] - 1) !== '!') */ ) )
+                    return [1, null];
+                
+                warn("Unknown decoration: " + ret[1], line, i);
+                ret[1] = "";
+                return ret;
         }
         return [0, 0];
     };
@@ -2261,14 +2430,14 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
 
         multilineVars.partForNextLine = "";
         var mc = multilineVars.currentVoice;
-        if (mc === undefined || (multilineVars.start_new_line && mc.staffNum === 0 ) ){
+        //if (mc === undefined || (multilineVars.start_new_line && mc.staffNum === 0 ) ){
             //multilineVars.meter = null;
-            if ( multilineVars.measureNotEmpty ) multilineVars.currBarNumber++;
-            multilineVars.barNumOnNextNote = multilineVars.currBarNumber;
+            if ( multilineVars.measureNotEmpty ) mc.currBarNumber++;
+            multilineVars.barNumOnNextNote = mc.currBarNumber;
             
-            if (multilineVars.barNumbers === 1 || ( multilineVars.barNumbers === 0 && multilineVars.barsperstaff === undefined && multilineVars.currBarNumber > 1 ))
+            if (multilineVars.barNumbers === 1 || ( multilineVars.barNumbers === 0 && multilineVars.barsperstaff === undefined && mc.currBarNumber > 1 ))
                 multilineVars.barNumOnNextNoteVisible = true;
-        }
+        //}
     }
 
     var letter_to_grace = function(line, i) {
@@ -2507,9 +2676,29 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
                                 if (i + 1 < line.length)
                                     startNewLine();	// There was a ! in the middle of the line. Start a new line if there is anything after it.
                             } else if (ret[1].length > 0) {
-                                if (el.decoration === undefined)
-                                    el.decoration = [];
-                                el.decoration.push(ret[1]);
+                                var jump = jumpMarkers[ ret[1] ];
+                                if( jump ) {
+                                    if( jump.nextBar ) {
+                                        if( multilineVars.addToNextBar ) {
+                                            warn("Overriding previous jump information", line, i);
+                                        }
+                                        multilineVars.addToNextBar = { type: ret[1], upper:jump.upper, ordinal: ret[3] };
+                                    } else {
+                                        if( multilineVars.lastBarElem ) {
+                                        if( multilineVars.lastBarElem .jumpInfo ) {
+                                            warn("Overriding previous jump information", line, i);
+                                        }
+                                        multilineVars.lastBarElem.jumpInfo = { type: ret[1], upper:jump.upper, ordinal: ret[3] };
+                                        } else {
+                                            warn("Ignoring jump marker before the first bar.", line, i);
+                                        }
+                                    }
+                                    
+                                } else {
+                                    if (el.decoration === undefined)
+                                        el.decoration = [];
+                                    el.decoration.push(ret[1]);
+                                }
                             }
                             i += ret[0];
                         } else {
@@ -2532,7 +2721,6 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
                         el.rest = {type: 'spacer'};
                         el.duration = 0.125; // TODO-PER: I don't think the duration of this matters much, but figure out if it does.
                         this.addTuneElement('note', startOfLine, i, i + ret[0], el);
-                        multilineVars.measureNotEmpty = true;
                         el = {};
                     }
                     var bar = {type: ret[1]};
@@ -2561,19 +2749,18 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
                         var mc = multilineVars.currentVoice; 
                         if (bar.type !== 'bar_invisible' 
                                 && multilineVars.measureNotEmpty 
-                                && ( mc === undefined || ( mc.staffNum === 0 && mc.index === 0) ) ) {
-                            multilineVars.currBarNumber++;
-                            multilineVars.barNumOnNextNote = multilineVars.currBarNumber;
+                                /*&& ( mc === undefined || ( mc.staffNum === 0 && mc.index === 0) )*/ ) {
+                            mc.currBarNumber++;
+                            multilineVars.barNumOnNextNote = mc.currBarNumber;
                             if 
                             (
-                                (multilineVars.barNumbers && (multilineVars.currBarNumber % multilineVars.barNumbers === 0))
+                                (multilineVars.barNumbers && (mc.currBarNumber % multilineVars.barNumbers === 0))
                             || 
-                                (multilineVars.barsperstaff !== undefined && multilineVars.currBarNumber && ((multilineVars.currBarNumber-1) % multilineVars.barsperstaff) === 0) 
+                                (multilineVars.barsperstaff !== undefined && mc.currBarNumber && ((mc.currBarNumber-1) % multilineVars.barsperstaff) === 0) 
                             ) 
                                 multilineVars.barNumOnNextNoteVisible = true;
                         }
                         this.addTuneElement('bar', startOfLine, i, i + ret[0], bar);
-                        multilineVars.measureNotEmpty = false;
                         el = {};
                     }
                     i += ret[0];
@@ -2725,19 +2912,11 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
                                 if (el.pitches !== undefined) {
                                     if (chordDuration !== null) {
                                         el.duration = el.duration * chordDuration;
-//											window.ABCXJS.parse.each(el.pitches, function(p) {
-//												p.duration = p.duration * chordDuration;
-//											});
-                                    }
-                                    if (multilineVars.barNumOnNextNote ) {
-                                        var mc = multilineVars.currentVoice; 
-                                        el.barNumber = multilineVars.barNumOnNextNote;
-                                        el.barNumberVisible = ( multilineVars.barNumOnNextNoteVisible && ( mc === undefined || (mc.staffNum === 0 && mc.index === 0 )));
-                                        multilineVars.barNumOnNextNote = null;
-                                        multilineVars.barNumOnNextNoteVisible = null;
+                                        //window.ABCXJS.parse.each(el.pitches, function(p) {
+                                        //    p.duration = p.duration * chordDuration;
+                                        //});
                                     }
                                     this.addTuneElement('note', startOfLine, startI, i, el);
-                                    multilineVars.measureNotEmpty = true;
                                     el = {};
                                 }
                                 done = true;
@@ -2816,15 +2995,7 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
                             if (core.end_beam)
                                 addEndBeam(el);
 
-                            if (multilineVars.barNumOnNextNote) {
-                                var mc = multilineVars.currentVoice; 
-                                el.barNumber = multilineVars.barNumOnNextNote;
-                                el.barNumberVisible = ( multilineVars.barNumOnNextNoteVisible && ( mc === undefined || (mc.staffNum === 0 && mc.index === 0 )));
-                                multilineVars.barNumOnNextNote = null;
-                                multilineVars.barNumOnNextNoteVisible = null;
-                            }
                             this.addTuneElement('note', startOfLine, startI, i, el, line);
-                            multilineVars.measureNotEmpty = true;
                             el = {};
                         }
                     }
@@ -3005,6 +3176,8 @@ Elas foram incluídas em this.staves - ver:  abc_parse_key_voice e abc_parse_dir
             tune.setFormat(multilineVars);
             
             tune.handleBarsPerStaff();
+            
+            tune.checkJumpInfo(addWarning);
 
             tune.cleanUp();
             
@@ -3351,10 +3524,10 @@ window.ABCXJS.parse.parseDirective = {};
 					if (brace !== undefined) staff.brace = brace;
 					if (continueBar) staff.connectBarLines = 'end';
 					if (multilineVars.voices[id] === undefined) {
-                                                                                                            staff.inEnding[staff.numVoices] = false;
-                                                                                                            staff.inTie[staff.numVoices] = false;
-                                                                                                            staff.inTieChord[staff.numVoices] ={};
-						multilineVars.voices[id] = {staffNum: staff.index, index: staff.numVoices};
+                                                staff.inEnding[staff.numVoices] = false;
+                                                staff.inTie[staff.numVoices] = false;
+                                                staff.inTieChord[staff.numVoices] ={};
+						multilineVars.voices[id] = {staffNum: staff.index, index: staff.numVoices, currBarNumber:1};
 						staff.numVoices++;
 					}
 				};
@@ -4713,7 +4886,7 @@ window.ABCXJS.parse.parseKeyVoice = {};
 		}
 		var isNew = false;
 		if (multilineVars.voices[id] === undefined) {
-			multilineVars.voices[id] = {};
+			multilineVars.voices[id] = {currBarNumber:1};
 			isNew = true;
 			if (multilineVars.score_is_present && id.toLowerCase().substr(0,3) !== "tab")
 				warn("Can't have an unknown V: id when the %score directive is present", line, start);
@@ -5641,27 +5814,46 @@ window.ABCXJS.parse.tokenizer = function() {
 	};
 	this.getBrackettedSubstring = function(line, i, maxErrorChars, _matchChar)
 	{
-		// This extracts the sub string by looking at the first character and searching for that
-		// character later in the line (or search for the optional _matchChar).
-		// For instance, if the first character is a quote it will look for
-		// the end quote. If the end of the line is reached, then only up to the default number
-		// of characters are returned, so that a missing end quote won't eat up the entire line.
-		// It returns the substring and the number of characters consumed.
-		// The number of characters consumed is normally two more than the size of the substring,
-		// but in the error case it might not be.
-		var matchChar = _matchChar || line.charAt(i);
-		var pos = i+1;
-		while ((pos < line.length) && (line.charAt(pos) !== matchChar))
-			++pos;
-		if (line.charAt(pos) === matchChar)
-			return [pos-i+1,substInChord(line.substring(i+1, pos)), true];
-		else	// we hit the end of line, so we'll just pick an arbitrary num of chars so the line doesn't disappear.
-		{
-			pos = i+maxErrorChars;
-			if (pos > line.length-1)
-				pos = line.length-1;
-			return [pos-i+1, substInChord(line.substring(i+1, pos)), false];
-		}
+            // This extracts the sub string by looking at the first character and searching for that
+            // character later in the line (or search for the optional _matchChar).
+            // For instance, if the first character is a quote it will look for
+            // the end quote. If the end of the line is reached, then only up to the default number
+            // of characters are returned, so that a missing end quote won't eat up the entire line.
+            // It returns the substring and the number of characters consumed.
+            // The number of characters consumed is normally two more than the size of the substring,
+            // but in the error case it might not be.
+            var matchChar = _matchChar || line.charAt(i);
+            var nextPos = line.substr( i+1 ).indexOf(matchChar);
+            if( nextPos === -1) {
+                if( line.charAt( i+1 ) ===  ' ' ) // entendido como break line
+                    return  [1, "", false, 0];
+                else {
+                    // procura o primeiro espaço em branco após matchChar
+                    var nextPos = line.substr( i+1 ).indexOf(' ');
+                    if( nextPos === -1) {
+                        // we hit the end of line, so we'll just pick an arbitrary num of chars so the line doesn't disappear.
+			nextPos = i+maxErrorChars>line.length-1?line.length-1:i+maxErrorChars;
+			return [nextPos-i+1, substInChord(line.substring(i+1, nextPos)), false];
+                    }
+                }
+                
+            }
+            
+            var str = line.substr(i+1, nextPos ).split(":");
+            return [nextPos+2, str[0], true, str[1]===undefined?0:str[1] ];
+
+//		var pos = i+1;
+//		while ((pos < line.length) && (line.charAt(pos) !== matchChar))
+//			++pos;
+//		if (line.charAt(pos) === matchChar)
+//			return [pos-i+1,substInChord(line.substring(i+1, pos)), true];
+//		else	// we hit the end of line, so we'll just pick an arbitrary num of chars so the line doesn't disappear.
+//		{
+//			pos = i+maxErrorChars;
+//			if (pos > line.length-1)
+//				pos = line.length-1;
+//			return [pos-i+1, substInChord(line.substring(i+1, pos)), false];
+//		}
 	};
 };
 /* 
@@ -6283,7 +6475,22 @@ ABCXJS.write.Glyphs = function () {
         , 'scripts.mordent': {d: [["M", -0.21, -4.95], ["c", 0.27, -0.15, 0.63, 0, 0.75, 0.27], ["c", 0.06, 0.12, 0.06, 0.24, 0.06, 1.44], ["l", 0, 1.29], ["l", 0.57, -0.84], ["c", 0.51, -0.75, 0.57, -0.84, 0.69, -0.9], ["c", 0.06, -0.03, 0.18, -0.06, 0.24, -0.06], ["c", 0.3, 0, 0.27, -0.03, 1.89, 1.95], ["l", 1.53, 1.83], ["l", 0.48, -0.69], ["c", 0.51, -0.78, 0.54, -0.84, 0.69, -0.9], ["c", 0.42, -0.18, 0.87, 0.15, 0.81, 0.6], ["c", -0.03, 0.12, -0.3, 0.51, -1.5, 2.37], ["c", -1.38, 2.07, -1.5, 2.22, -1.62, 2.28], ["c", -0.06, 0.03, -0.18, 0.06, -0.24, 0.06], ["c", -0.3, 0, -0.27, 0.03, -1.83, -1.89], ["c", -0.81, -0.99, -1.5, -1.8, -1.53, -1.86], ["c", -0.06, -0.03, -0.06, -0.03, -0.12, 0.03], ["c", -0.06, 0.06, -0.06, 0.15, -0.06, 2.28], ["c", -0, 1.95, -0, 2.25, -0.06, 2.34], ["c", -0.18, 0.45, -0.81, 0.48, -1.05, 0.03], ["c", -0.03, -0.06, -0.06, -0.24, -0.06, -1.41], ["l", -0, -1.35], ["l", -0.57, 0.84], ["c", -0.54, 0.78, -0.6, 0.87, -0.72, 0.93], ["c", -0.06, 0.03, -0.18, 0.06, -0.24, 0.06], ["c", -0.3, 0, -0.27, 0.03, -1.89, -1.95], ["l", -1.53, -1.83], ["l", -0.48, 0.69], ["c", -0.51, 0.78, -0.54, 0.84, -0.69, 0.9], ["c", -0.42, 0.18, -0.87, -0.15, -0.81, -0.6], ["c", 0.03, -0.12, 0.3, -0.51, 1.5, -2.37], ["c", 1.38, -2.07, 1.5, -2.22, 1.62, -2.28], ["c", 0.06, -0.03, 0.18, -0.06, 0.24, -0.06], ["c", 0.3, 0, 0.27, -0.03, 1.89, 1.95], ["l", 1.53, 1.83], ["c", 0.03, -0, 0.06, -0.06, 0.09, -0.09], ["c", 0.06, -0.12, 0.06, -0.15, 0.06, -2.28], ["c", -0, -1.92, -0, -2.22, 0.06, -2.31], ["c", 0.06, -0.15, 0.15, -0.24, 0.3, -0.3], ["z"]], w: 15.011, h: 10.012}
         , 'timesig.common': {d: [["M", 6.66, -7.826], ["c", 0.72, -0.06, 1.41, -0.03, 1.98, 0.09], ["c", 1.2, 0.27, 2.34, 0.96, 3.09, 1.92], ["c", 0.63, 0.81, 1.08, 1.86, 1.14, 2.73], ["c", 0.06, 1.02, -0.51, 1.92, -1.44, 2.22], ["c", -0.24, 0.09, -0.3, 0.09, -0.63, 0.09], ["c", -0.33, -0, -0.42, -0, -0.63, -0.06], ["c", -0.66, -0.24, -1.14, -0.63, -1.41, -1.2], ["c", -0.15, -0.3, -0.21, -0.51, -0.24, -0.9], ["c", -0.06, -1.08, 0.57, -2.04, 1.56, -2.37], ["c", 0.18, -0.06, 0.27, -0.06, 0.63, -0.06], ["l", 0.45, 0], ["c", 0.06, 0.03, 0.09, 0.03, 0.09, 0], ["c", 0, 0, -0.09, -0.12, -0.24, -0.27], ["c", -1.02, -1.11, -2.55, -1.68, -4.08, -1.5], ["c", -1.29, 0.15, -2.04, 0.69, -2.4, 1.74], ["c", -0.36, 0.93, -0.42, 1.89, -0.42, 5.37], ["c", 0, 2.97, 0.06, 3.96, 0.24, 4.77], ["c", 0.24, 1.08, 0.63, 1.68, 1.41, 2.07], ["c", 0.81, 0.39, 2.16, 0.45, 3.18, 0.09], ["c", 1.29, -0.45, 2.37, -1.53, 3.03, -2.97], ["c", 0.15, -0.33, 0.33, -0.87, 0.39, -1.17], ["c", 0.09, -0.24, 0.15, -0.36, 0.3, -0.39], ["c", 0.21, -0.03, 0.42, 0.15, 0.39, 0.36], ["c", -0.06, 0.39, -0.42, 1.38, -0.69, 1.89], ["c", -0.96, 1.8, -2.49, 2.94, -4.23, 3.18], ["c", -0.99, 0.12, -2.58, -0.06, -3.63, -0.45], ["c", -0.96, -0.36, -1.71, -0.84, -2.4, -1.5], ["c", -1.11, -1.11, -1.8, -2.61, -2.04, -4.56], ["c", -0.06, -0.6, -0.06, -2.01, 0, -2.61], ["c", 0.24, -1.95, 0.9, -3.45, 2.01, -4.56], ["c", 0.69, -0.66, 1.44, -1.11, 2.37, -1.47], ["c", 0.63, -0.24, 1.47, -0.42, 2.22, -0.48], ["z"]], w: 13.038, h: 15.697}
         , 'timesig.cut': {d: [["M", 6.24, -10.44], ["c", 0.09, -0.06, 0.09, -0.06, 0.48, -0.06], ["c", 0.36, 0, 0.36, 0, 0.45, 0.06], ["l", 0.06, 0.09], ["l", 0, 1.23], ["l", 0, 1.26], ["l", 0.27, 0], ["c", 1.26, 0, 2.49, 0.45, 3.48, 1.29], ["c", 1.05, 0.87, 1.8, 2.28, 1.89, 3.48], ["c", 0.06, 1.02, -0.51, 1.92, -1.44, 2.22], ["c", -0.24, 0.09, -0.3, 0.09, -0.63, 0.09], ["c", -0.33, -0, -0.42, -0, -0.63, -0.06], ["c", -0.66, -0.24, -1.14, -0.63, -1.41, -1.2], ["c", -0.15, -0.3, -0.21, -0.51, -0.24, -0.9], ["c", -0.06, -1.08, 0.57, -2.04, 1.56, -2.37], ["c", 0.18, -0.06, 0.27, -0.06, 0.63, -0.06], ["l", 0.45, -0], ["c", 0.06, 0.03, 0.09, 0.03, 0.09, -0], ["c", 0, -0.03, -0.45, -0.51, -0.66, -0.69], ["c", -0.87, -0.69, -1.83, -1.05, -2.94, -1.11], ["l", -0.42, 0], ["l", 0, 7.17], ["l", 0, 7.14], ["l", 0.42, 0], ["c", 0.69, -0.03, 1.23, -0.18, 1.86, -0.51], ["c", 1.05, -0.51, 1.89, -1.47, 2.46, -2.7], ["c", 0.15, -0.33, 0.33, -0.87, 0.39, -1.17], ["c", 0.09, -0.24, 0.15, -0.36, 0.3, -0.39], ["c", 0.21, -0.03, 0.42, 0.15, 0.39, 0.36], ["c", -0.03, 0.24, -0.21, 0.78, -0.39, 1.2], ["c", -0.96, 2.37, -2.94, 3.9, -5.13, 3.9], ["l", -0.3, 0], ["l", 0, 1.26], ["l", 0, 1.23], ["l", -0.06, 0.09], ["c", -0.09, 0.06, -0.09, 0.06, -0.45, 0.06], ["c", -0.39, 0, -0.39, 0, -0.48, -0.06], ["l", -0.06, -0.09], ["l", 0, -1.29], ["l", 0, -1.29], ["l", -0.21, -0.03], ["c", -1.23, -0.21, -2.31, -0.63, -3.21, -1.29], ["c", -0.15, -0.09, -0.45, -0.36, -0.66, -0.57], ["c", -1.11, -1.11, -1.8, -2.61, -2.04, -4.56], ["c", -0.06, -0.6, -0.06, -2.01, 0, -2.61], ["c", 0.24, -1.95, 0.93, -3.45, 2.04, -4.59], ["c", 0.42, -0.39, 0.78, -0.66, 1.26, -0.93], ["c", 0.75, -0.45, 1.65, -0.75, 2.61, -0.9], ["l", 0.21, -0.03], ["l", 0, -1.29], ["l", 0, -1.29], ["z"], ["m", -0.06, 10.44], ["c", 0, -5.58, 0, -6.99, -0.03, -6.99], ["c", -0.15, 0, -0.63, 0.27, -0.87, 0.45], ["c", -0.45, 0.36, -0.75, 0.93, -0.93, 1.77], ["c", -0.18, 0.81, -0.24, 1.8, -0.24, 4.74], ["c", 0, 2.97, 0.06, 3.96, 0.24, 4.77], ["c", 0.24, 1.08, 0.66, 1.68, 1.41, 2.07], ["c", 0.12, 0.06, 0.3, 0.12, 0.33, 0.15], ["l", 0.09, 0], ["l", 0, -6.96], ["z"]], w: 13.038, h: 20.97}
-    };
+	, 'it.l':{d:[["M", 3.889, -4.778], ["c", -0.167, 1.167, -1.111, 2.833, -0.167, 3.5], ["c", 1, -0.278, 1.556, -0.833, 2.445, -1.278], ["l", -0, 0.389], ["c", -1.611, 1, -2.111, 1.945, -3.778, 2.445], ["c", -0.444, -0.112, -0.778, -0.945, -0.611, -1.612], ["l", 2.667, -10.111], ["c", 1.055, -1, 2.166, -2.5, 4.222, -2], ["l", -0.834, 1.056], ["c", -3.055, -0.778, -2.555, 3.111, -3.388, 5.389], ["c", -0.389, 1.111, -0.389, 1.166, -0.556, 2.222], ["z"]],w:6.933,h:13.822}
+	, 'it.f':{d:[["M", 4.333, -6.833], ["c", 0.722, -3.778, 2.222, -7, 6.5, -6.667], ["l", -0.944, 1.111], ["c", -3.5, -1.111, -3.167, 3.167, -4.112, 5.556], ["c", 0.834, -0, 1.723, -0.111, 2.445, -0], ["c", -0.5, 0.611, -1.389, 0.722, -2.611, 0.611], ["c", -1.278, 4.056, -1.722, 8.945, -5.111, 10.889], ["c", -0.556, 0.333, -1.667, 0.333, -2.5, 0.167], ["c", 0.5, -0.667, 0.722, -1.5, 2, -1.167], ["c", 3.722, -0.778, 2.611, -6.389, 4.166, -9.889], ["l", -2.666, 0], ["c", 0.666, -0.444, 1.666, -0.833, 2.833, -0.611], ["z"]],w:12.833,h:18.467}
+	, 'it.F':{d:[["M", 14.667, -12.389], ["c", -0.167, 0.778, -1.056, 1.111, -1.444, 1.444], ["l", -3.223, -0.055], ["l", -1.277, 5.167], ["l", 3.166, -0], ["c", -0.611, 0.777, -2, 0.777, -3.389, 0.777], ["c", -0.777, 4, -2.444, 7.556, -7.277, 7.278], ["c", 0.444, -0.667, 0.555, -1.444, 2.055, -1.278], ["c", 3.333, 0.334, 2.833, -3.444, 3.778, -5.889], ["l", -0.5, 0], ["c", 1.333, -1.388, 1.333, -4.055, 2, -6.055], ["c", -3.167, -0.667, -4.833, 2.055, -3.611, 4.833], ["l", -1.667, 0.778], ["c", -1.111, -3.944, 1.778, -6.333, 5.945, -6.333], ["c", 2, -0, 4.222, 0.333, 5.444, -0.667], ["z"]],w:13.444,h:14.626}
+	, 'it.i':{d:[["M", 5.444, -12.333], ["l", 0.722, 1.389], ["c", -0.444, 0.333, -0.944, 0.611, -1.333, 1.055], ["c", -0.167, -0.444, -1.167, -1.277, -0.445, -1.555], ["z"], ["m", -0.389, 4.333], ["l", -1.389, 6.167], ["c", 0.334, 1.389, 1.778, -0.278, 2.556, -0.5], ["c", -0.056, 1.111, -1.278, 1, -1.778, 1.667], ["c", -0.833, 0.444, -1.222, 0.833, -1.944, 0.944], ["c", -0.445, -0.055, -0.556, -0.722, -0.445, -1.167], ["c", 0.167, -1.777, 1, -3.333, 1.278, -5.333], ["c", -0.278, -0.778, -1.167, 0.111, -1.722, 0.333], ["l", 0.055, -0.555], ["c", 1.167, -0.722, 2.111, -1.556, 3.167, -1.778], ["c", 0.167, 0, 0.222, 0.111, 0.222, 0.222], ["z"]],w:4.611,h:12.611}
+	, 'it.n':{d:[["M", 6.556, 0.333], ["c", -0.889, -2.222, 1, -4.389, 0.944, -6.778], ["c", -0.388, -0.611, -1, 0.278, -1.555, 0.445], ["c", -0.5, 0.333, -0.556, 0.333, -1.5, 0.944], ["l", -1.167, 4.667], ["l", -1.5, 0.611], ["c", 0.5, -2.111, 1.334, -4.389, 1.611, -6.611], ["c", -0.333, -0.667, -1.166, 0.166, -1.777, 0.333], ["c", 0.5, -1.444, 2.166, -1.5, 3.277, -2.167], ["c", 0.667, 0.334, -0.222, 1.612, -0.222, 2.334], ["c", 1, -0.611, 2.667, -1.889, 4.222, -2.334], ["c", 0.334, 0, 0.445, 0.278, 0.334, 0.5], ["c", -0.278, 1.612, -1.167, 3.945, -1.445, 5.834], ["c", 0.111, 1, 1, 0.222, 1.445, -0], ["c", 0.444, -0.222, 0.444, -0.222, 1.166, -0.667], ["c", -0.555, 1.611, -2.722, 2.056, -3.833, 2.889], ["z"]],w:8.778,h:8.556}
+	, 'it.e':{d:[["M", 4.389, -0.889], ["c", 1.389, 0, 2.056, -0.889, 3.222, -1.833], ["l", 0, 0.555], ["c", -1.611, 1.611, -3, 2.445, -4.222, 2.445], ["c", -1.111, -0, -1.722, -0.778, -1.667, -1.945], ["c", 0.167, -3.444, 1.389, -6.555, 4.556, -6.555], ["c", 0.667, -0, 1.167, 0.389, 1.111, 1.111], ["c", -0.222, 2.389, -2.722, 3, -4.167, 4.278], ["c", -0.055, 1.055, 0.223, 1.944, 1.167, 1.944], ["z"], ["m", 1.556, -5.667], ["c", 0.111, -0.833, -0.667, -1.055, -1.167, -0.555], ["c", -0.778, 0.833, -1.333, 2.111, -1.5, 3.555], ["c", 1.222, -0.889, 2.5, -1.222, 2.667, -3], ["z"]],w:5.892,h:8.5}
+	, 'it.D':{d:[["M", 15.167, -8.056], ["c", -0.278, 6.778, -5.611, 8.667, -13.444, 8.056], ["l", 0.944, -0.945], ["c", 2.722, -0.055, 2.944, -1.833, 3.5, -4.111], ["l", 1.5, -5.944], ["c", -2.944, 0.222, -4.889, 2, -4.167, 5.166], ["l", -1.666, 0.778], ["c", -0.778, -3.778, 2.333, -6.111, 6.166, -6.611], ["l", 1.445, -0.611], ["l", -0.167, 0.555], ["c", 2.945, 0.056, 6, 0.945, 5.889, 3.667], ["z"], ["m", -7.833, 7.167], ["c", 4.5, 0.222, 6.111, -2.778, 6.111, -6.778], ["c", -0, -2.5, -1.611, -3.5, -4.334, -3.445], ["l", -2.166, 7.778], ["c", -0.611, 0.945, -1.222, 1.556, -2.167, 2.334], ["z"]],w:13.456,h:12.386}
+	, 'it.d':{d:[["M", 2.222, 0.111], ["c", -1.389, -3.444, 1.167, -8.611, 5.056, -8.222], ["c", 0.444, -1.5, 0.666, -3, 1.833, -3.834], ["c", 1.167, -0.833, 1.833, -1.833, 3.444, -1.5], ["c", -0.333, 0.612, -0.611, 1.389, -1.611, 0.945], ["c", -2.666, 0.889, -2.111, 5.778, -3.222, 8.444], ["c", -0.056, 0.889, -0.778, 2.278, -0.167, 2.889], ["c", 0.723, -0.222, 1.556, -1, 2.389, -1.444], ["c", -0.555, 1.666, -2.555, 2, -3.778, 2.889], ["c", -0.722, -0.111, -0.444, -1.223, -0.333, -2.056], ["c", -1, 0.611, -2.278, 1.722, -3.333, 2.056], ["c", -0.111, -0, -0.167, -0.056, -0.278, -0.167], ["z"], ["m", 3.722, -7.389], ["c", -1.5, -0.278, -2.778, 3.333, -2.778, 5.333], ["c", 0, 1.667, 1.223, 0.5, 1.834, 0.112], ["l", 1, -0.723], ["l", 0.944, -4.166], ["c", -0.333, -0.389, -0.5, -0.445, -1, -0.556], ["z"]],w:10.716,h:13.788}
+	, 'it.a':{d:[["M", 7.833, -1.444], ["c", 0.889, -0.167, 1.278, -0.833, 2, -1.167], ["c", -0.5, 1.778, -2.444, 2.056, -3.667, 2.889], ["c", -0.722, -0.333, -0.055, -1.333, 0, -2.222], ["c", -1.222, 0.722, -2.222, 1.667, -3.611, 2.222], ["c", -2.166, -3, 0.5, -9.5, 5.5, -8.444], ["c", 0.389, 0.055, 0.834, 0.111, 1.334, 0.222], ["c", -1.223, 1.389, -1.334, 4, -1.778, 6.111], ["c", -0, 0.278, 0.055, 0.389, 0.222, 0.389], ["z"], ["m", -0.444, -5.611], ["c", -3.223, -1.222, -3.889, 2.167, -4.112, 4.778], ["c", 0.389, 2.222, 2, -0, 3.056, -0.445], ["z"]],w:8.037,h:8.559}
+	, 'it.C':{d:[["M", 3.389, -2.556], ["c", -0.167, 4.167, 5, 3.389, 7.167, 1.278], ["l", -0.111, 0.611], ["c", -2.167, 2, -8.889, 3.889, -8.667, -1.167], ["c", 0.222, -5.333, 3.5, -10, 8.555, -10], ["c", 1.5, 0, 2.167, 0.667, 2.389, 2], ["l", -1.5, 1.278], ["c", -0.111, -1.389, -0.555, -2.333, -1.944, -2.333], ["c", -3.833, -0, -5.722, 4.166, -5.889, 8.333], ["z"]],w:10.95,h:13.236}
+	, 'it.c':{d:[["M", 3.278, -2.389], ["c", -0.056, 0.889, 0.389, 1.5, 1.167, 1.5], ["c", 0.611, 0, 1.666, -0.556, 3.222, -1.667], ["l", -0.056, 0.667], ["c", -1.389, 0.944, -2.722, 2, -4.444, 2.167], ["c", -2.945, -0.778, -0.833, -6.5, 0.833, -7.278], ["c", 0.778, -0.389, 1.278, -1.111, 2.278, -1.222], ["c", 0.778, -0.111, 1.333, 0.889, 1.111, 1.611], ["l", -1.167, 0.666], ["c", -0.111, -0.666, -0.222, -1.222, -0.833, -1.222], ["c", -1.389, 0.056, -2.055, 3, -2.111, 4.778], ["z"]],w:5.971,h:8.509}
+	, 'it.p':{d:[["M", 9.667, -6.667], ["c", 0, 3.778, -2, 7.111, -6.167, 6.722], ["l", -0.944, 4.278], ["l", 2.222, 0.111], ["c", -0.778, 0.945, -3.222, 0.333, -4.944, 0.445], ["c", 0.333, -0.334, 0.611, -0.723, 1.333, -0.667], ["l", 2.333, -10.167], ["c", -0.111, -1.166, -1.333, -0.166, -1.833, 0], ["c", 0.5, -1.333, 2.278, -1.611, 3.389, -2.278], ["c", 0.667, 0.223, -0.111, 1.334, -0.111, 2.056], ["c", 1.278, -0.944, 4.722, -3.722, 4.722, -0.5], ["z"], ["m", -1.444, 0.889], ["c", -0, -2.333, -2.612, -0.167, -3.445, 0.444], ["l", -0.944, 4], ["c", 2.722, 1.723, 4.389, -1.833, 4.389, -4.444], ["z"]],w:9.833,h:13.204}
+	, 'it.o':{d:[["M", 1.722, -1.722], ["c", 0.111, -3.722, 2.278, -6.056, 5.444, -6.5], ["c", 1.112, -0.167, 1.834, 0.722, 1.834, 1.833], ["c", -0.222, 3.778, -2.056, 6, -5.556, 6.667], ["c", -1, -0.056, -1.722, -0.833, -1.722, -2], ["z"], ["m", 2.889, 1.056], ["c", 2.222, -0, 3.333, -3.834, 2.5, -6.112], ["c", -0.222, -0.333, -0.556, -0.5, -1, -0.5], ["c", -1.945, 0, -2.833, 2.556, -2.833, 4.723], ["c", -0, 1, 0.444, 1.889, 1.333, 1.889], ["z"]],w:7.278,h:8.52}
+	, 'it.S':{d:[["M", 9, -3.611], ["c", 0, 4, -6.111, 6.722, -9, 3.667], ["c", 0.444, -0.778, 0.5, -1.834, 1.222, -2.334], ["c", 0.167, 1.778, 1.278, 2.778, 3, 2.778], ["c", 1.778, 0, 3.222, -1.055, 3.222, -2.944], ["c", 0, -2.611, -3.277, -2.389, -3.277, -5], ["c", -0, -2.389, 2, -4.278, 4.389, -4.278], ["c", 1.055, -0, 1.666, 0.555, 1.777, 1.667], ["l", -1.333, 0.888], ["c", -0.222, -1.111, -0.278, -1.611, -1.333, -1.611], ["c", -1.334, 0, -2.167, 1.056, -2.167, 2.445], ["c", 0, 2.5, 3.5, 2.222, 3.5, 4.722], ["z"]],w:10.333,h:13.089}
+	, 'it.s':{d:[["M", 2.278, 0.278], ["c", -1, 0, -1.556, -0.778, -1.444, -1.944], ["l", 1.388, -0.889], ["c", 0, 1.111, 0.278, 2, 1.167, 2], ["c", 0.945, -0.167, 1.722, -0.723, 1.667, -1.889], ["c", -0.445, -1.056, -2.222, -1.278, -2.222, -2.722], ["c", -0, -2, 3.055, -4.056, 4.722, -2.389], ["l", -0.945, 1.055], ["c", -0.555, -1.166, -2.555, -0.889, -2.5, 0.5], ["c", 0, 1.611, 2.334, 1.278, 2.223, 2.945], ["c", -0.167, 1.944, -1.889, 3.333, -4.056, 3.333], ["z"]],w:6.736,h:8.445}
+	, 'it.punto':{d:[["M", 3.056, 0.167], ["c", -0.333, -0.611, -1.389, -1.556, -0.333, -1.944], ["l", 0.889, -0.778], ["c", 0.388, 0.722, 1.444, 1.611, 0.277, 2.111], ["c", -0.277, 0.167, -0.5, 0.444, -0.833, 0.611], ["z"]],w:2.157,h:2.722}   };
 
 
     this.getTextSymbol = function (symb) {
@@ -7395,7 +7602,6 @@ ABCXJS.write.Layout = function(printer, bagpipes ) {
   this.printer = printer;	// TODO-PER: this is a hack to get access, but it tightens the coupling.
   this.accordion = printer.accordion;
   this.glyphs = printer.glyphs;
-  this.lastAbs = undefined; // this is intented to be the place to put bar numbers (if present)
 };
 
 ABCXJS.write.Layout.prototype.getCurrentVoiceId = function() {
@@ -7424,6 +7630,14 @@ ABCXJS.write.Layout.prototype.getNextElem = function() {
     if (this.currVoice.length <= this.pos + 1)
         return null;
     return this.currVoice[this.pos + 1];
+};
+
+ABCXJS.write.Layout.prototype.isFirstVoice = function() {
+    return this.currVoice.firstVoice || false;
+};
+
+ABCXJS.write.Layout.prototype.isLastVoice = function() {
+    return this.currVoice.lastVoice || false;
 };
 
 ABCXJS.write.Layout.prototype.layoutABCLine = function( abctune, line, width ) {
@@ -7462,7 +7676,7 @@ ABCXJS.write.Layout.prototype.layoutABCLine = function( abctune, line, width ) {
                 this.printABCVoice();
             } else {
                 var p = new ABCXJS.tablature.Layout(this.tuneCurrVoice, this.tuneCurrStaff, abcstaff, this.glyphs, this.tune.restsInTab );
-                this.voice = p.printTABVoice();
+                this.voice = p.printTABVoice(this.layoutJumpInfo);
             }
             
             if (abcstaff.title && abcstaff.title[this.tuneCurrVoice])
@@ -7474,6 +7688,22 @@ ABCXJS.write.Layout.prototype.layoutABCLine = function( abctune, line, width ) {
     this.layoutStaffGroup();
     
     return this.staffgroup;
+};
+
+ABCXJS.write.Layout.prototype.layoutJumpInfo = function(elem, pitch) {
+    switch (elem.jumpInfo.type) {
+        case "coda":     return new ABCXJS.write.RelativeElement("scripts.coda", 0, 0, pitch + 1); 
+        case "segno":    return new ABCXJS.write.RelativeElement("scripts.segno", 0, 0, pitch + 1); 
+        case "fine":     return new ABCXJS.write.RelativeElement("it.Fine", -32, 32, pitch);
+        case "dacapo":   return new ABCXJS.write.RelativeElement("it.DC", -16, 16, pitch);
+        case "dasegno":  return new ABCXJS.write.RelativeElement("it.DaSegno", -22, 32, pitch);
+        case "dacoda":   return new ABCXJS.write.RelativeElement("it.DaCoda", -22, 32, pitch);
+        case "dcalfine": return new ABCXJS.write.RelativeElement("it.DCalFine", 25, -25, pitch);
+        case "dcalcoda": return new ABCXJS.write.RelativeElement("it.DCalCoda", 25, -25, pitch);
+        case "dsalfine": return new ABCXJS.write.RelativeElement("it.DSalFine", 25, -25, pitch);
+        case "dsalcoda": return new ABCXJS.write.RelativeElement("it.DSalCoda", 25, -25, pitch);
+    }
+    return null;
 };
 
 ABCXJS.write.Layout.prototype.layoutStaffGroup = function() {
@@ -7842,14 +8072,6 @@ ABCXJS.write.Layout.prototype.printNote = function(elem, nostem, dontDraw) { //s
         }
     }
 
-    if (elem.barNumber && elem.barNumberVisible && !dontDraw ) {
-        if(this.lastAbs) {
-          this.lastAbs.addChild(new ABCXJS.write.RelativeElement(elem.barNumber, 0, 0, 12, {type: "barnumber"}));
-        } else {
-          abselem.addChild(new ABCXJS.write.RelativeElement(elem.barNumber, 0, 0, 12, {type: "barnumber"}));
-        }
-    }
-
     // ledger lines
     for (i = elem.maxpitch; i > 11; i--) {
         if (i % 2 === 0 && !elem.rest) {
@@ -8169,12 +8391,6 @@ ABCXJS.write.Layout.prototype.printDecoration = function(decoration, pitch, widt
             case "umarcato":
                 dec = "scripts.umarcato";
                 break;
-            case "coda":
-                dec = "scripts.coda";
-                break;
-            case "segno":
-                dec = "scripts.segno";
-                break;
             case "/":
                 compoundDec = ["flags.ugrace", 1];
                 continue;	// PER: added new decorations
@@ -8262,82 +8478,94 @@ ABCXJS.write.Layout.prototype.printDecoration = function(decoration, pitch, widt
 ABCXJS.write.Layout.prototype.printBarLine = function (elem) {
 // bar_thin, bar_thin_thick, bar_thin_thin, bar_thick_thin, bar_right_repeat, bar_left_repeat, bar_double_repeat
 
-  var topbar = 10;
-  var yDot   =  5;
-  
-  var abselem = new ABCXJS.write.AbsoluteElement(elem, 0, 10);
-  var anchor = null; // place to attach part lines
-  var dx = 0;
- 
-  this.lastAbs = abselem;
+    var topbar = 10;
+    var yDot = 5;
 
-  var firstdots = (elem.type==="bar_right_repeat" || elem.type==="bar_dbl_repeat");
-  var firstthin = (elem.type!=="bar_left_repeat" && elem.type!=="bar_thick_thin" && elem.type!=="bar_invisible");
-  var thick = (elem.type==="bar_right_repeat" || elem.type==="bar_dbl_repeat" || elem.type==="bar_left_repeat" ||
-	       elem.type==="bar_thin_thick" || elem.type==="bar_thick_thin");
-  var secondthin = (elem.type==="bar_left_repeat" || elem.type==="bar_thick_thin" || elem.type==="bar_thin_thin" || elem.type==="bar_dbl_repeat");
-  var seconddots = (elem.type==="bar_left_repeat" || elem.type==="bar_dbl_repeat");
+    var abselem = new ABCXJS.write.AbsoluteElement(elem, 0, 10);
+    var anchor = null; // place to attach part lines
+    var dx = 0;
 
-  // limit positioning of slurs
-  if (firstdots || seconddots) {
-    for (var slur in this.slurs) {
-      if (this.slurs.hasOwnProperty(slur)) {
-	this.slurs[slur].endlimitelem = abselem;
-      }
+    var firstdots = (elem.type === "bar_right_repeat" || elem.type === "bar_dbl_repeat");
+    var firstthin = (elem.type !== "bar_left_repeat" && elem.type !== "bar_thick_thin" && elem.type !== "bar_invisible");
+    var thick = (elem.type === "bar_right_repeat" || elem.type === "bar_dbl_repeat" || elem.type === "bar_left_repeat" ||
+            elem.type === "bar_thin_thick" || elem.type === "bar_thick_thin");
+    var secondthin = (elem.type === "bar_left_repeat" || elem.type === "bar_thick_thin" || elem.type === "bar_thin_thin" || elem.type === "bar_dbl_repeat");
+    var seconddots = (elem.type === "bar_left_repeat" || elem.type === "bar_dbl_repeat");
+
+    // limit positioning of slurs
+    if (firstdots || seconddots) {
+        for (var slur in this.slurs) {
+            if (this.slurs.hasOwnProperty(slur)) {
+                this.slurs[slur].endlimitelem = abselem;
+            }
+        }
+        this.startlimitelem = abselem;
     }
-    this.startlimitelem = abselem;
-  }
 
-  if (firstdots) {
-    abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot+2));
-    abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot));
-    dx+=6; //2 hardcoded, twice;
-  }
+    if (firstdots) {
+        abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot + 2));
+        abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot));
+        dx += 6; //2 hardcoded, twice;
+    }
 
-  if (firstthin) {
-    anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 2, {"type": "bar", "pitch2":topbar, linewidth:0.6});
-    abselem.addRight(anchor);
-  }
+    if (firstthin) {
+        anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 2, {"type": "bar", "pitch2": topbar, linewidth: 0.6});
+        abselem.addRight(anchor);
+    }
 
-  if (elem.type==="bar_invisible" ) {
-    anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 2, {"type": "none", "pitch2":topbar, linewidth:0.6});
-    abselem.addRight(anchor);
-  }
+    if (elem.type === "bar_invisible") {
+        anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 2, {"type": "none", "pitch2": topbar, linewidth: 0.6});
+        abselem.addRight(anchor);
+    }
 
-  if (elem.decoration) {
-    this.printDecoration(elem.decoration, 12, (thick)?3:1, abselem, 0, "down", 2);
-  }
+    if (elem.decoration) {
+        this.printDecoration(elem.decoration, 12, (thick) ? 3 : 1, abselem, 0, "down", 2);
+    }
 
-  if (thick) {
-    dx+=4; //3 hardcoded;    
-    anchor = new ABCXJS.write.RelativeElement(null, dx, 4, 2, {"type": "bar", "pitch2":topbar, linewidth:4});
-    abselem.addRight(anchor);
-    dx+=5;
-  }
-  
-  if (this.partstartelem && elem.endDrawEnding ) {
-    this.partstartelem.anchor2  = anchor;
-    this.partstartelem = null;
-  }
-  
-  if (secondthin) {
-    dx+=3; //3 hardcoded;
-    anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 2, {"type": "bar", "pitch2":topbar, linewidth:0.6});
-    abselem.addRight(anchor); // 3 is hardcoded
-  }
+    if (thick) {
+        dx += 4; //3 hardcoded;    
+        anchor = new ABCXJS.write.RelativeElement(null, dx, 4, 2, {"type": "bar", "pitch2": topbar, linewidth: 4});
+        abselem.addRight(anchor);
+        dx += 5;
+    }
 
-  if (seconddots) {
-    dx+=3; //3 hardcoded;
-    abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot+2));
-    abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot));
-  } // 2 is hardcoded
+    if (elem.jumpInfo) {
+        if(( elem.jumpInfo.upper && this.isFirstVoice() ) || ( !elem.jumpInfo.upper && this.isLastVoice() ) ) {
+            var pitch = elem.jumpInfo.upper ? 12 : -3;
+            abselem.addRight( this.layoutJumpInfo(elem, pitch) );
+        }
+    }
+    
+    if (elem.barNumber && elem.barNumberVisible) {
+        if (!(elem.jumpInfo && elem.jumpInfo.upper)) {
+            // nestes casos o barnumber pode ser escrito sem sobreposição
+            abselem.addChild(new ABCXJS.write.RelativeElement(elem.barNumber, 0, 0, 12, {type: "barnumber"}));
+        }
+    }
 
-  if (elem.startEnding) {
-    this.partstartelem = new ABCXJS.write.EndingElem(elem.startEnding, anchor, null);
-    this.voice.addOther(this.partstartelem);
-  } 
+    if (this.partstartelem && elem.endDrawEnding) {
+        this.partstartelem.anchor2 = anchor;
+        this.partstartelem = null;
+    }
 
-  return abselem;	
+    if (secondthin) {
+        dx += 3; //3 hardcoded;
+        anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 2, {"type": "bar", "pitch2": topbar, linewidth: 0.6});
+        abselem.addRight(anchor); // 3 is hardcoded
+    }
+
+    if (seconddots) {
+        dx += 3; //3 hardcoded;
+        abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot + 2));
+        abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot));
+    } // 2 is hardcoded
+
+    if (elem.startEnding) {
+        this.partstartelem = new ABCXJS.write.EndingElem(elem.startEnding, anchor, null);
+        this.voice.addOther(this.partstartelem);
+    }
+
+    return abselem;
 
 };
 
@@ -8345,7 +8573,7 @@ ABCXJS.write.Layout.prototype.printClef = function(elem) {
   var clef = "clefs.G";
   var octave = 0;
   var abselem = new ABCXJS.write.AbsoluteElement(elem,0,10);
-  this.lastAbs = abselem;
+  
   switch (elem.type) {
   case "treble": break;
   case "tenor": clef="clefs.C"; break;
@@ -8818,7 +9046,7 @@ ABCXJS.write.Printer.prototype.printDebugLine = function (x1,x2, y, fill ) {
 };
 
 ABCXJS.write.Printer.prototype.printLedger = function (x1, x2, pitch) {
-    this.paper.printLedger(x1, this.calcY(pitch), x2, this.calcY(pitch) );
+    this.paper.printLedger(x1-1, this.calcY(pitch), x2+1, this.calcY(pitch) );
 };
 
 ABCXJS.write.Printer.prototype.printText = function (x, offset, text, kls, anchor ) {
@@ -9122,16 +9350,16 @@ ABCXJS.midi.Parse.prototype.reset = function() {
     this.channel = -1;
     this.timecount = 0;
     this.playlistpos = 0;
-    this.pass = 1;
+//    this.pass = 1;
     this.maxPass = 2;
     this.countBar = 0;
-    this.currEnding = null;
-    this.afterRepeatBlock = false;
+//    this.currEnding = null;
+//    this.afterRepeatBlock = false;
     this.next = null;
-    this.restarting = false;
+//    this.restarting = false;
     this.restart = {line: 0, staff: 0, voice: 0, pos: 0};
-    this.startSegno = null;
-    this.segnoUsed = false;
+//    this.startSegno = null;
+//    this.segnoUsed = false;
     
     this.multiplier = 1;
     this.alertedMin = false;
@@ -9140,6 +9368,8 @@ ABCXJS.midi.Parse.prototype.reset = function() {
     this.lastTabElem = [];
     this.baraccidentals = [];
     this.parsedElements = [];
+    
+    this.pass = [];
     
     this.midiTune = { 
         tempo: this.oneMinute/640 // duração de cada intervalo em mili
@@ -9152,7 +9382,7 @@ ABCXJS.midi.Parse.prototype.parse = function(tune, keyboard) {
     
     var self = this;
     var currBar = 0; // marcador do compasso corrente - não conta os compassos repetidos por ritornellos
-    
+
     this.reset();
 
     this.abctune = tune;
@@ -9176,15 +9406,19 @@ ABCXJS.midi.Parse.prototype.parse = function(tune, keyboard) {
         this.voicecount = 1;
         for (this.voice = 0; this.voice < this.voicecount; this.voice++) {
             this.startTrack();
-            for (this.line = 0; this.line < this.abctune.lines.length; this.line++) {
+            for (this.line = 0; !this.endTrack && this.line < this.abctune.lines.length; this.line++) {
                 if ( this.getStaff() ) {
                     this.pos = 0;
+                    if(!this.capo){
+                        this.capo = this.restart = this.getMark();
+                    }    
                     this.next = null;
                     this.staffcount = this.getLine().staffs.length;
                     this.voicecount = this.getStaff().voices.length;
                     this.setKeySignature(this.getStaff().key);
-                    while (this.pos < this.getVoice().length) {
+                    while (!this.endTrack && this.pos < this.getVoice().length ) {
                         var elem = this.getElem();
+
                         switch (elem.el_type) {
                             case "note":
                                 if( this.skipping ) break;
@@ -9199,7 +9433,9 @@ ABCXJS.midi.Parse.prototype.parse = function(tune, keyboard) {
                                 this.setKeySignature(elem);
                                 break;
                             case "bar":
-                                this.handleBar(elem);
+                                if(!this.handleBar(elem)) {
+                                    return null;
+                                }
                                 break;
                             case "meter":
                             case "clef":
@@ -9219,6 +9455,10 @@ ABCXJS.midi.Parse.prototype.parse = function(tune, keyboard) {
                 }
             }
         }
+    }
+    
+    if(this.lookingForCoda ){
+        this.addWarning('Simbolo não encontrado: "Coda"!');
     }
     
     //cria a playlist a partir dos elementos obtidos acima  
@@ -9484,71 +9724,201 @@ ABCXJS.midi.Parse.prototype.selectButtons = function(elem) {
 // Esta função é fundamental pois controla todo o fluxo de execução das notas do MIDI
 ABCXJS.midi.Parse.prototype.handleBar = function (elem) {
     
-    this.countBar++; // contagem das barras de compasso de uma linha, para auxiliar na execução de saltos como "segno".
-
-   // bar_dbl_repeat só pode ser considerada repetição se não for encontrada após salto de repetição, caso em que será apenas, o ponto de restart.
-    var repeat = (elem.type === "bar_right_repeat" || (elem.type === "bar_dbl_repeat" && !this.restarting));
+    this.countBar++; // para impedir loop infinito em caso de erro
+    if(this.countBar > 10000) {
+      this.addWarning('Impossível gerar o MIDI para esta partitura após 10.000 ciclos.') ;
+      return false;
+    }
     
-    // todas estas barras indicam ponto de restart em caso de repetição
-    var setrestart = (elem.type === "bar_left_repeat" || elem.type === "bar_dbl_repeat" ||
-                      elem.type === "bar_thick_thin" || elem.type === "bar_thin_thick" ||
-                      elem.type === "bar_thin_thin" || elem.type === "bar_right_repeat");
-              
-    // salva o ponto prévio de restart (que pode ser modificado durante a interpreatação da barra corrente
-    var restart_next = this.restart;
-
-    //reset de váriaveis para o processamento das notas dentro do compasso
     this.baraccidentals = [];
-    this.restarting = false;
+    
+    if( this.lookingForCoda ) {
+        if( !elem.jumpInfo || elem.jumpInfo.type!=='coda' ) {
+            
+            return true;
+        } else {
+            this.codaPoint = this.getMark(); 
+            this.lookingForCoda = false;
+        }
+    }
+    
+    // implementa jump ao final do compasso
+    if(this.nextBarJump ) {
+        this.next = this.nextBarJump;
+        delete this.nextBarJump;
+    }
 
-   // este bloco trata os "endings" ou chaves de 1ª e  2ª vez  (ou chaves de finalização).
-   // são importantes para determinar a quantidade de vezes que o bloco será repetido e quais compassos
-   // devem ser ignorados em cada passada
-   
+    var pass = this.getPass();
+    
+    if(elem.type === "bar_left_repeat") {
+        this.restart = this.getMark();   
+    } 
+    
+    if (elem.type === "bar_right_repeat" || elem.type === "bar_dbl_repeat" ) {
+        if( pass < this.maxPass ) {
+            delete this.currEnding; // apaga qualquer ending em ação
+            this.clearTies(); // limpa ties
+            this.next = this.restart;// vai repetir
+            return true;
+        } else {
+            if( elem.type === "bar_dbl_repeat" ) {
+                // não vai repetir e, além de tudo, é um novo restart
+                this.restart = this.getMark();   
+            }
+        }
+    }
+    
    // encerra uma chave de finalização
     if (elem.endEnding) {
-        this.currEnding = null;
+        delete this.currEnding;
     }
 
    // inicia uma chave de finalização e faz o parse da quantidade repetições necessarias
    // a chave de finalização imediatamente  após um bloco de repetição ter sido terminado será ignorada
    // e enquanto o bloco estiver sendo repetido, também
-    if (elem.startEnding &&  !this.afterRepeatBlock &&  !repeat ) {
+    if (elem.startEnding ) {
         var a = elem.startEnding.split('-');
         this.currEnding = {};
         this.currEnding.min = parseInt(a[0]);
         this.currEnding.max = a.length > 1 ? parseInt(a[1]) : this.currEnding.min;
         this.maxPass = Math.max(this.currEnding.max, 2);
-    }
-
-    //ignora notas em função da quantidade de vezes que o bloco foi repetido e o tipo de "ending"
-    this.skipping = (this.currEnding !== null && (this.currEnding.min > this.pass || this.pass > this.currEnding.max));
-
-    // marca um ponto de recomeço
-    if (setrestart) {
-        this.afterRepeatBlock = false;
-        this.restart = this.getMark();
-    }
-
-    // verifica se deve encerrar a repetição do bloco
-    if (repeat) {
-        if (this.pass < this.maxPass) {
-            this.pass++;
-            this.next = restart_next;
-            this.restarting = true;
-            this.clearTies();
-            return;
-        } else {
-            this.pass = 1;
-            this.maxPass = 2;
-            this.afterRepeatBlock = true;
-        }
+        if(this.currEnding.min > 1 ) delete this.currEnding; // casa "2" não precisa de semantica 
     }
     
+    this.skipping = (this.currEnding && ( pass < this.currEnding.min || pass > this.currEnding.max) ) || false;
+
+    if(elem.jumpInfo ) {
+        switch (elem.jumpInfo.type) {
+            case "coda":     
+                this.codaPoint = this.getMark(); 
+                break;
+            case "segno":    
+                this.segnoPoint = this.getMark(); 
+                break;
+            case "fine":     
+                if(this.fineFlagged) this.endTrack = true; 
+                break;
+            case "dacapo":   
+                if(!this.daCapoFlagged) {
+                    this.next = this.capo;
+                    this.daCapoFlagged = true;
+                    this.pass = [];
+                } 
+                break;
+            case "dasegno":
+                if( this.segnoPoint ){
+                    if(!this.daSegnoFlagged){
+                        this.next = this.segnoPoint;
+                        this.daSegnoFlagged = true;
+                        this.pass = [];
+                    }
+                } else {
+                    this.addWarning( 'Ignorando Da segno!');
+                }
+                break;
+            case "dcalfine": 
+                if(!this.daCapoFlagged) {
+                    this.nextBarJump = this.capo;
+                    this.daCapoFlagged = true;
+                    this.fineFlagged = true;
+                    this.pass = [];
+                } 
+                break;
+            case "dsalfine": 
+                if( this.segnoPoint ){
+                    if(!this.daSegnoFlagged){
+                        this.nextBarJump = this.segnoPoint;
+                        this.fineFlagged = true;
+                        this.daSegnoFlagged = true;
+                        this.pass = [];
+                    }
+                } else {
+                    this.addWarning( 'Ignorando Da segno al fine!');
+                }
+                break;
+            case "dacoda":
+                if( this.codaPoint ){
+                    if(this.daCodaFlagged){
+                        this.next = this.codaPoint;
+                        this.daCodaFlagged = false;
+                        this.pass = [];
+                    }
+                } else if(this.daCodaFlagged) {
+                    //this.addWarning( 'Ignorando Da Coda!');
+                    this.lookingForCoda = true;
+                    this.skipping = true;
+                }
+                break;
+            case "dsalcoda": 
+                if( this.segnoPoint ){
+                    if(!this.daSegnoFlagged){
+                        this.nextBarJump = this.segnoPoint;
+                        this.daSegnoFlagged = true;
+                        this.daCodaFlagged = true;
+                        this.pass = [];
+                    }
+                } else {
+                    this.addWarning( 'Ignorando "D.S. al coda"!');
+                }
+                break;
+            case "dcalcoda": 
+                if(!this.daCapoFlagged) {
+                    this.nextBarJump = this.capo;
+                    this.daCapoFlagged = true;
+                    this.daCodaFlagged = true;
+                    this.pass = [];
+                } 
+                break;
+        }
+        
+    }
+    return true;
+    
+    
 /*
-    Tratamento das decorações, especialmente o "segno", mas anda incompleto.
+    OLD - Tratamento das decorações, especialmente o "segno", mas anda incompleto.
     Característica: apenas as decorações da primeira staff são consideradas e aplicadas a todas as outras
-*/
+    // flavio - todas estas barras indicam ponto de restart em caso de repetição
+//    var setrestart = (elem.type === "bar_left_repeat" || elem.type === "bar_dbl_repeat"  ) ; // ||
+                     // elem.type === "bar_thick_thin" || elem.type === "bar_thin_thick" ||
+                    //  elem.type === "bar_thin_thin" || elem.type === "bar_right_repeat");
+              
+    // salva o ponto prévio de restart (que pode ser modificado durante a interpreatação da barra corrente
+    //var restart_next = this.restart;
+
+    //reset de váriaveis para o processamento das notas dentro do compasso
+    //this.restarting = false;
+
+   // este bloco trata os "endings" ou chaves de 1ª e  2ª vez  (ou chaves de finalização).
+   // são importantes para determinar a quantidade de vezes que o bloco será repetido e quais compassos
+   // devem ser ignorados em cada passada
+   
+
+    //ignora notas em função da quantidade de vezes que o bloco foi repetido e o tipo de "ending"
+    //this.skipping = (this.currEnding !== null && (this.currEnding.min > this.pass || this.pass > this.currEnding.max));
+    
+    
+    // marca um ponto de recomeço
+//    if (setrestart) {
+//        this.afterRepeatBlock = false;
+//        this.restart = this.getMark();
+//    }
+
+    // verifica se deve encerrar a repetição do bloco
+//    if (repeat) {
+//        if (this.pass < this.maxPass) {
+//            this.pass++;
+//            this.next = restart_next;
+//            this.restarting = true;
+//            this.clearTies();
+//            return true;
+//        } else {
+//            this.pass = 1;
+//            this.maxPass = 2;
+//            this.afterRepeatBlock = true;
+//        }
+//    }
+    
     
     if ( this.staff === 0 )   {
         if (elem.decoration)  {
@@ -9576,6 +9946,8 @@ ABCXJS.midi.Parse.prototype.handleBar = function (elem) {
                 }
         }
     }
+*/
+
 };
 
 ABCXJS.midi.Parse.prototype.clearTies = function() {
@@ -9641,6 +10013,23 @@ ABCXJS.midi.Parse.prototype.getMarkString = function(mark) {
            "voice" + mark.voice + "pos" + mark.pos;
 };
 
+ABCXJS.midi.Parse.prototype.getMarkValue = function(mark) {
+    mark = mark || this;
+    return (mark.line+1) *1e6 + mark.staff *1e4 + mark.voice *1e2 + mark.pos;
+};
+
+ABCXJS.midi.Parse.prototype.getPass = function(mark) {
+    var compasso = this.getMarkValue(mark);
+    //registra e retorna o número de vezes que já passou por compasso.
+    //a cada (salto D.C., D.S., dacoda) deve-se zerar a contagem
+    if( this.pass[compasso]){
+        this.pass[compasso] = this.pass[compasso]+1;
+    } else {
+        this.pass[compasso] = 1;
+    }
+    return this.pass[compasso];
+};
+
 ABCXJS.midi.Parse.prototype.hasTablature = function() {
     return this.abctune.hasTablature;
 };
@@ -9667,16 +10056,31 @@ ABCXJS.midi.Parse.prototype.startTrack = function() {
     this.channel ++;
     this.timecount = 0;
     this.playlistpos = 0;
-    this.pass = 1;
     this.maxPass = 2;
     this.countBar = 0;
-    this.currEnding = null;
-    this.afterRepeatBlock = false;
+    
     this.next = null;
-    this.restarting = false;
-    this.restart = {line: 0, staff: 0, voice: 0, pos: 0};
-    this.startSegno = null;
-    this.segnoUsed = false;
+    
+    //this.pass = 1;
+    //this.afterRepeatBlock = false;
+    //this.restarting = false;
+    //this.startSegno = null;
+    //this.segnoUsed = false;
+    //delete this.currEnding = null;
+    
+    this.endTrack = false;    
+    delete this.nextBarJump;
+    delete this.codaFlagged;
+    delete this.fineFlagged;
+    delete this.daSegnoFlagged;
+    delete this.daCapoFlagged;
+    delete this.capo;
+
+    delete this.daCodaFlagged;
+    delete this.lookingForCoda;
+    
+    delete this.segnoPoint;
+    delete this.codaPoint;
 };
 
 ABCXJS.midi.Parse.prototype.getAccOffset = function(txtAcc) {
@@ -9790,7 +10194,7 @@ if (!window.ABCXJS.midi)
 ABCXJS.midi.Player = function( options ) {
     
     this.reset(options);
-    
+   
     this.playableClefs = "TB"; // indica que baixo (B) e melodia (T) serao executadas.
     this.ticksPerInterval = 1;
     
@@ -9900,6 +10304,12 @@ ABCXJS.midi.Player.prototype.startPlay = function(what) {
 
     if(this.playing || !what ) return false;
     
+    if(this.currentTime === 0 ) {
+        //flavio - pq no IOS tenho que tocar uma nota antes de qualquer pausa
+        MIDI.noteOn(0, 21, 0, 0);
+        MIDI.noteOff(0, 21, 0.01);
+    }
+   
     this.playlist = what.playlist;
     this.tempo    = what.tempo;
     this.printer  = what.printer;
@@ -9909,6 +10319,7 @@ ABCXJS.midi.Player.prototype.startPlay = function(what) {
     this.onError = null;
   
     var self = this;
+    
     this.doPlay();
     this.playInterval = window.setInterval(function() { self.doPlay(); }, this.tempo);
     
@@ -9925,6 +10336,12 @@ ABCXJS.midi.Player.prototype.clearDidacticPlay = function() {
 ABCXJS.midi.Player.prototype.startDidacticPlay = function(what, type, value, valueF ) {
 
     if(this.playing) return false;
+
+    if(this.currentTime === 0 ) {
+        //flavio - pq no IOS tenho que tocar uma nota antes de qualquer pausa
+        MIDI.noteOn(0, 21, 0, 0);
+        MIDI.noteOff(0, 21, 0.01);
+    }
     
     this.playlist = what.playlist;
     this.tempo    = what.tempo;
@@ -9990,7 +10407,7 @@ ABCXJS.midi.Player.prototype.handleBar = function() {
     if(this.playlist[this.i] && this.playlist[this.i].barNumber) {
         this.currentMeasure = this.playlist[this.i].barNumber;
         if( this.callbackOnChangeBar ) {
-            this.callbackOnPlay(this);
+            this.callbackOnChangeBar(this);
         }
     }    
 };
@@ -10040,13 +10457,14 @@ ABCXJS.midi.Player.prototype.executa = function(pl) {
     var self = this;
     var loudness = 256;
     var delay = 0;
+    var aqui;
 
-    //try {
+    try {
         if( pl.start ) {
             
-            //pl.item.pitches.forEach( function( elem ) {
-            for( var e=0; e < pl.item.pitches.length; e++) {
-                var elem = pl.item.pitches[e];
+            pl.item.pitches.forEach( function( elem ) {
+//            for( var e=0; e < pl.item.pitches.length; e++) {
+//                var elem = pl.item.pitches[e];
                 
                 delay = self.calcTempo( elem.delay );
                 
@@ -10064,48 +10482,66 @@ ABCXJS.midi.Player.prototype.executa = function(pl) {
                 }
                 
                 if( !debug && elem.button && elem.button.button && elem.button.button.SVG && elem.button.button.SVG.button !==null) {
+                    aqui=1;
+
                     if(elem.button.closing) {
                         elem.button.button.setClose(delay);
                     }else{
                         elem.button.button.setOpen(delay);
                     }
+                    aqui=2;
                     if( self.type !== 'note' ) {
                         //o andamento é considerado somente para o modo didatico
                         var andamento = self.type?(1/self.currentAndamento):1;
                         //limpa o botão uma fração de tempo antes do fim da nota - para dar ideia visual de botão pressionado/liberado antes da proxima nota
                         elem.button.button.clear( self.calcTempo( (elem.midipitch.mididuration-0.5)*andamento ) + delay );
                     }    
-                }
+                    aqui=3;
+               }
                 
-            //});
-            }
+            });
+            //}
             pl.item.abcelems.forEach( function( elem ) {
-                
+            //for( var e=0; e < pl.item.abcelems.length; e++) {
+            //    var elem = pl.item.abcelems[e];
                 delay = self.calcTempo( elem.delay );
+                aqui=4;
                 if( self.callbackOnScroll ) {
                     self.currAbsElem = elem.abcelem.parent;
                     self.currChannel = elem.channel;
                     self.callbackOnScroll(self);
                 }
+                aqui=5;
                 self.highlight(elem.abcelem.parent, true, delay);
+                //console.log(ABCXJS.parse.stringify(elem.abcelem.parent) );
+            //}
             });
         } else {
             pl.item.pitches.forEach( function( elem ) {
+            //for( var e=0; e < pl.item.pitches.length; e++) {
+            //    var elem = pl.item.pitches[e];
                 //if(  self.playClef( elem.midipitch.clef.charAt(0) ) ) {
                 delay = self.calcTempo( elem.delay );
                 MIDI.noteOff(elem.midipitch.channel, elem.midipitch.midipitch, delay);
                 //}
-           });
+            //}
+            });
             pl.item.abcelems.forEach( function( elem ) {
+            //for( var e=0; e < pl.item.abcelems.length; e++) {
+            //    var elem = pl.item.abcelems[e];
                 delay = self.calcTempo( elem.delay );
+                aqui=6;
+                
                 self.highlight(elem.abcelem.parent, false, delay);
+                //console.log(ABCXJS.parse.stringify(elem.abcelem.parent) );
+            //}
             });
         }
-    //} catch( err ) {
-    //    this.onError = { erro: err.message, idx: this.i, item: pl };
-    //    console.log ('PlayList['+this.onError.idx+'] - Erro: ' + this.onError.erro + '.');
-    //    this.addWarning( 'PlayList['+this.onError.idx+'] - Erro: ' + this.onError.erro + '.' );
-    //}
+    } catch( err ) {
+        this.onError = { erro: err.message, idx: this.i, item: pl };
+        //console.log ('PlayList['+this.onError.idx+'] - Erro: ' + this.onError.erro + '.')
+        this.addWarning( 'PlayList['+this.onError.idx+'] - Erro: ' + this.onError.erro + '. DebugPoint: ' + aqui );
+    }
 };
 
 ABCXJS.midi.Player.prototype.calcTempo = function( val ) {
@@ -10343,6 +10779,410 @@ ABCXJS.tablature.Accordion.prototype.updateEditor = function () {
     }
     this.tabLines = [];
     return ret;
+};
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * TODO:
+ * - Verificar porque no caso de slur a ordem dos elementos não está sendo respeitada
+*/
+
+/*
+ 
+            Definição da sintaxe para tablatura
+        
+           " |: G+5'2g-6>-5 | G-3'2d-5d-[678]1/2 | G+5d-5d-> | G-xd-5d-6 | +{786'}2 | +11/2 | c+ac+b |"
+        
+           Linha de tablatura ::= { <comentario> | <barra> | <coluna> }*
+        
+           comentario := "%[texto]"
+
+           barra ::=  "|", "||", ":|", "|:", ":|:", ":||:", "::", ":||", ":||", "[|", "|]", "|[|", "|]|" [endings]
+        
+           coluna ::=  ["("<triplet>][<bassNote>]<bellows><note>[<duration>] [")"] 
+        
+           bassNote ::=  { "abcdefgABCDEFG>xz" }*
+          
+           bellows ::= "-"|"+" 
+        
+           note ::= <button>[<row>] | chord 
+        
+           chord ::= "[" {<button>[<row>]}* "]" 
+        
+           button ::=  {hexDigit} | "x" | "z" | ">"
+        
+           row ::= { "'" }*
+
+           duration ::=  number|fracao 
+
+ */
+
+if (!window.ABCXJS)
+	window.ABCXJS = {};
+
+if (!window.ABCXJS.tablature)
+	window.ABCXJS.tablature = {};
+
+ABCXJS.tablature.Parse = function( str, vars ) {
+    this.invalid = false;
+    this.finished = false;
+    this.line = str;
+    this.vars = vars || {} ;
+    this.bassNoteSyms = "abcdefgABCDEFG>xz";
+    this.trebNoteSyms = "0123456789abcdefABCDEF>xz";
+    this.durSyms = "0123456789/.";
+    this.belSyms = "+-";
+    this.barSyms = ":]|[";
+    this.accSyms = "♭♯";
+    this.i = 0;
+    this.xi = 0;
+    this.offset = 8.9;
+    
+    this.warn = function(str) {
+        var bad_char = this.line.charAt(this.i);
+        if (bad_char === ' ')
+            bad_char = "SPACE";
+        var clean_line = this.encode(this.line.substring(0, this.i)) +
+                '<span style="text-decoration:underline;font-size:1.3em;font-weight:bold;">' + bad_char + '</span>' +
+                this.encode(this.line.substring(this.i + 1));
+        this.addWarning("Music Line:" + /*line*/ 0 + ":" + /*column*/(this.i + 1) + ': ' + str + ": " + clean_line);
+    };
+    
+    this.addWarning = function(str) {
+        if (!this.vars.warnings) this.vars.warnings = [];
+        this.vars.warnings.push(str);
+    };
+
+    this.encode = function(str) {
+        var ret = window.ABCXJS.parse.gsub(str, '\x12', ' ');
+        ret = window.ABCXJS.parse.gsub(ret, '&', '&amp;');
+        ret = window.ABCXJS.parse.gsub(ret, '<', '&lt;');
+        return window.ABCXJS.parse.gsub(ret, '>', '&gt;');
+    };
+
+};
+
+ABCXJS.tablature.Parse.prototype.parseTabVoice = function ( ) {
+    var voice = [];
+    this.i = 0;
+    var token = {el_type: "unrecognized"};
+
+    while (this.i < this.line.length && !this.finished) {
+        token = this.getToken();
+        switch (token.el_type) {
+            case "bar":
+                token.startChar = this.xi;
+                token.endChar = this.i;
+                if (!this.invalid)
+                    voice[voice.length] = token;
+                this.vars.lastBarElem = token;
+                //this.
+                break;
+            case "note":
+                if (!this.invalid)
+                    voice[voice.length] = this.formatChild(token);
+                if(this.vars.lastBarElem.barNumber === undefined)
+                    this.vars.lastBarElem.barNumber = this.vars.currentVoice.currBarNumber ++;
+                break;
+            case "comment":
+            case "unrecognized":
+            default:
+                break;
+        }
+    }
+    return voice;
+};
+
+ABCXJS.tablature.Parse.prototype.formatChild = function(token) {
+  var child = {
+        el_type: token.el_type 
+        ,startChar:this.xi 
+        ,endChar:this.i
+        ,pitches: []
+        ,duration: token.duration * this.vars.default_length
+        ,bellows: token.bellows
+  };
+  
+  var pitchBase = 18;
+  var tt = "tabText";
+  
+  if(token.bassNote.length>1) {
+     pitchBase = 21.3;
+     tt = "tabText2";
+  }
+  for( var b = 0; b < token.bassNote.length; ++ b ) {
+    if(token.bassNote[b] === "z")
+      child.pitches[b] = { bass:true, type: "rest", c: 'scripts.tabrest', pitch: 0.7 + pitchBase - (b*3)};
+    else
+      child.pitches[b] = { bass:true, type: tt, c: this.getTabSymbol(token.bassNote[b]), pitch: pitchBase -(b*3) - 0.5};
+  }
+
+  var qtd = token.buttons.length;
+  
+  for(var i = 0; i < token.buttons.length; i ++ ) {
+    var n = child.pitches.length;
+    if(token.buttons[i] === "z")
+      child.pitches[n] = { type: "rest", c: "scripts.tabrest", pitch: token.bellows === "+"? 13.2 : 13.2-this.offset };
+    else {
+      var offset = (qtd>=3?-(this.offset-(2.8*(qtd-2))):-this.offset);
+      var p = (qtd === 1 ? 11.7 : 13.4 - ( i * 2.8)) + (token.bellows === "+"? 0 : offset);
+      child.pitches[n] = { c: this.getTabSymbol(token.buttons[i]), type: "tabText"+(qtd>1?"2":""), pitch: p };
+    } 
+    
+  }
+  
+  if( token.startTriplet) {
+      child.startTriplet = token.startTriplet;
+  }
+  
+  if( token.endTriplet) {
+      child.endTriplet = token.endTriplet;
+  }
+  
+  return child;
+};
+
+ABCXJS.tablature.Parse.prototype.getTabSymbol = function(text) {
+    switch(text) {
+        case '>': return 'scripts.rarrow';
+        default: return text;
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getToken = function() {
+    this.invalid = false;
+    this.parseMultiCharToken( ' \t' );
+    this.xi = this.i;
+    switch(this.line.charAt(this.i)) {
+        case '%':
+          this.finished = true;  
+          return { el_type:"comment",  token: this.line.substr( this.i+1 ) };
+        case '|':
+        case ':':
+          return this.getBarLine();
+          
+        case '[': // se o proximo caracter não for um pipe, deve ser tratado como uma coluna de notas
+          if( this.line.charAt(this.i+1) === '|' ) {
+            return this.getBarLine();
+          }
+        default:    
+          return this.getColumn();
+    }
+   
+};
+
+ABCXJS.tablature.Parse.prototype.parseMultiCharToken = function( syms ) {
+    while (this.i < this.line.length && syms.indexOf(this.line.charAt(this.i)) >= 0) {
+        this.i++;
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getBarLine = function() {
+  var endings  =   '1234567890,'; // due syntax conflict I will not consider the  dash '-'.
+  var validBars = { 
+        "|"   : "bar_thin"
+      , "||"  : "bar_thin_thin"
+      , "[|"  : "bar_thick_thin"
+      , "|]"  : "bar_thin_thick"
+      , ":|:" : "bar_dbl_repeat"
+      , ":||:": "bar_dbl_repeat"
+      , "::"  : "bar_dbl_repeat" 
+      , "|:"  : "bar_left_repeat"
+      , "||:" : "bar_left_repeat"
+      , "[|:" : "bar_left_repeat"
+      , ":|"  : "bar_right_repeat"
+      , ":||" : "bar_right_repeat"
+      , ":|]" : "bar_right_repeat"
+  };
+  
+  if(this.triplet) {
+    this.triplet = false;
+    this.warn( "Expected triplet end but found " + this.line.charAt(this.i) );
+  }
+
+  var token = { el_type:"bar", type:"bar", token: undefined };
+  var p = this.i;
+  
+  this.parseMultiCharToken(this.barSyms);
+  
+  token.token = this.line.substr( p, this.i-p );
+  this.finished =  this.i >= this.line.length;
+  
+  // validar o tipo de barra
+  token.type = validBars[token.token];
+  this.invalid = !token.type;
+
+  if(! this.invalid) {
+    this.parseMultiCharToken( ' \t' );
+    if (this.vars.inEnding ) {
+            token.endDrawEnding = true;
+            if( token.type !== 'bar_thin') {
+                token.endEnding = true;
+                this.vars.inEnding = false;
+            }    
+    }
+    if( (! this.finished ) && endings.indexOf(this.line.charAt(this.i))>=0) {
+        token.startEnding = this.line.charAt(this.i);
+        if (this.vars.inEnding) {
+            token.endDrawEnding = true;
+            token.endEnding = true;
+        }    
+        this.vars.inEnding = true;
+        this.i++;
+    }
+  }
+  return token;
+};
+
+ABCXJS.tablature.Parse.prototype.getColumn = function() {
+    var token = {el_type: "note", type: "note", bassNote: undefined, bellows: "", buttons: [], duration: 1};
+    token.bassNote = [];
+    
+    if(this.line.charAt(this.i) === "(") {
+        token.startTriplet = this.getTripletDef();
+        this.triplet = true;
+    }
+    
+    while (this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+      token.bassNote[token.bassNote.length] = this.getBassNote();
+    }
+    
+    token.bellows = this.getBelows();
+    token.buttons = this.getNote();
+    token.duration = this.getDuration();
+    
+    if( this.isTripletEnd() ) {
+        token.endTriplet = true;
+    }
+    
+    this.finished = this.i >= this.line.length;
+    return token;
+
+};
+
+ABCXJS.tablature.Parse.prototype.getTripletDef = function() {
+    this.i++;
+    this.parseMultiCharToken( ' \t' );
+    var t =  this.line.charAt(this.i); //espero um único número como indicador de triplet
+    this.i++;
+    this.parseMultiCharToken( ' \t' );
+    return t;    
+};
+
+ABCXJS.tablature.Parse.prototype.isTripletEnd = function() {
+    this.parseMultiCharToken( ' \t' );
+    if( this.line.charAt(this.i) === ')' ) {
+        this.i++;
+        this.triplet = false;
+        return true;
+    } 
+    
+    return false;
+};
+
+
+ABCXJS.tablature.Parse.prototype.getBassNote = function() {
+  var note = "";
+  if( this.bassNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+    this.warn( "Expected Bass Note but found " + this.line.charAt(this.i) );
+    this.i++;
+  } else {
+    note = this.line.charAt(this.i);
+    this.i++;
+    if( this.accSyms.indexOf(this.line.charAt(this.i)) >= 0 ) {
+      note += this.line.charAt(this.i);
+      this.i++;
+    }
+  }
+  return note;
+};
+
+ABCXJS.tablature.Parse.prototype.getDuration = function() {
+    var dur = 1;
+    var p = this.i;
+
+    this.parseMultiCharToken(this.durSyms);
+    
+    if (p !== this.i) {
+        dur = this.line.substr(p, this.i - p);
+        if (isNaN(eval(dur))) {
+          this.warn( "Expected numeric or fractional note duration, but found " + dur);
+        } else {
+            dur = eval(dur);
+        }
+    }
+    return dur;
+};
+
+ABCXJS.tablature.Parse.prototype.getBelows = function() {
+    if(this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+       this.warn( "Expected belows information, but found " + this.line.charAt(this.i) );
+       this.invalid = true;
+       return '+';
+    } else {
+        this.i++;
+        return this.line.charAt(this.i-1);
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getNote = function() {
+  var b = [];
+  switch( this.line.charAt(this.i) ) {
+      case '[':
+         this.i++;
+         b = this.getChord();
+         break;
+      default: 
+         b[b.length] = this.getButton();
+  }
+  return b;
+};
+
+ABCXJS.tablature.Parse.prototype.getChord = function( token ) {
+    var b = [];
+    while (this.i < this.line.length && this.line.charAt(this.i) !== ']' ) {
+        b[b.length] = this.getButton();
+    }
+    if( this.line.charAt(this.i) !== ']' ) {
+       this.warn( "Expected end of chord - ']'");
+       this.invalid = true;
+    } else {
+        this.i++;
+    }
+    return b;
+};
+
+ABCXJS.tablature.Parse.prototype.getButton = function() {
+    var c = "x";
+    var row = "";
+    
+    if(this.trebNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+       this.warn( "Expected button number, but found " + this.line.charAt(this.i));
+    } else {
+        c = this.line.charAt(this.i);
+        switch(c) {
+            case '>':
+            case 'x':
+            case 'z':
+               break;
+            default:   
+                c = isNaN(parseInt(c, 16))? 'x': parseInt(c, 16).toString();
+        }
+    }
+    this.i++;
+    
+    var p = this.i;
+
+    this.parseMultiCharToken("'");
+    
+    if (p !== this.i) 
+        row = this.line.substr(p, this.i - p);
+        
+    return c + row;
 };
 /* 
  * To change this license header, choose License Headers in Project Properties.
@@ -10967,7 +11807,16 @@ ABCXJS.tablature.Layout.prototype.getElem = function() {
     return this.currVoice[this.pos];
 };
 
-ABCXJS.tablature.Layout.prototype.printTABVoice = function() {
+ABCXJS.tablature.Layout.prototype.isFirstVoice = function() {
+    return this.currVoice.firstVoice || false;
+};
+
+ABCXJS.tablature.Layout.prototype.isLastVoice = function() {
+    return this.currVoice.lastVoice || false;
+};
+
+ABCXJS.tablature.Layout.prototype.printTABVoice = function(layoutJumpInfo) {
+    this.layoutJumpInfo = layoutJumpInfo;
     this.currVoice = this.abcstaff.voices[this.tuneCurrVoice];
     this.voice = new ABCXJS.write.VoiceElement(this.tuneCurrVoice, this.tuneCurrStaff, this.abcstaff);
 
@@ -11084,608 +11933,91 @@ ABCXJS.tablature.Layout.prototype.printTablatureSignature= function(elem) {
 ABCXJS.tablature.Layout.prototype.printBarLine = function (elem) {
 // bar_thin, bar_thin_thick, bar_thin_thin, bar_thick_thin, bar_right_repeat, bar_left_repeat, bar_double_repeat
 
-  var topbar = 19.5;
-  var yDot   = 10.5;
- 
-  var abselem = new ABCXJS.write.AbsoluteElement(elem, 0, 10);
-  var anchor = null; // place to attach part lines
-  var dx = 0;
- 
+    var topbar = 19.5;
+    var yDot = 10.5;
 
-  var firstdots = (elem.type==="bar_right_repeat" || elem.type==="bar_dbl_repeat");
-  var firstthin = (elem.type!=="bar_left_repeat" && elem.type!=="bar_thick_thin" && elem.type!=="bar_invisible");
-  var thick = (elem.type==="bar_right_repeat" || elem.type==="bar_dbl_repeat" || elem.type==="bar_left_repeat" ||
-	       elem.type==="bar_thin_thick" || elem.type==="bar_thick_thin");
-  var secondthin = (elem.type==="bar_left_repeat" || elem.type==="bar_thick_thin" || elem.type==="bar_thin_thin" || elem.type==="bar_dbl_repeat");
-  var seconddots = (elem.type==="bar_left_repeat" || elem.type==="bar_dbl_repeat");
+    var abselem = new ABCXJS.write.AbsoluteElement(elem, 0, 10);
+    var anchor = null; // place to attach part lines
+    var dx = 0;
 
-  // limit positioning of slurs
-  if (firstdots || seconddots) {
-    for (var slur in this.slurs) {
-      if (this.slurs.hasOwnProperty(slur)) {
-	this.slurs[slur].endlimitelem = abselem;
-      }
+
+    var firstdots = (elem.type === "bar_right_repeat" || elem.type === "bar_dbl_repeat");
+    var firstthin = (elem.type !== "bar_left_repeat" && elem.type !== "bar_thick_thin" && elem.type !== "bar_invisible");
+    var thick = (elem.type === "bar_right_repeat" || elem.type === "bar_dbl_repeat" || elem.type === "bar_left_repeat" ||
+            elem.type === "bar_thin_thick" || elem.type === "bar_thick_thin");
+    var secondthin = (elem.type === "bar_left_repeat" || elem.type === "bar_thick_thin" || elem.type === "bar_thin_thin" || elem.type === "bar_dbl_repeat");
+    var seconddots = (elem.type === "bar_left_repeat" || elem.type === "bar_dbl_repeat");
+
+    // limit positioning of slurs
+    if (firstdots || seconddots) {
+        for (var slur in this.slurs) {
+            if (this.slurs.hasOwnProperty(slur)) {
+                this.slurs[slur].endlimitelem = abselem;
+            }
+        }
+        this.startlimitelem = abselem;
     }
-    this.startlimitelem = abselem;
-  }
 
-  if (firstdots) {
-    abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot+2));
-    abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot));
-    dx+=6; //2 hardcoded, twice;
-  }
+    if (firstdots) {
+        abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot + 2));
+        abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot));
+        dx += 6; //2 hardcoded, twice;
+    }
 
-  if (firstthin) {
-    anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 0, {"type": "bar", "pitch2":topbar, linewidth:0.6});
-    abselem.addRight(anchor);
-  }
+    if (firstthin) {
+        anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 0, {"type": "bar", "pitch2": topbar, linewidth: 0.6});
+        abselem.addRight(anchor);
+    }
 
-  if (elem.type==="bar_invisible" || elem.endDrawEnding) {
-    anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 0, {"type": "none", "pitch2":topbar, linewidth:0.6});
-    abselem.addRight(anchor);
-  }
+    if (elem.type === "bar_invisible" || elem.endDrawEnding) {
+        anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 0, {"type": "none", "pitch2": topbar, linewidth: 0.6});
+        abselem.addRight(anchor);
+    }
 
-  if (elem.decoration) {
-     // não há decorations na tablatura
-    //this.printDecoration(elem.decoration, 12, (thick)?3:1, abselem, 0, "down", 2);
-  }
-
-  if (thick) {
-    dx+=4; //3 hardcoded;    
-    anchor = new ABCXJS.write.RelativeElement(null, dx, 4, 0, {"type": "bar", "pitch2":topbar, linewidth:4});
-    abselem.addRight(anchor);
-    dx+=5;
-  }
-  
-  if (this.partstartelem && elem.endDrawEnding) {
-    if(elem.endDrawEnding) this.partstartelem.anchor2  = anchor;
-    if(elem.endEnding) this.partstartelem = null;
-  }
-
-  if (secondthin) {
-    dx+=3; //3 hardcoded;
-    anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 0, {"type": "bar", "pitch2":topbar, linewidth:0.6});
-    abselem.addRight(anchor); // 3 is hardcoded
-  }
-
-  if (seconddots) {
-    dx+=3; //3 hardcoded;
-    abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot+2));
-    abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot));
-  } // 2 is hardcoded
-
-  if (elem.startEnding) {
-    this.partstartelem = new ABCXJS.write.EndingElem(elem.startEnding, anchor, null);
-    this.voice.addOther(this.partstartelem);
-  } 
-
-  return abselem;	
-
-};
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * TODO:
- * - Verificar porque no caso de slur a ordem dos elementos não está sendo respeitada
-*/
-
-/*
- 
-            Definição da sintaxe para tablatura
-        
-           " |: G+5'2g-6>-5 | G-3'2d-5d-[678]1/2 | G+5d-5d-> | G-xd-5d-6 | +{786'}2 | +11/2 | c+ac+b |"
-        
-           Linha de tablatura ::= { <comentario> | <barra> | <coluna> }*
-        
-           comentario := "%[texto]"
-
-           barra ::=  "|", "||", ":|", "|:", ":|:", ":||:", "::", ":||", ":||", "[|", "|]", "|[|", "|]|" [endings]
-        
-           coluna ::=  ["("<triplet>][<bassNote>]<bellows><note>[<duration>] [")"] 
-        
-           bassNote ::=  { "abcdefgABCDEFG>xz" }*
-          
-           bellows ::= "-"|"+" 
-        
-           note ::= <button>[<row>] | chord 
-        
-           chord ::= "[" {<button>[<row>]}* "]" 
-        
-           button ::=  {hexDigit} | "x" | "z" | ">"
-        
-           row ::= { "'" }*
-
-           duration ::=  number|fracao 
-
- */
-
-if (!window.ABCXJS)
-	window.ABCXJS = {};
-
-if (!window.ABCXJS.tablature)
-	window.ABCXJS.tablature = {};
-
-ABCXJS.tablature.Parse = function( str, vars ) {
-    this.invalid = false;
-    this.finished = false;
-    this.line = str;
-    this.vars = vars || {} ;
-    this.bassNoteSyms = "abcdefgABCDEFG>xz";
-    this.trebNoteSyms = "0123456789abcdefABCDEF>xz";
-    this.durSyms = "0123456789/.";
-    this.belSyms = "+-";
-    this.barSyms = ":]|[";
-    this.accSyms = "♭♯";
-    this.i = 0;
-    this.xi = 0;
-    this.offset = 8.9;
-    
-    this.warn = function(str) {
-        var bad_char = this.line.charAt(this.i);
-        if (bad_char === ' ')
-            bad_char = "SPACE";
-        var clean_line = this.encode(this.line.substring(0, this.i)) +
-                '<span style="text-decoration:underline;font-size:1.3em;font-weight:bold;">' + bad_char + '</span>' +
-                this.encode(this.line.substring(this.i + 1));
-        this.addWarning("Music Line:" + /*line*/ 0 + ":" + /*column*/(this.i + 1) + ': ' + str + ": " + clean_line);
-    };
-    
-    this.addWarning = function(str) {
-        if (!this.vars.warnings) this.vars.warnings = [];
-        this.vars.warnings.push(str);
-    };
-
-    this.encode = function(str) {
-        var ret = window.ABCXJS.parse.gsub(str, '\x12', ' ');
-        ret = window.ABCXJS.parse.gsub(ret, '&', '&amp;');
-        ret = window.ABCXJS.parse.gsub(ret, '<', '&lt;');
-        return window.ABCXJS.parse.gsub(ret, '>', '&gt;');
-    };
-
-};
-
-ABCXJS.tablature.Parse.prototype.parseTabVoice = function( ) {
-    var voice  = [];
-    this.i = 0;
-    var token = { el_type: "unrecognized" };
-    
-    while (this.i < this.line.length && !this.finished) {
-        token = this.getToken();
-        switch (token.el_type) {
-            case "bar":
-                token.startChar = this.xi;
-                token.endChar = this.i;
-                if( ! this.invalid )
-                  voice[voice.length] = token;
-                break;
-            case "note":
-                if( ! this.invalid )
-                  voice[voice.length] = this.formatChild(token);
-                break;
-            case "comment":
-            case "unrecognized":
-            default:
-                break;
+    if (elem.decoration) {
+        // não há decorations na tablatura
+        //this.printDecoration(elem.decoration, 12, (thick)?3:1, abselem, 0, "down", 2);
+    }
+    if (elem.jumpInfo) {
+        if ((elem.jumpInfo.upper && this.isFirstVoice()) || (!elem.jumpInfo.upper && this.isLastVoice())) {
+            var pitch = elem.jumpInfo.upper ? 12 : -4;
+            abselem.addRight( this.layoutJumpInfo(elem, pitch) );
         }
     }
-    return voice;
-};
 
-ABCXJS.tablature.Parse.prototype.formatChild = function(token) {
-  var child = {
-        el_type: token.el_type 
-        ,startChar:this.xi 
-        ,endChar:this.i
-        ,pitches: []
-        ,duration: token.duration * this.vars.default_length
-        ,bellows: token.bellows
-  };
-  
-  var pitchBase = 18;
-  var tt = "tabText";
-  
-  if(token.bassNote.length>1) {
-     pitchBase = 21.3;
-     tt = "tabText2";
-  }
-  for( var b = 0; b < token.bassNote.length; ++ b ) {
-    if(token.bassNote[b] === "z")
-      child.pitches[b] = { bass:true, type: "rest", c: 'scripts.tabrest', pitch: 0.7 + pitchBase - (b*3)};
-    else
-      child.pitches[b] = { bass:true, type: tt, c: this.getTabSymbol(token.bassNote[b]), pitch: pitchBase -(b*3) - 0.5};
-  }
-
-  var qtd = token.buttons.length;
-  
-  for(var i = 0; i < token.buttons.length; i ++ ) {
-    var n = child.pitches.length;
-    if(token.buttons[i] === "z")
-      child.pitches[n] = { type: "rest", c: "scripts.tabrest", pitch: token.bellows === "+"? 13.2 : 13.2-this.offset };
-    else {
-      var offset = (qtd>=3?-(this.offset-(2.8*(qtd-2))):-this.offset);
-      var p = (qtd === 1 ? 11.7 : 13.4 - ( i * 2.8)) + (token.bellows === "+"? 0 : offset);
-      child.pitches[n] = { c: this.getTabSymbol(token.buttons[i]), type: "tabText"+(qtd>1?"2":""), pitch: p };
-    } 
-    
-  }
-  
-  if( token.startTriplet) {
-      child.startTriplet = token.startTriplet;
-  }
-  
-  if( token.endTriplet) {
-      child.endTriplet = token.endTriplet;
-  }
-  
-  return child;
-};
-
-ABCXJS.tablature.Parse.prototype.getTabSymbol = function(text) {
-    switch(text) {
-        case '>': return 'scripts.rarrow';
-        default: return text;
+    if (thick) {
+        dx += 4; //3 hardcoded;    
+        anchor = new ABCXJS.write.RelativeElement(null, dx, 4, 0, {"type": "bar", "pitch2": topbar, linewidth: 4});
+        abselem.addRight(anchor);
+        dx += 5;
     }
-};
 
-ABCXJS.tablature.Parse.prototype.getToken = function() {
-    this.invalid = false;
-    this.parseMultiCharToken( ' \t' );
-    this.xi = this.i;
-    switch(this.line.charAt(this.i)) {
-        case '%':
-          this.finished = true;  
-          return { el_type:"comment",  token: this.line.substr( this.i+1 ) };
-        case '|':
-        case ':':
-          return this.getBarLine();
-          
-        case '[': // se o proximo caracter não for um pipe, deve ser tratado como uma coluna de notas
-          if( this.line.charAt(this.i+1) === '|' ) {
-            return this.getBarLine();
-          }
-        default:    
-          return this.getColumn();
+    if (this.partstartelem && elem.endDrawEnding) {
+        if (elem.endDrawEnding)
+            this.partstartelem.anchor2 = anchor;
+        if (elem.endEnding)
+            this.partstartelem = null;
     }
-   
-};
 
-ABCXJS.tablature.Parse.prototype.parseMultiCharToken = function( syms ) {
-    while (this.i < this.line.length && syms.indexOf(this.line.charAt(this.i)) >= 0) {
-        this.i++;
+    if (secondthin) {
+        dx += 3; //3 hardcoded;
+        anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 0, {"type": "bar", "pitch2": topbar, linewidth: 0.6});
+        abselem.addRight(anchor); // 3 is hardcoded
     }
-};
 
-ABCXJS.tablature.Parse.prototype.getBarLine = function() {
-  var endings  =   '1234567890,'; // due syntax conflict I will not consider the  dash '-'.
-  var validBars = { 
-        "|"   : "bar_thin"
-      , "||"  : "bar_thin_thin"
-      , "[|"  : "bar_thick_thin"
-      , "|]"  : "bar_thin_thick"
-      , ":|:" : "bar_dbl_repeat"
-      , ":||:": "bar_dbl_repeat"
-      , "::"  : "bar_dbl_repeat" 
-      , "|:"  : "bar_left_repeat"
-      , "||:" : "bar_left_repeat"
-      , "[|:" : "bar_left_repeat"
-      , ":|"  : "bar_right_repeat"
-      , ":||" : "bar_right_repeat"
-      , ":|]" : "bar_right_repeat"
-  };
-  
-  if(this.triplet) {
-    this.triplet = false;
-    this.warn( "Expected triplet end but found " + this.line.charAt(this.i) );
-  }
+    if (seconddots) {
+        dx += 3; //3 hardcoded;
+        abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot + 2));
+        abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot));
+    } // 2 is hardcoded
 
-  var token = { el_type:"bar", type:"bar", token: undefined };
-  var p = this.i;
-  
-  this.parseMultiCharToken(this.barSyms);
-  
-  token.token = this.line.substr( p, this.i-p );
-  this.finished =  this.i >= this.line.length;
-  
-  // validar o tipo de barra
-  token.type = validBars[token.token];
-  this.invalid = !token.type;
-
-  if(! this.invalid) {
-    this.parseMultiCharToken( ' \t' );
-    if (this.vars.inEnding ) {
-            token.endDrawEnding = true;
-            if( token.type !== 'bar_thin') {
-                token.endEnding = true;
-                this.vars.inEnding = false;
-            }    
+    if (elem.startEnding) {
+        this.partstartelem = new ABCXJS.write.EndingElem(elem.startEnding, anchor, null);
+        this.voice.addOther(this.partstartelem);
     }
-    if(endings.indexOf(this.line.charAt(this.i))>=0) {
-        token.startEnding = this.line.charAt(this.i);
-        if (this.vars.inEnding) {
-            token.endDrawEnding = true;
-            token.endEnding = true;
-        }    
-        this.vars.inEnding = true;
-        this.i++;
-    }
-  }
-  return token;
-};
 
-ABCXJS.tablature.Parse.prototype.getColumn = function() {
-    var token = {el_type: "note", type: "note", bassNote: undefined, bellows: "", buttons: [], duration: 1};
-    token.bassNote = [];
-    
-    if(this.line.charAt(this.i) === "(") {
-        token.startTriplet = this.getTripletDef();
-        this.triplet = true;
-    }
-    
-    while (this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-      token.bassNote[token.bassNote.length] = this.getBassNote();
-    }
-    
-    token.bellows = this.getBelows();
-    token.buttons = this.getNote();
-    token.duration = this.getDuration();
-    
-    if( this.isTripletEnd() ) {
-        token.endTriplet = true;
-    }
-    
-    this.finished = this.i >= this.line.length;
-    return token;
+    return abselem;
 
-};
-
-ABCXJS.tablature.Parse.prototype.getTripletDef = function() {
-    this.i++;
-    this.parseMultiCharToken( ' \t' );
-    var t =  this.line.charAt(this.i); //espero um único número como indicador de triplet
-    this.i++;
-    this.parseMultiCharToken( ' \t' );
-    return t;    
-};
-
-ABCXJS.tablature.Parse.prototype.isTripletEnd = function() {
-    this.parseMultiCharToken( ' \t' );
-    if( this.line.charAt(this.i) === ')' ) {
-        this.i++;
-        this.triplet = false;
-        return true;
-    } 
-    
-    return false;
-};
-
-
-ABCXJS.tablature.Parse.prototype.getBassNote = function() {
-  var note = "";
-  if( this.bassNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-    this.warn( "Expected Bass Note but found " + this.line.charAt(this.i) );
-    this.i++;
-  } else {
-    note = this.line.charAt(this.i);
-    this.i++;
-    if( this.accSyms.indexOf(this.line.charAt(this.i)) >= 0 ) {
-      note += this.line.charAt(this.i);
-      this.i++;
-    }
-  }
-  return note;
-};
-
-ABCXJS.tablature.Parse.prototype.getDuration = function() {
-    var dur = 1;
-    var p = this.i;
-
-    this.parseMultiCharToken(this.durSyms);
-    
-    if (p !== this.i) {
-        dur = this.line.substr(p, this.i - p);
-        if (isNaN(eval(dur))) {
-          this.warn( "Expected numeric or fractional note duration, but found " + dur);
-        } else {
-            dur = eval(dur);
-        }
-    }
-    return dur;
-};
-
-ABCXJS.tablature.Parse.prototype.getBelows = function() {
-    if(this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-       this.warn( "Expected belows information, but found " + this.line.charAt(this.i) );
-       this.invalid = true;
-       return '+';
-    } else {
-        this.i++;
-        return this.line.charAt(this.i-1);
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getNote = function() {
-  var b = [];
-  switch( this.line.charAt(this.i) ) {
-      case '[':
-         this.i++;
-         b = this.getChord();
-         break;
-      default: 
-         b[b.length] = this.getButton();
-  }
-  return b;
-};
-
-ABCXJS.tablature.Parse.prototype.getChord = function( token ) {
-    var b = [];
-    while (this.i < this.line.length && this.line.charAt(this.i) !== ']' ) {
-        b[b.length] = this.getButton();
-    }
-    if( this.line.charAt(this.i) !== ']' ) {
-       this.warn( "Expected end of chord - ']'");
-       this.invalid = true;
-    } else {
-        this.i++;
-    }
-    return b;
-};
-
-ABCXJS.tablature.Parse.prototype.getButton = function() {
-    var c = "x";
-    var row = "";
-    
-    if(this.trebNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-       this.warn( "Expected button number, but found " + this.line.charAt(this.i));
-    } else {
-        c = this.line.charAt(this.i);
-        switch(c) {
-            case '>':
-            case 'x':
-            case 'z':
-               break;
-            default:   
-                c = isNaN(parseInt(c, 16))? 'x': parseInt(c, 16).toString();
-        }
-    }
-    this.i++;
-    
-    var p = this.i;
-
-    this.parseMultiCharToken("'");
-    
-    if (p !== this.i) 
-        row = this.line.substr(p, this.i - p);
-        
-    return c + row;
-};
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-if (!window.SVG)
-    window.SVG = {};
-
-if (!window.SVG.Glyphs )
-    window.SVG.Glyphs = {};
-
-SVG.Glyphs = function () {
-    
-    var abc_glyphs = new ABCXJS.write.Glyphs();
-
-    var glyphs = { // the @@ will be replaced by the abc_glyph contents.
-       "0": '<path id="0" transform="scale(0.95)" \nd="@@"/>'
-      ,"1": '<path id="1" transform="scale(0.95)" \nd="@@"/>'
-      ,"2": '<path id="2" transform="scale(0.95)" \nd="@@"/>'
-      ,"3": '<path id="3" transform="scale(0.95)" \nd="@@"/>'
-      ,"4": '<path id="4" transform="scale(0.95)" \nd="@@"/>'
-      ,"5": '<path id="5" transform="scale(0.95)" \nd="@@"/>'
-      ,"6": '<path id="6" transform="scale(0.95)" \nd="@@"/>'
-      ,"7": '<path id="7" transform="scale(0.95)" \nd="@@"/>'
-      ,"8": '<path id="8" transform="scale(0.95)" \nd="@@"/>'
-      ,"9": '<path id="9" transform="scale(0.95)" \nd="@@"/>'
-      ,"f": '<path id="f" transform="scale(0.95)" \nd="@@"/>'
-      ,"m": '<path id="m" transform="scale(0.95)" \nd="@@"/>'
-      ,"p": '<path id="p" transform="scale(0.95)" \nd="@@"/>'
-      ,"r": '<path id="r" transform="scale(0.95)" \nd="@@"/>'
-      ,"s": '<path id="s" transform="scale(0.95)" \nd="@@"/>'
-      ,"z": '<path id="z" transform="scale(0.95)" \nd="@@"/>'
-      ,"+": '<path id="+" transform="scale(0.95)" \nd="@@"/>'
-      ,",": '<path id="," transform="scale(0.95)" \nd="@@"/>'
-      ,"-": '<path id="-" transform="scale(0.95)" \nd="@@"/>'
-      ,".": '<path id="." transform="scale(0.95)" \nd="@@"/>'
-      ,"accidentals.nat": '<path id="accidentals.nat" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.sharp": '<path id="accidentals.sharp" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.flat": '<path id="accidentals.flat" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.halfsharp": '<path id="accidentals.halfsharp" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.dblsharp": '<path id="accidentals.dblsharp" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.halfflat": '<path id="accidentals.halfflat" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.dblflat": '<path id="accidentals.dblflat" transform="scale(0.8)" \nd="@@"/>'
-      ,"clefs.C": '<path id="clefs.C" \nd="@@"/>'
-      ,"clefs.F": '<path id="clefs.F" \nd="@@"/>'
-      ,"clefs.G": '<path id="clefs.G" \nd="@@"/>'
-      ,"clefs.perc": '<path id="clefs.perc" \nd="@@"/>'
-      ,"clefs.tab": '<path id="clefs.tab" transform="scale(0.9)" \nd="@@"/>'
-      ,"dots.dot": '<path id="dots.dot" \nd="@@"/>'
-      ,"flags.d8th": '<path id="flags.d8th" \nd="@@"/>'
-      ,"flags.d16th": '<path id="flags.d16th" \nd="@@"/>'
-      ,"flags.d32nd": '<path id="flags.d32nd" \nd="@@"/>'
-      ,"flags.d64th": '<path id="flags.d64th" \nd="@@"/>'
-      ,"flags.dgrace": '<path id="flags.dgrace" \nd="@@"/>'
-      ,"flags.u8th": '<path id="flags.u8th" \nd="@@"/>'
-      ,"flags.u16th": '<path id="flags.u16th" \nd="@@"/>'
-      ,"flags.u32nd": '<path id="flags.u32nd" \nd="@@"/>'
-      ,"flags.u64th": '<path id="flags.u64th" \nd="@@"/>'
-      ,"flags.ugrace": '<path id="flags.ugrace" \nd="@@"/>'
-      ,"graceheads.quarter": '<g id="graceheads.quarter" transform="scale(0.6)" ><use xlink:href="#noteheads.quarter" /></g>'
-      ,"graceflags.d8th": '<g id="graceflags.d8th" transform="scale(0.6)" ><use xlink:href="#flags.d8th" /></g>'
-      ,"graceflags.u8th": '<g id="graceflags.u8th" transform="scale(0.6)" ><use xlink:href="#flags.u8th" /></g>'
-      ,"noteheads.quarter": '<path id="noteheads.quarter" \nd="@@"/>'
-      ,"noteheads.whole": '<path id="noteheads.whole" \nd="@@"/>'
-      ,"notehesad.dbl": '<path id="noteheads.dbl" \nd="@@"/>'
-      ,"noteheads.half": '<path id="noteheads.half" \nd="@@"/>'
-      ,"rests.whole": '<path id="rests.whole" \nd="@@"/>'
-      ,"rests.half": '<path id="rests.half" \nd="@@"/>'
-      ,"rests.quarter": '<path id="rests.quarter" \nd="@@"/>'
-      ,"rests.8th": '<path id="rests.8th" \nd="@@"/>'
-      ,"rests.16th": '<path id="rests.16th" \nd="@@"/>'
-      ,"rests.32nd": '<path id="rests.32nd" \nd="@@"/>'
-      ,"rests.64th": '<path id="rests.64th" \nd="@@"/>'
-      ,"rests.128th": '<path id="rests.128th" \nd="@@"/>'
-      ,"scripts.rarrow": '<path id="scripts.rarrow" \nd="M -6 -5 h 8 v -3 l 4 4 l -4 4 v -3 h -8 z"/>'
-      ,"scripts.tabrest": '<path id="scripts.tabrest" \nd="M -5 5 h 10 v 2 h -10 z"/>'
-      ,"scripts.lbrace": '<path id="scripts.lbrace" \nd="@@"/>'
-      ,"scripts.ufermata": '<path id="scripts.ufermata" \nd="@@"/>'
-      ,"scripts.dfermata": '<path id="scripts.dfermata" \nd="@@"/>'
-      ,"scripts.sforzato": '<path id="scripts.sforzato" \nd="@@"/>'
-      ,"scripts.staccato": '<path id="scripts.staccato" \nd="@@"/>'
-      ,"scripts.tenuto": '<path id="scripts.tenuto" \nd="@@"/>'
-      ,"scripts.umarcato": '<path id="scripts.umarcato" \nd="@@"/>'
-      ,"scripts.dmarcato": '<path id="scripts.dmarcato" \nd="@@"/>'
-      ,"scripts.stopped": '<path id="scripts.stopped" \nd="@@"/>'
-      ,"scripts.upbow": '<path id="scripts.upbow" \nd="@@"/>'
-      ,"scripts.downbow": '<path id="scripts.downbow" \nd="@@"/>'
-      ,"scripts.turn": '<path id="scripts.turn" \nd="@@"/>'
-      ,"scripts.trill": '<path id="scripts.trill" \nd="@@"/>'
-      ,"scripts.segno": '<path id="scripts.segno" transform="scale(0.8)" \nd="@@"/>'
-      ,"scripts.coda": '<path id="scripts.coda" transform="scale(0.8)" \nd="@@"/>'
-      ,"scripts.comma": '<path id="scripts.comma" \nd="@@"/>'
-      ,"scripts.roll": '<path id="scripts.roll" \nd="@@"/>'
-      ,"scripts.prall": '<path id="scripts.prall" \nd="@@"/>'
-      ,"scripts.mordent": '<path id="scripts.mordent" \nd="@@"/>'
-      ,"timesig.common": '<path id="timesig.common" \nd="@@"/>'
-      ,"timesig.cut": '<path id="timesig.cut" \nd="@@"/>'
-    };
-    
-    this.getDefinition = function (gl) {
-        
-        
-        var g = glyphs[gl];
-        
-        if (!g) {
-            return "";
-        }
-        
-        // expande path se houver, buscando a definicao do original do ABCJS.
-        g = g.replace('@@', abc_glyphs.getTextSymbol(gl) );
-        
-        var i = 0, j = 0;
-
-        while (i>=0) {
-            i = g.indexOf('xlink:href="#', j );
-            if (i < 0) continue;
-            i += 13;
-            j = g.indexOf('"', i);
-            g += this.getDefinition(g.slice(i, j));
-        }
-
-        return '\n' +  g;
-    };
 };
 /* 
  * To change this license header, choose License Headers in Project Properties.
@@ -12040,3 +12372,155 @@ SVG.Printer.prototype.printButton = function (id, x, y, options) {
 
 };
 
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+if (!window.SVG)
+    window.SVG = {};
+
+if (!window.SVG.Glyphs )
+    window.SVG.Glyphs = {};
+
+SVG.Glyphs = function () {
+    
+    var abc_glyphs = new ABCXJS.write.Glyphs();
+
+    var glyphs = { // the @@ will be replaced by the abc_glyph contents.
+       "0": '<path id="0" transform="scale(0.95)" \nd="@@"/>'
+      ,"1": '<path id="1" transform="scale(0.95)" \nd="@@"/>'
+      ,"2": '<path id="2" transform="scale(0.95)" \nd="@@"/>'
+      ,"3": '<path id="3" transform="scale(0.95)" \nd="@@"/>'
+      ,"4": '<path id="4" transform="scale(0.95)" \nd="@@"/>'
+      ,"5": '<path id="5" transform="scale(0.95)" \nd="@@"/>'
+      ,"6": '<path id="6" transform="scale(0.95)" \nd="@@"/>'
+      ,"7": '<path id="7" transform="scale(0.95)" \nd="@@"/>'
+      ,"8": '<path id="8" transform="scale(0.95)" \nd="@@"/>'
+      ,"9": '<path id="9" transform="scale(0.95)" \nd="@@"/>'
+      ,"f": '<path id="f" transform="scale(0.95)" \nd="@@"/>'
+      ,"m": '<path id="m" transform="scale(0.95)" \nd="@@"/>'
+      ,"p": '<path id="p" transform="scale(0.95)" \nd="@@"/>'
+      ,"r": '<path id="r" transform="scale(0.95)" \nd="@@"/>'
+      ,"s": '<path id="s" transform="scale(0.95)" \nd="@@"/>'
+      ,"z": '<path id="z" transform="scale(0.95)" \nd="@@"/>'
+      ,"+": '<path id="+" transform="scale(0.95)" \nd="@@"/>'
+      ,",": '<path id="," transform="scale(0.95)" \nd="@@"/>'
+      ,"-": '<path id="-" transform="scale(0.95)" \nd="@@"/>'
+      ,".": '<path id="." transform="scale(0.95)" \nd="@@"/>'
+      ,"accidentals.nat": '<path id="accidentals.nat" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.sharp": '<path id="accidentals.sharp" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.flat": '<path id="accidentals.flat" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.halfsharp": '<path id="accidentals.halfsharp" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.dblsharp": '<path id="accidentals.dblsharp" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.halfflat": '<path id="accidentals.halfflat" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.dblflat": '<path id="accidentals.dblflat" transform="scale(0.8)" \nd="@@"/>'
+      ,"clefs.C": '<path id="clefs.C" \nd="@@"/>'
+      ,"clefs.F": '<path id="clefs.F" \nd="@@"/>'
+      ,"clefs.G": '<path id="clefs.G" \nd="@@"/>'
+      ,"clefs.perc": '<path id="clefs.perc" \nd="@@"/>'
+      ,"clefs.tab": '<path id="clefs.tab" transform="scale(0.9)" \nd="@@"/>'
+      ,"dots.dot": '<path id="dots.dot" \nd="@@"/>'
+      ,"flags.d8th": '<path id="flags.d8th" \nd="@@"/>'
+      ,"flags.d16th": '<path id="flags.d16th" \nd="@@"/>'
+      ,"flags.d32nd": '<path id="flags.d32nd" \nd="@@"/>'
+      ,"flags.d64th": '<path id="flags.d64th" \nd="@@"/>'
+      ,"flags.dgrace": '<path id="flags.dgrace" \nd="@@"/>'
+      ,"flags.u8th": '<path id="flags.u8th" \nd="@@"/>'
+      ,"flags.u16th": '<path id="flags.u16th" \nd="@@"/>'
+      ,"flags.u32nd": '<path id="flags.u32nd" \nd="@@"/>'
+      ,"flags.u64th": '<path id="flags.u64th" \nd="@@"/>'
+      ,"flags.ugrace": '<path id="flags.ugrace" \nd="@@"/>'
+      ,"graceheads.quarter": '<g id="graceheads.quarter" transform="scale(0.6)" ><use xlink:href="#noteheads.quarter" /></g>'
+      ,"graceflags.d8th": '<g id="graceflags.d8th" transform="scale(0.6)" ><use xlink:href="#flags.d8th" /></g>'
+      ,"graceflags.u8th": '<g id="graceflags.u8th" transform="scale(0.6)" ><use xlink:href="#flags.u8th" /></g>'
+      ,"noteheads.quarter": '<path id="noteheads.quarter" \nd="@@"/>'
+      ,"noteheads.whole": '<path id="noteheads.whole" \nd="@@"/>'
+      ,"notehesad.dbl": '<path id="noteheads.dbl" \nd="@@"/>'
+      ,"noteheads.half": '<path id="noteheads.half" \nd="@@"/>'
+      ,"rests.whole": '<path id="rests.whole" \nd="@@"/>'
+      ,"rests.half": '<path id="rests.half" \nd="@@"/>'
+      ,"rests.quarter": '<path id="rests.quarter" \nd="@@"/>'
+      ,"rests.8th": '<path id="rests.8th" \nd="@@"/>'
+      ,"rests.16th": '<path id="rests.16th" \nd="@@"/>'
+      ,"rests.32nd": '<path id="rests.32nd" \nd="@@"/>'
+      ,"rests.64th": '<path id="rests.64th" \nd="@@"/>'
+      ,"rests.128th": '<path id="rests.128th" \nd="@@"/>'
+      ,"scripts.rarrow": '<path id="scripts.rarrow" \nd="M -6 -5 h 8 v -3 l 4 4 l -4 4 v -3 h -8 z"/>'
+      ,"scripts.tabrest": '<path id="scripts.tabrest" \nd="M -5 5 h 10 v 2 h -10 z"/>'
+      ,"scripts.lbrace": '<path id="scripts.lbrace" \nd="@@"/>'
+      ,"scripts.ufermata": '<path id="scripts.ufermata" \nd="@@"/>'
+      ,"scripts.dfermata": '<path id="scripts.dfermata" \nd="@@"/>'
+      ,"scripts.sforzato": '<path id="scripts.sforzato" \nd="@@"/>'
+      ,"scripts.staccato": '<path id="scripts.staccato" \nd="@@"/>'
+      ,"scripts.tenuto": '<path id="scripts.tenuto" \nd="@@"/>'
+      ,"scripts.umarcato": '<path id="scripts.umarcato" \nd="@@"/>'
+      ,"scripts.dmarcato": '<path id="scripts.dmarcato" \nd="@@"/>'
+      ,"scripts.stopped": '<path id="scripts.stopped" \nd="@@"/>'
+      ,"scripts.upbow": '<path id="scripts.upbow" \nd="@@"/>'
+      ,"scripts.downbow": '<path id="scripts.downbow" \nd="@@"/>'
+      ,"scripts.turn": '<path id="scripts.turn" \nd="@@"/>'
+      ,"scripts.trill": '<path id="scripts.trill" \nd="@@"/>'
+      ,"scripts.segno": '<path id="scripts.segno" transform="scale(0.8)" \nd="@@"/>'
+      ,"scripts.coda": '<path id="scripts.coda" transform="scale(0.8)" \nd="@@"/>'
+      ,"scripts.comma": '<path id="scripts.comma" \nd="@@"/>'
+      ,"scripts.roll": '<path id="scripts.roll" \nd="@@"/>'
+      ,"scripts.prall": '<path id="scripts.prall" \nd="@@"/>'
+      ,"scripts.mordent": '<path id="scripts.mordent" \nd="@@"/>'
+      ,"timesig.common": '<path id="timesig.common" \nd="@@"/>'
+      ,"it.punto": '<path id="it.punto" \nd="@@"/>'
+      ,"it.l": '<path id="it.l" \nd="@@"/>'
+      ,"it.f": '<path id="it.f" \nd="@@"/>'
+      ,"it.F": '<path id="it.F" \nd="@@"/>'
+      ,"it.i": '<path id="it.i" \nd="@@"/>'
+      ,"it.n": '<path id="it.n" \nd="@@"/>'
+      ,"it.e": '<path id="it.e" \nd="@@"/>'
+      ,"it.D": '<path id="it.D" \nd="@@"/>'
+      ,"it.d": '<path id="it.d" \nd="@@"/>'
+      ,"it.a": '<path id="it.a" \nd="@@"/>'
+      ,"it.C": '<path id="it.C" \nd="@@"/>'
+      ,"it.c": '<path id="it.c" \nd="@@"/>'
+      ,"it.p": '<path id="it.p" \nd="@@"/>'
+      ,"it.o": '<path id="it.o" \nd="@@"/>'
+      ,"it.S": '<path id="it.S" \nd="@@"/>'
+      ,"it.s": '<path id="it.s" \nd="@@"/>'
+      ,"it.Fine": '<g id="it.Fine" ><use xlink:href="#it.F" x="0" y="3" /><use xlink:href="#it.i" x="12" y="3" /><use xlink:href="#it.n" x="17.5" y="3" /><use xlink:href="#it.e" x="27" y="3" /></g>'
+      ,"it.Coda": '<g id="it.Coda" ><use xlink:href="#it.C" x="0" y="3" /><use xlink:href="#it.o" x="12" y="3" /><use xlink:href="#it.d" x="20" y="3" /><use xlink:href="#it.a" x="30" y="3" /></g>'
+      ,"it.Da": '<g id="it.Da"><use xlink:href="#it.D" x="0" y="3" /><use xlink:href="#it.a" x="14" y="3" /></g>'
+      ,"it.DaCoda": '<g id="it.DaCoda"><use xlink:href="#it.Da" x="0" y="0" /><use xlink:href="#scripts.coda" x="32" y="0" /></g>'
+      ,"it.DaSegno": '<g id="it.DaSegno"><use xlink:href="#it.Da" x="0" y="0" /><use xlink:href="#scripts.segno" x="32" y="-3" /></g>'
+      ,"it.DC": '<g id="it.DC"><use xlink:href="#it.D" x="0" y="1" /><use xlink:href="#it.punto" x="12" y="2" /><use xlink:href="#it.C" x="18" y="1" /><use xlink:href="#it.punto" x="29" y="2" /></g>'
+      ,"it.DS": '<g id="it.DS"><use xlink:href="#it.D" x="0" y="1" /><use xlink:href="#it.punto" x="12" y="2" /><use xlink:href="#it.S" x="18" y="1" /><use xlink:href="#it.punto" x="29" y="2" /></g>'
+      ,"it.al": '<g id="it.al"><use xlink:href="#it.a" x="0" y="2" /><use xlink:href="#it.l" x="10" y="2" /></g>'
+      ,"it.DCalFine": '<g id="it.DCalFine"><use xlink:href="#it.DC" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Fine" x="46" y="-1" /></g>'
+      ,"it.DCalCoda": '<g id="it.DCalCoda"><use xlink:href="#it.DC" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Coda" x="46" y="-1" /></g>'
+      ,"it.DSalFine": '<g id="it.DSalFine"><use xlink:href="#it.DS" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Fine" x="46" y="-1" /></g>'
+      ,"it.DSalCoda": '<g id="it.DSalCoda"><use xlink:href="#it.DS" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Coda" x="46" y="-1" /></g>'
+    };
+    
+    this.getDefinition = function (gl) {
+        
+        
+        var g = glyphs[gl];
+        
+        if (!g) {
+            return "";
+        }
+        
+        // expande path se houver, buscando a definicao do original do ABCJS.
+        g = g.replace('@@', abc_glyphs.getTextSymbol(gl) );
+        
+        var i = 0, j = 0;
+
+        while (i>=0) {
+            i = g.indexOf('xlink:href="#', j );
+            if (i < 0) continue;
+            i += 13;
+            j = g.indexOf('"', i);
+            g += this.getDefinition(g.slice(i, j));
+        }
+
+        return '\n' +  g;
+    };
+};

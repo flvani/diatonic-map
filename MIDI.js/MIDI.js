@@ -1,4 +1,126 @@
-/*
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+_Debug = false;
+
+function debugToTitle(msg) {
+    var title = document.getElementById("title");
+     title.innerHTML += '<br/>' + msg;
+}
+/**
+ * @license -------------------------------------------------------------------
+ *   module: WebAudioShim - Fix naming issues for WebAudioAPI supports
+ *      src: https://github.com/Dinahmoe/webaudioshim
+ *   author: Dinahmoe AB
+ * -------------------------------------------------------------------
+ * Copyright (c) 2012 DinahMoe AB
+ * 
+ * Permission is hereby granted, free of charge, to any person
+ * obtaining a copy of this software and associated documentation
+ * files (the "Software"), to deal in the Software without
+ * restriction, including without limitation the rights to use,
+ * copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following
+ * conditions:
+ * 
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ * OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ * WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+window.AudioContext = window.AudioContext || window.webkitAudioContext || null;
+window.OfflineAudioContext = window.OfflineAudioContext || window.webkitOfflineAudioContext || null;
+
+(function (Context) {
+	var isFunction = function (f) {
+		return Object.prototype.toString.call(f) === "[object Function]" ||
+			Object.prototype.toString.call(f) === "[object AudioContextConstructor]";
+	};
+	var contextMethods = [
+		["createGainNode", "createGain"],
+		["createDelayNode", "createDelay"],
+		["createJavaScriptNode", "createScriptProcessor"]
+	];
+	///
+	var proto;
+	var instance;
+	var sourceProto;
+	///
+	if (!isFunction(Context)) {
+		return;
+	}
+	instance = new Context();
+	if (!instance.destination || !instance.sampleRate) {
+		return;
+	}
+	proto = Context.prototype;
+	sourceProto = Object.getPrototypeOf(instance.createBufferSource());
+
+	if (!isFunction(sourceProto.start)) {
+		if (isFunction(sourceProto.noteOn)) {
+			sourceProto.start = function (when, offset, duration) {
+				switch (arguments.length) {
+					case 0:
+						throw new Error("Not enough arguments.");
+					case 1:
+						this.noteOn(when);
+						break;
+					case 2:
+						if (this.buffer) {
+							this.noteGrainOn(when, offset, this.buffer.duration - offset);
+						} else {
+							throw new Error("Missing AudioBuffer");
+						}
+						break;
+					case 3:
+						this.noteGrainOn(when, offset, duration);
+				}
+			};
+		}
+	}
+
+	if (!isFunction(sourceProto.noteOn)) {
+		sourceProto.noteOn = sourceProto.start;
+	}
+
+	if (!isFunction(sourceProto.noteGrainOn)) {
+		sourceProto.noteGrainOn = sourceProto.start;
+	}
+
+	if (!isFunction(sourceProto.stop)) {
+		sourceProto.stop = sourceProto.noteOff;
+	}
+
+	if (!isFunction(sourceProto.noteOff)) {
+		sourceProto.noteOff = sourceProto.stop;
+	}
+
+	contextMethods.forEach(function (names) {
+		var name1;
+		var name2;
+		while (names.length) {
+			name1 = names.pop();
+			if (isFunction(this[name1])) {
+				this[names.pop()] = this[name1];
+			} else {
+				name2 = names.pop();
+				this[name1] = this[name2];
+			}
+		}
+	}, proto);
+})(window.AudioContext);/*
 	-------------------------------------
 	MIDI.audioDetect : 0.3
 	-------------------------------------
@@ -17,13 +139,18 @@ if (typeof(MIDI) === "undefined") var MIDI = {};
 var supports = {};	
 var pending = 0;
 var canPlayThrough = function (src) {
+    try {
 	pending ++;
+        var body = document.body;
 	var audio = new Audio();
 	var mime = src.split(";")[0];
 	audio.id = "audio";
 	audio.setAttribute("preload", "auto");
 	audio.setAttribute("audiobuffer", true);
+        _Debug && debugToTitle('canPlayThrough ' + mime);        
+        supports[mime] = null;
 	audio.addEventListener("error", function() {
+                body.removeChild(audio);
 		supports[mime] = false;
 		pending --;
 	}, false);
@@ -32,35 +159,48 @@ var canPlayThrough = function (src) {
 		pending --;
 	}, false);
 	audio.src = "data:" + src;
-	document.body.appendChild(audio);
+	body.appendChild(audio);
+    } catch(e) {
+        _Debug && debugToTitle('canPlayThrough exception ' + JSON.stringify(e));        
+    }
 };
 
 MIDI.audioDetect = function(callback) {
+        _Debug && debugToTitle('MIDI.audioDetect');
+
 	// check whether <audio> tag is supported
 	if (typeof(Audio) === "undefined") return callback({});
+        _Debug && debugToTitle('MIDI.audioDetect 1');
 	// check whether canPlayType is supported
 	var audio = new Audio();
 	if (typeof(audio.canPlayType) === "undefined") return callback(supports);
+        _Debug && debugToTitle('MIDI.audioDetect 2');
 	// see what we can learn from the browser
 	var vorbis = audio.canPlayType('audio/ogg; codecs="vorbis"');
+        _Debug && debugToTitle('MIDI.audioDetect 3: vorbis = ' + vorbis);
 	vorbis = (vorbis === "probably" || vorbis === "maybe");
 	var mpeg = audio.canPlayType('audio/mpeg');
+        _Debug && debugToTitle('MIDI.audioDetect 3: mpeg = ' + mpeg);
 	mpeg = (mpeg === "probably" || mpeg === "maybe");
 	// maybe nothing is supported
 	if (!vorbis && !mpeg) {
+                _Debug && debugToTitle('maybe nothing is supported');
+            
 		callback(supports);
 		return;
 	}
 	// or maybe something is supported
 	if (vorbis) canPlayThrough("audio/ogg;base64,T2dnUwACAAAAAAAAAADqnjMlAAAAAOyyzPIBHgF2b3JiaXMAAAAAAUAfAABAHwAAQB8AAEAfAACZAU9nZ1MAAAAAAAAAAAAA6p4zJQEAAAANJGeqCj3//////////5ADdm9yYmlzLQAAAFhpcGguT3JnIGxpYlZvcmJpcyBJIDIwMTAxMTAxIChTY2hhdWZlbnVnZ2V0KQAAAAABBXZvcmJpcw9CQ1YBAAABAAxSFCElGVNKYwiVUlIpBR1jUFtHHWPUOUYhZBBTiEkZpXtPKpVYSsgRUlgpRR1TTFNJlVKWKUUdYxRTSCFT1jFloXMUS4ZJCSVsTa50FkvomWOWMUYdY85aSp1j1jFFHWNSUkmhcxg6ZiVkFDpGxehifDA6laJCKL7H3lLpLYWKW4q91xpT6y2EGEtpwQhhc+211dxKasUYY4wxxsXiUyiC0JBVAAABAABABAFCQ1YBAAoAAMJQDEVRgNCQVQBABgCAABRFcRTHcRxHkiTLAkJDVgEAQAAAAgAAKI7hKJIjSZJkWZZlWZameZaouaov+64u667t6roOhIasBACAAAAYRqF1TCqDEEPKQ4QUY9AzoxBDDEzGHGNONKQMMogzxZAyiFssLqgQBKEhKwKAKAAAwBjEGGIMOeekZFIi55iUTkoDnaPUUcoolRRLjBmlEluJMYLOUeooZZRCjKXFjFKJscRUAABAgAMAQICFUGjIigAgCgCAMAYphZRCjCnmFHOIMeUcgwwxxiBkzinoGJNOSuWck85JiRhjzjEHlXNOSuekctBJyaQTAAAQ4AAAEGAhFBqyIgCIEwAwSJKmWZomipamiaJniqrqiaKqWp5nmp5pqqpnmqpqqqrrmqrqypbnmaZnmqrqmaaqiqbquqaquq6nqrZsuqoum65q267s+rZru77uqapsm6or66bqyrrqyrbuurbtS56nqqKquq5nqq6ruq5uq65r25pqyq6purJtuq4tu7Js664s67pmqq5suqotm64s667s2rYqy7ovuq5uq7Ks+6os+75s67ru2rrwi65r66os674qy74x27bwy7ouHJMnqqqnqq7rmarrqq5r26rr2rqmmq5suq4tm6or26os67Yry7aumaosm64r26bryrIqy77vyrJui67r66Ys67oqy8Lu6roxzLat+6Lr6roqy7qvyrKuu7ru+7JuC7umqrpuyrKvm7Ks+7auC8us27oxuq7vq7It/KosC7+u+8Iy6z5jdF1fV21ZGFbZ9n3d95Vj1nVhWW1b+V1bZ7y+bgy7bvzKrQvLstq2scy6rSyvrxvDLux8W/iVmqratum6um7Ksq/Lui60dd1XRtf1fdW2fV+VZd+3hV9pG8OwjK6r+6os68Jry8ov67qw7MIvLKttK7+r68ow27qw3L6wLL/uC8uq277v6rrStXVluX2fsSu38QsAABhwAAAIMKEMFBqyIgCIEwBAEHIOKQahYgpCCKGkEEIqFWNSMuakZM5JKaWUFEpJrWJMSuaclMwxKaGUlkopqYRSWiqlxBRKaS2l1mJKqcVQSmulpNZKSa2llGJMrcUYMSYlc05K5pyUklJrJZXWMucoZQ5K6iCklEoqraTUYuacpA46Kx2E1EoqMZWUYgupxFZKaq2kFGMrMdXUWo4hpRhLSrGVlFptMdXWWqs1YkxK5pyUzDkqJaXWSiqtZc5J6iC01DkoqaTUYiopxco5SR2ElDLIqJSUWiupxBJSia20FGMpqcXUYq4pxRZDSS2WlFosqcTWYoy1tVRTJ6XFklKMJZUYW6y5ttZqDKXEVkqLsaSUW2sx1xZjjqGkFksrsZWUWmy15dhayzW1VGNKrdYWY40x5ZRrrT2n1mJNMdXaWqy51ZZbzLXnTkprpZQWS0oxttZijTHmHEppraQUWykpxtZara3FXEMpsZXSWiypxNhirLXFVmNqrcYWW62ltVprrb3GVlsurdXcYqw9tZRrrLXmWFNtBQAADDgAAASYUAYKDVkJAEQBAADGMMYYhEYpx5yT0ijlnHNSKucghJBS5hyEEFLKnINQSkuZcxBKSSmUklJqrYVSUmqttQIAAAocAAACbNCUWByg0JCVAEAqAIDBcTRNFFXVdX1fsSxRVFXXlW3jVyxNFFVVdm1b+DVRVFXXtW3bFn5NFFVVdmXZtoWiqrqybduybgvDqKqua9uybeuorqvbuq3bui9UXVmWbVu3dR3XtnXd9nVd+Bmzbeu2buu+8CMMR9/4IeTj+3RCCAAAT3AAACqwYXWEk6KxwEJDVgIAGQAAgDFKGYUYM0gxphhjTDHGmAAAgAEHAIAAE8pAoSErAoAoAADAOeecc84555xzzjnnnHPOOeecc44xxhhjjDHGGGOMMcYYY4wxxhhjjDHGGGOMMcYYY0wAwE6EA8BOhIVQaMhKACAcAABACCEpKaWUUkoRU85BSSmllFKqFIOMSkoppZRSpBR1lFJKKaWUIqWgpJJSSimllElJKaWUUkoppYw6SimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaVUSimllFJKKaWUUkoppRQAYPLgAACVYOMMK0lnhaPBhYasBAByAwAAhRiDEEJpraRUUkolVc5BKCWUlEpKKZWUUqqYgxBKKqmlklJKKbXSQSihlFBKKSWUUkooJYQQSgmhlFRCK6mEUkoHoYQSQimhhFRKKSWUzkEoIYUOQkmllNRCSB10VFIpIZVSSiklpZQ6CKGUklJLLZVSWkqpdBJSKamV1FJqqbWSUgmhpFZKSSWl0lpJJbUSSkklpZRSSymFVFJJJYSSUioltZZaSqm11lJIqZWUUkqppdRSSiWlkEpKqZSSUmollZRSaiGVlEpJKaTUSimlpFRCSamlUlpKLbWUSkmptFRSSaWUlEpJKaVSSksppRJKSqmllFpJKYWSUkoplZJSSyW1VEoKJaWUUkmptJRSSymVklIBAEAHDgAAAUZUWoidZlx5BI4oZJiAAgAAQABAgAkgMEBQMApBgDACAQAAAADAAAAfAABHARAR0ZzBAUKCwgJDg8MDAAAAAAAAAAAAAACAT2dnUwAEAAAAAAAAAADqnjMlAgAAADzQPmcBAQA=");
-	if (mpeg) canPlayThrough("audio/mpeg;base64,/+MYxAAAAANIAUAAAASEEB/jwOFM/0MM/90b/+RhST//w4NFwOjf///PZu////9lns5GFDv//l9GlUIEEIAAAgIg8Ir/JGq3/+MYxDsLIj5QMYcoAP0dv9HIjUcH//yYSg+CIbkGP//8w0bLVjUP///3Z0x5QCAv/yLjwtGKTEFNRTMuOTeqqqqqqqqqqqqq/+MYxEkNmdJkUYc4AKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
-	// lets find out!
+	if (mpeg) canPlayThrough("audio/mp3;base64,/+MYxAAAAANIAUAAAASEEB/jwOFM/0MM/90b/+RhST//w4NFwOjf///PZu////9lns5GFDv//l9GlUIEEIAAAgIg8Ir/JGq3/+MYxDsLIj5QMYcoAP0dv9HIjUcH//yYSg+CIbkGP//8w0bLVjUP///3Z0x5QCAv/yLjwtGKTEFNRTMuOTeqqqqqqqqqqqqq/+MYxEkNmdJkUYc4AKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+ 	// lets find out!
 	var time = (new Date()).getTime(); 
 	var interval = window.setInterval(function() {
 		var now = (new Date()).getTime();
 		var maxExecution = now - time > 5000;
 		if (!pending || maxExecution) {
 			window.clearInterval(interval);
+                        _Debug && debugToTitle('MIDI.audioDetect interval: supports = ' + JSON.stringify(supports));
+                        
 			callback(supports);
 		}
 	}, 1);
@@ -87,12 +227,19 @@ if (typeof (MIDI.Soundfont) === "undefined") MIDI.Soundfont = {};
 
 var USE_JAZZMIDI = false; // Turn on to support JazzMIDI Plugin
 
+MIDI.getPercent = function(event) {
+    return Math.round(event.loaded / event.total * 100);
+};
+
 MIDI.loadPlugin = function(conf) {
+    
+        _Debug && debugToTitle('MIDI.loadPlugin');
+        
 	if (typeof(conf) === "function") conf = {
 		callback: conf
 	};
 	/// Get the instrument name.
-	var instruments = conf.instruments || conf.instrument || "acoustic_grand_piano";
+	var instruments = conf.instruments || conf.instrument || "accordion";
 	if (typeof(instruments) !== "object") instruments = [ instruments ];
 	///
 	for (var n = 0; n < instruments.length; n ++) {
@@ -103,8 +250,10 @@ MIDI.loadPlugin = function(conf) {
 	};
 	///
 	MIDI.soundfontUrl = conf.soundfontUrl || MIDI.soundfontUrl || "./soundfont/";
+        
 	/// Detect the best type of audio to use.
 	MIDI.audioDetect(function(types) {
+            
 		var api = "";
 		// use the most appropriate plugin if not specified
 		if (apis[conf.api]) {
@@ -113,24 +262,30 @@ MIDI.loadPlugin = function(conf) {
 			api = window.location.hash.substr(1);
 		} else if (USE_JAZZMIDI && navigator.requestMIDIAccess) {
 			api = "webmidi";
-		} else if (window.AudioContext) { // Chrome
+		} else if (window.AudioContext || window.webkitAudioContext) { // Chrome
 			api = "webaudio";
 		} else if (window.Audio) { // Firefox
 			api = "audiotag";
 		} else { // Internet Explorer
 			api = "flash";
 		}
+                
+                _Debug && debugToTitle('MIDI.audioDetect.callback#api=' + api);
+                
 		///
 		if (!connect[api]) return;
+                
 		// use audio/ogg when supported
+                var filetype = types["audio/ogg"] ? "ogg" : "mp3";
+                
 		if (conf.targetFormat) {
-			var filetype = conf.targetFormat;
-		} else { // use best quality
-			var filetype = types["audio/ogg"] ? "ogg" : "mp3";
+                    filetype = conf.targetFormat;
 		}
+                
 		// load the specified plugin
 		MIDI.lang = api;
 		MIDI.supports = types;
+                MIDI.audioformat = filetype;
 		connect[api](filetype, instruments, conf);
 	});
 };
@@ -164,10 +319,11 @@ connect.audiotag = function(filetype, instruments, conf) {
 		getNext: function(instrumentId) {
 			DOMLoader.sendRequest({
 				url: MIDI.soundfontUrl + instrumentId + "-" + filetype + ".js",
-				onprogress: getPercent,
+				onprogress: conf.onprogress || defaultOnProgress,
 				onload: function (response) {
 					addSoundfont(response.responseText);
 					if (MIDI.loader) MIDI.loader.update(null, "Downloading", 100);
+					if (MIDI.widget) MIDI.widget.setValue(50);
 					queue.getNext();
 				}
 			});
@@ -181,20 +337,25 @@ connect.audiotag = function(filetype, instruments, conf) {
 connect.webaudio = function(filetype, instruments, conf) {
 	if (MIDI.loader) MIDI.loader.message("Web Audio API...");
 	// works awesome! safari, chrome and firefox support.
+        _Debug && debugToTitle('connect.webaudio');
+         
 	var queue = createQueue({
 		items: instruments,
 		getNext: function(instrumentId) {
 			DOMLoader.sendRequest({
 				url: MIDI.soundfontUrl + instrumentId + "-" + filetype + ".js",
-				onprogress: getPercent,
+				onprogress: conf.onprogress || defaultOnProgress,
 				onload: function(response) {
 					addSoundfont(response.responseText);
-					if (MIDI.loader) MIDI.loader.update(null, "Downloading...", 100);
+					if (MIDI.loader) MIDI.loader.update(null, "Downloading", 100);
+					if (MIDI.widget) MIDI.widget.setValue(50);
 					queue.getNext();
 				}
 			});
 		},
 		onComplete: function() {
+                        _Debug && debugToTitle('connect.webaudio complete');
+                     
 			MIDI.WebAudio.connect(conf);
 		}
 	});
@@ -217,17 +378,10 @@ var addSoundfont = function(text) {
 	document.body.appendChild(script);
 };
 
-var getPercent = function(event) {
-	if (!this.totalSize) {
-		if (this.getResponseHeader("Content-Length-Raw")) {
-			this.totalSize = parseInt(this.getResponseHeader("Content-Length-Raw"));
-		} else {
-			this.totalSize = event.total;
-		}
-	}
-	///
-	var percent = this.totalSize ? Math.round(event.loaded / this.totalSize * 100) : "";
-	if (MIDI.loader) MIDI.loader.update(null, "Downloading...", percent);
+
+
+var defaultOnProgress = function( event ) {
+    if (MIDI.loader) MIDI.loader.update(null, "Downloading...", MIDI.getPercent(event));
 };
 
 var createQueue = function(conf) {
@@ -371,7 +525,7 @@ var setPlugin = function(root) {
 	--------------------------------------------
 */
 
-if (window.AudioContext ) (function () {
+if (window.AudioContext || window.webkitAudioContext) (function () {
 
 	var AudioContext = window.AudioContext;
 	var root = MIDI.WebAudio = {
@@ -381,37 +535,50 @@ if (window.AudioContext ) (function () {
 	var sources = {};
 	var masterVolume = 127;
 	var audioBuffers = {};
-	var audioLoader = function (instrument, urlList, index, bufferList, callback) {
+	var audioLoader = function (instrument, urlList, index, bufferList, callback, pend) {
+            //_Debug && debugToTitle('audioLoader entered');
+            
             var synth = MIDI.GeneralMIDI.byName[instrument];
             var instrumentId = synth.number;
+
             var url = urlList[index];
             if (!MIDI.Soundfont[instrument][url]) { // missing soundfont
                     return callback(instrument);
             }
+
             var base64 = MIDI.Soundfont[instrument][url].split(",")[1];
             var buffer = Base64Binary.decodeArrayBuffer(base64);
             ctx.decodeAudioData(buffer, function (buffer) {
+                //_Debug && debugToTitle('ctx.decodeAudioData '+index);
+                pend[instrument].pend--;
+                pend[instrument].done++;
+                
+                var percDone = pend[instrument].done / urlList.length * 100 >> 0;
+
+                
                 var msg = url;
                 while (msg.length < 3) msg += "&#160;";
                 if (typeof (MIDI.loader) !== "undefined") {
-                    MIDI.loader.update(null, synth.instrument + "<br/>Processing: " + (index / 87 * 100 >> 0) + "%<br/>" + msg);
+                    MIDI.loader.update(null, synth.instrument + "<br/>Processing: " + percDone + "%<br/>" + msg);
+                }
+                if (typeof (MIDI.widget) !== "undefined") {
+                    MIDI.widget.setValue(50+percDone/2); // para este widtget, consideramos que a carga das notas equivale a 50%
                 }
                 buffer.id = url;
                 bufferList[index] = buffer;
                 //
-                if (bufferList.length === urlList.length) {
+                //if (bufferList.length === urlList.length && pend[instrument].pend === 0) {
+                if (pend[instrument].done === urlList.length ) {
                     while (bufferList.length) {
                         buffer = bufferList.pop();
                         if (!buffer) continue;
                         var nodeId = MIDI.keyToNote[buffer.id];
                         audioBuffers[instrumentId + "" + nodeId] = buffer;
                     }
-                    // flavio - tinha tentado resolver problema do Firefox, que as vezes não carrega todas as notas
-                    // window.setTimeout(function () { callback(instrument); }, 5 );
                     callback(instrument);
                     
                 }
-            });
+            }, function(buffer) { console.log( 'Error loading' || url ); } );
 	};
 
 	root.setVolume = function (channel, volume) {
@@ -509,9 +676,11 @@ if (window.AudioContext ) (function () {
     };
 
     root.connect = function (conf) {
+        _Debug && debugToTitle('setPlugin');
         setPlugin(root);
         //
         MIDI.Player.ctx = ctx = new AudioContext();
+        _Debug && debugToTitle('MIDI.Player.ctx new AudioContext');
         //
         var urlList = [];
         var keyToNote = MIDI.keyToNote;
@@ -523,12 +692,14 @@ if (window.AudioContext ) (function () {
             for (var key in pending) break;
             // flavio - tinha tentado resolver problema do Firefox, que as vezes não carrega todas as notas
             // if (!key) window.setTimeout(function () { conf.callback(); }, 5 );
+            _Debug && debugToTitle('audioLoader oncomplete');
             if (!key) conf.callback(); 
         };
         for (var instrument in MIDI.Soundfont) {
-            pending[instrument] = true;
+            pending[instrument] = { pend: 0, done: 0};
             for (var i = 0; i < urlList.length; i++) {
-                audioLoader(instrument, urlList, i, bufferList, oncomplete);
+                pending[instrument].pend ++;
+                audioLoader(instrument, urlList, i, bufferList, oncomplete, pending);
             }
         }
     };
@@ -848,8 +1019,7 @@ MIDI.channels = (function () { // 0 - 15 channels
 	var channels = {};
 	for (var n = 0; n < 16; n++) {
 		channels[n] = { // default values
-			instrument: 0,
-			// Acoustic Grand Piano
+			instrument: 21, // Accordion
 			mute: false,
 			mono: false,
 			omni: false,
@@ -1153,402 +1323,7 @@ var stopAudio = function () {
 	noteRegistrar = {};
 };
 
-})();/* 
-	----------------------------------------------------
-	Loader.js : 0.4.2 : 2012/11/09
-	----------------------------------------------------
-	https://github.com/mudcube/Loader.js
-	----------------------------------------------------
-	/// Simple setup.
-	var loader = new widgets.Loader;
-	
-	/// More complex setup.
-	var loader = new widgets.Loader({
-		id: "loader",
-		bars: 12,
-		radius: 0,
-		lineWidth: 20,
-		lineHeight: 70,
-		timeout: 30, // maximum timeout in seconds.
-		background: "rgba(0,0,0,0.5)",
-		container: document.body,
-		oncomplete: function() {
-			// call function once loader has completed
-		},
-		onstart: function() {
-			// call function once loader has started	
-		}
-	});
-	
-	/// Add a new message to the queue.
-	var loaderId = loader.add({
-		message: "test",
-		getProgress: function() { // sends progress to loader.js
-			return progress; // value between 1-100
-		}
-	});
-	
-	/// Remove a specific loader message.
-	loader.remove(loaderId); 
-	
-	/// Recenter the loader within container (run onresize)
-	loader.center(); 
-	
-	/// Stop all loader instances.
-	loader.stop(); 
-*/
-
-if (typeof (widgets) === "undefined") var widgets = {};
-
-(function() { "use strict";
-
-var PI = Math.PI;
-var noCanvas = !document.createElement("canvas").getContext;
-var fadeOutSpeed = 400;
-var defaultConfig = {
-	id: "loader",
-	bars: 12,
-	radius: 0,
-	lineWidth: 20,
-	lineHeight: 70,
-	timeout: 0,
-	display: true
-};
-
-widgets.Loader = function (configure) {
-	if (noCanvas) return;
-	var that = this;
-	if (typeof (configure) === "string") configure = { message: configure };
-	if (typeof (configure) === "boolean") configure = { display: false };
-	if (typeof (configure) === "undefined") configure = {};
-	configure.container = configure.container || document.body;
-	if (!configure.container) return;
-
-	/// Mixin the default configurations.
-	for (var key in defaultConfig) {
-		if (typeof (configure[key]) === "undefined") {
-			configure[key] = defaultConfig[key];
-		}
-	}
-
-	/// Setup element
-	var canvas = document.getElementById(configure.id);
-	if (!canvas) {
-		var div = document.createElement("div");
-    		var span = document.createElement("span");
-		span.className = "message";
-		div.appendChild(span);
-		div.className = defaultConfig.id;
-                div.id = configure.id + "Div"
-		div.style.cssText = transitionCSS("opacity", fadeOutSpeed);
-		this.span = span;
-		this.div = div;
-		var canvas = document.createElement("canvas");
-		document.body.appendChild(canvas);
-		canvas.id = configure.id;
-		canvas.style.cssText = "opacity: 1; position: absolute; z-index: 10000;";
-		div.appendChild(canvas);
-		configure.container.appendChild(div);
-	} else {
-		this.span = canvas.parentNode.getElementsByTagName("span")[0];
-		this.div = document.getElementById(configure.id+"Div");
-	}
-
-	/// Configure
-	var delay = configure.delay;
-	var bars = configure.bars;
-	var radius = configure.radius;
-	var max = configure.lineHeight + 20;
-	var size = max * 2 + configure.radius * 2;
-	var windowSize = getWindowSize(configure.container);
-	var width = windowSize.width - size;
-	var height = windowSize.height - size;
-	var deviceRatio = window.devicePixelRatio || 1;
-	///
-	canvas.width = size * deviceRatio;
-	canvas.height = size  * deviceRatio;
-	///
-	var iteration = 0;
-	var ctx = canvas.getContext("2d");
-	ctx.globalCompositeOperation = "lighter";
-	ctx.shadowOffsetX = 1;
-	ctx.shadowOffsetY = 1;
-	ctx.shadowBlur = 1;
-	ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
-
-	/// Public functions.
-	this.messages = {};
-	this.message = function (message, onstart) {
-		if (!this.interval) return this.start(onstart, message);
-		return this.add({
-			message: message, 
-			onstart: onstart
-		});
-	};
-	
-	this.update = function(id, message, percent) {
-		if (!id) for (var id in this.messages);
-		if (!id) return this.message(message);
-		var item = this.messages[id];
-		item.message = message;
-		if (typeof(percent) === "number") item.span.innerHTML = percent + "%";
-		if (message.substr(-3) === "...") { // animated dots
-			item._message = message.substr(0, message.length - 3);
-			item.messageAnimate = [".&#160;&#160;", "..&#160;", "..."].reverse();
-		} else { // normal
-			item._message = message;
-			item.messageAnimate = false;
-		}
-		///
-		item.element.innerHTML = message;
-	};
-	
-	this.add = function (conf) {
-		if (typeof(conf) === "string") conf = { message: conf };
-		var background = configure.background ? configure.background : "rgba(0,0,0,0.65)";
-		this.span.style.cssText = "background: " + background + ";";
-		this.div.style.cssText = transitionCSS("opacity", fadeOutSpeed);
-		if (this.stopPropagation) {
-			this.div.style.cssText += "background: rgba(0,0,0,0.25);";
-		} else {
-			this.div.style.cssText += "pointer-events: none;";
-		}
-		///
-		canvas.parentNode.style.opacity = 1;
-		canvas.parentNode.style.display = "block";
-		if (configure.background) this.div.style.background = configure.backgrond;
-		///
-		var timestamp = (new Date()).getTime();
-		var seed = Math.abs(timestamp * Math.random() >> 0);
-		var message = conf.message;
-		///
-		var container = document.createElement("div");
-		container.style.cssText = transitionCSS("opacity", 500);
-		var span = document.createElement("span");
-		span.style.cssText = "float: right; width: 50px;";
-		var node = document.createElement("span");
-		node.innerHTML = message;
-		///
-		container.appendChild(node);
-		container.appendChild(span);
-		///
-		var item = this.messages[seed] = {
-			seed: seed,
-			container: container,
-			element: node,
-			span: span,
-			message: message,
-			timeout: (conf.timeout || configure.timeout) * 1000,
-			timestamp: timestamp,
-			getProgress: conf.getProgress
-		};
-		this.span.appendChild(container);
-		this.span.style.display = "block";
-		this.update(item.seed, message);
-		/// Escape event loop.
-		if (conf.onstart) {
-			window.setTimeout(conf.onstart, 50);
-		}
-		///
-		this.center();
-		///
-		if (!this.interval) {
-			if (!conf.delay) renderAnimation();
-			window.clearInterval(this.interval);
-			this.interval = window.setInterval(renderAnimation, 30);
-		}
-		/// Return identifier.
-		return seed;
-	};
-	
-	this.remove = function (seed) {
-		iteration += 0.07;
-		var timestamp = (new Date()).getTime();
-		if (typeof(seed) === "object") seed = seed.join(":");
-		if (seed) seed = ":" + seed + ":";
-		/// Remove element.
-		for (var key in this.messages) {
-			var item = this.messages[key];
-			if (!seed || seed.indexOf(":" + item.seed + ":") !== -1) {
-				delete this.messages[item.seed];
-				item.container.style.color = "#99ff88";
-				removeChild(item);
-				if (item.getProgress) item.span.innerHTML = "100%";
-			}
-		}
-	};
-	
-	this.start = function (onstart, message) {
-		if (!(message || configure.message)) return;
-		return this.add({
-			message: message || configure.message, 
-			onstart: onstart
-		});
-	};
-	
-	this.stop = function () {
-		this.remove();
-		window.clearInterval(this.interval);
-		delete this.interval;
-		if (configure.oncomplete) configure.oncomplete();
-		if (canvas && canvas.style) {
-			this.div.style.cssText += "pointer-events: none;";
-			window.setTimeout(function() {
-				that.div.style.opacity = 0;
-			}, 1);
-			window.setTimeout(function () {
-				if (that.interval) return;
-				that.stopPropagation = false;
-				canvas.parentNode.style.display = "none";
-				ctx.clearRect(0, 0, size, size);
-			}, fadeOutSpeed * 1000);
-		}
-	};
-
-	this.center = function() {
-		var windowSize = getWindowSize(configure.container);
-		var width = windowSize.width - size;
-		var height = windowSize.height - size;
-		/// Center the animation within the content.
-		canvas.style.left = (width / 2) + "px";
-		canvas.style.top = (height / 2) + "px";
-		canvas.style.width = (size) + "px";
-		canvas.style.height = (size) + "px";
-		that.span.style.top = (height / 2 + size - 10) + "px";
-	};
-        
-	var style = document.getElementById('widget_loader');
-        
-        if( ! style ) {
-            style = document.createElement('style');
-            style.setAttribute( "id", "widget_loader" ); 
-            style.innerHTML = '\
-.loader { color: #fff; position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 100000; opacity: 0; display: none; }\
-.loader span.message { font-family: monospace; font-size: 14px; margin: auto; opacity: 1; display: none; border-radius: 10px; padding: 0px; width: 300px; text-align: center; position: absolute; z-index: 10000; left: 0; right: 0; }\
-.loader span.message div { border-bottom: 1px solid #222; padding: 5px 10px; clear: both; text-align: left; opacity: 1; }\
-.loader span.message div:last-child { border-bottom: none; }';
-            document.head.appendChild(style);
-        }
-        
-	/// Private functions.
-	var removeChild = function(item) {
-		window.setTimeout(function() { // timeout in case within same event loop.
-			item.container.style.opacity = 0;
-		}, 1);
-		window.setTimeout(function() { // wait for opacity=0 before removing the element.
-			item.container.parentNode.removeChild(item.container);
-		}, 250);
-	};
-	var renderAnimation = function () {
-		var timestamp = (new Date()).getTime();
-		for (var key in that.messages) {
-			var item = that.messages[key];
-			var nid = iteration / 0.07 >> 0;
-			if (nid % 5 === 0 && item.getProgress) {
-				if (item.timeout && item.timestamp && timestamp - item.timestamp > item.timeout) {
-					that.remove(item.seed);
-					continue;
-				}
-				var progress = item.getProgress();
-				if (progress >= 100) {
-					that.remove(item.seed);
-					continue;
-				}
-				item.span.innerHTML = (progress >> 0) + "%";
-			}
-			if (nid % 10 === 0) {
-				if (item.messageAnimate) {
-						var length = item.messageAnimate.length;
-						var n = nid / 10 % length;
-						var text = item._message + item.messageAnimate[n];
-						item.element.innerHTML = text;
-				}
-			}
-		}
-		if (!key) {
-			that.stop();
-		}
-		//
-		ctx.save();
-		ctx.clearRect(0, 0, size * deviceRatio, size * deviceRatio);
-		ctx.scale(deviceRatio, deviceRatio);
-		ctx.translate(size / 2, size / 2);
-		var hues = 360 - 360 / bars;
-		for (var i = 0; i < bars; i++) {
-			var angle = (i / bars * 2 * PI) + iteration;
-			ctx.save();
-			ctx.translate(radius * Math.sin(-angle), radius * Math.cos(-angle));
-			ctx.rotate(angle);
-			// round-rect properties
-			var x = -configure.lineWidth / 2;
-			var y = 0;
-			var width = configure.lineWidth;
-			var height = configure.lineHeight;
-			var curve = width / 2;
-			// round-rect path
-			ctx.beginPath();
-			ctx.moveTo(x + curve, y);
-			ctx.lineTo(x + width - curve, y);
-			ctx.quadraticCurveTo(x + width, y, x + width, y + curve);
-			ctx.lineTo(x + width, y + height - curve);
-			ctx.quadraticCurveTo(x + width, y + height, x + width - curve, y + height);
-			ctx.lineTo(x + curve, y + height);
-			ctx.quadraticCurveTo(x, y + height, x, y + height - curve);
-			ctx.lineTo(x, y + curve);
-			ctx.quadraticCurveTo(x, y, x + curve, y);
-			// round-rect fill
-			var hue = ((i / (bars - 1)) * hues);
-			ctx.fillStyle = "hsla(" + hue + ", 100%, 50%, 0.85)";
-			ctx.fill();
-			ctx.restore();
-		}
-		ctx.restore();
-		iteration += 0.07;
-	};
-	//
-	if (configure.display === false) return this;
-	//
-	this.start();
-	//
-	return this;
-};
-
-////
-
-var transitionCSS = function(type, ms) {
-	return '\
-		-webkit-transition-property: '+type+';\
-		-webkit-transition-duration: '+ms+'ms;\
-		-moz-transition-property: '+type+';\
-		-moz-transition-duration: '+ms+'ms;\
-		-o-transition-property: '+type+';\
-		-o-transition-duration: '+ms+'ms;\
-		-ms-transition-property: '+type+';\
-		-ms-transition-duration: '+ms+'ms;';
-};
-
-var getWindowSize = function (element) {
-	if (window.innerWidth && window.innerHeight) {
-		var width = window.innerWidth;
-		var height = window.innerHeight;
-	} else if (document.compatMode === "CSS1Compat" && document.documentElement && document.documentElement.offsetWidth) {
-		var width = document.documentElement.offsetWidth;
-		var height = document.documentElement.offsetHeight;
-	} else if (document.body && document.body.offsetWidth) {
-		var width = document.body.offsetWidth;
-		var height = document.body.offsetHeight;
-	}
-	if (element) {
-		var width = element.offsetWidth;
-	}
-	return {
-		width: width,
-		height: height
-	};
-};
-
-})();
-/*
+})();/*
 
 	DOMLoader.XMLHttp
 	--------------------------
@@ -1822,4 +1597,638 @@ var Base64Binary = {
 
 		return uarray;	
 	}
+};/* 
+	----------------------------------------------------
+	Loader.js : 0.4.2 : 2012/11/09
+	----------------------------------------------------
+	https://github.com/mudcube/Loader.js
+	----------------------------------------------------
+	/// Simple setup.
+	var loader = new widgets.Loader;
+	
+	/// More complex setup.
+	var loader = new widgets.Loader({
+		id: "loader",
+		bars: 12,
+		radius: 0,
+		lineWidth: 20,
+		lineHeight: 70,
+		timeout: 30, // maximum timeout in seconds.
+		background: "rgba(0,0,0,0.5)",
+		container: document.body,
+		oncomplete: function() {
+			// call function once loader has completed
+		},
+		onstart: function() {
+			// call function once loader has started	
+		}
+	});
+	
+	/// Add a new message to the queue.
+	var loaderId = loader.add({
+		message: "test",
+		getProgress: function() { // sends progress to loader.js
+			return progress; // value between 1-100
+		}
+	});
+	
+	/// Remove a specific loader message.
+	loader.remove(loaderId); 
+	
+	/// Recenter the loader within container (run onresize)
+	loader.center(); 
+	
+	/// Stop all loader instances.
+	loader.stop(); 
+*/
+
+if (typeof (widgets) === "undefined") var widgets = {};
+
+(function() { "use strict";
+
+var PI = Math.PI;
+var noCanvas = !document.createElement("canvas").getContext;
+var fadeOutSpeed = 400;
+var defaultConfig = {
+	id: "loader",
+	bars: 12,
+	radius: 0,
+	lineWidth: 20,
+	lineHeight: 70,
+	timeout: 0,
+	display: true
 };
+
+widgets.Loader = function (configure) {
+	if (noCanvas) return;
+	var that = this;
+	if (typeof (configure) === "string") configure = { message: configure };
+	if (typeof (configure) === "boolean") configure = { display: false };
+	if (typeof (configure) === "undefined") configure = {};
+	configure.container = configure.container || document.body;
+	if (!configure.container) return;
+
+	/// Mixin the default configurations.
+	for (var key in defaultConfig) {
+		if (typeof (configure[key]) === "undefined") {
+			configure[key] = defaultConfig[key];
+		}
+	}
+
+	/// Setup element
+	var canvas = document.getElementById(configure.id);
+	if (!canvas) {
+		var div = document.createElement("div");
+    		var span = document.createElement("span");
+		span.className = "message";
+		div.appendChild(span);
+		div.className = defaultConfig.id;
+                div.id = configure.id + "Div"
+		div.style.cssText = transitionCSS("opacity", fadeOutSpeed);
+		this.span = span;
+		this.div = div;
+		var canvas = document.createElement("canvas");
+		document.body.appendChild(canvas);
+		canvas.id = configure.id;
+		canvas.style.cssText = "opacity: 1; position: absolute; z-index: 10000;";
+		div.appendChild(canvas);
+		configure.container.appendChild(div);
+	} else {
+		this.span = canvas.parentNode.getElementsByTagName("span")[0];
+		this.div = document.getElementById(configure.id+"Div");
+	}
+
+	/// Configure
+	var delay = configure.delay;
+	var bars = configure.bars;
+	var radius = configure.radius;
+	var max = configure.lineHeight + 20;
+	var size = max * 2 + configure.radius * 2;
+	var windowSize = getWindowSize(configure.container);
+	var width = windowSize.width - size;
+	var height = windowSize.height - size;
+	var deviceRatio = window.devicePixelRatio || 1;
+	///
+	canvas.width = size * deviceRatio;
+	canvas.height = size  * deviceRatio;
+	///
+	var iteration = 0;
+	var ctx = canvas.getContext("2d");
+	ctx.globalCompositeOperation = "lighter";
+	ctx.shadowOffsetX = 1;
+	ctx.shadowOffsetY = 1;
+	ctx.shadowBlur = 1;
+	ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+
+	/// Public functions.
+	this.messages = {};
+	this.message = function (message, onstart) {
+		if (!this.interval) return this.start(onstart, message);
+		return this.add({
+			message: message, 
+			onstart: onstart
+		});
+	};
+	
+	this.update = function(id, message, percent) {
+		if (!id) for (var id in this.messages);
+		if (!id) return this.message(message);
+		var item = this.messages[id];
+		item.message = message;
+		if (typeof(percent) === "number") item.span.innerHTML = percent + "%";
+		if (message.substr(-3) === "...") { // animated dots
+			item._message = message.substr(0, message.length - 3);
+			item.messageAnimate = [".&#160;&#160;", "..&#160;", "..."].reverse();
+		} else { // normal
+			item._message = message;
+			item.messageAnimate = false;
+		}
+		///
+		item.element.innerHTML = message;
+	};
+	
+	this.add = function (conf) {
+		if (typeof(conf) === "string") conf = { message: conf };
+		var background = configure.background ? configure.background : "rgba(0,0,0,0.65)";
+		this.span.style.cssText = "background: " + background + ";";
+		this.div.style.cssText = transitionCSS("opacity", fadeOutSpeed);
+		if (this.stopPropagation) {
+			this.div.style.cssText += "background: rgba(0,0,0,0.25);";
+		} else {
+			this.div.style.cssText += "pointer-events: none;";
+		}
+		///
+		canvas.parentNode.style.opacity = 1;
+		canvas.parentNode.style.display = "block";
+		if (configure.background) this.div.style.background = configure.backgrond;
+		///
+		var timestamp = (new Date()).getTime();
+		var seed = Math.abs(timestamp * Math.random() >> 0);
+		var message = conf.message;
+		///
+		var container = document.createElement("div");
+		container.style.cssText = transitionCSS("opacity", 500);
+		var span = document.createElement("span");
+		span.style.cssText = "float: right; width: 50px;";
+		var node = document.createElement("span");
+		node.innerHTML = message;
+		///
+		container.appendChild(node);
+		container.appendChild(span);
+		///
+		var item = this.messages[seed] = {
+			seed: seed,
+			container: container,
+			element: node,
+			span: span,
+			message: message,
+			timeout: (conf.timeout || configure.timeout) * 1000,
+			timestamp: timestamp,
+			getProgress: conf.getProgress
+		};
+		this.span.appendChild(container);
+		this.span.style.display = "block";
+		this.update(item.seed, message);
+		/// Escape event loop.
+		if (conf.onstart) {
+			window.setTimeout(conf.onstart, 50);
+		}
+		///
+		this.center();
+		///
+		if (!this.interval) {
+			if (!conf.delay) renderAnimation();
+			window.clearInterval(this.interval);
+			this.interval = window.setInterval(renderAnimation, 30);
+		}
+		/// Return identifier.
+		return seed;
+	};
+	
+	this.remove = function (seed) {
+		iteration += 0.07;
+		var timestamp = (new Date()).getTime();
+		if (typeof(seed) === "object") seed = seed.join(":");
+		if (seed) seed = ":" + seed + ":";
+		/// Remove element.
+		for (var key in this.messages) {
+			var item = this.messages[key];
+			if (!seed || seed.indexOf(":" + item.seed + ":") !== -1) {
+				delete this.messages[item.seed];
+				item.container.style.color = "#99ff88";
+				removeChild(item);
+				if (item.getProgress) item.span.innerHTML = "100%";
+			}
+		}
+	};
+	
+	this.start = function (onstart, message) {
+		if (!(message || configure.message)) return;
+		return this.add({
+			message: message || configure.message, 
+			onstart: onstart
+		});
+	};
+	
+	this.stop = function () {
+		this.remove();
+		window.clearInterval(this.interval);
+		delete this.interval;
+		if (configure.oncomplete) configure.oncomplete();
+		if (canvas && canvas.style) {
+			this.div.style.cssText += "pointer-events: none;";
+			window.setTimeout(function() {
+				that.div.style.opacity = 0;
+			}, 1);
+			window.setTimeout(function () {
+				if (that.interval) return;
+				that.stopPropagation = false;
+				canvas.parentNode.style.display = "none";
+				ctx.clearRect(0, 0, size, size);
+			}, fadeOutSpeed * 1000);
+		}
+	};
+
+	this.center = function() {
+		var windowSize = getWindowSize(configure.container);
+		var width = windowSize.width - size;
+		var height = windowSize.height - size;
+		/// Center the animation within the content.
+		canvas.style.left = (width / 2) + "px";
+		canvas.style.top = (height / 2) + 30 + "px";
+		canvas.style.width = (size) + "px";
+		canvas.style.height = (size) + "px";
+		that.span.style.top = (height / 2 + +30+ size - 10) + "px";
+	};
+        
+	var style = document.getElementById('widget_loader');
+        
+        if( ! style ) {
+            style = document.createElement('style');
+            style.setAttribute( "id", "widget_loader" ); 
+            style.innerHTML = '\
+.loader { color: #fff; position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 100000; opacity: 0; display: none; }\
+.loader span.message { font-family: monospace; font-size: 14px; margin: auto; opacity: 1; display: none; border-radius: 10px; padding: 0px; width: 300px; text-align: center; position: absolute; z-index: 10000; left: 0; right: 0; }\
+.loader span.message div { border-bottom: 1px solid #222; padding: 5px 10px; clear: both; text-align: left; opacity: 1; }\
+.loader span.message div:last-child { border-bottom: none; }';
+            document.head.appendChild(style);
+        }
+        
+	/// Private functions.
+	var removeChild = function(item) {
+		window.setTimeout(function() { // timeout in case within same event loop.
+			item.container.style.opacity = 0;
+		}, 1);
+		window.setTimeout(function() { // wait for opacity=0 before removing the element.
+			item.container.parentNode.removeChild(item.container);
+		}, 250);
+	};
+	var renderAnimation = function () {
+		var timestamp = (new Date()).getTime();
+		for (var key in that.messages) {
+			var item = that.messages[key];
+			var nid = iteration / 0.07 >> 0;
+			if (nid % 5 === 0 && item.getProgress) {
+				if (item.timeout && item.timestamp && timestamp - item.timestamp > item.timeout) {
+					that.remove(item.seed);
+					continue;
+				}
+				var progress = item.getProgress();
+				if (progress >= 100) {
+					that.remove(item.seed);
+					continue;
+				}
+				item.span.innerHTML = (progress >> 0) + "%";
+			}
+			if (nid % 10 === 0) {
+				if (item.messageAnimate) {
+						var length = item.messageAnimate.length;
+						var n = nid / 10 % length;
+						var text = item._message + item.messageAnimate[n];
+						item.element.innerHTML = text;
+				}
+			}
+		}
+		if (!key) {
+			that.stop();
+		}
+		//
+		ctx.save();
+		ctx.clearRect(0, 0, size * deviceRatio, size * deviceRatio);
+		ctx.scale(deviceRatio, deviceRatio);
+		ctx.translate(size / 2, size / 2);
+		var hues = 360 - 360 / bars;
+		for (var i = 0; i < bars; i++) {
+			var angle = (i / bars * 2 * PI) + iteration;
+			ctx.save();
+			ctx.translate(radius * Math.sin(-angle), radius * Math.cos(-angle));
+			ctx.rotate(angle);
+			// round-rect properties
+			var x = -configure.lineWidth / 2;
+			var y = 0;
+			var width = configure.lineWidth;
+			var height = configure.lineHeight;
+			var curve = width / 2;
+			// round-rect path
+			ctx.beginPath();
+			ctx.moveTo(x + curve, y);
+			ctx.lineTo(x + width - curve, y);
+			ctx.quadraticCurveTo(x + width, y, x + width, y + curve);
+			ctx.lineTo(x + width, y + height - curve);
+			ctx.quadraticCurveTo(x + width, y + height, x + width - curve, y + height);
+			ctx.lineTo(x + curve, y + height);
+			ctx.quadraticCurveTo(x, y + height, x, y + height - curve);
+			ctx.lineTo(x, y + curve);
+			ctx.quadraticCurveTo(x, y, x + curve, y);
+			// round-rect fill
+			var hue = ((i / (bars - 1)) * hues);
+			ctx.fillStyle = "hsla(" + hue + ", 100%, 50%, 0.85)";
+			ctx.fill();
+			ctx.restore();
+		}
+		ctx.restore();
+		iteration += 0.07;
+	};
+	//
+	if (configure.display === false) return this;
+	//
+	this.start();
+	//
+	return this;
+};
+
+////
+
+var transitionCSS = function(type, ms) {
+	return '\
+		-webkit-transition-property: '+type+';\
+		-webkit-transition-duration: '+ms+'ms;\
+		-moz-transition-property: '+type+';\
+		-moz-transition-duration: '+ms+'ms;\
+		-o-transition-property: '+type+';\
+		-o-transition-duration: '+ms+'ms;\
+		-ms-transition-property: '+type+';\
+		-ms-transition-duration: '+ms+'ms;';
+};
+
+var getWindowSize = function (element) {
+	if (window.innerWidth && window.innerHeight) {
+		var width = window.innerWidth;
+		var height = window.innerHeight;
+	} else if (document.compatMode === "CSS1Compat" && document.documentElement && document.documentElement.offsetWidth) {
+		var width = document.documentElement.offsetWidth;
+		var height = document.documentElement.offsetHeight;
+	} else if (document.body && document.body.offsetWidth) {
+		var width = document.body.offsetWidth;
+		var height = document.body.offsetHeight;
+	}
+	if (element) {
+		var width = element.offsetWidth;
+	}
+	return {
+		width: width,
+		height: height
+	};
+};
+
+})();
+/*
+	----------------------------------------------------------
+	ui/Timer : 0.1.1 : 2015-03-23 : https://sketch.io
+	----------------------------------------------------------
+*/
+
+if (typeof sketch === 'undefined') sketch = {};
+
+(function(root) { 'use strict';
+
+root.ui = root.ui || {};
+root.ui.Timer = function(opts) {
+	opts = opts || {};
+	///
+	var that = this;
+	///
+	var size;
+	var format;
+        var customFormat;
+	var container;
+	var endValue;
+	var value;
+	///
+	var RAD_DEG = 180.0 / Math.PI; // Radians to Degrees
+	var DEG_RAD = 1.0 / RAD_DEG; // Degrees to Radians
+        var cor1;
+        var cor2;
+	///
+        var totalSizes = 0;
+        ///
+	var setParams = function(opts) {
+                cor1 = opts.cor1 || '#378cff';
+                cor2 = opts.cor2 || '#9cdb7d'; 
+		size = opts.size || 120;
+		format = opts.format || 'percent';
+		container = opts.container || document.body;
+		endValue = opts.endValue;
+		value = opts.value || 0;
+	};
+	///
+	var getPosition = function() {
+		if (format === 'percent') {
+			return {
+				value: value,
+				format: customFormat || 'PERCENT',
+				percent: value / 100
+			}
+		} else if (format === 'time') {
+			var elapse = (Date.now() - startTime) / 1000;
+			var otime = endValue - elapse;
+			var percent = elapse / endValue;
+			///
+			var time = Math.max(0, Math.round(otime));
+			var hours = (time / 3600) >> 0;
+			var minutes = ((time - (hours * 3600)) / 60) >> 0;
+			var seconds = time - (hours * 3600) - (minutes * 60);
+			if (seconds < 10 && minutes) seconds = '0' + seconds;
+			///
+			if (minutes) {
+				return {
+					value: minutes,
+					format: 'MINUTES',
+					percent: percent
+				};
+			} else {
+				return {
+					value: seconds,
+					format: 'SECONDS',
+					percent: percent
+				};
+			}
+		}
+	};
+
+	var gradient = ['#9cdb7d', '#99d97f', '#97d782', '#95d684', '#93d487', '#91d38a', '#8fd18c', '#8dcf8f', '#8bce91', '#89cc94', '#87cb97', '#85c999', '#83c89c', '#81c69e', '#7fc4a1', '#7dc3a4', '#7bc1a6', '#79c0a9', '#77beab', '#75bcae', '#73bbb1', '#71b9b3', '#6fb8b6', '#6db6b8', '#6bb5bb', '#69b3be', '#67b1c0', '#65b0c3', '#63aec5', '#61adc8', '#5fabcb', '#5daacd', '#5ba8d0', '#59a6d2', '#57a5d5', '#55a3d8', '#53a2da', '#51a0dd', '#4f9edf', '#4d9de2', '#4b9be5', '#499ae7', '#4798ea', '#4597ec', '#4395ef', '#4193f2', '#3f92f4', '#3d90f7', '#3b8ff9', '#398dfc', '#378cff'];
+	///
+
+        var calcGrad = function (cor1, cor2, progresso) {
+            var r1 = parseInt( cor1.substr( 1, 2 ), 16 );
+            var g1 = parseInt( cor1.substr( 3, 2 ), 16 );
+            var b1 = parseInt( cor1.substr( 5, 2 ), 16 );
+            var r2 = parseInt( cor2.substr( 1, 2 ), 16 );
+            var g2 = parseInt( cor2.substr( 3, 2 ), 16 );
+            var b2 = parseInt( cor2.substr( 5, 2 ), 16 );
+            
+            var r = (Math.round( (r2 - r1) * progresso) + r1).toString(16);
+            var g = (Math.round( (g2 - g1) * progresso) + g1).toString(16);
+            var b = (Math.round( (b2 - b1) * progresso) + b1).toString(16);
+            
+            return "#" + r + g + b;
+        };
+
+        
+	var requestId;
+	var pulse = 0;
+	var startTime = Date.now(); // 'time' format
+	var render = function() {
+		var obj = getPosition();
+		///
+		//ctx.fillStyle = gradient[Math.round((1.0 - obj.percent) * 50)];
+                ctx.fillStyle = calcGrad( cor1, cor2, obj.percent );
+		///
+// 		pulse ++;
+		///
+		var startAngle = -360 * DEG_RAD;
+		var endAngle = obj.percent * 360 * DEG_RAD;
+		var outerRadius = size / 2.0 + (pulse % 20);
+		var innerRadius = size / 2.0 * 0.61 + (pulse % 20);
+		///
+		ctx.clearRect(0, 0, canvas.width, canvas.height)
+		ctx.save();
+		///
+		ctx.beginPath()
+		ctx.arc(outerRadius, outerRadius, outerRadius, startAngle, endAngle, false);
+		ctx.arc(outerRadius, outerRadius, innerRadius, endAngle, startAngle, true);
+		ctx.globalAlpha = 0.25;
+		ctx.fill();
+		///
+		startAngle += 360 * DEG_RAD;
+		///
+		ctx.beginPath()
+		ctx.arc(outerRadius, outerRadius, outerRadius, startAngle, endAngle, false);
+		ctx.arc(outerRadius, outerRadius, innerRadius, endAngle, startAngle, true);
+		ctx.globalAlpha = 1.0;
+		ctx.fill();
+		///
+		var ratio = size / 260;
+		var fontSize = ratio * 20;
+		var fontFamily = '"Trebuchet MS", Arial, Helvetica, sans-serif';
+		ctx.font = 'bold ' + fontSize + 'px ' + fontFamily;
+		ctx.textBaseline = 'top';
+		ctx.textAlign = 'center';
+		ctx.fillText(obj.format, outerRadius, outerRadius + ratio * 14);
+		///
+		var fontSize = ratio * 46;
+		ctx.font = 'bold ' + fontSize + 'px ' + fontFamily;
+		ctx.fillStyle = '#ffffff';
+		ctx.fillText(obj.value+'%', outerRadius, outerRadius - ratio * 44);
+		ctx.restore();
+		///
+		if (obj.percent < 1.0) {
+                    requestId = requestAnimationFrame(render);
+		}
+	};
+	///
+	setParams(opts);
+	///
+	var canvas = document.createElement('canvas');
+	var ctx = canvas.getContext('2d');
+	canvas.width = size;
+	canvas.height = size;
+	///
+	var parent = document.createElement('div');
+	parent.style.display = 'none';
+	parent.className = 'sk-timer';
+	parent.appendChild(canvas);
+	///
+	container.appendChild(parent);
+	///
+	if (opts.onstart) {
+		setTimeout(opts.onstart, 250);
+	}
+
+	/* Public 
+	---------------------------------------------------------- */
+	that.reset = function() {
+		setParams(opts);
+	};
+
+	that.destroy = function() {
+		container.removeChild(canvas);
+	};
+
+	that.hidden = false;
+
+	that.hide = function(callback) {
+		cancelAnimationFrame(requestId);
+		///
+		that.hidden = true;
+		parent.style.transition = 'opacity .35s';
+		parent.style.opacity = 0;
+		setTimeout(function() {
+			parent.style.display = 'none';
+			callback && callback();
+		}, 350);
+	};
+
+	that.setFormat = function(format) {
+		customFormat = format;
+	};
+        
+	that.setValue = function(percent) {
+		cancelAnimationFrame(requestId);
+		///
+		that.hidden = false;
+		parent.style.display = 'block';
+		parent.style.opacity = 1.0;
+		///
+		if ((value = Math.ceil(percent)) >= 100) {
+			that.hide();
+		}
+		///
+		render();
+	};
+
+	addStyleSheet();
+
+	return that;
+
+};
+
+var addStyleSheet = function() {
+	if (document.getElementById('sk-timer-stylesheet') == null) {
+		var style = document.createElement('style');
+		style.id = 'sk-timer-stylesheet';
+		style.innerHTML = '.sk-timer {\
+				position: absolute;\
+				z-index: 1000;\
+				top: 0;\
+				left: 0;\
+				width: 100%;\
+				height: 100%;\
+			}\
+			.sk-timer canvas {\
+				border: 3px solid #000;\
+				border-radius: 50%;\
+				background: #000;\
+				margin: auto;\
+				position: absolute;\
+				top: 0;\
+				left: 0;\
+				right: 0;\
+				bottom: 0;\
+			}\
+		';
+		document.head.appendChild(style);
+	}
+};
+
+})(sketch);

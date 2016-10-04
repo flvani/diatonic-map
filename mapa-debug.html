@@ -405,25 +405,15 @@ notação abc, tablatura " />
                 resizeSite();
             };
             
-            function loadMIDI() {
-                MIDI.loader = new widgets.Loader();
-                
-                MIDI.loadPlugin({
-                    soundfontUrl: "./soundfont/"
-                   ,instruments: "accordion"
-                   ,callback: postLoadMIDI
-                });
-            }
+            window.addEventListener('load', loadAccordions, false);
             
-            function postLoadMIDI() {
-                MIDI.loader.stop();
-                MIDI.programChange(0, 21); // canais para accordeon
-                MIDI.programChange(1, 21); // 
-                MIDI.programChange(2, 21); // 
-                MIDI.programChange(3, 21); // 
-                MIDI.programChange(4, 21); // 
-                MIDI.programChange(5, 21); // 
+            function loadAccordions() {
                 
+//                MIDI.widget = new sketch.ui.Timer({size:180, cor1:'#ffffff', cor2:'#ffff88' });
+                MIDI.widget = new sketch.ui.Timer({size:180 });
+                MIDI.widget.setFormat( 'Carregando...');
+                MIDI.widget.setValue(1);
+
                 DIATONIC.map.loadAccordionMaps(
                     [
                      'accordions/minuano.gc.accordion'
@@ -434,11 +424,24 @@ notação abc, tablatura " />
                     //,'accordions/hohner.adg.corona.accordion'
                     //,'accordions/hohner.cf.club.accordion'
                     ]
-                    ,initApp // call back after loading
+                    ,loadMIDI // call back after loading
                 );
             }
             
-
+            function loadMIDI() {
+                
+                MIDI.widget.setValue(10);
+                
+                MIDI.loadPlugin({
+                     soundfontUrl: "./soundfont/"
+                    ,instruments: "accordion" // default
+                    ,onprogress: function(event) {
+                        MIDI.widget.setValue(Math.round(MIDI.getPercent(event)*.4)+10);
+                    }         
+                    ,callback: initApp
+                });
+            }
+            
             function initApp() {
 
                 // returns -1 (wait), 0 (success) and 1 (fail)
@@ -652,9 +655,6 @@ notação abc, tablatura " />
                       myMap.defineActiveTab( $(this).attr('id') );
                     }
                 });
-                
-                loadMIDI();
-                
             });
             
             function activateApp() {
