@@ -9327,7 +9327,7 @@ ABCXJS.midi.Parse = function( options ) {
     this.vars = { warnings: [] };
     this.scale = [0, 2, 4, 5, 7, 9, 11];
     
-    this.wholeNote = 16;
+    this.wholeNote = 32;
     this.minNote = 1 / this.wholeNote;
     this.oneMinute = 60000;
     
