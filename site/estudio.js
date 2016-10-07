@@ -223,7 +223,8 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         this.showEditorButton.style.pointerEvents = 'none';
         this.showEditorButton.style.color = 'gray';
     } else {
-        this.showEditorButton.addEventListener("click", function () {
+        this.showEditorButton.addEventListener("click", function (evt) {
+            evt.preventDefault();
             that.showEditor();
         }, false);
     }
@@ -298,7 +299,8 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         that.startPlay('note');
     }, false);
 
-    this.stepMeasureButton.addEventListener("click", function () {
+    this.stepMeasureButton.addEventListener("click", function (evt) {
+        evt.preventDefault();
         that.startPlay('measure');
     }, false);
 
@@ -327,36 +329,42 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
 
 
     this.gotoMeasureButton.addEventListener("keypress", function (evt) {
+        evt.preventDefault();
         if (evt.keyCode === 13) {
             that.startPlay('goto', this.value, that.untilMeasureButton.value);
         }
     }, false);
 
-    this.gotoMeasureButton.addEventListener("focus", function () {
+    this.gotoMeasureButton.addEventListener("focus", function (evt) {
+        evt.preventDefault();
         if (this.value === DR.getResource("DR_goto")) {
             this.value = "";
         }
     }, false);
 
-    this.gotoMeasureButton.addEventListener("blur", function () {
+    this.gotoMeasureButton.addEventListener("blur", function (evt) {
+        evt.preventDefault();
         if (this.value === "") {
             this.value = DR.getResource("DR_goto");
         }
     }, false);
     
-    this.untilMeasureButton.addEventListener("keypress", function (e) {
-        if (e.keyCode === 13) {
+    this.untilMeasureButton.addEventListener("keypress", function (evt) {
+        evt.preventDefault();
+        if (evt.keyCode === 13) {
             that.startPlay('goto', that.gotoMeasureButton.value, this.value);
         }
     }, false);
 
-    this.untilMeasureButton.addEventListener("focus", function () {
+    this.untilMeasureButton.addEventListener("focus", function (evt) {
+        evt.preventDefault();
         if (this.value === DR.getResource("DR_until")) {
             this.value = "";
         }
     }, false);
 
-    this.untilMeasureButton.addEventListener("blur", function () {
+    this.untilMeasureButton.addEventListener("blur", function (evt) {
+        evt.preventDefault();
         if (this.value === "") {
             this.value = DR.getResource("DR_until");
         }

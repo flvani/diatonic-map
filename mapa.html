@@ -31,7 +31,7 @@
         
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         
-        <meta name="viewport" content="height=device-height, minimum-scale=0.5, maximum-scale=2.0"/>
+        <meta name="viewport" content="height=device-width, initial-scale=0.5, minimum-scale=0.5, maximum-scale=2.0"/>
 
         <meta name="robots" content="index,follow"/>
         <meta name="revisit-after" content="7 days"/>
@@ -47,7 +47,7 @@ notação abc, tablatura " />
         <!-- Estilos para a página e popups -->
         
         <link href="css/bootstrap.min.css" rel="stylesheet" />
-        <link href="site_4.00-min.css" rel="stylesheet"/>
+        <link href="site_4.13-min.css" rel="stylesheet"/>
         <link rel="icon" type="image/icon" href="http://flvani.github.io/diatonic-map/img/favicon6.ico"/>
         
     </head>
@@ -730,11 +730,12 @@ notação abc, tablatura " />
                 }    
             };
             
-            function closeEditor() {
-                myStudio.hideEditor(this);
-            };
+//            function closeEditor() {
+//                myStudio.hideEditor(this);
+//            };
             
             function loadMap(evt) {
+              evt.preventDefault();
               FILEMANAGER.loadLocalFiles(evt, function() {
                 myMap.load(FILEMANAGER.files);
                 evt.target.value = "";
@@ -742,7 +743,7 @@ notação abc, tablatura " />
             };
 
             function saveMap() {
-                myMap.save();
+               myMap.save();
             };
 
             function reloadRepertoire() {

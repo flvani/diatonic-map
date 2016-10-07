@@ -104,11 +104,13 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         that.accordion.changeNotation();
     }, false );
     
-    this.checkboxHorizontal.addEventListener('click', function() {
+    this.checkboxHorizontal.addEventListener('click', function(evt) {
+        evt.preventDefault();
         that.accordion.layoutKeyboard( {transpose: this.checked }, that.keyboardDiv );
     }, false );
 
-    this.checkboxEspelho.addEventListener('click', function() {
+    this.checkboxEspelho.addEventListener('click', function(evt) {
+        evt.preventDefault();
         that.accordion.layoutKeyboard( {mirror: this.checked }, that.keyboardDiv );
     }, false );
    
@@ -141,11 +143,13 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         }
     };
 
-    this.playButton.addEventListener("click", function() {
-        that.startPlay( 'normal' );
+    this.playButton.addEventListener("click", function(evt) {
+       evt.preventDefault();
+       that.startPlay( 'normal' );
     }, false);
 
-    this.stopButton.addEventListener("click", function() {
+    this.stopButton.addEventListener("click", function(evt) {
+        evt.preventDefault();
         that.midiPlayer.stopPlay();
     }, false);
     

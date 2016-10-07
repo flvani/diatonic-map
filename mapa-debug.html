@@ -30,7 +30,7 @@
         
         <meta http-equiv="Content-Type" content="text/xhtml+xml; charset=utf-8"/>
         
-        <meta name="viewport" content="height=device-height, minimum-scale=0.5, maximum-scale=2.0"/>
+        <meta name="viewport" content="height=device-width, initial-scale=0.5, minimum-scale=0.5, maximum-scale=2.0"/>
 
         <meta name="robots" content="index,follow"/>
         <meta name="revisit-after" content="7 days"/>
@@ -76,7 +76,7 @@ notação abc, tablatura " />
                                         <ul class="dropdown-menu" id="opcoes_repertorio">
                                             <li><a href="#" id="DR_original" onclick="reloadRepertoire();">Restaurar o original</a></li>
                                             <li><a href="#" id="DR_localLoad" onclick="document.getElementById('fileLoadRepertoire').click()">Carregar do drive local</a></li>
-                                            <li style="display:inline;"><a href="#" id="DR_localSave" onclick="saveRepertoire();">Exportar para drive local</a></li>
+                                            <li style="display:inline;"><a href="#" id="DR_localSave" onclick="saveRepertoire(this);">Exportar para drive local</a></li>
                                             <li style="display:inline;"><a href="part2tab.html" target="_blank" id="DR_part2tab" onclick="">Partitura --> Tablatura</a></li>
                                             <li style="display:inline;"><a href="tab2part.html" target="_blank" id="DR_tab2part" onclick="">Tablatura --> Partitura</a></li>
                                         </ul>
@@ -730,11 +730,12 @@ notação abc, tablatura " />
                 }    
             };
             
-            function closeEditor() {
-                myStudio.hideEditor(this);
-            };
+//            function closeEditor() {
+//                myStudio.hideEditor(this);
+//            };
             
             function loadMap(evt) {
+              evt.preventDefault();
               FILEMANAGER.loadLocalFiles(evt, function() {
                 myMap.load(FILEMANAGER.files);
                 evt.target.value = "";
