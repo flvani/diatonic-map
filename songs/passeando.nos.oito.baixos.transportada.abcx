@@ -13,10 +13,10 @@ L:1/8
 Q:138
 K:F
 V:1 treble
-!segno!|: AB cd | cc z2 | FG AB | AA z2 | DE FG | FD FA | 
+|:!segno! AB cd | cc z2 | FG AB | AA z2 | DE FG | FD FA | 
 | c=B _BA |1 c2 z2 :|2 F2 z a |: af fd | dc c =B | =B_B BA | AF FD | 
 | DF FG | _AG GF |1 DF c2- | c2 z a :|2 DF F2- | F2 z F |: FE ED | 
-| D=B, B,D | EF ED | A2 z F | FE ED | D=B, B,D | EF ED | D2 z F !segno!:| 
+| D=B, B,D | EF ED | A2 z F | FE ED | D=B, B,D | EF ED | D2 z F !dasegno!:| 
 V:2 bass stem=down
 |: x4 | x2 F,,2 | x4 | x2 F,,2 | x4 | x4 |
 | x4 |1 x2 C,,2 :|2 x2 F,,2 |: x4 | x4 | x4 | x4 | 

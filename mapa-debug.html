@@ -88,6 +88,7 @@ notação abc, tablatura " />
                                         <ul class="dropdown-menu" id="opcoes_teoria">
                                           <li><a id="DR_accordion_maps" target="_blank" href="html/mapas.pt_BR.html" >Mapas para acordeons</a></li>
                                           <li><a id="DR_tablature" target="_blank" href="html/tablatura.pt_BR.html" >Tablaturas para acordeons</a></li>
+                                          <li><a id="DR_repeatsyms" target="_blank" href="html/sinaisRepeticao.pt_BR.html" >Símbolos de Repetição</a></li>
                                           <li><a id="DR_abc_editor" target="_blank" href="html/estudioABCX.pt_BR.html" >Estúdio ABCX</a></li>
                                           <li><a id="DR_abc_format" target="_blank" href="html/formatoABCX.pt_BR.html" >Formato ABCX</a></li>
                                           <li><a id="DR_about" href="#modalAbout" >Sobre</a></li>
@@ -456,6 +457,8 @@ notação abc, tablatura " />
             
             function initApp() {
                 
+                console.log("Sound being generated with " + MIDI.api + " ("+ MIDI.audioformat  + ").\n\tSupported formats: " + JSON.stringify(MIDI.supports));
+            // this sets up the MIDI               
                 MIDI.widget.setValue(100);
 
                 var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_HOHNER_GC';
@@ -605,6 +608,7 @@ notação abc, tablatura " />
                    ,'DR_accordion_maps'
                    ,'DR_tablature' 
                    ,'DR_abc_format'
+                   ,"DR_repeatsyms" 
                    ,'DR_abc_editor'
                    ,'tabTunes'
                    ,'tabChords'

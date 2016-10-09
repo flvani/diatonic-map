@@ -3034,7 +3034,7 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                 }
             } else {
                 if (this.transposer && this.transposer.offSet !== 0) {
-                    ret.str = this.transposer.transposeRegularMusicLine(line, lineNumber);
+                    ret.str = this.transposer.transposeRegularMusicLine(line, lineNumber, multilineVars);
                 }
                 this.parseRegularMusicLine(ret.str);
             }
@@ -4891,7 +4891,8 @@ window.ABCXJS.parse.parseKeyVoice = {};
 			if (multilineVars.score_is_present && id.toLowerCase().substr(0,3) !== "tab")
 				warn("Can't have an unknown V: id when the %score directive is present", line, start);
 		} else {
-                    multilineVars.clef = multilineVars.staves[ multilineVars.voices[id].staffNum].clef;
+                    //multilineVars.clef = multilineVars.staves[ multilineVars.voices[id].staffNum].clef;
+                    multilineVars.clef = multilineVars.voices[id].clef;
                 }
 		start += id.length;
 		start += tokenizer.eatWhiteSpace(line, start);
@@ -4981,6 +4982,7 @@ window.ABCXJS.parse.parseKeyVoice = {};
 						staffInfo.clef = token.token.replace(/[',]/g, ""); //'//comment for emacs formatting of regexp
 						staffInfo.verticalPos = calcMiddle(staffInfo.clef, oct2);
                                                 multilineVars.clef = {type: staffInfo.clef, verticalPos: staffInfo.verticalPos};
+                                                multilineVars.voices[id].clef = multilineVars.clef; 
 						break;
 					case 'staves':
 					case 'stave':
@@ -5939,7 +5941,7 @@ window.ABCXJS.parse.Transposer.prototype.numberToStaff = function(number, newKac
     return s;
 };
 
-window.ABCXJS.parse.Transposer.prototype.transposeRegularMusicLine = function(line, lineNumber) {
+window.ABCXJS.parse.Transposer.prototype.transposeRegularMusicLine = function(line, lineNumber, multilineVars) {
 
     var index = 0;
     var found = false;
@@ -5954,6 +5956,9 @@ window.ABCXJS.parse.Transposer.prototype.transposeRegularMusicLine = function(li
     var exclusionSyms = '"!+'; 
     
     this.workingLine = line;
+    this.vars = multilineVars;
+    this.isBass = (this.vars.currentVoice.clef.type==='bass') || false;
+    this.isChord = false;
     this.workingLineIdx = this.changedLines.length;
     this.changedLines[ this.workingLineIdx ] = { line:lineNumber, text: line };
     this.workingX = 0;
@@ -6005,7 +6010,15 @@ window.ABCXJS.parse.Transposer.prototype.transposeRegularMusicLine = function(li
             if (found) {
               this.transposeNote(xi, xf - xi);
             } else {
-              index = this.checkForInlineFields( index );
+                if( line.charAt(index) === '[' ) {
+                    index = this.checkForInlineFields( index );
+                } else {
+                    if(line.charAt(index) === ']' ) {
+                        this.isChord = false;
+                        delete this.lastPitch ;
+                    }
+                    index++;
+                }
             }   
             
         }
@@ -6029,17 +6042,28 @@ window.ABCXJS.parse.Transposer.prototype.checkForInlineFields = function ( index
     if(rex) {
         var key = rex[0].substr(1,rex[0].length-2).split(":");
         switch(key[0]) {
-            case 'K':
+            case 'K': //Será que deveria me preocupar em colocar em cNewKey informação da armadura daqui para frente?
                this.transposeChord(index+3,key[1].length);
+               newidx+=rex[0].length;
+               break;
+            case 'V':
+               this.updateVoiceInfo(key[1]);
                newidx+=rex[0].length;
                break;
             default:
                newidx+=rex[0].length;
         }
     } else {
+        this.isChord = 1;
         newidx+=1;
     }
     return newidx;
+};
+
+window.ABCXJS.parse.Transposer.prototype.updateVoiceInfo = function ( id ) {
+    this.vars.currentVoice = this.vars.voices[id] ;
+    this.isBass = (this.vars.currentVoice.clef.type==='bass') || false;
+    
 };
 
 window.ABCXJS.parse.Transposer.prototype.transposeChord = function ( xi, size ) {
@@ -6089,8 +6113,32 @@ window.ABCXJS.parse.Transposer.prototype.transposeNote = function(xi, size )
 
     var newStaff = this.numberToStaff(newNote, this.newKeyAcc);
     var dKf = this.getKeyAccOffset(newStaff.note, this.newKeyAcc);
+    
+    var deltaOctave = newOct + newStaff.octVar; 
+    
+    if( this.isBass ) {
+        if ( this.isChord && this.isChord > 1 ) {
+            var p = this.getPitch(newStaff.note, oct + deltaOctave );
 
-    pitch = this.getPitch(newStaff.note, oct + newOct + newStaff.octVar );
+            if( this.offset > 0 ) {
+                if( p < elem.pitch ) deltaOctave++;
+            } else {
+                if( p > elem.pitch ) deltaOctave--;
+            }
+            p = this.getPitch(newStaff.note, oct + deltaOctave );
+            if(p < this.lastPitch ){
+                // assumir que o acorde é cadastrado em ordem crescente e
+                // se ao final da conversão de uma nota do acorde, esta for menor que a prévia, somar uma oitava. 
+                deltaOctave++;
+            }
+        } else {
+            deltaOctave = 0;
+        }
+        this.isChord && this.isChord ++; 
+    }
+
+
+    this.lastPitch = pitch = this.getPitch(newStaff.note, oct + deltaOctave );
     dAcc = this.getAccOffset(newStaff.acc);
 
     var newElem = {};
@@ -6163,8 +6211,8 @@ window.ABCXJS.parse.Transposer.prototype.transposeKey = function ( str, line, li
     
     this.changedLines[ this.changedLines.length ] = { line:lineNumber, text: newLine };
 
-    this.oldKeyAcc = ABCXJS.parse.parseKeyVoice.standardKey(this.denormalizeAcc(cKey));
-    this.newKeyAcc = ABCXJS.parse.parseKeyVoice.standardKey(this.denormalizeAcc(cNewKey));
+    this.oldKeyAcc = ABCXJS.parse.parseKeyVoice.standardKey(this.denormalizeAcc(str));
+    this.newKeyAcc = ABCXJS.parse.parseKeyVoice.standardKey(this.denormalizeAcc(newStr));
     
     return this.tokenizer.tokenize(newStr, 0, newStr.length);
 };

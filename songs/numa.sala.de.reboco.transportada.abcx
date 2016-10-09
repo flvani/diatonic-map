@@ -1,5 +1,5 @@
 X:3003
-﻿%%barnumbers 0
+%%barnumbers 0
 %%papersize A4
 T:Numa Sala de Reboco (transportada)
 C:Luiz Gonzaga & José Marcolino
@@ -11,10 +11,10 @@ L:1/16
 Q:70
 K:Dm
 V:1 treble 
-| z2DD [P:Parte I] FFAA +segno+|: "Dm" A2DD FFAA | "A7" A2A,A, CC EE | AAGG FFEE |1 "Dm" D2DD FF AA :|
+| z2DD [P:Parte I] FFAA |:+segno+ "Dm" A2DD FFAA | "A7" A2A,A, CC EE | AAGG FFEE |1 "Dm" D2DD FF AA :|
 |2 "Dm" D2D2 A3G |: FFAA FFAA | "A7" EEGG  GGBB | AAGG FFEE |1 "Dm" D2D2 A3G :|
 ||2 "Dm" D2D2- DBBB | "G7" =BBBG "Gm" _BBBG | "Dm" F2cc cccc |  "G7" =BBBG "Gm" _BBBG | "Dm" F4- Fccc |
-| "G7" =BBBG "Gm" _BBBG | "Dm" F2FF FAAA | "A7" EEGG FFEE | D2DD FFAA +segno+| D2 z2 [DFA]2 z2 |
+| "G7" =BBBG "Gm" _BBBG | "Dm" F2FF FAAA | "A7" EEGG FFEE | D2DD FFAA +dasegno+| D2 z2 [DFA]2 z2 |
 V:2 bass
 | z8 |:  D,,2[D,2F,2A,2]  A,,2[D,2F,2A,2] | A,,2[A,2^C2E2] z2[A,^CE]2 | A,,2z2 A,,2[A,^CE]2 |1  D,,2[D,2F,2A,2]  A,,2[D,2F,2A,2] :|
 |2 D,,2D,,2 z4 |:  D,,2[D,2F,2A,2]  A,,2[D,2F,2A,2] | A,,2 z2 z2 [A,^CE]2 | A,,2 z2 A,,2[A,^CE]2 |1  D,,2D,,2 z4 :|

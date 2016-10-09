@@ -13,9 +13,9 @@ L:1/8
 Q:140
 K:F
 V:1 treble
-| z4 F2 D2 !segno!|: C2 z EG FDF | A2 z AA AFD | C2 z EG FDF |1 A2 z2 F2 D2 :| 
+| z4 F2 D2 |: !segno! C2 z EG FDF | A2 z AA AFD | C2 z EG FDF |1 A2 z2 F2 D2 :| 
 |2 F3 DF DFA | c2 z CC EGc | B2 z AF DDF | AC CE GF DF | 
-| AF BA FD FA | c2 z CC EGc | B2 z AF DDF | AC CE GF DF | F2 z2 F2 D2 !segno!| 
+| AF BA FD FA | c2 z CC EGc | B2 z AF DDF | AC CE GF DF | F2 z2 F2 D2 !dasegno!| 
 V:2 bass
 | z4 F,,2 D,,2 |: C,,2 [C,E,G,]3 z [B,,D,F,]2 | F,,2 [F,,A,,C,]4 [F,,A,,C,]2 | C,,2 [C,E,G,]3 z [B,,D,F,]2 |1 F,,2 [F,,A,,C,]2 F,,2 D,,2 :| 
 |2 F,,2 [F,,A,,C,]4 [F,,A,,C,]2 | C,,2 [C,E,G,]4 [C,E,G,]2 | B,,2 [B,,D,F,]4 [B,,D,F,]2 | F,,2 [C,E,G,]3 z [B,,D,F,]2 | 

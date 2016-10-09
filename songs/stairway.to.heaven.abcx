@@ -13,10 +13,10 @@ L:1/8
 Q:70
 K:Am
 V:1 treble
-|z A,FE +segno+|: AA, CA | BC EB | cC Ec | ^FA, DF | EA, CE- | EE CA, | 
+|z A,FE |:+segno+ AA, CA | BC EB | cC Ec | ^FA, DF | EA, CE- | EE CA, | 
 |1 [G,B,D][A,CE] [A,CE]2- | [A,CE] A,FE :|2 [G,B,D][A,CE] [A,CE]2- | [A,CE]2 AB | cE Ge | ^fd Af | ec Ae | 
 | BA AB | cE Ge | gd Gg | g^f [d^F][dF]- | [d^F]2 AB |  cE Ge |
-| ^fd Af | ec Ae | BA AB | cE Ge | ^fd Af | [Ace][Ace] [Ace]2- | [Ace] A,FE +segno+| A,4 |
+| ^fd Af | ec Ae | BA AB | cE Ge | ^fd Af | [Ace][Ace] [Ace]2- | [Ace] A,FE |+dasegno+ A,4 |
 V:2 bass
 | z4 |: A,,4 | E,,4 | G,,4 | D,,4 | F,,4 | z E,, C,, A,, | 
 |1 G,, A,, A,,2 | z A,, F,, E,, :|2 G,, A,, A,,2 | z2 A,, G,, | C,,4 | D,,4 | F,,4 | 

@@ -14,12 +14,12 @@ L:1/16
 Q:80
 K:C
 V:0 clef=treble
-| z GcE +segno+|: [P:Parte I] GGcE GGcE | GGBF GGBF | GGBF GGBF | 
+| z GcE |:+segno+ [P:Parte I] GGcE GGcE | GGBF GGBF | GGBF GGBF | 
 | GGcE GGcE | GGcE GGcE | GGFE DCB,A, | G,G,A,G, ^F,G,A,B, |1 C z z z z GcE :| 
 |2 C z z z z2 [Ee]2 |: [P:Parte II] [Cc]3 [G,G] [E,E]2 [G,G]2 | GG,GG, FG,GG, | FG,GG, FG,GG, | EG,GG, EG,GG, | 
 | EG,GG, EG,GG, | FG,GG, FG,G z | z G,A,G, ^F,G,A,D, |1 C z z z z2 [Ee]2 :| 
 |2 C4 z2 z2 |: [P:Parte III] z CDC B,CDE | [FA]8 | z FEF [FA]4 | [EG]8 | z EDE [EG]4 | 
-| GGFE DCB,A, | G,G,A,G, ^F,G,A,B, |1 C4 z2 z2 :|2 C4 z GcE +segno+|
+| GGFE DCB,A, | G,G,A,G, ^F,G,A,B, |1 C4 z2 z2 :|2 C4 z GcE +dasegno+|
 V:1 clef=bass stem=down
 | x4 |: x8 | x8 | x8 | 
 | x8 | x8 | x8 | x8 |1 x8 :| 
