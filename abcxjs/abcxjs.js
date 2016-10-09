@@ -1435,7 +1435,7 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
             this.ignoredDecorations = [];
             this.textBlock = "";
             this.score_is_present = false;	// Can't have original V: lines when there is the score directive
-            this.currentVoice = { index:0, staffNum:0, currBarNumber: 1}; 
+            this.currentVoice = undefined ; // { index:0, staffNum:0, currBarNumber: 1}; 
 
         }
     };
@@ -1493,8 +1493,11 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                 // coloca informação de numeracao na previa barra de compasso, já que o compasso não está vazio 
                 if (multilineVars.barNumOnNextNote ) {
                     var mc = multilineVars.currentVoice; 
-                    multilineVars.lastBarElem.barNumber = multilineVars.barNumOnNextNote;
-                    multilineVars.lastBarElem.barNumberVisible = ( multilineVars.barNumOnNextNoteVisible && ( mc === undefined || (mc.staffNum === 0 && mc.index === 0 )));
+                    if(multilineVars.lastBarElem) {
+                        multilineVars.lastBarElem.barNumber = multilineVars.barNumOnNextNote;
+                        multilineVars.lastBarElem.barNumberVisible = ( multilineVars.barNumOnNextNoteVisible && ( mc === undefined || (mc.staffNum === 0 && mc.index === 0 )));
+                    }
+                    
                     multilineVars.barNumOnNextNote = null;
                     multilineVars.barNumOnNextNoteVisible = null;
                 }
@@ -2374,9 +2377,14 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
         var params = {startChar: -1, endChar: -1};
         if (multilineVars.partForNextLine.length)
             params.part = multilineVars.partForNextLine;
-        params.clef = multilineVars.currentVoice && multilineVars.staves[multilineVars.currentVoice.staffNum].clef !== undefined ? window.ABCXJS.parse.clone(multilineVars.staves[multilineVars.currentVoice.staffNum].clef) : window.ABCXJS.parse.clone(multilineVars.clef);
+        
+        var mc = multilineVars.currentVoice;
+        
+        params.clef = window.ABCXJS.parse.clone( mc && mc.clef !== undefined ? mc.clef : multilineVars.clef);
+        
         params.key = window.ABCXJS.parse.parseKeyVoice.deepCopyKey(multilineVars.key);
-        if(params.clef.type === 'accordionTab' ) {
+        
+        if(params.clef && params.clef.type === 'accordionTab' ) {
             params.restsInTab = multilineVars.restsintab;
         }
         window.ABCXJS.parse.parseKeyVoice.addPosToKey(params.clef, params.key);
@@ -2430,14 +2438,13 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
 
         multilineVars.partForNextLine = "";
         var mc = multilineVars.currentVoice;
-        //if (mc === undefined || (multilineVars.start_new_line && mc.staffNum === 0 ) ){
-            //multilineVars.meter = null;
+        if( mc ) {
             if ( multilineVars.measureNotEmpty ) mc.currBarNumber++;
             multilineVars.barNumOnNextNote = mc.currBarNumber;
             
             if (multilineVars.barNumbers === 1 || ( multilineVars.barNumbers === 0 && multilineVars.barsperstaff === undefined && mc.currBarNumber > 1 ))
                 multilineVars.barNumOnNextNoteVisible = true;
-        //}
+        }
     }
 
     var letter_to_grace = function(line, i) {
@@ -2554,6 +2561,17 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
     var nonDecorations = "ABCDEFGabcdefgxyzZ[]|^_{";	// use this to prescreen so we don't have to look for a decoration at every note.
 
     this.parseRegularMusicLine = function(line) {
+        
+        if( ! multilineVars.voices[0] ) {
+            // se nenhuma voz foi declarada, força uma voz zero 
+            if(!multilineVars.clef) {
+                multilineVars.clef = {type:'treble', verticalPos:0};
+            }
+            multilineVars.voices[0] = {clef: multilineVars.clef, index:0, staffNum:0, currBarNumber:1 };
+            multilineVars.staves[0] = {clef: multilineVars.clef, index:0, meter: null, numVoices:1, inTie:[false], inTieChord:[false], inEnding:[false] };
+            multilineVars.currentVoice = multilineVars.voices[0];
+            
+        }
         
         multilineVars.barAccidentals = [];
         
@@ -2685,10 +2703,10 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                                         multilineVars.addToNextBar = { type: ret[1], upper:jump.upper, ordinal: ret[3] };
                                     } else {
                                         if( multilineVars.lastBarElem ) {
-                                        if( multilineVars.lastBarElem .jumpInfo ) {
-                                            warn("Overriding previous jump information", line, i);
-                                        }
-                                        multilineVars.lastBarElem.jumpInfo = { type: ret[1], upper:jump.upper, ordinal: ret[3] };
+                                            if( multilineVars.lastBarElem .jumpInfo ) {
+                                                warn("Overriding previous jump information", line, i);
+                                            }
+                                            multilineVars.lastBarElem.jumpInfo = { type: ret[1], upper:jump.upper, ordinal: ret[3] };
                                         } else {
                                             warn("Ignoring jump marker before the first bar.", line, i);
                                         }
@@ -2974,15 +2992,17 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                             if (core.graceNotes !== undefined)
                                 el.graceNotes = core.graceNotes;
                             delete el.startSlur;
-                            if (multilineVars.staves[multilineVars.currentVoice.staffNum].inTie[multilineVars.currentVoice.index]) {
-                                if (el.pitches !== undefined)
-                                    el.pitches[0].endTie = true;
-                                else
-                                    el.rest.endTie = true;
-                                multilineVars.staves[multilineVars.currentVoice.staffNum].inTie[multilineVars.currentVoice.index] = false;
-                            }
-                            if (core.startTie || el.startTie)
-                                multilineVars.staves[multilineVars.currentVoice.staffNum].inTie[multilineVars.currentVoice.index] = true;
+                            if(multilineVars.staves.length){
+                                if (multilineVars.staves[multilineVars.currentVoice.staffNum].inTie[multilineVars.currentVoice.index]) {
+                                    if (el.pitches !== undefined)
+                                        el.pitches[0].endTie = true;
+                                    else
+                                        el.rest.endTie = true;
+                                    multilineVars.staves[multilineVars.currentVoice.staffNum].inTie[multilineVars.currentVoice.index] = false;
+                                }
+                                if (core.startTie || el.startTie)
+                                    multilineVars.staves[multilineVars.currentVoice.staffNum].inTie[multilineVars.currentVoice.index] = true;
+                            }    
                             i = core.endChar;
 
                             if (tripletNotesLeft > 0) {
@@ -4868,6 +4888,7 @@ window.ABCXJS.parse.parseKeyVoice = {};
 
 	var setCurrentVoice = function(id) {
 		multilineVars.currentVoice = multilineVars.voices[id];
+                //multilineVars.clef = multilineVars.currentVoice.clef;
 		tune.setCurrentVoice(multilineVars.currentVoice.staffNum, multilineVars.currentVoice.index);
 	};
 
@@ -4886,14 +4907,15 @@ window.ABCXJS.parse.parseKeyVoice = {};
 		}
 		var isNew = false;
 		if (multilineVars.voices[id] === undefined) {
-			multilineVars.voices[id] = {currBarNumber:1};
-			isNew = true;
-			if (multilineVars.score_is_present && id.toLowerCase().substr(0,3) !== "tab")
-				warn("Can't have an unknown V: id when the %score directive is present", line, start);
-		} else {
-                    //multilineVars.clef = multilineVars.staves[ multilineVars.voices[id].staffNum].clef;
-                    multilineVars.clef = multilineVars.voices[id].clef;
+                    multilineVars.voices[id] = {currBarNumber:1};
+                    isNew = true;
+                    if (multilineVars.score_is_present && id.toLowerCase().substr(0,3) !== "tab")
+                            warn("Can't have an unknown V: id when the %score directive is present", line, start);
                 }
+//		} else {
+//                    //multilineVars.clef = multilineVars.staves[ multilineVars.voices[id].staffNum].clef;
+//                    multilineVars.clef = multilineVars.voices[id].clef;
+//                }
 		start += id.length;
 		start += tokenizer.eatWhiteSpace(line, start);
 
@@ -4949,6 +4971,9 @@ window.ABCXJS.parse.parseKeyVoice = {};
                                                     }
                                                     staffInfo.verticalPos = calcMiddle(staffInfo.clef, oct);
                                                     multilineVars.clef = {type: staffInfo.clef, verticalPos: staffInfo.verticalPos};
+                                                    multilineVars.voices[id].clef = {type: staffInfo.clef, verticalPos: staffInfo.verticalPos}
+                                                    //multilineVars.currentVoice.clef = multilineVars.voices[id].clef; 
+                                                    
 						}
 						break;
                                         case 'accordionTab':
@@ -11378,7 +11403,7 @@ ABCXJS.tablature.Parse.prototype.parseTabVoice = function ( ) {
             case "note":
                 if (!this.invalid)
                     voice[voice.length] = this.formatChild(token);
-                if(this.vars.lastBarElem.barNumber === undefined)
+                if(this.vars.lastBarElem && this.vars.lastBarElem.barNumber === undefined)
                     this.vars.lastBarElem.barNumber = this.vars.currentVoice.currBarNumber ++;
                 break;
             case "comment":
