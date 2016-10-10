@@ -329,42 +329,42 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
 
 
     this.gotoMeasureButton.addEventListener("keypress", function (evt) {
-        evt.preventDefault();
+        //evt.preventDefault();
         if (evt.keyCode === 13) {
             that.startPlay('goto', this.value, that.untilMeasureButton.value);
         }
     }, false);
 
     this.gotoMeasureButton.addEventListener("focus", function (evt) {
-        evt.preventDefault();
+        //evt.preventDefault();
         if (this.value === DR.getResource("DR_goto")) {
             this.value = "";
         }
     }, false);
 
     this.gotoMeasureButton.addEventListener("blur", function (evt) {
-        evt.preventDefault();
+        //evt.preventDefault();
         if (this.value === "") {
             this.value = DR.getResource("DR_goto");
         }
     }, false);
     
     this.untilMeasureButton.addEventListener("keypress", function (evt) {
-        evt.preventDefault();
+        //evt.preventDefault();
         if (evt.keyCode === 13) {
             that.startPlay('goto', that.gotoMeasureButton.value, this.value);
         }
     }, false);
 
     this.untilMeasureButton.addEventListener("focus", function (evt) {
-        evt.preventDefault();
+        //evt.preventDefault();
         if (this.value === DR.getResource("DR_until")) {
             this.value = "";
         }
     }, false);
 
     this.untilMeasureButton.addEventListener("blur", function (evt) {
-        evt.preventDefault();
+        //evt.preventDefault();
         if (this.value === "") {
             this.value = DR.getResource("DR_until");
         }
