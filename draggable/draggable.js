@@ -51,22 +51,47 @@ DRAGGABLE.Div = function(id, topDiv, title, aButtons, callBack, translate ) {
     this.moveButton = document.getElementById("dMenu"+this.id);
     this.closeButton = document.getElementById("dMINUSButton"+this.id);
     
+
+    /*
+	el.addEventListener('touchstart', touchEvent.startEv, false);
+	el.addEventListener('mousedown', touchEvent.startEv, false);
+
+	// TouchMove or MouseMove
+	el.addEventListener('touchmove', touchEvent.moveEv, false);
+	el.addEventListener('mousemove', touchEvent.moveEv, false);
+
+	// TouchEnd or MouseUp
+	el.addEventListener('touchend', touchEvent.endEv, false);
+	el.addEventListener('mouseup', touchEvent.endEv, false);
+    
+    */
+    
     this.stopMouse = function (e) {
         e.stopPropagation();
-        e.preventDefault();
+        //e.preventDefault();
     };
     
-    this.divMove = function(e){
+    this.divMove = function (e) {
         self.stopMouse(e);
-        var y = ((e.clientY-self.y) + parseInt(self.topDiv.style.top) );
-        self.topDiv.style.top =  (y<43?43:y)+ "px"; //hardcoded top of window
-        self.topDiv.style.left = ((e.clientX-self.x) + parseInt(self.topDiv.style.left) ) + "px"; 
-        self.x = e.clientX;
-        self.y = e.clientY;
+        var touches = e.changedTouches;
+        var p = {x: e.clientX, y: e.clientY};
+
+        if (touches) {
+            var l = touches.length - 1;
+            p.x = touches[l].clientX;
+            p.y = touches[l].clientY;
+        }
+        e.preventDefault();
+        var y = ((p.y - self.y) + parseInt(self.topDiv.style.top));
+        self.topDiv.style.top = (y < 43 ? 43 : y) + "px"; //hardcoded top of window
+        self.topDiv.style.left = ((p.x - self.x) + parseInt(self.topDiv.style.left)) + "px";
+        self.x = p.x;
+        self.y = p.y;
     };
 
     this.mouseUp = function (e) {
         self.stopMouse(e);
+        window.removeEventListener('touchmove', self.divMove, false);
         window.removeEventListener('mousemove', self.divMove, false);
         window.removeEventListener('mouseout', self.divMove, false);
         self.dataDiv.style.pointerEvents = "auto";
@@ -77,8 +102,11 @@ DRAGGABLE.Div = function(id, topDiv, title, aButtons, callBack, translate ) {
 
     this.mouseDown = function (e) {
         window.addEventListener('mouseup', self.mouseUp, false);
+        window.addEventListener('touchend', self.mouseUp, false);
         self.stopMouse(e);
         self.dataDiv.style.pointerEvents = "none";
+        window.addEventListener('touchmove', self.divMove, false);
+        window.addEventListener('touchleave', self.divMove, false);
         window.addEventListener('mousemove', self.divMove, false);
         window.addEventListener('mouseout', self.divMove, false);
         self.x = e.clientX;
@@ -87,7 +115,9 @@ DRAGGABLE.Div = function(id, topDiv, title, aButtons, callBack, translate ) {
     
     //TODO: tratar todos os botões da janela com stopMouse
     this.closeButton.addEventListener( 'mousedown', this.stopMouse, false);
+    this.closeButton.addEventListener( 'touchstart', this.stopMouse, false);
     this.moveButton.addEventListener( 'mousedown', this.mouseDown, false);
+    this.moveButton.addEventListener('touchstart', this.mouseDown, false);
     
     this.close = function(e) {
         self.topDiv.style.display='none';
