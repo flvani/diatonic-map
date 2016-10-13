@@ -1,0 +1,29 @@
+X:1025
+%%barnumbers 0
+%%papersize A4
+%%pagenumbering
+T:Milonga para as missões
+C:Gilberto Monteiro
+%C:Gravação Renato Borghetti
+Z:Flávio Vani
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
+%F:https://www.youtube-nocookie.com/embed/TbJtZrBx9pY
+M:2/4
+L:1/16
+Q:80
+K:Am
+V:1 treble
+| z2 c0.5d0.5e3 d2 |: !segno! c2e2 d2c2 | BedB edBe | BedB edcB | Afec fecf | cfec fedc | 
+| B[Bd][Bd][Bd]2 Bcd | edcB edcB !dacoda!|1 A2 c0.5d0.5e3 d2 :|2 A[Ee][Ee][Ee] [Ee][Ee][Ee][Ee] | [Ee]EAe feAf | eEdE eEdE | 
+| eEdE eEdE | ee[Ee]e ee[Ee]e | ee[Ee]e ee[Ee]e | e4 z Bcd | ed cB edcB |1 A2 E E E2 E E :|2 Aedc BAGF | 
+| EDCB, EDCB, | A,B,CD EF^FG | ABcd edcB | !dsalcoda!A2c0.5d0.5 e3 d2 |]!coda! A4 [EAc]4 | [EAc]8 |] 
+V:2 bass
+| z3 z2 z3 |: A,,3[A,,C,E,] A,,2[A,,C,E,]2 | E,,3[E,^G,B,] E,,2[E,^G,B,]2 | E,,3[E,^G,B,] E,,2[E,^G,B,]2 | A,,3[A,,C,E,] A,,2[A,,C,E,]2 | A,,3[A,,C,E,] A,,2[A,,C,E,]2 | 
+| E,,3[E,^G,B,] E,,2[E,^G,B,]2 | E,,3[E,^G,B,] E,,2[E,^G,B,]2 |1 A,,3[A,,C,E,] A,,2[A,,C,E,]2 :|2 A,,3[A,,C,E,] A,,2[A,,C,E,]2 | A,,3[A,,C,E,] A,,2[A,,C,E,]2 | E,,3 [E,^G,B,] E,,2 [E,^G,B,]2 | 
+| E,,3 [E,^G,B,] E,,2 [E,^G,B,]2 | A,,3 [A,,C,E,] A,,2 [A,,C,E,]2 | A,,3 [A,,C,E,] A,,2 [A,,C,E,]2 | E,,3 [E,^G,B,] E,,2 [E,^G,B,]2 | E,,3 [E,^G,B,] E,,2 [E,^G,B,]2 |1 A,,3 [A,,C,E,] A,,2 [A,,C,E,]2 :|2 z8 | 
+| z8 | z8 | z8 |1 A,,3 [A,,C,E,] A,,2 [A,,C,E,]2 |]2 A,,4 [A,,C,E,]4 | [A,,C,E,]8 |] 
+V:3 accordionTab
+| z-z2 z-80.5 z-7'0.5 z-92 z-> z-7'2 |: A-82 >-9 a-> A-7'2 a-82 | E+7 >+7' >+8 e+7 E+7' >+8 e+7 >+7' | E+7 >+7' >+8 e+7 E+7' >+8 e+6' >+7 | A-7 >-8' >-9 a-8 A-8' >-9 a-8 >-8' | A-8 >-8' >-9 a-8 A-8' >-9 a-7' >-8 | 
+| E+7 >+[78] >+[78] e+[78] E+[>>] >+7 e+6' >+8 | E+7' >+8 >+6' e+7 E+7' >+8 e+6' >+7 |1 A-72 >-80.5 >-7'0.5 a-9 A->2 a-7'2 :|2 A-7 >-[59] >-[59] a-[59] A-[59] >-[59] a-[59] >-[59] | A-[59] >-5 >-7 a-9 A-8' >-9 a-7 >-8' | E+7' >+4' >+8 e+4' E+7' >+4' e+8 >+4' | 
+| E+7' >+4' >+8 e+4' E+7' >+4' e+8 >+4' | A-9 >-9 >-[59] a-9 A-9 >-9 a-[59] >-9 | A-9 >-9 >-[59] a-9 A-9 >-9 a-[59] >-9 | E+7'3 e+> E+z >+7 e+6' >+8 | E+7' >+8 >+6' e+7 E+7' >+8 e+6' >+7 |1 A-72 >-5 a-5 A-52 a-5 >-5 :|2 z-7 z-9 z-7' z-8 z-6' z-7 z-5' z-4' | 
+| z-5 z-3' z-4 z-2' z-5 z-3' z-4 z-2' | z-3 z-2' z-4 z-3' z-5 z-4' z-6 z-5' | z-7 z-6' z-8 z-7' z-9 z-7' z-8 z-6' |1 A-72 >-80.5 >-7'0.5 a-9 A->2 a-7'2 |]2 A-74 a-[578]4 | a-[578]8 |] 

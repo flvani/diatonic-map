@@ -4,7 +4,7 @@
 %%pagenumbering
 T:Milonga para as missões
 C:Gilberto Monteiro
-C:Gravação Renato Borghetti
+%C:Gravação Renato Borghetti
 Z:Flávio Vani
 N:Mapa para Acordeons Diatônicos powered by ABCXJS.
 %F:https://www.youtube-nocookie.com/embed/TbJtZrBx9pY
@@ -13,10 +13,10 @@ L:1/16
 Q:80
 K:Am
 V:1 clef=treble
-| z2 c/2d/2e- e2d2 |: !segno! c2e2 d2c2 | BedB edBe | BedB edcB | Afec fece | cfec fedc |
+| z2 c/2d/2e- !fermata!e2d2 |: !segno! c2e2 d2c2 | BedB edBe | BedB edcB | Afec fece | cfec fedc |
 | B [Bd][Bd][Bd]- [Bd]Bcd | edcB edcB |1 A2c/2d/2e- e2d2 :|2 A2EE [EABc]2EE | [EAB]EAc eEfE | eEdE eEdE |
 | eEdE eEdE | eEcE eEcE | eEcE eEcE | e4 z Bcd | edcB edcB |1 A2EE [EABce]2EE :|2 Aedc BAGF |
-| FEDC EDCB, | A,B,CD EFFG | ABcd edcB | A2c/2d/2e- e2d2 | c2e2 d2c2 | BedB edBe |BedB edcB |  
+| EDCB, EDCB, | A,B,CD EF^FG | ABcd edcB | A2c/2d/2e- e2d2 | c2e2 d2c2 | BedB edBe |BedB edcB |  
 %| Afec fece | Afec fedc | B [Bd][Bd][Bd]- [Bd]Bcd !dacoda!| edcB edcB | !dsalcoda! A2c/2d/2e- e2d2 |!coda!  edcB edcB | A4 [EAc]4 | [EAc]8 |
 | Afec fece | Afec fedc | B [Bd][Bd][Bd]- [Bd]Bcd | edcB edcB |1 !dsalfine! A2c/2d/2e- e2d2 |]2 A4 [EAc]4 | [EAc]8 !fine!|]
 V:2 bass
