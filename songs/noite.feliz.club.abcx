@@ -1,5 +1,7 @@
-﻿X:2009
+X:2009
 %%barnumbers 1
+%%barsperstaff 6
+%%staffsep 10
 %%papersize A4
 T:Noite Feliz (club)
 T:Stille Nacht
@@ -20,7 +22,7 @@ K:F
 [V:2]|F,, [F,A,C] [F,A,C] |F,, [F,A,C] [F,A,C] | B,, [B,DF] [B,DF] | B,, [B,DF] [B,DF] |F,, [F,A,C] [F,A,C] |
 [V:1]| A3 | g2 g | b3/2 g/2 e | f3 | a3 |
 [V:2]| F,, [F,A,C] [F,A,C] | C, [CEG] [CEG] | C, [CEG] [CEG] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] |
-[V:1]| f3/2 c/2 A | c3/2 B/2 G | F3 | [Acf]3 |
+[V:1]| f3/2 c/2 A | c3/2 B/2 G | !dacapo! F3 | [Acf]3 |
 [V:2]| F,, [F,A,C] [F,A,C] | C, [CEG] [CEG] | F,, [F,A,C] [F,A,C] |  [F,A,C]3 |
 V:3
 K:accordionTab
@@ -29,3 +31,14 @@ K:accordionTab
 | F+6' f+>0.5 >+5''0.5 f+6' | F+5' f+> f+> | B♭-8 b♭-> b♭-8 | B♭-9 b♭->0.5 >-7'0.5 b♭-8 | F+6' f+>0.5 >+5''0.5 f+6' |
 | F+5' f+> f+> | C-8' c-> c-8' | C-9' c->0.5 >-8'0.5 c-7' | F+7' f+> f+> | F+8' f+> f+> |
 | F+7' f+>0.5 >+70.5 f+5' | C-6' c->0.5 >-5'0.5 c-4' | F+4' f+> f+> | f+[5'6'7']3 |
+
+
+
+
+
+
+
+
+
+
+
