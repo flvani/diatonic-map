@@ -125,6 +125,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.keyboardWindow = editorParams.keyboardWindow;
     this.playTreble = true;
     this.playBass = true;
+    this.timerOn = false;
     this.clefsToPlay = (this.playTreble?"T":"")+(this.playBass?"B":"");
     
     this.setupEditor();
@@ -182,6 +183,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
 
     // player control
     this.modeButton = document.getElementById(playerParams.modeBtn);
+    this.timerButton = document.getElementById(playerParams.timerBtn);
     this.FClefButton = document.getElementById(playerParams.FClefBtn);
     this.GClefButton = document.getElementById(playerParams.GClefBtn);
     this.playButton = document.getElementById(playerParams.playBtn);
@@ -244,6 +246,13 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         that.changePlayMode();
     }, false);
 
+    this.timerButton.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        this.blur();
+        that.timerOn = ! that.timerOn;
+        that.setTimerIcon(that.timerOn, 0);
+    }, false);
+    
     this.FClefButton.addEventListener('click', function (evt) {
         evt.preventDefault();
         this.blur();
@@ -715,6 +724,33 @@ SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
         
     } else {
         this.accordion.clearKeyboard();
+        this.StartPlayWithTimer(this.renderedTune.abc.midi, type, value, valueF, this.timerOn ? 3: 0 );
+        
+    }
+};
+
+SITE.Estudio.prototype.setTimerIcon = function( timerOn, value ) {
+    value = value || 0;
+    var ico = 'off';
+    if( timerOn ) {
+        switch( value ) {
+            case 1: ico = '1'; break;
+            case 2: ico = '2'; break;
+            case 3: ico = '3'; break;
+            default: ico = 'on';
+        }
+    }
+    this.timerButton.innerHTML = '<img id="timerBtnImg" src="img/timer.'+ico+'.png" alt="" width="25" height="20"/>';
+};
+
+SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, counter ) {
+    var that = this;
+    
+    if( type !== 'note' && this.timerOn && counter > 0 ) {
+        that.setTimerIcon( that.timerOn, counter );
+        window.setTimeout(function(){that.StartPlayWithTimer(midi, type, value, valueF, --counter); }, 1000);
+    } else {
+        that.setTimerIcon( that.timerOn, 0 );
         if(type==="normal") {
             this.midiPlayer.setPlayableClefs('TB');
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
@@ -731,7 +767,10 @@ SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
             }
         }
     }
+    
+    
 };
+
 
 SITE.Estudio.prototype.parseABC = function(transpose) {
     

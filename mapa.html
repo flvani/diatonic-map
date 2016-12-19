@@ -47,7 +47,7 @@ notação abc, tablatura " />
         <!-- Estilos para a página e popups -->
         
         <link href="css/bootstrap.min.css" rel="stylesheet" />
-        <link href="site_4.14-min.css" rel="stylesheet"/>
+        <link href="site_4.15-min.css" rel="stylesheet"/>
         <link rel="icon" type="image/icon" href="http://flvani.github.io/diatonic-map/img/favicon6.ico"/>
         
     </head>
@@ -319,6 +319,9 @@ notação abc, tablatura " />
                             <button id="saveBtn" class="btn" title="Salvar Local" ><i class="icon-download-alt"></i>&#160;Salvar Local</button>
                             <button id="forceRefresh" class="btn" title="Atualizar" onclick="" >Atualizar</button>
                             <button id="modeBtn" class="btn" title="Modo normal/didático" onclick=""><img src="img/listening3.png" alt="" width="20" height="20"/></button>
+                            <button id="timerBtn" class="btn" title="Timer" onclick=""><img id="timerBtnImg" src="img/timer.off.png" alt="" width="25" height="20"/></button>
+                            <button id="GClefBtn" class="btn" title="Melodia" onclick=""><img src="img/clave.sol.on.png" alt="" width="20" height="20"/></button>
+                            <button id="FClefBtn" class="btn" title="Baixos" onclick=""><img src="img/clave.fa.on.png" alt="" width="20" height="20"/></button>
                             <input  style="display: none;" type="checkbox" id="chkAutoRefresh" /><span style="display: none;" id="DR_refresh">Auto atualização</span> 
                             <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
                         </div>
@@ -331,8 +334,6 @@ notação abc, tablatura " />
                             <button id="repeatBtn" class="btn" title="Repetir compasso" onclick="">&#160;<i class="icon-repeat"></i>&#160;</button>
                             <button id="clearBtn" class="btn" title="Limpar" onclick="">&#160;<i class="icon-stop"></i>&#160;</button>
                             <button id="tempoBtn" class="btn" title="Andamento" onclick=""><b>&#160;1&#160;</b></button>
-                            <button id="GClefBtn" class="btn" title="" onclick=""><img src="img/clave.sol.on.png" alt="" width="20" height="20"/></button>
-                            <button id="FClefBtn" class="btn" title="" onclick=""><img src="img/clave.fa.on.png" alt="" width="20" height="20"/></button>
                         </div>
                         <div id="divNormalPlayControls" style="float:left; margin-left: 4px;">
                             <button id="playBtn2" class="btn" title="Executar" onclick="">&#160;<i class="icon-play"></i>&#160;</button>
@@ -374,7 +375,7 @@ notação abc, tablatura " />
         <script type="text/javascript" src="diatonic/diatonic_4.14-min.js"></script>
 
         <!-- site -->
-        <script id="siteLib" type="text/javascript" src="site_4.14-min.js"></script>
+        <script id="siteLib" type="text/javascript" src="site_4.15-min.js"></script>
         
         <script id="mainScript" type="text/javascript">
         //<![CDATA[
@@ -482,6 +483,10 @@ notação abc, tablatura " />
                    + '&nbsp;&nbsp;"Ctrl"+"0" - Restaura o zoom para 100%.<br><br>'
                    + '</b>';
            
+                w3.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
+                   + 'Conheça as novidades do <br/>"Estúdio&#160;ABCX".<br />'
+                   + '<a target="_blank" href="html/estudioABCX.pt_BR.html" >Clique aqui!</a>'
+                   + '<br/>O estúdio é acessado através do botão "Ferramentas".</b></center>';
            
                 w4.dataDiv.innerHTML = 
                      '<table class="table table-bordered table-final" style="min-width: 300px;">'
@@ -495,8 +500,8 @@ notação abc, tablatura " />
                     +'</table>';
             
                 w5.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
-                   + '<h3>Versão 4.14</h3>'
-                   + '<a target="_blank" href="html/release.pt_BR.html" >Suporte aos símbolos de repetição!<br>Saiba mais.</a>'
+                   + '<h3>Versão 4.15</h3>'
+                   + '<a target="_blank" href="html/release.pt_BR.html" >Temporizador para execução do MIDI!<br>Saiba mais.</a>'
                    + '</b></center><br>';
 
                 myStudio = new SITE.Estudio(
@@ -527,6 +532,7 @@ notação abc, tablatura " />
                   } 
                   , {   // playerParams
                         modeBtn: "modeBtn"
+                      , timerBtn: "timerBtn"
                       , playBtn: "playBtn2"
                       , stopBtn: "stopBtn2"
                       , clearBtn: "clearBtn"
@@ -615,6 +621,7 @@ notação abc, tablatura " />
                    ,'showEditorBtn'
                    ,'showMapBtn' 
                    ,'modeBtn'
+                   ,'timerBtn'
                    ,'playBtn'
                    ,'playBtn2'
                    ,'stopBtn'
@@ -657,13 +664,13 @@ notação abc, tablatura " />
                 document.getElementById("modalAD").style.display = 'inline';
                 document.getElementById("modalAbout").style.display = 'inline';
                 
-                //$('#hintsDiv').fadeIn('slow');
+                $('#hintsDiv').fadeIn('slow');
                 
                 if( getDate() <= 20150913 ) {
                     $('#ADDiv').fadeIn('slow');
                 }
                 
-                if( getDate() <= 20161015 ) {
+                if( getDate() <= 20161231 ) {
                     $('#releaseDiv').fadeIn('slow');
                     setTimeout(function() { $('#releaseDiv').fadeOut('slow'); }, 15000);
                 }

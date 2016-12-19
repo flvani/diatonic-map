@@ -317,6 +317,9 @@ notação abc, tablatura " />
                             <button id="saveBtn" class="btn" title="Salvar Local" ><i class="icon-download-alt"></i>&#160;Salvar Local</button>
                             <button id="forceRefresh" class="btn" title="Atualizar" onclick="" >Atualizar</button>
                             <button id="modeBtn" class="btn" title="Modo normal/didático" onclick=""><img src="img/listening3.png" alt="" width="20" height="20"/></button>
+                            <button id="timerBtn" class="btn" title="Timer" onclick=""><img id="timerBtnImg" src="img/timer.off.png" alt="" width="25" height="20"/></button>
+                            <button id="GClefBtn" class="btn" title="Melodia" onclick=""><img src="img/clave.sol.on.png" alt="" width="20" height="20"/></button>
+                            <button id="FClefBtn" class="btn" title="Baixos" onclick=""><img src="img/clave.fa.on.png" alt="" width="20" height="20"/></button>
                             <input  style="display: none;" type="checkbox" id="chkAutoRefresh" /><span style="display: none;" id="DR_refresh">Auto atualização</span> 
                             <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
                         </div>
@@ -329,8 +332,6 @@ notação abc, tablatura " />
                             <button id="repeatBtn" class="btn" title="Repetir compasso" onclick="">&#160;<i class="icon-repeat"></i>&#160;</button>
                             <button id="clearBtn" class="btn" title="Limpar" onclick="">&#160;<i class="icon-stop"></i>&#160;</button>
                             <button id="tempoBtn" class="btn" title="Andamento" onclick=""><b>&#160;1&#160;</b></button>
-                            <button id="GClefBtn" class="btn" title="" onclick=""><img src="img/clave.sol.on.png" alt="" width="20" height="20"/></button>
-                            <button id="FClefBtn" class="btn" title="" onclick=""><img src="img/clave.fa.on.png" alt="" width="20" height="20"/></button>
                         </div>
                         <div id="divNormalPlayControls" style="float:left; margin-left: 4px;">
                             <button id="playBtn2" class="btn" title="Executar" onclick="">&#160;<i class="icon-play"></i>&#160;</button>
@@ -529,6 +530,7 @@ notação abc, tablatura " />
                   } 
                   , {   // playerParams
                         modeBtn: "modeBtn"
+                      , timerBtn: "timerBtn"
                       , playBtn: "playBtn2"
                       , stopBtn: "stopBtn2"
                       , clearBtn: "clearBtn"
@@ -617,6 +619,7 @@ notação abc, tablatura " />
                    ,'showEditorBtn'
                    ,'showMapBtn' 
                    ,'modeBtn'
+                   ,'timerBtn'
                    ,'playBtn'
                    ,'playBtn2'
                    ,'stopBtn'
