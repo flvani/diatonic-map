@@ -738,7 +738,6 @@ SITE.Estudio.prototype.setTimerIcon = function( timerOn, value ) {
             case 1:  ico = '0.00'; break;
             case 2: ico = '0.33'; break;
             case 3: ico = '0.66'; break;
-            //case 4: ico = '1'; break;
             case 6: ico = '2'; break;
             case 9: ico = '3'; break;
             default: ico = '';
