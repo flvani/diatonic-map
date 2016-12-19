@@ -724,7 +724,7 @@ SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
         
     } else {
         this.accordion.clearKeyboard();
-        this.StartPlayWithTimer(this.renderedTune.abc.midi, type, value, valueF, this.timerOn ? 3: 0 );
+        this.StartPlayWithTimer(this.renderedTune.abc.midi, type, value, valueF, this.timerOn ? 10: 0 );
         
     }
 };
@@ -734,13 +734,23 @@ SITE.Estudio.prototype.setTimerIcon = function( timerOn, value ) {
     var ico = 'off';
     if( timerOn ) {
         switch( value ) {
-            case 1: ico = '1'; break;
-            case 2: ico = '2'; break;
-            case 3: ico = '3'; break;
-            default: ico = 'on';
+            case 0:  ico = 'on'; break;
+            case 1:  ico = '0.00'; break;
+            case 2: ico = '0.33'; break;
+            case 3: ico = '0.66'; break;
+            //case 4: ico = '1'; break;
+            case 6: ico = '2'; break;
+            case 9: ico = '3'; break;
+            default: ico = '';
         }
     }
-    this.timerButton.innerHTML = '<img id="timerBtnImg" src="img/timer.'+ico+'.png" alt="" width="25" height="20"/>';
+    if( ico !== ''  ) {
+        if( ico !== 'on' && ico !== 'off') {
+            MIDI.noteOn(0,  90, 100, 0 );
+            MIDI.noteOff(0, 90, value > 3 ? 0.10 : 0.05  );
+        }
+        this.timerButton.innerHTML = '<img id="timerBtnImg" src="img/timer.'+ico+'.png" alt="" width="25" height="20"/>';
+    }
 };
 
 SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, counter ) {
@@ -748,7 +758,8 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
     
     if( type !== 'note' && this.timerOn && counter > 0 ) {
         that.setTimerIcon( that.timerOn, counter );
-        window.setTimeout(function(){that.StartPlayWithTimer(midi, type, value, valueF, --counter); }, 1000);
+        counter -= 1;
+        window.setTimeout(function(){that.StartPlayWithTimer(midi, type, value, valueF, counter); }, 1000.0/3 );
     } else {
         that.setTimerIcon( that.timerOn, 0 );
         if(type==="normal") {
