@@ -1,0 +1,31 @@
+X:1040
+%%barnumbers 0
+%%papersize A4
+T:Sapatinho de natal 
+C:Tradicional
+Z:Flávio Vani 
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
+K:G
+L:1/4
+M:3/4
+Q:120
+V:1 clef=treble 
+| z2 D | "G" +segno+ B2 G | D2 G | B B2 | z d B | "D" A2 D | B2 A | "G" G3 |
+w:Dei-xei meu sa-pa-ti-nho, na ja-ne-la do quin-tal. 
+| z2 D | B2 G | D2 G | B3 | z d B | "D" A2 D | B2 A | "G" G3 |
+w:Pa-pai No-el dei-xou, meu pre-sen-te de Na-tal. 
+| "C" z e e | e e c | G2 c | e2 z |  z g e | "G" d2 B | G2 B | d2 z |
+w:Co-mo é que Pa-pai No-el não s'~es-que-ce de nin-guém?
+|: z G A | "G" B2 d | "C" G2 A | "G"B2 d | "C" G2 B | "D" A2 c | F2 A | "G" G3  +fine+ :| | z2 D  +dsalfine+ |
+w:Se-ja ri-co~ou se-ja po-bre, o ve-lhi-nho sem-pre vem! Dei- 
+V:2 clef=bass
+| z3 | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | D,, [D,F,A,] [D,F,A,]  | D,, [D,F,A,] [D,F,A,] | G,, [G,B,D] [G,B,D] |
+| G,, [G,B,D] [G,B,D] |G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | D,, [D,F,A,] [D,F,A,]  | D,, [D,F,A,] [D,F,A,] | G,, [G,B,D] [G,B,D] |
+| C,, [C,E,G,] [C,E,G,] |  C,, [C,E,G,] [C,E,G,] |  C,, [C,E,G,] [C,E,G,]  | C,, [C,E,G,] [C,E,G,]  |  C,, [C,E,G,] [C,E,G,]  | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] |
+|: G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] |  A,, [A,CE] [A,CE]  | G,, [G,B,D] [G,B,D] |  C,, [C,E,G,] [C,E,G,]  | D,, [D,F,A,] [D,F,A,] |D,, [D,F,A,] [D,F,A,] | G,, [G,B,D] [G,B,D]  +fine+ :| | G,, [G,B,D] [G,B,D] +dsalfine+ |
+V:3 accordionTab
+| z+z2 z+5 | G-6' g-> g-5' | G+5 g+> g+5' | G-6' g-6' g-> | G+z g+8 g+7 | D-7 d-> d-3' | D-6' d-> d-7 | G+6 g+> g+> |
+| G+z g+z g+5 | G-6' g-> g-5' | G+5 g+> g+5' | G-6' g-> g-> | G+z g+8 g+7 | D-7 d-> d-3' | D-6' d-> d-7 | G+6 g+> g+> |
+| C+z c+7' c+7' | C+7' c+7' c+6' | C+6 c+> c+6' | C+7' c+> c+z | C+z c+8' c+7' | G-7' g-> g-6' | G+6 g+> g+7 | G-7' g-> g-z |
+|: G-z g-5' g-7 | G+7 g+> g+8 | A-5' a-> a-7 | G+7 g+> g+8 | C+6 c+> c+7 | D-7 d-> d-8 | D-6 d-> d-7 | G+6 g+> g+> :| | G-z g-z g-3' |
+
