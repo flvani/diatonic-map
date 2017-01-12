@@ -24,7 +24,7 @@ V:2 clef=bass
 | F,, [F,A,C] [F,A,C] |  F,, [F,A,C] [F,A,C] |  F,, [F,A,C] [F,A,C]  | F,, [F,A,C] [F,A,C]  |  F,, [F,A,C] [F,A,C]  | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] |
 |: C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] |  F,, [F,A,C] [F,A,C]  | C,, [C,E,G,] [C,E,G,] |  F,, [F,A,C] [F,A,C]  | G,, [G,B,D] [G,B,D] |G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,]  +fine+ :| | C,, [C,E,G,] [C,E,G,] +dsalfine+ |
 V:3 accordionTab
-| z+z2 z+6 | C+8 c+> c+7 | C+6 c+> c+6' | C+8 c+8 c+> | C-z c-8' c-7' | G-8 g-> g-4' | G-7' g-> g-8 | C-6' c-> c-> |
-| C+z c+z c+6 | C+8 c+> c+7 | C+6 c+> c+6' | C+8 c+> c+> | C-z c-8' c-7' | G-8 g-> g-4' | G-7' g-> g-8 | C-6' c-> c->  |
-| F+z f+8' f+8' | F+8' f+8' f+7' | F+7 f+> f+7' | F+8' f+> f+z | F+z f+9' f+8' | C-8' c-> c-7' | C-6' c-> c-7' | C-8' c-> c-z |
+| z+z2 z+6 | C+8 c+> c+7 | C+6 c+> c+7 | C+8 c+8 c+> | C-z c-8' c-7' | G-8 g-> g-4' | G-7' g-> g-8 | C-6' c-> c-> |
+| C+z c+z c+6 | C+8 c+> c+7 | C+6 c+> c+7 | C+8 c+> c+> | C-z c-8' c-7' | G-8 g-> g-4' | G-7' g-> g-8 | C-6' c-> c->  |
+| F+z f+8' f+8' | F+8' f+8' f+7' | F+6' f+> f+7' | F+8' f+> f+z | F+z f+9' f+8' | C-8' c-> c-7' | C-6' c-> c-7' | C-8' c-> c-z |
 |: C-z c-6' c-8 | C-7' c-> c-8' | F+7 f+> f+5'' | C-7' c-> c-8' | F+7 f+> f+8 | G-8 g-> g-9 | G-7 g-> g-8 | C-6' c-> c-> :| | C+z c+z c+6 |
