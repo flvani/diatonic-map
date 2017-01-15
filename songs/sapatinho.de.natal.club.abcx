@@ -8,23 +8,23 @@ N:Mapa para Acordeons Diatônicos powered by ABCXJS.
 K:C
 L:1/4
 M:3/4
-Q:120
+Q:140
 V:1 clef=treble 
-| z2 G | "C" +segno+ e2 c | G2 c | e e2 | z g e | "G" d2 G | e2 d | "C" c3 |
+| z2 G | "C" +segno+ e2 c | G2 c | e e2 | z g e | "G7" d2 G | e2 d | "C" c3 |
 w:Dei-xei meu sa-pa-ti-nho, na ja-ne-la do quin-tal. 
-| z2 G | e2 c | G2 c | e3 | z g e | "G" d2 G | e2 d | "C" c3 |
+| z2 G | e2 c | G2 c | e3 | z g e | "G7" d2 G | e2 d | "C" c3 |
 w:Pa-pai No-el dei-xou, meu pre-sen-te de Na-tal. 
-| "F" z a a | a a f | c2 f | a2 z |  z c' a | "C" g2 e | c2 e | g2 z |
+| "C7" z a a | "F" a a f | c2 f | a2 z |  z c' a | "C" g2 e | c2 e | g2 z |
 w:Co-mo é que Pa-pai No-el não s'~es-que-ce de nin-guém?
-|: z c d | "C" e2 g | "F" c2 d | "C"e2 g | "F" c2 e | "G" d2 f | B2 d | "C" c3  +fine+ :| | z2 G  +dsalfine+ |
+|: z c d | "G7" e2 g | "F" c2 d | "C" e2 g | "F" c2 e | "G7" d2 f | B2 d | "C" c3  +fine+ :| | z2 G  +dsalfine+ |
 w:Se-ja ri-co~ou se-ja po-bre, o ve-lhi-nho sem-pre vem! Dei- 
 V:2 clef=bass
 | z3 | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | G,, [G,B,D] [G,B,D]  | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] |
 | C,, [C,E,G,] [C,E,G,] |C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | G,, [G,B,D] [G,B,D]  | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] |
-| F,, [F,A,C] [F,A,C] |  F,, [F,A,C] [F,A,C] |  F,, [F,A,C] [F,A,C]  | F,, [F,A,C] [F,A,C]  |  F,, [F,A,C] [F,A,C]  | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] |
-|: C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] |  F,, [F,A,C] [F,A,C]  | C,, [C,E,G,] [C,E,G,] |  F,, [F,A,C] [F,A,C]  | G,, [G,B,D] [G,B,D] |G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,]  +fine+ :| | C,, [C,E,G,] [C,E,G,] +dsalfine+ |
+| C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] |  F,, [F,A,C] [F,A,C]  | F,, [F,A,C] [F,A,C]  |  F,, [F,A,C] [F,A,C]  | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] |
+|: C,, [C,E,G,] [C,E,G,] |  G,, [G,B,D] [G,B,D] |  F,, [F,A,C] [F,A,C]  | C,, [C,E,G,] [C,E,G,] |  F,, [F,A,C] [F,A,C]  | G,, [G,B,D] [G,B,D] |G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,]  +fine+ :| | C,, [C,E,G,] [C,E,G,] +dsalfine+ |
 V:3 accordionTab
 | z+z2 z+6 | C+8 c+> c+7 | C+6 c+> c+7 | C+8 c+8 c+> | C-z c-8' c-7' | G-8 g-> g-4' | G-7' g-> g-8 | C-6' c-> c-> |
 | C+z c+z c+6 | C+8 c+> c+7 | C+6 c+> c+7 | C+8 c+> c+> | C-z c-8' c-7' | G-8 g-> g-4' | G-7' g-> g-8 | C-6' c-> c->  |
-| F+z f+8' f+8' | F+8' f+8' f+7' | F+6' f+> f+7' | F+8' f+> f+z | F+z f+9' f+8' | C-8' c-> c-7' | C-6' c-> c-7' | C-8' c-> c-z |
-|: C-z c-6' c-8 | C-7' c-> c-8' | F+7 f+> f+5'' | C-7' c-> c-8' | F+7 f+> f+8 | G-8 g-> g-9 | G-7 g-> g-8 | C-6' c-> c-> :| | C+z c+z c+6 |
+| C-z c-a c-a | F+8' f+8' f+7' | F+6' f+> f+7' | F+8' f+> f+z | F+z f+9' f+8' | C-8' c-> c-7' | C-6' c-> c-7' | C-8' c-> c-z |
+|: C-z c-6' c-8 | G-7' g-> g-8' | F+7 f+> f+5'' | C-7' c-> c-8' | F+7 f+> f+8 | G-8 g-> g-9 | G-7 g-> g-8 | C-6' c-> c-> :| | C+z c+z c+6 |
