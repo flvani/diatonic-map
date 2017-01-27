@@ -3014,7 +3014,8 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
     this.parseLine = function(line, lineNumber) {
         var ret = header.parseHeader(line, lineNumber);
         if (ret.regular) {
-            if (multilineVars.clef.type === "accordionTab") {
+            // TODO: verificar porque no parabens crioulo a voz v3 nao tem clef definida
+            if (multilineVars.clef && multilineVars.clef.type === "accordionTab") {
                 var startOfLine = this.getMultilineVars().iChar;
                 if (this.accordion) {
                     if( this.transposer && this.transposer.offSet !== 0) {
