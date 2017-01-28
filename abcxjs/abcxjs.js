@@ -6985,8 +6985,12 @@ ABCXJS.write.StaffGroupElement.prototype.draw = function(printer, groupNumber) {
             printer.paper.printBrace(this.startx-10, top-10, bottom+10);  
         }
     }
+    // registra a posição do staffgroup e sua altura para uso posterior, fazendo scroll durante a execução do MIDI.
+    this.top = yi+delta +printer.totalY;
+    this.height = height;
     
-    printer.y = yi + delta + height; // nova posição da impressora
+    // nova posição da impressora
+    printer.y = yi+ delta + height; 
     
 };
 
@@ -7231,7 +7235,8 @@ ABCXJS.write.AbsoluteElement.prototype.draw = function(printer, staveInfo ) {
     }
     
     this.abcelem.parent = this; 
-    this.abcelem.parent.screenY = printer.totalY + printer.y; // posição na tela, independe das quebras de página
+    this.abcelem.parent.staffGroup = printer.staffgroups.length; // indica em qual staff group este abc elem vai estar
+                                                                 // lembrando que o staffgroup sera incluido mais adiante.
     
 };
 
@@ -9099,13 +9104,14 @@ ABCXJS.write.Printer.prototype.printTieArc = function(x1, x2, pitch1, pitch2, ab
 
 ABCXJS.write.Printer.prototype.printStave = function (startx, endx, staff ) {
     if(staff.numLines === 4) {
-      this.printLedger(startx,endx, 19.5); 
+      // startx+1 e endx-1 pq a rotina faz um deslocamento contrario para desenhar o ledger
+      this.printLedger(startx+1,endx-1, 19.5); 
       
       // imprimo duas linhas para efeito
       this.paper.printStaveLine(startx,endx,this.calcY(15)-0.5 ); 
       this.paper.printStaveLine(startx,endx,this.calcY(15) ); 
       
-      this.printLedger(startx,endx, 7.5 ); 
+      this.printLedger(startx+1,endx-1, 7.5 ); 
       
       this.paper.printStaveLine(startx,endx,this.calcY(0)); 
     } else {

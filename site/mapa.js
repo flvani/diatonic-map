@@ -115,7 +115,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     }, false );
    
     this.playerCallBackOnScroll = function( player ) {
-        that.setScrolling(player.currAbsElem.screenY, player.currChannel );
+        that.setScrolling( player );
     };
 
     this.playerCallBackOnPlay = function( player ) {
@@ -402,12 +402,24 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
     }
 };
 
-SITE.Mapa.prototype.setScrolling = function(y, channel) {
-    if( !this.tuneContainerDiv || channel > 0 ) return;
-    if( y !== this.ypos ) {
-        this.ypos = y;
-        this.tuneContainerDiv.scrollTop = this.ypos - 40;    
+SITE.Mapa.prototype.setScrolling = function(player) {
+    if( !this.tuneContainerDiv || player.currChannel > 0 ) return;
+    
+    var fixedTop = 40;
+    var wtop = 0;
+
+    var wh = this.tuneContainerDiv.clientHeight ;
+    
+    var vp = wh - fixedTop;
+
+    var top = player.printer.staffgroups[player.currAbsElem.staffGroup].top;
+    var bottom = top + player.printer.staffgroups[player.currAbsElem.staffGroup].height;
+
+    if( wtop+bottom > vp+this.ypos || this.ypos-wtop > top ) {
+        this.ypos = wtop + top;
+        this.tuneContainerDiv.scrollTop = this.ypos;    
     }
+
 };
 
 SITE.Mapa.prototype.rotateKeyboard = function() {

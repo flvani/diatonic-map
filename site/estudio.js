@@ -383,7 +383,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     if (editorParams.generate_midi) {
         
         this.playerCallBackOnScroll = function( player ) {
-            that.setScrolling(player.currAbsElem.screenY, player.currChannel );
+            that.setScrolling(player);
         };
 
         this.playerCallBackOnPlay = function( player ) {
@@ -425,13 +425,26 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
 
 };
 
-SITE.Estudio.prototype.setScrolling = function(y, channel) {
+SITE.Estudio.prototype.setScrolling = function(player) {
     var d = document.getElementById( 'studioCanvasDiv');
-    if( ! d || channel > 0 ) return;
-    if( y !== this.ypos ) {
-        this.ypos = y;
-        d.scrollTop = this.ypos - 40;    
+    
+    if( !d || player.currChannel > 0 ) return;
+    
+    var fixedTop = 40;
+    var wtop = 0;
+
+    var wh = d.clientHeight ;
+    
+    var vp = wh - fixedTop;
+
+    var top = player.printer.staffgroups[player.currAbsElem.staffGroup].top;
+    var bottom = top + player.printer.staffgroups[player.currAbsElem.staffGroup].height;
+
+    if( wtop+bottom > vp+this.ypos || this.ypos-wtop > top ) {
+        this.ypos = wtop + top;
+        d.scrollTop = this.ypos;    
     }
+
 };
 
 
