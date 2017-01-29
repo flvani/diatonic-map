@@ -18,19 +18,19 @@ SITE.TabGen = function( interfaceParams ) {
 
     this.tabParser = new ABCXJS.Part2Tab();
     this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
-    this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
+//    this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
     
-    this.printButton = document.getElementById(interfaceParams.printBtn);
+//    this.printButton = document.getElementById(interfaceParams.printBtn);
     this.saveButton = document.getElementById(interfaceParams.saveBtn);
     this.updateButton = document.getElementById(interfaceParams.updateBtn);
 
     // player control
-    this.playButton = document.getElementById(interfaceParams.playBtn);
-    this.stopButton = document.getElementById(interfaceParams.stopBtn);
-    this.currentPlayTimeLabel = document.getElementById(interfaceParams.currentPlayTimeLabel);
+//    this.playButton = document.getElementById(interfaceParams.playBtn);
+//    this.stopButton = document.getElementById(interfaceParams.stopBtn);
+//    this.currentPlayTimeLabel = document.getElementById(interfaceParams.currentPlayTimeLabel);
     
     this.ckShowWarns = document.getElementById(interfaceParams.ckShowWarns);
-    this.ckShowABC = document.getElementById(interfaceParams.ckShowABC);
+    //this.ckShowABC = document.getElementById(interfaceParams.ckShowABC);
     //this.ckConvertToClub = document.getElementById(interfaceParams.ckConvertToClub);
     //this.convertToClub = document.getElementById('convertToClub');
     
@@ -46,14 +46,14 @@ SITE.TabGen = function( interfaceParams ) {
         }
     }, false);
 
-    this.ckShowABC.addEventListener("click", function() {
-        var divABC = document.getElementById("t2pABCDiv");
-        if( this.checked ) {
-            divABC.style.display = 'inline';
-        } else {
-            divABC.style.display = 'none';
-        }
-    }, false);
+//    this.ckShowABC.addEventListener("click", function() {
+//        var divABC = document.getElementById("t2pABCDiv");
+//        if( this.checked ) {
+//            divABC.style.display = 'inline';
+//        } else {
+//            divABC.style.display = 'none';
+//        }
+//    }, false);
 
 //    this.ckConvertToClub.addEventListener("click", function() {
 //        that.update();
@@ -61,13 +61,13 @@ SITE.TabGen = function( interfaceParams ) {
 
     this.textarea = document.getElementById(interfaceParams.textarea);
 
-    this.printButton.addEventListener("click", function() {
-        that.printPreview(that.tab.div.innerHTML, ["#divTitulo","#t2pDiv"]);
-    }, false);
+//    this.printButton.addEventListener("click", function() {
+//        that.printPreview(that.tab.div.innerHTML, ["#divTitulo","#t2pDiv"]);
+//    }, false);
 
-    this.saveButton.addEventListener("click", function() {
-        that.salvaPartitura();
-    }, false);
+//    this.saveButton.addEventListener("click", function() {
+//        that.salvaPartitura();
+//    }, false);
     
     this.showMapButton.addEventListener("click", function() {
         that.showMap();
@@ -78,7 +78,7 @@ SITE.TabGen = function( interfaceParams ) {
     }, false);
     
     this.playerCallBackOnScroll = function( player ) {
-        that.setScrolling(player.currAbsElem.screenY, player.currChannel );
+        that.setScrolling(player);
     };
 
     this.playerCallBackOnPlay = function( player ) {
@@ -106,13 +106,13 @@ SITE.TabGen = function( interfaceParams ) {
         }
     };
 
-    this.playButton.addEventListener("click", function() {
-        that.startPlay( 'normal' );
-    }, false);
-
-    this.stopButton.addEventListener("click", function() {
-        that.midiPlayer.stopPlay();
-    }, false);
+//    this.playButton.addEventListener("click", function() {
+//        that.startPlay( 'normal' );
+//    }, false);
+//
+//    this.stopButton.addEventListener("click", function() {
+//        that.midiPlayer.stopPlay();
+//    }, false);
     
 
     // inicio do setup do mapa    

@@ -110,8 +110,9 @@ SITE.KeySelector.prototype.addChangeListener = function (editor) {
 };
 
 SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
-    this.ypos = 0;
-    this.lastYpos = 0;
+    this.ypos = 0; // controle de scroll
+    this.lastStaffGroup = -1; // controle de scroll
+    this.lastYpos = 0; // controle de scroll
     var that = this;
     this.visible = false;
     
@@ -127,6 +128,9 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.playBass = true;
     this.timerOn = false;
     this.clefsToPlay = (this.playTreble?"T":"")+(this.playBass?"B":"");
+    
+    this.studioCanvasDiv = document.getElementById( 'studioCanvasDiv');
+
     
     this.setupEditor();
     
@@ -294,9 +298,6 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         this.blur();
         that.renderedTune.printer.clearSelection();
         that.accordion.clearKeyboard(true);
-        that.ypos = 1000;
-        //that.gotoMeasureButton.value = DR.getResource("DR_goto");
-        //that.untilMeasureButton.value = DR.getResource("DR_until");
         that.currentPlayTimeLabel.innerHTML = "00:00.00";
         that.midiPlayer.stopPlay();
     }, false);
@@ -426,23 +427,19 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
 };
 
 SITE.Estudio.prototype.setScrolling = function(player) {
-    var d = document.getElementById( 'studioCanvasDiv');
+    if( !this.studioCanvasDiv || player.currAbsElem.staffGroup === this.lastStaffGroup ) return;
     
-    if( !d || player.currChannel > 0 ) return;
+    this.lastStaffGroup = player.currAbsElem.staffGroup;
     
-    var fixedTop = 40;
-    var wtop = 0;
-
-    var wh = d.clientHeight ;
-    
-    var vp = wh - fixedTop;
-
+    var fixedTop = player.printer.staffgroups[0].top;
+    var vp = this.studioCanvasDiv.clientHeight - fixedTop;
     var top = player.printer.staffgroups[player.currAbsElem.staffGroup].top;
     var bottom = top + player.printer.staffgroups[player.currAbsElem.staffGroup].height;
 
-    if( wtop+bottom > vp+this.ypos || this.ypos-wtop > top ) {
-        this.ypos = wtop + top;
-        d.scrollTop = this.ypos;    
+    if( bottom > vp+this.ypos || this.ypos > top-fixedTop ) {
+        
+        this.ypos = top;
+        this.studioCanvasDiv.scrollTop = this.ypos;    
     }
 
 };
@@ -713,20 +710,20 @@ SITE.Estudio.prototype.resize = function( ) {
     
     o.style.height = (window.innerHeight -50 /*topdiv*/ - 17) + "px";
 
-    var i = document.getElementById( 'studioCanvasDiv');
+    this.studioCanvasDiv.style.height = (o.clientHeight - h.clientHeight - m.clientHeight - 2) + "px";
+    this.studioCanvasDiv.style.width = s.style.width;
     
-    i.style.height = (o.clientHeight - h.clientHeight - m.clientHeight - 2) + "px";
-    i.style.width = s.style.width;
    // posiciona a janela de teclado
    this.posicionaTeclado();
    
 };
 
 SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
+    this.ypos = this.studioCanvasDiv.scrollTop;
+    this.lastStaffGroup = -1;
     
     if( this.midiPlayer.playing) {
         
-        this.ypos = 1000;
         if (type === "normal" ) {
             this.playButton.title = DR.getResource("playBtn");
             this.playButton.innerHTML = '&#160;<i class="icon-play"></i>&#160;';
@@ -766,7 +763,7 @@ SITE.Estudio.prototype.setTimerIcon = function( timerOn, value ) {
 };
 
 SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, counter ) {
-    var that = this;
+     var that = this;
     
     if( type !== 'note' && this.timerOn && counter > 0 ) {
         that.setTimerIcon( that.timerOn, counter );
@@ -780,18 +777,13 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
                 ga('send', 'event', 'Estúdio', 'play', this.renderedTune.title);
                 this.playButton.title = DR.getResource("DR_pause");
                 this.playButton.innerHTML = '&#160;<i class="icon-pause"></i>&#160;';
-                this.ypos = 1000;
             }
         } else {
             this.midiPlayer.setPlayableClefs( this.clefsToPlay );
             ga('send', 'event', 'Estúdio', 'didactic-play', this.renderedTune.title);
-            if( this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value, valueF ) ) {
-                this.ypos = 1000;
-            }
+            this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value, valueF );
         }
     }
-    
-    
 };
 
 
@@ -872,7 +864,7 @@ SITE.Estudio.prototype.selectButton = function(elem) {
 };
 
 SITE.Estudio.prototype.onChange = function() {
-    document.getElementById("studioCanvasDiv").scrollTop = this.lastYpos;
+    this.studioCanvasDiv.scrollTop = this.lastYpos;
     this.resize();
 
 };
@@ -902,7 +894,7 @@ SITE.Estudio.prototype.fireChanged2 = function (transpose, force, loader) {
         
         this.oldAbcText = this.editArea.getString();
     
-        this.lastYpos = document.getElementById("studioCanvasDiv").scrollTop || 0;               
+        this.lastYpos = this.studioCanvasDiv.scrollTop || 0;               
 
         if( this.parseABC(transpose) ) {
             this.modelChanged();
@@ -952,7 +944,7 @@ SITE.Estudio.prototype.setup = function(tab, accordionId) {
     this.editorWindow.setTitle('-&#160;' + tab.title);
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
     document.getElementById("spanStudioAccordeon").innerHTML = ' - ' + this.accordion.getTxtModel(); 
-    document.getElementById( 'studioCanvasDiv').scrollTop = 0;
+    this.studioCanvasDiv.scrollTop = 0;
     this.fireChanged2(0,'force');
 };
 

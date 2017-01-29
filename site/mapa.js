@@ -18,6 +18,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
 
     var that = this;
     this.ypos = 0; // esta variável é usada para ajustar o scroll durante a execução do midi
+    this.lastStaffGroup = -1; // também auxilia no controle de scroll
     this.currentTab = '';
     this.currentABC = null;
     
@@ -373,9 +374,11 @@ SITE.Mapa.prototype.closeStudio2 = function (loader) {
 };
 
 SITE.Mapa.prototype.startPlay = function( type, value ) {
+    this.ypos = this.tuneContainerDiv.scrollTop;
+    this.lastStaffGroup = -1; 
+
     if( this.midiPlayer.playing) {
         
-        this.ypos = 1000;
         if (type === "normal" ) {
             this.playButton.title = DR.getResource("playBtn");
             this.playButton.innerHTML = '&#160;<i class="icon-play"></i>&#160;';
@@ -391,32 +394,27 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
                 ga('send', 'event', 'Mapa', 'play', this.currentABC.title);
                 this.playButton.title = DR.getResource("DR_pause");
                 this.playButton.innerHTML = '&#160;<i class="icon-pause"></i>&#160;';
-                this.ypos = 1000;
             }
         } else {
             if( this.midiPlayer.startDidacticPlay(this.currentABC.abc.midi, type, value ) ) {
                 ga('send', 'event', 'Mapa', 'didactic-play', this.currentABC.title);
-                this.ypos = 1000;
             }
         }
     }
 };
 
 SITE.Mapa.prototype.setScrolling = function(player) {
-    if( !this.tuneContainerDiv || player.currChannel > 0 ) return;
+    if( !this.tuneContainerDiv || player.currAbsElem.staffGroup === this.lastStaffGroup ) return;
     
-    var fixedTop = 40;
-    var wtop = 0;
-
-    var wh = this.tuneContainerDiv.clientHeight ;
+    this.lastStaffGroup = player.currAbsElem.staffGroup;
     
-    var vp = wh - fixedTop;
-
+    var fixedTop = player.printer.staffgroups[0].top;
+    var vp = this.tuneContainerDiv.clientHeight - fixedTop;
     var top = player.printer.staffgroups[player.currAbsElem.staffGroup].top;
     var bottom = top + player.printer.staffgroups[player.currAbsElem.staffGroup].height;
 
-    if( wtop+bottom > vp+this.ypos || this.ypos-wtop > top ) {
-        this.ypos = wtop + top;
+    if( bottom > vp+this.ypos || this.ypos > top-fixedTop ) {
+        this.ypos = top;
         this.tuneContainerDiv.scrollTop = this.ypos;    
     }
 

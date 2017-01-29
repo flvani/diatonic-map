@@ -143,7 +143,7 @@ K:C
         <script type="text/javascript" src="javascripts/edit_area_full.js"></script>
         
         <!-- suporte a MIDI -->
-        <script type="text/javascript" src="MIDI.js/MIDI_2.04-min.js"></script>
+        <script type="text/javascript" src="MIDI.js/MIDI_3.00-min.js"></script>
         
         <!-- suporte a arquivos -->
         <script type="text/javascript" src="file/filemanager.js"></script>
@@ -166,20 +166,6 @@ K:C
             
             var debug = false;
             var myPartGen;
-
-                DIATONIC.map.loadAccordionMaps(
-                   [
-                     'accordions/minuano.gc.accordion'
-                    ,'accordions/minuano.cf.transportada.accordion'
-                    ,'accordions/hohner.cf.club.br.accordion'
-                    // 'accordions/hohner.gc.accordion'
-                    //,'accordions/hohner.cf.club.br.accordion'
-                    //,'accordions/hohner.adg.corona.accordion'
-                    //,'accordions/hohner.cf.club.accordion'
-                   ]
-                );
-    
-            window.addEventListener('load', initApp, false);
             
             var w1 = new DRAGGABLE.Div( 1, 't2pEditorDiv', 'Editor ABCX', ['move|Mover'], 'w1Callback', false );
             var w2 = new DRAGGABLE.Div( 2, 't2pKeyboardDiv', '', [ 'move|Mover', 'retweet|Rotacionar', 'zoom-in|Zoom','globe|Mudar Notação'], 'w2Callback', false );
@@ -203,35 +189,56 @@ K:C
                return querystr[querystring];  
             }  
             
-            function initApp() {
+            window.addEventListener('load', loadAccordions, false);
+            
+            function loadAccordions() {
+
+                MIDI.widget = new sketch.ui.Timer({size:180 });
+                MIDI.widget.setFormat( 'Carregando...');
+
+                DIATONIC.map.loadAccordionMaps(
+                    [
+                        'accordions/minuano.gc.accordion'
+                       ,'accordions/minuano.bc.transportada.accordion'
+                       ,'accordions/hohner.cf.club.br.accordion'
+                       // 'accordions/hohner.gc.accordion'
+                       //,'accordions/hohner.adg.corona.accordion'
+                       //,'accordions/hohner.cf.club.accordion'
+                    ]
+                    , function () { 
+                        FILEMANAGER.waitResources( { 
+                            onProgress: function(event) {
+                                if(event.success){
+                                    MIDI.widget.setValue(0+Math.round(event.perc*.15));
+                                    //console.log('\nPercentual: '+ event.perc + '\nTimeouts: ' + event.timeouts + '\n' + event.success );
+                                } else {
+                                    MIDI.widget.setValue(0+Math.round(event.perc*.15));
+                                    //console.log('\nPercentual: '+ event.perc);
+                                }
+                            }
+                            ,onLoad: loadMIDI 
+                        });
+                    } 
+                );
+    
+            }
+            
+            function loadMIDI() {
                 
-                // returns -1 (wait), 0 (success) and 1 (fail)
-                switch( FILEMANAGER.checkResources() ) {
-                    case -1: 
-                        window.setTimeout(function(){ initApp() ; },100);
-                        return;
-                    case 1:
-                        alert('Timeouts: ' + FILEMANAGER.timeouts + '\n\n' + FILEMANAGER.errors + '\n\nPor favor, verifique o nome dos arquivos e recarregue (F5) esta página!');
-                        return;
-                    case 0:    
-                        console.log('Timeouts: ' + FILEMANAGER.timeouts + '\n\n' + FILEMANAGER.success);
-                }
-                
-                MIDI.loader = new widgets.Loader();
                 MIDI.loadPlugin({
-                    soundfontUrl: "./soundfont/"
-                   ,instruments: "accordion"
-                   ,callback: function() {
-                        MIDI.loader.stop();
-                        MIDI.programChange(0, 21); // canais para accordeon
-                        MIDI.programChange(1, 21); // 
-                        MIDI.programChange(2, 21); // 
-                        MIDI.programChange(3, 21); // 
-                        MIDI.programChange(4, 21); // 
-                        MIDI.programChange(5, 21); // 
-                        //postPlugin();
-                    }
+                     soundfontUrl: "./soundfont/"
+                    ,instruments: "accordion" // default
+                    ,onprogress: function(event) {
+                        MIDI.widget.setValue(Math.round(MIDI.getPercent(event)*.35)+15);
+                    }                            
+                    ,onprogress2: function( percent ) {
+                        MIDI.widget.setValue(50+Math.round(percent/2));
+                    }        
+                    ,callback: initApp
                 });
+            }
+            
+            function initApp() {
                 
                 var accordion = request.getParameter('accordion') || FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
                 
