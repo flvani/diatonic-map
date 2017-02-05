@@ -85,6 +85,7 @@ notação abc, tablatura " />
                                     <div id="divMenuHelp" class="btn-group">
                                         <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_info">Informações</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
                                         <ul class="dropdown-menu" id="opcoes_teoria">
+                                          <li><a id="DR_tutorial" target="_blank" href="html/tutoriais.pt_BR.html" >Tutoriais <img src="img/novo.png" width="32" height="30" alt="Novo" title="Novo"></a></li>
                                           <li><a id="DR_accordion_maps" target="_blank" href="html/mapas.pt_BR.html" >Mapas para acordeons</a></li>
                                           <li><a id="DR_tablature" target="_blank" href="html/tablatura.pt_BR.html" >Tablaturas para acordeons</a></li>
                                           <li><a id="DR_repeatsyms" target="_blank" href="html/sinaisRepeticao.pt_BR.html" >Símbolos de Repetição</a></li>
@@ -331,7 +332,7 @@ notação abc, tablatura " />
                             <input id="untilMeasureBtn" type="text" title="Executar até o compasso" value="até..."/>
                             <button id="stepBtn" class="btn" title="Passo a passo" onclick="">&#160;<i class="icon-play"></i>&#160;</button>
                             <button id="stepMeasureBtn" class="btn" title="Executar compasso" onclick="">&#160;<i class="icon-forward"></i>&#160;</button>
-                            <button id="repeatBtn" class="btn" title="Repetir compasso" onclick="">&#160;<i class="icon-repeat"></i>&#160;</button>
+                            <button id="repeatBtn" class="btn" title="Repetir" onclick="">&#160;<i class="icon-repeat"></i>&#160;</button>
                             <button id="clearBtn" class="btn" title="Limpar" onclick="">&#160;<i class="icon-stop"></i>&#160;</button>
                             <button id="tempoBtn" class="btn" title="Andamento" onclick=""><b>&#160;1&#160;</b></button>
                         </div>
@@ -366,13 +367,13 @@ notação abc, tablatura " />
         <script type="text/javascript" src="MIDI.js/MIDI_3.00-min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_4.15-min.js"></script>
+        <script type="text/javascript" src="file/filemanager_4.16-min.js"></script>
         
         <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_4.15-min.js" ></script>
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_4.16-min.js" ></script>
         
         <!-- suporte mapas de acordeons -->
-        <script type="text/javascript" src="diatonic/diatonic_4.15-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic_4.16-min.js"></script>
 
         <!-- site -->
         <script id="siteLib" type="text/javascript" src="site_4.15-min.js"></script>
@@ -484,9 +485,9 @@ notação abc, tablatura " />
                    + '</b>';
            
                 w3.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
-                   + 'Está disponivel o 2º tutorial do site:<br/>"Personalizando o Estúdio ABCX".<br />'
-                   + '<a target="_blank" href="https://youtu.be/J78bvDz32z0" >Clique aqui!</a>'
-                   + '<br/>Este tutorial apresenta algumas facilidades para melhorar o uso do Estúdio.".</b></center>';
+                   + 'Assista aos nossos vídeos tutoriais!<br /><br />Acesse o menu <h4>Informações, Tutoriais</h4><br/>ou '
+                   + '<a target="_blank" href="html/tutoriais.pt_BR.html" >clique aqui!</a><br>'
+                   + '<br/>Aprenda usar todos os recursos deste site!</b></center>';
            
                 w4.dataDiv.innerHTML = 
                      '<table class="table table-bordered table-final" style="min-width: 300px;">'
