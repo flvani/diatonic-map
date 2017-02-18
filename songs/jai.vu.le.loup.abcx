@@ -1,39 +1,19 @@
-X:1000
+X:1030
+%%barnumbers 1
 %%papersize A4
-%%scale 1.0
 T:J'ai vu le loup, le renard et la belette
 T:Eu vi o lobo, a raposa e a doninha
-C:Tradicional 
-C:(transcrição: Bernard Loffet)
-Q:"Allegro" 1/4=164
+C:Tradicional
+Q:"Allegro" 1/4=140
 L:1/8
 M:2/4
-V:melodia
-K:G treble
-|: G2FE | D2EF |  GF GA |  B2G2  | G2FE | D2EF | G2A2 | G2z2  :|
-%(Chorus)
-w:J'ai vu le loup la re-na-rd la ba-le-tte J'ai  vu le loup la  re-nard dan-ser
-|: G2A2 | B2c2 | B2A2 | B2z2 | G2GF | E2ED | E2F2 |1 E2D2 :|2 G4  | 
-w:Je les ai vue taper leurs mains Je les ai vue ta-per le-urs ma-ins pieds
-%Je les ai vue taper leurs pieds
-%Je les ai vue taper leurs pieds
-%(Chorus 2x)
-%Je les ai vue qu'ils s’embrassaient
-%Je les ai vue qu'ils s’embrassaient
-%Je les ai vue qu'ils se caressaient
-%Je les ai vue qu'ils se caressaient
-%(Chorus 2x)
-%Je les ai vue avec une enfant
-%Je les ai vue avec une enfant
-%Merci bon dieu c'était pas la mienne
-%Merci bon dieu c'était pas la mienne
-V:baixo
-K:G bass
-|: G,,2[G,2B,2d,2] | G,,2[D,2F,2A,2] | D,2[D,2F,2A,2] | G,,2[G,2B,2d,2] | G,,2[G,2B,2d,2] | \
-C,2[C,2E,2G,2] | D,2[D,2F,2A,2] | G,,2[G,2B,2d,2] :|
-|: G,,2[G,2B,2d,2] | C,2[C,2E,2G,2] | D,2[D,2F,2A,2] | G,,2[G,2B,2d,2] | G,,2[G,2B,2d,2] | \
-C,2[C,2E,2G,2] | C,2[C,2E,2G,2] |1 D,2[D,2F,2A,2] :|2 G,,2[G,2B,2d,2] |
-V:tablatura
-K:none accordionTab
-%|: G+5'2 g-4' >-5 | G-3'2 d-5 >-4' | D-5' >-4' d-5' >-7 | G+72 g+62 | G+62 g-4' >-5 | C+52 c+4' >+x | D-5'2 d-72 | G-5'2 g-z2 :|
-%|: G+5'2 g-72 | C+72 c+6'2 | D-6'2 d-72 | G-6'2 g-z2 | G-5'2 g+5' >-4' | C+4'2 c+4' >+5 | C+4'2 c+x2 |1 D-52 d-3'2 :|2 G-5'2 g-z2 |
+K:C
+V:1 treble
+|: c2 BA | G2 AB | cB cd | e2 c2 | c2 BA | G2 AB | c2 d2 | c2 z2 :| 
+|: c2 d2 | e2 f2 | e2 d2 | e2 z2 | c2 cB | A2 AG | A2 B2 |1 A2 G2 :|2 c4 | 
+V:2 bass
+|: C,,2 [C,E,G,] z | G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,]2 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,] z | F,,2 [F,,A,,C,]2 | G,,2 [G,,B,,D,]2 | C,,2 [C,E,G,]2 :| 
+|: C,,2 [C,E,G,]2 | F,,2 [F,,A,,C,]2 | G,,2 [G,,B,,D,]2 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | F,,2 [F,,A,,C,]2 | F,,2 [F,,A,,C,]2 |1 G,,2 [G,,B,,D,]2 :|2 C,,2 [C,E,G,]2 | 
+V:3 accordionTab
+|: C+6'2 c+7 z-7 | G-5'2 g-7 >-6' | G-8 >-6' g-8 >-7' | C+7'2 c+6'2 | C+6'2 c+7 z-7 | F-5'2 f-7 >-6' | G-82 g-7'2 | C+6'2 c+z2 :| 
+|: C+6'2 c+82 | F-92 f-8'2 | G-92 g-7'2 | C+7'2 c+z2 | C+6'2 c+6' >+7 | F-72 f-7 >-5' | F-72 f-6'2 |1 G-72 g-5'2 :|2 C+6'2 c+>2 | 
