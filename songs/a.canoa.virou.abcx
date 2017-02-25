@@ -1,21 +1,20 @@
-%%barnumbers 0
-%%papersize a4
-T:A canoa virou
+X:1032
+%%barnumbers 1
+%%papersize A4
+T:A canoa virou 
 C:Tradicional
 Z:Flávio Vani
 N:Mapa para Acordeons Diatônicos powered by ABCXJS.
 M:2/4
 L:1/8
 Q:120
-K:C
+K:G
 V:1 treble
+| z2 d d |: d2 d c | B2 B d | g2 g f | e2 e e | a2 a g | f2 f e | d2 d c | B2 d d | 
+| d2 d c | B2 B d | g2 g f | e2 e e | a2 a g | f2 f e | d2 e f | g4 |1 z2 d d :|2 z2 z2 | 
 V:2 bass
-[V:1]| z2 GG |: G2 GF | E2 EG | c2 cB | A2 AA | d2 dc | B2 BA | G2 GF | E2 GG | 
-w:A ca-no-a vi-rou por dei-xar ela vi-rar foi por causa do gu-ri que não sou-be re-mar se'u fos-
-[V:2]| z4    |: C,,2 [A,,C,E,]2 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,_B,]2 | F,,2 [F,A,C,]2 | F,,2 [F,A,C,]2 |  G,,2 [G,B,D,]2 | G,,2 [G,B,D,]2 | C,,2 [C,E,G,]2 |
-[V:1]| G2 GF | E2 EG | c2 cB | A2 AA | d2 dc | B2 BA | G2 AB | c4 |1 z2 GG :|2 z4 |
-w:se~um pei-xi-nho, se'u sou-bes-se na-dar, eu ti-ra-va o gu-ri do fun-do do mar * A ca-
-[V:2]| C,,2 [A,,C,E,]2 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,_B,]2 | F,,2 [F,A,C,]2 | F,,2 [F,A,C,]2 |  G,,2 [G,B,D,]2 | G,,2 [G,B,D,]2 | C,,2 [C,E,G,]2 |1 C,,2 [C,E,G,]2 :|2  C,,2 [C,E,G,]2 |
+| z2 z z |: G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | C,,2 [C,E,G,]2 | A,,2 [A,CE]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,B,D]2 | 
+| G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | C,,2 [C,E,G,]2 | A,,2 [A,CE]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,B,D]2 |1 G,,2 [G,B,D]2 :|2 G,,2 [G,B,D]2 | 
 V:3 accordionTab
-| z+z2 z+5' z+5' |: C+5'2 a-5' >-4' | C+4'2 c+4' >+5' | C+6'2 c+6' >+7 | F-72 c-7 >-7 | F+82 c+8 >+6' | G-6'2 d-6' >-7 | G+62 d-5' >-4' | C+4'2 c+5' >+5' |
-| C+5'2 a-5' >-4' | C+4'2 c+4' >+5' | C+6'2 c+6' >+7 | F-72 c-7 >-7 | F+82 c+8 >+6' | G-6'2 d-6' >-7 | G+62 d-7 >-6' | C+6'2 c+>2 |1 C+z2 c+6 >+6 :|2 C+z2 c+z2 |
+| z+z2 z+8 z+8 |: G-7'2 g-7' >-8 | G+72 g+7 >+8 | G-9'2 g-9' >-a | C+7'2 c+7' >+7' | A-b2 a-b >-9' | D-a2 d-a >-9 | D-7'2 d-7' >-8 | G+72 g+8 >+8 |
+| G+82 g+8 >+6' | G-6'2 g-6' >-7' | G-9'2 g-9' >-a | C+7'2 c+7' >+7' | A-b2 a-b >-9' | D-a2 d-a >-9 | D-7'2 d-9 >-a | G+92 g+>2 |1 G-z2 g-7' >-7' :|2 G+z2 g+z2 |

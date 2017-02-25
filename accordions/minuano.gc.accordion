@@ -22,7 +22,8 @@
     }
 ,"songPathList":
     [
-       "songs/asa.branca.abcx"
+       "songs/a.canoa.virou.abcx"
+      ,"songs/asa.branca.abcx"
       ,"songs/cadela.baia.abcx"
       ,"songs/canto.alegretense.abcx"
       ,"songs/cinco.pila.abcx"
@@ -63,6 +64,6 @@
 ,"chordPathList":
     [
        "chords/acordes.abcx"
-      ,"chords/didatica.abcx"
+      ,"chords/notas.gc.minuano.abcx"
     ]
 }
