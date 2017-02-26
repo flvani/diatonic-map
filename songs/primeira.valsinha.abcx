@@ -21,7 +21,7 @@ V:Treb
 |[F3A3]   | [A3F3]   | [G3E3]   | [G3E3]   | [F3D3]   | 
 |[F3D3]   | [E3C3]   | C D E | [A3F3]   | 
 |[A3F3]   | [G3E3]   | E G E | B A G | 
-|F E D | C3  | C3 |]
+|F E D | C3  !dacapo!| C3 |]
 V:Bass bass
 |C, [C,E,G,] [C,E,G,] | C, [C,E,G,] [C,E,G,] | G,, [G,B,d,] [G,B,d,] | G,, [G,B,d,] [G,B,d,] |
 |G,, [G,B,d,] [G,B,d,] | G,, [G,B,d,] [G,B,d,] | C, [C,E,G,] [C,E,G,] | C, [C,E,G,] [C,E,G,] | 
@@ -30,7 +30,7 @@ V:Bass bass
 |F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] |C, [C,E,G,] [C,E,G,] | C, [C,E,G,] [C,E,G,] | G,, [G,B,d,] [G,B,d,] |
 |G,, [G,B,d,] [G,B,d,] | C, [C,E,G,] [C,E,G,] | C, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] |
 |F,, [F,A,C] [F,A,C] |C, [C,E,G,] [C,E,G,] | C, [C,E,G,] [C,E,G,] | G,, [G,B,d,] [G,B,d,] |
-|G,, [G,B,d,] [G,B,d,] |C, [C,E,G,] [C,E,G,] | C, [C,E,G,] [C,E,G,] |]
+|G,, [G,B,d,] [G,B,d,] |C, [C,E,G,] [C,E,G,] | [C,E,G,]3 |]
 V:Tab accordionTab
 | C+6' c+5' c+4' | C+6' c+5' c+4' | G-6' g-5' g-4' | G-6' g-5' g-4' |
 | G-6' g-5' g-4' | G-6' g-5' g-4' | C+6' c+5' c+4' | C+6' c+5' c+4' |
@@ -39,5 +39,5 @@ V:Tab accordionTab
 | F-[4'7] f-[>>] f-[>>] | F-[4'7] f-[>>] f-[>>] | C+[4'5'] c+[>>] c+[>>] | C+[4'5'] c+[>>] c+[>>] | G-[3'4'] g-[>>] g-[>>] |
 | G-[3'4'] g-[>>] g-[>>] | C+[3'4'] c+[>>] c+[>>] | C+3' c+5 c+4' | F-[4'7] f-[>>] f-[>>] |
 | F-[4'7] f-[>>] f-[>>] | C+[4'5'] c+[>>] c+[>>] | C+4' c+5' c+4' | G-6' g-7 g-5' |
-| G-4' g-5 g-3' | C+3' c+> c+> | C+3' c+> c+> |]
+| G-4' g-5 g-3' | C+3' c+> c+> | c+3'3 |]
 
