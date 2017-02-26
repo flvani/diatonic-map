@@ -2,8 +2,8 @@ X:1032
 %%barnumbers 0
 %%papersize a4
 %%pagenumbering
-%%barsperstaff 11
-%%landscape
+%%barsperstaff 8
+%landscape
 T:A canoa virou 
 C:Tradicional
 C:(Arr. Mário Mascarenhas)
@@ -12,19 +12,19 @@ N:Mapa para Acordeons Diatônicos powered by ABCXJS.
 M:2/4
 L:1/8
 Q:120
-K:G
+K:C
 V:1 treble
-| z2 dd |!segno! d2 dc | B2 Bd | g2 gf | e2 ee | a2 ag | f2 fe | d2 dc | B2 dd |
+| z2 GG |!segno! G2 GF | E2 EG | c2 cB | A2 AA | d2 dc | B2 BA | G2 GF | E2 GG |
 w:A ca-no-a vi-rou por dei-xar ela vi-rar foi por causa do gu-ri que não sou-be re-mar se'u fos-
-| d2 dc | B2 Bd | g2 gf | e2 ee | a2 ag | f2 fe | d2 ef |
+| G2 GF | E2 EG | c2 cB | A2 AA | d2 dc | B2 BA | G2 AB |
 w:se~um pei-xi-nho, se'u sou-bes-se na-dar, eu ti-ra-va o gu-ri do fun-do do 
-| g z0.5 d0.5dd |: g z0.5 d0.5cB | A z0.5 d0.5dd | f1.5d0.5 cA |1 G z0.5 d0.5dd :|2 G2 dd !dasegno!|
-w:mar  Si-ri~ri pra cá, Si-ri~ri pra lá, * O gu-ri não sa-be re-mar Si-ri~ri  pra mar A ca-
+| c G/2G/2G G |: c G/2G/2G E | D z GG | B3/2 G/2G F/2D/2 |1 C G/2G/2G G  :|2 C2 GG !dasegno!|
+w:mar  Si-ri-ri pra cá, Si-ri-ri pra lá, * O gu-ri não sa-be re-mar Si-ri-ri  pra mar A ca-
 V:2 bass
-| z2 z z | G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,]2 | C,,2 [C,E,G,]2 | A,,2 [A,,C,E,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,,B,,D,]2 |
-| G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,]2 | C,,2 [C,E,G,]2 | A,,2 [A,,C,E,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 |
-| G,,2 z z |: G,,2 z z | D,,2 z z | D,,2 [D,F,A,]2 |1 G,,2 z z :|2 G,,2 [G,,B,,D,]2 |
+| z4    | C,,2 [A,,C,E,]2 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 | F,,2 [F,A,C]2 |  G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | C,,2 [C,E,G,]2 |
+| C,,2 [A,,C,E,]2 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 | F,,2 [F,A,C]2 |  G,,2 [G,B,D]2 | G,,2 [G,B,D]2 |
+| C,,2 z2 |: C,,2 z2 | G,,2 z2 | G,,2 [G,B,D]2 |1 C,,2 z2 :|2 C,,2 [C,E,G,]2 | 
 V:3 accordionTab
-| z+z2 z+8 z+8 | G+82 g+8 >+6' | G-6'2 g-6' >-7' | G-9'2 g-9' >-a | C+7'2 c+7' >+7' | A-b2 a-b >-9' | D-a2 d-a >-9 | D-7'2 d-7' >-8 | G+72 g+8 >+8 |
-| G+82 g+8 >+6' | G-6'2 g-6' >-7' | G-9'2 g-9' >-a | C+7'2 c+7' >+7' | A-b2 a-b >-9' | D-a2 d-a >-9 | D-7'2 d-9 >-a |
-| G+9 >+z0.5 >+80.5 z+8 z+8 |: G+8' >+z0.5 >+80.5 z+6' z+7 | D-7 >-z0.5 >-7'0.5 z-7' z-7' | D-a1.5 >-7'0.5 d-8 >-7 |1 G+6 >+z0.5 >+80.5 z+8 z+8 :|2 G+62 g+8 >+8 |
+| z+z2 z+5' z+5' | C+5'2 a-5' >-4' | C+4'2 c+4' >+5' | C+6'2 c+6' >+7 | F-72 f-7 >-7 | F+82 f+8 >+6' | G-6'2 g-6' >-7 | G-5'2 g-5' >-4' | C+4'2 c+5' >+5' |
+| C+5'2 a-5' >-4' | C+4'2 c+4' >+5' | C+6'2 c+6' >+7 | F-72 f-7 >-7 | F+82 f+8 >+6' | G-6'2 g-6' >-7 | G-5'2 g-7 >-6' |
+| C+6' >+5'0.5 >+5'0.5 z+5' z+5' |: C+6' >+5'0.5 >+5'0.5 z+5' z+4' | G-3' >-z z-5' z-5' | G-6'1.5 >-5'0.5 g-5' >-4'0.5 >-3'0.5 |1 C+3' >+5'0.5 >+5'0.5 z+5' z+5' :|2 C+3'2 c+5' >+5' |
