@@ -1,0 +1,30 @@
+X:2023
+%%barnumbers 1
+%%papersize A4
+%%staffsep 10
+%%barsperstaff 9
+%%landscape
+T:Eu sou um cordeirinho (club)
+C:CCB
+Z:Flávio Vani
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
+M:2/4
+L:1/8
+Q:80
+K:C
+V:1 treble
+| z3 C | !segno! "C" [CE][B,D] [CE][CF] | [CG]2 [CG][EG] | "G7" [DF]3/2[C/2E/2] [B,F][DG] | "C" [CE]2 z C |
+| [CE][B,D] [CE][CF] | [CG]2 [CG][EG] | "G7" [DF]3/2[C/2E/2] [B,F][EG] | "C" [CE]2 z C | 
+| "F" [A,C][CA] [CA][CA] | [FA]2 [FA][FA] | "Dm" [FA][Fc] [FB][DA] | "G7" G2 z [EG] |
+| "C" [Ec]3/2[C/2E/2] [CE][CE] | [CG]2 [CG][CG] | "G7" [DF]3/2[C/2G/2] [B,F][B,D] | "C" C2 z C !dasegno!|  
+V:2 bass
+| z4 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | G,,2 [G,B,D]2 |  C,,2 [C,E,G,]2 |
+| C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | G,,2 [G,B,D]2 | C,,2 [C,E,G,]2 |
+| F,,2 [F,A,C]2 | F,,2 [F,A,C]2 | D,,2 [D,F,A,]2 |  G,,2 [G,B,D]2 |
+| C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | G,,2 [G,B,D]2 | C,,2 [C,E,G,]2 |
+V:3 accordionTab
+| z+z3 z+4 | C-[2'3'] >-[34] c-[2'3'] >-[2'5] | C+[46]2 c+[46] >+[56] | G-[45]1.5 >-[2'3']0.5 g-[35] >-[44'] | C+[45]2 c+z >+4 |
+| C-[2'3'] >-[34] c-[2'3'] >-[2'5]  | C+[46]2 c+[46] >+[56]  | G-[45]1.5 >-[2'3']0.5 g-[35] >-[3'4'] | C+[45]2 c+z >+4 |
+| F+[2'3'] >+[3'5'] f+[45'] >+[45'] | F+[4'5']2 f+[4'5'] >+[4'5'] | D-[56] >-[56'] d-[57] >-[46] | G-4'2 g-z >-[3'4'] |
+| C+[56']1.5 >+[45]0.5 c+[45] >+[45] | C+[3'6]2 c+[46] >+[46] | G-[45]1.5 >-[2'4']0.5 g-[35] >-[34] | C+42 c+z >+4 |
+
