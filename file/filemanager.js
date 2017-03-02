@@ -134,10 +134,9 @@ FILEMANAGER.waitResources = function (cb) {
             window.setTimeout(function(){ FILEMANAGER.waitResources(cb); }, FILEMANAGER.timeoutInterval);
             return;
         case 1:
-            //alert('Timeouts: ' + FILEMANAGER.timeouts + '\n' + FILEMANAGER.errors + '\n\nPor favor, verifique o nome dos arquivos e recarregue (F5) esta página!');
-            alert( '\nOPS!!! Tivemos problemas para carregar alguns recursos deste site.'
-                    +'\n\n\n>>>>> Por favor, pressione F5 para recarregar esta página! <<<<<<' 
-                    +'\n\n\nSe o problema persistir, avise-nos pelo email: flavio.vani@gmail.com');
+            alert( '\nOPS!!! Tivemos problemas para carregar alguns recursos deste site.\n'
+                    +'\n\nPor favor, pressione F5 para recarregar esta página!\n' 
+                    +'\n\nSe o problema persistir, avise-nos pelo email:\nflavio.vani@gmail.com\n');
             return;
         case 0:    
             cb.onProgress && cb.onProgress({perc:FILEMANAGER.getPercent(), timeouts:FILEMANAGER.timeouts, success: FILEMANAGER.success} );
