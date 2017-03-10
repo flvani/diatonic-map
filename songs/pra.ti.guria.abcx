@@ -1,0 +1,33 @@
+﻿%%barnumbers 1
+%%papersize A4
+%%score 1 (2 3) 4
+%%restsintab
+T:Pra Ti Guria
+C:Gilberto Monteiro
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
+Z:Flávio Vani
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
+M:6/8
+L:1/8
+Q:160
+K:G
+V:1 treble
+| z bg |: [P:Parte I] !segno! fa eg f=f | fA cg z f0.5=f0.5 | fA cf z =f | fG Bf GB | 
+| e[GB]3 z0.5 d0.5c0.5B0.5 | Ae2 BAG | F3 afe |1 B4 bg :|2 B4 z2 | 
+|: [P:Parte II] z [B,G] [CA][DB] E0.5c0.5 =F0.5d0.5 | [dF]3 [fA] z2 | z [dF][fA] [gB][ac] [bd] | [ac]3 d0.5g0.5 b2 | z [bd] [ac][gB] [fA][Ge] | 
+| [dF][Ec] [DB][CA] [B,G][A,F] | z E DF z0.5 E0.5D0.5C0.5 |1 B,5 z :|2 B,4 bg !dasegno!| 
+V:2 bass
+| z3 |: G,,[G,B,D] G,,[G,B,D] z2 | D,,[D,F,A,] D,,[D,F,A,] D,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z | G,,[G,B,D] G,,[G,B,D] G,, z | 
+| E,,[G,B,D] E,,[G,B,D] E,,0.5 z1.5 | A,,[A,CE] A,,[A,CE] A,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z |1 G,,[G,B,D] G,,[G,B,D] G,, z :|2 G,,[G,B,D] G,,[G,B,D] G,, z | 
+|: G,,[G,B,D] G,,[G,B,D] G,,0.5 z1.5 | D,,[D,F,A,] D,,[D,F,A,] E,,2 | D,,[D,F,A,] D,,[D,F,A,] D,, z | G,,[G,B,D] G,,[G,B,D] G,, z | G,,[G,B,D] G,,[G,B,D] G,, z | 
+| D,,[D,F,A,] D,,[D,F,A,] D,, z | D,,[D,F,A,] D,,[D,F,A,] D,,0.5 z1.5 |1 G,,[G,B,D] G,,[G,B,D] G,, z :|2 G,,[G,B,D] G,,[G,B,D] G,, z | 
+V:3 bass 
+| x3 |: x3 E,, x2 | x6 | x6 | x6 |
+| x6 | x6 | x6 |1 x6 :|2 x6 |
+|: x6 | x6 | x6 | x6 | x6 |
+| x6 | x6 |1 x6 :|2 x6 |
+V:4 accordionTab
+| z+z z-a' z-9' |: G-a g-b G-9 Eg+9 z-a z-8' | D-a d-7 D-8 d-9' D-z z-a0.5 z-8'0.5 | D-a d-7 D-8 d-a D-z z-8' | G-a g-5' G-6' g-a G-5' z-6' | 
+| E+7' g+[67] E+[>>] g+[>>] E+z0.5 z-7'0.5 z-80.5 z-6'0.5 | A-7 a-9 A-> a-6' A-7 z-5' | D-6 d-> D-> d-b D-a z-9 |1 G-6' g-> G-> g-> G-a' z-9' :|2 G-6' g-> G-> g-> G-z z-z | 
+|: G-z g-[2'5'] G-[47] g-[3'6'] G-50.5 z-80.5 z-4'0.5 z-7'0.5 | D-[7'6] d-[>>] D-[>>] d-[a7] E+z2 | D-z d-[7'6] D-[a7] d-[9'6'] D-[b8] z-[a'7'] | G-[b8] g-[>>] G-[>>] g+80.5 >+90.5 G+a z+> | G-z g-[a'7'] G-[b8] g-[9'6'] G-[a7] z-[5'9] | 
+| D-[7'6] d-[58] D-[3'6'] d-[47] D-[2'5'] z-[36] | D-z d-5 D-3' d-6 D-z0.5 z-50.5 z-3'0.5 z-40.5 |1 G-2' g-> G-> g-> G-> z-z :|2 G-2' g-> G-> g-> G-a' z-9' |
