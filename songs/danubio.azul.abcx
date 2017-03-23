@@ -1,0 +1,24 @@
+﻿%%barnumbers 0
+%%papersize A4
+%%score (0 1) 2 3
+T:Danúbio Azul
+C:J. Strauss
+C:(arr. Mario Mascarenhas)
+Z:Flávio Vani
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
+M:3/4
+L:1/4
+Q:160
+K:C
+V:0 treble  
+| C E G |  G3-  | G3- | G z  C | C E G |  G3-  | G3- | G z B, |
+| B, D B | B3- | B3- | B z  B, |
+V:1 treble stem=up 
+| x3 | x  x g | g x e | e  x2 | x3 | x  x g | g x f | f  x2 |
+| x3 | x2 a | a x f | f x2 |
+V:2 bass
+| z3 | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] |
+| G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] |
+V:3 accordionTab
+| z+3' z+4' z+5' | C+5' c+> c+[>8'] | C+[>8'] c+> c+[>7'] | C+[>7'] c+z c+[3'>] | C+[3'>] c+[4'>] c+5' | C+5' c+> c+[>8'] | G-[5'9'] g-> g-[>8'] | G-[>8'] g+z g+[4>>] |
+| G+4 g+5 g+7 | G-6' g-> g-[>b] | G-[6'b] g-> g-[>8'] | G-[>8'] g+z g+[4>] |
