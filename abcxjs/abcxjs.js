@@ -1534,7 +1534,13 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                     if(elem.pitches) { 
                         elem.pitches.forEach( function( pitch ) { 
                             if(self.equalsPitch( pitch, startPitch )  ) {
-                                startPitch.tie = { id_start: tieCnt };
+                                
+                                if(! startPitch.tie) {
+                                    startPitch.tie = {};
+                                }
+                                // para ligaduras encadeadas ja existira obj tie
+                                startPitch.tie.id_start = tieCnt;
+                                
                                 pitch.tie =  { id_end: tieCnt };
                                 tieCnt ++;
                             }
@@ -2950,7 +2956,7 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                         // Single pitch
                         var el2 = {};
                         var core = getCoreNote(line, i, el2, true);
-                        if (el2.endTie !== undefined)
+                        if (el2.endTie !== undefined) 
                             multilineVars.staves[multilineVars.currentVoice.staffNum].inTie[multilineVars.currentVoice.index] = true;
                         if (core !== null) {
                             if (core.pitch !== undefined) {
@@ -10147,16 +10153,14 @@ ABCXJS.midi.Parse.prototype.writeNote = function(elem) {
 
     var mididuration = this.checkMinNote(elem.duration * this.wholeNote * this.multiplier);
 
-    var intervalo = { totalDur:0, elem:null, midipitch:null };
-    
     if (elem.pitches) {
         var midipitch;
         for (var i = 0; i < elem.pitches.length; i++) {
             var note = elem.pitches[i];
             var pitch = note.pitch;
             if (note.accidental) {
-              // change that pitch (not other octaves) for the rest of the bar
-              this.baraccidentals[pitch] = this.getAccOffset(note.accidental);
+                // change that pitch (not other octaves) for the rest of the bar
+                this.baraccidentals[pitch] = this.getAccOffset(note.accidental);
             }
 
             midipitch = 60 + 12 * this.extractOctave(pitch) + this.scale[this.extractNote(pitch)];
@@ -10166,68 +10170,84 @@ ABCXJS.midi.Parse.prototype.writeNote = function(elem) {
             } else { // use normal accidentals
                 midipitch += this.accidentals[this.extractNote(pitch)];
             }
-            
-            if (note.tie && note.tie.id_end) { // termina
-                var startInterval = this.startTieInterval[midipitch][0];
-                // elem será inserido - this.startNote(elem, this.timecount);
-                if( note.tie.id_start ) { // se termina e recomeça, empilhe a nota
-                    //TIES EM SERIE: PASSO 1 - empilha mais um intervalo
-                    var mp = {channel:this.channel, midipitch:midipitch, mididuration:mididuration};
-                    elem.openTies = elem.openTies? elem.openTies+1: 1;
-                    intervalo = { totalDur:mididuration, elem:elem, midipitch:mp }; 
-                    this.startTieInterval[midipitch].push(intervalo);
-                }  else {
-                    startInterval.elem.openTies --;
-                    startInterval.totalDur += mididuration;
-                    startInterval.midipitch.mididuration = startInterval.totalDur;
-                    this.addEnd( this.timecount+mididuration, startInterval.midipitch, null/*, null*/ );
-                    
-                    if( startInterval.elem.openTies === 0 ) {
-                        delete startInterval.elem.openTies;
-                        this.addEnd( this.timecount+mididuration, null, startInterval.elem/*, null*/ );
-                    } 
-                    
-                    //TIES EM SERIE: PASSO 2 - trar intervalos intermediários
-                    for( var j = 1; j < this.startTieInterval[midipitch].length; j++ ) {
-                        var interInter = this.startTieInterval[midipitch][j];
-                        interInter.elem.openTies --;
-                        interInter.totalDur += mididuration;
-                        if( interInter.elem.openTies === 0 ) {
-                            delete interInter.elem.openTies;
-                            this.addEnd( this.timecount+mididuration, null, interInter.elem/*, null*/ );
-                        } 
-                    }
-                    this.startTieInterval[midipitch] = [false];
-                }
-            } else if (note.tie && note.tie.id_start ) { // só inicia
-                var mp = {channel:this.channel, midipitch:midipitch, mididuration:mididuration};
-                elem.openTies = elem.openTies? elem.openTies+1: 1;
-                intervalo = { totalDur:mididuration, elem:elem, midipitch:mp }; 
-                this.addStart( this.timecount, mp, null, null );
-                this.startTieInterval[midipitch] = [intervalo];
-            } else { // elemento sem tie
-                if( this.startTieInterval[midipitch] && this.startTieInterval[midipitch][0] ) { 
-                  // já está em tie - continua e elem será inserido abaixo
+
+            if (note.tie) {
+                this.handleTie( elem, note, midipitch, mididuration );
+            } else {
+                if (this.startTieInterval[midipitch] && this.startTieInterval[midipitch][0]) {
+                    // ligadura do tipo slur - nota contida
+                    this.addWarning( 'Linha '+(elem.line+1)+': Nota sendo ignorada porque já está contida na ligadura!' );
+                    // apenas informa o inicio e o fim do elemento na playlist (sem som)
+                    this.addStart( this.timecount, null, elem, null );
+                    this.addEnd( this.timecount + mididuration, null, elem );
                 } else { // o básico - inicia e termina a nota
-                  var mp = {channel:this.channel, midipitch:midipitch, mididuration:mididuration};
-                  intervalo = { totalDur:mididuration, elem:elem, midipitch:mp }; 
-                  this.addStart( this.timecount, mp, null, null );
-                  this.addEnd( this.timecount+mididuration, mp, null/*, null*/ );
+                    var mp = {channel: this.channel, midipitch: midipitch, mididuration: mididuration};
+                    // elemento completo + som: inicia e termina no seu próprio tempo
+                    this.addStart( this.timecount, mp, elem, null );
+                    this.addEnd( this.timecount + mididuration, mp, elem );
                 }
-            } 
+            }
         }
     }
 
-    this.addStart( this.timecount, null, elem, null );
-    if( ! elem.openTies ) {
-        this.addEnd( this.timecount+mididuration, null, elem/*, null*/ );
-    }
-    
     this.setTimeCount( mididuration );
     
     if (elem.endTriplet) {
         this.multiplier = 1;
     }
+};
+
+ABCXJS.midi.Parse.prototype.handleTie = function ( elem, note, midipitch, mididuration ) {
+    
+    if (note.tie && note.tie.id_end) { // termina
+        
+        var startInterval = this.startTieInterval[midipitch];
+        
+        if( note.tie.id_start ) { // termina ligadura e recomeça
+            //inclui o inicio do elemento (sem som na playlist), mas não o seu fim
+            this.addStart( this.timecount, null, elem, null );
+            // guarda junto com o elemento que iniciou a ligadura, também, este elemento
+            startInterval.otrElems.push( elem );
+            
+         }  else {
+            
+            // adiciona o ínicio e o fim do último elemento da ligadura, sem som
+            this.addStart( this.timecount, null, elem, null );
+            this.addEnd( this.timecount+mididuration, null, elem );
+            
+            // para todos os elementos intermediários, adiciona o fim sem som
+            for(var i=0; i < startInterval.otrElems.length; i++ ) {
+                this.addEnd( this.timecount+mididuration, null, startInterval.otrElems[i] );
+            }
+            
+            // trata a duração total da ligadura
+            var duration = this.timecount-startInterval.startTime + mididuration;
+            // atualiza a informação de tempo do elemento inicial
+            startInterval.midipitch.mididuration = duration;
+            // insere o final do som e do elemento inicial da ligadura
+            this.addEnd( this.timecount+mididuration, startInterval.midipitch, startInterval.elem  );
+            
+            // zera a informação de ligadura para esta nota
+            this.startTieInterval[midipitch] = null;
+            
+        }
+    } else if (note.tie && note.tie.id_start ) { // só inicia
+        var mp = {channel:this.channel, midipitch:midipitch, mididuration: mididuration};
+        // informa o inicio do midi (e elemento) na playlist, mas nao o seu final 
+        this.addStart( this.timecount, mp, elem, null );
+        // registra dados do elemento que iniciou a ligadura 
+        this.startTieInterval[midipitch] = { elem:elem, startTime: this.timecount, midipitch:mp, otrElems:[] };
+    } 
+};
+
+ABCXJS.midi.Parse.prototype.clearTies = function() {
+    // esta função é usada em caso de ritornellos em que haja alguma ligadura em aberto.
+    var self = this;
+    self.startTieInterval.forEach( function ( obj, index ) {
+        if( ! obj ) return; 
+        self.addEnd( self.timecount, obj.midipitch, obj.elem ); 
+        self.startTieInterval[index] = null;
+    });
 };
 
 ABCXJS.midi.Parse.prototype.setTimeCount = function(dur) {
@@ -10290,13 +10310,12 @@ ABCXJS.midi.Parse.prototype.selectButtons = function(elem) {
             }
             if( ! tie ) {
                 this.addStart( this.timecount, null, null, { button: button, closing: (elem.bellows === '+'), duration: elem.duration } );
-                //this.addEnd( this.timecount+mididuration, null, null/*, { button: button, closing: (elem.bellows === '+') } */);
             }    
         }
     }
     
     this.addStart( this.timecount, null, elem, null );
-    this.addEnd( this.timecount+mididuration, null, elem/*, null*/ );
+    this.addEnd( this.timecount+mididuration, null, elem );
     
     this.setTimeCount( mididuration );
     
@@ -10473,21 +10492,6 @@ ABCXJS.midi.Parse.prototype.handleBar = function (elem) {
     return true;
 };
 
-ABCXJS.midi.Parse.prototype.clearTies = function() {
-    var self = this;
-    self.startTieInterval.forEach( function ( arr, index ) {
-        if( !arr[0] ) return;
-        arr[0].elem.openTies--;
-        if(arr[0].elem.openTies>0) {
-            self.addEnd( self.timecount, arr[0].midipitch, null/*, null*/ ); 
-        } else {
-            self.addEnd( self.timecount, arr[0].midipitch, arr[0].elem/*, null*/ ); 
-            delete arr[0].elem.openTies;
-        }   
-        self.startTieInterval[index] = [false];
-    });
-};
-
 ABCXJS.midi.Parse.prototype.getParsedElement = function(time) {
     if( ! this.parsedElements[time] ) {
         this.parsedElements[time] = {
@@ -10516,7 +10520,9 @@ ABCXJS.midi.Parse.prototype.addStart = function( time, midipitch, abcelem, butto
         midipitch.clef = this.getStaff().clef.type;
         pE.start.pitches.push( {midipitch: midipitch, delay:delay} );
     }
-    if( button ) pE.start.buttons.push({button:button,abcelem:abcelem, delay:delay});
+    if( button ) {
+        pE.start.buttons.push({button:button, abcelem:abcelem, delay:delay});
+    }
 };
 
 ABCXJS.midi.Parse.prototype.addEnd = function( time, midipitch, abcelem/*, button*/ ) {
