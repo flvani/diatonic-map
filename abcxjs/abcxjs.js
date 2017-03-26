@@ -10294,6 +10294,7 @@ ABCXJS.midi.Parse.prototype.selectButtons = function(elem) {
             if (elem.pitches[i].bass) {
                 if (elem.pitches[i].c === 'scripts.rarrow') {
                     button = this.lastTabElem[i];
+                    elem.pitches[i].lastButton = button.tabButton;
                     tie = true;
                 } else {
                     button = this.getBassButton(elem.bellows, elem.pitches[i].c);
@@ -10302,6 +10303,7 @@ ABCXJS.midi.Parse.prototype.selectButtons = function(elem) {
             } else {
                 if ( elem.pitches[i].c === 'scripts.rarrow') {
                     button = this.lastTabElem[10+i-bassCounter];
+                    elem.pitches[i].lastButton = button.tabButton;
                     tie = true;
                 } else {
                     button = this.getButton(elem.pitches[i].c);

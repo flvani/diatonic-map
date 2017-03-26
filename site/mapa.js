@@ -773,11 +773,13 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
     this.parseABC(tab);
     
     var paper = new SVG.Printer( tab.div );
-    var printer = new ABCXJS.write.Printer(paper, params);
+    tab.printer = new ABCXJS.write.Printer(paper, this.printerparams );
+    //var printer = new ABCXJS.write.Printer(paper, params);
     
     $("#" + tab.div.id).fadeIn();
     //printer.printTune( tab.abc, {color:'black', backgroundColor:'#ffd' } ); 
-    printer.printTune( tab.abc ); 
+    tab.printer.printTune( tab.abc ); 
+    tab.printer.addSelectListener(this);
     
     $("#" + tab.div.id).hide();
     if (alreadyOnPage) {
@@ -785,6 +787,44 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
         this.showMedia(tab.abc.metaText.url);
     }
 };
+
+SITE.Mapa.prototype.highlight = function(abcelem) {
+    if(!this.midiPlayer.playing) {
+        this.accordion.clearKeyboard(true);
+        if(abcelem.bellows)
+            this.selectButton(abcelem);
+    }    
+};
+
+SITE.Mapa.prototype.selectButton = function(elem) {
+    for( var p=0; p < elem.pitches.length; p ++ ) {
+        var pitch = elem.pitches[p];
+        
+        if( pitch.type === 'rest' ) continue;
+        
+        var button;
+        var tabButton = pitch.c === 'scripts.rarrow'? pitch.lastButton : pitch.c;
+        
+        
+        //quando o baixo não está "in Tie", label do botão é uma letra (G, g, etc)
+        //de outra forma o label é número do botão (1, 1', 1'', etc)
+        if(pitch.bass && pitch.c !== 'scripts.rarrow')
+            // quando label é uma letra
+            button = this.midiParser.getBassButton(elem.bellows, tabButton);
+        else
+            // quando label é número do botão
+            button = this.midiParser.getButton(tabButton);
+        
+        if(button) {
+            if(elem.bellows === '-') {
+                button.setOpen();
+            } else {
+                button.setClose();
+            }
+        }
+    }
+};
+
 
 SITE.Mapa.prototype.mediaCallback = function( e ) {
     switch(e) {
