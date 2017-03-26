@@ -616,6 +616,8 @@ SITE.Mapa.prototype.showAccordionName = function() {
 SITE.Mapa.prototype.defineActiveTab = function( which ) {
     this.currentTab = which;
     this.midiPlayer.reset();
+    this.accordion.clearKeyboard(true);
+
     if(this.currentABC)
         this.currentABC.selector.style.display  = 'none';
     switch (this.currentTab) {
@@ -774,12 +776,13 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
     
     var paper = new SVG.Printer( tab.div );
     tab.printer = new ABCXJS.write.Printer(paper, this.printerparams );
-    //var printer = new ABCXJS.write.Printer(paper, params);
     
     $("#" + tab.div.id).fadeIn();
-    //printer.printTune( tab.abc, {color:'black', backgroundColor:'#ffd' } ); 
+    //tab.printer.printTune( tab.abc, {color:'black', backgroundColor:'#ffd' } ); 
     tab.printer.printTune( tab.abc ); 
     tab.printer.addSelectListener(this);
+    this.accordion.clearKeyboard(true);
+
     
     $("#" + tab.div.id).hide();
     if (alreadyOnPage) {
