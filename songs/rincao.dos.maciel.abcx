@@ -1,4 +1,6 @@
 X:1015
+%%tabinferenceopts +2.0
+%%restsintab
 %%papersize A4
 %%barnumbers 0
 %%pagenumbering

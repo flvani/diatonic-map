@@ -589,20 +589,50 @@ SITE.Mapa.prototype.carregaRepertorio = function(original, files) {
     } else {
         accordion.songs = { items:{}, sortedIndex: [] };
         for (var s = 0; s < files.length; s++) {
+            // /* Debug Repertório */ var warnings = [];
+            // /* Debug Repertório */ var abcParser = new ABCXJS.parse.Parse( null, this.accordion );
             var tunebook = new ABCXJS.TuneBook(files[s].content);
+            
             for (var t = 0; t < tunebook.tunes.length; t++) {
                 accordion.songs.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
+                warnings.push('\n' + tunebook.tunes[t].title + '\n');
+                // /* Debug Repertório */ this.debugRepertorio(abcParser, warnings, tunebook.tunes[t].abc) ;
                 accordion.songs.sortedIndex.push(tunebook.tunes[t].title);
                 ga('send', 'event', 'Mapa', 'load', tunebook.tunes[t].title);
 
             }    
         }
+        
+        // /* Debug Repertório */ for (var j=0; j<warnings.length; j++) {
+        // /* Debug Repertório */    console.log(warnings[j]);
+        // /* Debug Repertório */ }
+        
         accordion.songs.sortedIndex.sort();
         that.renderedTune.title = accordion.getFirstSong();
         that.loadABCList('song');
         that.renderTAB( this.currentTab === "tabTunes", 'song' );
     }
 };
+
+
+// Esta rotina foi criada como forma de verificar todos warnings de compilacao do repertório
+SITE.Mapa.prototype.debugRepertorio = function( abcParser, warnings, abc ) {
+    
+    abcParser.parse( abc );
+    
+    var w = abcParser.getWarnings() || [];
+    for (var j=0; j<w.length; j++) {
+       warnings.push(w[j]);
+    }
+    
+    if ( this.midiParser ) {
+        this.midiParser.parse( abcParser.getTune(), this.accordion.getKeyboard() );
+        var w= this.midiParser.getWarnings();
+        for (var j=0; j<w.length; j++) {
+           warnings.push(w[j]);
+        }
+    }
+};        
 
 SITE.Mapa.prototype.showAccordionImage = function() {
   this.gaitaImagePlaceHolder.innerHTML = '<img src="'+this.getSelectedAccordion().getPathToImage()
@@ -794,40 +824,41 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
 SITE.Mapa.prototype.highlight = function(abcelem) {
     if(!this.midiPlayer.playing) {
         this.accordion.clearKeyboard(true);
-        if(abcelem.bellows)
-            this.selectButton(abcelem);
+        this.midiParser.setSelection(abcelem);
+//        if(abcelem.bellows)
+//            this.selectButton(abcelem);
     }    
 };
 
-SITE.Mapa.prototype.selectButton = function(elem) {
-    for( var p=0; p < elem.pitches.length; p ++ ) {
-        var pitch = elem.pitches[p];
-        
-        if( pitch.type === 'rest' ) continue;
-        
-        var button;
-        var tabButton = pitch.c === 'scripts.rarrow'? pitch.lastButton : pitch.c;
-        
-        
-        //quando o baixo não está "in Tie", label do botão é uma letra (G, g, etc)
-        //de outra forma o label é número do botão (1, 1', 1'', etc)
-        if(pitch.bass && pitch.c !== 'scripts.rarrow')
-            // quando label é uma letra
-            button = this.midiParser.getBassButton(elem.bellows, tabButton);
-        else
-            // quando label é número do botão
-            button = this.midiParser.getButton(tabButton);
-        
-        if(button) {
-            if(elem.bellows === '-') {
-                button.setOpen();
-            } else {
-                button.setClose();
-            }
-        }
-    }
-};
-
+//SITE.Mapa.prototype.selectButton = function(elem) {
+//    for( var p=0; p < elem.pitches.length; p ++ ) {
+//        var pitch = elem.pitches[p];
+//        
+//        if( pitch.type === 'rest' ) continue;
+//        
+//        var button;
+//        var tabButton = pitch.c === 'scripts.rarrow'? pitch.lastButton : pitch.c;
+//        
+//        
+//        //quando o baixo não está "in Tie", label do botão é uma letra (G, g, etc)
+//        //de outra forma o label é número do botão (1, 1', 1'', etc)
+//        if(pitch.bass && pitch.c !== 'scripts.rarrow')
+//            // quando label é uma letra
+//            button = this.midiParser.getBassButton(elem.bellows, tabButton);
+//        else
+//            // quando label é número do botão
+//            button = this.midiParser.getButton(tabButton);
+//        
+//        if(button) {
+//            if(elem.bellows === '-') {
+//                button.setOpen();
+//            } else {
+//                button.setClose();
+//            }
+//        }
+//    }
+//};
+//
 
 SITE.Mapa.prototype.mediaCallback = function( e ) {
     switch(e) {
