@@ -265,15 +265,37 @@ window.ABCXJS.data.Tune = function() {
     this.handleBarsPerStaff = function() {
         function splitBar(left, right) {
             
-            
-            if(  left.jumpDecoration &&  (".coda.fine.dacapo.dacoda.dasegno.").indexOf('.'+left.jumpDecoration.type+'.') < 0  ) {
+            // divide as decorações de jump
+            if( left.jumpDecoration ) {
+                var jd = window.ABCXJS.parse.clone(left.jumpDecoration);
                 delete left.jumpDecoration;
-            }
+                delete right.jumpDecoration;
+                for(var j=0; j< jd.length; j ++ ) {
+                    if( (".coda.fine.dacapo.dacoda.dasegno.").indexOf('.'+jd[j].type+'.') >= 0 ) {
+                        left.jumpDecoration = left.jumpDecoration || [];
+                        left.jumpDecoration.push( jd[j] ); 
+                    } else {
+                        right.jumpDecoration = right.jumpDecoration || [];
+                        right.jumpDecoration.push( jd[j] ); 
+                        
+                    }
+                }
+            }    
+                
             // todos os jumpInfo ficam a esquerda do split
             // exceto segno todos os jumpPoint ficam a esquerda do split
             if(  left.jumpPoint && left.jumpPoint.type === 'segno'  ) {
                 delete left.jumpInfo;
             }
+            // todos os jumpInfo ficam a esquerda do split
+            if(  right.jumpInfo ) {
+                delete right.jumpInfo;
+            }
+            // exceto segno todos os jumpPoint ficam a esquerda do split
+            if(  right.jumpPoint &&  right.jumpPoint.type !== 'segno'  ) {
+                delete right.jumpInfo;
+            }
+            
             
             delete left.startEnding;
             delete left.barNumber;
@@ -286,18 +308,6 @@ window.ABCXJS.data.Tune = function() {
                 case 'bar_thin': 
                 case 'bar_left_repeat':
                   left.type = 'bar_thin'; 
-            }
-            
-            if(  right.jumpDecoration &&  (".coda.fine.dacapo.dacoda.dasegno.").indexOf('.'+right.jumpDecoration.type+'.') >= 0  ) {
-                delete right.jumpDecoration;
-            }
-            // todos os jumpInfo ficam a esquerda do split
-            if(  right.jumpInfo ) {
-                delete right.jumpInfo;
-            }
-            // exceto segno todos os jumpPoint ficam a esquerda do split
-            if(  right.jumpPoint &&  right.jumpPoint.type !== 'segno'  ) {
-                delete right.jumpInfo;
             }
             
             delete right.endEnding;
@@ -328,11 +338,13 @@ window.ABCXJS.data.Tune = function() {
                 left.jumpInfo = right.jumpInfo;
             }
             
-            // flavio - não verificado
-            if(right.jumpDecoration) {
-                left.jumpDecoration = right.jumpDecoration;
+            if( right.jumpDecoration ) {
+                for(var j=0; j< right.jumpDecoration.length; j ++ ) {
+                    left.jumpDecoration = left.jumpDecoration || [];
+                    left.jumpDecoration.push( right.jumpDecoration[j] ); 
+                }
             }
-
+            
             if(right.startEnding){
                 left.startEnding = right.startEnding;
             }
@@ -2611,16 +2623,16 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
 
     this.handleJump = function (name, jump, line, i) {
         if( jump.decorationNextBar ) {
-            if( multilineVars.addJumpDecorationNextBar ) {
-                warn("Overriding previous jump decoration", line, i);
+            if( ! multilineVars.addJumpDecorationNextBar ) {
+                multilineVars.addJumpDecorationNextBar = [];
             }
-            multilineVars.addJumpDecorationNextBar = { type: name, upper: jump.upper };
+            multilineVars.addJumpDecorationNextBar.push({ type: name, upper: jump.upper });
         } else {
             if( multilineVars.lastBarElem ) {
-                if( multilineVars.lastBarElem.jumpDecoration ) {
-                    warn("Overriding previous jump decoration", line, i);
+                if( ! multilineVars.lastBarElem.jumpDecoration ) {
+                    multilineVars.lastBarElem.jumpDecoration = [];
                 }
-                multilineVars.lastBarElem.jumpDecoration = { type: name, upper: jump.upper };
+                multilineVars.lastBarElem.jumpDecoration.push( { type: name, upper: jump.upper } ) ;
             } else {
                 warn("Ignoring jump decoration marker before the first bar.", line, i);
             }
@@ -7855,7 +7867,7 @@ ABCXJS.write.Layout.prototype.layoutABCLine = function( abctune, line, width ) {
                 this.printABCVoice();
             } else {
                 var p = new ABCXJS.tablature.Layout(this.tuneCurrVoice, this.tuneCurrStaff, abcstaff, this.glyphs, this.tune.formatting.restsInTab );
-                this.voice = p.printTABVoice(this.layoutJumpDecoration);
+                this.voice = p.printTABVoice(this.layoutJumpDecorationItem);
             }
             
             if (abcstaff.title && abcstaff.title[this.tuneCurrVoice])
@@ -7869,8 +7881,8 @@ ABCXJS.write.Layout.prototype.layoutABCLine = function( abctune, line, width ) {
     return this.staffgroup;
 };
 
-ABCXJS.write.Layout.prototype.layoutJumpDecoration = function(elem, pitch) {
-    switch (elem.jumpDecoration.type) {
+ABCXJS.write.Layout.prototype.layoutJumpDecorationItem = function(jumpDecorationItem, pitch) {
+    switch (jumpDecorationItem.type) {
         case "coda":     return new ABCXJS.write.RelativeElement("scripts.coda", 0, 0, pitch + 1); 
         case "segno":    return new ABCXJS.write.RelativeElement("scripts.segno", 0, 0, pitch + 1); 
         case "fine":     return new ABCXJS.write.RelativeElement("it.Fine", -32, 32, pitch);
@@ -7882,6 +7894,7 @@ ABCXJS.write.Layout.prototype.layoutJumpDecoration = function(elem, pitch) {
         case "dsalfine": return new ABCXJS.write.RelativeElement("it.DSalFine", 25, -25, pitch);
         case "dsalcoda": return new ABCXJS.write.RelativeElement("it.DSalCoda", 25, -25, pitch);
     }
+        
     return null;
 };
 
@@ -8708,18 +8721,36 @@ ABCXJS.write.Layout.prototype.printBarLine = function (elem) {
         dx += 5;
     }
 
+    var anyJumpDecoUpper = false;
     if (elem.jumpDecoration) {
-        if(( elem.jumpDecoration.upper && this.isFirstVoice() ) || ( !elem.jumpDecoration.upper && this.isLastVoice() ) ) {
-            var pitch = elem.jumpDecoration.upper ? 12 : -3;
-            abselem.addRight( this.layoutJumpDecoration(elem, pitch) );
+        for(var j=0; j< elem.jumpDecoration.length; j++ ) {
+            if(( elem.jumpDecoration[j].upper && this.isFirstVoice() ) || ( !elem.jumpDecoration[j].upper && this.isLastVoice() ) ) {
+                var pitch = elem.jumpDecoration[j].upper ? 12 : -3;
+                anyJumpDecoUpper = (anyJumpDecoUpper||elem.jumpDecoration[j].upper);
+                switch (elem.jumpDecoration[j].type) {
+                    case "coda":     
+                    case "segno":    
+                    case "fine":     
+                    case "dcalfine": 
+                    case "dcalcoda": 
+                    case "dsalfine": 
+                    case "dsalcoda": 
+                        abselem.addRight( this.layoutJumpDecorationItem(elem.jumpDecoration[j], pitch) );
+                        break;
+                    case "dacapo":   
+                    case "dasegno":  
+                    case "dacoda":   
+                        abselem.addExtra( this.layoutJumpDecorationItem(elem.jumpDecoration[j], pitch) );
+                        break;
+                }
+            }
         }
+    
     }
     
-    if (elem.barNumber && elem.barNumberVisible) {
-        if (!(elem.jumpDecoration && elem.jumpDecoration.upper)) {
-            // nestes casos o barnumber pode ser escrito sem sobreposição
-            abselem.addChild(new ABCXJS.write.RelativeElement(elem.barNumber, 0, 0, 12, {type: "barnumber"}));
-        }
+    if (elem.barNumber && elem.barNumberVisible && !anyJumpDecoUpper) {
+        // quando não há jumpDecorations na parte superiror da pauta, o barnumber pode ser escrito sem sobreposição
+        abselem.addChild(new ABCXJS.write.RelativeElement(elem.barNumber, 0, 0, 12, {type: "barnumber"}));
     }
 
     if (this.partstartelem && elem.endDrawEnding) {
@@ -9528,6 +9559,7 @@ ABCXJS.midi.Parse.prototype.reset = function() {
     this.vars = { warnings: [] };
     this.globalJumps = [];
     
+    this.addingBarNumbers = -1;
     this.channel = -1;
     this.timecount = 0;
     this.playlistpos = 0;
@@ -9535,6 +9567,7 @@ ABCXJS.midi.Parse.prototype.reset = function() {
     this.countBar = 0;
     this.next = null;
     this.restart = {line: 0, staff: 0, voice: 0, pos: 0};
+    
     
     this.multiplier = 1;
     this.alertedMin = false;
@@ -9655,7 +9688,7 @@ ABCXJS.midi.Parse.prototype.parse = function(tune, keyboard) {
             } 
             delete item.start.barNumber;
             self.handleButtons(item.start.pitches, item.start.buttons );
-            delete item.start.buttons; /*fka*/
+            delete item.start.buttons; 
             pl.item = item.start;
             self.midiTune.playlist.push( pl );
         }
@@ -9772,6 +9805,11 @@ ABCXJS.midi.Parse.prototype.writeNote = function(elem) {
                 }
             }
         }
+    } else {
+        // rest
+        this.addStart( this.timecount, null, elem, null );
+        this.addEnd( this.timecount + mididuration, null, elem );
+        
     }
 
     this.setTimeCount( mididuration );
@@ -9883,7 +9921,7 @@ ABCXJS.midi.Parse.prototype.selectButtons = function(elem) {
             if (elem.pitches[i].bass) {
                 if (elem.pitches[i].c === 'scripts.rarrow') {
                     button = this.lastTabElem[i];
-                    elem.pitches[i].lastButton = (button? button.tabButton: null);
+                    elem.pitches[i].lastButton = (button? button.tabButton: 'x');
                     tie = true;
                 } else {
                     button = this.getBassButton(elem.bellows, elem.pitches[i].c);
@@ -9892,7 +9930,7 @@ ABCXJS.midi.Parse.prototype.selectButtons = function(elem) {
             } else {
                 if ( elem.pitches[i].c === 'scripts.rarrow') {
                     button = this.lastTabElem[10+i-bassCounter];
-                    elem.pitches[i].lastButton = (button? button.tabButton: null);
+                    elem.pitches[i].lastButton = (button? button.tabButton: 'x');
                     tie = true;
                 } else {
                     button = this.getButton(elem.pitches[i].c);
@@ -9941,11 +9979,11 @@ ABCXJS.midi.Parse.prototype.handleBar = function (elem) {
         }
     }
     
-    // implementa jump ao final do compasso
-    if(this.nextBarJump ) {
-        this.next = this.nextBarJump;
-        delete this.nextBarJump;
-    }
+    //implementa jump ao final do compasso
+    //if(this.nextBarJump ) {
+    //    this.next = this.nextBarJump;
+    //    delete this.nextBarJump;
+    //}
 
     var pass = this.setPass();
     
@@ -9980,19 +10018,19 @@ ABCXJS.midi.Parse.prototype.handleBar = function (elem) {
         this.currEnding = {};
         this.currEnding.min = parseInt(a[0]);
         this.currEnding.max = a.length > 1 ? parseInt(a[1]) : this.currEnding.min;
-        this.currEnding.measures = [];
+        this.currEnding.measuresInEnding = [];
         this.maxPass = Math.max(this.currEnding.max, 2);
         
         // casa "2" não precisa de semantica
         // rever isso: não precisa de semântica se a casa dois vier depois de um 
         // simbolo de repetição, seja um ritornello ou qualquer outro.
         // pergunta: casa 2 sem sinal de repetição faz sentido?
-        if(this.currEnding.min > 1 ) delete this.currEnding;  
+        if(this.currEnding.min > 1) delete this.currEnding;  
     }
     
     if(this.currEnding) {
         // registra os compassos debaixo deste ending
-        this.currEnding.measures.push( this.getMark() ); 
+        this.currEnding.measuresInEnding.push( this.getMark() ); 
     }
     
     this.skipping = (this.currEnding && ( pass < this.currEnding.min || pass > this.currEnding.max) ) || false;
@@ -10097,7 +10135,7 @@ ABCXJS.midi.Parse.prototype.getParsedElement = function(time) {
     if( ! this.parsedElements[time] ) {
         this.parsedElements[time] = {
             start:{pitches:[], abcelems:[], buttons:[], barNumber: null}
-            ,end:{pitches:[], abcelems:[]/* fka , buttons:[]*/}
+            ,end:{pitches:[], abcelems:[]}
         };
     }
     return this.parsedElements[time];
@@ -10112,8 +10150,11 @@ ABCXJS.midi.Parse.prototype.addStart = function( time, midipitch, abcelem, butto
     if( abcelem ) {
         pE.start.abcelems.push({abcelem:abcelem,channel:this.channel, delay:delay});
         
-        if( this.abctune.lines[this.line].staffs[this.staff].voices[this.voice].firstVoice && this.addBarNumber ) {
+        // a ideia é: a primeira voz que chegar com o barNumber 1, será a única considera para numerar os compassos
+        // assim depois que a var addingBarNumbers for inicializada, somente nrs. de compasso restantes daquela voz serão incluidos
+        if( this.addBarNumber && ( ( this.addBarNumber === 1 && this.addingBarNumbers < 0 ) || this.addingBarNumbers === ((this.staff+1)*10 + this.voice ) ) ) {
             pE.start.barNumber = this.addBarNumber;
+            this.addingBarNumbers = ((this.staff+1)*10 + this.voice );
             delete this.addBarNumber;
         }
     }    
@@ -10167,7 +10208,7 @@ ABCXJS.midi.Parse.prototype.resetPass = function() {
     this.pass = [];
     var self = this;
     if( this.currEnding ) {
-        this.currEnding.measures.forEach( function( item, index ) {
+        this.currEnding.measuresInEnding.forEach( function( item, index ) {
             self.setPass(item);
         });
     }
@@ -10209,7 +10250,7 @@ ABCXJS.midi.Parse.prototype.startTrack = function() {
     
     this.endTrack = false;    
     
-    delete this.nextBarJump;
+    //delete this.nextBarJump;
     delete this.codaFlagged;
     delete this.fineFlagged;
     delete this.daSegnoFlagged;
@@ -10664,8 +10705,11 @@ ABCXJS.midi.Player.prototype.executa = function(pl) {
                     if( self.type !== 'note' ) {
                         //o andamento é considerado somente para o modo didatico
                         var andamento = self.type?(1/self.currentAndamento):1;
+
                         //limpa o botão uma fração de tempo antes do fim da nota - para dar ideia visual de botão pressionado/liberado antes da proxima nota
-                        elem.button.button.clear( self.calcTempo( (elem.midipitch.mididuration-0.5)*andamento ) + delay );
+                        var d = (elem.midipitch.mididuration * 0.1) > 0.5 ? (elem.midipitch.mididuration * 0.1) : 0.5;
+                        
+                        elem.button.button.clear( self.calcTempo( (elem.midipitch.mididuration-d)*andamento ) + delay );
                     }    
                     aqui=3;
                }
@@ -11620,8 +11664,8 @@ ABCXJS.tablature.Layout.prototype.isLastVoice = function() {
     return this.currVoice.lastVoice || false;
 };
 
-ABCXJS.tablature.Layout.prototype.printTABVoice = function(layoutJumpDecoration) {
-    this.layoutJumpDecoration = layoutJumpDecoration;
+ABCXJS.tablature.Layout.prototype.printTABVoice = function(layoutJumpDecorationItem) {
+    this.layoutJumpDecorationItem = layoutJumpDecorationItem;
     this.currVoice = this.abcstaff.voices[this.tuneCurrVoice];
     this.voice = new ABCXJS.write.VoiceElement(this.tuneCurrVoice, this.tuneCurrStaff, this.abcstaff);
 
@@ -11783,13 +11827,16 @@ ABCXJS.tablature.Layout.prototype.printBarLine = function (elem) {
         // não há decorations na tablatura
         //this.printDecoration(elem.decoration, 12, (thick)?3:1, abselem, 0, "down", 2);
     }
+    
     if (elem.jumpDecoration) {
-        if ((elem.jumpDecoration.upper && this.isFirstVoice()) || (!elem.jumpDecoration.upper && this.isLastVoice())) {
-            var pitch = elem.jumpDecoration.upper ? 12 : -4;
-            abselem.addRight( this.layoutJumpDecoration(elem, pitch) );
+        for(var j=0; j< elem.jumpDecoration.length; j++ ) {
+            if(( elem.jumpDecoration[j].upper && this.isFirstVoice() ) || ( !elem.jumpDecoration[j].upper && this.isLastVoice() ) ) {
+                var pitch = elem.jumpDecoration[j].upper ? 12 : -4;
+                abselem.addRight( this.layoutJumpDecorationItem(elem.jumpDecoration[j], pitch) );
+            }
         }
     }
-
+                
     if (thick) {
         dx += 4; //3 hardcoded;    
         anchor = new ABCXJS.write.RelativeElement(null, dx, 4, 0, {"type": "bar", "pitch2": topbar, linewidth: 4});

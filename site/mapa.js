@@ -595,7 +595,7 @@ SITE.Mapa.prototype.carregaRepertorio = function(original, files) {
             
             for (var t = 0; t < tunebook.tunes.length; t++) {
                 accordion.songs.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
-                warnings.push('\n' + tunebook.tunes[t].title + '\n');
+                // /* Debug Repertório */ warnings.push('\n' + tunebook.tunes[t].title + '\n');
                 // /* Debug Repertório */ this.debugRepertorio(abcParser, warnings, tunebook.tunes[t].abc) ;
                 accordion.songs.sortedIndex.push(tunebook.tunes[t].title);
                 ga('send', 'event', 'Mapa', 'load', tunebook.tunes[t].title);
