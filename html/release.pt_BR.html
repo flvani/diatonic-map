@@ -4,8 +4,6 @@
         To change this template file, choose Tools | Templates
         and open the template in the editor.
     --><title>Notas de Lançamento</title>
-
-
         
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width">
@@ -42,26 +40,28 @@ notação abc, tablatura ">
             </h2>
 <p>Abril/2017: Vários ajustes<br>
             </p>
-            
-Date: Thu Apr  6 20:03:35 2017 -0300 Versão 4.20: Jump decorations no mesmo compasso
-Date: Thu Apr  6 19:48:34 2017 -0300 Versão 4.20: Jump decorations no mesmo compasso
-Date: Wed Apr  5 22:58:00 2017 -0300 Versão 4.20: Melhora a visualização quando o mesmo botão é pressionado mais de uma vez
-Date: Wed Apr  5 22:48:01 2017 -0300 Versão 4.20: Problema na seleção dos botões pelo midi parser
-Date: Wed Apr  5 22:16:34 2017 -0300 Versão 4.20: Numeracao de compassos do midi parser
-Date: Wed Apr  5 20:51:55 2017 -0300 Versão 4.20: Posicionamento de dacapo
-Date: Tue Apr  4 20:40:17 2017 -0300 Versão 4.20: Corrigindo alerta de baixo não encontrado
-Date: Mon Apr  3 19:38:20 2017 -0300 Versão 4.20: Corrigindo alerta de baixo não encontrado
-Date: Thu Mar 30 21:14:05 2017 -0300 Versão 4.20: Corrigindo alerta de baixo não encontrado
-Date: Wed Mar 29 20:47:18 2017 -0300 Versão 4.20: Corrigindo alerta de baixo não encontrado
-Date: Mon Mar 27 19:50:51 2017 -0300 Versão 4.19: Modificando jumpers, corrigindo inferência de tablatura, ausencia de mensagens no parse da tablatura e bug ao selecionar botão para
-Date: Mon Mar 27 00:41:31 2017 -0300 Versão 4.19: Modificando jumpers, corrigindo inferência de tablatura e bug ao selecionar botão para nota inexistente
-Date: Sat Mar 25 21:43:10 2017 -0300 Versão 4.18: Corrigido bug na seleção de botões ao clicar na tablatura
-Date: Sat Mar 25 20:53:34 2017 -0300 Versão 4.18: Corrigido bug na seleção de botões ao clicar na tablatura
-Date: Sat Mar 25 18:33:41 2017 -0300 Versão 4.17: Corrigido bug em ligaduras encadeadas
-Date: Fri Mar 24 17:44:41 2017 -0300 Versão 4.17: Tratando bug em ligaduras encadeadas
-Date: Wed Mar 22 22:08:36 2017 -0300 Versão 4.17: Tratando bug em ligaduras encadeadas
-Date: Wed Mar 22 10:56:14 2017 -0300 Versão 4.17: Tratando bug em ligaduras encadeadas
-Date: Sun Feb  5 16:43:44 2017 -0200 Versão 4.16: Correções no Midi Player
+<ul>
+    
+    <li>Melhorias na inferência de tablatura: criada diretiva <i><b>%%tabinferenceopts</b></i>: Esta diretiva controla a inferência da tablatura. Um número negativo
+        indica que a tablatura deve ser iniciada com fole abrindo (positivo, fechando) e valor numérico indica o número de compassos antes de inverter o movimento do fole, se possível.</li>
+    
+    <li>Melhorias na inferência de tablatura: acrescentado alerta de baixo não encontrado: o baixo que não existe na gaita continua sendo listado na tablatura, mas uma mensagem de alerta é gerada.</li>
+    
+    <li>Melhorias compilação tablatura: Ausência de mensagens no parse da tablatura. Antes as mensagens eram geradas apenas para novas tablaturas (inferidas), para aquelas que eram salvas
+        não havia alertas. Agora, de forma similar à inferência, sempre que houver algum erro, serão listadas as incoformidades.</li>
+    
+    <li>Melhorias símbolos de repetição: Sinais no mesmo compasso. As marcações de repetição ficaram mais flexíveis, permitindo expressar melhor as necesidades de retorno e repetição.</li>
+    <li>Melhorias símbolos de repetição: Posicionamento de simbolos como "D.C." ou "D.S." foram melhorados no <i>layout</b> da partitura</li>
+    
+    <li>Melhorias no Midi Player: Corrigido problema em ligaduras encadeadas que não mantinha a nota em execução para duas ou mais ligaduras encadeadas.</li>
+    <li>Melhorias no Midi Player: Corrigido problema que ligava notas diferentes, sem considerar os acidentes.</li>
+    <li>Melhorias no Midi Player: Corrigido problema na númeração de compassos quando havia vozes sobrepostas e a primeira voz era composta majoritariamente de pausas</li>
+    <li>Melhorias no Midi Player: Corrigido outros problemas na seleção de botões ao clicar na tablatura. Quando as notas eram continuadas de 
+        intervalos anteriores, nem sempre o botão da gaita era destacado.</li>
+    <li>Melhorias no Midi Player: Corrigido problema na seleção dos botões: erro ao selecionar botão para nota inexistente.</li>
+    <li>Melhorias no Midi Player: Melhora no efeito visual quando o mesmo botão é pressionado mais de uma vez</li>
+    
+</ul>    
             
 <h2>Versão 4.15<br>
             </h2>
@@ -71,8 +71,8 @@ Date: Sun Feb  5 16:43:44 2017 -0200 Versão 4.16: Correções no Midi Player
 <li>Estúdio: A função <span style="font-weight: bold;">Timer</span> habilita um temporizador antes do início da execução
 do MIDI. Isso possibilita que o estudante inicie a execução da
 partitura (ou parte dela) e tenha um pequeno intervalo de tempo (3
-segundos) para se preparar e, assim, acompanhar a música no seu próprio instrumento.</li><li>Os
-botões de controle do Midi Player foram reorganizados para aumentar sua
+segundos) para se preparar e, assim, acompanhar a música no seu próprio instrumento.</li>
+<li>Osbotões de controle do Midi Player foram reorganizados para aumentar sua
 funcionalidade. As funções Clave de Sol e Clave de Fá agora ficam
 disponíveis tanto no modo normal quanto no modo didático.<br>
 </li>
