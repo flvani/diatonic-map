@@ -9491,511 +9491,6 @@ ABCXJS.write.sprintf = function() {
   }
   return o.join('');
 };
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
-    Created on : 27/04/2016, 10:55:16
-    Author     : flavio.vani@gmail.com
-*/
-
-/*
-
-Main document structure:
-
-<div style"..." >
-
-    Header:
-     Contains a title, the style definitions for the entire document and the defined symbols.
-    <svg id="tune" ... >
-        <title>Música criada por ABCXJS.</title><style type="text/css">
-        <style type="text/css">
-            @media print {
-                div.nobrk {page-break-inside: avoid} 
-                div.newpage {page-break-before: always} 
-            }    
-        </style>
-        <defs>
-        </defs>
-    </svg>
-
-    Page1:
-      Class nobrk, an optional group to control aspects like scaling and the content of the page 
-    <div class="nobrk" >
-        <svg id="page1"  ... >
-            <g id="gpage1" ... ></g>
-        </svg>
-    </div>
-
-    Page2 and subsequents:
-      Class newpage, an optional group to control aspects like scaling and the content of the page 
-    <div class="newpage" >
-        <svg id="page2"  ...>
-            <g id="gpage2" ... ></g>
-        </svg>
-    </div>
-
-</div>
-*/
-
-if (!window.SVG)
-    window.SVG = {};
-
-if (! window.SVG.misc )
-    window.SVG.misc = { printerId: 0 };
-
-if (! window.SVG.Printer )
-    window.SVG.Printer = {};
-
-SVG.Printer = function ( d ) {
-    this.topDiv = d;
-    this.scale = 1;
-    this.gid=0;
-    this.printerId = ++SVG.misc.printerId;
-   
-    this.title;
-    this.styles = '';
-    this.defines = '';
-    this.defined_glyph = [];
-
-    this.svg_pages = [];
-    this.currentPage = 0;
-    
-    this.glyphs = new SVG.Glyphs();
-    
-    this.initDoc();
-    
-    this.svgHead = function( id, kls, size ) {
-        
-        var w = size? size.w*this.scale + 'px' : '0';
-        var h = size? size.h*this.scale + 'px' : '0';
-        var d = size? '' : 'display: none; ';
-        
-//        // not in use
-//        id = id? 'id="'+id+'"' : '' ;
-//        kls = kls? 'class="'+kls+'"' : '' ;
-        
-        return '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="'+d+'width:'+w+'; height: '+h+';" >\n';
-    };
-};
-
-SVG.Printer.prototype.initDoc = function( docId, title, add_styles, options ) {
-    options = options || {};
-    this.docId = docId || 'dcto';
-    this.title = title || '';
-    this.backgroundColor = options.backgroundColor || 'none';
-    this.color = options.color || 'black';
-    this.baseColor = options.baseColor || 'black';
-    this.scale = 1.0;
-    this.defines = '';
-    this.defined_glyph = [];
-
-    this.svg_pages = [];
-    this.currentPage = -1;
-    this.gid=0;
-    this.styles = 
-'<style type="text/css">\n\
-    @media print {\n\
-        div.nobrk {page-break-inside: avoid}\n\
-        div.newpage {page-break-before: always}\n\
-    }\n'+(add_styles||'')+'\n</style>\n';
-    
-//<![CDATA[\n\
-//]]>\n
-    
-};
-
-SVG.Printer.prototype.endDoc = function( ) {
-
-    var output = '<div style="display:block; margin:0; padding: 0; width: fit-content; background-color:'+this.backgroundColor+'; ">\n' + this.svgHead( this.docId );
-    
-    output += '<title>'+this.title+'</title>\n';
-    output += this.styles;
-    
-    if(this.defines.length > 0 ) {
-        output += '<defs>'+this.defines+'</defs>\n';
-    }
-    
-    output += '</svg>\n';
-    
-    for( var p=0; p <=  this.currentPage; p++ ) {
-        output += '<div class="'+(p>0?'newpage':'nobrk')+'">'+this.svg_pages[p]+'</div>\n';  
-    }
-    
-    output +='</div>';
-    
-    this.topDiv.innerHTML = output;
-
-};
-
-SVG.Printer.prototype.initPage = function( scl ) {
-    this.scale = scl || this.scale;
-    this.currentPage++;
-    this.svg_pages[this.currentPage] = '';
-    var g = 'g' + this.docId + (this.currentPage+1);
-    if( this.scale !== 1.0 ) {
-        this.svg_pages[this.currentPage]  += '<g id="'+g+'" transform="scale( '+ this.scale +')">';
-    }
-};
-
-SVG.Printer.prototype.endPage = function( size ) {
-    if( this.scale && this.scale !== 1.0 ) {
-        this.svg_pages[this.currentPage]  += '</g>';
-    }
-    var pg = this.docId + (this.currentPage+1);
-    this.svg_pages[this.currentPage] = this.svgHead( pg, this.currentPage < 1 ? 'nobrk':'newpage', size ) + this.svg_pages[this.currentPage] + '</svg>\n';
-};
-
-SVG.Printer.prototype.beginGroup = function (el_type) {
-    var id = 'p'+this.printerId+'g'+(++this.gid); 
-    var kls = ' style="fill:'+this.color+'; stroke:none;" ' ;
-    this.svg_pages[this.currentPage] += '<g id="'+id+'"'+kls+'>\n';  
-    return id;
-};
-
-SVG.Printer.prototype.endGroup = function () {
-    this.svg_pages[this.currentPage] += '</g>\n';  
-};
-
-SVG.Printer.prototype.setDefine = function (s) {
-    var p =  this.glyphs.getDefinition(s);
-    
-    if(p.length === 0 ) return false;
-    
-    if(!this.defined_glyph[s]) {
-        this.defines += p;
-        this.defined_glyph[s] = true;
-    }
-    return true;
-};
-
-SVG.Printer.prototype.printLine = function (x,y,dx,dy) {
-    if( x === dx ) {
-        dx = ABCXJS.misc.isIE() ? 1: 0.6;
-        dy -=  y;
-    }
-    if( y === dy ) {
-        dy = ABCXJS.misc.isIE() ? 1: 0.6;
-        dx -=  x;
-    }
-    var pathString = ABCXJS.write.sprintf('<rect style="fill:'+this.color+';"  x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', x, y, dx, dy);
-    this.svg_pages[this.currentPage] += pathString;
-};
-
-SVG.Printer.prototype.printLedger = function (x,y,dx,dy) {
-    var pathString = ABCXJS.write.sprintf('<path style="stroke:'+this.baseColor+'; fill: white; stroke-width:0.6; stroke-dasharray: 1 1;" d="M %.2f %.2f h%.2f"/>\n', x, y, dx-x);
-    this.svg_pages[this.currentPage] += pathString;
-};
-
-SVG.Printer.prototype.printBeam = function (x1,y1,x2,y2,x3,y3,x4,y4) {
-    var pathString = ABCXJS.write.sprintf('<path style="fill:'+this.color+'; stroke:none" d="M %.2f %.2f L %.2f %.2f L %.2f %.2f L %.2f %.2f z"/>\n',  x1, y1, x2, y2, x3, y3, x4, y4);
-    this.svg_pages[this.currentPage] += pathString;
-};
-
-SVG.Printer.prototype.printStaveLine = function (x1, x2, y, debug) {
-    var color = debug? debug : this.baseColor;
-    var dy =0.6;   
-    var pathString = ABCXJS.write.sprintf('<rect style="stroke:none; fill: %s;" x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', 
-                                                color, x1, y, Math.abs(x2-x1), dy );
-    this.svg_pages[this.currentPage] += pathString;
-};
-
-SVG.Printer.prototype.printBar = function (x, dx, y1, y2, real) {
-    
-    var x2 = x+dx;
-    var kls = real?'':'style="stroke:none; fill:'+this.baseColor+'"';
-    
-    if (ABCXJS.misc.isIE() && dx<1) {
-      dx = 1;
-    }
-    
-    var dy = Math.abs(y2-y1);
-    dx = Math.abs(dx); 
-    
-    var pathString = ABCXJS.write.sprintf('<rect '+kls+' x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
-
-    this.svg_pages[this.currentPage] += pathString;
-};
-
-SVG.Printer.prototype.printStem = function (x, dx, y1, y2) {
-    
-    var x2 = x+dx;
-    
-    if (ABCXJS.misc.isIE() && dx<1) {
-      dx = 1;
-    }
-    
-    var dy = Math.abs(y2-y1);
-    dx = Math.abs(dx); 
-    
-    var pathString = ABCXJS.write.sprintf('<rect x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
-
-    this.svg_pages[this.currentPage] += pathString;
-};
-
-
-SVG.Printer.prototype.printTieArc = function (x1,y1,x2,y2,up) {
-    
-    //unit direction vector
-    var dx = x2-x1;
-    var dy = y2-y1;
-    var norm= Math.sqrt(dx*dx+dy*dy);
-    var ux = dx/norm;
-    var uy = dy/norm;
-
-    var flatten = norm/3.5;
-    var curve = (up?-1:1)*Math.min(25, Math.max(4, flatten));
-
-    var controlx1 = x1+flatten*ux-curve*uy;
-    var controly1 = y1+flatten*uy+curve*ux;
-    var controlx2 = x2-flatten*ux-curve*uy;
-    var controly2 = y2-flatten*uy+curve*ux;
-    var thickness = 2;
-    
-    var pathString = ABCXJS.write.sprintf('<path style="fill:'+this.color+'; stroke-width:0.6px; stroke:none;" d="M %.2f %.2f C %.2f %.2f %.2f %.2f %.2f %.2f C %.2f %.2f %.2f %.2f %.2f %.2f z"/>\n', 
-                            x1, y1,
-                            controlx1, controly1, controlx2, controly2, x2, y2, 
-                            controlx2-thickness*uy, controly2+thickness*ux, controlx1-thickness*uy, controly1+thickness*ux, x1, y1 );
-    
-    this.svg_pages[this.currentPage] += pathString;
-};
-    
-SVG.Printer.prototype.printBrace = function (x, y1, y2) {
-    var sz = Math.abs(y1-y2); // altura esperada
-    var scale = sz / 1027; // altura real do simbolo
-    this.setDefine('scripts.lbrace');
-    var pathString = ABCXJS.write.sprintf('<use style="fill:'+this.baseColor+'" x="0" y="0" xlink:href="#scripts.lbrace" transform="translate(%.2f %.2f) scale(0.13 %.5f)" />\n', x, y2, scale );
-    this.svg_pages[this.currentPage] += pathString;
-};
-
-SVG.Printer.prototype.printSymbol = function (x, y, symbol) {
-    if (this.setDefine(symbol)) {
-        var pathString = ABCXJS.write.sprintf('<use x="%.2f" y="%.2f" xlink:href="#%s" />\n', x, y, symbol );
-        this.svg_pages[this.currentPage] += pathString;
-    } else {
-        throw 'Undefined: ' + symbol;
-    }
-};
-
-SVG.Printer.prototype.tabText = function( x, y, str, clss, anch ) {
-    
-   if( str === 'scripts.rarrow') {
-       //fixme: deveria mudar o tipe de tabtext para symbol, adequadamente
-       this.printSymbol(x, y, str );
-       return;
-   }
-   
-   str = ""+str;
-   if( str.length===0) return;
-   
-   anch = anch || 'start';
-   x = x.toFixed(2);
-   y = y.toFixed(2);
-   
-   this.svg_pages[this.currentPage] += '<text class="'+clss+'" x="'+x+'" y="'+y+'" >'+str+'</text>\n';
-};
-
-SVG.Printer.prototype.text = function( x, y, str, clss, anch ) {
-   var t; 
-   var estilo = clss === 'abc_lyrics' ? '' : 'style="stroke:none; fill: '+this.color+';"' ;
-   
-   str = ""+str;
-   if( str.length===0) return;
-   
-   t = str.split('\n');
-   
-   anch = anch || 'start';
-   x = x.toFixed(2);
-   y = y.toFixed(2);
-   
-   this.svg_pages[this.currentPage] += '<g class="'+clss+'" '+estilo+' transform="translate('+x+' '+y+')">\n';
-    if(t.length < 2) {
-       this.svg_pages[this.currentPage] += '<text text-anchor="'+anch+'" x="0" y="0" >'+t[0]+'</text>\n';
-    } else {
-       this.svg_pages[this.currentPage] += '<text text-anchor="'+anch+'" x="0" y="0">\n';
-       for(var i = 0; i < t.length; i++ )
-           this.svg_pages[this.currentPage] += '<tspan x="0" dy="1.2em" >'+t[i]+'</tspan>\n';
-       this.svg_pages[this.currentPage] += '</text>\n';
-    }
-    this.svg_pages[this.currentPage] += '</g>\n';
-};
-
-SVG.Printer.prototype.printButton = function (id, x, y, options) {
-    
-    var scale = options.radius/26; // 26 é o raio inicial do botão
-    var gid = 'p'+this.printerId+id;
-    var estilo = 'stroke:'+options.borderColor+'; stroke-width:'+options.borderWidth+'px; fill: none;';
-
-    var pathString = ABCXJS.write.sprintf( '<g id="%s" transform="translate(%.2f %.2f) scale(%.5f)">\n\
-        <circle cx="28" cy="28" r="26" style="stroke:none; fill: %s;" ></circle>\n\
-        <path id="%s_ac" style="stroke: none; fill: %s;" d="M 2 34 a26 26 0 0 1 52 -12"></path>\n\
-        <path id="%s_ao" style="stroke: none; fill: %s;" d="M 54 22 a26 26 0 0 1 -52 12"></path>\n\
-        <circle style="'+estilo+'" cx="28" cy="28" r="26"></circle>\n\
-        <path style="'+estilo+'" d="m 2 34 l 52 -12" ></path>\n\
-        <text id="%s_tc" class="%s" style="stroke:none; fill: black;" x="27" y="22" >...</text>\n\
-        <text id="%s_to" class="%s" style="stroke:none; fill: black;" x="27" y="44" >...</text>\n</g>\n',
-        gid, x, y, scale, options.fillColor, gid, options.closeColor, gid, options.openColor, gid, options.kls, gid, options.kls );
-        
-    this.svg_pages[this.currentPage] += pathString;
-    return gid;
-
-};
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-if (!window.SVG)
-    window.SVG = {};
-
-if (!window.SVG.Glyphs )
-    window.SVG.Glyphs = {};
-
-SVG.Glyphs = function () {
-    
-    var abc_glyphs = new ABCXJS.write.Glyphs();
-
-    var glyphs = { // the @@ will be replaced by the abc_glyph contents.
-       "0": '<path id="0" transform="scale(0.95)" \nd="@@"/>'
-      ,"1": '<path id="1" transform="scale(0.95)" \nd="@@"/>'
-      ,"2": '<path id="2" transform="scale(0.95)" \nd="@@"/>'
-      ,"3": '<path id="3" transform="scale(0.95)" \nd="@@"/>'
-      ,"4": '<path id="4" transform="scale(0.95)" \nd="@@"/>'
-      ,"5": '<path id="5" transform="scale(0.95)" \nd="@@"/>'
-      ,"6": '<path id="6" transform="scale(0.95)" \nd="@@"/>'
-      ,"7": '<path id="7" transform="scale(0.95)" \nd="@@"/>'
-      ,"8": '<path id="8" transform="scale(0.95)" \nd="@@"/>'
-      ,"9": '<path id="9" transform="scale(0.95)" \nd="@@"/>'
-      ,"f": '<path id="f" transform="scale(0.95)" \nd="@@"/>'
-      ,"m": '<path id="m" transform="scale(0.95)" \nd="@@"/>'
-      ,"p": '<path id="p" transform="scale(0.95)" \nd="@@"/>'
-      ,"r": '<path id="r" transform="scale(0.95)" \nd="@@"/>'
-      ,"s": '<path id="s" transform="scale(0.95)" \nd="@@"/>'
-      ,"z": '<path id="z" transform="scale(0.95)" \nd="@@"/>'
-      ,"+": '<path id="+" transform="scale(0.95)" \nd="@@"/>'
-      ,",": '<path id="," transform="scale(0.95)" \nd="@@"/>'
-      ,"-": '<path id="-" transform="scale(0.95)" \nd="@@"/>'
-      ,".": '<path id="." transform="scale(0.95)" \nd="@@"/>'
-      ,"accidentals.nat": '<path id="accidentals.nat" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.sharp": '<path id="accidentals.sharp" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.flat": '<path id="accidentals.flat" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.halfsharp": '<path id="accidentals.halfsharp" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.dblsharp": '<path id="accidentals.dblsharp" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.halfflat": '<path id="accidentals.halfflat" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.dblflat": '<path id="accidentals.dblflat" transform="scale(0.8)" \nd="@@"/>'
-      ,"clefs.C": '<path id="clefs.C" \nd="@@"/>'
-      ,"clefs.F": '<path id="clefs.F" \nd="@@"/>'
-      ,"clefs.G": '<path id="clefs.G" \nd="@@"/>'
-      ,"clefs.perc": '<path id="clefs.perc" \nd="@@"/>'
-      ,"clefs.tab": '<path id="clefs.tab" transform="scale(0.9)" \nd="@@"/>'
-      ,"dots.dot": '<path id="dots.dot" \nd="@@"/>'
-      ,"flags.d8th": '<path id="flags.d8th" \nd="@@"/>'
-      ,"flags.d16th": '<path id="flags.d16th" \nd="@@"/>'
-      ,"flags.d32nd": '<path id="flags.d32nd" \nd="@@"/>'
-      ,"flags.d64th": '<path id="flags.d64th" \nd="@@"/>'
-      ,"flags.dgrace": '<path id="flags.dgrace" \nd="@@"/>'
-      ,"flags.u8th": '<path id="flags.u8th" \nd="@@"/>'
-      ,"flags.u16th": '<path id="flags.u16th" \nd="@@"/>'
-      ,"flags.u32nd": '<path id="flags.u32nd" \nd="@@"/>'
-      ,"flags.u64th": '<path id="flags.u64th" \nd="@@"/>'
-      ,"flags.ugrace": '<path id="flags.ugrace" \nd="@@"/>'
-      ,"graceheads.quarter": '<g id="graceheads.quarter" transform="scale(0.6)" ><use xlink:href="#noteheads.quarter" /></g>'
-      ,"graceflags.d8th": '<g id="graceflags.d8th" transform="scale(0.6)" ><use xlink:href="#flags.d8th" /></g>'
-      ,"graceflags.u8th": '<g id="graceflags.u8th" transform="scale(0.6)" ><use xlink:href="#flags.u8th" /></g>'
-      ,"noteheads.quarter": '<path id="noteheads.quarter" \nd="@@"/>'
-      ,"noteheads.whole": '<path id="noteheads.whole" \nd="@@"/>'
-      ,"notehesad.dbl": '<path id="noteheads.dbl" \nd="@@"/>'
-      ,"noteheads.half": '<path id="noteheads.half" \nd="@@"/>'
-      ,"rests.whole": '<path id="rests.whole" \nd="@@"/>'
-      ,"rests.half": '<path id="rests.half" \nd="@@"/>'
-      ,"rests.quarter": '<path id="rests.quarter" \nd="@@"/>'
-      ,"rests.8th": '<path id="rests.8th" \nd="@@"/>'
-      ,"rests.16th": '<path id="rests.16th" \nd="@@"/>'
-      ,"rests.32nd": '<path id="rests.32nd" \nd="@@"/>'
-      ,"rests.64th": '<path id="rests.64th" \nd="@@"/>'
-      ,"rests.128th": '<path id="rests.128th" \nd="@@"/>'
-      ,"scripts.rarrow": '<path id="scripts.rarrow" \nd="M -6 -5 h 8 v -3 l 4 4 l -4 4 v -3 h -8 z"/>'
-      ,"scripts.tabrest": '<path id="scripts.tabrest" \nd="M -5 5 h 10 v 2 h -10 z"/>'
-      ,"scripts.lbrace": '<path id="scripts.lbrace" \nd="@@"/>'
-      ,"scripts.ufermata": '<path id="scripts.ufermata" \nd="@@"/>'
-      ,"scripts.dfermata": '<path id="scripts.dfermata" \nd="@@"/>'
-      ,"scripts.sforzato": '<path id="scripts.sforzato" \nd="@@"/>'
-      ,"scripts.staccato": '<path id="scripts.staccato" \nd="@@"/>'
-      ,"scripts.tenuto": '<path id="scripts.tenuto" \nd="@@"/>'
-      ,"scripts.umarcato": '<path id="scripts.umarcato" \nd="@@"/>'
-      ,"scripts.dmarcato": '<path id="scripts.dmarcato" \nd="@@"/>'
-      ,"scripts.stopped": '<path id="scripts.stopped" \nd="@@"/>'
-      ,"scripts.upbow": '<path id="scripts.upbow" \nd="@@"/>'
-      ,"scripts.downbow": '<path id="scripts.downbow" \nd="@@"/>'
-      ,"scripts.turn": '<path id="scripts.turn" \nd="@@"/>'
-      ,"scripts.trill": '<path id="scripts.trill" \nd="@@"/>'
-      ,"scripts.segno": '<path id="scripts.segno" transform="scale(0.8)" \nd="@@"/>'
-      ,"scripts.coda": '<path id="scripts.coda" transform="scale(0.8)" \nd="@@"/>'
-      ,"scripts.comma": '<path id="scripts.comma" \nd="@@"/>'
-      ,"scripts.roll": '<path id="scripts.roll" \nd="@@"/>'
-      ,"scripts.prall": '<path id="scripts.prall" \nd="@@"/>'
-      ,"scripts.mordent": '<path id="scripts.mordent" \nd="@@"/>'
-      ,"timesig.common": '<path id="timesig.common" \nd="@@"/>'
-      ,"it.punto": '<path id="it.punto" \nd="@@"/>'
-      ,"it.l": '<path id="it.l" \nd="@@"/>'
-      ,"it.f": '<path id="it.f" \nd="@@"/>'
-      ,"it.F": '<path id="it.F" \nd="@@"/>'
-      ,"it.i": '<path id="it.i" \nd="@@"/>'
-      ,"it.n": '<path id="it.n" \nd="@@"/>'
-      ,"it.e": '<path id="it.e" \nd="@@"/>'
-      ,"it.D": '<path id="it.D" \nd="@@"/>'
-      ,"it.d": '<path id="it.d" \nd="@@"/>'
-      ,"it.a": '<path id="it.a" \nd="@@"/>'
-      ,"it.C": '<path id="it.C" \nd="@@"/>'
-      ,"it.c": '<path id="it.c" \nd="@@"/>'
-      ,"it.p": '<path id="it.p" \nd="@@"/>'
-      ,"it.o": '<path id="it.o" \nd="@@"/>'
-      ,"it.S": '<path id="it.S" \nd="@@"/>'
-      ,"it.s": '<path id="it.s" \nd="@@"/>'
-      ,"it.Fine": '<g id="it.Fine" ><use xlink:href="#it.F" x="0" y="3" /><use xlink:href="#it.i" x="12" y="3" /><use xlink:href="#it.n" x="17.5" y="3" /><use xlink:href="#it.e" x="27" y="3" /></g>'
-      ,"it.Coda": '<g id="it.Coda" ><use xlink:href="#it.C" x="0" y="3" /><use xlink:href="#it.o" x="12" y="3" /><use xlink:href="#it.d" x="20" y="3" /><use xlink:href="#it.a" x="30" y="3" /></g>'
-      ,"it.Da": '<g id="it.Da"><use xlink:href="#it.D" x="0" y="3" /><use xlink:href="#it.a" x="14" y="3" /></g>'
-      ,"it.DaCoda": '<g id="it.DaCoda"><use xlink:href="#it.Da" x="0" y="0" /><use xlink:href="#scripts.coda" x="32" y="0" /></g>'
-      ,"it.DaSegno": '<g id="it.DaSegno"><use xlink:href="#it.Da" x="0" y="0" /><use xlink:href="#scripts.segno" x="32" y="-3" /></g>'
-      ,"it.DC": '<g id="it.DC"><use xlink:href="#it.D" x="0" y="1" /><use xlink:href="#it.punto" x="12" y="2" /><use xlink:href="#it.C" x="18" y="1" /><use xlink:href="#it.punto" x="29" y="2" /></g>'
-      ,"it.DS": '<g id="it.DS"><use xlink:href="#it.D" x="0" y="1" /><use xlink:href="#it.punto" x="12" y="2" /><use xlink:href="#it.S" x="18" y="1" /><use xlink:href="#it.punto" x="29" y="2" /></g>'
-      ,"it.al": '<g id="it.al"><use xlink:href="#it.a" x="0" y="2" /><use xlink:href="#it.l" x="10" y="2" /></g>'
-      ,"it.DCalFine": '<g id="it.DCalFine"><use xlink:href="#it.DC" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Fine" x="46" y="-1" /></g>'
-      ,"it.DCalCoda": '<g id="it.DCalCoda"><use xlink:href="#it.DC" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Coda" x="46" y="-1" /></g>'
-      ,"it.DSalFine": '<g id="it.DSalFine"><use xlink:href="#it.DS" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Fine" x="46" y="-1" /></g>'
-      ,"it.DSalCoda": '<g id="it.DSalCoda"><use xlink:href="#it.DS" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Coda" x="46" y="-1" /></g>'
-    };
-    
-    this.getDefinition = function (gl) {
-        
-        
-        var g = glyphs[gl];
-        
-        if (!g) {
-            return "";
-        }
-        
-        // expande path se houver, buscando a definicao do original do ABCJS.
-        g = g.replace('@@', abc_glyphs.getTextSymbol(gl) );
-        
-        var i = 0, j = 0;
-
-        while (i>=0) {
-            i = g.indexOf('xlink:href="#', j );
-            if (i < 0) continue;
-            i += 13;
-            j = g.indexOf('"', i);
-            g += this.getDefinition(g.slice(i, j));
-        }
-
-        return '\n' +  g;
-    };
-};
 if (!window.ABCXJS)
     window.ABCXJS = {};
 
@@ -11534,6 +11029,869 @@ ABCXJS.tablature.Accordion.prototype.updateEditor = function () {
 
 /*
  * TODO:
+ *   - Verificar currInterval e suas implicações quando se está no último compasso
+ *   - Tratar adequadamente os acordes de baixo
+ *   - OK Tratar inversões de fole e inTie 
+ *   - OK Bug quando ligaduras de expressão estão presentes
+ *   - OK inverter o movimento do fole baseado no tempo do compasso
+ *   - OK tratar ligaduras de expressão (como se fossem ligaduras de articulacao)
+ *   - OK acertar a posição dos elementos de pausa (quando presentes na tablatura)
+ *   - OK garantir que não ocorra erro quando as pausas não forem incluídas na tablatura, mas a pausa é a única nota do intervalo.
+ *
+ */
+
+if (!window.ABCXJS)
+	window.ABCXJS = {};
+
+if (!window.ABCXJS.tablature)
+	window.ABCXJS.tablature = {};
+    
+ABCXJS.tablature.Infer = function( accordion, tune, vars ) {
+    this.offset = 8.9;
+    this.multiplier = 1;
+    this.accordion = accordion;
+    this.vars = vars || {} ;
+    this.tune = tune;
+
+    // esta variavel conta o tempo ante de propor a inversão do fole 
+    // em geral o count=1 equivale ao tempo de um compasso.
+    // não esta no reset para que entre as linhas o contador seja mantido
+    this.count = 0; 
+    
+    // valor inicial do movimento do fole
+    this.closing = this.tune.formatting.tabInferenceOpts > 0 ? true : false;
+
+    // limite para inversão o movimento do fole - baseado no tempo de um compasso
+    if( this.tune.lines &&
+        this.tune.lines[0].staffs &&      
+        this.tune.lines[0].staffs[0].meter &&
+        this.tune.lines[0].staffs[0].meter.type === 'specified' ) {
+        var ritmo = this.tune.lines[0].staffs[0].meter.value[0];
+        this.limit = ritmo.num / ritmo.den;
+    } else {
+      this.limit = 1; 
+    }
+    
+    // por default inverte o fole a cada compasso. pode ser modificado pela diretiva.
+    this.limit = this.limit * Math.abs(this.tune.formatting.tabInferenceOpts);
+    
+    this.reset();
+    
+    this.transposeTab = tune.lines[0].staffs[tune.tabStaffPos].clef.transpose || 0;
+    
+    this.addWarning = function(str) {
+        if (!this.vars.warnings) this.vars.warnings = [];
+        this.vars.warnings.push(str);
+    };
+    
+    this.barTypes = { 
+        "bar"              :  "|"
+      , "bar_thin"         :  "|"
+      , "bar_thin_thin"    : "||"
+      , "bar_thick_thin"   : "[|"
+      , "bar_thin_thick"   : "|]"
+      , "bar_dbl_repeat"   : ":|:"
+      , "bar_left_repeat"  :  "|:"
+      , "bar_right_repeat" : ":|"
+    };
+    
+};
+
+ABCXJS.tablature.Infer.prototype.reset = function() {
+    this.tuneCurrLine = 0;
+    this.voice = [];
+    this.bassBarAcc = [];
+    this.trebBarAcc = [];
+    this.producedLine = "";
+    this.lastButton = -1;
+    this.currInterval = 1;
+    this.alertedMissSync = false;
+    
+};
+
+ABCXJS.tablature.Infer.prototype.inferTabVoice = function(line) {
+    
+    if( this.tune.tabStaffPos < 1 || ! this.tune.lines[line].staffs ) 
+        return; // we expect to find at least the melody line above tablature, otherwise, we cannot infer it.
+    
+    this.reset();
+    this.tuneCurrLine = line;
+    
+    var voices = [];
+     
+    var trebStaff  = this.tune.lines[this.tuneCurrLine].staffs[0];
+    var trebVoices = trebStaff.voices;
+    this.accTrebKey = trebStaff.key.accidentals;
+    for( var i = 0; i < trebVoices.length; i ++ ) {
+        voices.push( { voz:trebVoices[i], pos:-1, st:'waiting for data', bass:false, wi: {}, ties:[]} ); // wi - work item
+    }
+    
+    if( this.tune.tabStaffPos === 2 ) {
+        var bassStaff  = this.tune.lines[this.tuneCurrLine].staffs[1];
+        if(bassStaff) { 
+            var bassVoices = bassStaff.voices;
+            this.accBassKey = bassStaff.key.accidentals;
+            for( var i = 0; i < bassVoices.length; i ++ ) {
+                voices.push({ voz:bassVoices[i], pos:-1, st:'waiting for data', bass:true, wi: {}, ties:[] } ); // wi - work item
+            }
+        } else {
+            this.addWarning('Possível falta da definição da linha de baixos.') ;
+        }
+    }  
+    
+    var st = 1; // 0 - fim; 1 - barra; 2 dados; - 1 para garantir a entrada
+    while( st > 0 ) {
+        
+        st = 0; // 0 para garantir a saida, caso não haja nada para ler
+
+        for( var j = 0; j < voices.length; j ++ ) {
+            st = Math.max(this.read( voices, j ), st);
+        }
+
+        for( var j = 0; j < voices.length-1; j ++ ) {
+            if( voices[j].st !== voices[j+1].st && ! this.alertedMissSync) {
+                this.addWarning('Possível falta de sincronismo no compasso ' + this.currInterval + '.' ) ;
+                j = voices.length;
+                this.alertedMissSync = true;
+            }
+        }
+
+        switch(st){
+            case 1: // incluir a barra na tablatura
+                // neste caso, todas as vozes são "bar", mesmo que algumas já terminaram 
+                var i = 0;
+                while ( i < voices.length) {
+                    if(voices[i].wi.el_type && voices[i].wi.el_type === "bar" )     {
+                        this.addTABChild(ABCXJS.parse.clone(voices[i].wi),line);
+                        i = voices.length;
+                    } else {
+                        i++;
+                    }
+                }
+
+                for( var i = 0; i < voices.length; i ++ ) {
+                    if(voices[i].st !== 'closed')
+                      voices[i].st = 'waiting for data';
+                }
+                this.bassBarAcc = [];
+                this.trebBarAcc = [];
+
+                break;
+            case 2:
+                this.addTABChild(this.extraiIntervalo(voices), line);
+                break;
+        }
+    } 
+    
+    this.accordion.setTabLine(this.producedLine);
+    
+    return this.voice;
+};
+
+ABCXJS.tablature.Infer.prototype.read = function(p_source, item) {
+    var source = p_source[item];
+    switch( source.st ) {
+        case "waiting for data":
+            source.pos ++;
+            break;
+        case "waiting end of interval":
+            return 1;
+            break;
+        case "closed":
+            return 0;
+            break;
+        case "processing":
+            return 2;
+            break;
+               
+    }
+    // toda chave estranha às notas deve ser ignorada aqui
+    while( source.voz[source.pos] &&  source.pos < source.voz.length 
+            && (source.voz[source.pos].direction || source.voz[source.pos].title || source.voz[source.pos].root) ) {
+        if(source.voz[source.pos].el_type === 'key') {
+            if(source.bass) {
+              this.accBassKey = source.voz[source.pos].accidentals;
+            } else {
+              this.accTrebKey = source.voz[source.pos].accidentals;
+            }
+        }
+        source.pos ++;
+    }
+    
+    if( source.pos < source.voz.length ) {
+        source.wi = ABCXJS.parse.clone(source.voz[source.pos]);
+        if( source.wi.barNumber && source.wi.barNumber !== this.currInterval && item === 0 ) {
+            this.currInterval = source.wi.barNumber;
+        }
+        
+        if( source.wi.startTriplet){
+            source.triplet = true;
+            this.startTriplet = source.wi.startTriplet;
+            this.multiplier = this.startTriplet===2?1.5:(this.startTriplet-1)/this.startTriplet;
+        }
+        
+        this.checkTies(source);
+        source.st = (source.wi.el_type && source.wi.el_type === "bar") ? "waiting end of interval" : "processing";
+        return (source.wi.el_type && source.wi.el_type === "bar") ? 1 : 2;
+    } else {
+        source.st = "closed";
+        return 0;
+    }
+       
+};
+
+ABCXJS.tablature.Infer.prototype.extraiIntervalo = function(voices) {
+    var minDur = 100;
+    
+    for( var i = 0; i < voices.length; i ++ ) {
+        if( voices[i].st === 'processing' && voices[i].wi.duration && voices[i].wi.duration > 0  
+                && voices[i].wi.duration*(voices[i].triplet?this.multiplier:1) < minDur ) {
+            minDur = voices[i].wi.duration*(voices[i].triplet?this.multiplier:1);
+        }
+    }
+    ;
+    var wf = { el_type: 'note', duration: Number((minDur/this.multiplier).toFixed(5)), startChar: 0, endChar: 0, line:0, pitches:[], bassNote: [] }; // wf - final working item
+    
+    for( var i = 0; i < voices.length; i ++ ) {
+        if(voices[i].st !== 'processing' ) continue;
+        var elem = voices[i].wi;
+        if( elem.rest ) {
+            switch (elem.rest.type) {
+                case "rest":
+                    if( voices[i].bass ) 
+                        wf.bassNote[wf.bassNote.length] = ABCXJS.parse.clone(elem.rest);
+                    else    
+                        wf.pitches[wf.pitches.length] = ABCXJS.parse.clone(elem.rest);
+                    break;
+                case "invisible":
+                case "spacer":
+                    break;
+            }        
+        }else if( elem.pitches ) {
+            ABCXJS.write.sortPitch(elem.pitches);
+            if( voices[i].bass ) {
+                //todo: tratar adequadamente os acordes
+                var isChord = elem.pitches.length>1;
+                elem.pitches.splice(1, elem.pitches.length - 1);
+                elem.pitches[0].chord=isChord;
+                wf.bassNote[wf.bassNote.length] = ABCXJS.parse.clone(elem.pitches[0]);
+            } else {
+                for( var j = 0; j < elem.pitches.length; j ++  ) {
+                    wf.pitches[wf.pitches.length] = ABCXJS.parse.clone(elem.pitches[j]);
+                }
+            }
+        }
+        
+        this.setTies(voices[i]);
+        
+        if( voices[i].wi.duration ) {
+            voices[i].wi.duration -= minDur/(voices[i].triplet?this.multiplier:1);
+            if( voices[i].wi.duration <= 0.0001 ) {
+               voices[i].st = 'waiting for data';
+            } else {
+                if(voices[i].wi.pitches) {
+                    for( var j = 0; j < voices[i].wi.pitches.length; j ++  ) {
+                        voices[i].wi.pitches[j].inTie = true;
+                    }
+                }
+            }
+        }
+    }
+    
+    for( var i = 0; i < voices.length; i ++ ) {
+        var elem = voices[i];
+        if( elem.wi.endTriplet){
+            this.endTriplet = true;
+            elem.triplet = false;
+            this.multiplier = 1;
+        }
+    }    
+        
+    //trata intervalo vazio (quando há pausa em todas as vozes e não são visíveis)
+    if(wf.pitches.length === 0 && wf.bassNote.length === 0 ) {
+        wf.pitches[0] = {type:'rest', c:'scripts.tabrest'}; 
+    }
+    return wf;
+    
+};
+
+ABCXJS.tablature.Infer.prototype.setTies = function(voice) {
+    if(voice.wi.el_type && voice.wi.el_type === "note" && voice.wi.pitches )  {
+        for( var j = 0; j < voice.wi.pitches.length; j ++  ) {
+            if( voice.wi.pitches[j].tie ) {
+                if(voice.wi.pitches[j].tie.id_end){
+                    voice.ties[voice.wi.pitches[j].tie.id_end] = false;
+                }
+                if(voice.wi.pitches[j].tie.id_start){
+                    voice.ties[voice.wi.pitches[j].tie.id_start] = 100+voice.wi.pitches[j].pitch;
+                }
+            }
+        }
+    }
+};
+
+ABCXJS.tablature.Infer.prototype.checkTies = function(voice) {
+    if(voice.wi.el_type && voice.wi.el_type === "note" && voice.wi.pitches )  {
+        for( var i = 1; i < voice.ties.length; i ++ ) {
+            var found = false;
+            for( var j = 0; j < voice.wi.pitches.length; j ++  ) {
+                found = found || (100+voice.wi.pitches[j].pitch === voice.ties[i]);
+            }      
+            if(!found && voice.ties[i] ) {
+                voice.wi.pitches.push({pitch: voice.ties[i], verticalPos: voice.ties[i], inTie:true});
+            }    
+        }
+        for( var j = 0; j < voice.wi.pitches.length; j ++  ) {
+            if(voice.wi.pitches[j].tie){
+                if(voice.wi.pitches[j].tie.id_end) {
+                    voice.wi.pitches[j].inTie = true;
+                } 
+            }      
+        }       
+    }    
+};
+
+ABCXJS.tablature.Infer.prototype.addTABChild = function(token, line ) {
+
+    if (token.el_type !== "note") {
+        var xf = 0;
+        if( this.barTypes[token.type] ){
+            xf = this.registerLine(this.barTypes[token.type] + 
+                    (token.startEnding?token.startEnding:"") + " ");
+        } else {
+            throw new Error( 'ABCXJS.tablature.Infer.prototype.addTABChild(token_type): ' + token.type );
+        }
+        var xi = this.getXi();
+        this.add(token, xi, xf - 1, line );
+        return;
+    }
+    
+    var child = {
+         el_type: token.el_type 
+        ,startChar: 0
+        ,endChar: 0
+        ,line: 0
+        ,pitches: []
+        ,duration: token.duration
+        ,bellows: ""
+    };
+
+    var bass = token.bassNote.length>0;
+    var column = token.pitches;
+    var allOpen = true;
+    var allClose = true;
+    var baixoClose = true;
+    var baixoOpen = true;
+    var inTie = false;
+
+    var qtd = column.length;
+    
+    if( this.startTriplet ) {
+        child.startTriplet = this.startTriplet;
+        this.startTriplet = false;
+        this.registerLine( '(' + child.startTriplet + ' ' );
+    }
+    
+    if( this.endTriplet ) {
+        child.endTriplet = true;
+        this.endTriplet = false;
+    }
+    
+    // inicialmente as notas estão na posição "fechando". Se precisar alterar para "abrindo" este é offset da altura
+    var offset = (qtd>=3?-(this.offset-(2.8*(qtd-2))):-this.offset);
+
+    var pitchBase = 18;
+    var tt = "tabText";
+
+    if(token.bassNote.length>1) {
+       pitchBase = 21.3;
+       tt = "tabText2";
+       ABCXJS.write.sortPitch(token.bassNote);
+    }
+    
+    for (var b = 0; b < token.bassNote.length; ++b) {
+        inTie = (token.bassNote[b].inTie|| inTie);
+        switch(token.bassNote[b].type) {
+            case 'rest':
+            case 'invisible':
+            case 'spacer':
+                child.pitches[b] = {bass: true, type: token.bassNote[b].type, c: 'scripts.tabrest', pitch: 0.7 + pitchBase - (b * 3)};
+                this.registerLine('z');
+                break;
+            default:
+                var item = { bass:true, type: tt, c: "", pitch: pitchBase - (b * 3) - 0.5, inTie: token.bassNote[b].inTie || false };
+                var note = this.accordion.getNoteName(token.bassNote[b], this.accBassKey, this.bassBarAcc, true);
+                item.buttons = this.accordion.getKeyboard().getButtons(note);
+                baixoOpen  = baixoOpen  ? typeof (item.buttons.open) !== "undefined" : false;
+                baixoClose = baixoClose ? typeof (item.buttons.close) !== "undefined" : false;
+                item.note = note.key;
+                item.c =  (item.buttons.close || item.buttons.open) ? ( item.inTie ?  'scripts.rarrow': item.note ) :  'x';
+                child.pitches[b] = item;
+                this.registerLine(child.pitches[b].c === 'scripts.rarrow' ? '>' : child.pitches[b].c);
+                
+        }
+    }
+
+    var xi = this.getXi();
+    for (var c = 0; c < column.length; c++) {
+        var item = column[c];
+        inTie = (item.inTie || inTie);
+        switch(item.type) {
+            case 'invisible':
+            case 'spacer':
+            case 'rest':
+                item.c = 'scripts.tabrest';
+                item.pitch = 13.2;
+                break
+            default:
+                var note = this.accordion.getNoteName(item, this.accTrebKey, this.trebBarAcc, false);
+                
+                if( this.transposeTab ) {
+                    switch(this.transposeTab){
+                        case 8: note.octave ++; break;
+                        case -8: note.octave --; break;
+                        default:
+                            this.addWarning('Possível transpor a tablatura uma oitava acima ou abaixo +/-8. Ignorando transpose.') ;
+                    }
+                }
+                
+                item.buttons = this.accordion.getKeyboard().getButtons(note);
+                item.note = note.key + note.octave;
+                item.c =  (item.buttons.close || item.buttons.open) ? ( item.inTie ?  'scripts.rarrow': item.note ) :  'x';
+                item.pitch = (qtd === 1 ? 11.7 : 13.4 -( c * 2.8));
+                item.type = "tabText" + (qtd > 1 ? 2 : "");
+
+                allOpen = allOpen ? typeof (item.buttons.open) !== "undefined" : false;
+                allClose = allClose ? typeof (item.buttons.close) !== "undefined" : false;
+        }
+        
+        child.pitches[child.pitches.length] = item;
+    }
+    
+    if( inTie ) {
+        // inversão impossível
+        this.count += child.duration;
+    } else {
+        // verifica tudo: baixo e melodia
+        if ((this.closing && baixoClose && allClose) || (!this.closing && baixoOpen && allOpen)) {
+            // manteve o rumo, mas verifica o fole, virando se necessario (e possivel)
+            if ( this.count < this.limit) {
+                this.count += child.duration;
+            } else {
+                // neste caso só muda se é possível manter baixo e melodia    
+                if ((!this.closing && baixoClose && allClose) || (this.closing && baixoOpen && allOpen)) {
+                    this.count = child.duration;
+                    this.closing = !this.closing;
+                } else {
+                    this.count += child.duration;
+                }
+            }
+        } else if ((!this.closing && baixoClose && allClose) || (this.closing && baixoOpen && allOpen)) {
+            //mudou o rumo, mantendo baixo e melodia
+            this.count = child.duration;
+            this.closing = !this.closing;
+        } else {
+            // não tem teclas de melodia e baixo simultaneamente: privilegia o baixo, se houver.
+            if ((this.closing && ((bass && baixoClose) || allClose)) || (!this.closing && ((bass && baixoOpen) || allOpen))) {
+                this.count += child.duration;
+            } else if ((!this.closing && ((bass && baixoClose) || allClose)) || (this.closing && ((bass && baixoOpen) || allOpen))) {
+                if (  this.count < this.limit) {
+                    this.count += child.duration;
+                } else {
+                    // neste caso só muda se é possível manter baixo ou melodia    
+                    if ((!this.closing && (bass && baixoClose) && allClose) || (this.closing && (bass && baixoOpen) && allOpen)) {
+                        this.count = child.duration;
+                        this.closing = !this.closing;
+                    } else {
+                        this.count += child.duration;
+                    }
+                }
+            }
+        }
+    }
+    
+    // seria a melhor hora para indicar baixo incompativel?
+    if ( (baixoClose || baixoOpen) && ( (this.closing && !baixoClose)  || (!this.closing && !baixoOpen) ) ) {
+        this.registerInvalidBass();
+    }
+
+    child.bellows = this.closing ? "+" : "-";
+    this.registerLine(child.bellows);
+    this.registerLine(qtd > 1 ? "[" : "");
+
+    // segunda passada: altera o que será exibido, conforme definições da primeira passada
+    column = child.pitches;
+    for (var c = 0; c < column.length; c++) {
+        var item = column[c];
+        if (!item.bass) {
+            if (!this.closing)
+                item.pitch += offset;
+            switch(item.type) {
+                case 'rest':
+                case 'invisible':
+                case 'spacer':
+                    this.registerLine('z');
+                    break;
+                default:
+                    // esse código pode ser melhorado. Nota não encontrada já foi definida previmente 
+                    if ( item.inTie  ) {
+                        this.registerLine((item.buttons.close || item.buttons.open)? '>': 'x' );
+                    } else {
+                        item.c = this.elegeBotao(this.closing ? item.buttons.close : item.buttons.open);
+                        this.registerLine(this.button2Hex(item.c));
+                        if( item.c === 'x'){
+                            this.registerMissingButton(item);
+                       }
+                    }
+            }
+        } else {
+            if( item.c === 'x') {
+                this.registerMissingButton(item);
+            }
+        }
+    }
+    var dur = child.duration / this.vars.default_length;
+    var xf = this.registerLine((qtd > 1 ? "]" : "") + (dur !== 1 ? dur.toString() : "") + " ");
+    
+    if( child.endTriplet ) {
+        this.registerLine( ') ' );
+    }
+    
+    this.add(child, xi, xf-1, line);
+};
+
+ABCXJS.tablature.Infer.prototype.registerInvalidBass = function() {
+    var barNumber = parseInt(this.currInterval);
+    if( ! this.vars.invalidBasses )  this.vars.invalidBasses = ',';
+    
+    if( this.vars.invalidBasses.indexOf( ','+barNumber+',' ) < 0 ) {
+        this.vars.invalidBasses += barNumber + ',';
+    }
+};
+
+ABCXJS.tablature.Infer.prototype.registerMissingButton = function(item) {
+    if( ! this.vars.missingButtons[item.note] )  
+        this.vars.missingButtons[item.note] = [];
+    var bar = parseInt(this.currInterval);
+    for( var i=0; i < this.vars.missingButtons[item.note].length; i++) {
+        if ( this.vars.missingButtons[item.note][i] === bar ) return; // already listed
+    }
+    this.vars.missingButtons[item.note].push(bar);
+};
+
+ABCXJS.tablature.Infer.prototype.getXi = function() {
+  return this.producedLine.length;
+};
+
+ABCXJS.tablature.Infer.prototype.registerLine = function(appendStr) {
+  this.producedLine += appendStr;
+  return this.producedLine.length;
+};
+
+ABCXJS.tablature.Infer.prototype.add = function(child, xi, xf, line) {
+  child.startChar = this.vars.iChar+xi;
+  child.endChar = this.vars.iChar+xf;
+  child.line = line;
+  this.voice.push(child);
+};
+
+ABCXJS.tablature.Infer.prototype.button2Hex = function( b ) {
+    if(b === 'x') return b;
+    var p = parseInt( isNaN(b.substr(0,2)) || b.length === 1 ? 1 : 2 );
+    var n = b.substr(0, p);
+    return (+n).toString(16) + b.substr(p);
+};
+
+// tenta encontrar o botão mais próximo do último
+ABCXJS.tablature.Infer.prototype.elegeBotao = function( array ) {
+    if(typeof(array) === "undefined" ) return "x";
+
+    var b     = array[0];
+    var v,l,i = b.indexOf("'");
+    
+    if( i >= 0 ) {
+        v = b.substr(0, i);
+        l = b.length - i;
+    } else {
+        v = parseInt(b);
+        l = 0;
+    }
+    
+    var min  = Math.abs((l>1?v+12:v)-this.lastButton);
+    
+    for( var a = 1; a < array.length; a ++ ) {
+        i = array[a].indexOf("'");
+
+        if( i >= 0 ) {
+            v = array[a].substr(0, i);
+            l = array[a].length - i;
+        } else {
+            v = parseInt(array[a]);
+            l = 0;
+        }
+        
+        if( Math.abs((l>1?v+12:v)-this.lastButton) < min ) {
+           b = array[a];
+           min = Math.abs((l>1?v+12:v)-this.lastButton);
+        }
+    }
+    this.lastButton = parseInt(isNaN(b.substr(0,2))? b.substr(0,1): b.substr(0,2));
+    return b;
+};
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+if (!window.ABCXJS)
+	window.ABCXJS = {};
+
+if (!window.ABCXJS.tablature)
+	window.ABCXJS.tablature = {};
+    
+ABCXJS.tablature.Layout = function( tuneCurrVoice, tuneCurrStaff, abcstaff, glyphs, restsInTab ) {
+   this.pos = 0;
+   this.voice = {};
+   this.currvoice = [];
+   this.tuneCurrVoice = tuneCurrVoice;
+   this.tuneCurrStaff = tuneCurrStaff;
+   this.abcstaff = abcstaff;
+   this.glyphs = glyphs;
+   this.restsInTab = restsInTab;
+   this.tripletmultiplier = 1;
+};
+
+ABCXJS.tablature.Layout.prototype.getElem = function() {
+    if (this.currVoice.length <= this.pos)
+        return null;
+    return this.currVoice[this.pos];
+};
+
+ABCXJS.tablature.Layout.prototype.isFirstVoice = function() {
+    return this.currVoice.firstVoice || false;
+};
+
+ABCXJS.tablature.Layout.prototype.isLastVoice = function() {
+    return this.currVoice.lastVoice || false;
+};
+
+ABCXJS.tablature.Layout.prototype.printTABVoice = function(layoutJumpDecorationItem) {
+    this.layoutJumpDecorationItem = layoutJumpDecorationItem;
+    this.currVoice = this.abcstaff.voices[this.tuneCurrVoice];
+    this.voice = new ABCXJS.write.VoiceElement(this.tuneCurrVoice, this.tuneCurrStaff, this.abcstaff);
+
+    this.voice.addChild(this.printClef(this.abcstaff.clef));
+    this.voice.addChild(new ABCXJS.write.AbsoluteElement(this.abcstaff.key, 0, 10));
+    (this.abcstaff.meter) && this.voice.addChild(this.printTablatureSignature(this.abcstaff.meter));
+    for (this.pos = 0; this.pos < this.currVoice.length; this.pos++) {
+        var abselems = this.printTABElement();
+        for (i = 0; i < abselems.length; i++) {
+            this.voice.addChild(abselems[i]);
+        }
+    }
+    return this.voice;
+};
+
+// return an array of ABCXJS.write.AbsoluteElement
+ABCXJS.tablature.Layout.prototype.printTABElement = function() {
+  var elemset = [];
+  var elem = this.getElem();
+  
+  switch (elem.el_type) {
+  case "note":
+    elemset[0] = this.printTabNote(elem);
+    break;
+  case "bar":
+    elemset[0] = this.printBarLine(elem);
+    if (this.voice.duplicate) elemset[0].invisible = true;
+    break;
+  default: 
+    var abselem = new ABCXJS.write.AbsoluteElement(elem,0,0);
+    abselem.addChild(new ABCXJS.write.RelativeElement("element type "+elem.el_type, 0, 0, 0, {type:"debug"}));
+    elemset[0] = abselem;
+  }
+
+  return elemset;
+};
+
+ABCXJS.tablature.Layout.prototype.printTabNote = function(elem) {
+    var p, pp;
+    
+    if (elem.startTriplet) {
+        if (elem.startTriplet === 2)
+            this.tripletmultiplier = 3/2;
+        else
+            this.tripletmultiplier=(elem.startTriplet-1)/elem.startTriplet;
+    }
+    
+    
+    var duration = ABCXJS.write.getDuration(elem);
+    if (duration === 0) {
+        duration = 0.25;
+    }   // PER: zero duration will draw a quarter note head.
+    var durlog = ABCXJS.write.getDurlog(duration);
+    var abselem = new ABCXJS.write.AbsoluteElement(elem, duration*this.tripletmultiplier, 1);
+
+    // determine averagepitch, minpitch, maxpitch and stem direction
+    var sum = 0;
+    var allRests = true;
+    
+    for (p = 0, pp = elem.pitches.length; p < pp; p++) {
+        sum += elem.pitches[p].verticalPos;
+        allRests = (elem.pitches[p].type === 'rest' && allRests);
+    }
+
+    elem.averagepitch = sum / elem.pitches.length;
+    elem.minpitch = elem.pitches[0].verticalPos;
+    elem.maxpitch = elem.pitches[elem.pitches.length - 1].verticalPos;
+
+    for (p = 0; p < elem.pitches.length; p++) {
+        var curr = elem.pitches[p];
+        var rel = new ABCXJS.write.RelativeElement(null, 0, 0, curr.pitch);
+        if (curr.type === "rest" ) {
+            rel.type = "symbol";
+            if(this.restsInTab || (allRests && p === (elem.pitches.length-1))) {
+                rel.c = 'scripts.tabrest';
+            } else {
+                rel.c = '';
+            }
+        } else {
+            rel.c = curr.c;
+            rel.note = curr.note;
+            rel.type = curr.type;
+        }
+        abselem.addHead(rel);
+    }
+    
+    if( elem.endTriplet ) {
+        this.tripletmultiplier =1;
+    }
+
+    return abselem;
+};
+
+ABCXJS.tablature.Layout.prototype.printClef = function(elem) {
+  var clef = "clefs.tab";
+  var dx = 8;
+  var abselem = new ABCXJS.write.AbsoluteElement(elem,0,10);
+  abselem.addRight(new ABCXJS.write.RelativeElement(clef, dx, this.glyphs.getSymbolWidth(clef), elem.clefPos)); 
+  return abselem;
+};
+
+ABCXJS.tablature.Layout.prototype.printTablatureSignature= function(elem) {
+  var abselem = new ABCXJS.write.AbsoluteElement(elem,0,20);
+  var dx = 2;
+  
+  abselem.addRight(new ABCXJS.write.RelativeElement('Bass', dx, 15, 17.5, {type:"tabText"} ) );
+  abselem.addRight(new ABCXJS.write.RelativeElement('>><<', dx, 15, 10.8, {type:"tabText"} ) );
+  abselem.addRight(new ABCXJS.write.RelativeElement('<<>>', dx, 15,  3.7, {type:"tabText"} ) );
+  
+  this.startlimitelem = abselem; // limit ties here
+  return abselem;
+};
+
+ABCXJS.tablature.Layout.prototype.printBarLine = function (elem) {
+// bar_thin, bar_thin_thick, bar_thin_thin, bar_thick_thin, bar_right_repeat, bar_left_repeat, bar_double_repeat
+
+    var topbar = 19.5;
+    var yDot = 10.5;
+
+    var abselem = new ABCXJS.write.AbsoluteElement(elem, 0, 10);
+    var anchor = null; // place to attach part lines
+    var dx = 0;
+
+
+    var firstdots = (elem.type === "bar_right_repeat" || elem.type === "bar_dbl_repeat");
+    var firstthin = (elem.type !== "bar_left_repeat" && elem.type !== "bar_thick_thin" && elem.type !== "bar_invisible");
+    var thick = (elem.type === "bar_right_repeat" || elem.type === "bar_dbl_repeat" || elem.type === "bar_left_repeat" ||
+            elem.type === "bar_thin_thick" || elem.type === "bar_thick_thin");
+    var secondthin = (elem.type === "bar_left_repeat" || elem.type === "bar_thick_thin" || elem.type === "bar_thin_thin" || elem.type === "bar_dbl_repeat");
+    var seconddots = (elem.type === "bar_left_repeat" || elem.type === "bar_dbl_repeat");
+
+    // limit positioning of slurs
+    if (firstdots || seconddots) {
+        for (var slur in this.slurs) {
+            if (this.slurs.hasOwnProperty(slur)) {
+                this.slurs[slur].endlimitelem = abselem;
+            }
+        }
+        this.startlimitelem = abselem;
+    }
+
+    if (firstdots) {
+        abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot + 2));
+        abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot));
+        dx += 6; //2 hardcoded, twice;
+    }
+
+    if (firstthin) {
+        anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 0, {"type": "bar", "pitch2": topbar, linewidth: 0.6});
+        abselem.addRight(anchor);
+    }
+
+    if (elem.type === "bar_invisible" || elem.endDrawEnding) {
+        anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 0, {"type": "none", "pitch2": topbar, linewidth: 0.6});
+        abselem.addRight(anchor);
+    }
+
+    if (elem.decoration) {
+        // não há decorations na tablatura
+        //this.printDecoration(elem.decoration, 12, (thick)?3:1, abselem, 0, "down", 2);
+    }
+    
+    if (elem.jumpDecoration) {
+        for(var j=0; j< elem.jumpDecoration.length; j++ ) {
+            if(( elem.jumpDecoration[j].upper && this.isFirstVoice() ) || ( !elem.jumpDecoration[j].upper && this.isLastVoice() ) ) {
+                var pitch = elem.jumpDecoration[j].upper ? 12 : -4;
+                abselem.addRight( this.layoutJumpDecorationItem(elem.jumpDecoration[j], pitch) );
+            }
+        }
+    }
+                
+    if (thick) {
+        dx += 4; //3 hardcoded;    
+        anchor = new ABCXJS.write.RelativeElement(null, dx, 4, 0, {"type": "bar", "pitch2": topbar, linewidth: 4});
+        abselem.addRight(anchor);
+        dx += 5;
+    }
+
+    if (this.partstartelem && elem.endDrawEnding) {
+        if (elem.endDrawEnding)
+            this.partstartelem.anchor2 = anchor;
+        if (elem.endEnding)
+            this.partstartelem = null;
+    }
+
+    if (secondthin) {
+        dx += 3; //3 hardcoded;
+        anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 0, {"type": "bar", "pitch2": topbar, linewidth: 0.6});
+        abselem.addRight(anchor); // 3 is hardcoded
+    }
+
+    if (seconddots) {
+        dx += 3; //3 hardcoded;
+        abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot + 2));
+        abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot));
+    } // 2 is hardcoded
+
+    if (elem.startEnding) {
+        this.partstartelem = new ABCXJS.write.EndingElem(elem.startEnding, anchor, null);
+        this.voice.addOther(this.partstartelem);
+    }
+
+    return abselem;
+
+};
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * TODO:
  * - Verificar porque no caso de slur a ordem dos elementos não está sendo respeitada
 */
 
@@ -11991,619 +12349,151 @@ ABCXJS.tablature.Parse.prototype.registerInvalidBass = function(barNumber) {
  * and open the template in the editor.
  */
 
-/*
- * TODO:
- *   - Verificar currInterval e suas implicações quando se está no último compasso
- *   - Tratar adequadamente os acordes de baixo
- *   - OK Tratar inversões de fole e inTie 
- *   - OK Bug quando ligaduras de expressão estão presentes
- *   - OK inverter o movimento do fole baseado no tempo do compasso
- *   - OK tratar ligaduras de expressão (como se fossem ligaduras de articulacao)
- *   - OK acertar a posição dos elementos de pausa (quando presentes na tablatura)
- *   - OK garantir que não ocorra erro quando as pausas não forem incluídas na tablatura, mas a pausa é a única nota do intervalo.
- *
- */
+if (!window.SVG)
+    window.SVG = {};
 
-if (!window.ABCXJS)
-	window.ABCXJS = {};
+if (!window.SVG.Glyphs )
+    window.SVG.Glyphs = {};
 
-if (!window.ABCXJS.tablature)
-	window.ABCXJS.tablature = {};
+SVG.Glyphs = function () {
     
-ABCXJS.tablature.Infer = function( accordion, tune, vars ) {
-    this.offset = 8.9;
-    this.multiplier = 1;
-    this.accordion = accordion;
-    this.vars = vars || {} ;
-    this.tune = tune;
+    var abc_glyphs = new ABCXJS.write.Glyphs();
 
-    // esta variavel conta o tempo ante de propor a inversão do fole 
-    // em geral o count=1 equivale ao tempo de um compasso.
-    // não esta no reset para que entre as linhas o contador seja mantido
-    this.count = 0; 
-    
-    // valor inicial do movimento do fole
-    this.closing = this.tune.formatting.tabInferenceOpts > 0 ? true : false;
-
-    // limite para inversão o movimento do fole - baseado no tempo de um compasso
-    if( this.tune.lines &&
-        this.tune.lines[0].staffs &&      
-        this.tune.lines[0].staffs[0].meter &&
-        this.tune.lines[0].staffs[0].meter.type === 'specified' ) {
-        var ritmo = this.tune.lines[0].staffs[0].meter.value[0];
-        this.limit = ritmo.num / ritmo.den;
-    } else {
-      this.limit = 1; 
-    }
-    
-    // por default inverte o fole a cada compasso. pode ser modificado pela diretiva.
-    this.limit = this.limit * Math.abs(this.tune.formatting.tabInferenceOpts);
-    
-    this.reset();
-    
-    this.transposeTab = tune.lines[0].staffs[tune.tabStaffPos].clef.transpose || 0;
-    
-    this.addWarning = function(str) {
-        if (!this.vars.warnings) this.vars.warnings = [];
-        this.vars.warnings.push(str);
+    var glyphs = { // the @@ will be replaced by the abc_glyph contents.
+       "0": '<path id="0" transform="scale(0.95)" \nd="@@"/>'
+      ,"1": '<path id="1" transform="scale(0.95)" \nd="@@"/>'
+      ,"2": '<path id="2" transform="scale(0.95)" \nd="@@"/>'
+      ,"3": '<path id="3" transform="scale(0.95)" \nd="@@"/>'
+      ,"4": '<path id="4" transform="scale(0.95)" \nd="@@"/>'
+      ,"5": '<path id="5" transform="scale(0.95)" \nd="@@"/>'
+      ,"6": '<path id="6" transform="scale(0.95)" \nd="@@"/>'
+      ,"7": '<path id="7" transform="scale(0.95)" \nd="@@"/>'
+      ,"8": '<path id="8" transform="scale(0.95)" \nd="@@"/>'
+      ,"9": '<path id="9" transform="scale(0.95)" \nd="@@"/>'
+      ,"f": '<path id="f" transform="scale(0.95)" \nd="@@"/>'
+      ,"m": '<path id="m" transform="scale(0.95)" \nd="@@"/>'
+      ,"p": '<path id="p" transform="scale(0.95)" \nd="@@"/>'
+      ,"r": '<path id="r" transform="scale(0.95)" \nd="@@"/>'
+      ,"s": '<path id="s" transform="scale(0.95)" \nd="@@"/>'
+      ,"z": '<path id="z" transform="scale(0.95)" \nd="@@"/>'
+      ,"+": '<path id="+" transform="scale(0.95)" \nd="@@"/>'
+      ,",": '<path id="," transform="scale(0.95)" \nd="@@"/>'
+      ,"-": '<path id="-" transform="scale(0.95)" \nd="@@"/>'
+      ,".": '<path id="." transform="scale(0.95)" \nd="@@"/>'
+      ,"accidentals.nat": '<path id="accidentals.nat" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.sharp": '<path id="accidentals.sharp" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.flat": '<path id="accidentals.flat" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.halfsharp": '<path id="accidentals.halfsharp" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.dblsharp": '<path id="accidentals.dblsharp" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.halfflat": '<path id="accidentals.halfflat" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.dblflat": '<path id="accidentals.dblflat" transform="scale(0.8)" \nd="@@"/>'
+      ,"clefs.C": '<path id="clefs.C" \nd="@@"/>'
+      ,"clefs.F": '<path id="clefs.F" \nd="@@"/>'
+      ,"clefs.G": '<path id="clefs.G" \nd="@@"/>'
+      ,"clefs.perc": '<path id="clefs.perc" \nd="@@"/>'
+      ,"clefs.tab": '<path id="clefs.tab" transform="scale(0.9)" \nd="@@"/>'
+      ,"dots.dot": '<path id="dots.dot" \nd="@@"/>'
+      ,"flags.d8th": '<path id="flags.d8th" \nd="@@"/>'
+      ,"flags.d16th": '<path id="flags.d16th" \nd="@@"/>'
+      ,"flags.d32nd": '<path id="flags.d32nd" \nd="@@"/>'
+      ,"flags.d64th": '<path id="flags.d64th" \nd="@@"/>'
+      ,"flags.dgrace": '<path id="flags.dgrace" \nd="@@"/>'
+      ,"flags.u8th": '<path id="flags.u8th" \nd="@@"/>'
+      ,"flags.u16th": '<path id="flags.u16th" \nd="@@"/>'
+      ,"flags.u32nd": '<path id="flags.u32nd" \nd="@@"/>'
+      ,"flags.u64th": '<path id="flags.u64th" \nd="@@"/>'
+      ,"flags.ugrace": '<path id="flags.ugrace" \nd="@@"/>'
+      ,"graceheads.quarter": '<g id="graceheads.quarter" transform="scale(0.6)" ><use xlink:href="#noteheads.quarter" /></g>'
+      ,"graceflags.d8th": '<g id="graceflags.d8th" transform="scale(0.6)" ><use xlink:href="#flags.d8th" /></g>'
+      ,"graceflags.u8th": '<g id="graceflags.u8th" transform="scale(0.6)" ><use xlink:href="#flags.u8th" /></g>'
+      ,"noteheads.quarter": '<path id="noteheads.quarter" \nd="@@"/>'
+      ,"noteheads.whole": '<path id="noteheads.whole" \nd="@@"/>'
+      ,"notehesad.dbl": '<path id="noteheads.dbl" \nd="@@"/>'
+      ,"noteheads.half": '<path id="noteheads.half" \nd="@@"/>'
+      ,"rests.whole": '<path id="rests.whole" \nd="@@"/>'
+      ,"rests.half": '<path id="rests.half" \nd="@@"/>'
+      ,"rests.quarter": '<path id="rests.quarter" \nd="@@"/>'
+      ,"rests.8th": '<path id="rests.8th" \nd="@@"/>'
+      ,"rests.16th": '<path id="rests.16th" \nd="@@"/>'
+      ,"rests.32nd": '<path id="rests.32nd" \nd="@@"/>'
+      ,"rests.64th": '<path id="rests.64th" \nd="@@"/>'
+      ,"rests.128th": '<path id="rests.128th" \nd="@@"/>'
+      ,"scripts.rarrow": '<path id="scripts.rarrow" \nd="M -6 -5 h 8 v -3 l 4 4 l -4 4 v -3 h -8 z"/>'
+      ,"scripts.tabrest": '<path id="scripts.tabrest" \nd="M -5 5 h 10 v 2 h -10 z"/>'
+      ,"scripts.lbrace": '<path id="scripts.lbrace" \nd="@@"/>'
+      ,"scripts.ufermata": '<path id="scripts.ufermata" \nd="@@"/>'
+      ,"scripts.dfermata": '<path id="scripts.dfermata" \nd="@@"/>'
+      ,"scripts.sforzato": '<path id="scripts.sforzato" \nd="@@"/>'
+      ,"scripts.staccato": '<path id="scripts.staccato" \nd="@@"/>'
+      ,"scripts.tenuto": '<path id="scripts.tenuto" \nd="@@"/>'
+      ,"scripts.umarcato": '<path id="scripts.umarcato" \nd="@@"/>'
+      ,"scripts.dmarcato": '<path id="scripts.dmarcato" \nd="@@"/>'
+      ,"scripts.stopped": '<path id="scripts.stopped" \nd="@@"/>'
+      ,"scripts.upbow": '<path id="scripts.upbow" \nd="@@"/>'
+      ,"scripts.downbow": '<path id="scripts.downbow" \nd="@@"/>'
+      ,"scripts.turn": '<path id="scripts.turn" \nd="@@"/>'
+      ,"scripts.trill": '<path id="scripts.trill" \nd="@@"/>'
+      ,"scripts.segno": '<path id="scripts.segno" transform="scale(0.8)" \nd="@@"/>'
+      ,"scripts.coda": '<path id="scripts.coda" transform="scale(0.8)" \nd="@@"/>'
+      ,"scripts.comma": '<path id="scripts.comma" \nd="@@"/>'
+      ,"scripts.roll": '<path id="scripts.roll" \nd="@@"/>'
+      ,"scripts.prall": '<path id="scripts.prall" \nd="@@"/>'
+      ,"scripts.mordent": '<path id="scripts.mordent" \nd="@@"/>'
+      ,"timesig.common": '<path id="timesig.common" \nd="@@"/>'
+      ,"it.punto": '<path id="it.punto" \nd="@@"/>'
+      ,"it.l": '<path id="it.l" \nd="@@"/>'
+      ,"it.f": '<path id="it.f" \nd="@@"/>'
+      ,"it.F": '<path id="it.F" \nd="@@"/>'
+      ,"it.i": '<path id="it.i" \nd="@@"/>'
+      ,"it.n": '<path id="it.n" \nd="@@"/>'
+      ,"it.e": '<path id="it.e" \nd="@@"/>'
+      ,"it.D": '<path id="it.D" \nd="@@"/>'
+      ,"it.d": '<path id="it.d" \nd="@@"/>'
+      ,"it.a": '<path id="it.a" \nd="@@"/>'
+      ,"it.C": '<path id="it.C" \nd="@@"/>'
+      ,"it.c": '<path id="it.c" \nd="@@"/>'
+      ,"it.p": '<path id="it.p" \nd="@@"/>'
+      ,"it.o": '<path id="it.o" \nd="@@"/>'
+      ,"it.S": '<path id="it.S" \nd="@@"/>'
+      ,"it.s": '<path id="it.s" \nd="@@"/>'
+      ,"it.Fine": '<g id="it.Fine" ><use xlink:href="#it.F" x="0" y="3" /><use xlink:href="#it.i" x="12" y="3" /><use xlink:href="#it.n" x="17.5" y="3" /><use xlink:href="#it.e" x="27" y="3" /></g>'
+      ,"it.Coda": '<g id="it.Coda" ><use xlink:href="#it.C" x="0" y="3" /><use xlink:href="#it.o" x="12" y="3" /><use xlink:href="#it.d" x="20" y="3" /><use xlink:href="#it.a" x="30" y="3" /></g>'
+      ,"it.Da": '<g id="it.Da"><use xlink:href="#it.D" x="0" y="3" /><use xlink:href="#it.a" x="14" y="3" /></g>'
+      ,"it.DaCoda": '<g id="it.DaCoda"><use xlink:href="#it.Da" x="0" y="0" /><use xlink:href="#scripts.coda" x="32" y="0" /></g>'
+      ,"it.DaSegno": '<g id="it.DaSegno"><use xlink:href="#it.Da" x="0" y="0" /><use xlink:href="#scripts.segno" x="32" y="-3" /></g>'
+      ,"it.DC": '<g id="it.DC"><use xlink:href="#it.D" x="0" y="1" /><use xlink:href="#it.punto" x="12" y="2" /><use xlink:href="#it.C" x="18" y="1" /><use xlink:href="#it.punto" x="29" y="2" /></g>'
+      ,"it.DS": '<g id="it.DS"><use xlink:href="#it.D" x="0" y="1" /><use xlink:href="#it.punto" x="12" y="2" /><use xlink:href="#it.S" x="18" y="1" /><use xlink:href="#it.punto" x="29" y="2" /></g>'
+      ,"it.al": '<g id="it.al"><use xlink:href="#it.a" x="0" y="2" /><use xlink:href="#it.l" x="10" y="2" /></g>'
+      ,"it.DCalFine": '<g id="it.DCalFine"><use xlink:href="#it.DC" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Fine" x="46" y="-1" /></g>'
+      ,"it.DCalCoda": '<g id="it.DCalCoda"><use xlink:href="#it.DC" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Coda" x="46" y="-1" /></g>'
+      ,"it.DSalFine": '<g id="it.DSalFine"><use xlink:href="#it.DS" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Fine" x="46" y="-1" /></g>'
+      ,"it.DSalCoda": '<g id="it.DSalCoda"><use xlink:href="#it.DS" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Coda" x="46" y="-1" /></g>'
     };
     
-    this.barTypes = { 
-        "bar"              :  "|"
-      , "bar_thin"         :  "|"
-      , "bar_thin_thin"    : "||"
-      , "bar_thick_thin"   : "[|"
-      , "bar_thin_thick"   : "|]"
-      , "bar_dbl_repeat"   : ":|:"
-      , "bar_left_repeat"  :  "|:"
-      , "bar_right_repeat" : ":|"
+    this.getDefinition = function (gl) {
+        
+        
+        var g = glyphs[gl];
+        
+        if (!g) {
+            return "";
+        }
+        
+        // expande path se houver, buscando a definicao do original do ABCJS.
+        g = g.replace('@@', abc_glyphs.getTextSymbol(gl) );
+        
+        var i = 0, j = 0;
+
+        while (i>=0) {
+            i = g.indexOf('xlink:href="#', j );
+            if (i < 0) continue;
+            i += 13;
+            j = g.indexOf('"', i);
+            g += this.getDefinition(g.slice(i, j));
+        }
+
+        return '\n' +  g;
     };
-    
-};
-
-ABCXJS.tablature.Infer.prototype.reset = function() {
-    this.tuneCurrLine = 0;
-    this.voice = [];
-    this.bassBarAcc = [];
-    this.trebBarAcc = [];
-    this.producedLine = "";
-    this.lastButton = -1;
-    this.currInterval = 1;
-    this.alertedMissSync = false;
-    this.alertedIncompatibleBass = 0;
-    
-};
-
-ABCXJS.tablature.Infer.prototype.inferTabVoice = function(line) {
-    
-    if( this.tune.tabStaffPos < 1 || ! this.tune.lines[line].staffs ) 
-        return; // we expect to find at least the melody line above tablature, otherwise, we cannot infer it.
-    
-    this.reset();
-    this.tuneCurrLine = line;
-    
-    var voices = [];
-     
-    var trebStaff  = this.tune.lines[this.tuneCurrLine].staffs[0];
-    var trebVoices = trebStaff.voices;
-    this.accTrebKey = trebStaff.key.accidentals;
-    for( var i = 0; i < trebVoices.length; i ++ ) {
-        voices.push( { voz:trebVoices[i], pos:-1, st:'waiting for data', bass:false, wi: {}, ties:[]} ); // wi - work item
-    }
-    
-    if( this.tune.tabStaffPos === 2 ) {
-        var bassStaff  = this.tune.lines[this.tuneCurrLine].staffs[1];
-        if(bassStaff) { 
-            var bassVoices = bassStaff.voices;
-            this.accBassKey = bassStaff.key.accidentals;
-            for( var i = 0; i < bassVoices.length; i ++ ) {
-                voices.push({ voz:bassVoices[i], pos:-1, st:'waiting for data', bass:true, wi: {}, ties:[] } ); // wi - work item
-            }
-        } else {
-            this.addWarning('Possível falta da definição da linha de baixos.') ;
-        }
-    }  
-    
-    var st = 1; // 0 - fim; 1 - barra; 2 dados; - 1 para garantir a entrada
-    while( st > 0 ) {
-        
-        st = 0; // 0 para garantir a saida, caso não haja nada para ler
-
-        for( var j = 0; j < voices.length; j ++ ) {
-            st = Math.max(this.read( voices, j ), st);
-        }
-
-        for( var j = 0; j < voices.length-1; j ++ ) {
-            if( voices[j].st !== voices[j+1].st && ! this.alertedMissSync) {
-                this.addWarning('Possível falta de sincronismo no compasso ' + this.currInterval + '.' ) ;
-                j = voices.length;
-                this.alertedMissSync = true;
-            }
-        }
-
-        switch(st){
-            case 1: // incluir a barra na tablatura
-                // neste caso, todas as vozes são "bar", mesmo que algumas já terminaram 
-                var i = 0;
-                while ( i < voices.length) {
-                    if(voices[i].wi.el_type && voices[i].wi.el_type === "bar" )     {
-                        this.addTABChild(ABCXJS.parse.clone(voices[i].wi),line);
-                        i = voices.length;
-                    } else {
-                        i++;
-                    }
-                }
-
-                for( var i = 0; i < voices.length; i ++ ) {
-                    if(voices[i].st !== 'closed')
-                      voices[i].st = 'waiting for data';
-                }
-                this.bassBarAcc = [];
-                this.trebBarAcc = [];
-
-                break;
-            case 2:
-                this.addTABChild(this.extraiIntervalo(voices), line);
-                break;
-        }
-    } 
-    
-    this.accordion.setTabLine(this.producedLine);
-    
-    return this.voice;
-};
-
-ABCXJS.tablature.Infer.prototype.read = function(p_source, item) {
-    var source = p_source[item];
-    switch( source.st ) {
-        case "waiting for data":
-            source.pos ++;
-            break;
-        case "waiting end of interval":
-            return 1;
-            break;
-        case "closed":
-            return 0;
-            break;
-        case "processing":
-            return 2;
-            break;
-               
-    }
-    // toda chave estranha às notas deve ser ignorada aqui
-    while( source.voz[source.pos] &&  source.pos < source.voz.length 
-            && (source.voz[source.pos].direction || source.voz[source.pos].title || source.voz[source.pos].root) ) {
-        if(source.voz[source.pos].el_type === 'key') {
-            if(source.bass) {
-              this.accBassKey = source.voz[source.pos].accidentals;
-            } else {
-              this.accTrebKey = source.voz[source.pos].accidentals;
-            }
-        }
-        source.pos ++;
-    }
-    
-    if( source.pos < source.voz.length ) {
-        source.wi = ABCXJS.parse.clone(source.voz[source.pos]);
-        if( source.wi.barNumber && source.wi.barNumber !== this.currInterval && item === 0 ) {
-            this.currInterval = source.wi.barNumber;
-        }
-        
-        if( source.wi.startTriplet){
-            source.triplet = true;
-            this.startTriplet = source.wi.startTriplet;
-            this.multiplier = this.startTriplet===2?1.5:(this.startTriplet-1)/this.startTriplet;
-        }
-        
-        this.checkTies(source);
-        source.st = (source.wi.el_type && source.wi.el_type === "bar") ? "waiting end of interval" : "processing";
-        return (source.wi.el_type && source.wi.el_type === "bar") ? 1 : 2;
-    } else {
-        source.st = "closed";
-        return 0;
-    }
-       
-};
-
-ABCXJS.tablature.Infer.prototype.extraiIntervalo = function(voices) {
-    var minDur = 100;
-    
-    for( var i = 0; i < voices.length; i ++ ) {
-        if( voices[i].st === 'processing' && voices[i].wi.duration && voices[i].wi.duration > 0  
-                && voices[i].wi.duration*(voices[i].triplet?this.multiplier:1) < minDur ) {
-            minDur = voices[i].wi.duration*(voices[i].triplet?this.multiplier:1);
-        }
-    }
-    ;
-    var wf = { el_type: 'note', duration: Number((minDur/this.multiplier).toFixed(5)), startChar: 0, endChar: 0, line:0, pitches:[], bassNote: [] }; // wf - final working item
-    
-    for( var i = 0; i < voices.length; i ++ ) {
-        if(voices[i].st !== 'processing' ) continue;
-        var elem = voices[i].wi;
-        if( elem.rest ) {
-            switch (elem.rest.type) {
-                case "rest":
-                    if( voices[i].bass ) 
-                        wf.bassNote[wf.bassNote.length] = ABCXJS.parse.clone(elem.rest);
-                    else    
-                        wf.pitches[wf.pitches.length] = ABCXJS.parse.clone(elem.rest);
-                    break;
-                case "invisible":
-                case "spacer":
-                    break;
-            }        
-        }else if( elem.pitches ) {
-            ABCXJS.write.sortPitch(elem.pitches);
-            if( voices[i].bass ) {
-                //todo: tratar adequadamente os acordes
-                var isChord = elem.pitches.length>1;
-                elem.pitches.splice(1, elem.pitches.length - 1);
-                elem.pitches[0].chord=isChord;
-                wf.bassNote[wf.bassNote.length] = ABCXJS.parse.clone(elem.pitches[0]);
-            } else {
-                for( var j = 0; j < elem.pitches.length; j ++  ) {
-                    wf.pitches[wf.pitches.length] = ABCXJS.parse.clone(elem.pitches[j]);
-                }
-            }
-        }
-        
-        this.setTies(voices[i]);
-        
-        if( voices[i].wi.duration ) {
-            voices[i].wi.duration -= minDur/(voices[i].triplet?this.multiplier:1);
-            if( voices[i].wi.duration <= 0.0001 ) {
-               voices[i].st = 'waiting for data';
-            } else {
-                if(voices[i].wi.pitches) {
-                    for( var j = 0; j < voices[i].wi.pitches.length; j ++  ) {
-                        voices[i].wi.pitches[j].inTie = true;
-                    }
-                }
-            }
-        }
-    }
-    
-    for( var i = 0; i < voices.length; i ++ ) {
-        var elem = voices[i];
-        if( elem.wi.endTriplet){
-            this.endTriplet = true;
-            elem.triplet = false;
-            this.multiplier = 1;
-        }
-    }    
-        
-    //trata intervalo vazio (quando há pausa em todas as vozes e não são visíveis)
-    if(wf.pitches.length === 0 && wf.bassNote.length === 0 ) {
-        wf.pitches[0] = {type:'rest', c:'scripts.tabrest'}; 
-    }
-    return wf;
-    
-};
-
-ABCXJS.tablature.Infer.prototype.setTies = function(voice) {
-    if(voice.wi.el_type && voice.wi.el_type === "note" && voice.wi.pitches )  {
-        for( var j = 0; j < voice.wi.pitches.length; j ++  ) {
-            if( voice.wi.pitches[j].tie ) {
-                if(voice.wi.pitches[j].tie.id_end){
-                    voice.ties[voice.wi.pitches[j].tie.id_end] = false;
-                }
-                if(voice.wi.pitches[j].tie.id_start){
-                    voice.ties[voice.wi.pitches[j].tie.id_start] = 100+voice.wi.pitches[j].pitch;
-                }
-            }
-        }
-    }
-};
-
-ABCXJS.tablature.Infer.prototype.checkTies = function(voice) {
-    if(voice.wi.el_type && voice.wi.el_type === "note" && voice.wi.pitches )  {
-        for( var i = 1; i < voice.ties.length; i ++ ) {
-            var found = false;
-            for( var j = 0; j < voice.wi.pitches.length; j ++  ) {
-                found = found || (100+voice.wi.pitches[j].pitch === voice.ties[i]);
-            }      
-            if(!found && voice.ties[i] ) {
-                voice.wi.pitches.push({pitch: voice.ties[i], verticalPos: voice.ties[i], inTie:true});
-            }    
-        }
-        for( var j = 0; j < voice.wi.pitches.length; j ++  ) {
-            if(voice.wi.pitches[j].tie){
-                if(voice.wi.pitches[j].tie.id_end) {
-                    voice.wi.pitches[j].inTie = true;
-                } 
-            }      
-        }       
-    }    
-};
-
-ABCXJS.tablature.Infer.prototype.addTABChild = function(token, line ) {
-
-    if (token.el_type !== "note") {
-        var xf = 0;
-        if( this.barTypes[token.type] ){
-            xf = this.registerLine(this.barTypes[token.type] + 
-                    (token.startEnding?token.startEnding:"") + " ");
-        } else {
-            throw new Error( 'ABCXJS.tablature.Infer.prototype.addTABChild(token_type): ' + token.type );
-        }
-        var xi = this.getXi();
-        this.add(token, xi, xf - 1, line );
-        return;
-    }
-    
-    var child = {
-         el_type: token.el_type 
-        ,startChar: 0
-        ,endChar: 0
-        ,line: 0
-        ,pitches: []
-        ,duration: token.duration
-        ,bellows: ""
-    };
-
-    var bass = token.bassNote.length>0;
-    var column = token.pitches;
-    var allOpen = true;
-    var allClose = true;
-    var baixoClose = true;
-    var baixoOpen = true;
-    var inTie = false;
-
-    var qtd = column.length;
-    
-    if( this.startTriplet ) {
-        child.startTriplet = this.startTriplet;
-        this.startTriplet = false;
-        this.registerLine( '(' + child.startTriplet + ' ' );
-    }
-    
-    if( this.endTriplet ) {
-        child.endTriplet = true;
-        this.endTriplet = false;
-    }
-    
-    // inicialmente as notas estão na posição "fechando". Se precisar alterar para "abrindo" este é offset da altura
-    var offset = (qtd>=3?-(this.offset-(2.8*(qtd-2))):-this.offset);
-
-    var pitchBase = 18;
-    var tt = "tabText";
-
-    if(token.bassNote.length>1) {
-       pitchBase = 21.3;
-       tt = "tabText2";
-       ABCXJS.write.sortPitch(token.bassNote);
-    }
-    
-    for (var b = 0; b < token.bassNote.length; ++b) {
-        inTie = (token.bassNote[b].inTie|| inTie);
-        switch(token.bassNote[b].type) {
-            case 'rest':
-            case 'invisible':
-            case 'spacer':
-                child.pitches[b] = {bass: true, type: token.bassNote[b].type, c: 'scripts.tabrest', pitch: 0.7 + pitchBase - (b * 3)};
-                this.registerLine('z');
-                break;
-            default:
-                var item = { bass:true, type: tt, c: "", pitch: pitchBase - (b * 3) - 0.5, inTie: token.bassNote[b].inTie || false };
-                var note = this.accordion.getNoteName(token.bassNote[b], this.accBassKey, this.bassBarAcc, true);
-                item.buttons = this.accordion.getKeyboard().getButtons(note);
-                baixoOpen  = baixoOpen  ? typeof (item.buttons.open) !== "undefined" : false;
-                baixoClose = baixoClose ? typeof (item.buttons.close) !== "undefined" : false;
-                item.note = note.key;
-                item.c =  (item.buttons.close || item.buttons.open) ? ( item.inTie ?  'scripts.rarrow': item.note ) :  'x';
-                child.pitches[b] = item;
-                this.registerLine(child.pitches[b].c === 'scripts.rarrow' ? '>' : child.pitches[b].c);
-                
-        }
-    }
-
-    var xi = this.getXi();
-    for (var c = 0; c < column.length; c++) {
-        var item = column[c];
-        inTie = (item.inTie || inTie);
-        switch(item.type) {
-            case 'invisible':
-            case 'spacer':
-            case 'rest':
-                item.c = 'scripts.tabrest';
-                item.pitch = 13.2;
-                break
-            default:
-                var note = this.accordion.getNoteName(item, this.accTrebKey, this.trebBarAcc, false);
-                
-                if( this.transposeTab ) {
-                    switch(this.transposeTab){
-                        case 8: note.octave ++; break;
-                        case -8: note.octave --; break;
-                        default:
-                            this.addWarning('Possível transpor a tablatura uma oitava acima ou abaixo +/-8. Ignorando transpose.') ;
-                    }
-                }
-                
-                item.buttons = this.accordion.getKeyboard().getButtons(note);
-                item.note = note.key + note.octave;
-                item.c =  (item.buttons.close || item.buttons.open) ? ( item.inTie ?  'scripts.rarrow': item.note ) :  'x';
-                item.pitch = (qtd === 1 ? 11.7 : 13.4 -( c * 2.8));
-                item.type = "tabText" + (qtd > 1 ? 2 : "");
-
-                allOpen = allOpen ? typeof (item.buttons.open) !== "undefined" : false;
-                allClose = allClose ? typeof (item.buttons.close) !== "undefined" : false;
-        }
-        
-        child.pitches[child.pitches.length] = item;
-    }
-    
-    if( inTie ) {
-        // inversão impossível
-        this.count += child.duration;
-    } else {
-        // verifica tudo: baixo e melodia
-        if ((this.closing && baixoClose && allClose) || (!this.closing && baixoOpen && allOpen)) {
-            // manteve o rumo, mas verifica o fole, virando se necessario (e possivel)
-            if ( this.count < this.limit) {
-                this.count += child.duration;
-            } else {
-                // neste caso só muda se é possível manter baixo e melodia    
-                if ((!this.closing && baixoClose && allClose) || (this.closing && baixoOpen && allOpen)) {
-                    this.count = child.duration;
-                    this.closing = !this.closing;
-                } else {
-                    this.count += child.duration;
-                }
-            }
-        } else if ((!this.closing && baixoClose && allClose) || (this.closing && baixoOpen && allOpen)) {
-            //mudou o rumo, mantendo baixo e melodia
-            this.count = child.duration;
-            this.closing = !this.closing;
-        } else {
-            // não tem teclas de melodia e baixo simultaneamente: privilegia o baixo, se houver.
-            if ((this.closing && ((bass && baixoClose) || allClose)) || (!this.closing && ((bass && baixoOpen) || allOpen))) {
-                this.count += child.duration;
-            } else if ((!this.closing && ((bass && baixoClose) || allClose)) || (this.closing && ((bass && baixoOpen) || allOpen))) {
-                if (  this.count < this.limit) {
-                    this.count += child.duration;
-                } else {
-                    // neste caso só muda se é possível manter baixo ou melodia    
-                    if ((!this.closing && (bass && baixoClose) && allClose) || (this.closing && (bass && baixoOpen) && allOpen)) {
-                        this.count = child.duration;
-                        this.closing = !this.closing;
-                    } else {
-                        this.count += child.duration;
-                    }
-                }
-            }
-        }
-    }
-    
-    // seria a melhor hora para indicar baixo incompativel?
-    if ( ((this.closing && !baixoClose)  || (!this.closing && !baixoOpen)) &&  this.alertedIncompatibleBass < this.currInterval ) {
-            if( (baixoClose || baixoOpen) ) { 
-                this.registerInvalidBass();
-            }    
-    }
-
-    child.bellows = this.closing ? "+" : "-";
-    this.registerLine(child.bellows);
-    this.registerLine(qtd > 1 ? "[" : "");
-
-    // segunda passada: altera o que será exibido, conforme definições da primeira passada
-    column = child.pitches;
-    for (var c = 0; c < column.length; c++) {
-        var item = column[c];
-        if (!item.bass) {
-            if (!this.closing)
-                item.pitch += offset;
-            switch(item.type) {
-                case 'rest':
-                case 'invisible':
-                case 'spacer':
-                    this.registerLine('z');
-                    break;
-                default:
-                    // esse código pode ser melhorado. Nota não encontrada já foi definida previmente 
-                    if ( item.inTie  ) {
-                        this.registerLine((item.buttons.close || item.buttons.open)? '>': 'x' );
-                    } else {
-                        item.c = this.elegeBotao(this.closing ? item.buttons.close : item.buttons.open);
-                        this.registerLine(this.button2Hex(item.c));
-                        if( item.c === 'x'){
-                            this.registerMissingButton(item);
-                       }
-                    }
-            }
-        } else {
-            if( item.c === 'x') {
-                this.registerMissingButton(item);
-            }
-        }
-    }
-    var dur = child.duration / this.vars.default_length;
-    var xf = this.registerLine((qtd > 1 ? "]" : "") + (dur !== 1 ? dur.toString() : "") + " ");
-    
-    if( child.endTriplet ) {
-        this.registerLine( ') ' );
-    }
-    
-    this.add(child, xi, xf-1, line);
-};
-
-ABCXJS.tablature.Infer.prototype.registerInvalidBass = function() {
-    var barNumber = parseInt(this.currInterval);
-    if( ! this.vars.invalidBasses )  this.vars.invalidBasses = ',';
-    
-    if( this.vars.invalidBasses.indexOf( ''+barNumber ) < 0 ) {
-        this.vars.invalidBasses += barNumber + ',';
-    }
-};
-
-ABCXJS.tablature.Infer.prototype.registerMissingButton = function(item) {
-    if( ! this.vars.missingButtons[item.note] )  
-        this.vars.missingButtons[item.note] = [];
-    var bar = parseInt(this.currInterval);
-    for( var i=0; i < this.vars.missingButtons[item.note].length; i++) {
-        if ( this.vars.missingButtons[item.note][i] === bar ) return; // already listed
-    }
-    this.vars.missingButtons[item.note].push(bar);
-};
-
-ABCXJS.tablature.Infer.prototype.getXi = function() {
-  return this.producedLine.length;
-};
-
-ABCXJS.tablature.Infer.prototype.registerLine = function(appendStr) {
-  this.producedLine += appendStr;
-  return this.producedLine.length;
-};
-
-ABCXJS.tablature.Infer.prototype.add = function(child, xi, xf, line) {
-  child.startChar = this.vars.iChar+xi;
-  child.endChar = this.vars.iChar+xf;
-  child.line = line;
-  this.voice.push(child);
-};
-
-ABCXJS.tablature.Infer.prototype.button2Hex = function( b ) {
-    if(b === 'x') return b;
-    var p = parseInt( isNaN(b.substr(0,2)) || b.length === 1 ? 1 : 2 );
-    var n = b.substr(0, p);
-    return (+n).toString(16) + b.substr(p);
-};
-
-// tenta encontrar o botão mais próximo do último
-ABCXJS.tablature.Infer.prototype.elegeBotao = function( array ) {
-    if(typeof(array) === "undefined" ) return "x";
-
-    var b     = array[0];
-    var v,l,i = b.indexOf("'");
-    
-    if( i >= 0 ) {
-        v = b.substr(0, i);
-        l = b.length - i;
-    } else {
-        v = parseInt(b);
-        l = 0;
-    }
-    
-    var min  = Math.abs((l>1?v+12:v)-this.lastButton);
-    
-    for( var a = 1; a < array.length; a ++ ) {
-        i = array[a].indexOf("'");
-
-        if( i >= 0 ) {
-            v = array[a].substr(0, i);
-            l = array[a].length - i;
-        } else {
-            v = parseInt(array[a]);
-            l = 0;
-        }
-        
-        if( Math.abs((l>1?v+12:v)-this.lastButton) < min ) {
-           b = array[a];
-           min = Math.abs((l>1?v+12:v)-this.lastButton);
-        }
-    }
-    this.lastButton = parseInt(isNaN(b.substr(0,2))? b.substr(0,1): b.substr(0,2));
-    return b;
 };
 /* 
  * To change this license header, choose License Headers in Project Properties.
@@ -12611,243 +12501,350 @@ ABCXJS.tablature.Infer.prototype.elegeBotao = function( array ) {
  * and open the template in the editor.
  */
 
+/* 
+    Created on : 27/04/2016, 10:55:16
+    Author     : flavio.vani@gmail.com
+*/
 
-if (!window.ABCXJS)
-	window.ABCXJS = {};
+/*
 
-if (!window.ABCXJS.tablature)
-	window.ABCXJS.tablature = {};
+Main document structure:
+
+<div style"..." >
+
+    Header:
+     Contains a title, the style definitions for the entire document and the defined symbols.
+    <svg id="tune" ... >
+        <title>Música criada por ABCXJS.</title><style type="text/css">
+        <style type="text/css">
+            @media print {
+                div.nobrk {page-break-inside: avoid} 
+                div.newpage {page-break-before: always} 
+            }    
+        </style>
+        <defs>
+        </defs>
+    </svg>
+
+    Page1:
+      Class nobrk, an optional group to control aspects like scaling and the content of the page 
+    <div class="nobrk" >
+        <svg id="page1"  ... >
+            <g id="gpage1" ... ></g>
+        </svg>
+    </div>
+
+    Page2 and subsequents:
+      Class newpage, an optional group to control aspects like scaling and the content of the page 
+    <div class="newpage" >
+        <svg id="page2"  ...>
+            <g id="gpage2" ... ></g>
+        </svg>
+    </div>
+
+</div>
+*/
+
+if (!window.SVG)
+    window.SVG = {};
+
+if (! window.SVG.misc )
+    window.SVG.misc = { printerId: 0 };
+
+if (! window.SVG.Printer )
+    window.SVG.Printer = {};
+
+SVG.Printer = function ( d ) {
+    this.topDiv = d;
+    this.scale = 1;
+    this.gid=0;
+    this.printerId = ++SVG.misc.printerId;
+   
+    this.title;
+    this.styles = '';
+    this.defines = '';
+    this.defined_glyph = [];
+
+    this.svg_pages = [];
+    this.currentPage = 0;
     
-ABCXJS.tablature.Layout = function( tuneCurrVoice, tuneCurrStaff, abcstaff, glyphs, restsInTab ) {
-   this.pos = 0;
-   this.voice = {};
-   this.currvoice = [];
-   this.tuneCurrVoice = tuneCurrVoice;
-   this.tuneCurrStaff = tuneCurrStaff;
-   this.abcstaff = abcstaff;
-   this.glyphs = glyphs;
-   this.restsInTab = restsInTab;
-   this.tripletmultiplier = 1;
-};
-
-ABCXJS.tablature.Layout.prototype.getElem = function() {
-    if (this.currVoice.length <= this.pos)
-        return null;
-    return this.currVoice[this.pos];
-};
-
-ABCXJS.tablature.Layout.prototype.isFirstVoice = function() {
-    return this.currVoice.firstVoice || false;
-};
-
-ABCXJS.tablature.Layout.prototype.isLastVoice = function() {
-    return this.currVoice.lastVoice || false;
-};
-
-ABCXJS.tablature.Layout.prototype.printTABVoice = function(layoutJumpDecorationItem) {
-    this.layoutJumpDecorationItem = layoutJumpDecorationItem;
-    this.currVoice = this.abcstaff.voices[this.tuneCurrVoice];
-    this.voice = new ABCXJS.write.VoiceElement(this.tuneCurrVoice, this.tuneCurrStaff, this.abcstaff);
-
-    this.voice.addChild(this.printClef(this.abcstaff.clef));
-    this.voice.addChild(new ABCXJS.write.AbsoluteElement(this.abcstaff.key, 0, 10));
-    (this.abcstaff.meter) && this.voice.addChild(this.printTablatureSignature(this.abcstaff.meter));
-    for (this.pos = 0; this.pos < this.currVoice.length; this.pos++) {
-        var abselems = this.printTABElement();
-        for (i = 0; i < abselems.length; i++) {
-            this.voice.addChild(abselems[i]);
-        }
-    }
-    return this.voice;
-};
-
-// return an array of ABCXJS.write.AbsoluteElement
-ABCXJS.tablature.Layout.prototype.printTABElement = function() {
-  var elemset = [];
-  var elem = this.getElem();
-  
-  switch (elem.el_type) {
-  case "note":
-    elemset[0] = this.printTabNote(elem);
-    break;
-  case "bar":
-    elemset[0] = this.printBarLine(elem);
-    if (this.voice.duplicate) elemset[0].invisible = true;
-    break;
-  default: 
-    var abselem = new ABCXJS.write.AbsoluteElement(elem,0,0);
-    abselem.addChild(new ABCXJS.write.RelativeElement("element type "+elem.el_type, 0, 0, 0, {type:"debug"}));
-    elemset[0] = abselem;
-  }
-
-  return elemset;
-};
-
-ABCXJS.tablature.Layout.prototype.printTabNote = function(elem) {
-    var p, pp;
+    this.glyphs = new SVG.Glyphs();
     
-    if (elem.startTriplet) {
-        if (elem.startTriplet === 2)
-            this.tripletmultiplier = 3/2;
-        else
-            this.tripletmultiplier=(elem.startTriplet-1)/elem.startTriplet;
-    }
+    this.initDoc();
     
-    
-    var duration = ABCXJS.write.getDuration(elem);
-    if (duration === 0) {
-        duration = 0.25;
-    }   // PER: zero duration will draw a quarter note head.
-    var durlog = ABCXJS.write.getDurlog(duration);
-    var abselem = new ABCXJS.write.AbsoluteElement(elem, duration*this.tripletmultiplier, 1);
-
-    // determine averagepitch, minpitch, maxpitch and stem direction
-    var sum = 0;
-    var allRests = true;
-    
-    for (p = 0, pp = elem.pitches.length; p < pp; p++) {
-        sum += elem.pitches[p].verticalPos;
-        allRests = (elem.pitches[p].type === 'rest' && allRests);
-    }
-
-    elem.averagepitch = sum / elem.pitches.length;
-    elem.minpitch = elem.pitches[0].verticalPos;
-    elem.maxpitch = elem.pitches[elem.pitches.length - 1].verticalPos;
-
-    for (p = 0; p < elem.pitches.length; p++) {
-        var curr = elem.pitches[p];
-        var rel = new ABCXJS.write.RelativeElement(null, 0, 0, curr.pitch);
-        if (curr.type === "rest" ) {
-            rel.type = "symbol";
-            if(this.restsInTab || (allRests && p === (elem.pitches.length-1))) {
-                rel.c = 'scripts.tabrest';
-            } else {
-                rel.c = '';
-            }
-        } else {
-            rel.c = curr.c;
-            rel.note = curr.note;
-            rel.type = curr.type;
-        }
-        abselem.addHead(rel);
-    }
-    
-    if( elem.endTriplet ) {
-        this.tripletmultiplier =1;
-    }
-
-    return abselem;
+    this.svgHead = function( id, kls, size ) {
+        
+        var w = size? size.w*this.scale + 'px' : '0';
+        var h = size? size.h*this.scale + 'px' : '0';
+        var d = size? '' : 'display: none; ';
+        
+//        // not in use
+//        id = id? 'id="'+id+'"' : '' ;
+//        kls = kls? 'class="'+kls+'"' : '' ;
+        
+        return '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="'+d+'width:'+w+'; height: '+h+';" >\n';
+    };
 };
 
-ABCXJS.tablature.Layout.prototype.printClef = function(elem) {
-  var clef = "clefs.tab";
-  var dx = 8;
-  var abselem = new ABCXJS.write.AbsoluteElement(elem,0,10);
-  abselem.addRight(new ABCXJS.write.RelativeElement(clef, dx, this.glyphs.getSymbolWidth(clef), elem.clefPos)); 
-  return abselem;
+SVG.Printer.prototype.initDoc = function( docId, title, add_styles, options ) {
+    options = options || {};
+    this.docId = docId || 'dcto';
+    this.title = title || '';
+    this.backgroundColor = options.backgroundColor || 'none';
+    this.color = options.color || 'black';
+    this.baseColor = options.baseColor || 'black';
+    this.scale = 1.0;
+    this.defines = '';
+    this.defined_glyph = [];
+
+    this.svg_pages = [];
+    this.currentPage = -1;
+    this.gid=0;
+    this.styles = 
+'<style type="text/css">\n\
+    @media print {\n\
+        div.nobrk {page-break-inside: avoid}\n\
+        div.newpage {page-break-before: always}\n\
+    }\n'+(add_styles||'')+'\n</style>\n';
+    
+//<![CDATA[\n\
+//]]>\n
+    
 };
 
-ABCXJS.tablature.Layout.prototype.printTablatureSignature= function(elem) {
-  var abselem = new ABCXJS.write.AbsoluteElement(elem,0,20);
-  var dx = 2;
-  
-  abselem.addRight(new ABCXJS.write.RelativeElement('Bass', dx, 15, 17.5, {type:"tabText"} ) );
-  abselem.addRight(new ABCXJS.write.RelativeElement('>><<', dx, 15, 10.8, {type:"tabText"} ) );
-  abselem.addRight(new ABCXJS.write.RelativeElement('<<>>', dx, 15,  3.7, {type:"tabText"} ) );
-  
-  this.startlimitelem = abselem; // limit ties here
-  return abselem;
-};
+SVG.Printer.prototype.endDoc = function( ) {
 
-ABCXJS.tablature.Layout.prototype.printBarLine = function (elem) {
-// bar_thin, bar_thin_thick, bar_thin_thin, bar_thick_thin, bar_right_repeat, bar_left_repeat, bar_double_repeat
-
-    var topbar = 19.5;
-    var yDot = 10.5;
-
-    var abselem = new ABCXJS.write.AbsoluteElement(elem, 0, 10);
-    var anchor = null; // place to attach part lines
-    var dx = 0;
-
-
-    var firstdots = (elem.type === "bar_right_repeat" || elem.type === "bar_dbl_repeat");
-    var firstthin = (elem.type !== "bar_left_repeat" && elem.type !== "bar_thick_thin" && elem.type !== "bar_invisible");
-    var thick = (elem.type === "bar_right_repeat" || elem.type === "bar_dbl_repeat" || elem.type === "bar_left_repeat" ||
-            elem.type === "bar_thin_thick" || elem.type === "bar_thick_thin");
-    var secondthin = (elem.type === "bar_left_repeat" || elem.type === "bar_thick_thin" || elem.type === "bar_thin_thin" || elem.type === "bar_dbl_repeat");
-    var seconddots = (elem.type === "bar_left_repeat" || elem.type === "bar_dbl_repeat");
-
-    // limit positioning of slurs
-    if (firstdots || seconddots) {
-        for (var slur in this.slurs) {
-            if (this.slurs.hasOwnProperty(slur)) {
-                this.slurs[slur].endlimitelem = abselem;
-            }
-        }
-        this.startlimitelem = abselem;
-    }
-
-    if (firstdots) {
-        abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot + 2));
-        abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot));
-        dx += 6; //2 hardcoded, twice;
-    }
-
-    if (firstthin) {
-        anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 0, {"type": "bar", "pitch2": topbar, linewidth: 0.6});
-        abselem.addRight(anchor);
-    }
-
-    if (elem.type === "bar_invisible" || elem.endDrawEnding) {
-        anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 0, {"type": "none", "pitch2": topbar, linewidth: 0.6});
-        abselem.addRight(anchor);
-    }
-
-    if (elem.decoration) {
-        // não há decorations na tablatura
-        //this.printDecoration(elem.decoration, 12, (thick)?3:1, abselem, 0, "down", 2);
+    var output = '<div style="display:block; margin:0; padding: 0; width: fit-content; background-color:'+this.backgroundColor+'; ">\n' + this.svgHead( this.docId );
+    
+    output += '<title>'+this.title+'</title>\n';
+    output += this.styles;
+    
+    if(this.defines.length > 0 ) {
+        output += '<defs>'+this.defines+'</defs>\n';
     }
     
-    if (elem.jumpDecoration) {
-        for(var j=0; j< elem.jumpDecoration.length; j++ ) {
-            if(( elem.jumpDecoration[j].upper && this.isFirstVoice() ) || ( !elem.jumpDecoration[j].upper && this.isLastVoice() ) ) {
-                var pitch = elem.jumpDecoration[j].upper ? 12 : -4;
-                abselem.addRight( this.layoutJumpDecorationItem(elem.jumpDecoration[j], pitch) );
-            }
-        }
+    output += '</svg>\n';
+    
+    for( var p=0; p <=  this.currentPage; p++ ) {
+        output += '<div class="'+(p>0?'newpage':'nobrk')+'">'+this.svg_pages[p]+'</div>\n';  
     }
-                
-    if (thick) {
-        dx += 4; //3 hardcoded;    
-        anchor = new ABCXJS.write.RelativeElement(null, dx, 4, 0, {"type": "bar", "pitch2": topbar, linewidth: 4});
-        abselem.addRight(anchor);
-        dx += 5;
-    }
-
-    if (this.partstartelem && elem.endDrawEnding) {
-        if (elem.endDrawEnding)
-            this.partstartelem.anchor2 = anchor;
-        if (elem.endEnding)
-            this.partstartelem = null;
-    }
-
-    if (secondthin) {
-        dx += 3; //3 hardcoded;
-        anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 0, {"type": "bar", "pitch2": topbar, linewidth: 0.6});
-        abselem.addRight(anchor); // 3 is hardcoded
-    }
-
-    if (seconddots) {
-        dx += 3; //3 hardcoded;
-        abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot + 2));
-        abselem.addRight(new ABCXJS.write.RelativeElement("dots.dot", dx, 1, yDot));
-    } // 2 is hardcoded
-
-    if (elem.startEnding) {
-        this.partstartelem = new ABCXJS.write.EndingElem(elem.startEnding, anchor, null);
-        this.voice.addOther(this.partstartelem);
-    }
-
-    return abselem;
+    
+    output +='</div>';
+    
+    this.topDiv.innerHTML = output;
 
 };
+
+SVG.Printer.prototype.initPage = function( scl ) {
+    this.scale = scl || this.scale;
+    this.currentPage++;
+    this.svg_pages[this.currentPage] = '';
+    var g = 'g' + this.docId + (this.currentPage+1);
+    if( this.scale !== 1.0 ) {
+        this.svg_pages[this.currentPage]  += '<g id="'+g+'" transform="scale( '+ this.scale +')">';
+    }
+};
+
+SVG.Printer.prototype.endPage = function( size ) {
+    if( this.scale && this.scale !== 1.0 ) {
+        this.svg_pages[this.currentPage]  += '</g>';
+    }
+    var pg = this.docId + (this.currentPage+1);
+    this.svg_pages[this.currentPage] = this.svgHead( pg, this.currentPage < 1 ? 'nobrk':'newpage', size ) + this.svg_pages[this.currentPage] + '</svg>\n';
+};
+
+SVG.Printer.prototype.beginGroup = function (el_type) {
+    var id = 'p'+this.printerId+'g'+(++this.gid); 
+    var kls = ' style="fill:'+this.color+'; stroke:none;" ' ;
+    this.svg_pages[this.currentPage] += '<g id="'+id+'"'+kls+'>\n';  
+    return id;
+};
+
+SVG.Printer.prototype.endGroup = function () {
+    this.svg_pages[this.currentPage] += '</g>\n';  
+};
+
+SVG.Printer.prototype.setDefine = function (s) {
+    var p =  this.glyphs.getDefinition(s);
+    
+    if(p.length === 0 ) return false;
+    
+    if(!this.defined_glyph[s]) {
+        this.defines += p;
+        this.defined_glyph[s] = true;
+    }
+    return true;
+};
+
+SVG.Printer.prototype.printLine = function (x,y,dx,dy) {
+    if( x === dx ) {
+        dx = ABCXJS.misc.isIE() ? 1: 0.6;
+        dy -=  y;
+    }
+    if( y === dy ) {
+        dy = ABCXJS.misc.isIE() ? 1: 0.6;
+        dx -=  x;
+    }
+    var pathString = ABCXJS.write.sprintf('<rect style="fill:'+this.color+';"  x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', x, y, dx, dy);
+    this.svg_pages[this.currentPage] += pathString;
+};
+
+SVG.Printer.prototype.printLedger = function (x,y,dx,dy) {
+    var pathString = ABCXJS.write.sprintf('<path style="stroke:'+this.baseColor+'; fill: white; stroke-width:0.6; stroke-dasharray: 1 1;" d="M %.2f %.2f h%.2f"/>\n', x, y, dx-x);
+    this.svg_pages[this.currentPage] += pathString;
+};
+
+SVG.Printer.prototype.printBeam = function (x1,y1,x2,y2,x3,y3,x4,y4) {
+    var pathString = ABCXJS.write.sprintf('<path style="fill:'+this.color+'; stroke:none" d="M %.2f %.2f L %.2f %.2f L %.2f %.2f L %.2f %.2f z"/>\n',  x1, y1, x2, y2, x3, y3, x4, y4);
+    this.svg_pages[this.currentPage] += pathString;
+};
+
+SVG.Printer.prototype.printStaveLine = function (x1, x2, y, debug) {
+    var color = debug? debug : this.baseColor;
+    var dy =0.6;   
+    var pathString = ABCXJS.write.sprintf('<rect style="stroke:none; fill: %s;" x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', 
+                                                color, x1, y, Math.abs(x2-x1), dy );
+    this.svg_pages[this.currentPage] += pathString;
+};
+
+SVG.Printer.prototype.printBar = function (x, dx, y1, y2, real) {
+    
+    var x2 = x+dx;
+    var kls = real?'':'style="stroke:none; fill:'+this.baseColor+'"';
+    
+    if (ABCXJS.misc.isIE() && dx<1) {
+      dx = 1;
+    }
+    
+    var dy = Math.abs(y2-y1);
+    dx = Math.abs(dx); 
+    
+    var pathString = ABCXJS.write.sprintf('<rect '+kls+' x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
+
+    this.svg_pages[this.currentPage] += pathString;
+};
+
+SVG.Printer.prototype.printStem = function (x, dx, y1, y2) {
+    
+    var x2 = x+dx;
+    
+    if (ABCXJS.misc.isIE() && dx<1) {
+      dx = 1;
+    }
+    
+    var dy = Math.abs(y2-y1);
+    dx = Math.abs(dx); 
+    
+    var pathString = ABCXJS.write.sprintf('<rect x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
+
+    this.svg_pages[this.currentPage] += pathString;
+};
+
+
+SVG.Printer.prototype.printTieArc = function (x1,y1,x2,y2,up) {
+    
+    //unit direction vector
+    var dx = x2-x1;
+    var dy = y2-y1;
+    var norm= Math.sqrt(dx*dx+dy*dy);
+    var ux = dx/norm;
+    var uy = dy/norm;
+
+    var flatten = norm/3.5;
+    var curve = (up?-1:1)*Math.min(25, Math.max(4, flatten));
+
+    var controlx1 = x1+flatten*ux-curve*uy;
+    var controly1 = y1+flatten*uy+curve*ux;
+    var controlx2 = x2-flatten*ux-curve*uy;
+    var controly2 = y2-flatten*uy+curve*ux;
+    var thickness = 2;
+    
+    var pathString = ABCXJS.write.sprintf('<path style="fill:'+this.color+'; stroke-width:0.6px; stroke:none;" d="M %.2f %.2f C %.2f %.2f %.2f %.2f %.2f %.2f C %.2f %.2f %.2f %.2f %.2f %.2f z"/>\n', 
+                            x1, y1,
+                            controlx1, controly1, controlx2, controly2, x2, y2, 
+                            controlx2-thickness*uy, controly2+thickness*ux, controlx1-thickness*uy, controly1+thickness*ux, x1, y1 );
+    
+    this.svg_pages[this.currentPage] += pathString;
+};
+    
+SVG.Printer.prototype.printBrace = function (x, y1, y2) {
+    var sz = Math.abs(y1-y2); // altura esperada
+    var scale = sz / 1027; // altura real do simbolo
+    this.setDefine('scripts.lbrace');
+    var pathString = ABCXJS.write.sprintf('<use style="fill:'+this.baseColor+'" x="0" y="0" xlink:href="#scripts.lbrace" transform="translate(%.2f %.2f) scale(0.13 %.5f)" />\n', x, y2, scale );
+    this.svg_pages[this.currentPage] += pathString;
+};
+
+SVG.Printer.prototype.printSymbol = function (x, y, symbol) {
+    if (this.setDefine(symbol)) {
+        var pathString = ABCXJS.write.sprintf('<use x="%.2f" y="%.2f" xlink:href="#%s" />\n', x, y, symbol );
+        this.svg_pages[this.currentPage] += pathString;
+    } else {
+        throw 'Undefined: ' + symbol;
+    }
+};
+
+SVG.Printer.prototype.tabText = function( x, y, str, clss, anch ) {
+    
+   if( str === 'scripts.rarrow') {
+       //fixme: deveria mudar o tipe de tabtext para symbol, adequadamente
+       this.printSymbol(x, y, str );
+       return;
+   }
+   
+   str = ""+str;
+   if( str.length===0) return;
+   
+   anch = anch || 'start';
+   x = x.toFixed(2);
+   y = y.toFixed(2);
+   
+   this.svg_pages[this.currentPage] += '<text class="'+clss+'" x="'+x+'" y="'+y+'" >'+str+'</text>\n';
+};
+
+SVG.Printer.prototype.text = function( x, y, str, clss, anch ) {
+   var t; 
+   var estilo = clss === 'abc_lyrics' ? '' : 'style="stroke:none; fill: '+this.color+';"' ;
+   
+   str = ""+str;
+   if( str.length===0) return;
+   
+   t = str.split('\n');
+   
+   anch = anch || 'start';
+   x = x.toFixed(2);
+   y = y.toFixed(2);
+   
+   this.svg_pages[this.currentPage] += '<g class="'+clss+'" '+estilo+' transform="translate('+x+' '+y+')">\n';
+    if(t.length < 2) {
+       this.svg_pages[this.currentPage] += '<text text-anchor="'+anch+'" x="0" y="0" >'+t[0]+'</text>\n';
+    } else {
+       this.svg_pages[this.currentPage] += '<text text-anchor="'+anch+'" x="0" y="0">\n';
+       for(var i = 0; i < t.length; i++ )
+           this.svg_pages[this.currentPage] += '<tspan x="0" dy="1.2em" >'+t[i]+'</tspan>\n';
+       this.svg_pages[this.currentPage] += '</text>\n';
+    }
+    this.svg_pages[this.currentPage] += '</g>\n';
+};
+
+SVG.Printer.prototype.printButton = function (id, x, y, options) {
+    
+    var scale = options.radius/26; // 26 é o raio inicial do botão
+    var gid = 'p'+this.printerId+id;
+    var estilo = 'stroke:'+options.borderColor+'; stroke-width:'+options.borderWidth+'px; fill: none;';
+
+    var pathString = ABCXJS.write.sprintf( '<g id="%s" transform="translate(%.2f %.2f) scale(%.5f)">\n\
+        <circle cx="28" cy="28" r="26" style="stroke:none; fill: %s;" ></circle>\n\
+        <path id="%s_ac" style="stroke: none; fill: %s;" d="M 2 34 a26 26 0 0 1 52 -12"></path>\n\
+        <path id="%s_ao" style="stroke: none; fill: %s;" d="M 54 22 a26 26 0 0 1 -52 12"></path>\n\
+        <circle style="'+estilo+'" cx="28" cy="28" r="26"></circle>\n\
+        <path style="'+estilo+'" d="m 2 34 l 52 -12" ></path>\n\
+        <text id="%s_tc" class="%s" style="stroke:none; fill: black;" x="27" y="22" >...</text>\n\
+        <text id="%s_to" class="%s" style="stroke:none; fill: black;" x="27" y="44" >...</text>\n</g>\n',
+        gid, x, y, scale, options.fillColor, gid, options.closeColor, gid, options.openColor, gid, options.kls, gid, options.kls );
+        
+    this.svg_pages[this.currentPage] += pathString;
+    return gid;
+
+};
+
