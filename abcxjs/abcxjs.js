@@ -3180,7 +3180,8 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
         };
         strTune = strTune.replace(/\\([ \t]*)(%.*)*\n/g, continuationReplacement);	// take care of line continuations right away, but keep the same number of characters
         var lines = strTune.split('\n');
-        if (window.ABCXJS.parse.last(lines).length === 0)	// remove the blank line we added above.
+        // flavio - era só um if
+        while( window.ABCXJS.parse.last(lines).length === 0 )	// remove the blank lines at the end.
             lines.pop();
         return lines;
     };
@@ -7885,10 +7886,10 @@ ABCXJS.write.Layout.prototype.layoutJumpDecorationItem = function(jumpDecoration
     switch (jumpDecorationItem.type) {
         case "coda":     return new ABCXJS.write.RelativeElement("scripts.coda", 0, 0, pitch + 1); 
         case "segno":    return new ABCXJS.write.RelativeElement("scripts.segno", 0, 0, pitch + 1); 
-        case "fine":     return new ABCXJS.write.RelativeElement("it.Fine", -32, 32, pitch);
-        case "dacapo":   return new ABCXJS.write.RelativeElement("it.DC", -16, 16, pitch);
-        case "dasegno":  return new ABCXJS.write.RelativeElement("it.DaSegno", -22, 32, pitch);
-        case "dacoda":   return new ABCXJS.write.RelativeElement("it.DaCoda", -22, 32, pitch);
+        case "fine":     return new ABCXJS.write.RelativeElement("it.Fine", -34, 34, pitch);
+        case "dacapo":   return new ABCXJS.write.RelativeElement("it.DC", -30, 30, pitch);
+        case "dacoda":   return new ABCXJS.write.RelativeElement("it.DaCoda", -30, 30, pitch);
+        case "dasegno":  return new ABCXJS.write.RelativeElement("it.DaSegno", -32, 32, pitch);
         case "dcalfine": return new ABCXJS.write.RelativeElement("it.DCalFine", 25, -25, pitch);
         case "dcalcoda": return new ABCXJS.write.RelativeElement("it.DCalCoda", 25, -25, pitch);
         case "dsalfine": return new ABCXJS.write.RelativeElement("it.DSalFine", 25, -25, pitch);
@@ -10441,7 +10442,6 @@ ABCXJS.midi.Player.prototype.reset = function(options) {
     this.warnings = [];
     
     this.printer = {};
-    this.currChannel = 0;
     this.currentTime = 0;
     this.currentMeasure = 1;
     
@@ -10675,8 +10675,6 @@ ABCXJS.midi.Player.prototype.executa = function(pl) {
         if( pl.start ) {
             
             pl.item.pitches.forEach( function( elem ) {
-//            for( var e=0; e < pl.item.pitches.length; e++) {
-//                var elem = pl.item.pitches[e];
                 
                 delay = self.calcTempo( elem.delay );
                 
@@ -10715,46 +10713,37 @@ ABCXJS.midi.Player.prototype.executa = function(pl) {
                }
                 
             });
-            //}
+            
+            var ja = '.'; // controla quais elementos absolutos foram marcados para highlight no mesmo item da playlist - evita dupla seleção do mesmo item
             pl.item.abcelems.forEach( function( elem ) {
-            //for( var e=0; e < pl.item.abcelems.length; e++) {
-            //    var elem = pl.item.abcelems[e];
                 delay = self.calcTempo( elem.delay );
                 aqui=4;
                 if( self.callbackOnScroll ) {
                     self.currAbsElem = elem.abcelem.parent;
-                    self.currChannel = elem.channel;
                     self.callbackOnScroll(self);
                 }
                 aqui=5;
-                self.highlight(elem.abcelem.parent, true, delay);
-                //console.log(ABCXJS.parse.stringify(elem.abcelem.parent) );
-            //}
+                if( ja.indexOf('.'+self.currAbsElem.gid+'.') < 0 ) {
+                    // absElem ainda não sofreu highlight
+                    ja += self.currAbsElem.gid+'.';
+                    self.highlight(self.currAbsElem , true, delay);
+                }
             });
+            
         } else {
             pl.item.pitches.forEach( function( elem ) {
-            //for( var e=0; e < pl.item.pitches.length; e++) {
-            //    var elem = pl.item.pitches[e];
-                //if(  self.playClef( elem.midipitch.clef.charAt(0) ) ) {
                 delay = self.calcTempo( elem.delay );
                 MIDI.noteOff(elem.midipitch.channel, elem.midipitch.midipitch, delay);
-                //}
-            //}
             });
             pl.item.abcelems.forEach( function( elem ) {
-            //for( var e=0; e < pl.item.abcelems.length; e++) {
-            //    var elem = pl.item.abcelems[e];
                 delay = self.calcTempo( elem.delay );
                 aqui=6;
                 
                 self.highlight(elem.abcelem.parent, false, delay);
-                //console.log(ABCXJS.parse.stringify(elem.abcelem.parent) );
-            //}
             });
         }
     } catch( err ) {
         this.onError = { erro: err.message, idx: this.i, item: pl };
-        //console.log ('PlayList['+this.onError.idx+'] - Erro: ' + this.onError.erro + '.')
         this.addWarning( 'PlayList['+this.onError.idx+'] - Erro: ' + this.onError.erro + '. DebugPoint: ' + aqui );
     }
 };
@@ -11184,6 +11173,7 @@ ABCXJS.tablature.Infer.prototype.inferTabVoice = function(line) {
     } 
     
     this.accordion.setTabLine(this.producedLine);
+    this.vars.iChar += this.producedLine.length; // atualiza a posição onde vai começar a nova linha da tablatura
     
     return this.voice;
 };
@@ -11352,6 +11342,7 @@ ABCXJS.tablature.Infer.prototype.checkTies = function(voice) {
 };
 
 ABCXJS.tablature.Infer.prototype.addTABChild = function(token, line ) {
+    var xi = this.producedLine.length; // posição atual a linha de tabladura
 
     if (token.el_type !== "note") {
         var xf = 0;
@@ -11361,7 +11352,6 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token, line ) {
         } else {
             throw new Error( 'ABCXJS.tablature.Infer.prototype.addTABChild(token_type): ' + token.type );
         }
-        var xi = this.getXi();
         this.add(token, xi, xf - 1, line );
         return;
     }
@@ -11432,7 +11422,6 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token, line ) {
         }
     }
 
-    var xi = this.getXi();
     for (var c = 0; c < column.length; c++) {
         var item = column[c];
         inTie = (item.inTie || inTie);
@@ -11577,10 +11566,6 @@ ABCXJS.tablature.Infer.prototype.registerMissingButton = function(item) {
         if ( this.vars.missingButtons[item.note][i] === bar ) return; // already listed
     }
     this.vars.missingButtons[item.note].push(bar);
-};
-
-ABCXJS.tablature.Infer.prototype.getXi = function() {
-  return this.producedLine.length;
 };
 
 ABCXJS.tablature.Infer.prototype.registerLine = function(appendStr) {
@@ -11981,7 +11966,7 @@ ABCXJS.tablature.Parse.prototype.parseTabVoice = function ( ) {
         switch (token.el_type) {
             case "bar":
                 token.startChar = this.xi;
-                token.endChar = this.i;
+                token.endChar = this.i-1;
                 if (!this.invalid)
                     voice[voice.length] = token;
                 this.vars.lastBarElem = token;
@@ -12005,7 +11990,7 @@ ABCXJS.tablature.Parse.prototype.formatChild = function (token) {
     var child = {
         el_type: token.el_type
         , startChar: this.xi
-        , endChar: this.i
+        , endChar: this.i-1
         , pitches: []
         , duration: token.duration * this.vars.default_length
         , bellows: token.bellows

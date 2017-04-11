@@ -4,6 +4,7 @@ if (!window.SITE)
 
 SITE.EditArea = function(textareaid) {
   this.textarea = document.getElementById(textareaid);
+  this.textChanged = true; // vou usar para recalcular os dados de scroll da textarea
   this.initialText = this.textarea.value;
   this.isDragging = false;
 };
@@ -18,6 +19,7 @@ SITE.EditArea.prototype.addSelectionListener = function (listener) {
 
 SITE.EditArea.prototype.addChangeListener = function (listener) {
     this.textarea.onkeyup = function () {
+        this.textChanged = true;
         if(listener.forceRefreshCheckbox && listener.forceRefreshCheckbox.checked)
             listener.fireChanged();
         else
@@ -35,6 +37,7 @@ SITE.EditArea.prototype.addChangeListener = function (listener) {
             listener.updateSelection();
     };
     this.textarea.onchange = function () {
+        this.textChanged = true;
         if(listener.forceRefreshCheckbox && listener.forceRefreshCheckbox.checked)
             listener.fireChanged();
         else
@@ -42,18 +45,49 @@ SITE.EditArea.prototype.addChangeListener = function (listener) {
     };
 };
 
-SITE.EditArea.prototype.setSelection = function  (start, end, line) {
+SITE.EditArea.prototype.setSelection = function  (start, end ) {
+    this.scrollTo(start);
     this.textarea.setSelectionRange(start, end);
-    (line) && this.scrollTo(line);
     this.textarea.focus();
 };
 
-SITE.EditArea.prototype.scrollTo = function(line)
+SITE.EditArea.prototype.scrollTo = function(start)
 {
-  line = line || 0;
-  var lineHeight = this.textarea.clientHeight / this.textarea.rows;
-  var jump = (line - 1) * lineHeight;
-  this.textarea.scrollTop = jump;
+  var found = false;  
+  var l = 0;
+  this.computeScrollData();
+  while(!found &&  l < this.totalLines ) {
+      if( start > this.lineLimits[l].i+this.lineLimits[l].f ) {
+          l ++;
+      } else {
+          found = true;
+      }
+  }
+  if(!found) return;
+  var x =  (start - this.lineLimits[l].i) / this.maxLine;
+  
+  var top = ((l  / this.totalLines) * this.textarea.scrollHeight)-this.textarea.clientHeight/2;
+  
+  var left = ( (x<0.33?0:x<0.66?0.33:0.66) ) * this.textarea.scrollWidth;
+  
+  this.textarea.scrollTop = top;
+  this.textarea.scrollLeft = left ;
+};
+
+SITE.EditArea.prototype.computeScrollData = function () {
+   if ( !this.textChanged ) return;
+   var lines = this.textarea.value.split('\n');    
+   this.textChanged=false;
+   this.totalLines = lines.length;
+   this.lineLimits = [];
+   this.maxLine = 0;
+
+   var size = 0;
+   for( var l=0; l< lines.length; l++ ) {
+       this.lineLimits[l] = { i: size, f: lines[l].length };
+       size += lines[l].length + 1;
+       this.maxLine = Math.max( lines[l].length, this.maxLine );
+   }
 };
 
 SITE.EditArea.prototype.getString = function() {
@@ -61,6 +95,7 @@ SITE.EditArea.prototype.getString = function() {
 };
 
 SITE.EditArea.prototype.setString = function(str) {
+  this.textChanged = true;
   this.initialText = str;
   this.textarea.value = str;
   this.textarea.selectionStart = 0;  
@@ -831,52 +866,20 @@ SITE.Estudio.prototype.parseABC = function(transpose) {
 
 SITE.Estudio.prototype.highlight = function(abcelem) {
     if(this.textVisible) {
-        this.editArea.setSelection(abcelem.startChar, abcelem.endChar, abcelem.line);
+        this.editArea.setSelection(abcelem.startChar, abcelem.endChar);
     }    
     if(this.mapVisible && !this.midiPlayer.playing) {
         this.accordion.clearKeyboard(true);
         this.midiParser.setSelection(abcelem);
-//        if(abcelem.bellows)
-//            this.selectButton(abcelem);
     }    
     if((ABCXJS.misc.isChrome()||ABCXJS.misc.isChromium()) && this.editorVisible) {
         editAreaLoader.setSelectionRange("editorTextArea", abcelem.startChar, abcelem.endChar, abcelem.line);
     }    
 };
 
-//SITE.Estudio.prototype.selectButton = function(elem) {
-//    for( var p=0; p < elem.pitches.length; p ++ ) {
-//        var pitch = elem.pitches[p];
-//        
-//        if( pitch.type === 'rest' ) continue;
-//        
-//        var button;
-//        var tabButton = pitch.c === 'scripts.rarrow'? pitch.lastButton : pitch.c;
-//        
-//        
-//        //quando o baixo não está "in Tie", label do botão é uma letra (G, g, etc)
-//        //de outra forma o label é número do botão (1, 1', 1'', etc)
-//        if(pitch.bass && pitch.c !== 'scripts.rarrow')
-//            // quando label é uma letra
-//            button = this.midiParser.getBassButton(elem.bellows, tabButton);
-//        else
-//            // quando label é número do botão
-//            button = this.midiParser.getButton(tabButton);
-//        
-//        if(button) {
-//            if(elem.bellows === '-') {
-//                button.setOpen();
-//            } else {
-//                button.setClose();
-//            }
-//        }
-//    }
-//};
-
 SITE.Estudio.prototype.onChange = function() {
     this.studioCanvasDiv.scrollTop = this.lastYpos;
     this.resize();
-
 };
 
 SITE.Estudio.prototype.editorChanged = function (transpose, force) {
@@ -955,6 +958,7 @@ SITE.Estudio.prototype.setup = function(tab, accordionId) {
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
     document.getElementById("spanStudioAccordeon").innerHTML = ' - ' + this.accordion.getTxtModel(); 
     this.studioCanvasDiv.scrollTop = 0;
+
     this.fireChanged2(0,'force');
 };
 

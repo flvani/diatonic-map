@@ -103,6 +103,9 @@ and open the template in the editor.
     font-size: 12px; 
     line-height: 14px;
     resize: none;
+    overflow: auto;
+    overflow-style: scrollbar;
+    white-space: pre;
 }
 
 textarea::selection { background: #5151ff; color: aqua; } 
