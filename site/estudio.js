@@ -2,148 +2,6 @@
 if (!window.SITE)
     window.SITE = {};
 
-SITE.EditArea = function(textareaid) {
-  this.textarea = document.getElementById(textareaid);
-  this.textChanged = true; // vou usar para recalcular os dados de scroll da textarea
-  this.initialText = this.textarea.value;
-  this.isDragging = false;
-};
-
-SITE.EditArea.prototype.addSelectionListener = function (listener) {
-    this.textarea.onmousemove = function (ev) {
-        if (this.isDragging) {
-            listener.updateSelection();
-        }    
-    };
-};
-
-SITE.EditArea.prototype.addChangeListener = function (listener) {
-    this.textarea.onkeyup = function () {
-        this.textChanged = true;
-        if(listener.forceRefreshCheckbox && listener.forceRefreshCheckbox.checked)
-            listener.fireChanged();
-        else
-            listener.updateSelection();
-    };
-    this.textarea.onmousedown = function () {
-        this.isDragging = true;
-        listener.updateSelection();
-    };
-    this.textarea.onmouseup = function () {
-        this.isDragging = false;
-        if(listener.forceRefreshCheckbox && listener.forceRefreshCheckbox.checked)
-            listener.fireChanged();
-        else
-            listener.updateSelection();
-    };
-    this.textarea.onchange = function () {
-        this.textChanged = true;
-        if(listener.forceRefreshCheckbox && listener.forceRefreshCheckbox.checked)
-            listener.fireChanged();
-        else
-            listener.updateSelection();
-    };
-};
-
-SITE.EditArea.prototype.setSelection = function  (start, end ) {
-    this.scrollTo(start);
-    this.textarea.setSelectionRange(start, end);
-    this.textarea.focus();
-};
-
-SITE.EditArea.prototype.scrollTo = function(start)
-{
-  var found = false;  
-  var l = 0;
-  this.computeScrollData();
-  while(!found &&  l < this.totalLines ) {
-      if( start > this.lineLimits[l].i+this.lineLimits[l].f ) {
-          l ++;
-      } else {
-          found = true;
-      }
-  }
-  if(!found) return;
-  var x =  (start - this.lineLimits[l].i) / this.maxLine;
-  
-  var top = ((l  / this.totalLines) * this.textarea.scrollHeight)-this.textarea.clientHeight/2;
-  
-  var left = ( (x<0.33?0:x<0.66?0.33:0.66) ) * this.textarea.scrollWidth;
-  
-  this.textarea.scrollTop = top;
-  this.textarea.scrollLeft = left ;
-};
-
-SITE.EditArea.prototype.computeScrollData = function () {
-   if ( !this.textChanged ) return;
-   var lines = this.textarea.value.split('\n');    
-   this.textChanged=false;
-   this.totalLines = lines.length;
-   this.lineLimits = [];
-   this.maxLine = 0;
-
-   var size = 0;
-   for( var l=0; l< lines.length; l++ ) {
-       this.lineLimits[l] = { i: size, f: lines[l].length };
-       size += lines[l].length + 1;
-       this.maxLine = Math.max( lines[l].length, this.maxLine );
-   }
-};
-
-SITE.EditArea.prototype.getString = function() {
-  return this.textarea.value;
-};
-
-SITE.EditArea.prototype.setString = function(str) {
-  this.textChanged = true;
-  this.initialText = str;
-  this.textarea.value = str;
-  this.textarea.selectionStart = 0;  
-  this.textarea.selectionEnd = 0;  
-};
-
-SITE.EditArea.prototype.getElem = function() {
-  return this.textarea;
-};
-
-SITE.KeySelector = function(id) {
-
-    this.selector = document.getElementById(id);
-    this.cromaticLength = 12;
-    if (this.selector) {
-        this.populate(0);
-    }
-};
-
-SITE.KeySelector.prototype.populate = function(offSet) {
-    
-    while( this.selector.options.length > 0 ) {
-        this.selector.remove(0);
-    }            
-        
-    for (var i = this.cromaticLength+offSet; i >= -this.cromaticLength+2+offSet; i--) {
-        var opt = document.createElement('option');
-        if(i-1 > offSet) 
-            opt.innerHTML = ABCXJS.parse.number2keysharp[(i+this.cromaticLength-1)%this.cromaticLength] ;
-        else
-            opt.innerHTML = ABCXJS.parse.number2keyflat[(i+this.cromaticLength-1)%this.cromaticLength] ;
-        opt.value = (i+this.cromaticLength-1);
-        this.selector.appendChild(opt);
-    }
-    this.oldValue = offSet+this.cromaticLength;
-    this.selector.value = offSet+this.cromaticLength;
-};
-
-SITE.KeySelector.prototype.set = function(value) {
-    this.populate(value);
-};
-
-SITE.KeySelector.prototype.addChangeListener = function (editor) {
-    this.selector.onchange = function () {
-        editor.editorChanged(this.value - editor.keySelector.oldValue, "force");
-    };
-};
-
 SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.ypos = 0; // controle de scroll
     this.lastStaffGroup = -1; // controle de scroll
@@ -165,20 +23,16 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.clefsToPlay = (this.playTreble?"T":"")+(this.playBass?"B":"");
     
     this.studioCanvasDiv = document.getElementById( 'studioCanvasDiv');
-
     
     this.setupEditor();
     
     this.renderedTune = {text: undefined, abc: undefined, title: undefined, div: undefined, selector: undefined};
     
-    if (typeof editorParams.textArea === "string") {
-        this.editArea = new SITE.EditArea(editorParams.textArea);
+    if (typeof editorParams.editor_id === "string") {
+        this.editarea = new ABCXJS.edit.EditArea(editorParams.editor_id, this);
     } else {
-        this.editArea = editorParams.textArea;
+        this.editarea = editorParams.editor_id;
     }
-    
-    this.editArea.addSelectionListener(this);
-    this.editArea.addChangeListener(this);
     
     if (editorParams.generate_tablature) {
         if (editorParams.generate_tablature === 'accordion') {
@@ -192,13 +46,11 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
             throw new Error('Tablatura para ' + editorParams.generate_tablature + ' não suportada!');
         }
     }
+    
     if (editorParams.canvas_id) {
         this.renderedTune.div = document.getElementById(editorParams.canvas_id);
     } else if (editorParams.paper_id) {
         this.renderedTune.div = document.getElementById(editorParams.paper_id);
-    } else {
-        this.renderedTune.div = document.createElement("DIV");
-        this.editArea.getElem().parentNode.insertBefore(this.renderedTune.div, this.editArea.getElem());
     }
 
     if (editorParams.generate_warnings) {
@@ -212,6 +64,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     if( editorParams.onchange ) {
         this.onchangeCallback = editorParams.onchange;
     }
+    
     this.saveButton = document.getElementById(interfaceParams.saveBtn);
     this.forceRefreshButton = document.getElementById(interfaceParams.forceRefresh);
     this.forceRefreshCheckbox = document.getElementById(interfaceParams.forceRefreshCheckbox);
@@ -260,7 +113,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         that.showABCXText();
     }, false);
     
-    if( !(ABCXJS.misc.isChrome()||ABCXJS.misc.isChromium()) ) {
+    if( !(ABCXJS.misc.isChrome()||ABCXJS.misc.isChromium()||ABCXJS.misc.isFirefox()) ) {
         this.showEditorButton.style.pointerEvents = 'none';
         this.showEditorButton.style.color = 'gray';
     } else {
@@ -461,6 +314,14 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
 
 };
 
+SITE.Estudio.prototype.getString = function() {
+    return this.editarea.getString();
+};
+
+SITE.Estudio.prototype.setString = function(str) {
+    this.editarea.setString(str);
+};
+
 SITE.Estudio.prototype.setScrolling = function(player) {
     if( !this.studioCanvasDiv || player.currAbsElem.staffGroup === this.lastStaffGroup ) return;
     
@@ -543,7 +404,7 @@ SITE.Estudio.prototype.salvaMusica = function () {
     if (FILEMANAGER.requiredFeaturesAvailable()) {
         this.parseABC(0);
         var name = this.renderedTune.abc.metaText.title + ".abcx";
-        var conteudo = this.editArea.getString();
+        var conteudo = this.getString();
         FILEMANAGER.download(name, conteudo);
     } else {
         alert(DR.getResource("DR_err_saving"));
@@ -572,13 +433,8 @@ SITE.Estudio.prototype.showMap = function() {
 
 SITE.Estudio.prototype.showABCXText = function () {
     this.textVisible = !this.textVisible;
-    if (this.textVisible) {
-        this.editArea.textarea.style.display = 'inline';
-        document.getElementById('I_showText').setAttribute('class','icon-folder-open');
-    } else {
-        this.editArea.textarea.style.display = 'none';
-        document.getElementById('I_showText').setAttribute('class','icon-folder-close');
-    }
+    this.editarea.setVisible(this.textVisible);
+    document.getElementById('I_showText').setAttribute('class',this.textVisible?'icon-folder-open':'icon-folder-close');
     this.resize();
 };
 
@@ -587,9 +443,9 @@ SITE.Estudio.prototype.hideEditor = function() {
     this.editorWindow.topDiv.style.display = 'none';
     this.editorVisible = false;
     var finalText = editAreaLoader.getValue("editorTextArea");
-    document.getElementById( 'textareaABC').readOnly = false;
-    if(this.editArea.getString() !== finalText ) {
-        this.editArea.setString( finalText );
+    //document.getElementById( 'textareaABC').readOnly = false;
+    if(this.getString() !== finalText ) {
+        this.setString( finalText );
         this.fireChanged(0, 'force');
     }
 };
@@ -597,8 +453,8 @@ SITE.Estudio.prototype.hideEditor = function() {
 SITE.Estudio.prototype.showEditor = function() {
     this.editorVisible = ! this.editorVisible;
     if(this.editorVisible) {
-        document.getElementById( 'textareaABC').readOnly = true;
-        editAreaLoader.setValue("editorTextArea", this.editArea.getString() );
+        //document.getElementById( 'textareaABC').readOnly = true;
+        editAreaLoader.setValue("editorTextArea", this.getString() );
         editAreaLoader.setSelectionRange("editorTextArea", 0, 0);
         this.editorWindow.topDiv.style.display = 'inline';
         this.initEditArea( "editorTextArea" );
@@ -623,8 +479,7 @@ SITE.Estudio.prototype.setupEditor = function() {
 
     this.initEditArea( "editorTextArea", 850, 478 );
     
-    this.keySelector = new SITE.KeySelector(ks);
-    this.keySelector.addChangeListener(this);
+    this.keySelector = new ABCXJS.edit.KeySelector(ks, this);
     
     document.getElementById('octaveUpBtn').addEventListener("click", function (evt) {
         evt.preventDefault();
@@ -736,10 +591,9 @@ SITE.Estudio.prototype.resize = function( ) {
     
     var m = document.getElementById( 'studioMenu');
     var h = document.getElementById( 'studioHeader');
-
-    var t = document.getElementById( 'textareaABC');
-    t.style.width = parseInt(m.clientWidth) - 24 + "px";
     
+    this.editarea.resize();
+
     var s = document.getElementById( 'studioDiv');
     var o = document.getElementById( 'studioContentDiv');
     
@@ -835,13 +689,15 @@ SITE.Estudio.prototype.parseABC = function(transpose) {
     
     var abcParser = new ABCXJS.parse.Parse( this.transposer, this.accordion );
     
-    abcParser.parse(this.editArea.getString(), this.parserparams );
+    abcParser.parse(this.getString(), this.parserparams );
     
     this.renderedTune.abc = abcParser.getTune();
     this.renderedTune.text = abcParser.getStrTune();
     
     // transposição e geracao de tablatura podem ter alterado o texto ABC
-    this.editArea.setString( this.renderedTune.text );
+    this.parsing = true; // tratar melhor essa forma de inibir evento change da editarea durante a atualização da string
+    this.setString( this.renderedTune.text );
+    delete this.parsing;
     
     if( this.transposer && this.keySelector ) {
         this.keySelector.set( this.transposer.keyToNumber( this.transposer.getKeyVoice(0) ) );       
@@ -864,19 +720,6 @@ SITE.Estudio.prototype.parseABC = function(transpose) {
     
 };        
 
-SITE.Estudio.prototype.highlight = function(abcelem) {
-    if(this.textVisible) {
-        this.editArea.setSelection(abcelem.startChar, abcelem.endChar);
-    }    
-    if(this.mapVisible && !this.midiPlayer.playing) {
-        this.accordion.clearKeyboard(true);
-        this.midiParser.setSelection(abcelem);
-    }    
-    if((ABCXJS.misc.isChrome()||ABCXJS.misc.isChromium()) && this.editorVisible) {
-        editAreaLoader.setSelectionRange("editorTextArea", abcelem.startChar, abcelem.endChar, abcelem.line);
-    }    
-};
-
 SITE.Estudio.prototype.onChange = function() {
     this.studioCanvasDiv.scrollTop = this.lastYpos;
     this.resize();
@@ -884,13 +727,13 @@ SITE.Estudio.prototype.onChange = function() {
 
 SITE.Estudio.prototype.editorChanged = function (transpose, force) {
     this.editorChanging = true;
-    this.editArea.setString(editAreaLoader.getValue("editorTextArea"));
+    this.setString(editAreaLoader.getValue("editorTextArea"));
     this.fireChanged(transpose, force);
 };
 
 SITE.Estudio.prototype.endEditorChanged = function () {
     if(!this.editorChanging) return;
-    editAreaLoader.setValue("editorTextArea", this.editArea.getString());
+    editAreaLoader.setValue("editorTextArea", this.getString());
     editAreaLoader.setSelectionRange("editorTextArea", 0, 0 );
     this.editorChanging = false;
 };
@@ -903,9 +746,9 @@ SITE.Estudio.prototype.fireChanged = function (transpose, force) {
 
 SITE.Estudio.prototype.fireChanged2 = function (transpose, force, loader) {
 
-    if( force || this.oldAbcText !== this.editArea.getString() ) {
+    if( force || this.oldAbcText !== this.getString() ) {
         
-        this.oldAbcText = this.editArea.getString();
+        this.oldAbcText = this.getString();
     
         this.lastYpos = this.studioCanvasDiv.scrollTop || 0;               
 
@@ -952,7 +795,7 @@ SITE.Estudio.prototype.setup = function(tab, accordionId) {
     this.renderedTune.text = tab.text;
     this.renderedTune.title = tab.title;
     this.renderedTune.abc = tab.abc;
-    this.editArea.setString(this.renderedTune.text);
+    this.setString(this.renderedTune.text);
     editAreaLoader.setValue("editorTextArea", this.renderedTune.text );
     this.editorWindow.setTitle('-&#160;' + tab.title);
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
@@ -962,17 +805,42 @@ SITE.Estudio.prototype.setup = function(tab, accordionId) {
     this.fireChanged2(0,'force');
 };
 
-SITE.Estudio.prototype.updateSelection = function() {
-  try {
-    var sel = this.renderedTune.printer.rangeHighlight(this.editArea.textarea.selectionStart, this.editArea.textarea.selectionEnd);
-    if(this.mapVisible) {
+SITE.Estudio.prototype.highlight = function(abcelem) {
+    if(this.textVisible) {
+        this.editarea.setSelection(abcelem);
+    }    
+    if(this.mapVisible && !this.midiPlayer.playing) {
         this.accordion.clearKeyboard(true);
-        for( var i = 0; i < sel.length; i ++  ) {
-            if(sel[i].abcelem.bellows)
-                this.selectButton(sel[i].abcelem);
-        }    
+        this.midiParser.setSelection(abcelem);
+    }    
+//    if((ABCXJS.misc.isChrome()||ABCXJS.misc.isChromium()) && this.editorVisible) {
+//        editAreaLoader.setSelectionRange("editorTextArea", abcelem.startChar, abcelem.endChar, abcelem.line);
+//    }    
+};
+
+
+// limpa apenas a janela de texto. Os demais elementos são controlados por tempo 
+SITE.Estudio.prototype.unhighlight = function(abcelem) {
+    if(this.textVisible) {
+        this.editarea.clearSelection(abcelem);
+    }    
+};
+
+
+SITE.Estudio.prototype.updateSelection = function (force) {
+    var that = this;
+    if( force ) {
+        var selection = that.editarea.getSelection();
+        try {
+            that.renderedTune.printer.rangeHighlight(selection);
+        } catch (e) {
+        } // maybe printer isn't defined yet?
+        delete this.updating;
+    } else {
+        if( this.updating ) return;
+        this.updating = true;
+        setTimeout( that.updateSelection(true), 300 );
     }
-  } catch (e) {} // maybe printer isn't defined yet?
 };
 
 SITE.Estudio.prototype.startLoader = function(id, start, stop) {

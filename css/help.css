@@ -68,6 +68,7 @@ body {
   -webkit-margin-start: 0px;
   -webkit-margin-end: 0px;
   font-weight: bold;    
+  margin-bottom: 5px;
 }    
 
 
@@ -81,6 +82,13 @@ body {
 }    
 .helpContent h4 {
   text-indent: 50px;
+}    
+.helpContent h5 {
+  text-align:  center;
+  font-family: "Arial";
+  font-size: 1.2em;
+  font-style: italic;
+  margin:0;
 }    
 
 .helpContent p {

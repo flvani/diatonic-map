@@ -1,7 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<!--
+    <!--
   TODO: 
     ok Acertar label de todos os botões
     ok Verificar tradução
@@ -24,18 +21,15 @@
 
     Implementar pagina de producao
 -->
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html >
     <head>
         <title>Mapa para Acordeons Diatônicos</title>
-        
-        <meta http-equiv="Content-Type" content="text/xhtml+xml; charset=utf-8"/>
-        
+        <meta charset="UTF-8">  
         <meta name="viewport" content="height=device-width, initial-scale=0.5, minimum-scale=0.5, maximum-scale=2.0"/>
 
         <meta name="robots" content="index,follow"/>
         <meta name="revisit-after" content="7 days"/>
         <meta name="description" content="Um mapa de referência para a aprendizagem de acordeons diatônicos" />
-        
 
         <meta name="author" content="Flávio Luiz Vani"/>
 
@@ -89,6 +83,7 @@ notação abc, tablatura " />
                                           <li><a id="DR_tutorial" target="_blank" href="html/tutoriais.pt_BR.html" >Tutoriais</a></li>
                                           <li><a id="DR_accordion_maps" target="_blank" href="html/mapas.pt_BR.html" >Mapas para acordeons</a></li>
                                           <li><a id="DR_tablature" target="_blank" href="html/tablatura.pt_BR.html" >Tablaturas para acordeons</a></li>
+                                          <li><a id="DR_tablatureT" target="_blank" href="html/tablaturaTransportada.pt_BR.html" >Tablaturas para transportada</a></li>
                                           <li><a id="DR_repeatsyms" target="_blank" href="html/sinaisRepeticao.pt_BR.html" >Símbolos de Repetição</a></li>
                                           <li><a id="DR_abc_editor" target="_blank" href="html/estudioABCX.pt_BR.html" >Estúdio ABCX</a></li>
                                           <li><a id="DR_abc_format" target="_blank" href="html/formatoABCX.pt_BR.html" >Formato ABCX</a></li>
@@ -308,9 +303,9 @@ notação abc, tablatura " />
                     <div class="dTitle"><span id="spanTitleStudio" style="padding-left: 5px;">Estúdio ABCX</span><span id="spanStudioAccordeon" style="padding-left: 5px;"></span></div>
                 </div>
                 <div id="studioHeader">
-                    <textarea id="textareaABC" spellcheck="false" rows="10" cols="120"></textarea>
-                    <div id="studioControlDiv" >
-                        <div id="controlDiv1" style="float:left;" >
+                    <div id="studioTextFrame" class="editorFrame" ><div id="studioTextDiv" class="editorText"></div></div>
+                    <div id="studioControlDiv" class="controlDiv" >
+                        <div id="controlDiv1" class="controlDivL2" style="margin-left: 0px;" >
                             <button id="showTextBtn" class="btn" title="Exibir/Ocultar Texto ABCX" onclick="" ><i id="I_showText" class="icon-folder-open"></i>&#160;<span id="DR_showText">ABCX</span></button>
                             <button id="showEditorBtn" class="btn" title="Exibir/Ocultar Editor ABCX" onclick="" ><i id="I_showEditor" class="icon-folder-close"></i>&#160;<span id="DR_showEditor">Editor</span></button>
                             <button id="showMapBtn" class="btn" title="Exibir/Ocultar Teclado" onclick=""><i id="I_showMap" class="icon-folder-close"></i>&#160;<span id="DR_showMap">Teclado</span></button>
@@ -324,7 +319,7 @@ notação abc, tablatura " />
                             <input  style="display: none;" type="checkbox" id="chkAutoRefresh" /><span style="display: none;" id="DR_refresh">Auto atualização</span> 
                             <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
                         </div>
-                        <div id="divDidacticPlayControls" style="float:left; margin-left: 4px; display: none;">
+                        <div id="divDidacticPlayControls" class="controlDivL2" style="display: none;">
                             <input id="gotoMeasureBtn" type="text" title="Ir para o compasso" value="Ir para..."/>
                             <b>..</b>
                             <input id="untilMeasureBtn" type="text" title="Executar até o compasso" value="até..."/>
@@ -334,7 +329,7 @@ notação abc, tablatura " />
                             <button id="clearBtn" class="btn" title="Limpar" onclick="">&#160;<i class="icon-stop"></i>&#160;</button>
                             <button id="tempoBtn" class="btn" title="Andamento" onclick=""><b>&#160;1&#160;</b></button>
                         </div>
-                        <div id="divNormalPlayControls" style="float:left; margin-left: 4px;">
+                        <div id="divNormalPlayControls" class="controlDivL2">
                             <button id="playBtn2" class="btn" title="Executar" onclick="">&#160;<i class="icon-play"></i>&#160;</button>
                             <button id="stopBtn2" class="btn" title="Parar" onclick="">&#160;<i class="icon-stop"></i>&#160;</button>
                         </div>
@@ -366,6 +361,8 @@ notação abc, tablatura " />
         
         <!-- suporte a arquivos -->
         <script type="text/javascript" src="file/filemanager.js"></script>
+        
+        <script type="text/javascript" src="ace4abcx/ace4abcx.js"></script>
         
         <!-- suporte a arquivos ABC -->
         <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs.js" ></script>
@@ -509,7 +506,7 @@ notação abc, tablatura " />
                        
                     },   
                     {   // editorParams
-                       textArea: "textareaABC"
+                       editor_id: "studioTextDiv"
                       ,canvas_id: "canvasDiv"
                       ,refreshController_id: "chkAutoRefresh"
                       ,warnings_id: "warningsDiv"
@@ -670,7 +667,7 @@ notação abc, tablatura " />
                 
                 $("#clustrmaps-widget").find("a").attr('target','_blank');
 
-                if(!(ABCXJS.misc.isChrome()||ABCXJS.misc.isChromium())) {
+                if(!(ABCXJS.misc.isChrome()||ABCXJS.misc.isChromium()||ABCXJS.misc.isFirefox())) {
                     $('#useChromeDiv').html('<img src="img/chrome.png">');
                     setTimeout(function() { $('#useChromeDiv').fadeIn('slow'); }, 2000);
                     setTimeout(function() { $('#useChromeDiv').fadeOut('slow'); }, 17000);

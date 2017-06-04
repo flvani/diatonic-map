@@ -218,7 +218,7 @@ SITE.Mapa.prototype.resize = function( ) {
     var o = document.getElementById( 'mapContainerDiv');
     var i = document.getElementById( 'tuneContainerDiv');
 
-    i.style.height = (o.clientHeight - h.clientHeight  - 50 - 16) + "px"; // 16 é o padding
+    i.style.height = (o.clientHeight - h.clientHeight  - 50 - 16 ) + "px"; // 16 é o padding
     
    // posiciona a janela de midia
    this.posicionaMidia();
@@ -260,7 +260,7 @@ SITE.Mapa.prototype.loadOriginalRepertoire2 = function (tabParams, loader) {
 };
 SITE.Mapa.prototype.showStudio = function () {
     var self = this;
-    var loader = this.startLoader( "Studio" );
+    var loader = this.startLoader( "XStudio" );
     loader.start(  function() { self.showStudio2(loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
 
 };
@@ -339,7 +339,7 @@ SITE.Mapa.prototype.restoreStudio = function () {
 
 SITE.Mapa.prototype.closeStudio = function () {
     var self = this;
-    var loader = this.startLoader( "Studio" );
+    var loader = this.startLoader( "XStudio" );
     loader.start(  function() { self.closeStudio2(loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
 };
     
@@ -674,7 +674,7 @@ SITE.Mapa.prototype.printTab = function( ) {
     var accordion = this.getSelectedAccordion();
     this.accordion.printKeyboard(this.keyboardDiv);
     
-    var t = this.studio.editArea.getString();
+    var t = this.studio.getString();
     if( t === this.currentABC.text ) 
         return;
     
@@ -827,6 +827,11 @@ SITE.Mapa.prototype.highlight = function(abcelem) {
         this.midiParser.setSelection(abcelem);
     }    
 };
+
+//// neste caso não precisa fazer nada pq o texto abcx está escondido
+//SITE.Mapa.prototype.unhighlight = function(abcelem) {
+//};
+
 
 SITE.Mapa.prototype.mediaCallback = function( e ) {
     switch(e) {
