@@ -408,6 +408,27 @@ notação abc, tablatura " />
             window.addEventListener('load', loadAccordions, false);
             
             function loadAccordions() {
+                //rotina para corrigir bug até a nova versão estar disponível
+                DIATONIC.map.Button.prototype.getLabel = function(nota, showLabel) {
+                    var l = nota.key;
+                    window.ABCXJS.parse.key2br = 
+                        {"C":"Dó", "C♯":"Dó♯", "D♭":"Ré♭", "D":"Ré", "D♯":"Ré♯", "E♭":"Mi♭", "E":"Mi", 
+                         "F":"Fá" ,"F♯":"Fá♯" ,"G♭":"Sol♭", "G":"Sol", "G♯":"Sol♯" ,"A♭":"Lá♭", "A":"Lá", "A♯":"Lá♯", "B♭":"Si♭", "B":"Si" };
+
+                    if (showLabel) {
+                        l = l.toUpperCase() + '';
+                        l = ABCXJS.parse.key2br[l].toUpperCase();
+                    }
+
+                    if ( nota.isChord ) {
+                       l = l.toLowerCase() + '';
+                    }    
+
+                    if( nota.isMinor ) {
+                        l+='-';
+                    }
+                    return l;
+                };
 
                 //MIDI.widget = new sketch.ui.Timer({size:180, cor1:'#ffffff', cor2:'#ffff88' });
                 MIDI.widget = new sketch.ui.Timer({size:180 });
