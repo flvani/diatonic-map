@@ -11,6 +11,23 @@ body {
 
 }
 
+.tabCifra {
+    border-collapse: collapse;
+    border: 1px solid black;
+    width: 70%;
+    margin: auto;
+}
+
+.tabCifra th, .tabCifra td {
+    border: 1px solid black;
+    width:80px;
+    text-align: center;
+}
+
+.tabCifra th {
+    font-weight: bold;
+}
+
 .btn {
   border: 1px outset buttonface;
   color: buttontext;
