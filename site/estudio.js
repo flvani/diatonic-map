@@ -24,7 +24,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     
     this.studioCanvasDiv = document.getElementById( 'studioCanvasDiv');
     
-    this.setupEditor();
+    //this.setupEditor();
     
     this.renderedTune = {text: undefined, abc: undefined, title: undefined, div: undefined, selector: undefined};
     
@@ -88,6 +88,10 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.repeatButton = document.getElementById(playerParams.repeatBtn);
     this.clearButton = document.getElementById(playerParams.clearBtn);
     this.tempoButton = document.getElementById(playerParams.tempoBtn);
+    
+    
+    console.log('saindo porque o estúdio ainda não tem todas as variáveis necessárias.');
+    return;
     
     this.forceRefreshButton.addEventListener("click", function (evt) {
         evt.preventDefault();

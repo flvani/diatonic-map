@@ -105,6 +105,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         that.accordion.changeNotation();
     }, false );
     
+    /*
     this.checkboxHorizontal.addEventListener('click', function(evt) {
         evt.preventDefault();
         that.accordion.layoutKeyboard( {transpose: this.checked }, that.keyboardDiv );
@@ -114,6 +115,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         evt.preventDefault();
         that.accordion.layoutKeyboard( {mirror: this.checked }, that.keyboardDiv );
     }, false );
+    */
    
     this.playerCallBackOnScroll = function( player ) {
         that.setScrolling( player );
@@ -163,14 +165,15 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
 
     this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options );
     this.keyboardDiv = interfaceParams.keyboardDiv;
-    this.loadAccordionList();
+    
+    //this.loadAccordionList();
+    
     this.showAccordionName();
     this.showAccordionImage();
     this.loadOriginalRepertoire();
+    this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white'});
     
     DR.addAgent( this ); // register for translate
-    
-    this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white'});
 
     // posiciona a janela de mídia, se disponível
     var m = document.getElementById("mediaDiv");
@@ -207,11 +210,15 @@ SITE.Mapa.prototype.setup = function (tabParams) {
     this.loadOriginalRepertoire(tabParams);
     
     this.accordion.printKeyboard(this.keyboardDiv);
+    
     this.resize();
 
 };
 
 SITE.Mapa.prototype.resize = function( ) {
+   
+   console.log( 'mapa resize ainda naõ implementado');
+   return;
 
    // redimensiona a tela partitura
     var h = document.getElementById( 'div_principal');
@@ -226,6 +233,9 @@ SITE.Mapa.prototype.resize = function( ) {
 };
 
 SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
+    console.log( 'loadOriginalRepertoire ainda não implementado!' );
+    return;
+
     var self = this;
     var loader = this.startLoader( "LoadRepertoire" );
     loader.start(  function() { self.loadOriginalRepertoire2(tabParams,loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
@@ -233,7 +243,7 @@ SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
     
 SITE.Mapa.prototype.loadOriginalRepertoire2 = function (tabParams, loader) {
     tabParams = tabParams || {};
-
+    
     this.renderedPractice.title = tabParams.practiceTitle
         || FILEMANAGER.loadLocal('property.' + this.getSelectedAccordion().getId() + '.practice.title')
         || this.getSelectedAccordion().getFirstPractice();

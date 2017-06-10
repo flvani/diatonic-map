@@ -12,13 +12,6 @@ if (!window.DIATONIC.map)
 
 DIATONIC.map.accordionMaps = [];
 
-DIATONIC.map.key2number = 
-    {"C":0, "C♯":1, "D♭":1, "D":2, "D♯":3, "E♭":3, "E":4, 
-     "F":5 ,"F♯":6 ,"G♭":6, "G":7, "G♯":8 ,"A♭":8, "A":9, "A♯":10, "B♭":10, "B":11 };
-
-DIATONIC.map.number2key    = ["C", "C♯", "D", "E♭", "E", "F", "F♯", "G", "G♯", "A", "B♭", "B"];
-DIATONIC.map.number2key_br = ["Dó", "Dó♯", "Ré", "Mi♭", "Mi", "Fá", "Fá♯", "Sol", "Sol♯", "Lá", "Si♭", "Si"];
-
 DIATONIC.map.loadAccordionMaps = function ( files, cb )  {
     var toLoad = 0;
     for( var f = 0; f <  files.length; f ++ ) {
@@ -301,7 +294,7 @@ DIATONIC.map.Keyboard.prototype.setup = function (keyMap) {
     this.legenda = new DIATONIC.map.Button( this.limits.maxX-(raio+this.radius), this.limits.minY+raio, { radius: raio, borderWidth: 2 } );
 };
 
-DIATONIC.map.Keyboard.prototype.print = function (div, options ) {
+DIATONIC.map.Keyboard.prototype.print = function ( div, options ) {
     
     var sz;
     options = options || {};
@@ -316,7 +309,11 @@ DIATONIC.map.Keyboard.prototype.print = function (div, options ) {
     options.label = options.label|| false;
     
     var estilo = 
-'   .blegenda,\n\
+'   .keyboardPane {\n\
+        padding:4px;\n\
+        background-color:none;\n\
+    }\n\
+    .blegenda,\n\
     .button {\n\
         font-family: serif;\n\
         text-anchor: middle;\n\
@@ -328,10 +325,12 @@ DIATONIC.map.Keyboard.prototype.print = function (div, options ) {
         font-size: 13px;\n\
     }';
 
-    this.paper = new SVG.Printer( div ); 
+    var keyboardPane = document.createElement("div");
+    keyboardPane.setAttribute( "class", 'keyboardPane' );
+    div.append(keyboardPane);
     
+    this.paper = new SVG.Printer( keyboardPane ); 
     this.paper.initDoc( 'keyb', 'Diatonic Map Keyboard', estilo, options );
-    
     this.paper.initPage( options.scale );
     
     var legenda_opt = ABCXJS.parse.clone( options );
@@ -390,7 +389,7 @@ DIATONIC.map.Keyboard.prototype.getButtons = function (note) {
 
 DIATONIC.map.Keyboard.prototype.getNoteVal = function ( note ) {
     //noteVal will be a numeric product of the key + octave (to avoid #/b problem)
-    return DIATONIC.map.key2number[note.key.toUpperCase()] + (note.isBass?(note.isChord?-12:0):note.octave*12);
+    return ABCXJS.parse.key2number[note.key.toUpperCase()] + (note.isBass?(note.isChord?-12:0):note.octave*12);
 };
 
 DIATONIC.map.Keyboard.prototype.getLayout = function (r) {
@@ -410,11 +409,21 @@ DIATONIC.map.Keyboard.prototype.parseNote = function(txtNota, isBass) {
   nota.key        = parseInt(k) ? s[0].replace( k, '' ) : s[0];
   nota.octave     = parseInt(k) ? parseInt(k) : 4;
   nota.complement = s[1] ? s[1] : "";
-  nota.value      = DIATONIC.map.key2number[ nota.key.toUpperCase() ];
+  nota.value      = ABCXJS.parse.key2number[ nota.key.toUpperCase() ];
   nota.isChord    = ( nota.key === nota.key.toLowerCase() );
   nota.isBass     = isBass;
   nota.isMinor    = nota.complement.substr(0,2).indexOf( 'm' ) >= 0;
   nota.isSetima   = nota.complement.substr(0,2).indexOf( '7' ) >= 0;
+  
+//  if( nota.key.indexOf( '♯' ) >= 0 || nota.key.indexOf( '♭' ) >= 0 ) {
+//      if(nota.key.indexOf( '♯' ) >= 0) {
+//            window.ABCXJS.parse.number2key[nota.value] = window.ABCXJS.parse.number2keysharp[nota.value];
+//            window.ABCXJS.parse.number2key_br[nota.value] = window.ABCXJS.parse.number2keysharp_br[nota.value];
+//      } else {
+//            window.ABCXJS.parse.number2key[nota.value] = window.ABCXJS.parse.number2keyflat[nota.value];
+//            window.ABCXJS.parse.number2key_br[nota.value] = window.ABCXJS.parse.number2keyflat_br[nota.value];
+//      }
+//  }
   
   if (typeof (nota.value) === "undefined" ) {
       // para debug veja this.abctune.lines[this.line].staffs[this.staff].voices[this.voice][this.pos]
@@ -554,15 +563,11 @@ DIATONIC.map.Button.prototype.setText = function( showLabel, open, close ) {
 };
 
 DIATONIC.map.Button.prototype.getLabel = function(nota, showLabel) {
-    var l = '';
-    if (showLabel) {
-        l= DIATONIC.map.number2key_br[nota.value];
-    } else {
-        l = DIATONIC.map.number2key[nota.value];
-    }
+    var l = nota.key;
     
-    if( showLabel )  {
+    if (showLabel) {
         l = l.toUpperCase() + '';
+        l = ABCXJS.parse.key2br[l].toUpperCase();
     }
     
     if ( nota.isChord ) {

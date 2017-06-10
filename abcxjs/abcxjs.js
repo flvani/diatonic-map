@@ -1314,13 +1314,23 @@ window.ABCXJS.parse.pitches =
     { C: 0, D: 1, E: 2, F: 3, G: 4, A: 5, B: 6, 
         c: 7, d: 8, e: 9, f: 10, g: 11, a: 12, b: 13 };
 
-window.ABCXJS.parse.number2keyflat  = ["C", "D♭", "D", "E♭", "E", "F", "G♭", "G", "A♭", "A", "B♭", "B"];
-window.ABCXJS.parse.number2keysharp = ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"];
-window.ABCXJS.parse.number2key_br   = ["Dó", "Ré♭", "Ré", "Mi♭", "Mi", "Fá", "Fá♯", "Sol", "Lá♭", "Lá", "Si♭", "Si"];
+window.ABCXJS.parse.key2br = 
+    {"C":"Dó", "C♯":"Dó♯", "D♭":"Ré♭", "D":"Ré", "D♯":"Ré♯", "E♭":"Mi♭", "E":"Mi", 
+     "F":"Fá" ,"F♯":"Fá♯" ,"G♭":"Sol♭", "G":"Sol", "G♯":"Sol♯" ,"A♭":"Lá♭", "A":"Lá", "A♯":"Lá♯", "B♭":"Si♭", "B":"Si" };
 
 window.ABCXJS.parse.key2number = 
     {"C":0, "C♯":1, "D♭":1, "D":2, "D♯":3, "E♭":3, "E":4, 
      "F":5 ,"F♯":6 ,"G♭":6, "G":7, "G♯":8 ,"A♭":8, "A":9, "A♯":10, "B♭":10, "B":11 };
+
+window.ABCXJS.parse.number2keyflat  = ["C", "D♭", "D", "E♭", "E", "F", "G♭", "G", "A♭", "A", "B♭", "B"];
+window.ABCXJS.parse.number2keysharp = ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"];
+window.ABCXJS.parse.number2key      = ["C", "C♯", "D", "E♭", "E", "F", "F♯", "G", "G♯", "A", "B♭", "B"];
+
+/*
+window.ABCXJS.parse.number2keyflat_br  = ["Dó", "Ré♭", "Ré", "Mi♭", "Mi", "Fá", "Sol♭", "Sol", "Lá♭",  "Lá", "Si♭", "Si"];
+window.ABCXJS.parse.number2keysharp_br = ["Dó", "Dó♯", "Ré", "Ré♯", "Mi", "Fá", "Fá♯",  "Sol", "Sol♯", "Lá", "Lá♯", "Si"];
+window.ABCXJS.parse.number2key_br      = ["Dó", "Dó♯", "Ré", "Mi♭", "Mi", "Fá", "Fá♯",  "Sol", "Sol♯", "Lá", "Si♭", "Si"];
+*/
 
 window.ABCXJS.parse.number2staff   = 
     [    
@@ -1370,7 +1380,11 @@ window.ABCXJS.parse.stringify = function(objeto) {
     });
     return ret;
 };
-//    abc_parse.js: parses a string representing ABC Music Notation into a usable internal structure.
+
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
+};//    abc_parse.js: parses a string representing ABC Music Notation into a usable internal structure.
 //    Copyright (C) 2010 Paul Rosen (paul at paulrosen dot net)
 //
 //    This program is free software: you can redistribute it and/or modify
@@ -6029,12 +6043,6 @@ if (!window.ABCXJS.parse)
 window.ABCXJS.parse.Transposer = function ( offSet ) {
     
     this.pitches           = ABCXJS.parse.pitches;
-    this.key2number        = ABCXJS.parse.key2number;
-    this.number2keyflat    = ABCXJS.parse.number2keyflat;
-    this.number2keysharp   = ABCXJS.parse.number2keysharp;
-    this.number2key_br     = ABCXJS.parse.number2key_br;
-    this.number2staff      = ABCXJS.parse.number2staff;
-    this.number2staffSharp = ABCXJS.parse.number2staffSharp;
     
     this.tokenizer         = new ABCXJS.parse.tokenizer();
     
@@ -6058,9 +6066,9 @@ window.ABCXJS.parse.Transposer.prototype.reset = function( offSet ) {
 window.ABCXJS.parse.Transposer.prototype.numberToStaff = function(number, newKacc) {
     var s ;
     if(newKacc.length > 0 && newKacc[0].acc === 'flat')
-        s = this.number2staff[number];
+        s = ABCXJS.parse.number2staff[number];
     else
-        s = this.number2staffSharp[number];
+        s = ABCXJS.parse.number2staffSharp[number];
     
     // octave can be altered below
     s.octVar = 0;
@@ -6467,14 +6475,14 @@ window.ABCXJS.parse.Transposer.prototype.extractStaffOctave = function(pitch) {
 };
 
 window.ABCXJS.parse.Transposer.prototype.numberToKey = function(number) {
-    number %= this.number2keyflat.length;
-    if( number < 0 ) number += this.number2keyflat.length;
-    return this.number2keyflat[number];
+    number %= ABCXJS.parse.number2keyflat.length;
+    if( number < 0 ) number += ABCXJS.parse.number2keyflat.length;
+    return ABCXJS.parse.number2keyflat[number];
 };
 
 window.ABCXJS.parse.Transposer.prototype.keyToNumber = function(key) {
     key = this.normalizeAcc(key);
-    return this.key2number[key];
+    return ABCXJS.parse.key2number[key];
 };
 
 window.ABCXJS.parse.Transposer.prototype.getAccOffset = function(txtAcc)
@@ -10187,7 +10195,7 @@ ABCXJS.edit.EditArea = function (editor_id, listener) {
     
     this.aceEditor = ace.edit(this.container.dataDiv);
     this.aceEditor.setOptions( {highlightActiveLine: true, selectionStyle: "text", cursorStyle: "smooth"/*, maxLines: Infinity*/ } );
-    this.aceEditor.setOptions( {fontFamily: "monospace",  fontSize: "11pt" });
+    this.aceEditor.setOptions( {fontFamily: "monospace",  fontSize: "11pt", fontWeight: "normal" });
     this.aceEditor.renderer.setOptions( {highlightGutterLine: true, showPrintMargin: false, showFoldWidgets: false } );
     this.aceEditor.$blockScrolling = Infinity;
     this.Range = require("ace/range").Range;
@@ -10349,15 +10357,13 @@ if (!window.ABCXJS.midi)
 window.ABCXJS.midi.keyToNote = {}; // C8  == 108
 window.ABCXJS.midi.minNote = 0x15; //  A0 = first note
 window.ABCXJS.midi.maxNote = 0x6C; //  C8 = last note
-window.ABCXJS.midi.number2keyflat  = ["C", "D♭", "D", "E♭", "E", "F", "G♭", "G", "A♭", "A", "B♭", "B"];
-window.ABCXJS.midi.number2keysharp = ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"];
 
 // popular array keyToNote com o valor midi de cada nota nomeada
 for (var n = window.ABCXJS.midi.minNote; n <= window.ABCXJS.midi.maxNote; n++) {
     var octave = (n - 12) / 12 >> 0;
-    var name = ABCXJS.midi.number2keysharp[n % 12] + octave;
+    var name = ABCXJS.parse.number2keysharp[n % 12] + octave;
     ABCXJS.midi.keyToNote[name] = n;
-    name = ABCXJS.midi.number2keyflat[n % 12] + octave;
+    name = ABCXJS.parse.number2keyflat[n % 12] + octave;
     ABCXJS.midi.keyToNote[name] = n;
 }
 /* 
@@ -10579,7 +10585,7 @@ ABCXJS.midi.Parse.prototype.handleButtons = function(pitches, buttons ) {
                 }
             }
             
-            midipitch = 12 + 12 * note.octave + DIATONIC.map.key2number[ note.key ];
+            midipitch = 12 + 12 * note.octave + ABCXJS.parse.key2number[ note.key ];
         }
         
         // TODO:  no caso dos baixos, quando houver o baixo e o acorde simultaneamente
@@ -10590,7 +10596,7 @@ ABCXJS.midi.Parse.prototype.handleButtons = function(pitches, buttons ) {
             if(note.isBass && pitches[r].midipitch.clef === 'bass') {
                 pitch = pitches[r].midipitch.midipitch % 12;
                 hasBass=true;
-                if( pitch === DIATONIC.map.key2number[ key ] && ! pitches[r].button ){
+                if( pitch === ABCXJS.parse.key2number[ key ] && ! pitches[r].button ){
                     pitches[r].button = item.button;
                     item.button = null;
                     return;
@@ -11635,6 +11641,468 @@ ABCXJS.midi.Player.prototype.getTime = function() {
     var cTime  = pad(mins,2) + ':' + pad(secs,2) + '.' + pad(ms,2);
     return {cTime: cTime, time: time };
 };
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+if (!window.DRAGGABLE)
+    window.DRAGGABLE= { id: 0 };
+
+DRAGGABLE.Div = function( parent, aButtons, options, callback, aToolBarButtons ) {
+    
+    this.id = ++ DRAGGABLE.id ;
+    
+    var self = this;
+    var opts = options || {};
+
+    this.title = opts.title || '';
+    this.top = opts.top || 100;
+    this.left = opts.left || 100;
+    this.width = opts.width || '';
+    this.height = opts.height || '';
+    this.minTop = opts.minTop ||  1;
+    this.minWidth = opts.minWidth ||  160;
+    this.minHeight = opts.minHeight ||  48;
+    this.hasStatusBar = opts.statusBar || false;
+    this.translate = opts.translate || false;
+
+    var div = document.createElement("DIV");
+    div.setAttribute("id", "draggableWindow" +  this.id ); 
+    div.setAttribute("class", "draggableWindow" ); 
+    this.topDiv = div;
+    
+    if( opts.zIndex ) {
+        this.topDiv.style.zIndex = opts.zIndex;
+    }
+    
+    if(!parent) {
+        document.body.appendChild(this.topDiv);
+    }else{
+        document.getElementById(parent).appendChild(this.topDiv);
+    }
+    
+    if(callback) {
+        this.defineCallback(callback);
+    }
+    
+    if( this.translate && DR ) {
+        this.translate = function() {
+        };
+        DR.addAgent(this);
+    }
+    
+    if(this.topDiv.style.top === "" ) this.topDiv.style.top = this.top+"px";
+    if(this.topDiv.style.left === "" ) this.topDiv.style.left = this.left+"px";
+    if(this.topDiv.style.height === "" ) this.topDiv.style.height = this.height+"px";
+    if(this.topDiv.style.width === "" ) this.topDiv.style.width = this.width+"px";
+    
+    var div = document.createElement("DIV");
+    div.setAttribute("id", "dMenu" +  this.id ); 
+    div.setAttribute("class", "draggableMenu gradiente" ); 
+    this.topDiv.appendChild( div );
+    this.menuDiv = div;
+
+    if( aToolBarButtons ) {
+        var div = document.createElement("DIV");
+        div.setAttribute("id", "dToolBar" +  this.id ); 
+        div.setAttribute("class", "draggableToolBar" ); 
+        this.topDiv.appendChild( div );
+        this.toolBar = div;
+    }
+    
+    div = document.createElement("DIV");
+    div.setAttribute("id", "draggableData" + this.id ); 
+    div.setAttribute("class", "draggableData" ); 
+    this.topDiv.appendChild( div );
+    this.dataDiv = div;
+    
+    this.stopMouse = function (e) {
+        e.stopPropagation();
+        //e.preventDefault();
+    };
+    
+    if( this.hasStatusBar ) {
+        
+        this.dataDiv.setAttribute("class", "draggableData withStatusBar" ); ;
+        div = document.createElement("DIV");
+        div.setAttribute("id", "draggableStatus" + this.id ); 
+        div.setAttribute("class", "draggableStatus" ); 
+        this.topDiv.appendChild( div );
+        this.bottomDiv = div;
+
+        div = document.createElement("DIV");
+        div.setAttribute("id", "draggableStatusResize" + this.id ); 
+        div.setAttribute("class", "draggableStatusResize" ); 
+        this.topDiv.appendChild( div );
+        this.resizeCorner = div;
+        this.resizeCorner.innerHTML = '<img src="images/statusbar_resize.gif">';
+        
+        this.divResize = function (e) {
+            e.stopPropagation();
+            var touches = e.changedTouches;
+            var p = {x: e.clientX, y: e.clientY};
+
+            if (touches) {
+                var l = touches.length - 1;
+                p.x = touches[l].clientX;
+                p.y = touches[l].clientY;
+            }
+            e.preventDefault();
+            var w = (self.topDiv.clientWidth + p.x - self.x);
+            var h = (self.topDiv.clientHeight + p.y - self.y);
+            self.topDiv.style.width = ( w < self.minWidth ? self.minWidth : w ) + 'px';
+            self.topDiv.style.height = ( h < self.minHeight ? self.minHeight : h ) + 'px';
+
+            self.x = p.x;
+            self.y = p.y;
+            self.eventsCentral('RESIZE');
+        };
+
+        this.mouseEndResize = function (e) {
+            window.removeEventListener('touchmove', self.divResize, false);
+            window.removeEventListener('touchleave', self.divResize, false);
+            window.removeEventListener('mousemove', self.divResize, false);
+            window.removeEventListener('mouseout', self.divResize, false);
+            self.dataDiv.style.pointerEvents = "auto";
+            self.eventsCentral('RESIZE');
+        };
+
+        this.mouseResize = function (e) {
+            e.preventDefault();
+            self.dataDiv.style.pointerEvents = "none";
+            window.addEventListener('mouseup', self.mouseEndResize, false);
+            window.addEventListener('touchend', self.mouseEndResize, false);
+            window.addEventListener('touchmove', self.divResize, false);
+            window.addEventListener('touchleave', self.divResize, false);
+            window.addEventListener('mousemove', self.divResize, false);
+            window.addEventListener('mouseout', self.divResize, false);
+            self.x = e.clientX;
+            self.y = e.clientY;
+        };
+
+        this.resizeCorner.addEventListener( 'mouseover', this.resizeCorner.style.cursor='nwse-resize', false);
+        this.resizeCorner.addEventListener( 'mousedown', this.mouseResize, false);
+        this.resizeCorner.addEventListener('touchstart', this.mouseResize, false);
+    }
+    
+    this.divMove = function (e) {
+        e.stopPropagation();
+        var touches = e.changedTouches;
+        var p = {x: e.clientX, y: e.clientY};
+
+        if (touches) {
+            var l = touches.length - 1;
+            p.x = touches[l].clientX;
+            p.y = touches[l].clientY;
+        }
+        e.preventDefault();
+        var y = ((p.y - self.y) + parseInt(self.topDiv.style.top));
+        self.topDiv.style.top = (self.minTop && y < self.minTop ? self.minTop: y) + "px"; //hardcoded top of window
+        self.topDiv.style.left = ((p.x - self.x) + parseInt(self.topDiv.style.left)) + "px";
+        self.x = p.x;
+        self.y = p.y;
+    };
+
+    this.mouseEndMove = function (e) {
+        window.removeEventListener('touchmove', self.divMove, false);
+        window.removeEventListener('touchleave', self.divMove, false);
+        window.removeEventListener('mousemove', self.divMove, false);
+        window.removeEventListener('mouseout', self.divMove, false);
+        self.dataDiv.style.pointerEvents = "auto";
+        self.eventsCentral('MOVE');
+    };
+    
+    this.mouseMove = function (e) {
+        e.preventDefault();
+        self.dataDiv.style.pointerEvents = "none";
+        window.addEventListener('mouseup', self.mouseEndMove, false);
+        window.addEventListener('touchend', self.mouseEndMove, false);
+        window.addEventListener('touchmove', self.divMove, false);
+        window.addEventListener('touchleave', self.divMove, false);
+        window.addEventListener('mousemove', self.divMove, false);
+        window.addEventListener('mouseout', self.divMove, false);
+        self.x = e.clientX;
+        self.y = e.clientY;
+    };
+
+    this.close = function(e) {
+        self.topDiv.style.display='none';
+    };
+    
+    this.addButtons( this.id, aButtons );
+    this.addToolButtons( this.id, aToolBarButtons );
+    this.addTitle( this.id, this.title );
+    
+    this.titleSpan = document.getElementById("dSpanTitle"+this.id);
+    
+    this.closeButton = document.getElementById("dCLOSEButton"+this.id);
+    this.closeButton.addEventListener( 'mousedown', function (e) { e.stopPropagation(); }, false);
+    this.closeButton.addEventListener( 'touchstart', function (e) { e.stopPropagation(); }, false);
+    
+};
+
+DRAGGABLE.Div.prototype.defineCallback = function( cb ) {
+    this.callback = cb;
+};
+
+DRAGGABLE.Div.prototype.eventsCentral = function (ev) {
+    if (this.callback) {
+        this.callback.listener[this.callback.method](ev);
+    } else {
+        if (ev === 'CLOSE') {
+            this.close();
+        }
+    }
+};
+
+DRAGGABLE.Div.prototype.isResizable = function(  ) {
+    return this.hasStatusBar;
+};
+
+DRAGGABLE.Div.prototype.setTitle = function( title ) {
+    this.titleSpan.innerHTML = title;
+};
+
+DRAGGABLE.Div.prototype.addTitle = function( id, title  ) {
+    var self = this;
+    
+    var div = document.createElement("DIV");
+    div.setAttribute("class", "dTitle" ); 
+    
+    if( title ) {
+        if( this.translate ) {
+            DR.forcedResource("dSpanTranslatableTitle"+id, title); 
+        }
+    }
+    
+    div.innerHTML = '<span id="dSpanTranslatableTitle'+id+'" style="padding-left: 5px;">'+title+'</span><span id="dSpanTitle'+id+'" style="padding-left: 5px;"></span>';
+    
+    self.menuDiv.appendChild(div);
+    
+    self.menuDiv.addEventListener( 'mousedown', self.mouseMove, false);
+    self.menuDiv.addEventListener('touchstart', self.mouseMove, false);
+    
+};
+
+DRAGGABLE.Div.prototype.addButtons = function( id,  aButtons ) {
+    var defaultButtons = ['close|Fechar'];
+    var self = this;
+    
+    var buttonMap = { CLOSE: 'close', MOVE: 'move', ROTATE: 'rotate', GLOBE: 'globe', ZOOM:'zoom-in', DOCK: 'dock' };
+    
+    if(aButtons)
+        defaultButtons = defaultButtons.concat(aButtons);
+    
+    defaultButtons.forEach( function (label) {
+        label = label.split('|');
+        var action = label[0].toUpperCase();
+        var rotulo = label.length > 1 ? label[1] : "";
+        var icon = 'wico-' + (buttonMap[action] ? buttonMap[action] : action.toLowerCase());
+        
+        if( self.translate ) {
+            DR.forcedResource('d'+ action +'ButtonA', rotulo, id, 'd'+ action +'ButtonA'+id); 
+        }
+        
+        var div = document.createElement("DIV");
+        div.setAttribute("id", 'd'+ action +'Button'+id ); 
+        div.setAttribute("class", "dButton" ); 
+        div.innerHTML = '<a href="" title="'+ rotulo +'"><i class="'+ icon +' ico-white"></i></a>';
+        self.menuDiv.appendChild(div);
+        div.addEventListener( 'click', function(e) {
+            e.preventDefault(); 
+            self.eventsCentral(action);
+        }, false);
+        
+    });
+};
+
+DRAGGABLE.Div.prototype.addToolButtons = function( id,  aButtons ) {
+    if(!aButtons) return;
+    var self = this;
+    
+    var buttonMap = { GUTTER:'list-numbered', FONTSIZE: 'fontsize', DOWN:'down-2', ARROWDN:'long-arrow-down', ARROWUP:'long-arrow-up', SEARCH:'search', UNDO:'undo', REDO:'redo', LIGHT:'lightbulb-2' };
+    
+    aButtons.forEach( function (label) {
+        label = label.split('|');
+        var action = label[0].toUpperCase();
+        var rotulo = label.length > 1 ? label[1] : "";
+        var icon = 'ico-' + (buttonMap[action] ? buttonMap[action] : action.toLowerCase());
+        
+        if( self.translate ) {
+            DR.forcedResource('d'+ action +'ButtonA', rotulo, id, 'd'+ action +'ButtonA'+id); 
+        }
+        
+        var div = document.createElement("DIV");
+        div.setAttribute("id", 'd'+ action +'Button'+id ); 
+        div.setAttribute("class", "dButton" ); 
+        div.innerHTML = '<a href="" title="'+ rotulo +'"><i class="'+ icon +' ico-black ico-large"></i></a>';
+        self.toolBar.appendChild(div);
+        div.addEventListener( 'click', function(e) {
+            e.preventDefault(); 
+            self.eventsCentral(action);
+        }, false);
+        
+    });
+};
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+if (!window.ABCXJS)
+	window.ABCXJS = {};
+
+if (!ABCXJS.edit)
+	ABCXJS.edit = {};
+
+ABCXJS.edit.element = {id:0};
+
+ABCXJS.edit.DropdownMenu = function (topDiv, options, menu) {
+    var self = this;
+    var opts = options || {};
+    this.headers = {};
+    
+    this.id = ++ ABCXJS.edit.element.id;
+    this.container = document.getElementById(topDiv);
+    this.title = opts.title || '';
+    this.listener = opts.listener || null;
+    this.method = opts.method || null;
+    
+    if (!this.container) {
+        console.log('Elemento ' + topDiv + ' não existe!');
+        return;
+    }
+    
+//    var c = this.container.getAttribute("class");
+//    this.container.setAttribute("class", (c?c+" ":"") + "dropdown-container" );
+    
+    if( this.title ) {
+        var e = document.createElement("h1");
+        e.setAttribute( "id", "mTitle" + this.id ); 
+        e.setAttribute( "class", 'dropdown-title-font' );
+        e.innerHTML = this.title;
+        this.container.appendChild(e);
+        this.title = e;
+    }
+    
+    for ( var m = 0; m < menu.length; m++ ) {
+        var e1 = document.createElement("div");
+        e1.setAttribute( "class", 'dropdown' );
+        this.container.appendChild(e1);
+        
+        var e2 = document.createElement("input");
+        e2.setAttribute( "id", 'ch'+ this.id  +m );
+        e2.setAttribute( "type", "checkbox" );
+        e1.appendChild(e2);
+        this.headers['ch'+ this.id  +m] = e2;
+        
+        e2 = document.createElement("button");
+        e2.setAttribute( "data-state", 'ch'+ this.id +m );
+        e2.innerHTML = (menu[m].title.replaceAll( ' ', '&nbsp;' ) || '' ) +'&nbsp;&nbsp;'+'<i class="ico-down-2" data-toggle="toggle"></i>';
+        e2.addEventListener( 'click', function(e) {
+           e.stopPropagation(); 
+           e.preventDefault(); 
+           self.eventsCentral(this.getAttribute("data-state"));
+        }, false);
+//        e2.addEventListener( 'mouseout', function(e) {
+//           e.stopPropagation(); 
+//           e.preventDefault(); 
+//           self.closeMenu(this.getAttribute("data-state"));
+//        }, false);
+        e1.appendChild(e2);
+        
+        e2 = document.createElement("div");
+        e2.setAttribute( "class", "dropdown-menu dropdown-menu-font" );
+        e2.setAttribute( "data-toggle", "toggle-menu" );
+        if(typeof(menu[m].scroll) !== 'undefined' && !menu[m].scroll ) {
+            e2.style = 'overflow-y: hidden;';
+        }
+        e1.appendChild(e2);
+        
+        var e3 = document.createElement("ul");
+        e2.appendChild(e3);
+        
+        for ( var i = 0; i < menu[m].itens.length; i++ ) {
+            var tags = menu[m].itens[i].split('|'); 
+            if( tags[0].substring(0, 3) ===  '---' ) {
+                var e4 = document.createElement("hr");
+                e3.appendChild(e4);
+            } else {
+                var e4 = document.createElement("li"); 
+                e3.appendChild(e4);
+                var e5 = document.createElement("a");
+                e5.innerHTML = tags[0].replaceAll( ' ', '&nbsp;' );
+                e5.setAttribute( "data-state", 'ch'+ this.id +m );
+                e5.setAttribute( "data-value", tags.length > 1 ? tags[1] : tags[0] );
+                e5.addEventListener( 'click', function(e) {
+                   e.stopPropagation(); 
+                   e.preventDefault(); 
+                   self.eventsCentral(this.getAttribute("data-state"), this.getAttribute("data-value") );
+                }, false);
+                e4.appendChild(e5);
+            }
+        }
+    }
+};
+
+ABCXJS.edit.DropdownMenu.prototype.eventsCentral = function (state, ev) {
+    for( var e in this.headers ) {
+        if( e === state ) {
+            this.headers[e].checked = ! this.headers[e].checked;
+        } else {
+            this.headers[e].checked = false;
+        }
+    }
+    
+    switch(ev) {
+        case 'TUTORIAL':
+            w1.setTitle('Tutoriais')
+            w1.dataDiv.innerHTML = '<embed src="/diatonic-map/html5/tutoriais.pt_BR.html" height="600" width="1024"></embed>';
+            w1.topDiv.style.display = 'inline';
+            break;
+        case 'TABS':
+            w1.setTitle('Tablaturas para Acordeons')
+            w1.dataDiv.innerHTML = '<embed src="/diatonic-map/html5/tablatura.pt_BR.html" height="600" width="1024"></embed>';
+            w1.topDiv.style.display = 'inline';
+            break;
+        case 'TABSTRANSPORTADA':
+            w1.setTitle('Tablaturas para Transportada')
+            w1.dataDiv.innerHTML = '<embed src="/diatonic-map/html5/tablaturaTransportada.pt_BR.html" height="600" width="1024"></embed>';
+            w1.topDiv.style.display = 'inline';
+            break;
+        case 'MAPS':
+            w1.setTitle('Mapas para Acordeons')
+            w1.dataDiv.innerHTML = '<embed src="/diatonic-map/html5/mapas.pt_BR.html" height="600" width="1024"></embed>';
+            w1.topDiv.style.display = 'inline';
+            break;
+        case 'ABOUT':
+            var e = document.createElement("iframe"); 
+            w1.setTitle('Sobre...')
+            w1.dataDiv.innerHTML = '';
+            w1.dataDiv.appendChild(e);
+            e.setAttribute("src", "/diatonic-map/html5/sobre.html" );
+            e.setAttribute("frameborder", "0" );
+            e.setAttribute("scrolling", "no" );
+            e.setAttribute("height", "440" );
+            e.setAttribute("width", "800" );
+            e.addEventListener("load", function () { 
+                e.style.height = e.contentWindow.document.body.scrollHeight + 'px';  
+            } );
+            w1.topDiv.style.display = 'inline';
+            break;
+        default:
+            break;
+    }
+};
+
+
+//ABCXJS.edit.DropdownMenu.prototype.closeMenu = function (state) {
+//    var e = document.getElementById(state);
+//    e.checked=false;
+//};
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates

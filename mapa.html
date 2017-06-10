@@ -1,621 +1,113 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
+<!DOCTYPE html>
 <!--
-  TODO: 
-    ok Acertar label de todos os botões
-    ok Verificar tradução
-    ok   Incluir traduções para os titulos de janela
-    ok   Incluir traduções para os botões de janela
-    ok Melhorar a janela modal de avisos
-    ok Incluir dicas associadas a itens do repertório
-
-    ok Verificar bug ao editar/atualizar
-    ok Verificar excesso de log nas traduções
-
-    ok Verificar bug no gerador de tablatura  (F#) ou (Gb) deveriam ser iguais para noteToButtonsOpen 
-                ABCXJS.tablature.Infer.prototype.addTABChild = function(token) {
-                var note = this.accordion.getNoteName(item, this.accTrebKey, this.trebBarAcc, false);
-                ABCXJS.tablature.Accordion.prototype.getButtons
-
-    ok Atualizar a ajuda
-
-    Verificar bug ao iniciar studio com Vanera grossa
-
-    Implementar pagina de producao
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
 -->
-
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
     <head>
         <title>Mapa para Acordeons Diatônicos</title>
-        
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        
-        <meta name="viewport" content="height=device-width, initial-scale=0.5, minimum-scale=0.5, maximum-scale=2.0"/>
-
-        <meta name="robots" content="index,follow"/>
-        <meta name="revisit-after" content="7 days"/>
-        <meta name="description" content="Um mapa de referência para a aprendizagem de acordeons diatônicos" />
-        
-
-        <meta name="author" content="Flávio Luiz Vani"/>
-
-        <meta name="keywords" content="diatonic accordion, notation, learning, practice, repertoire, abc tunes, midi, tablature
-acordeon diatônico, gaita de oito baixos, gaita ponto, notação musical, aprendizagem, prática, repertorio, 
-notação abc, tablatura " />   
-        
-        <!-- Estilos para a página e popups -->
-        
-        <link href="css/bootstrap.min.css" rel="stylesheet" />
-        <link href="site_4.22-min.css" rel="stylesheet"/>
-        <link rel="icon" type="image/icon" href="http://flvani.github.io/diatonic-map/img/favicon6.ico"/>
-        
-    </head>
-    <body class="mapa">
-        <div class="navbar navbar-inverse navbar-fixed-top">
-            <div id="divTitulo" class="topMenuBar" >
-                <div style="margin-left: 4px;">
-                    <table><tr>
-                        <td id="DR_appName" ><h1>Mapa&#160;para&#160;<span>Acordeons&#160;Diatônicos</span></h1></td>
-                        <td style="width:20px;"></td>
-                        <td>
-                            <table style="height: 36px;">
-                                <tr >
-                                  <td >
-                                    <div id="divMenuAccordions" class="btn-group">
-                                        <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_accordions">Acordeons</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                                        <input id="fileLoadMap" type="file" accept="text/abc" style="display: none;" multiple/>
-                                        <ul class="dropdown-menu" id="opcoes_gaita"></ul>
-                                    </div>
-                                  </td >
-                                  <td >
-                                    <div id="divMenuRepertoire" class="btn-group">
-                                        <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_repertoire">Repertório</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                                        <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" style="display: none;" multiple />
-                                        <ul class="dropdown-menu" id="opcoes_repertorio">
-                                            <li><a href="#" id="DR_original" onclick="reloadRepertoire();">Restaurar o original</a></li>
-                                            <li><a href="#" id="DR_localLoad" onclick="document.getElementById('fileLoadRepertoire').click()">Carregar do drive local</a></li>
-                                            <li style="display:inline;"><a href="#" id="DR_localSave" onclick="saveRepertoire();">Exportar para drive local</a></li>
-                                            <li style="display:inline;"><a href="part2tab.html" target="_blank" id="DR_tab2part" onclick="">Partitura --> Tablatura</a></li>
-                                            <li style="display:inline;"><a href="tab2part.html" target="_blank" id="DR_tab2part" onclick="">Tablatura --> Partitura</a></li>
-                                        </ul>
-                                    </div>
-                                  </td >
-                                  <td >
-                                    <div id="divMenuHelp" class="btn-group">
-                                        <button class="btn dropdown-toggle" data-toggle="dropdown"><span id="DR_info">Informações</span> &nbsp;&nbsp;&nbsp;<span class="caret"></span></button>
-                                        <ul class="dropdown-menu" id="opcoes_teoria">
-                                          <li><a id="DR_tutorial" target="_blank" href="html/tutoriais.pt_BR.html" >Tutoriais</a></li>
-                                          <li><a id="DR_accordion_maps" target="_blank" href="html/mapas.pt_BR.html" >Mapas para acordeons</a></li>
-                                          <li><a id="DR_tablature" target="_blank" href="html/tablatura.pt_BR.html" >Tablaturas para acordeons</a></li>
-                                          <li><a id="DR_tablatureT" target="_blank" href="html/tablaturaTransportada.pt_BR.html" >Tablaturas para transportada&nbsp;<img src="img/novo.png" width="32" height="30" alt="Novo" title="Novo"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
-                                          <li><a id="DR_repeatsyms" target="_blank" href="html/sinaisRepeticao.pt_BR.html" >Símbolos de Repetição</a></li>
-                                          <li><a id="DR_abc_editor" target="_blank" href="html/estudioABCX.pt_BR.html" >Estúdio ABCX</a></li>
-                                          <li><a id="DR_abc_format" target="_blank" href="html/formatoABCX.pt_BR.html" >Formato ABCX</a></li>
-                                          <!--li><a id="DR_didactic_mode" target="_blank" href="html/modoDidatico.pt_BR.html" >Modo didático</a></li-->
-                                          <li><a id="DR_about" href="#modalAbout" >Sobre</a></li>
-                                        </ul>
-                                    </div>
-                                  </td >
-                                </tr>
-                            </table>
-                        </td></tr>
-                    </table>
-                </div>
-                <div style="position: absolute; top: 0; right:0; margin-top: 5px; margin-right: 5px;">
-                    <div class="btn-group" style="margin-top:0;">
-                        <span class="btn label dropdown-toggle" style="padding: 2px; height: 34px; width: 34px; background-color: white;">
-                            <a target="_blank" href="mailto:flavio.vani@gmail.com?Subject=Comentário sobre o site Diatonic-Map">
-                                <img id="DR_message" src="img/mail_80x80.png" width="32" height="32" alt="Deixe uma mensagem" title="Deixe uma mensagem">
-                            </a>                          
-                        </span>
-                    </div>
-                    <div class="btn-group" style="margin-top:0;">
-                        <button class="btn label dropdown-toggle" data-toggle="dropdown" id="btn_idioma" style="padding: 2px; height: 40px; width: 40px; background-color: white">
-                            <img src="img/pt_BR.png" width="32" height="32" alt="idiomas">                          
-                        </button>
-                        <ul class="dropdown-menu" id="opcoes_idioma" style="padding: 1px; min-width: 32px; background-color: white">
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div> <!-- /navbar -->
-        
-        <div id="helpDiv" class="draggableWindow" style="left:200px; top:120px; min-width: 800px; min-height: 700px; width:1024px; height: auto; display:none; z-index:10001;"></div> 
-        
-        <div id="mapContainerDiv">
-            
-            <div id="hintsDiv" class="draggableWindow" style="left:800px; top:110px; width:300px; height: auto; display:none; z-index:10000;"></div> 
-            <div id="releaseDiv" class="draggableWindow" style="left:400px; top:440px; min-width:300px; height: auto; display:none; z-index:10000;"></div> 
-            <div id="ADDiv" class="draggableWindow" style="left:940px; top:160px; min-width:200px; height: auto; display:none; z-index:10000;"></div> 
-            <div id="useChromeDiv" style="position:absolute; left:925px; top:270px; min-width:150px; height: auto; display:none; z-index:10000;"></div> 
-            <div id="mediaDiv" class="draggableWindow" style="left:1500px; top:120px; min-width: 300px; min-height: 167px; display:none; z-index:10000;"></div> 
-            <!-- flavio help -->
-    
-            <div id="div_principal"  >
-                <div style="margin:0; padding:0; width:100%;">  
-                <ul id="faketab">
-                    <li><a href="#" id="a_nome_gaita">LOADING...</a></li>
-                    <li>
-                        <div id="divMapControls" style="margin-left: 8px; margin-top:1px;"  >
-                            <table><tr>
-                                <td>
-                                    <button id="buttonChangeNotation" class="btn" style="background-color: white; margin-top:1px; height: 24px;">
-                                        <i class="icon-globe"></i>&#160;<span id="DR_chlabel">Mudar notação</span>
-                                    </button>
-                                </td><td>
-                                    <table class="table-bordered table-final" style="background-color: white; margin-top:1px; height: 24px; display:none;"> 
-                                        <tr><td>
-                                            &#160;<b id="DR_layout">Layout:</b>&#160;&#160;
-                                            <input type="checkbox" id="checkboxHorizontal" checked='checked' />&#160;<span id="DR_horizontal">Horizontal</span>
-                                            &#160;&#160;
-                                            <input type="checkbox" id="checkboxEspelho" />&#160;<span id="DR_espelho">Espelho</span>&#160;
-                                        </td></tr>
-                                    </table>
-                                </td></tr>
-                            </table>
-                        </div>  
-                    </li>
-                </ul>
-                </div>  
-                <div id="divContent" > 
-                    <div id="contentKeyboard" style="padding:10px; padding-bottom: 15px; width: auto; float: left; min-height: 280px; height: fit-content;" ></div>
-                    <div id="contentInfo" style="position: absolute; top: 0; right: 0; margin-top: 8px; margin-right: 8px;">
-                        <table class="table table-bordered table-final" style="min-width: 200px;">
-                            <tr>
-                            <td style="height:200px;" id="td_imagem_gaita" >
-                                <b>Loading...</b>
-                            </td>
-                            </tr>
-                        </table>
-                    </div>
-                    <div id="divABCXversion" style="position: absolute; bottom: 0; right: 0; margin-right: 5px;"></div>
-                </div>
-            </div> <!-- /div_principal --> 
-            
-            <div id="div_detalhes" > 
-                <div id="div1" style="float:left;  margin-right:0px; width:100%;" >
-                    <div id="div2" style="float:left;  margin-right:0px;" >
-                        <ul id="tabs">
-                          <li><a href="#" id="tabTunes">Músicas</a></li>        
-                          <li><a href="#" id="tabChords">Acordes</a></li>
-                          <li><a href="#" id="tabPractices">Exercícios</a></li>
-                          <li><!-- apenas para ajustar o espaço --></li>
-                        </ul>
-                    </div>    
-                    <div id="divPlayerControls" style="float:left; margin-left:2px; position: absolute; min-width: 750px; display:inline;" >
-                        <table>
-                            <tr><td>
-                                <div id="divSelectPlayControls" style="margin: 0px;">
-                                  <div class="btn-group" id="divPractices" style="display: none; margin: 0px;">
-                                      <button id="btnPractices" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left;"><span id="spanPractices">...</span>&#160;&#160;&#160;<span class="caret"></span></button>
-                                      <ul class="dropdown-menu menuDinamico" id="ulPractices" ><li>Não disponível</li></ul>
-                                  </div>
-                                  <div class="btn-group"  id="divSongs" style="display: inline; margin: 0px;">
-                                      <button id="btnSongs" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left;"><span id="spanSongs">...</span>&#160;&#160;&#160;<span class="caret"></span></button>
-                                      <ul class="dropdown-menu menuDinamico" id="ulSongs"><li>Não disponível</li></ul>
-                                  </div>
-                                  <div class="btn-group" id="divChords" style="display: none; margin: 0px;">
-                                      <button id="btnChords" class="btn dropdown-toggle" data-toggle="dropdown" style="text-align: left;"><span id="spanChords">...</span>&#160;&#160;&#160;<span class="caret"></span></button>
-                                      <ul class="dropdown-menu menuDinamico" id="ulChords"><li>Não disponível</li></ul>
-                                  </div>
-                                </div>
-                            </td><td>
-                                <div style="margin: 0px;" >
-                                  <button id="toolsBtn" class="btn" title="Ferramentas" ><i class="icon-wrench"></i>&#160;Ferramentas</button>
-                                  <button id="printBtn" class="btn" title="Imprimir" ><i class="icon-print"></i>&#160;Imprimir</button>
-                                  <button id="pdfBtn" class="btn" title="Salvar em PDF" onclick="" style="display: none;">PDF</button>
-                                </div>
-                            </td><td>
-                                <div style="margin: 0px;">
-                                  <button id="playBtn" class="btn" title="Executar" onclick="">&#160;<i class="icon-play"></i>&#160;</button>
-                                  <button id="stopBtn" class="btn" title="Parar" onclick="">&#160;<i class="icon-stop"></i>&#160;</button>
-                                  <span id="currentPlayTimeLabel" class="playTimeLabel">00:00.00</span>
-                                </div>
-                            </td></tr>
-                        </table>
-                    </div>  
-                </div>  
-                <div id= "tuneContainerDiv"> 
-                    <div id="tabTunesDiv"></div>    
-                    <div id="tabChordsDiv" ></div>
-                    <div id="tabPracticesDiv" ></div>
-                </div>
-            </div> <!-- /div_detalhes --> 
-
-            
-        </div> <!-- /mapContainerDiv -->
-        
-        <div id="modalAD" class="modalWindow" style="display: none;">
-            <div>
-              <div class="modalHeader">
-                <h2>Divulgação...</h2>
-                <a href="#close" title="Fechar" class="close">X</a>
-              </div>
-                <div class="modalContent" style="height: 550px; overflow-y: scroll;">
-                <img src="img/EncontroDeGaiteiros.png" alt="Encontro de Gaiteiros" title="Encontro de Gaiteiros" />
-              </div>
-              <div class="modalFooter">
-                  Maiores informações: <b><a target="_blank" href="mailto:prof.cezar.ferreira@gmail.com?Subject=Informações sobre o Encontro de Gaiteiros">
-                          Prof.Cezar.Ferreira@gmail.com</a></b>.
-                <a href="#cancel" title="Fechar a janela" class="cancel">Fechar</a>
-                <div class="clear"></div>
-              </div>
-            </div>
-        </div> <!-- /modalAD -->
-
-        <div id="modalAbout" class="modalWindow" style="display: none;">
-            <div>
-              <div class="modalHeader">
-                <h2>Sobre...</h2>
-                <a href="#close" title="Fechar" class="close">X</a>
-              </div>
-              <div class="modalContent">
-                <div id="clustrmaps-widget" style="float:right;   margin-left:1em;">
-                    <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?u=rUO7&d=1J7gP1r2nA3yuIH7qXcClQmW6EGCZo6pj85He9J5Yaw"></script>
-                </div>
-                  
-                <!--div id="fsfDiv" style="float:right;   margin-left:1em;">
-                    <a target="_blank" href="http://www.upgradefromwindows8.com"><img src="//static.fsf.org/fsforg/graphics/windows-infographic_share.png" height="200" width="200" alt="Close Windows, Open Doors"/></a>
-                </div-->
-                <h3>Diatonic-Map <i id="siteVerI">v4.22</i><br/><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&#160;Vani</strong></a></span> </h3>
-                <p>Este projeto pretende ser um mapa de referência para acordeons diatônicos. 
-                   Com ele é possível configurar – e mostrar – o layout de qualquer gaita de botões, nos seus mais diversos modelos.
-                   Quero deixar aqui, meus especiais agradecimentos ao 
-                       <a target="_blank" href="mailto:prof.cezar.ferreira@gmail.com"><strong>Prof. Cezar Ferreira</strong></a> - (<a href="http://www.youtube.com/watch?v=6_moobqpyyY">YouTube</a>), 
-                   que forneceu o material necessário para criação dos layouts e as essenciais informações sobre tablaturas para acordeons, 
-                   bem como, músicas e exercícios para praticar diretamente na gaita.</p>   
-                <p>Para transformar o projeto em uma ferramenta de aprendizagem, juntamos uma biblioteca  
-                   que permite editar partituras no formato ABC (<b>abjcs</b>) diretamente no browser. 
-                   O editor foi estendido para incluir uma ferramenta de transposição de tonalidades 
-                   e, principalmente, ampliamos a notação ABC (<i>non-standard</i>) para incluir 
-                   uma sintaxe para produção de tablaturas para acordeons,
-                   juntando o modelo ABC com os mapas de acordeons aqui apresentados.</p>   
-                <p>Por fim, através da implementação das bibliotecas de MIDI para browsers (<b>MIDI.js</b>), 
-                   tornou-se possível ouvir os sons produzidos pelo acordeon, na forma de canções e exercícios.
-                   Este recurso funciona inclusive em dispositivos móveis, tais como, celulares Android.</p>   
-                <p>O objetivo final é proporcionar uma experiência visual e interativa para aqueles que estão iniciando 
-                    seus estudos na "Gaita Ponto".</p>   
-                <p/>
-                <h5>Ainda, meus sinceros agradecimentos aos autores destas bibliotecas:</h5>
-                <ul>
-                  <li><b><a href="https://github.com/leandron/accordion-map/" target="_blank">accordion-map</a> by Leandro Nunes: "An interactive reference map for diatonic accordion chords".</b> This is where all started.
-                  </li>
-                  <li><b><a href="https://github.com/paulrosen/abcjs/" target="_blank">abcjs</a> by Paul Rosen: "Javascript for rendering ABC music notation".</b> A really, really great idea and a powerful project.
-                  </li>
-                  <li><b><a href="https://github.com/mudcube/MIDI.js/" target="_blank">MIDI.js</a> by Michael Deal: "Making life easy to create a MIDI-app on the web".</b> Another great project.
-                  </li>
-                  <li><b><a href="http://http://sourceforge.net/projects/editarea/" target="_blank">EditArea</a> by Christophe Dolivet: "A free javascript editor for source code".</b> Very useful for on-browser text edition.
-                  </li>
-                </ul>
-              </div>
-
-              <div class="modalFooter">
-                  Esta obra é distribuída sob uma Licença <b><a rel="license" href="http://creativecommons.org/licenses/by/3.0/br/deed.pt_BR" target="_blank" title="Ver a Licença">
-                                 Creative Commons Atribuição 3.0 Brasil</a></b>.
-                <a href="#cancel" title="Fechar a janela" class="cancel">Fechar</a>
-                <a href="html/release.pt_BR.html" target="_blank" title="Ver Notas de Lançamento" class="ok">Release</a>
-                <div class="clear"></div>
-              </div>
-            </div>
-        </div> <!-- /modalAbout -->
-        <div id="studioDiv">
-            <div id="studioContentDiv">
-                <div id="studioMenu" class="draggableMenu">
-                    <div id="btnCloseStudio" class="dButton" >
-                        <a href="#" title="Fechar" id="dMINUSButtonA" onclick="closeStudio(); return false;" ><i class="icon-minus icon-white"></i></a>
-                    </div>
-                    <div id="btnRestoreStudio" class="dButton" >
-                        <a href="#" title="Restaurar" id="dRESTOREButtonA" onclick="restoreStudio(); return false;" ><img alt="" src="img/restore.png" class="icon-white"/></a>
-                    </div>
-                    <div class="dTitle"><span id="spanTitleStudio" style="padding-left: 5px;">Estúdio ABCX</span><span id="spanStudioAccordeon" style="padding-left: 5px;"></span></div>
-                </div>
-                <div id="studioHeader">
-                    <textarea id="textareaABC" spellcheck="false" rows="10" cols="120"></textarea>
-                    <div id="studioControlDiv" >
-                        <div id="controlDiv1" style="float:left;" >
-                            <button id="showTextBtn" class="btn" title="Exibir/Ocultar Texto ABCX" onclick="" ><i id="I_showText" class="icon-folder-open"></i>&#160;<span id="DR_showText">ABCX</span></button>
-                            <button id="showEditorBtn" class="btn" title="Exibir/Ocultar Editor ABCX" onclick="" ><i id="I_showEditor" class="icon-folder-close"></i>&#160;<span id="DR_showEditor">Editor</span></button>
-                            <button id="showMapBtn" class="btn" title="Exibir/Ocultar Teclado" onclick=""><i id="I_showMap" class="icon-folder-close"></i>&#160;<span id="DR_showMap">Teclado</span></button>
-                            <button id="printBtn2" class="btn" title="Imprimir" onclick="" ><i class="icon-print"></i>&#160;Imprimir</button>
-                            <button id="saveBtn" class="btn" title="Salvar Local" ><i class="icon-download-alt"></i>&#160;Salvar Local</button>
-                            <button id="forceRefresh" class="btn" title="Atualizar" onclick="" >Atualizar</button>
-                            <button id="modeBtn" class="btn" title="Modo normal/didático" onclick=""><img src="img/listening3.png" alt="" width="20" height="20"/></button>
-                            <button id="timerBtn" class="btn" title="Timer" onclick=""><img id="timerBtnImg" src="img/timer.off.png" alt="" width="25" height="20"/></button>
-                            <button id="GClefBtn" class="btn" title="Melodia" onclick=""><img src="img/clave.sol.on.png" alt="" width="20" height="20"/></button>
-                            <button id="FClefBtn" class="btn" title="Baixos" onclick=""><img src="img/clave.fa.on.png" alt="" width="20" height="20"/></button>
-                            <input  style="display: none;" type="checkbox" id="chkAutoRefresh" /><span style="display: none;" id="DR_refresh">Auto atualização</span> 
-                            <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
-                        </div>
-                        <div id="divDidacticPlayControls" style="float:left; margin-left: 4px; display: none;">
-                            <input id="gotoMeasureBtn" type="text" title="Ir para o compasso" value="Ir para..."/>
-                            <b>..</b>
-                            <input id="untilMeasureBtn" type="text" title="Executar até o compasso" value="até..."/>
-                            <button id="stepBtn" class="btn" title="Passo a passo" onclick="">&#160;<i class="icon-play"></i>&#160;</button>
-                            <button id="stepMeasureBtn" class="btn" title="Executar compasso" onclick="">&#160;<i class="icon-forward"></i>&#160;</button>
-                            <button id="repeatBtn" class="btn" title="Repetir" onclick="">&#160;<i class="icon-repeat"></i>&#160;</button>
-                            <button id="clearBtn" class="btn" title="Limpar" onclick="">&#160;<i class="icon-stop"></i>&#160;</button>
-                            <button id="tempoBtn" class="btn" title="Andamento" onclick=""><b>&#160;1&#160;</b></button>
-                        </div>
-                        <div id="divNormalPlayControls" style="float:left; margin-left: 4px;">
-                            <button id="playBtn2" class="btn" title="Executar" onclick="">&#160;<i class="icon-play"></i>&#160;</button>
-                            <button id="stopBtn2" class="btn" title="Parar" onclick="">&#160;<i class="icon-stop"></i>&#160;</button>
-                        </div>
-                        <div id="playTimeDiv2" class="playTimeDiv" >
-                            <span id="currentPlayTimeLabel2" class="playTimeLabel">00:00.00</span>
-                        </div>
-                    </div>    
-                </div> <!-- /studioHeader-->    
-                <div id="studioCanvasDiv" >
-                    <div id="warningsDiv"></div>
-                    <div id="canvasDiv"></div>
-                    <hr style="visibility: hidden;"/>
-                </div> <!--studioCanvasDiv-->    
-                <div id="editorDiv" class="draggableWindow" style="left:40px; top:120px;" ></div>
-                <!-- /editorDiv -->
-                <div id="keyboardDiv" class="draggableWindow" style="left:900px; top:120px; "></div> 
-                <!-- /keyboardDiv-->    
-            </div> <!-- /studioContentDiv -->
-        </div> <!-- /studioDiv -->
-        <div id="printPreviewDiv" class="printPreviewClass"></div>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="height=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0" />
+        <link rel="stylesheet" href="fontsIco/abcx.css" />
+        <link rel="stylesheet" href="fontsIco/abcx-window-font.css" />
+        <link rel="stylesheet" href="fontsGoogle/fonts.css" />
+        <link rel="stylesheet" href="css/styles4abcx.css" />
+        <link rel="stylesheet" href="css/mapa.css" />
+        <link rel="stylesheet" href="css/estudio.css" />
+        <link rel="icon" type="image/icon" href="images/favicon.ico"/>
+  </head>
+    <body>
         
         <script type="text/javascript" src="proto_noconflict.js" ></script>
         <script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="javascripts/bootstrap-dropdown.js"></script>
-        <script type="text/javascript" src="javascripts/edit_area_full.js"></script>
         
         <!-- suporte a MIDI -->
-        <script type="text/javascript" src="MIDI.js/MIDI_3.00-min.js"></script>
+        <script type="text/javascript" src="MIDI.js/MIDI.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_4.22-min.js"></script>
+        <script type="text/javascript" src="file/filemanager.js"></script>
+        
+        <script type="text/javascript" src="ace4abcx/ace4abcx.js"></script>
         
         <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_4.22-min.js" ></script>
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs.js" ></script>
         
         <!-- suporte mapas de acordeons -->
-        <script type="text/javascript" src="diatonic/diatonic_4.22-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic.js"></script>
+        
+        <script type="text/javascript" src="languages/language.js"></script>
+        <script type="text/javascript" src="site/mapa.js"></script>
+        <script type="text/javascript" src="site/estudio.js"></script>
+        
 
-        <!-- site -->
-        <script id="siteLib" type="text/javascript" src="site_4.22-min.js"></script>
+        <div id="topBar" class="topBar gradiente" >
+            <span class="topTitle">
+                Mapa para Acordeons Diatônicos
+                <i class="ico-cogs topSettings" ></i>
+            </span>
+            <div class="dropdown-group">
+                <div id="menu1Div" class="topMenu"></div>
+            </div>
+        </div> <!-- topBar -->
+        <div id="corpo" class="mainDiv">
+            <section class="tabs">
+                <input type="radio" checked="checked" />
+                <label id="a_nome_gaita">...</label>
+                <div class="btn-group">
+                    <button id="buttonChangeNotation" >
+                        <i class="ico-globe"></i>&nbsp;<span id="DR_chlabel">Mudar a notação</span>
+                    </button>
+                </div>
+                <div class="tv-content-always">
+                    <div id="contentKeyboard" style="position: relative; top: 0; left: 0; padding-right: 130px; padding-bottom: 10px; min-height: 180px; height: auto; width: auto;" ></div>
+                    <div id="td_imagem_gaita" style="position: absolute; top: 0; right: 0; margin-right: 15px;"></div>
+                    <div id="divABCXversion"  style="position: absolute; bottom: 0; right: 0; margin-right: 5px;">Powered by ABCXJS version 5.0</div>
+                </div>
+            </section>
+            <section class="tabs">
+                <input id="tab-1" type="radio" name="radio-set" class="tab-selector-1" />
+                <label for="tab-1" class="tab-label-1">Acordes</label>
+
+                <input id="tab-2" type="radio" name="radio-set" class="tab-selector-2" />
+                <label for="tab-2" class="tab-label-2">Exercícios</label>
+
+                <input id="tab-3" type="radio" name="radio-set" class="tab-selector-3" checked="checked" />
+                <label for="tab-3" class="tab-label-3">Músicas</label>
+
+                <div class="btn-group" >
+                    <div id="menu2Div" class="topMenu"></div>
+                    <button id="buttonTools" class="btn" >
+                        <i class="ico-wrench"></i>&nbsp;<span id="DR_chlabel">Ferramentas</span>
+                    </button>
+                    <button id="buttonPrinter" class="btn" >
+                        <i class="ico-printer"></i>&nbsp;<span id="DR_chlabel">Imprimir</span>
+                    </button>
+                    <button id="buttonPlay" class="btn" ><i class="ico-play"></i></button>
+                    <button id="buttonStop" class="btn" ><i class="ico-stop"></i></button>
+                    <span id="currentPlayTimeLabel" class="text" >00:00:01</span>
+                </div>
+
+                <div class="tv-content" style="height: 400px; width: 890px;">
+                    <div class="tv-content-1">
+                        <p>Some content</p>
+                    </div>
+                    <div class="tv-content-2">
+                        <p>Some content</p>
+                    </div>
+                    <div class="tv-content-3">
+                        <p>Some content</p>
+                    </div>
+                </div>
+            </section>
+        </div> <!-- corpo -->
         
         <script id="mainScript" type="text/javascript">
-        //<![CDATA[
-            
-            var vSite = getSITEversion();
-            var producao = getABCXversion();
-            var debug=false;
-            
-            var myMap;
-            var myStudio;
 
-            document.getElementById('fileLoadMap').addEventListener('change', loadMap, false);        
-            document.getElementById('fileLoadRepertoire').addEventListener('change', loadRepertoire, false);        
+            window.addEventListener( 'load', initApp );
 
-            window.onblur = function() {
-                if(! myMap ) return;
-                if(myStudio.visible) {
-                    if( myStudio.midiPlayer.playing) {
-                        myStudio.startPlay('normal'); // pause
-                    }
-                } else {
-                    if( myMap.midiPlayer.playing) {
-                        myMap.startPlay('normal'); // pause
-                    }
-                }
-            };
-            
-            window.onresize = function()
-            {
-                resizeSite();
-            };
-            
-            window.addEventListener('load', loadAccordions, false);
-            
-            function loadAccordions() {
-                
-                //rotina para corrigir bug até a nova versão estar disponível
-                DIATONIC.map.Button.prototype.getLabel = function(nota, showLabel) {
-                    var l = nota.key;
-                    window.ABCXJS.parse.key2br = 
-                        {"C":"Dó", "C♯":"Dó♯", "D♭":"Ré♭", "D":"Ré", "D♯":"Ré♯", "E♭":"Mi♭", "E":"Mi", 
-                         "F":"Fá" ,"F♯":"Fá♯" ,"G♭":"Sol♭", "G":"Sol", "G♯":"Sol♯" ,"A♭":"Lá♭", "A":"Lá", "A♯":"Lá♯", "B♭":"Si♭", "B":"Si" };
-
-                    if (showLabel) {
-                        l = l.toUpperCase() + '';
-                        l = ABCXJS.parse.key2br[l].toUpperCase();
-                    }
-
-                    if ( nota.isChord ) {
-                       l = l.toLowerCase() + '';
-                    }    
-
-                    if( nota.isMinor ) {
-                        l+='-';
-                    }
-                    return l;
-                };
-
-                //MIDI.widget = new sketch.ui.Timer({size:180, cor1:'#ffffff', cor2:'#ffff88' });
-                MIDI.widget = new sketch.ui.Timer({size:180 });
-                MIDI.widget.setFormat( 'Carregando...');
-
-                DIATONIC.map.loadAccordionMaps(
-                    [
-                        'accordions/minuano.gc.accordion'
-                       ,'accordions/minuano.bc.transportada.accordion'
-                       ,'accordions/hohner.cf.club.br.accordion'
-                       // 'accordions/hohner.gc.accordion'
-                       //,'accordions/hohner.adg.corona.accordion'
-                       //,'accordions/hohner.cf.club.accordion'
-                    ]
-                    , function () { 
-                        FILEMANAGER.waitResources( { 
-                            onProgress: function(event) {
-                                if(event.success){
-                                    MIDI.widget.setValue(0+Math.round(event.perc*.15));
-                                    //console.log('\nPercentual: '+ event.perc + '\nTimeouts: ' + event.timeouts + '\n' + event.success );
-                                } else {
-                                    MIDI.widget.setValue(0+Math.round(event.perc*.15));
-                                    //console.log('\nPercentual: '+ event.perc);
-                                }
-                            }
-                            ,onLoad: loadMIDI 
-                        });
-                    } 
-                );
-            }
-                     
-            function loadMIDI() {
-                
-                MIDI.loadPlugin({
-                     soundfontUrl: "./soundfont/"
-                    ,instruments: "accordion" // default
-                    ,onprogress: function(event) {
-                        MIDI.widget.setValue(Math.round(MIDI.getPercent(event)*.35)+15);
-                    }                            
-                    ,onprogress2: function( percent ) {
-                        MIDI.widget.setValue(50+Math.round(percent/2));
-                    }        
-                    ,callback: initApp
-                });
-            }
-            
             function initApp() {
                 
-                MIDI.widget.setValue(100);
-
-                var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_HOHNER_GC';
-
-                var w1 = new DRAGGABLE.Div( 1, 'editorDiv', 'Editor ABCX', ['move|Mover'], 'w1Callback', true );
-                var w2 = new DRAGGABLE.Div( 2, 'keyboardDiv', '', [ 'move|Mover', 'retweet|Rotacionar', 'zoom-in|Zoom','globe|Mudar Notação'], 'w2Callback', true );
-                    w3 = new DRAGGABLE.Div( 3, 'hintsDiv', 'Dica...', null, null, true );
-                    w4 = new DRAGGABLE.Div( 4, 'ADDiv', 'Divulgação...', null, null, true );
-                    w5 = new DRAGGABLE.Div( 5, 'releaseDiv', 'Lançamento...', null, null, true );
-                    w6 = new DRAGGABLE.Div( 6, 'mediaDiv', 'Mídia...', null, 'w6Callback', true );
-                
-                w3.dataDiv.innerHTML = '<center style="padding:4px; font-size:18px;"><b>'
-                   + 'Você conhece o modo didático de execução de partituras?<p><p>'
-                   + 'Com ele é possível executar trechos de uma partitura, em velocidades mais lentas'
-                   + ' ou nota por nota. <p>Acesse através do botão "Ferramentas". Para maiores detalhes leia a ajuda <a target="_blank" href="html/estudioABCX.pt_BR.html" > aqui!.</a>  <p>Procure a seção "Executando uma partitura".</b></center>';
-           
-                w3.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
-                   + 'Você pode melhorar a visualização usando alguns atalhos. Por exemplo:</b></center><br>'
-                   + '<b>&nbsp;&nbsp;"F11" - Entra e sai do modo tela cheia.<br>'
-                   + '&nbsp;&nbsp;"Ctrl"+"+" - Aumenta o zoom.<br>'
-                   + '&nbsp;&nbsp;"Ctrl"+"-" - Diminui o zoom.<br>'
-                   + '&nbsp;&nbsp;"Ctrl"+"0" - Restaura o zoom para 100%.<br><br>'
-                   + '</b>';
-           
-                w3.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
-                   + 'Temos novos tutoriais disponíveis!<br/><br/>'
-                   + '<h4><a target="_blank" href="html/tutoriais.pt_BR.html" >Clique aqui!</a></h4>'
-                   + '<br/>Aprenda a ajustar o andamento da partitura e executar as vozes em separado.</b></center>';
- 
-                w4.dataDiv.innerHTML = 
-                     '<table class="table table-bordered table-final" style="min-width: 300px;">'
-                    +  '<tr>'
-                    +   '<td ><center>'
-                    +  '<a target="_blank" href="https://www.facebook.com/photo.php?fbid=859901210773136&set=a.341659775930618.77559.100002597949118&type=1&theater" >'
-                    +  '<img src="img/EncontroDeGaiteiros.2.png" alt="2º Encontro de Gaiteiros" title="Encontro de Gaiteiros">'
-                    +  '</a>'
-                    +   '</td>'
-                    + '</tr>'
-                    +'</table>';
-            
-                w5.dataDiv.innerHTML = '<center style="padding:4px;"><b>'
-                   + '<h3>Versão 4.20</h3>'
-                   + '<a target="_blank" href="html/release.pt_BR.html" >Várias melhorias implementadas!<br>Saiba mais.</a>'
-                   + '</b></center><br>';
-
-                myStudio = new SITE.Estudio(
-                    {   // interfaceParams
-                        showMapBtn: 'showMapBtn'
-                       ,showEditorBtn: 'showEditorBtn'
-                       ,showTextBtn: 'showTextBtn'
-                       ,printBtn:'printBtn2'
-                       ,saveBtn:'saveBtn'
-                       ,forceRefresh:'forceRefresh'
-                       
-                    },   
-                    {   // editorParams
-                       textArea: "textareaABC"
-                      ,canvas_id: "canvasDiv"
-                      ,refreshController_id: "chkAutoRefresh"
-                      ,warnings_id: "warningsDiv"
-                      ,generate_warnings: true
-                      ,generate_midi: true
-                      ,generate_tablature: 'accordion'
-                      ,editorWindow: w1
-                      ,keyboardWindow: w2
-                      ,accordion_options: {
-                             id: accordion
-                            ,accordionMaps: DIATONIC.map.accordionMaps
-                            ,render_keyboard_opts:{transpose:false, mirror:false, scale:0.8, draggable:true, show:false, label:false}}
-                      ,onchange: function( studio ) { studio.onChange(); }
-                  } 
-                  , {   // playerParams
-                        modeBtn: "modeBtn"
-                      , timerBtn: "timerBtn"
-                      , playBtn: "playBtn2"
-                      , stopBtn: "stopBtn2"
-                      , clearBtn: "clearBtn"
-                      , gotoMeasureBtn: "gotoMeasureBtn"
-                      , untilMeasureBtn: "untilMeasureBtn"
-                      , stepBtn: "stepBtn"
-                      , repeatBtn: "repeatBtn"
-                      , stepMeasureBtn: "stepMeasureBtn"
-                      , tempoBtn: "tempoBtn"
-                      , GClefBtn: "GClefBtn"
-                      , FClefBtn: "FClefBtn"
-                      , currentPlayTimeLabel: "currentPlayTimeLabel2"
-                  } 
-                );
-        
-                myMap = new SITE.Mapa(
-                    {   // interfaceParams
-                        ckPiano: 'checkboxPiano'
-                      , ckAccordion: 'checkboxAcordeon'
-                      , ckMirror: 'checkboxEspelho'
-                      , ckHorizontal: 'checkboxHorizontal'
-                      , btChangeNotation: 'buttonChangeNotation'
-                      , accordionNamePlaceHolder: 'a_nome_gaita'
-                      , accordionImagePlaceHolder: 'td_imagem_gaita'
-                      , tuneContainerDiv: 'tuneContainerDiv'
-                      , printBtn: 'printBtn'
-                      , toolsBtn: 'toolsBtn'
-                      ,keyboardDiv: "contentKeyboard"
-                      ,accordion_options: {
-                             id: accordion
-                            ,accordionMaps: DIATONIC.map.accordionMaps
-                            ,render_keyboard_opts:{transpose:true, mirror:false, scale:1, draggable:false, show:true, label:false}}
-                  }
-                  , {   // tabParams
-                        songSelectorParms: { div: 'divSongs', ul: 'ulSongs', span: 'spanSongs' }
-                      , songDiv: 'tabTunesDiv'
-                      , chordSelectorParms:  { div: 'divChords', ul: 'ulChords', span: 'spanChords' }
-                      , chordDiv: 'tabChordsDiv'
-                      , practiceSelectorParms: { div: 'divPractices', ul: 'ulPractices', span: 'spanPractices' }
-                      , practiceDiv: 'tabPracticesDiv'
-                      , studio: myStudio
-                  }
-                  , {   // playerParams
-                        playBtn: "playBtn"
-                      , stopBtn: "stopBtn"
-                      , currentPlayTimeLabel: "currentPlayTimeLabel"
-                  } 
-                );
-
-                window.setTimeout( function() {
-                    activateApp();
-                    myMap.defineActiveTab( 'tabTunes' );
-                }, 5 );
-            }
-
-            $(document).ready(function() {
-
-                $("#tuneContainerDiv").find("[id^='tab']").hide(); // Hide all content
-
                 DR.initializeTranslator([
                     'DR_appName'
                    ,'DR_about'
@@ -667,173 +159,195 @@ notação abc, tablatura " />
                    ,'spanTitleStudio'
                    ,'dRESTOREButtonA'
                 ]);
+                
+                var m1 = new ABCXJS.edit.DropdownMenu(
+                        'menu1Div'
+                        , {listener: this, method: 'callback'}
+                , [{title: 'Acordeons', scroll: false,
+                        itens: [
+                            'Minuano|GAITA_MINUANO_GC',
+                            'Minuano (transportada)|GAITA_MINUANO_BC_TRANSPORTADA',
+                            'Hohner Club IIIM (BR)|GAITA_HOHNER_CLUB_IIIM_BR',
+                            '------------------------------',
+                            'Salvar mapa corrente',
+                            'Carregar mapa do disco local'
+                        ]},
+                    {title: 'Repertório', scroll: false,
+                        itens: [
+                            'Restaurar o original',
+                            'Carregar do drive local',
+                            'Exportar para drive local',
+                            'Partitura <i class="ico-play"> Tablatura',
+                            'Tablatura <i class="ico-play"> Partitura'
+                        ]},
+                    {title: 'Informações', scroll: false,
+                        itens: [
+                            'Tutoriais <i class="ico-novo">|TUTORIAL',
+                            'Mapas para acordeons|MAPS',
+                            'Tablaturas para acordeons|TABS',
+                            'Tablaturas para gaita transportada|TABSTRANSPORTADA',
+                            'Símbolos de Repetição|JUMPS',
+                            'Estúdio ABCX|ESTUDIO',
+                            'Formato ABCX|ABCX',
+                            'Sobre|ABOUT'
+                        ]}
+                ]);
+                var m2 = new ABCXJS.edit.DropdownMenu(
+                        'menu2Div'
+                        , {listener: this, method: 'callback1'}
+                        , [{title: 'Asa Branca', scroll: false,
+                        itens: [
+                            'Asa Branca',
+                            'Começo de Verão',
+                            'Numa sala de reboco'
+                        ]}
+                ]);
 
-                $('#tabs a').click( function(e) {
-                    e.preventDefault();
-                    if ($(this).closest("li").attr("id") === "current"){ //detection for current tab
-                      return;       
-                    } else{             
-                      $("#tuneContainerDiv").find("[id^='tab']").hide(); // Hide all content
-                      $("#tabs li").attr("id",""); //Reset id's
-                      $(this).parent().attr("id","current"); // Activate this
-                      $('#' + $(this).attr('id')+"Div").fadeIn(); // Show content for the current tab
-                      myMap.defineActiveTab( $(this).attr('id') );
-                    }
+                w1 = new DRAGGABLE.Div(
+                        null
+                        , null
+                        , {title: '', translate: false, statusBar: false, top: 100, left: 300, zIndex: 100}
+                );
+
+                //MIDI.widget = new sketch.ui.Timer({size:180, cor1:'#ffffff', cor2:'#ffff88' });
+                MIDI.widget = new sketch.ui.Timer({size:180 });
+                MIDI.widget.setFormat( 'Carregando...');
+
+                DIATONIC.map.loadAccordionMaps(
+                    [
+                        'accordions/minuano.gc.accordion'
+                       ,'accordions/minuano.bc.transportada.accordion'
+                       ,'accordions/hohner.cf.club.br.accordion'
+                       // 'accordions/hohner.gc.accordion'
+                       //,'accordions/hohner.adg.corona.accordion'
+                       //,'accordions/hohner.cf.club.accordion'
+                    ]
+                    , function () { 
+                        FILEMANAGER.waitResources( { 
+                            onProgress: function(event) {
+                                if(event.success){
+                                    MIDI.widget.setValue(0+Math.round(event.perc*.15));
+                                    //console.log('\nPercentual: '+ event.perc + '\nTimeouts: ' + event.timeouts + '\n' + event.success );
+                                } else {
+                                    MIDI.widget.setValue(0+Math.round(event.perc*.15));
+                                    //console.log('\nPercentual: '+ event.perc);
+                                }
+                            }
+                            ,onLoad: loadMIDI 
+                        });
+                    } 
+                );
+            }
+            
+            function loadMIDI() {
+                
+                MIDI.loadPlugin({
+                     soundfontUrl: "./soundfont/"
+                    ,instruments: "accordion" // default
+                    ,onprogress: function(event) {
+                        MIDI.widget.setValue(Math.round(MIDI.getPercent(event)*.35)+15);
+                    }                            
+                    ,onprogress2: function( percent ) {
+                        MIDI.widget.setValue(50+Math.round(percent/2));
+                    }        
+                    ,callback: createMap
                 });
-            });
-            
-            function activateApp() {
-                $("#tabs li:first").attr("id","current"); // Activate the first tab
-                $("#tuneContainerDiv #tabTunesDiv" ).fadeIn(); // Show first tab's content
-                document.getElementById("modalAD").style.display = 'inline';
-                document.getElementById("modalAbout").style.display = 'inline';
-                
-                //$('#hintsDiv').fadeIn('slow');
-                
-                if( getDate() <= 20150913 ) {
-                    $('#ADDiv').fadeIn('slow');
-                }
-                
-                if( getDate() <= 20170420 ) {
-                    $('#releaseDiv').fadeIn('slow');
-                    setTimeout(function() { $('#releaseDiv').fadeOut('slow'); }, 15000);
-                }
-                
-                $("#clustrmaps-widget").find("a").attr('target','_blank');
-                $("#clustrmaps-widget").find("a").attr('href','http://www.clustrmaps.com/map/flvani.github.io');
-                
-                
-                if(!(ABCXJS.misc.isChrome()||ABCXJS.misc.isChromium())) {
-                    $('#useChromeDiv').html('<img src="img/chrome.png">');
-                    setTimeout(function() { $('#useChromeDiv').fadeIn('slow'); }, 2000);
-                    setTimeout(function() { $('#useChromeDiv').fadeOut('slow'); }, 17000);
-                }    
-            };
-            
-            function getDate(){
-                var today = new Date();
-                var dd = today.getDate();
-                var mm = today.getMonth()+1; //January is 0!
-                var yyyy = today.getFullYear();
-                return yyyy*10000+mm*100+dd;
-            }
-
-            function w1Callback(e) {
-                myStudio.editorCallback(e);
-            };
-            
-            function w2Callback(e) {
-                myStudio.keyboardCallback(e);
-            };
-
-            function w6Callback(e) {
-                myMap.mediaCallback(e);
-            };
-            
-            function loadRepertoire(evt) {
-              FILEMANAGER.loadLocalFiles(evt, function() {
-                myMap.carregaRepertorio(false, FILEMANAGER.files);
-                evt.target.value = "";
-              });
-            };
-
-            function setupGaita(value) {
-                if( myMap.midiPlayer.playing) {
-                    myMap.startPlay('normal'); // pause
-                }
-                myMap.setup({accordionId:value});
-            };
-
-            function showABC(type, i) {
-                myMap.showABC(type, i);
-            };
-
-            function closeStudio () {
-                myMap.closeStudio();
-            };
-            function restoreStudio () {
-                myMap.restoreStudio();
-            };
-            
-            function resizeSite()    {
-                if( myStudio.visible) {
-                    myStudio.resize();
-                } else {     
-                    myMap.resize();
-                }    
-            };
-            
-//            function closeEditor() {
-//                myStudio.hideEditor(this);
-//            };
-            
-            function loadMap(evt) {
-              evt.preventDefault();
-              FILEMANAGER.loadLocalFiles(evt, function() {
-                myMap.load(FILEMANAGER.files);
-                evt.target.value = "";
-              });
-            };
-
-            function saveMap() {
-               myMap.save();
-            };
-
-            function reloadRepertoire() {
-                myMap.carregaRepertorio(true);
-            };
-
-            function saveRepertoire() {
-                myMap.salvaRepertorio();
-            };
-
-            function tab2Part() {
-                myMap.tab2Part();
-            };
-
-            function doTranspose(value) {
-                myStudio.fireChanged(value, "force");
-            };
-            
-            function doCheckDebug() {
-                debug = document.getElementById("chkDebug").checked;
-                myStudio.fireChanged(0, "force");
-            };
-
-            function getSITEversion() {
-                var str = document.getElementById("siteLib").src;
-                var res = str.match(/[0-9]*\.[0-9][0-9]/g);
-                
-                if( res ) {
-                   document.getElementById("siteVerI").innerHTML = 'v' + res ;
-                   return res[0];
-                } else {
-                   document.getElementById("siteVerI").innerHTML = 'debug';
-                   return false;
-               }   
             }
             
-            function getABCXversion() {
-                var str = document.getElementById("mainABCX").src;
-                var res = str.match(/[0-9]*\.[0-9][0-9]/g);
+            function createMap() {
                 
-                if( res ) {
-                   document.getElementById("divABCXversion").innerHTML = '<i>Powered by ABCXJS version '+res[0]+'.</i>';
-                   return res[0];
-                } else {
-                   document.getElementById("divABCXversion").innerHTML = '<i>Powered by ABCXJS debug version.</i>';
-                   return false;
-               }   
+                MIDI.widget.setValue(100);
+
+                var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
+                
+                accordion = 'GAITA_MINUANO_BC_TRANSPORTADA';
+                accordion = 'GAITA_HOHNER_CLUB_IIIM_BR';
+                accordion = 'GAITA_MINUANO_GC';
+
+                myStudio = new SITE.Estudio(
+                    {   // interfaceParams
+                        showMapBtn: 'showMapBtn'
+                       ,showEditorBtn: 'showEditorBtn'
+                       ,showTextBtn: 'showTextBtn'
+                       ,printBtn:'printBtn2'
+                       ,saveBtn:'saveBtn'
+                       ,forceRefresh:'forceRefresh'
+                       
+                    },   
+                    {   // editorParams
+                       textArea: "textareaABC"
+                      ,canvas_id: "canvasDiv"
+                      ,refreshController_id: "chkAutoRefresh"
+                      ,warnings_id: "warningsDiv"
+                      ,generate_warnings: true
+                      ,generate_midi: true
+                      ,generate_tablature: 'accordion'
+                      ,editorWindow: null //w1
+                      ,keyboardWindow: null //w2
+                      ,accordion_options: {
+                             id: accordion
+                            ,accordionMaps: DIATONIC.map.accordionMaps
+                            ,render_keyboard_opts:{transpose:false, mirror:false, scale:0.8, draggable:true, show:false, label:false}}
+                      ,onchange: function( studio ) { studio.onChange(); }
+                  } 
+                  , {   // playerParams
+                        modeBtn: "modeBtn"
+                      , timerBtn: "timerBtn"
+                      , playBtn: "playBtn2"
+                      , stopBtn: "stopBtn2"
+                      , clearBtn: "clearBtn"
+                      , gotoMeasureBtn: "gotoMeasureBtn"
+                      , untilMeasureBtn: "untilMeasureBtn"
+                      , stepBtn: "stepBtn"
+                      , repeatBtn: "repeatBtn"
+                      , stepMeasureBtn: "stepMeasureBtn"
+                      , tempoBtn: "tempoBtn"
+                      , GClefBtn: "GClefBtn"
+                      , FClefBtn: "FClefBtn"
+                      , currentPlayTimeLabel: "currentPlayTimeLabel2"
+                  } 
+                );
+        
+                myMap = new SITE.Mapa(
+                    {   // interfaceParams
+                        ckPiano: 'checkboxPiano'
+                      , ckAccordion: 'checkboxAcordeon'
+                      , ckMirror: 'checkboxEspelho'
+                      , ckHorizontal: 'checkboxHorizontal'
+                      , btChangeNotation: 'buttonChangeNotation'
+                      , accordionNamePlaceHolder: 'a_nome_gaita'
+                      , accordionImagePlaceHolder: 'td_imagem_gaita'
+                      , tuneContainerDiv: 'tuneContainerDiv'
+                      , printBtn: 'buttonPrinter'
+                      , toolsBtn: 'buttonTools'
+                      ,keyboardDiv: "contentKeyboard"
+                      ,accordion_options: {
+                             id: accordion
+                            ,accordionMaps: DIATONIC.map.accordionMaps
+                            ,render_keyboard_opts:{transpose:true, mirror:false, scale:1, draggable:false, show:true, label:false}}
+                  }
+                  , {   // tabParams
+                        songSelectorParms: { div: 'divSongs', ul: 'ulSongs', span: 'spanSongs' }
+                      , songDiv: 'tabTunesDiv'
+                      , chordSelectorParms:  { div: 'divChords', ul: 'ulChords', span: 'spanChords' }
+                      , chordDiv: 'tabChordsDiv'
+                      , practiceSelectorParms: { div: 'divPractices', ul: 'ulPractices', span: 'spanPractices' }
+                      , practiceDiv: 'tabPracticesDiv'
+                      , studio: myStudio
+                  }
+                  , {   // playerParams
+                        playBtn: "buttonPlay"
+                      , stopBtn: "buttonStop"
+                      , currentPlayTimeLabel: "currentPlayTimeLabel"
+                  } 
+                );
+
+//                window.setTimeout( function() {
+//                    activateApp();
+//                    myMap.defineActiveTab( 'tabTunes' );
+//                }, 5 );
             }
-
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-          ga('create', 'UA-62839199-1', 'auto');
-          ga('send', 'pageview');
-        //]]>
-      </script>        
+            
+        </script> <!-- mainScript -->
     </body>
 </html>

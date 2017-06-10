@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+    <!--
+        To change this license header, choose License Headers in Project Properties.
+        To change this template file, choose Tools | Templates
+        and open the template in the editor.
+    -->
+<html>
+    <head>
+        <title>O formato ABCX</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <meta name="robots" content="index,follow"/>
+        <meta name="revisit-after" content="7 days"/>
+
+        <meta name="keywords" content="diatonic accordion, notation, learning, practice, repertoire, abc tunes, midi, tablature
+acordeon diatônico, gaita de oito baixos, gaita ponto, notação musical, aprendizagem, prática, repertorio, 
+notação abc, tablatura "/>
+        
+        <link href="../css/help.css" rel="stylesheet">
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-62839199-3', 'auto');
+            ga('send', 'pageview');
+        </script>        
+        <script type="text/javascript" src="../javascripts/help.js"></script>
+    </head>
+    <body>
+        <div id="helpHeader" class="helpHeader"> 
+            <span class="helpTit">O formato ABCX</span> 
+            <button id="printHelp" class="btn" title="Imprimir" onclick="printHelp('Formato');">Imprimir</button> 
+            <button id="gotoSite" class="btn" title="Ir ao Site" onclick="gotoSite('Formato');">Ir ao site</button> 
+            <button id="closeHelp" class="btn" title="Fechar" onclick="window.close();">Fechar</button> </div>
+        <div id="helpContainer" class="helpContent">
+        <h1>O formato ABCX</h1>
+        <h2>O que é o formato ABC?</h2>
+        <p>O formato ABC é um modelo livre amplamente conhecido entre aqueles
+        que usam programas de computador para gerar partituras. Muita
+        documentação pode ser obtida na internet. Listamos alguns sites para
+        referência de quem deseja saber mais sobre o formato:</p>
+        <ul>
+          <li><a target="_blank" href="https://hudlac.files.wordpress.com/2009/11/introducao.pdf">Introdução à notação ABC</a>
+        - Simples e direta: uma boa introdução, em português. </li>
+            
+          <li><a target="_blank" href="http://abcnotation.com">abcnotation.com</a>
+        - site oficial da notação ABC (em inglês). </li>
+          <li><a target="_blank" href="http://abc.sourceforge.net">abc.sourceforge.net</a>
+        - The ABC Music project (em inglês). </li>
+          <li><a target="_blank" href="http://pt.wikipedia.org/wiki/ABC_%28nota%C3%A7%C3%A3o_musical%29">pt.wikipedia.org/wiki/ABC</a>
+        - um bom site de referência, em português. </li>
+        </ul>
+        <h2>E o ABCX?</h2>
+        <p>O formato ABC é um projeto livre e, como tal, muito poderoso. É, sem
+        dúvida, uma das melhores ferramenta para quem trabalha com música e
+        gosta de software livre. Este site é um site livre e não poderia deixar
+        de fazer uso deste formato. Porém, o formato ABC é voltado para a
+        produção de partituras e este site é voltado para o aprendizado de
+        acordeons diatônicos. Também partimos do pressuposto que nem todos
+        sabem ler partituras e que gostaríamos de ter à disposição, juntamente
+        com a
+        partitura, uma tablatura para acordeon. Não é algo muito comum,
+        visto que os modelos de acordeons variam muito em sua configuração, de
+        região para região. No Brasil, mesmo, podemos encontrar muitas
+        variações
+        do mesmo instrumento.</p>
+        <p>Seria inviável ficar reescrevendo a tablatura para cada acordeon
+        diferente, então, pensamos em uma forma de unir o formato ABC com o
+        mapa de acordeon que aqui apresentamos e, automaticamente, gerar
+        tablaturas específicas para cada modelo de gaita. Claro que esta
+        tablatura não será perfeita, mas será gerada de tal forma que possa ser
+        alterada posteriormente.<br>
+        </p>
+        <p>Com isso chegamos a um ponto crucial: seria necessário estender o
+        ABC para suportar a tablatura. Não gostaríamos de mudar o formato ABC
+        que é muito completo e possui muitos usuários ao redor do mundo.
+        Pensamos então em uma forma de modificação que apenas acrescentasse
+        novos elementos. A este formato estendido vamos chamar de ABCX.<br>
+        </p>
+        <p>Com este pressupostos em mente, vamos mostrar abaixo, como se pode
+        usar um arquivo ABC para gerar uma tablatura ABCX para uma gaita
+        previamente mapeada no site.</p>
+        <h3>Partituras no navegador</h3>
+        <p>Muitos programas de computador são capazes de importar e interpretar
+        o formato ABC (vários deles são softwares livres, tais como MuseScore,
+        Lilypond ou iABC). Entretando, desenhar partituras no navegador é algo
+        mais restrito. Encontramos um projeto pioneiro chamado "abcjs",
+        desenvolvido por Paul Rosen. Este projeto permite que um arquivo ABC
+        seja lido pelo navegador e representado em uma página web. Paul Rosen
+        implementou boa parte das funcionalidades da notação ABC (se não,
+        todas). <br>
+        </p>
+        <p>Deste jeito, todo arquivo ABC (ou a grande maioria deles) pode ser
+        carregado neste site sem qualquer modificação: a partitura será
+        desenhada e poderá ser executada de forma audível pelo MIDI gerado no
+        site. No entanto, a ausência da tablatura impedirá que as botões do
+        acordeon sejam selecionados durante a execução<br>
+        </p>
+        <h2>Como escrever partituras com tablaturas</h2>
+        <p>Esta página não pretende ser um manual sobre a criação de arquivos
+        ABC, mas vamos destacar as partes importantes para a escrita de uma
+        partitura que suporte tablaturas.</p>
+        <h3>Um exemplo básico</h3>
+        <p>Vamos usar um trecho da canção "Oh! Susannah" de Stephen Foster para
+        criar uma tablatura. Primeiramente veja o fonte ABC:</p>
+        <pre>X:1<br>T:Oh! Susannah<br>M:2/4<br>L:1/4<br>Q:100<br>K:G<br>|"C"c c|e/2e/2 -e/2e/2|"G"d/2d/2 B/2G/2|"D7"A3/2G/4A/4|\<br>"G"B/2d/2 d3/4e/4|d/2B/2 G/2A/2|"G"B/2B/2 "D7"A/2A/2|"G"G2<br></pre>
+        <p class="page-break"></p><p>A partitura resultante deste trecho é:</p>
+        <img src="../img/susannah.partitura.png" style="width: 980px; height: 158px;">
+        <p>Rapidamente podemos identificar os elementos desta peça ABC: a
+        entrada <span style="font-weight: bold;">"X:"</span> marca o número da
+        peça, trata-se de um sequencial númerico para diferenciar uma peça de
+        outra; o elemento <span style="font-weight: bold;">"T:"</span>
+        identifica o título da canção; <span style="font-weight: bold;">"M:"</span>
+        identifica o compasso e <span style="font-weight: bold;">"L:"</span>
+        marca o duração da nota base; <span style="font-weight: bold;">"Q:"</span>
+        define a quantidade de batidas por minuto (bpm);<span style="font-weight: bold;"> </span><span style="font-weight: bold;">"K:"</span>
+        indica a tonalidade em que a canção está registrada. Estes elementos
+        são os chamados "<span style="font-style: italic;">metatextos</span>"
+        da canção, ou seja, elementos que descrevem características da
+        partitura. As notas propriamente ditas estão escritas nas últimas duas
+        linhas de texto. A contrabarra <span style="font-weight: bold;">"\"</span>
+        ao final da penúltima linha indica a
+        continuação, isto é, efetivamente existe apenas uma linha de partitura.
+        <br>
+        </p>
+        <p>Não vamos entrar em detalhes da escrita das notas, tempos, compassos
+        e acordes. Neste momento, convém notar que esta única linha de
+        partitura representa a única voz desta canção, que por sinal está
+        implícita. Para que o site consiga gerar a primeira tablatura, vamos
+        identificar a voz acima, usando a entrada <span style="font-weight: bold;">"V:</span>" e vamos incluir uma nova
+        voz ao final que servirá para a geração da tablatura. Esta segunda voz
+        será criada de uma forma específica e será o marcador para extensão
+        ABCX funcionar.</p>
+        <p>Vamos chamar a primeira voz de "melodia". Para isso acrescente uma
+        nova linha após o elemento <span style="font-weight: bold;">"L:"</span>,
+        da seguinte forma:
+        </p>
+        <pre>V:melodia</pre>
+        <p>E ao final do texto, vamos adicionar outra linha, assim:</p>
+        <pre>V:tablatura accordionTab<br></pre>
+        <p>O arquivo resultante será o seguinte:</p>
+        <pre>X: 1<br>T:Oh! Susannah<br>M:2/4<br>L:1/4<br>Q:100<br>K:G<br>V:melodia<br>|"C"c c|e/2e/2 -e/2e/2|"G"d/2d/2 B/2G/2|"D7"A3/2G/4A/4|\<br>"G"B/2d/2 d3/4e/4|d/2B/2 G/2A/2|"G"B/2B/2 "D7"A/2A/2|"G"G2<br>V:tablatura accordionTab</pre>
+        <p>E a partitura gerada agora incluirá a seguinte tablatura:</p>
+        <img src="../img/susannah.tablatura.png" style="width: 947px; height: 234px;">
+        <p>Esta tablatura foi gerada para a Gaita Hohner G/C e pode ser
+        diferente se for gerada para um acordeon com outra afinação. Como se
+        pode notar também, a tablatura ainda não tem informação sobre os baixos
+        da
+        canção.</p>
+        <p>Agora podemos definir o que consideramos uma "<span style="font-style: italic;">partitura completa</span>", ou seja,
+        apesar da tablatura poder ser gerada com apenas voz, uma partitura
+        completa terá duas vozes (uma para melodia e outra para a baixaria) e
+        então o site será capaz de gerar a tablatura com toda a informação.</p>
+        <p class="page-break"></p><p>Vamos modificar novamente nosso arquivo de
+        exemplo, incluíndo uma
+        nova voz para descrever os baixos, assim:</p>
+        <pre>X: 1<br>T:Oh! Susannah<br>M:2/4<br>L:1/4<br>Q:100<br>K:G<br>V:melodia treble<br>|"C"c c|e/2e/2 -e/2e/2|"G"d/2d/2 B/2G/2|"D7"A3/2G/4A/4|\<br>"G"B/2d/2 d3/4e/4|d/2B/2 G/2A/2|"G"B/2B/2 "D7"A/2A/2|"G"G2 |<br>V:baixos bass<br>| C, [C,E,G,] | C, z | G,, z | D, z | G,, z | G,, z | D, [D,^F,A,] | G,, z |<br>V:tablatura accordionTab<br></pre>
+        <p>Como resultado teremos a seguinte partitura/tablatura:</p>
+        <img src="../img/susannah.tablatura.completa.png" style="width: 1010px; height: 320px;">
+        <h3>Uma pequena variação</h3>
+        <p>O formato ABC permite que se declare as vozes previamente e, depois,
+        usando o conceito de cabeçalhos <span style="font-style: italic;">inline</span>,
+        possamos escrever uma voz abaixo da outra, facilitando a escrita quando
+        a canção possuir várias linhas. Assim:</p>
+        <pre>X: 1<br>T:Oh! Susannah<br>M:2/4<br>L:1/4<br>Q:100<br>K:G<br>V:1 sname=melodia treble<br>V:2 sname=baixos bass<br>[V:1]| "C"c c | e/2e/2 -e/2e/2 | "G"d/2d/2 B/2G/2 | "D7"A3/2G/4A/4 |\<br>       "G"B/2d/2 d3/4e/4 | d/2B/2 G/2A/2 | "G"B/2B/2 "D7"A/2A/2 | "G"G2|<br>[V:2]| C, [C,E,G,] |  C, z  |  G,, z |  D, z |\<br>      &nbsp;G,, z |  G,, z |  D, [D,^F,A,] |  G,, z |<br>V:tablatura accordionTab<br></pre>
+        <p>O resultado será o mesmo apresentado acima. Note, contudo, que a voz
+        da tablatura, devido a características da
+        nossa implementação, continua sendo o último elemento da canção, mas
+        isso não é um problema em si, porque em um primeiro momento não vamos
+        editar a tablatura, ela será automaticamente gerada.</p>
+        <h3>Transpondo tablaturas<br>
+        </h3>
+        
+        <p>Como se sabe, cada nota no acordeon é composta por duas ou mais vozes, a depender do modelo.
+        Em geral, uma nota possui duas palhetas soando em oitavas diferentes.
+        Em função disso, a partitura pode ser escrita considerando a oitava
+        superior ou a inferior. Este site sempre considerou a oitava inferior,
+        logo, se a partitura foi escrita considerando a outra oitava, a
+        tablatura será gerada usando botões mais altos. Para resolver este
+        problema, sem ter que alterar a partitura, podemos transpor a tablatura
+        para uma oitava abaixo, assim:<br>
+        </p>
+        
+        <pre>V:tablatura accordionTab transpose=-8<br></pre>
+        <p>A inclusão da chave "transpose=-8" gerará a tablatura uma oitava
+        abaixo em relação às notas da partitura. Os valores aceitos são "+8" e
+        "-8", somente.<br>
+        </p>
+        
+        
+        <h2>Entendendo a geração tablatura</h2>
+        <p>Como vimos acima, para a tablatura ser gerada precisamos de uma ou
+        duas vozes nomeadas na partitura. Com relação a voz dos baixos, convém
+        notar que, quando se trata de um acorde, o site gera o elemento na
+        tablatura em letras minúsculas.</p>
+        <p>Também vimos que além de acrescentar uma terceira voz para hospedar
+        a tablatura, precisamos incluir uma chave "K:" com a palavra reservada
+        "accordionTab" que será o marcador para a geração da tablatura. <br>
+        </p>
+        <p>O ponto realmente em questão é que ainda não observamos o que o site
+        faz ao gerar a tablatura: ele produz uma sintaxe nova e totalmente
+        estranha para o formato ABC. Este texto não está no padrão ABC e pode
+        gerar problemas com outros interpretadores, mas ele foi gerado única e
+        exclusivamente para deixar registrada a tablatura gerada e permitir a
+        posterior edição da mesma.</p>
+        <p class="page-break"></p><p>O algoritmo de geração de tablatura funciona da
+        seguinte maneira: se
+        não houver conteudo após a chave "accordionTab", uma nova tablatura
+        será inferida; se já existir, ela será apenas interpretada e desenhada
+        na tela. Isso permite o ajuste fino da tablatura através da edição
+        manual. Como sabemos, muitos fatores podem forçar a modificação da
+        tablatura, como por exemplo, a dinâmica de ar no fole da gaita.</p>
+        <p>Como efeito colateral, podemos destacar que, se uma partitura já
+        possui a tablatura gerada e, se alguma nota precisa ser corrigida, é
+        necessário apagar as linhas após a chave "accordionTab" a fim de gerar
+        uma nova tablatura depois da correção da partitura.</p>
+        <h3>A sintaxe da tablatura</h3>
+        <p>Para simplificar o entendimento, vamos tratar apenas três compassos
+        aleatórios e significativos da melodia e seus correspondentes compassos
+        dos baixos do trecho da canção usada como exemplo. São eles (com
+        pequenas modificações):</p>
+        <pre>[V:1]| c c         | e/2e/2 -e/2e/2 | B/2B/2 A/2A/2 |<br>[V:2]| C, [C,E,G,] | C, z           | D, [D,^F,A,]  |<br>V:tablatura accordionTab<br>| C+6' c+6' | C+7'0.5 &gt;+7'0.5 z+&gt;0.5 z+7'0.5 | D-6'0.5 &gt;-6'0.5 d-70.5 &gt;-70.5 |<br><br></pre>
+        <img style="width: 948px; height: 284px;" src="../img/tablatura.entendimento.png">
+        <p>No texto ABCX acima, expomos a última linha que é o produto da
+        geração da tablatura pelo site. Comparemos, pois, o texto com a
+        tablatura gerada:&nbsp; a primeira coisa que se observa é que, um
+        compasso
+        da tablatura une (mescla) um compasso da melodia e um compasso dos
+        baixos. E podemos definir um elemento da tablatura, assim:</p>
+        <pre>{baixo}{fole}{botões}{duração}</pre>
+        <p>Onde:</p>
+        <ul>
+          <li><span style="font-weight: bold;">baixo</span>: letra(s) indicando
+        o(s) botão(ões) da baixaria. Usam-se maiúsculas para representar notas
+        simples e minúsculas para os acordes. Podem não existir se não houver a
+        voz do baixo.<br>
+          </li>
+          <li><span style="font-weight: bold;">fole</span>: sinais indicam o
+        movimento do fole abrindo (-) ou fechando (+). Este símbolo é sempre
+        obrigatório<br>
+          </li>
+          <li><span style="font-weight: bold;">botões</span>: os botões da
+        melodia (podem ser um ou mais botões pressionados simultaneamente).
+        Cada botão é representado por um número de 1 a "n". Quando "n" for
+        maior que 9, usam se letras, sendo a=10 , b=11 e c=12. Cada botão
+        também possui um indicador do número da linha. Para a primeira linha
+        ele inexiste, mas para a linha 2 usa-se um apóstrofo (') após o número
+        do botão e para a linha 3, dois apóstrofos (''). Finalmente, quando
+        houver mais de um botão simultâneo, eles são agrupados em um par de
+        colchetes.<br>
+          </li>
+          <li><span style="font-weight: bold;">duração</span>: número indicando
+        a duração do elemento como um todo (baixo e melodia). Se a duração for
+        igual a duração da nota base, não é necessário escrevê-la, do
+        contrário,
+        deve ser grafada ou na forma de uma fração ou como um número real.<br>
+          </li>
+        </ul>
+        <p>Analisemos alguns detalhes da&nbsp; tablatura gerada. O primeiro
+        compasso é bastante simples:<br>
+        </p>
+        <pre>C+6' c+6' </pre>
+        <p>Podemos ver claramente dois elementos da tablatura: no primeiro o
+        <span style="font-weight: bold;">baixo</span> Dó (C) é tocado com o
+        fole sendo fechado ao mesmo tempo em que se
+        pressiona o sexto botão da linha 2 na melodia; no segundo elemento, o <span style="font-weight: bold;">acorde</span> Dó
+        (c) é tocado, ainda fechando o fole e com o mesmo botão do primeiro
+        elemento. Note que em nenhum dos elementos foi escrita a sua duração,
+        isso acontece porque as notas duram exatamente o tempo base, indicado
+        pela
+        entrada <span style="font-weight: bold;">"L:"</span>, nos metatextos
+        da peça.<br>
+        </p>
+        <p class="page-break"></p><p>Vamos ao segundo compasso. Há um elemento que
+        pode surgir em função da dinâmica dos tempos na
+        partitura ou ainda em função das ligaduras. Por exemplo, no segundo
+        compasso podemos notar que o tempo baixo é o dobro das notas da
+        melodia. Assim, a primeira nota do baixo soa durante a execução da
+        primeira e da segunda notas da melodia. Para representar esta situação
+        na tablatura, listamos o baixo Dó (C) no primeiro elemento e, no
+        segundo, onde ele é uma
+        continuação, usamos o sinal de maior (&gt;), assim:</p>
+        <pre>C+7'0.5 &gt;+7'0.5 </pre>
+        <p>Ainda no mesmo compasso, a terceira nota é ligada à segunda, e
+        então, agora é a nota da melodia&nbsp; que será continuada com o sinal
+        de maior.</p>
+        <pre>C+7'0.5 &gt;+7'0.5 z+&gt;0.5 z+7'0.5 </pre>
+        <p>Chamamos ainda a atenção para os tempos que, neste compasso da
+        tablatura, são sempre escritos com 1/2 da nota base (ou 0.5) para
+        representar tudo o que há na pauta e também a presença da pausa que é
+        representada pela letra "z".</p>
+        <p>Para encerrar, ainda há que se notar o sinal do fole: no primeiro e
+        segundo compassos, é indicado pelo símbolo "+", ou seja, fole em
+        movimento fechando, enquanto que no último compasso, o fole está
+        abrindo e o sinal é "-".</p>
+        <h3>Editando uma tablatura</h3>
+        <p>A edição da tablatura pode ser bastante confusa devido ao alto
+        número de informações simultâneas que ela abriga, mas extremamente
+        necessária, visto que não é possível gerar univocamente uma tablatura
+        para uma dada partitura: a mesma nota pode ser encontrada em mais de um
+        botão, às vezes, inclusive com a mesma direção do fole, ou ainda, por
+        restrição imposta pelos baixos podendo ser executada somente em uma
+        direção do fole.<br>
+        </p>
+        <p>Contudo, a edição é possível: ela fica à cargo do usuário e se for
+        feita com cuidado não haverá problemas. Note que, se for necessário alterar um
+        botão por outro que esteja disponível, mas com o fole na direção contrária
+        da atual, além de alterar o número do botão, deve-se alterar o sinal do
+        fole (+/-). Deve-se observar se o baixo está disponível nesta nova
+        direção do fole. Se o número do botão for incorretamente indicado, o
+        programa não reportará erro, mas durante a execução da melodia, o mesmo provavelmente não será selecionado no "<span style="font-weight: bold;">Mapa de Teclado</span>".</p>
+        <p>Para a edição, use "<span style="font-weight: bold;">Estúdio ABCX</span>" que dispõe de algumas ferramentas para facilitar a tarefa. Veja mais informações no menu de ajuda.<br>
+        </p>
+        
+        <p><br>
+        </p>
+        </div>
+        
+        </body></html>
