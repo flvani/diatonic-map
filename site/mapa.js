@@ -171,7 +171,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.showAccordionName();
     this.showAccordionImage();
     this.loadOriginalRepertoire();
-    this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white'});
+    //this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white'});
     
     DR.addAgent( this ); // register for translate
 
@@ -188,6 +188,53 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     }
     
     this.resize();
+};
+
+SITE.Mapa.prototype.callback = function (ev) {
+    switch(ev) {
+        case 'GAITA_MINUANO_GC':
+        case 'GAITA_MINUANO_BC_TRANSPORTADA':
+        case 'GAITA_HOHNER_CLUB_IIIM_BR':
+            this.setup({accordionId:ev});
+            break;
+        case 'TUTORIAL':
+            w1.setTitle('Tutoriais')
+            w1.dataDiv.innerHTML = '<embed src="/diatonic-map/html5/tutoriais.pt_BR.html" height="600" width="1024"></embed>';
+            w1.topDiv.style.display = 'inline';
+            break;
+        case 'TABS':
+            w1.setTitle('Tablaturas para Acordeons')
+            w1.dataDiv.innerHTML = '<embed src="/diatonic-map/html5/tablatura.pt_BR.html" height="600" width="1024"></embed>';
+            w1.topDiv.style.display = 'inline';
+            break;
+        case 'TABSTRANSPORTADA':
+            w1.setTitle('Tablaturas para Transportada')
+            w1.dataDiv.innerHTML = '<embed src="/diatonic-map/html5/tablaturaTransportada.pt_BR.html" height="600" width="1024"></embed>';
+            w1.topDiv.style.display = 'inline';
+            break;
+        case 'MAPS':
+            w1.setTitle('Mapas para Acordeons')
+            w1.dataDiv.innerHTML = '<embed src="/diatonic-map/html5/mapas.pt_BR.html" height="600" width="1024"></embed>';
+            w1.topDiv.style.display = 'inline';
+            break;
+        case 'ABOUT':
+            var e = document.createElement("iframe"); 
+            w1.setTitle('Sobre...')
+            w1.dataDiv.innerHTML = '';
+            w1.dataDiv.appendChild(e);
+            e.setAttribute("src", "/diatonic-map/html5/sobre.html" );
+            e.setAttribute("frameborder", "0" );
+            e.setAttribute("scrolling", "no" );
+            e.setAttribute("height", "440" );
+            e.setAttribute("width", "800" );
+            e.addEventListener("load", function () { 
+                e.style.height = e.contentWindow.document.body.scrollHeight + 'px';  
+            } );
+            w1.topDiv.style.display = 'inline';
+            break;
+        default:
+            break;
+    }
 };
 
 SITE.Mapa.prototype.setup = function (tabParams) {
@@ -209,32 +256,35 @@ SITE.Mapa.prototype.setup = function (tabParams) {
 
     this.loadOriginalRepertoire(tabParams);
     
-    this.accordion.printKeyboard(this.keyboardDiv);
+    this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white'});
     
     this.resize();
 
 };
 
-SITE.Mapa.prototype.resize = function( ) {
+SITE.Mapa.prototype.resize = function() {
    
-   console.log( 'mapa resize ainda naõ implementado');
-   return;
-
-   // redimensiona a tela partitura
-    var h = document.getElementById( 'div_principal');
-    var o = document.getElementById( 'mapContainerDiv');
-    var i = document.getElementById( 'tuneContainerDiv');
-
-    i.style.height = (o.clientHeight - h.clientHeight  - 50 - 16 ) + "px"; // 16 é o padding
+    // redimensiona a tela partitura
+    var winH = window.innerHeight
+                || document.documentElement.clientHeight
+                || document.body.clientHeight;    
+   
+    var s1 = document.getElementById( 's1' );
+    var s2 = document.getElementById( 's2' );
     
-   // posiciona a janela de midia
-   this.posicionaMidia();
+    // -paddingTop 74 -margins 16
+    var h = (winH - s1.clientHeight - (s2.clientHeight-this.tuneContainerDiv.clientHeight) -74 -16 ); 
+    
+    this.tuneContainerDiv.style.height = Math.max(h,200) +"px";
+    
+    // posiciona a janela de midia
+    this.posicionaMidia();
 
 };
 
 SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
-    console.log( 'loadOriginalRepertoire ainda não implementado!' );
-    return;
+    //console.log( 'loadOriginalRepertoire ainda não implementado!' );
+    //return;
 
     var self = this;
     var loader = this.startLoader( "LoadRepertoire" );
@@ -244,19 +294,19 @@ SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
 SITE.Mapa.prototype.loadOriginalRepertoire2 = function (tabParams, loader) {
     tabParams = tabParams || {};
     
-    this.renderedPractice.title = tabParams.practiceTitle
-        || FILEMANAGER.loadLocal('property.' + this.getSelectedAccordion().getId() + '.practice.title')
-        || this.getSelectedAccordion().getFirstPractice();
-
-    this.loadABCList('practice');
-    this.renderTAB( this.currentTab === "tabPractices", 'practice' );
-
     this.renderedChord.title = tabParams.chordTitle
         || FILEMANAGER.loadLocal('property.' + this.getSelectedAccordion().getId() + '.chord.title')
         || this.getSelectedAccordion().getFirstChord();
 
     this.loadABCList('chord');
     this.renderTAB( this.currentTab === "tabChords", 'chord' );
+
+    this.renderedPractice.title = tabParams.practiceTitle
+        || FILEMANAGER.loadLocal('property.' + this.getSelectedAccordion().getId() + '.practice.title')
+        || this.getSelectedAccordion().getFirstPractice();
+
+    this.loadABCList('practice');
+    this.renderTAB( this.currentTab === "tabPractices", 'practice' );
 
     this.renderedTune.title = tabParams.songTitle
         || FILEMANAGER.loadLocal('property.' + this.getSelectedAccordion().getId() + '.song.title')
@@ -682,7 +732,7 @@ SITE.Mapa.prototype.defineActiveTab = function( which ) {
 
 SITE.Mapa.prototype.printTab = function( ) {
     var accordion = this.getSelectedAccordion();
-    this.accordion.printKeyboard(this.keyboardDiv);
+    this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white'});
     
     var t = this.studio.getString();
     if( t === this.currentABC.text ) 
@@ -770,6 +820,9 @@ SITE.Mapa.prototype.loadABCList = function(type) {
     tab.abc = tab.text = undefined;
     tab.div.innerHTML = "";
     
+    console.log( 'Mapa.loadABCList não implementado ainda.');
+    return;
+    
     $('#' + tab.parms.ul ).empty();
     $('#' + tab.parms.span ).empty();
 
@@ -817,18 +870,18 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
     var paper = new SVG.Printer( tab.div );
     tab.printer = new ABCXJS.write.Printer(paper, this.printerparams );
     
-    $("#" + tab.div.id).fadeIn();
+    //$("#" + tab.div.id).fadeIn();
     //tab.printer.printTune( tab.abc, {color:'black', backgroundColor:'#ffd' } ); 
     tab.printer.printTune( tab.abc ); 
     tab.printer.addSelectListener(this);
     this.accordion.clearKeyboard(true);
 
     
-    $("#" + tab.div.id).hide();
-    if (alreadyOnPage) {
-        $("#" + tab.div.id).fadeIn();
-        this.showMedia(tab.abc.metaText.url);
-    }
+//    $("#" + tab.div.id).hide();
+//    if (alreadyOnPage) {
+//        $("#" + tab.div.id).fadeIn();
+//        this.showMedia(tab.abc.metaText.url);
+//    }
 };
 
 SITE.Mapa.prototype.highlight = function(abcelem) {
@@ -876,7 +929,7 @@ SITE.Mapa.prototype.posicionaMidia = function () {
     
     var m = document.getElementById("mediaDiv");
 
-    if( m.style.display === 'none') return;
+    if( !m || m.style.display === 'none') return;
 
     var w = window.innerWidth;
     var x = parseInt(m.style.left.replace('px', ''));

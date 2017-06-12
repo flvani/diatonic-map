@@ -50,8 +50,8 @@ and open the template in the editor.
                 <div id="menu1Div" class="topMenu"></div>
             </div>
         </div> <!-- topBar -->
-        <div id="corpo" class="mainDiv">
-            <section class="tabs">
+        <div id="mainDiv" class="mainDiv">
+            <section id="s1" class="tabs">
                 <input type="radio" checked="checked" />
                 <label id="a_nome_gaita">...</label>
                 <div class="btn-group">
@@ -65,7 +65,7 @@ and open the template in the editor.
                     <div id="divABCXversion"  style="position: absolute; bottom: 0; right: 0; margin-right: 5px;">Powered by ABCXJS version 5.0</div>
                 </div>
             </section>
-            <section class="tabs">
+            <section id="s2" class="tabs">
                 <input id="tab-1" type="radio" name="radio-set" class="tab-selector-1" />
                 <label for="tab-1" class="tab-label-1">Acordes</label>
 
@@ -77,36 +77,93 @@ and open the template in the editor.
 
                 <div class="btn-group" >
                     <div id="menu2Div" class="topMenu"></div>
-                    <button id="buttonTools" class="btn" >
-                        <i class="ico-wrench"></i>&nbsp;<span id="DR_chlabel">Ferramentas</span>
+                    <button id="buttonTools">
+                        <i class="ico-wrench"></i>&nbsp;<span id="DR_tools">Ferramentas</span>
                     </button>
-                    <button id="buttonPrinter" class="btn" >
-                        <i class="ico-printer"></i>&nbsp;<span id="DR_chlabel">Imprimir</span>
+                    <button id="buttonPrinter" >
+                        <i class="ico-printer"></i>&nbsp;<span id="DR_print">Imprimir</span>
                     </button>
-                    <button id="buttonPlay" class="btn" ><i class="ico-play"></i></button>
-                    <button id="buttonStop" class="btn" ><i class="ico-stop"></i></button>
+                    <button id="buttonPlay" ><i class="ico-play"></i></button>
+                    <button id="buttonStop" ><i class="ico-stop"></i></button>
                     <span id="currentPlayTimeLabel" class="text" >00:00:01</span>
                 </div>
 
-                <div class="tv-content" style="height: 400px; width: 890px;">
+                <div id="tuneContainerDiv" class="tv-content">
                     <div class="tv-content-1">
-                        <p>Some content</p>
+                        <div id="tabChordsDiv"></div>
                     </div>
-                    <div class="tv-content-2">
-                        <p>Some content</p>
+                    <div class="tv-content-2" >
+                        <div id="tabPracticesDiv" ></div>
                     </div>
                     <div class="tv-content-3">
-                        <p>Some content</p>
-                    </div>
+                        <div id="tabTunesDiv"></div>    
+                    </div>    
                 </div>
             </section>
         </div> <!-- corpo -->
         
         <script id="mainScript" type="text/javascript">
+            
+            var myMap;
+            var myStudio;
 
             window.addEventListener( 'load', initApp );
-
+            
+            window.onresize = function() {
+                if(! myStudio || ! myMap ) return;
+                
+                if( myStudio.visible) {
+                    myStudio.resize();
+                } else {     
+                    myMap.resize();
+                }    
+            };
+            
             function initApp() {
+                
+                var m1 = new ABCXJS.edit.DropdownMenu(
+                        'menu1Div'
+                        , {listener: myMap, method: 'callback'}
+                , [{title: 'Acordeons', scroll: false,
+                        itens: [
+                            'Minuano|GAITA_MINUANO_GC',
+                            'Minuano (transportada)|GAITA_MINUANO_BC_TRANSPORTADA',
+                            'Hohner Club IIIM (BR)|GAITA_HOHNER_CLUB_IIIM_BR',
+                            '------------------------------',
+                            'Salvar mapa corrente',
+                            'Carregar mapa do disco local'
+                        ]},
+                    {title: 'Repertório', scroll: false,
+                        itens: [
+                            'Restaurar o original',
+                            'Carregar do drive local',
+                            'Exportar para drive local',
+                            'Partitura <i class="ico-play"> Tablatura',
+                            'Tablatura <i class="ico-play"> Partitura'
+                        ]},
+                    {title: 'Informações', scroll: false,
+                        itens: [
+                            'Tutoriais <i class="ico-novo">|TUTORIAL',
+                            'Mapas para acordeons|MAPS',
+                            'Tablaturas para acordeons|TABS',
+                            'Tablaturas para gaita transportada|TABSTRANSPORTADA',
+                            'Símbolos de Repetição|JUMPS',
+                            'Estúdio ABCX|ESTUDIO',
+                            'Formato ABCX|ABCX',
+                            'Sobre|ABOUT'
+                        ]}
+                ]);
+                
+                var m2 = new ABCXJS.edit.DropdownMenu(
+                        'menu2Div'
+                        , {listener: this, method: 'callback1'}
+                        , [{title: 'Asa Branca', scroll: false,
+                        itens: [
+                            'Asa Branca',
+                            'Começo de Verão',
+                            'Numa sala de reboco'
+                        ]}
+                ]);
                 
                 DR.initializeTranslator([
                     'DR_appName'
@@ -160,51 +217,8 @@ and open the template in the editor.
                    ,'dRESTOREButtonA'
                 ]);
                 
-                var m1 = new ABCXJS.edit.DropdownMenu(
-                        'menu1Div'
-                        , {listener: this, method: 'callback'}
-                , [{title: 'Acordeons', scroll: false,
-                        itens: [
-                            'Minuano|GAITA_MINUANO_GC',
-                            'Minuano (transportada)|GAITA_MINUANO_BC_TRANSPORTADA',
-                            'Hohner Club IIIM (BR)|GAITA_HOHNER_CLUB_IIIM_BR',
-                            '------------------------------',
-                            'Salvar mapa corrente',
-                            'Carregar mapa do disco local'
-                        ]},
-                    {title: 'Repertório', scroll: false,
-                        itens: [
-                            'Restaurar o original',
-                            'Carregar do drive local',
-                            'Exportar para drive local',
-                            'Partitura <i class="ico-play"> Tablatura',
-                            'Tablatura <i class="ico-play"> Partitura'
-                        ]},
-                    {title: 'Informações', scroll: false,
-                        itens: [
-                            'Tutoriais <i class="ico-novo">|TUTORIAL',
-                            'Mapas para acordeons|MAPS',
-                            'Tablaturas para acordeons|TABS',
-                            'Tablaturas para gaita transportada|TABSTRANSPORTADA',
-                            'Símbolos de Repetição|JUMPS',
-                            'Estúdio ABCX|ESTUDIO',
-                            'Formato ABCX|ABCX',
-                            'Sobre|ABOUT'
-                        ]}
-                ]);
-                var m2 = new ABCXJS.edit.DropdownMenu(
-                        'menu2Div'
-                        , {listener: this, method: 'callback1'}
-                        , [{title: 'Asa Branca', scroll: false,
-                        itens: [
-                            'Asa Branca',
-                            'Começo de Verão',
-                            'Numa sala de reboco'
-                        ]}
-                ]);
-
                 w1 = new DRAGGABLE.Div(
-                        null
+                          null
                         , null
                         , {title: '', translate: false, statusBar: false, top: 100, left: 300, zIndex: 100}
                 );
@@ -233,7 +247,7 @@ and open the template in the editor.
                                     //console.log('\nPercentual: '+ event.perc);
                                 }
                             }
-                            ,onLoad: loadMIDI 
+                            ,onLoad: createMap 
                         });
                     } 
                 );
@@ -275,20 +289,20 @@ and open the template in the editor.
                        
                     },   
                     {   // editorParams
-                       textArea: "textareaABC"
-                      ,canvas_id: "canvasDiv"
-                      ,refreshController_id: "chkAutoRefresh"
-                      ,warnings_id: "warningsDiv"
-                      ,generate_warnings: true
-                      ,generate_midi: true
-                      ,generate_tablature: 'accordion'
-                      ,editorWindow: null //w1
-                      ,keyboardWindow: null //w2
-                      ,accordion_options: {
+                        textArea: "textareaABC"
+                       ,canvas_id: "canvasDiv"
+                       ,refreshController_id: "chkAutoRefresh"
+                       ,warnings_id: "warningsDiv"
+                       ,generate_warnings: true
+                       ,generate_midi: true
+                       ,generate_tablature: 'accordion'
+                       ,editorWindow: null //w1
+                       ,keyboardWindow: null //w2
+                       ,accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps
                             ,render_keyboard_opts:{transpose:false, mirror:false, scale:0.8, draggable:true, show:false, label:false}}
-                      ,onchange: function( studio ) { studio.onChange(); }
+                       ,onchange: function( studio ) { studio.onChange(); }
                   } 
                   , {   // playerParams
                         modeBtn: "modeBtn"
@@ -325,7 +339,7 @@ and open the template in the editor.
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps
                             ,render_keyboard_opts:{transpose:true, mirror:false, scale:1, draggable:false, show:true, label:false}}
-                  }
+                    }
                   , {   // tabParams
                         songSelectorParms: { div: 'divSongs', ul: 'ulSongs', span: 'spanSongs' }
                       , songDiv: 'tabTunesDiv'
@@ -334,13 +348,15 @@ and open the template in the editor.
                       , practiceSelectorParms: { div: 'divPractices', ul: 'ulPractices', span: 'spanPractices' }
                       , practiceDiv: 'tabPracticesDiv'
                       , studio: myStudio
-                  }
+                    }
                   , {   // playerParams
                         playBtn: "buttonPlay"
                       , stopBtn: "buttonStop"
                       , currentPlayTimeLabel: "currentPlayTimeLabel"
-                  } 
+                    } 
                 );
+
+                
 
 //                window.setTimeout( function() {
 //                    activateApp();

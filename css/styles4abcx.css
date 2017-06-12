@@ -4,6 +4,7 @@
 
 .btn-group {
     width: auto;
+    margin-top: 2px;
 }
 
 .btn-group button,
@@ -173,11 +174,10 @@
     transition: max-height 0.5s ease-in-out;
 }
 /*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
+    To change this license header, choose License Headers in Project Properties.
+    To change this template file, choose Tools | Templates
+    and open the template in the editor.
+
     Created on : 21/05/2017, 17:29:52
     Author     : flavio
 */
@@ -187,10 +187,7 @@ and open the template in the editor.
     position: relative;
     display: block;
     float:  left;
-    top: 75px;
-    margin-top: 4px;
-    margin-bottom: 8px;
-    margin-left: 4px;
+    margin: 4px;
     width: fit-content;
     min-width: 640px;
 }
@@ -323,6 +320,8 @@ and open the template in the editor.
     min-width: 400px;
     min-height: 200px;
     z-index: 10;
+    opacity: 1;
+    display:block;
     box-shadow: 2px 2px 2px -1px rgba(0,0,0,0.7);
     -webkit-box-shadow: 2px 2px 2px -1px rgba(0,0,0,0.7);
     -moz-box-shadow: 2px 2px 2px -1px rgba(0,0,0,0.7);
@@ -330,22 +329,23 @@ and open the template in the editor.
     -o-box-shadow: 2px 2px 2px -1px rgba(0,0,0,0.7);
 }
 
-.tv-content div {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 10px 10px;
-    z-index: 1;
-    opacity: 0;
-
-    -webkit-transition: opacity linear 0.1s;
-    -moz-transition: opacity linear 0.1s;
-    -o-transition: opacity linear 0.1s;
-    -ms-transition: opacity linear 0.1s;
-    transition: opacity linear 0.1s;
+.tv-content {
+    min-width: 1024px;
+    min-height: 300px;
+    width: auto;
+    overflow: hidden;
+    overflow-y: auto;
 }
 
-.tabs .tv-content-always,
+.tv-content > div {
+    margin: 4px;
+    display:none;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    z-index: 1;
+}
+
 .tabs input.tab-selector-1:checked ~ .tv-content .tv-content-1,
 .tabs input.tab-selector-2:checked ~ .tv-content .tv-content-2,
 .tabs input.tab-selector-3:checked ~ .tv-content .tv-content-3 {
@@ -353,24 +353,10 @@ and open the template in the editor.
     -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
     filter: alpha(opacity=100);
     opacity: 1;
-    -webkit-transition: opacity ease-out 0.2s 0.1s;
-    -moz-transition: opacity ease-out 0.2s 0.1s;
-    -o-transition: opacity ease-out 0.2s 0.1s;
-    -ms-transition: opacity ease-out 0.2s 0.1s;
-    transition: opacity ease-out 0.2s 0.1s;
+    display:block;
 }
 
-.tv-content div p {
-    font-size: 14px;
-    line-height: 22px;
-    font-style: italic;
-    text-align: left;
-    margin: 0;
-    color: #777;
-    font-family: Cambria, Georgia, serif;
-    /*padding-left: 15px;
-    border-left: 8px solid rgba(63,148,148, 0.1);*/
-}/*
+/*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
