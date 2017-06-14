@@ -4,7 +4,9 @@
 
 .btn-group {
     width: auto;
+    height: 24px;
     margin-top: 2px;
+    display: inline-block;
 }
 
 .btn-group button,
@@ -90,7 +92,7 @@
 }
 
 .dropdown-menu {
-    z-index: 11;
+    z-index: 10;
     max-height: 0;
     position:absolute;
     display:  block;
@@ -101,7 +103,7 @@
     margin-top: 3px;
     margin-left: 8px;
     min-width: fit-content;
-    overflow-y: scroll;
+    overflow-y: auto;
     -moz-transition: max-height 0.5s ease-out;
     -o-transition: max-height 0.5s ease-out;
     -webkit-transition: max-height 0.5s ease-out;
@@ -163,7 +165,7 @@
     margin: 0;
     margin-top: 3px;
     margin-left: 8px;
-    overflow-y: scroll;
+    overflow-y: auto;
     -moz-transform: scaleY(1);
     -ms-transform: scaleY(1);
     -webkit-transform: scaleY(1);
@@ -332,30 +334,40 @@
 .tv-content {
     min-width: 1024px;
     min-height: 300px;
-    width: auto;
+    width: inherit;
+    height: inherit;
     overflow: hidden;
     overflow-y: auto;
 }
-
+.tv-m1,
+.tv-m2,
+.tv-m3,
 .tv-content > div {
-    margin: 4px;
     display:none;
-    top: 0;
-    left: 0;
     opacity: 0;
     z-index: 1;
 }
 
-.tabs input.tab-selector-1:checked ~ .tv-content .tv-content-1,
-.tabs input.tab-selector-2:checked ~ .tv-content .tv-content-2,
+.tv-content > div {
+    margin: 4px;
+    top: 0;
+    left: 0;
+ }
+ 
+.tabs input.tab-selector-1:checked ~ .btn-group .tv-m1,
+.tabs input.tab-selector-2:checked ~ .btn-group .tv-m2,
+.tabs input.tab-selector-3:checked ~ .btn-group .tv-m3, 
+.tabs input.tab-selector-1:checked ~ .tv-content .tv-content-1 ,
+.tabs input.tab-selector-2:checked ~ .tv-content .tv-content-2 ,
 .tabs input.tab-selector-3:checked ~ .tv-content .tv-content-3 {
-    z-index: 10;
-    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-    filter: alpha(opacity=100);
     opacity: 1;
     display:block;
+    z-index: 100;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
+    width: auto;
+    height: auto;
 }
-
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates

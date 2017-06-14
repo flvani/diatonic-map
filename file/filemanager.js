@@ -48,7 +48,7 @@
 if (! window.FILEMANAGER) {
     
     window.FILEMANAGER = {
-         reader : new FileReader() 
+         reader : new FileReader()
         ,files : []
         ,currName : null
         ,currExtension: 'abcx'

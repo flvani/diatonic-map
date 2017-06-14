@@ -24,23 +24,51 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     
     this.mediaWidth = 300;
     this.mediaHeight = this.mediaWidth * 0.55666667;
+
+    this.menu = new ABCXJS.edit.DropdownMenu(
+           interfaceParams.mapMenuDiv
+        ,  { listener:that, method:'menuCallback' }
+        ,  [{title: 'Acordeons', scroll: false, ddmId: 'menuGaitas',
+                itens: [
+                    '------------------------------',
+                    'Salvar mapa corrente',
+                    'Carregar mapa do disco local'
+                ]},
+            {title: 'Repertório', scroll: false,
+                itens: [
+                    'Restaurar o original',
+                    'Carregar do drive local',
+                    'Exportar para drive local',
+                    'Partitura <i class="ico-play"> Tablatura',
+                    'Tablatura <i class="ico-play"> Partitura'
+                ]},
+            {title: 'Informações', scroll: false,
+                itens: [
+                    'Tutoriais <i class="ico-novo">|TUTORIAL',
+                    'Mapas para acordeons|MAPS',
+                    'Tablaturas para acordeons|TABS',
+                    'Tablaturas para gaita transportada|TABSTRANSPORTADA',
+                    'Símbolos de Repetição|JUMPS',
+                    'Estúdio ABCX|ESTUDIO',
+                    'Formato ABCX|ABCX',
+                    'Sobre|ABOUT'
+                ]}
+        ]);
     
     this.studio = tabParams.studio;
     
     // tab control
-    this.renderedTune = {text:undefined, abc:undefined, title:undefined, div:undefined, selector:undefined};
-    this.renderedChord = {text:undefined, abc:undefined, title:undefined, div:undefined, selector:undefined};
-    this.renderedPractice = {text:undefined, abc:undefined, title:undefined, div:undefined, selector:undefined};
+    this.tuneContainerDiv = document.getElementById(interfaceParams.tuneContainerDiv);
     
-    this.renderedTune.div = document.getElementById(tabParams.songDiv);
-    this.renderedTune.parms = tabParams.songSelectorParms;
-    this.renderedTune.selector = document.getElementById(this.renderedTune.parms.div);
-    this.renderedPractice.div = document.getElementById(tabParams.practiceDiv);
-    this.renderedPractice.parms = tabParams.practiceSelectorParms;
-    this.renderedPractice.selector = document.getElementById(this.renderedPractice.parms.div);
-    this.renderedChord.div = document.getElementById(tabParams.chordDiv);
-    this.renderedChord.parms = tabParams.chordSelectorParms;
-    this.renderedChord.selector = document.getElementById(this.renderedChord.parms.div);
+    this.renderedTune = {text:undefined, abc:undefined, title:undefined
+                        ,div: document.getElementById(tabParams.songSelectorParms.tabDiv)
+                        ,selector: document.getElementById(tabParams.songSelectorParms.menuDiv) };
+    this.renderedChord = {text:undefined, abc:undefined, title:undefined
+                         ,div: document.getElementById(tabParams.chordSelectorParms.tabDiv)
+                         ,selector: document.getElementById(tabParams.chordSelectorParms.menuDiv) };
+    this.renderedPractice = {text:undefined, abc:undefined, title:undefined
+                            ,div: document.getElementById(tabParams.practiceSelectorParms.tabDiv)
+                            ,selector: document.getElementById(tabParams.practiceSelectorParms.menuDiv) };
     
     // player control
     this.playButton = document.getElementById(playerParams.playBtn);
@@ -54,7 +82,6 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.buttonChangeNotation = document.getElementById(interfaceParams.btChangeNotation);
     this.checkboxAcordeon = document.getElementById(interfaceParams.ckAccordion);
     
-    this.tuneContainerDiv = document.getElementById(interfaceParams.tuneContainerDiv);
     this.gaitaNamePlaceHolder = document.getElementById(interfaceParams.accordionNamePlaceHolder);
     this.gaitaImagePlaceHolder = document.getElementById(interfaceParams.accordionImagePlaceHolder);
 
@@ -166,7 +193,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options );
     this.keyboardDiv = interfaceParams.keyboardDiv;
     
-    //this.loadAccordionList();
+    this.loadAccordionList();
     
     this.showAccordionName();
     this.showAccordionImage();
@@ -190,7 +217,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.resize();
 };
 
-SITE.Mapa.prototype.callback = function (ev) {
+SITE.Mapa.prototype.menuCallback = function (ev) {
     switch(ev) {
         case 'GAITA_MINUANO_GC':
         case 'GAITA_MINUANO_BC_TRANSPORTADA':
@@ -477,7 +504,6 @@ SITE.Mapa.prototype.setScrolling = function(player) {
         this.ypos = top;
         this.tuneContainerDiv.scrollTop = this.ypos;    
     }
-
 };
 
 SITE.Mapa.prototype.rotateKeyboard = function() {
@@ -495,21 +521,22 @@ SITE.Mapa.prototype.loadAccordionList  = function() {
        ord.push( [ parseInt( accordions[c].menuOrder ), accordions[c].getFullName() , accordions[c].getId() ] );
     }
 
+    // ordena decrescente
     ord.sort(function(a, b) {
-        return b - a;
+        return a[0] < b[0];
     });
-
-    $('#opcoes_gaita').empty();
+    
+    //this.menu.emptySubMenu('menuGaitas');
 
     for (var c=0; c < ord.length; c++) {
-        $('#opcoes_gaita').append('<li><a href="#" id="pop_gaita_' +
-            c  +'" onclick="setupGaita(\''+ ord[c][2] +'\')">' + ord[c][1] + ' ' + DR.getResource('DR_keys')  + '</a></li>');
+        // sempre na posição zero, assim o último será o primeiro (por isso ordena decrescente)
+        this.menu.addItemSubMenu( 'menuGaitas', ord[c][1] + ' ' + DR.getResource('DR_keys')  + '|' + ord[c][2], 0 );
     }
 
-    $('#opcoes_gaita')
-        .append('<hr style="height: 3px; margin: 5px;" />')
-        .append('<li><a id="extra1" href="#" onclick="saveMap();">' + DR.getResource('DR_save_map') + '</a></li>')
-        .append('<li><a id="extra2" href="#" onclick="document.getElementById(\'fileLoadMap\').click();">' + DR.getResource('DR_load_map') + '</a></li>');
+//    $('#opcoes_gaita')
+//        .append('<hr style="height: 3px; margin: 5px;" />')
+//        .append('<li><a id="extra1" href="#" onclick="saveMap();">' + DR.getResource('DR_save_map') + '</a></li>')
+//        .append('<li><a id="extra2" href="#" onclick="document.getElementById(\'fileLoadMap\').click();">' + DR.getResource('DR_load_map') + '</a></li>');
 };
 
 SITE.Mapa.prototype.salvaRepertorio = function() {
@@ -805,38 +832,37 @@ SITE.Mapa.prototype.loadABCList = function(type) {
     switch( type ) {
         case 'song':
             tab = this.renderedTune;
+            tab.ddmId = 'songsMenu';
             items = this.getSelectedAccordion().songs.sortedIndex;
             break;
         case 'practice':
             tab = this.renderedPractice;
+            tab.ddmId = 'practicesMenu';
             items = this.getSelectedAccordion().practices.sortedIndex;
             break;
         case 'chord':
             tab = this.renderedChord;
+            tab.ddmId = 'chorsMenu';
             items = this.getSelectedAccordion().chords.sortedIndex;
             break;
     };
     
     tab.abc = tab.text = undefined;
     tab.div.innerHTML = "";
+    tab.menu = new ABCXJS.edit.DropdownMenu( 
+        tab.selector
+        , {}
+        , [{title: '...', scroll: true, ddmId: tab.ddmId, itens: []}]
+    );
     
-    console.log( 'Mapa.loadABCList não implementado ainda.');
-    return;
-    
-    $('#' + tab.parms.ul ).empty();
-    $('#' + tab.parms.span ).empty();
-
     for( var i = 0; i < items.length; i++) {
         
         var title = items[i];
         if(title === tab.title ) {
-            document.getElementById(tab.parms.span).innerHTML = (title.length>43 ? title.substr(0,40) + "..." : title);
+            tab.menu.setSubMenuTitle( tab.ddmId, title );
         }    
+        tab.menu.addItemSubMenu( tab.ddmId, title );
         
-        $('#' + tab.parms.ul ).append(
-            '<li ><a href="#" id="' + type + i +'" onclick="showABC(\''+ type +'\',\''+ i +'\')">' + 
-            (title.length>43 ? title.substr(0,40) + "..." : title)  + '</a></li>'
-        );
     }   
 };
 

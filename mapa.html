@@ -47,7 +47,7 @@ and open the template in the editor.
                 <i class="ico-cogs topSettings" ></i>
             </span>
             <div class="dropdown-group">
-                <div id="menu1Div" class="topMenu"></div>
+                <div id="mapMenu" class="topMenu"></div>
             </div>
         </div> <!-- topBar -->
         <div id="mainDiv" class="mainDiv">
@@ -76,7 +76,9 @@ and open the template in the editor.
                 <label for="tab-3" class="tab-label-3">Músicas</label>
 
                 <div class="btn-group" >
-                    <div id="menu2Div" class="topMenu"></div>
+                    <div id="menuChords" class="topMenu tv-m1"></div>
+                    <div id="menuPractices" class="topMenu tv-m2"></div>
+                    <div id="menuSongs" class="topMenu tv-m3"></div>
                     <button id="buttonTools">
                         <i class="ico-wrench"></i>&nbsp;<span id="DR_tools">Ferramentas</span>
                     </button>
@@ -120,50 +122,6 @@ and open the template in the editor.
             };
             
             function initApp() {
-                
-                var m1 = new ABCXJS.edit.DropdownMenu(
-                        'menu1Div'
-                        , {listener: myMap, method: 'callback'}
-                , [{title: 'Acordeons', scroll: false,
-                        itens: [
-                            'Minuano|GAITA_MINUANO_GC',
-                            'Minuano (transportada)|GAITA_MINUANO_BC_TRANSPORTADA',
-                            'Hohner Club IIIM (BR)|GAITA_HOHNER_CLUB_IIIM_BR',
-                            '------------------------------',
-                            'Salvar mapa corrente',
-                            'Carregar mapa do disco local'
-                        ]},
-                    {title: 'Repertório', scroll: false,
-                        itens: [
-                            'Restaurar o original',
-                            'Carregar do drive local',
-                            'Exportar para drive local',
-                            'Partitura <i class="ico-play"> Tablatura',
-                            'Tablatura <i class="ico-play"> Partitura'
-                        ]},
-                    {title: 'Informações', scroll: false,
-                        itens: [
-                            'Tutoriais <i class="ico-novo">|TUTORIAL',
-                            'Mapas para acordeons|MAPS',
-                            'Tablaturas para acordeons|TABS',
-                            'Tablaturas para gaita transportada|TABSTRANSPORTADA',
-                            'Símbolos de Repetição|JUMPS',
-                            'Estúdio ABCX|ESTUDIO',
-                            'Formato ABCX|ABCX',
-                            'Sobre|ABOUT'
-                        ]}
-                ]);
-                
-                var m2 = new ABCXJS.edit.DropdownMenu(
-                        'menu2Div'
-                        , {listener: this, method: 'callback1'}
-                        , [{title: 'Asa Branca', scroll: false,
-                        itens: [
-                            'Asa Branca',
-                            'Começo de Verão',
-                            'Numa sala de reboco'
-                        ]}
-                ]);
                 
                 DR.initializeTranslator([
                     'DR_appName'
@@ -247,7 +205,7 @@ and open the template in the editor.
                                     //console.log('\nPercentual: '+ event.perc);
                                 }
                             }
-                            ,onLoad: createMap 
+                            ,onLoad: loadMIDI 
                         });
                     } 
                 );
@@ -273,10 +231,6 @@ and open the template in the editor.
                 MIDI.widget.setValue(100);
 
                 var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
-                
-                accordion = 'GAITA_MINUANO_BC_TRANSPORTADA';
-                accordion = 'GAITA_HOHNER_CLUB_IIIM_BR';
-                accordion = 'GAITA_MINUANO_GC';
 
                 myStudio = new SITE.Estudio(
                     {   // interfaceParams
@@ -331,22 +285,20 @@ and open the template in the editor.
                       , btChangeNotation: 'buttonChangeNotation'
                       , accordionNamePlaceHolder: 'a_nome_gaita'
                       , accordionImagePlaceHolder: 'td_imagem_gaita'
-                      , tuneContainerDiv: 'tuneContainerDiv'
                       , printBtn: 'buttonPrinter'
                       , toolsBtn: 'buttonTools'
-                      ,keyboardDiv: "contentKeyboard"
-                      ,accordion_options: {
+                      , mapMenuDiv: 'mapMenu'
+                      , keyboardDiv: "contentKeyboard"
+                      , tuneContainerDiv: 'tuneContainerDiv'
+                      , accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps
                             ,render_keyboard_opts:{transpose:true, mirror:false, scale:1, draggable:false, show:true, label:false}}
                     }
                   , {   // tabParams
-                        songSelectorParms: { div: 'divSongs', ul: 'ulSongs', span: 'spanSongs' }
-                      , songDiv: 'tabTunesDiv'
-                      , chordSelectorParms:  { div: 'divChords', ul: 'ulChords', span: 'spanChords' }
-                      , chordDiv: 'tabChordsDiv'
-                      , practiceSelectorParms: { div: 'divPractices', ul: 'ulPractices', span: 'spanPractices' }
-                      , practiceDiv: 'tabPracticesDiv'
+                        songSelectorParms: { tabDiv: 'tabTunesDiv', menuDiv: 'menuSongs' }
+                      , chordSelectorParms:  { tabDiv: 'tabChordsDiv', menuDiv: 'menuChords' }
+                      , practiceSelectorParms: { tabDiv: 'tabPracticesDiv', menuDiv: 'menuPractices' }
                       , studio: myStudio
                     }
                   , {   // playerParams
@@ -355,8 +307,6 @@ and open the template in the editor.
                       , currentPlayTimeLabel: "currentPlayTimeLabel"
                     } 
                 );
-
-                
 
 //                window.setTimeout( function() {
 //                    activateApp();

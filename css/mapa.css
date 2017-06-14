@@ -103,7 +103,6 @@ body {
 .topMenu {
     position: relative;
     float: left;
-    display: inline;
     border: none;
     background: none;
     margin-top: 0px;
@@ -132,6 +131,7 @@ body {
     top:9px;
     left:2px;
     color: coral;
+    padding-left: 2px;
 }
 
 /*
