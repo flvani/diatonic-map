@@ -15,7 +15,7 @@ teste.
         <link rel="stylesheet" href="fontsGoogle/fonts.css" />
         <link rel="stylesheet" href="css/styles4abcx.css" />
         <link rel="stylesheet" href="css/mapa.css" />
-        <link rel="stylesheet" href="css/estudio.css" />
+        <link rel="stylesheet" href="css/studio.css" />
         <link rel="icon" type="image/icon" href="images/favicon.ico"/>
   </head>
     <body>
@@ -51,8 +51,8 @@ teste.
                 <div id="mapMenu" class="topMenu"></div>
             </div>
         </div> <!-- topBar -->
-        <div id="mainDiv" class="mainDiv">
-            <section id="s1" class="tabs">
+        <div id="mapaDiv" class="mapaDiv">
+            <div id="section1" class="tabs">
                 <input type="radio" checked="checked" />
                 <label id="a_nome_gaita">...</label>
                 <div class="btn-group">
@@ -65,11 +65,11 @@ teste.
                     <div id="td_imagem_gaita" style="position: absolute; top: 0; right: 0; margin-right: 15px;"></div>
                     <div id="divABCXversion"  style="position: absolute; bottom: 0; right: 0; margin-right: 5px;">Powered by ABCXJS version 5.0</div>
                 </div>
-            </section>
+            </div>
             
-            <div id="warningsDiv"></div>
+            <div id="mapaWarningsDiv"></div>
 
-            <section id="s2" class="tabs">
+            <div id="section2" class="tabs">
                 <input id="tab-1" type="radio" name="radio-set" class="tab-selector-1" />
                 <label for="tab-1" class="tab-label-1">Acordes</label>
 
@@ -105,8 +105,19 @@ teste.
                         <div id="tabTunesDiv"></div>    
                     </div>    
                 </div>
-            </section>
-        </div> <!-- corpo -->
+            </div>
+        </div> <!-- mapaDiv -->
+        <div id="studioDiv"  class="studioDiv" >
+            <div id="studioCanvasDiv" >
+                <div id="warningsDiv"></div>
+                <div id="canvasDiv"></div>
+                <hr style="visibility: hidden;"/>
+            </div> <!--studioCanvasDiv-->    
+            <div id="editorDiv" class="draggableWindow" style="left:40px; top:120px;" ></div>
+            <!-- /editorDiv -->
+            <div id="keyboardDiv" class="draggableWindow" style="left:900px; top:120px; "></div> 
+        </div> <!-- studioDiv -->
+        <div id="printPreviewDiv" class="printPreviewClass"></div>
         
         <script id="mainScript" type="text/javascript">
             

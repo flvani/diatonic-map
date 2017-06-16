@@ -14,7 +14,6 @@ body {
     font-size: 16px;
     margin: 0;
     padding: 0;
-    padding-top: 74px;
     overflow: auto;
     /* inicio - evita que textos fiquem selecionáveis */
     -webkit-touch-callout: none;
@@ -22,7 +21,6 @@ body {
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none;
     /* fim - evita que textos fiquem selecionáveis */
     /*
     background:url("../images/background.fole.png");
@@ -32,12 +30,13 @@ body {
     background-color: #ededed;
     */
     background-color: white;
-    }
+}
     
-.mainDiv {
+.mapaDiv {
     position:absolute;
     display: block;
-    width:auto;
+    top: 75px;
+    width: 100%;
     height: auto;
 }
 
@@ -61,6 +60,12 @@ body {
     padding: 0;
     padding-top: 4px;
     padding-left: 5px;
+    box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.7);
+    -webkit-box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.7);
+    -moz-box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.7);
+    -ms-box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.7);
+    -o-box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.7);
+    
 }
 
 .gradiente {
@@ -108,35 +113,15 @@ body {
     margin-top: 0px;
 }
 
-.btn-group button {
-    color: black;
-    background-color: lavender;
+.btn-group button,
+.btn-group > span {
+    color: red;
+    background-color: transparent;
     padding-left: 8px;
     padding-right: 4px;
 }
 
+
 .btn-group button:hover {
     background-color: lavenderblush;
 }
-
-.text {
-    position: relative;
-    display: inline;
-    float: left;
-    font-family: 'titleFont3';
-    font-weight: bold;
-    font-size: 14px;
-    text-align: left;
-    line-height: 14px;
-    top:9px;
-    left:2px;
-    color: coral;
-    padding-left: 2px;
-}
-
-/*
-.dropdown-group button:hover {
-    color: orange;
-    background-color: transparent;
-}
-*/

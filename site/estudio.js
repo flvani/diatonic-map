@@ -377,30 +377,17 @@ SITE.Estudio.prototype.changePageOrientation = function (orientation) {
 
 };
 
-SITE.Estudio.prototype.printPreview = function (html, divsToHide, landscape ) {
-    var bg = document.body.style.backgroundColor;
-    var pt = document.body.style.paddingTop;
+SITE.Estudio.prototype.printPreview = function (html, landscape ) {
+    
     var dv = document.getElementById('printPreviewDiv');
     
-    divsToHide.forEach( function( div ) {
-        $(div).hide();
-    });
-    
-   this.changePageOrientation(landscape? 'landscape': 'portrait');
+    this.changePageOrientation(landscape? 'landscape': 'portrait');
     
     dv.style.display = 'inline';
     dv.innerHTML = html;
-    document.body.style.paddingTop = '0px';
-    document.body.style.backgroundColor = '#fff';
     window.print();
-    document.body.style.backgroundColor = bg;
-    document.body.style.paddingTop = pt;
-   dv.style.display = 'none';
+    dv.style.display = 'none';
     
-    divsToHide.forEach( function( div ) {
-        $(div).show();
-    });
-
 };
 
 
@@ -795,11 +782,14 @@ SITE.Estudio.prototype.modelChanged = function() {
 };
 
 SITE.Estudio.prototype.setup = function(tab, accordionId) {
+    
     this.accordion.loadById(accordionId);
     this.renderedTune.text = tab.text;
     this.renderedTune.title = tab.title;
     this.renderedTune.abc = tab.abc;
     this.setString(this.renderedTune.text);
+    
+    
     editAreaLoader.setValue("editorTextArea", this.renderedTune.text );
     this.editorWindow.setTitle('-&#160;' + tab.title);
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );

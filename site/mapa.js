@@ -4,13 +4,6 @@
  * and open the template in the editor.
  */
 
-/*
- * TODO:
- *      Ok - definir callback on end midi    
- *      Ok - Acertar casa 2 no xote laranjeira    
- *  
- */
-
 if (!window.SITE)
     window.SITE = {};
 
@@ -26,13 +19,13 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.menu = new ABCXJS.edit.DropdownMenu(
            interfaceParams.mapMenuDiv
         ,  { listener:that, method:'menuCallback' }
-        ,  [{title: 'Acordeons', scroll: false, ddmId: 'menuGaitas',
+        ,  [{title: 'Acordeons', ddmId: 'menuGaitas',
                 itens: [
                     '----',
                     'Salvar mapa corrente',
                     'Carregar mapa do disco local'
                 ]},
-            {title: 'Repertório', scroll: false, ddmId: 'menuRepertorio',
+            {title: 'Repertório', ddmId: 'menuRepertorio',
                 itens: [
                     'Restaurar o original',
                     'Carregar do drive local',
@@ -40,7 +33,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
                     'Partitura <i class="ico-play"> Tablatura',
                     'Tablatura <i class="ico-play"> Partitura'
                 ]},
-            {title: 'Informações', scroll: false, ddmId: 'menuInformacoes',
+            {title: 'Informações', ddmId: 'menuInformacoes',
                 itens: [
                     'Tutoriais <i class="ico-novo">|TUTORIAL',
                     'Mapas para acordeons|MAPS',
@@ -81,47 +74,10 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.gaitaNamePlaceHolder = document.getElementById(interfaceParams.accordionNamePlaceHolder);
     this.gaitaImagePlaceHolder = document.getElementById(interfaceParams.accordionImagePlaceHolder);
     
-    this.printButton.addEventListener("touchstart", function(evt) {
-        evt.preventDefault();
-        this.blur();
-        var currentABC = that.getActiveTab();
-        if(  currentABC.div.innerHTML && that.studio )  {
-            ga('send', 'event', 'Mapa', 'print', currentABC.title);
-            that.studio.printPreview(currentABC.div.innerHTML, ["#divTitulo","#mapContainerDiv"], currentABC.abc.formatting.landscape );
-        }
-    }, false);
-    
-    this.printButton.addEventListener("click", function(evt) {
-        evt.preventDefault();
-        this.blur();
-        var currentABC = that.getActiveTab();
-        if(  currentABC.div.innerHTML && that.studio )  {
-            ga('send', 'event', 'Mapa', 'print', currentABC.title);
-            that.studio.printPreview(currentABC.div.innerHTML, ["#divTitulo","#mapContainerDiv"], currentABC.abc.formatting.landscape );
-        }
-        
-    }, false);
-
-    this.toolsButton.addEventListener("touchstart", function(evt) {
-        evt.preventDefault();
-        this.blur();
-        var currentABC = that.getActiveTab();
-        if( currentABC.div.innerHTML && that.studio ) {
-            ga('send', 'event', 'Mapa', 'tools', currentABC.title);
-            that.showStudio();
-        }
-    }, false);
-
-    this.toolsButton.addEventListener("click", function(evt) {
-        evt.preventDefault();
-        this.blur();
-        var currentABC = that.getActiveTab();
-        if( currentABC.div.innerHTML && that.studio ) {
-            ga('send', 'event', 'Mapa', 'tools', currentABC.title);
-            that.showStudio();
-        }
-        
-    }, false);
+    this.printButton.addEventListener("touchstart", function(event) {  that.printPartiture(this, event); }, false);
+    this.printButton.addEventListener("click", function(event) { that.printPartiture(this, event); }, false);
+    this.toolsButton.addEventListener("touchstart", function(event) { that.showStudio(this, event); }, false);
+    this.toolsButton.addEventListener("click", function(event) { that.showStudio(this, event); }, false);
 
     this.buttonChangeNotation.addEventListener("click", function(evt) {
         evt.preventDefault();
@@ -151,7 +107,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         if(that.currentPlayTimeLabel)
             that.currentPlayTimeLabel.innerHTML = "00:00.00";
         
-        var wd =  document.getElementById("warningsDiv");
+        var wd =  document.getElementById("mapaWarningsDiv");
         
         if( warns && wd) {
             var txt = "";
@@ -285,11 +241,11 @@ SITE.Mapa.prototype.resize = function() {
                 || document.documentElement.clientHeight
                 || document.body.clientHeight;    
    
-    var s1 = document.getElementById( 's1' );
-    var s2 = document.getElementById( 's2' );
+    var s1 = document.getElementById( 'section1' );
+    var s2 = document.getElementById( 'section2' );
     
-    // -paddingTop 74 -margins 16
-    var h = (winH - s1.clientHeight - (s2.clientHeight-this.tuneContainerDiv.clientHeight) -74 -16 ); 
+    // -paddingTop 75 -margins 16 -2 shadow
+    var h = (winH - s1.clientHeight - (s2.clientHeight-this.tuneContainerDiv.clientHeight) -75 -16 -2 ); 
     
     this.tuneContainerDiv.style.height = Math.max(h,200) +"px";
     
@@ -299,9 +255,6 @@ SITE.Mapa.prototype.resize = function() {
 };
 
 SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
-    //console.log( 'loadOriginalRepertoire ainda não implementado!' );
-    //return;
-
     var self = this;
     var loader = this.startLoader( "LoadRepertoire" );
     loader.start(  function() { self.loadOriginalRepertoire2(tabParams,loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
@@ -331,27 +284,48 @@ SITE.Mapa.prototype.loadOriginalRepertoire2 = function (tabParams, loader) {
     loader.stop();
 
 };
-SITE.Mapa.prototype.showStudio = function () {
-    var self = this;
-    var loader = this.startLoader( "XStudio" );
-    loader.start(  function() { self.showStudio2(loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
 
+SITE.Mapa.prototype.printPartiture = function (button, event) {
+    var currentABC = this.getActiveTab();
+    event.preventDefault();
+    button.blur();
+    if(  currentABC.div.innerHTML && this.studio )  {
+        ga('send', 'event', 'Mapa', 'print', currentABC.title);
+        this.studio.printPreview(currentABC.div.innerHTML, currentABC.abc.formatting.landscape );
+    }
 };
+
+SITE.Mapa.prototype.showStudio = function (button, event) {
+    var self = this;
+    var currentABC = self.getActiveTab();
+    event.preventDefault();
+    button.blur();
+
+    if( currentABC.div.innerHTML && this.studio ) {
+        ga('send', 'event', 'Mapa', 'tools', currentABC.title);
+        var loader = this.startLoader( "XStudio" );
+        loader.start(  function() { self.showStudio2(loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
+    }
+};
+
 SITE.Mapa.prototype.showStudio2 = function (loader) {
     
     var currentABC = this.getActiveTab();
     
     this.midiPlayer.stopPlay();
     
-    $("#mapContainerDiv").hide();
-    document.getElementById("divMenuAccordions").style.pointerEvents = 'none';
-    document.getElementById("divMenuRepertoire").style.pointerEvents = 'none';
-    document.getElementById("DR_accordions").style.color = 'gray';
-    document.getElementById("DR_repertoire").style.color = 'gray';
+    $("#mapaDiv").hide();
+    
+    this.menu.disableSubMenu('menuGaitas');
+    this.menu.disableSubMenu('menuRepertorio');
+    
     $("#studioDiv").show();
+
     this.studio.visible = true;
     this.studio.setup(currentABC, this.getSelectedAccordion().getId() );
-    this.setupProps();
+    
+    //this.setupProps();
+    
     loader.stop();
 };
 
@@ -802,7 +776,7 @@ SITE.Mapa.prototype.loadABCList = function(type) {
     tab.menu = new ABCXJS.edit.DropdownMenu( 
         tab.selector
         , {listener:this, method: 'showABC' }
-        , [{title: '...', scroll: true, ddmId: tab.ddmId, itens: []}]
+        , [{title: '...', ddmId: tab.ddmId, itens: []}]
     );
     
     for( var i = 0; i < items.length; i++) {
