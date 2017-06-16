@@ -66,6 +66,9 @@ teste.
                     <div id="divABCXversion"  style="position: absolute; bottom: 0; right: 0; margin-right: 5px;">Powered by ABCXJS version 5.0</div>
                 </div>
             </section>
+            
+            <div id="warningsDiv"></div>
+
             <section id="s2" class="tabs">
                 <input id="tab-1" type="radio" name="radio-set" class="tab-selector-1" />
                 <label for="tab-1" class="tab-label-1">Acordes</label>
@@ -109,9 +112,14 @@ teste.
             
             var myMap;
             var myStudio;
+            var debug=false;
+            
+            function ga(){
+                console.log('Funcao ga não definida - para enganar o google');
+            }
 
             window.addEventListener( 'load', initApp );
-            
+                    
             window.onresize = function() {
                 if(! myStudio || ! myMap ) return;
                 
@@ -308,11 +316,6 @@ teste.
                       , currentPlayTimeLabel: "currentPlayTimeLabel"
                     } 
                 );
-
-//                window.setTimeout( function() {
-//                    activateApp();
-//                    myMap.defineActiveTab( 'tabTunes' );
-//                }, 5 );
             }
             
         </script> <!-- mainScript -->

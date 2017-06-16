@@ -19,8 +19,6 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     var that = this;
     this.ypos = 0; // esta variável é usada para ajustar o scroll durante a execução do midi
     this.lastStaffGroup = -1; // também auxilia no controle de scroll
-    this.currentTab = '';
-    this.currentABC = null;
     
     this.mediaWidth = 300;
     this.mediaHeight = this.mediaWidth * 0.55666667;
@@ -30,11 +28,11 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         ,  { listener:that, method:'menuCallback' }
         ,  [{title: 'Acordeons', scroll: false, ddmId: 'menuGaitas',
                 itens: [
-                    '------------------------------',
+                    '----',
                     'Salvar mapa corrente',
                     'Carregar mapa do disco local'
                 ]},
-            {title: 'Repertório', scroll: false,
+            {title: 'Repertório', scroll: false, ddmId: 'menuRepertorio',
                 itens: [
                     'Restaurar o original',
                     'Carregar do drive local',
@@ -42,7 +40,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
                     'Partitura <i class="ico-play"> Tablatura',
                     'Tablatura <i class="ico-play"> Partitura'
                 ]},
-            {title: 'Informações', scroll: false,
+            {title: 'Informações', scroll: false, ddmId: 'menuInformacoes',
                 itens: [
                     'Tutoriais <i class="ico-novo">|TUTORIAL',
                     'Mapas para acordeons|MAPS',
@@ -60,13 +58,13 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     // tab control
     this.tuneContainerDiv = document.getElementById(interfaceParams.tuneContainerDiv);
     
-    this.renderedTune = {text:undefined, abc:undefined, title:undefined
+    this.renderedTune = {text:undefined, abc:undefined, title:undefined, tab:'songs'
                         ,div: document.getElementById(tabParams.songSelectorParms.tabDiv)
                         ,selector: document.getElementById(tabParams.songSelectorParms.menuDiv) };
-    this.renderedChord = {text:undefined, abc:undefined, title:undefined
+    this.renderedChord = {text:undefined, abc:undefined, title:undefined, tab: 'chords'
                          ,div: document.getElementById(tabParams.chordSelectorParms.tabDiv)
                          ,selector: document.getElementById(tabParams.chordSelectorParms.menuDiv) };
-    this.renderedPractice = {text:undefined, abc:undefined, title:undefined
+    this.renderedPractice = {text:undefined, abc:undefined, title:undefined, tab: 'practices'
                             ,div: document.getElementById(tabParams.practiceSelectorParms.tabDiv)
                             ,selector: document.getElementById(tabParams.practiceSelectorParms.menuDiv) };
     
@@ -74,35 +72,32 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.playButton = document.getElementById(playerParams.playBtn);
     this.stopButton = document.getElementById(playerParams.stopBtn);
     this.currentPlayTimeLabel = document.getElementById(playerParams.currentPlayTimeLabel);
-
-    // screen control
-    this.checkboxEspelho = document.getElementById(interfaceParams.ckMirror);
-    this.checkboxHorizontal = document.getElementById(interfaceParams.ckHorizontal);
-    this.checkboxPiano = document.getElementById(interfaceParams.ckPiano);
-    this.buttonChangeNotation = document.getElementById(interfaceParams.btChangeNotation);
-    this.checkboxAcordeon = document.getElementById(interfaceParams.ckAccordion);
     
-    this.gaitaNamePlaceHolder = document.getElementById(interfaceParams.accordionNamePlaceHolder);
-    this.gaitaImagePlaceHolder = document.getElementById(interfaceParams.accordionImagePlaceHolder);
-
+    // screen control
+    this.buttonChangeNotation = document.getElementById(interfaceParams.btChangeNotation);
     this.printButton = document.getElementById(interfaceParams.printBtn);
     this.toolsButton = document.getElementById(interfaceParams.toolsBtn);
-   
+
+    this.gaitaNamePlaceHolder = document.getElementById(interfaceParams.accordionNamePlaceHolder);
+    this.gaitaImagePlaceHolder = document.getElementById(interfaceParams.accordionImagePlaceHolder);
+    
     this.printButton.addEventListener("touchstart", function(evt) {
         evt.preventDefault();
         this.blur();
-        if(  that.currentABC.div.innerHTML && that.studio )  {
-            ga('send', 'event', 'Mapa', 'print', that.currentABC.title);
-            that.studio.printPreview(that.currentABC.div.innerHTML, ["#divTitulo","#mapContainerDiv"], that.currentABC.abc.formatting.landscape );
+        var currentABC = that.getActiveTab();
+        if(  currentABC.div.innerHTML && that.studio )  {
+            ga('send', 'event', 'Mapa', 'print', currentABC.title);
+            that.studio.printPreview(currentABC.div.innerHTML, ["#divTitulo","#mapContainerDiv"], currentABC.abc.formatting.landscape );
         }
     }, false);
     
     this.printButton.addEventListener("click", function(evt) {
         evt.preventDefault();
         this.blur();
-        if(  that.currentABC.div.innerHTML && that.studio )  {
-            ga('send', 'event', 'Mapa', 'print', that.currentABC.title);
-            that.studio.printPreview(that.currentABC.div.innerHTML, ["#divTitulo","#mapContainerDiv"], that.currentABC.abc.formatting.landscape );
+        var currentABC = that.getActiveTab();
+        if(  currentABC.div.innerHTML && that.studio )  {
+            ga('send', 'event', 'Mapa', 'print', currentABC.title);
+            that.studio.printPreview(currentABC.div.innerHTML, ["#divTitulo","#mapContainerDiv"], currentABC.abc.formatting.landscape );
         }
         
     }, false);
@@ -110,8 +105,9 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.toolsButton.addEventListener("touchstart", function(evt) {
         evt.preventDefault();
         this.blur();
-        if( that.currentABC.div.innerHTML && that.studio ) {
-            ga('send', 'event', 'Mapa', 'tools', that.currentABC.title);
+        var currentABC = that.getActiveTab();
+        if( currentABC.div.innerHTML && that.studio ) {
+            ga('send', 'event', 'Mapa', 'tools', currentABC.title);
             that.showStudio();
         }
     }, false);
@@ -119,8 +115,9 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.toolsButton.addEventListener("click", function(evt) {
         evt.preventDefault();
         this.blur();
-        if( that.currentABC.div.innerHTML && that.studio ) {
-            ga('send', 'event', 'Mapa', 'tools', that.currentABC.title);
+        var currentABC = that.getActiveTab();
+        if( currentABC.div.innerHTML && that.studio ) {
+            ga('send', 'event', 'Mapa', 'tools', currentABC.title);
             that.showStudio();
         }
         
@@ -132,18 +129,6 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         that.accordion.changeNotation();
     }, false );
     
-    /*
-    this.checkboxHorizontal.addEventListener('click', function(evt) {
-        evt.preventDefault();
-        that.accordion.layoutKeyboard( {transpose: this.checked }, that.keyboardDiv );
-    }, false );
-
-    this.checkboxEspelho.addEventListener('click', function(evt) {
-        evt.preventDefault();
-        that.accordion.layoutKeyboard( {mirror: this.checked }, that.keyboardDiv );
-    }, false );
-    */
-   
     this.playerCallBackOnScroll = function( player ) {
         that.setScrolling( player );
     };
@@ -157,15 +142,18 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     };
 
     this.playerCallBackOnEnd = function( player ) {
+        var currentABC = that.getActiveTab();
         var warns = that.midiPlayer.getWarnings();
         that.playButton.title = DR.getResource("playBtn");
-        that.playButton.innerHTML = '&#160;<i class="icon-play"></i>&#160;';
-        that.currentABC.abc.midi.printer.clearSelection();
+        that.playButton.innerHTML = '<i class="ico-play"></i>';
+        currentABC.abc.midi.printer.clearSelection();
         that.accordion.clearKeyboard(true);
         if(that.currentPlayTimeLabel)
             that.currentPlayTimeLabel.innerHTML = "00:00.00";
-        if( warns ) {
-            var wd =  document.getElementById("warningsDiv");
+        
+        var wd =  document.getElementById("warningsDiv");
+        
+        if( warns && wd) {
             var txt = "";
             warns.forEach(function(msg){ txt += msg + '<br/>'; });
             wd.style.color = 'blue';
@@ -198,7 +186,8 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.showAccordionName();
     this.showAccordionImage();
     this.loadOriginalRepertoire();
-    //this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white'});
+    
+    this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white'});
     
     DR.addAgent( this ); // register for translate
 
@@ -325,22 +314,19 @@ SITE.Mapa.prototype.loadOriginalRepertoire2 = function (tabParams, loader) {
         || FILEMANAGER.loadLocal('property.' + this.getSelectedAccordion().getId() + '.chord.title')
         || this.getSelectedAccordion().getFirstChord();
 
-    this.loadABCList('chord');
-    this.renderTAB( this.currentTab === "tabChords", 'chord' );
+    this.loadABCList(this.renderedChord.tab);
 
     this.renderedPractice.title = tabParams.practiceTitle
         || FILEMANAGER.loadLocal('property.' + this.getSelectedAccordion().getId() + '.practice.title')
         || this.getSelectedAccordion().getFirstPractice();
 
-    this.loadABCList('practice');
-    this.renderTAB( this.currentTab === "tabPractices", 'practice' );
+    this.loadABCList(this.renderedPractice.tab);
 
     this.renderedTune.title = tabParams.songTitle
         || FILEMANAGER.loadLocal('property.' + this.getSelectedAccordion().getId() + '.song.title')
         || this.getSelectedAccordion().getFirstSong();
 
-    this.loadABCList('song');
-    this.renderTAB( this.currentTab === "tabTunes", 'song' );
+    this.loadABCList(this.renderedTune.tab);
     
     loader.stop();
 
@@ -353,6 +339,8 @@ SITE.Mapa.prototype.showStudio = function () {
 };
 SITE.Mapa.prototype.showStudio2 = function (loader) {
     
+    var currentABC = this.getActiveTab();
+    
     this.midiPlayer.stopPlay();
     
     $("#mapContainerDiv").hide();
@@ -362,7 +350,7 @@ SITE.Mapa.prototype.showStudio2 = function (loader) {
     document.getElementById("DR_repertoire").style.color = 'gray';
     $("#studioDiv").show();
     this.studio.visible = true;
-    this.studio.setup(this.currentABC, this.getSelectedAccordion().getId() );
+    this.studio.setup(currentABC, this.getSelectedAccordion().getId() );
     this.setupProps();
     loader.stop();
 };
@@ -461,6 +449,8 @@ SITE.Mapa.prototype.closeStudio2 = function (loader) {
 };
 
 SITE.Mapa.prototype.startPlay = function( type, value ) {
+    var currentABC = this.getActiveTab();
+
     this.ypos = this.tuneContainerDiv.scrollTop;
     this.lastStaffGroup = -1; 
 
@@ -468,7 +458,7 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
         
         if (type === "normal" ) {
             this.playButton.title = DR.getResource("playBtn");
-            this.playButton.innerHTML = '&#160;<i class="icon-play"></i>&#160;';
+            this.playButton.innerHTML = '<i class="ico-play"></i>';
             this.midiPlayer.pausePlay();
         } else {
             this.midiPlayer.pausePlay(true);
@@ -477,14 +467,14 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
     } else {
         this.accordion.clearKeyboard();
         if(type==="normal") {
-            if( this.midiPlayer.startPlay(this.currentABC.abc.midi) ) {
-                ga('send', 'event', 'Mapa', 'play', this.currentABC.title);
+            if( this.midiPlayer.startPlay(currentABC.abc.midi) ) {
+                ga('send', 'event', 'Mapa', 'play', currentABC.title);
                 this.playButton.title = DR.getResource("DR_pause");
-                this.playButton.innerHTML = '&#160;<i class="icon-pause"></i>&#160;';
+                this.playButton.innerHTML =  '<i class="ico-pause"></i>';
             }
         } else {
-            if( this.midiPlayer.startDidacticPlay(this.currentABC.abc.midi, type, value ) ) {
-                ga('send', 'event', 'Mapa', 'didactic-play', this.currentABC.title);
+            if( this.midiPlayer.startDidacticPlay(currentABC.abc.midi, type, value ) ) {
+                ga('send', 'event', 'Mapa', 'didactic-play', currentABC.title);
             }
         }
     }
@@ -632,8 +622,7 @@ SITE.Mapa.prototype.load = function(files) {
         }    
         accordion.songs.sortedIndex.sort();
         this.renderedTune.title = accordion.getFirstSong();
-        this.loadABCList('song');
-        this.renderTAB( this.currentTab === "tabTunes", 'song' );
+        this.loadABCList(this.renderedTune.tab);
     }
     if( newChords ) {
         var tunebook = new ABCXJS.TuneBook(newChords);
@@ -643,8 +632,7 @@ SITE.Mapa.prototype.load = function(files) {
         }    
         accordion.chords.sortedIndex.sort();
         this.renderedChord.title = accordion.getFirstChord();;
-        this.loadABCList('chord');
-        this.renderTAB( this.currentTab === "tabChords", 'chord' );
+        this.loadABCList(this.renderedChord.tab);
     }
     if( newPractices ) {
         var tunebook = new ABCXJS.TuneBook(newPractices);
@@ -654,8 +642,7 @@ SITE.Mapa.prototype.load = function(files) {
         }    
         accordion.practices.sortedIndex.sort();
         this.renderedPractice.title = accordion.getFirstPractice();
-        this.loadABCList('practice');
-        this.renderTAB( this.currentTab === "tabPractices", 'practice' );
+        this.loadABCList(this.renderedPractice.tab);
     }
 };
 
@@ -669,8 +656,7 @@ SITE.Mapa.prototype.carregaRepertorio = function(original, files) {
         }
         accordion.songs = accordion.loadABCX( accordion.songPathList, function() {  // devido à falta de sincronismo, preciso usar o call back;
             that.renderedTune.title = accordion.getFirstSong();
-            that.loadABCList('song');
-            that.renderTAB( that.currentTab === "tabTunes", 'song' );
+            that.loadABCList(that.renderedTune.tab);
             
         });
     } else {
@@ -696,8 +682,7 @@ SITE.Mapa.prototype.carregaRepertorio = function(original, files) {
         
         accordion.songs.sortedIndex.sort();
         that.renderedTune.title = accordion.getFirstSong();
-        that.loadABCList('song');
-        that.renderTAB( this.currentTab === "tabTunes", 'song' );
+        that.loadABCList(that.renderedTune.tab);
     }
 };
 
@@ -730,57 +715,19 @@ SITE.Mapa.prototype.showAccordionName = function() {
   this.gaitaNamePlaceHolder.innerHTML = this.getSelectedAccordion().getFullName() + ' ' + DR.getResource('DR_keys');
 };
 
-SITE.Mapa.prototype.defineActiveTab = function( which ) {
-    this.currentTab = which;
-    this.midiPlayer.reset();
-    this.accordion.clearKeyboard(true);
-
-    if(this.currentABC)
-        this.currentABC.selector.style.display  = 'none';
-    switch (this.currentTab) {
-        case "tabTunes":
-            this.currentABC = this.renderedTune;
-            break;
-        case "tabChords":
-            this.currentABC = this.renderedChord;
-            break;
-        case "tabPractices":
-            this.currentABC = this.renderedPractice;
-            break;
-    }
-    this.currentABC.selector.style.display  = 'inline';
-    if(this.currentABC.abc) {
-        this.showMedia(this.currentABC.abc.metaText.url);
-    } else {
-        this.showMedia();
-    } 
-    
-};
-
 SITE.Mapa.prototype.printTab = function( ) {
+    var currentABC = this.getActiveTab();
     var accordion = this.getSelectedAccordion();
     this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white'});
     
     var t = this.studio.getString();
-    if( t === this.currentABC.text ) 
+    if( t === currentABC.text ) 
         return;
     
-    this.currentABC.text = t;
+    currentABC.text = t;
 
-    switch (this.currentTab) {
-        case "tabTunes":
-            accordion.setSong(this.currentABC.title, this.currentABC.text );
-            this.renderTAB(true, 'song' );
-            break;
-        case "tabChords":
-            accordion.setChord(this.currentABC.title, this.currentABC.text );
-            this.renderTAB(true, 'chord' );
-            break;
-        case "tabPractices":
-            accordion.setPractice(this.currentABC.title, this.currentABC.text );
-            this.renderTAB(true, 'practice' );
-            break;
-    }
+    accordion.setSong(currentABC.title, currentABC.text );
+    this.renderTAB( currentABC.tab );
 };
 
 SITE.Mapa.prototype.accordionExists = function(id) {
@@ -795,8 +742,11 @@ SITE.Mapa.prototype.getSelectedAccordion = function() {
     return this.accordion.accordions[this.accordion.selected];
 };
 
-SITE.Mapa.prototype.showABC = function(type, i) {
+SITE.Mapa.prototype.showABC = function(evt) {
     var self = this;
+    var a = evt.split('-');
+    var type = a[0];
+    var i = parseInt(a[1]);
     var loader = this.startLoader( "TABLoader" + type );
     loader.start(  function() { self.showABC2(type, i, loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
 };
@@ -804,23 +754,23 @@ SITE.Mapa.prototype.showABC = function(type, i) {
 SITE.Mapa.prototype.showABC2 = function(type, i, loader ) {
     var tab;
     switch( type ) {
-        case 'song':
+        case 'songs':
             tab = this.renderedTune;
             tab.title = this.getSelectedAccordion().songs.sortedIndex[i];
             break;
-        case 'practice':
+        case 'practices':
             tab = this.renderedPractice;
             tab.title = this.getSelectedAccordion().practices.sortedIndex[i];
             break;
-        case 'chord':
+        case 'chords':
             tab = this.renderedChord;
             tab.title = this.getSelectedAccordion().chords.sortedIndex[i];
             break;
     };
     
     FILEMANAGER.saveLocal( 'property.'+this.getSelectedAccordion().getId()+'.'+type+'.title', tab.title );
-    document.getElementById( tab.parms.span ).innerHTML = (tab.title.length>43 ? tab.title.substr(0,40) + "..." : tab.title);
-    this.renderTAB( true, type );
+    tab.menu.setSubMenuTitle( tab.ddmId, (tab.title.length>43 ? tab.title.substr(0,40) + "..." : tab.title) );
+    this.renderTAB( tab.tab );
     this.tuneContainerDiv.scrollTop = 0;    
     
     loader.stop();
@@ -830,17 +780,17 @@ SITE.Mapa.prototype.loadABCList = function(type) {
     var tab;
     var items;
     switch( type ) {
-        case 'song':
+        case 'songs':
             tab = this.renderedTune;
             tab.ddmId = 'songsMenu';
             items = this.getSelectedAccordion().songs.sortedIndex;
             break;
-        case 'practice':
+        case 'practices':
             tab = this.renderedPractice;
             tab.ddmId = 'practicesMenu';
             items = this.getSelectedAccordion().practices.sortedIndex;
             break;
-        case 'chord':
+        case 'chords':
             tab = this.renderedChord;
             tab.ddmId = 'chorsMenu';
             items = this.getSelectedAccordion().chords.sortedIndex;
@@ -851,7 +801,7 @@ SITE.Mapa.prototype.loadABCList = function(type) {
     tab.div.innerHTML = "";
     tab.menu = new ABCXJS.edit.DropdownMenu( 
         tab.selector
-        , {}
+        , {listener:this, method: 'showABC' }
         , [{title: '...', scroll: true, ddmId: tab.ddmId, itens: []}]
     );
     
@@ -861,28 +811,56 @@ SITE.Mapa.prototype.loadABCList = function(type) {
         if(title === tab.title ) {
             tab.menu.setSubMenuTitle( tab.ddmId, title );
         }    
-        tab.menu.addItemSubMenu( tab.ddmId, title );
+        tab.menu.addItemSubMenu( tab.ddmId, title +'|'+type+'-'+i);
         
-    }   
+    }
+
+    this.renderTAB( type );
+    
+//    if( window.getComputedStyle( tab.selector ).display !== 'none') {
+//        if(tab.abc) {
+//            this.showMedia(tab.abc.metaText.url);
+//        } else {
+//            this.showMedia();
+//        } 
+//    }
+    
+    
 };
 
-SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
+
+SITE.Mapa.prototype.getActiveTab = function( ) {
+    
+    if( window.getComputedStyle( this.renderedTune.selector ).display !== 'none') {
+        return this.renderedTune;
+    }
+    if( window.getComputedStyle( this.renderedPractice.selector ).display !== 'none') {
+        return this.renderedPractice;
+    }
+    if( window.getComputedStyle( this.renderedChord.selector ).display !== 'none') {
+        return this.renderedChord;
+    }
+    return null;
+};
+        
+SITE.Mapa.prototype.renderTAB = function( type ) {
     var tab;
     
     switch( type ) {
-        case 'song':
+        case 'songs':
             tab = this.renderedTune;
             tab.text = this.getSelectedAccordion().getSong(tab.title);
             break;
-        case 'practice':
+        case 'practices':
             tab = this.renderedPractice;
             tab.text = this.getSelectedAccordion().getPractice(tab.title);
             break;
-        case 'chord':
+        case 'chords':
             tab = this.renderedChord;
             tab.text = this.getSelectedAccordion().getChord(tab.title);
-            break;
+            break; 
     };
+    
     
     if (tab.title === "" || tab.text === undefined ) {
         tab.text = undefined;
@@ -895,19 +873,13 @@ SITE.Mapa.prototype.renderTAB = function(alreadyOnPage, type, params) {
     
     var paper = new SVG.Printer( tab.div );
     tab.printer = new ABCXJS.write.Printer(paper, this.printerparams );
-    
-    //$("#" + tab.div.id).fadeIn();
+
     //tab.printer.printTune( tab.abc, {color:'black', backgroundColor:'#ffd' } ); 
+    
     tab.printer.printTune( tab.abc ); 
     tab.printer.addSelectListener(this);
     this.accordion.clearKeyboard(true);
 
-    
-//    $("#" + tab.div.id).hide();
-//    if (alreadyOnPage) {
-//        $("#" + tab.div.id).fadeIn();
-//        this.showMedia(tab.abc.metaText.url);
-//    }
 };
 
 SITE.Mapa.prototype.highlight = function(abcelem) {
@@ -936,6 +908,9 @@ SITE.Mapa.prototype.mediaCallback = function( e ) {
 };
 
 SITE.Mapa.prototype.showMedia = function(url) {
+    console.log( 'showMedia não definida.');
+    return;
+    
     if(url) {
         if( window.innerWidth > 1500 )  {
             this.mediaWidth = 500;
