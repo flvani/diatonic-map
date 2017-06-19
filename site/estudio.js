@@ -15,24 +15,41 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.editorVisible = false;
     this.mapVisible = false;
     this.textVisible = true;
-    this.editorWindow = editorParams.editorWindow;
-    this.keyboardWindow = editorParams.keyboardWindow;
+    
+    this.studioDiv = new DRAGGABLE.Div( interfaceParams.studioDiv 
+       ,[ 'restore|RESTORE']
+       ,{title: 'Estúdio ABCX - Gaita...', translate: false, draggable:false, statusBar: false, top: 75, left: 0, width: "1000", height: 300, zIndex: 400}
+       ,{listener : this, method: 'studioCallback' } );
+    
+    this.studioDiv.setVisible(true);
+    
+    
+    this.editorWindow = new ABCXJS.edit.EditArea(this.studioDiv.dataDiv, this);
+    
+    this.keyboardWindow = new DRAGGABLE.Div( null, 
+                [ 'move|Mover', 'retweet|Rotacionar', 'zoom-in|Zoom','globe|Mudar Notação'], 
+                {title: 'Keyboard', translate: false, statusBar: false, top: 100, left: 300, zIndex: 100} );
+                
+    this.studioCanvasDiv = document.getElementById( interfaceParams.studioCanvasDiv );
+    
     this.playTreble = true;
     this.playBass = true;
     this.timerOn = false;
     this.clefsToPlay = (this.playTreble?"T":"")+(this.playBass?"B":"");
     
-    this.studioCanvasDiv = document.getElementById( 'studioCanvasDiv');
+
+    this.renderedTune = {text:undefined, abc:undefined, title:undefined
+                         , tab: undefined, div: undefined ,selector: undefined };
     
-    //this.setupEditor();
+
+/*    
+    this.editareaFixa = new ABCXJS.edit.EditArea(editorParams.editor_id, this);
+    this.editareaMovel = new ABCXJS.edit.EditArea(null, this);
+    this.editareaMovel.setVisible(false);
+
+    this.editarea = this.editorWindow;
+*/    
     
-    this.renderedTune = {text: undefined, abc: undefined, title: undefined, div: undefined, selector: undefined};
-    
-    if (typeof editorParams.editor_id === "string") {
-        this.editarea = new ABCXJS.edit.EditArea(editorParams.editor_id, this);
-    } else {
-        this.editarea = editorParams.editor_id;
-    }
     
     if (editorParams.generate_tablature) {
         if (editorParams.generate_tablature === 'accordion') {
@@ -318,12 +335,52 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
 
 };
 
+
+SITE.Estudio.prototype.setup = function(tab, accordionId) {
+    
+    //window.getComputedStyle( tab.selector ).display !== 'none'
+    
+    //this.setupProps();
+    
+    
+    this.accordion.loadById(accordionId);
+    this.renderedTune.text = tab.text;
+    this.renderedTune.title = tab.title;
+    this.renderedTune.abc = tab.abc;
+    this.setString(this.renderedTune.text);
+    this.editorWindow.setVisible(true);
+    
+    this.fireChanged2(0,'force');
+    
+    return;
+    
+    
+    
+    editAreaLoader.setValue("editorTextArea", this.renderedTune.text );
+    this.editorWindow.setTitle('-&#160;' + tab.title);
+    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
+    document.getElementById("spanStudioAccordeon").innerHTML = ' - ' + this.accordion.getTxtModel(); 
+    this.studioCanvasDiv.scrollTop = 0;
+
+};
+
+
+SITE.Estudio.prototype.studioCallback = function( e ) {
+    switch(e) {
+        case 'MINUS':
+            break;
+        case 'RESTORE':
+            break;
+    }
+};
+
+
 SITE.Estudio.prototype.getString = function() {
-    return this.editarea.getString();
+    return this.editorWindow.getString();
 };
 
 SITE.Estudio.prototype.setString = function(str) {
-    this.editarea.setString(str);
+    this.editorWindow.setString(str);
 };
 
 SITE.Estudio.prototype.setScrolling = function(player) {
@@ -424,7 +481,7 @@ SITE.Estudio.prototype.showMap = function() {
 
 SITE.Estudio.prototype.showABCXText = function () {
     this.textVisible = !this.textVisible;
-    this.editarea.setVisible(this.textVisible);
+    this.editorWindow.setVisible(this.textVisible);
     document.getElementById('I_showText').setAttribute('class',this.textVisible?'icon-folder-open':'icon-folder-close');
     this.resize();
 };
@@ -496,6 +553,9 @@ SITE.Estudio.prototype.setupEditor = function() {
 
 SITE.Estudio.prototype.editorCallback = function( e ) {
     switch(e) {
+        case 'RESIZE':
+            this.editorWindow.resize();
+            break;
         case 'MOVE':
             //var k = this.keyboardWindow.topDiv;
             //FILEMANAGER.saveLocal( 'property.keyboardDiv.settings',  k.style.top  + '|' + k.style.left );
@@ -580,10 +640,13 @@ SITE.Estudio.prototype.posicionaTeclado = function( ) {
 
 SITE.Estudio.prototype.resize = function( ) {
     
+    console.log( 'Estúdio resize ainda não implementado');
+    return;
+    
     var m = document.getElementById( 'studioMenu');
     var h = document.getElementById( 'studioHeader');
     
-    this.editarea.resize();
+    //this.editoWindow.resize();
 
     var s = document.getElementById( 'studioDiv');
     var o = document.getElementById( 'studioContentDiv');
@@ -781,27 +844,9 @@ SITE.Estudio.prototype.modelChanged = function() {
     
 };
 
-SITE.Estudio.prototype.setup = function(tab, accordionId) {
-    
-    this.accordion.loadById(accordionId);
-    this.renderedTune.text = tab.text;
-    this.renderedTune.title = tab.title;
-    this.renderedTune.abc = tab.abc;
-    this.setString(this.renderedTune.text);
-    
-    
-    editAreaLoader.setValue("editorTextArea", this.renderedTune.text );
-    this.editorWindow.setTitle('-&#160;' + tab.title);
-    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
-    document.getElementById("spanStudioAccordeon").innerHTML = ' - ' + this.accordion.getTxtModel(); 
-    this.studioCanvasDiv.scrollTop = 0;
-
-    this.fireChanged2(0,'force');
-};
-
 SITE.Estudio.prototype.highlight = function(abcelem) {
     if(this.textVisible) {
-        this.editarea.setSelection(abcelem);
+        this.editorWindow.setSelection(abcelem);
     }    
     if(this.mapVisible && !this.midiPlayer.playing) {
         this.accordion.clearKeyboard(true);
@@ -816,7 +861,7 @@ SITE.Estudio.prototype.highlight = function(abcelem) {
 // limpa apenas a janela de texto. Os demais elementos são controlados por tempo 
 SITE.Estudio.prototype.unhighlight = function(abcelem) {
     if(this.textVisible) {
-        this.editarea.clearSelection(abcelem);
+        this.editorWindow.clearSelection(abcelem);
     }    
 };
 
@@ -824,7 +869,7 @@ SITE.Estudio.prototype.unhighlight = function(abcelem) {
 SITE.Estudio.prototype.updateSelection = function (force) {
     var that = this;
     if( force ) {
-        var selection = that.editarea.getSelection();
+        var selection = that.editorWindow.getSelection();
         try {
             that.renderedTune.printer.rangeHighlight(selection);
         } catch (e) {

@@ -427,7 +427,8 @@ and open the template in the editor.
     width: auto;
     height: auto;
     min-height: 60px;
-    z-index: 200;
+    z-index: 100;
+    border: thin solid rgba(100,100,100,0.3);
 /*    
     border-radius: 4px;
     border-top-left-radius: 0px;
@@ -451,10 +452,11 @@ and open the template in the editor.
     position:relative;
     display: block; 
     margin: 0;
+    padding: 0;
     top:0; 
     left:0; 
-    width:auto; 
-    height:24px; 
+    width:100%; 
+    height:auto; 
 /*    
     background: -moz-linear-gradient(left, #5ba4a4 0%, #4e8c8a 100%);
     background: -webkit-linear-gradient(left, #5ba4a4 0%,#4e8c8a 100%);
@@ -472,13 +474,14 @@ and open the template in the editor.
     margin: 0;
     position: relative;
     display:block;
-    height: 42px; 
+    height: auto; 
     padding-left: 2px;
     pointer-events: auto;
     overflow: auto;
     background: lightblue;
     color: white;
-    width: 100%;
+    width: auto;
+    border: thin solid rgba(100,100,100,0.3);
 }
 
 .draggableData {
@@ -534,7 +537,7 @@ and open the template in the editor.
   box-shadow: 1px 1px 3px #000;
   margin-top: 1px;
   */
-  height: 20px;
+  height: auto;
   display:block;
   text-align: center;
   padding: 2px;

@@ -19353,7 +19353,7 @@ color:white;\
 }\
 .ace-abcx .ace_gutter {\
 background: #ebebeb;\
-border-right: 1px solid rgb(159, 159, 159);\
+border-right: 2px solid rgba(159, 159, 159, 0.3);\
 color: rgb(136, 136, 136);\
 }\
 .ace-abcx .ace_print-margin {\

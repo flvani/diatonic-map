@@ -321,10 +321,7 @@ SITE.Mapa.prototype.showStudio2 = function (loader) {
     
     $("#studioDiv").show();
 
-    this.studio.visible = true;
     this.studio.setup(currentABC, this.getSelectedAccordion().getId() );
-    
-    //this.setupProps();
     
     loader.stop();
 };
