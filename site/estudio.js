@@ -2,84 +2,97 @@
 if (!window.SITE)
     window.SITE = {};
 
-SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
+SITE.Estudio = function (interfaceParams, playerParams) {
+    
     this.ypos = 0; // controle de scroll
     this.lastStaffGroup = -1; // controle de scroll
     this.lastYpos = 0; // controle de scroll
     var that = this;
-    this.visible = false;
     
+    var canvas_id = 'canvasDiv';
+    var warnings_id = 'warningsDiv';
+
     this.oldAbcText = null;
     this.warnings = [];
     this.currentMode = "normal"; 
-    this.editorVisible = false;
+    this.editorVisible = true;
     this.mapVisible = false;
-    this.textVisible = true;
     
-    this.studioDiv = new DRAGGABLE.Div( interfaceParams.studioDiv 
-       ,[ 'restore|RESTORE']
-       ,{title: 'Estúdio ABCX - Gaita...', translate: false, draggable:false, statusBar: false, top: 75, left: 0, width: "1000", height: 300, zIndex: 400}
-       ,{listener : this, method: 'studioCallback' } );
+    this.keyboardWindow = new DRAGGABLE.Div( 
+          null 
+        , [ 'move|Mover', 'rotate|Rotacionar', 'zoom|Zoom','globe|Mudar Notação']
+        , {title: 'Keyb', translate: false, statusBar: false, top: "100px", left: "300px", zIndex: 100} 
+        , {listener: this, method: 'keyboardCallback'}
+    );
+                
+    this.studioDiv = new DRAGGABLE.Div( 
+          interfaceParams.studioDiv 
+        , [ 'restore|Restaurar configuração padrão']
+        , {translate: false, statusBar: false, draggable: false, top: "3px", left: "1px", width: '100%', height: "100%", title: 'Estúdio ABCX'}
+        , {listener: this, method: 'studioCallback'}
+    );
     
     this.studioDiv.setVisible(true);
     
+    this.editareaFixa = new ABCXJS.edit.EditArea(this.studioDiv.dataDiv, this);
+
+    this.editareaMovel = new ABCXJS.edit.EditArea(null, this);
+    this.editareaMovel.setVisible(false);
+
+    this.editorWindow = this.editareaFixa;
+
+    this.editorWindow.setVisible(true);
+    this.editorWindow.setToolBarVisible(false);
+    this.editorWindow.resize(true);
+
+    this.controlDiv = document.createElement("DIV");
+    this.controlDiv.setAttribute("id", 'controlDiv' );
+    this.controlDiv.setAttribute("class", 'controlDiv btn-group' );
+    this.studioDiv.dataDiv.appendChild(this.controlDiv);
     
-    this.editorWindow = new ABCXJS.edit.EditArea(this.studioDiv.dataDiv, this);
+    this.controlDiv.innerHTML = document.getElementById(interfaceParams.studioControlDiv).innerHTML;
+    document.getElementById(interfaceParams.studioControlDiv).innerHTML = "";
+
+    this.studioCanvasDiv = document.createElement("DIV");
+    this.studioCanvasDiv.setAttribute("id", interfaceParams.studioCanvasDiv );
     
-    this.keyboardWindow = new DRAGGABLE.Div( null, 
-                [ 'move|Mover', 'retweet|Rotacionar', 'zoom-in|Zoom','globe|Mudar Notação'], 
-                {title: 'Keyboard', translate: false, statusBar: false, top: 100, left: 300, zIndex: 100} );
-                
-    this.studioCanvasDiv = document.getElementById( interfaceParams.studioCanvasDiv );
+    if (interfaceParams.generate_warnings) {
+        this.warningsDiv = document.createElement("DIV");
+        this.warningsDiv.setAttribute("id", warnings_id);
+        this.studioCanvasDiv.appendChild(this.warningsDiv);
+    }
+    
+    this.canvasDiv = document.createElement("DIV");
+    this.canvasDiv.setAttribute("id", canvas_id);
+    this.studioCanvasDiv.appendChild(this.canvasDiv);
+    
+    this.studioDiv.dataDiv.appendChild(this.studioCanvasDiv);
     
     this.playTreble = true;
     this.playBass = true;
     this.timerOn = false;
     this.clefsToPlay = (this.playTreble?"T":"")+(this.playBass?"B":"");
     
-
     this.renderedTune = {text:undefined, abc:undefined, title:undefined
                          , tab: undefined, div: undefined ,selector: undefined };
     
-
-/*    
-    this.editareaFixa = new ABCXJS.edit.EditArea(editorParams.editor_id, this);
-    this.editareaMovel = new ABCXJS.edit.EditArea(null, this);
-    this.editareaMovel.setVisible(false);
-
-    this.editarea = this.editorWindow;
-*/    
+    this.renderedTune.div = this.canvasDiv;
     
-    
-    if (editorParams.generate_tablature) {
-        if (editorParams.generate_tablature === 'accordion') {
-            this.accordion = new ABCXJS.tablature.Accordion(editorParams.accordion_options);
+    if (interfaceParams.generate_tablature) {
+        if (interfaceParams.generate_tablature === 'accordion') {
+            this.accordion = new ABCXJS.tablature.Accordion(interfaceParams.accordion_options);
 
-            if (editorParams.accordionNameSpan) {
-                this.accordionNameSpan = document.getElementById(editorParams.accordionNameSpan);
+            if (interfaceParams.accordionNameSpan) {
+                this.accordionNameSpan = document.getElementById(interfaceParams.accordionNameSpan);
                 this.accordionNameSpan.innerHTML = this.accordion.getFullName();
             }
         } else {
-            throw new Error('Tablatura para ' + editorParams.generate_tablature + ' não suportada!');
+            throw new Error('Tablatura para ' + interfaceParams.generate_tablature + ' não suportada!');
         }
     }
     
-    if (editorParams.canvas_id) {
-        this.renderedTune.div = document.getElementById(editorParams.canvas_id);
-    } else if (editorParams.paper_id) {
-        this.renderedTune.div = document.getElementById(editorParams.paper_id);
-    }
-
-    if (editorParams.generate_warnings) {
-        if (editorParams.warnings_id) {
-            this.warningsdiv = document.getElementById(editorParams.warnings_id);
-        } else {
-            this.warningsdiv = this.renderedTune.div;
-        }
-    }
-    
-    if( editorParams.onchange ) {
-        this.onchangeCallback = editorParams.onchange;
+    if( interfaceParams.onchange ) {
+        this.onchangeCallback = interfaceParams.onchange;
     }
     
     this.saveButton = document.getElementById(interfaceParams.saveBtn);
@@ -88,7 +101,6 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.printButton = document.getElementById(interfaceParams.printBtn);
     this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
     this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
-    this.showTextButton = document.getElementById(interfaceParams.showTextBtn);
 
     // player control
     this.modeButton = document.getElementById(playerParams.modeBtn);
@@ -105,10 +117,18 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
     this.repeatButton = document.getElementById(playerParams.repeatBtn);
     this.clearButton = document.getElementById(playerParams.clearBtn);
     this.tempoButton = document.getElementById(playerParams.tempoBtn);
+
     
+    this.showEditorButton.addEventListener("click", function (evt) {
+        evt.preventDefault();
+        that.showEditor();
+    }, false);
     
-    console.log('saindo porque o estúdio ainda não tem todas as variáveis necessárias.');
-    return;
+    this.showMapButton.addEventListener("click", function (evt) {
+        evt.preventDefault();
+        this.blur();
+        that.showMap();
+    }, false);
     
     this.forceRefreshButton.addEventListener("click", function (evt) {
         evt.preventDefault();
@@ -121,29 +141,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         this.blur();
         that.salvaMusica();
     }, false);
-
-    this.showMapButton.addEventListener("click", function (evt) {
-        evt.preventDefault();
-        this.blur();
-        that.showMap();
-    }, false);
     
-    this.showTextButton.addEventListener("click", function (evt) {
-        evt.preventDefault();
-        this.blur();
-        that.showABCXText();
-    }, false);
-    
-    if( !(ABCXJS.misc.isChrome()||ABCXJS.misc.isChromium()||ABCXJS.misc.isFirefox()) ) {
-        this.showEditorButton.style.pointerEvents = 'none';
-        this.showEditorButton.style.color = 'gray';
-    } else {
-        this.showEditorButton.addEventListener("click", function (evt) {
-            evt.preventDefault();
-            that.showEditor();
-        }, false);
-    }
-
     this.printButton.addEventListener("click", function (evt) {
         evt.preventDefault();
         this.blur();
@@ -170,21 +168,21 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         evt.preventDefault();
         this.blur();
         if( that.playBass) {
-            this.innerHTML = '<img src="img/clave.fa.off.png" alt="" width="20" height="20">';
+            this.innerHTML = '<img src="images/clave.fa.off.png" alt="" width="20" height="20">';
         } else {
-            this.innerHTML = '<img src="img/clave.fa.on.png" alt="" width="20" height="20">';
+            this.innerHTML = '<img src="images/clave.fa.on.png" alt="" width="20" height="20">';
         }
         that.playBass = ! that.playBass;
         that.clefsToPlay = (that.playTreble?"T":"")+(that.playBass?"B":"");
-}, false);
+    }, false);
 
     this.GClefButton.addEventListener('click', function (evt) {
         evt.preventDefault();
         this.blur();
         if( that.playTreble) {
-            this.innerHTML = '<img src="img/clave.sol.off.png" alt="" width="20" height="20">';
+            this.innerHTML = '<img src="images/clave.sol.off.png" alt="" width="20" height="20">';
         } else {
-            this.innerHTML = '<img src="img/clave.sol.on.png" alt="" width="20" height="20">';
+            this.innerHTML = '<img src="images/clave.sol.on.png" alt="" width="20" height="20">';
         }
         that.playTreble = ! that.playTreble;
         that.clefsToPlay = (that.playTreble?"T":"")+(that.playBass?"B":"");
@@ -289,8 +287,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         }
     }, false);
     
-    
-    if (editorParams.generate_midi) {
+    if (interfaceParams.generate_midi) {
         
         this.playerCallBackOnScroll = function( player ) {
             that.setScrolling(player);
@@ -310,7 +307,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
         this.playerCallBackOnEnd = function( player ) {
             var warns = that.midiPlayer.getWarnings();
             that.playButton.title = DR.getResource("playBtn");
-            that.playButton.innerHTML = '&#160;<i class="icon-play"></i>&#160;';
+            that.playButton.innerHTML = '&#160;<i class="ico-play"></i>&#160;';
             that.renderedTune.printer.clearSelection();
             that.accordion.clearKeyboard(true);
             if(that.currentPlayTimeLabel)
@@ -320,7 +317,7 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
                 var txt = "";
                 warns.forEach(function(msg){ txt += msg + '<br/>'; });
                 wd.style.color = 'blue';
-                wd.innerHTML = '<hr/>'+txt+'<hr/>';
+                wd.innerHTML = txt;
             }
         };
         
@@ -335,42 +332,197 @@ SITE.Estudio = function (interfaceParams, editorParams, playerParams) {
 
 };
 
+SITE.Estudio.prototype.resize = function( ) {
+    
+    // redimensiona a workspace
+    var winH = window.innerHeight
+                || document.documentElement.clientHeight
+                || document.body.clientHeight;
 
-SITE.Estudio.prototype.setup = function(tab, accordionId) {
+    var winW = window.innerWidth
+            || document.documentElement.clientWidth
+            || daocument.body.clientWidth;
+
+    // -paddingTop 78
+    var h = (winH -78 - 10 ); 
+    var w = (winW - 10 ); 
+    
+    this.studioDiv.topDiv.style.height = Math.max(h,200) +"px";
+    this.studioDiv.topDiv.style.width = Math.max(w,400) +"px";
+    this.studioDiv.dataDiv.style.height = "100%";
+   
+    var e = 0;
+    var t = this.studioDiv.dataDiv.clientHeight;
+    if(window.getComputedStyle(this.editareaFixa.container.topDiv).display !== 'none') {
+        e = this.editareaFixa.container.topDiv.clientHeight+4;
+    }
+    var c = this.controlDiv.clientHeight;
+
+    this.studioCanvasDiv.style.height = (t-e-c-6) +"px";
+    
+    this.posicionaTeclado();
+    
+};
+
+SITE.Estudio.prototype.setVisible = function(  visible ) {
+    this.studioDiv.parent.style.display = visible?'block':'none';
+};
+
+SITE.Estudio.prototype.setup = function( mapa, tab, accordionId) {
     
     //window.getComputedStyle( tab.selector ).display !== 'none'
-    
     //this.setupProps();
     
+    this.setVisible(true);
+    this.resize();
+    this.mapa = mapa;
     
     this.accordion.loadById(accordionId);
+    
     this.renderedTune.text = tab.text;
     this.renderedTune.title = tab.title;
     this.renderedTune.abc = tab.abc;
+    
     this.setString(this.renderedTune.text);
     this.editorWindow.setVisible(true);
+    this.editorWindow.resize(true);
+    
+    this.editorWindow.container.setTitle('-&#160;' + tab.title);
+    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
+    this.studioDiv.setTitle( '-&#160;' + this.accordion.getTxtModel() );
+
+    this.studioCanvasDiv.scrollTop = 0;
     
     this.fireChanged2(0,'force');
-    
-    return;
-    
-    
-    
-    editAreaLoader.setValue("editorTextArea", this.renderedTune.text );
-    this.editorWindow.setTitle('-&#160;' + tab.title);
-    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
-    document.getElementById("spanStudioAccordeon").innerHTML = ' - ' + this.accordion.getTxtModel(); 
-    this.studioCanvasDiv.scrollTop = 0;
+};
 
+SITE.Estudio.prototype.showMap = function() {
+    this.mapVisible = ! this.mapVisible;
+    this.accordion.loadedKeyboard.render_opts.show = this.mapVisible;
+    if(this.mapVisible) {
+        this.keyboardWindow.setVisible(true);
+        this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
+        document.getElementById('I_showMap').setAttribute('class', 'ico-folder-open' );
+    } else {
+        this.hideMap();
+    }
+};
+
+SITE.Estudio.prototype.hideMap = function() {
+    this.mapVisible = false;
+    this.accordion.loadedKeyboard.render_opts.show = this.mapVisible;
+    this.keyboardWindow.setVisible(false);
+    this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
+    document.getElementById('I_showMap').setAttribute('class', 'ico-folder' );
+};
+
+SITE.Estudio.prototype.showEditor = function() {
+    this.editorVisible = ! this.editorVisible;
+    if(this.editorVisible) {
+        this.editorWindow.setVisible(this.editorVisible);
+        document.getElementById('I_showEditor').setAttribute('class', 'ico-folder-open' );
+        this.resize();
+    } else {
+        this.hideEditor();
+    }
+};
+
+SITE.Estudio.prototype.hideEditor = function() {
+    document.getElementById('I_showEditor').setAttribute('class', 'ico-folder' );
+    this.editorWindow.setVisible(false);
+    this.editorVisible = false;
+    this.resize();
 };
 
 
+
+SITE.Estudio.prototype.editorCallback = function (e) {
+    //    this.keySelector = new ABCXJS.edit.KeySelector(ks, this);
+    //    
+    //    document.getElementById('octaveUpBtn').addEventListener("click", function (evt) {
+    //        evt.preventDefault();
+    //        this.blur();
+    //        that.editorChanged(12, "force");
+    //    }, false);
+    //    
+    //    document.getElementById('octaveDwBtn').addEventListener("click", function (evt) {
+    //        evt.preventDefault();
+    //        this.blur();
+    //        that.editorChanged(-12, "force");
+    //    }, false);
+    //    
+    //    document.getElementById('forceRefresh2').addEventListener("click", function (evt) {
+    //        evt.preventDefault();
+    //        this.blur();
+    //        that.editorChanged(0, "force");
+    //    }, false);
+    //
+    //   DR.forcedResource('forceRefresh', 'Atualizar', '2', 'forceRefresh2');
+    switch(e) {
+        case 'GUTTER': // liga/desliga a numeracao de linhas
+            this.editorWindow.setGutter();
+            break;
+        case 'LIGHT': // liga/desliga realce de sintaxe
+            this.editorWindow.setSyntaxHighLight();
+            break;
+        case 'DOCK':
+            this.editorWindow.setVisible(false);
+            this.editorWindow = this.editareaFixa;
+            this.editorWindow.setString(this.editareaMovel.getString());
+            this.editorWindow.setVisible(true);
+            this.editorWindow.resize();
+            this.resize();
+            break;
+        case 'POPOUT':
+            this.editorWindow.setVisible(false);
+            this.editorWindow = this.editareaMovel;
+            this.editorWindow.setString(this.editareaFixa.getString());
+            this.editorWindow.setVisible(true);
+            this.editorWindow.resize();
+            this.resize();
+            break;
+        case 'MOVE':
+            //var k = this.keyboardWindow.topDiv;
+            //FILEMANAGER.saveLocal( 'property.keyboardDiv.settings',  k.style.top  + '|' + k.style.left );
+            break;
+        case 'CLOSE':
+            this.hideEditor();
+            break;
+        case 'RESIZE':
+            this.editorWindow.resize(true);
+            break;
+    }
+};
+
 SITE.Estudio.prototype.studioCallback = function( e ) {
     switch(e) {
-        case 'MINUS':
+        case 'CLOSE':
+            this.setVisible(false);
+            this.mapa.showMapa(true);
             break;
         case 'RESTORE':
             break;
+    }
+};
+
+SITE.Estudio.prototype.keyboardCallback = function( e ) {
+    switch(e) {
+        case 'MOVE':
+            break;
+        case 'CLOSE':
+            this.hideMap();
+            break;
+        case 'ROTATE':
+            this.accordion.rotateKeyboard(this.keyboardWindow.dataDiv);
+            break;
+        case 'ZOOM':
+            this.accordion.scaleKeyboard(this.keyboardWindow.dataDiv);
+            break;
+        case 'GLOBE':
+            this.accordion.changeNotation();
+            break;
+        default:
+            alert(e);
     }
 };
 
@@ -401,31 +553,9 @@ SITE.Estudio.prototype.setScrolling = function(player) {
 
 };
 
-
 SITE.Estudio.prototype.translate = function( ) {
-    this.initEditArea( "editorTextArea" );
+    //this.initEditArea( "editorTextArea" );
 }; 
-
-SITE.Estudio.prototype.keyboardCallback = function( e ) {
-    switch(e) {
-        case 'MOVE':
-            break;
-        case 'MINUS':
-            this.hideMap();
-            break;
-        case 'RETWEET':
-            this.accordion.rotateKeyboard(this.keyboardWindow.dataDiv);
-            break;
-        case 'ZOOM-IN':
-            this.accordion.scaleKeyboard(this.keyboardWindow.dataDiv);
-            break;
-        case 'GLOBE':
-            this.accordion.changeNotation();
-            break;
-        default:
-            alert(e);
-    }
-};
 
 SITE.Estudio.prototype.changePageOrientation = function (orientation) {
     var style = document.createElement('style');
@@ -440,13 +570,12 @@ SITE.Estudio.prototype.printPreview = function (html, landscape ) {
     
     this.changePageOrientation(landscape? 'landscape': 'portrait');
     
-    dv.style.display = 'inline';
+    dv.style.display = 'block';
     dv.innerHTML = html;
     window.print();
     dv.style.display = 'none';
     
 };
-
 
 SITE.Estudio.prototype.salvaMusica = function () {
     if (FILEMANAGER.requiredFeaturesAvailable()) {
@@ -459,165 +588,17 @@ SITE.Estudio.prototype.salvaMusica = function () {
     }
 };
     
-SITE.Estudio.prototype.hideMap = function() {
-    this.mapVisible = false;
-    this.accordion.render_keyboard_opts.show = this.mapVisible;
-    this.keyboardWindow.topDiv.style.display = 'none';
-    this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
-    document.getElementById('I_showMap').setAttribute('class', 'icon-folder-close' );
-};
-
-SITE.Estudio.prototype.showMap = function() {
-    this.mapVisible = ! this.mapVisible;
-    this.accordion.render_keyboard_opts.show = this.mapVisible;
-    if(this.mapVisible) {
-        this.keyboardWindow.topDiv.style.display = 'inline';
-        this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
-        document.getElementById('I_showMap').setAttribute('class', 'icon-folder-open' );
-    } else {
-        this.hideMap();
-    }
-};
-
-SITE.Estudio.prototype.showABCXText = function () {
-    this.textVisible = !this.textVisible;
-    this.editorWindow.setVisible(this.textVisible);
-    document.getElementById('I_showText').setAttribute('class',this.textVisible?'icon-folder-open':'icon-folder-close');
-    this.resize();
-};
-
-SITE.Estudio.prototype.hideEditor = function() {
-    document.getElementById('I_showEditor').setAttribute('class', 'icon-folder-close' );
-    this.editorWindow.topDiv.style.display = 'none';
-    this.editorVisible = false;
-    var finalText = editAreaLoader.getValue("editorTextArea");
-    //document.getElementById( 'textareaABC').readOnly = false;
-    if(this.getString() !== finalText ) {
-        this.setString( finalText );
-        this.fireChanged(0, 'force');
-    }
-};
-
-SITE.Estudio.prototype.showEditor = function() {
-    this.editorVisible = ! this.editorVisible;
-    if(this.editorVisible) {
-        //document.getElementById( 'textareaABC').readOnly = true;
-        editAreaLoader.setValue("editorTextArea", this.getString() );
-        editAreaLoader.setSelectionRange("editorTextArea", 0, 0);
-        this.editorWindow.topDiv.style.display = 'inline';
-        this.initEditArea( "editorTextArea" );
-        document.getElementById('I_showEditor').setAttribute('class', 'icon-folder-open' );
-    } else {
-        this.hideEditor();
-    }
-};
-
-SITE.Estudio.prototype.setupEditor = function() {
-    var that = this;
-    var ks = "selKey";
-    this.editorWindow.dataDiv.innerHTML =     
-        '<textarea id="editorTextArea" cols="10" rows="25"></textarea>'
-        + '<div style="width: 100%; padding:2px; margin-left:2px;" >'
-        +    '<select id="'+ks+'" ></select>'
-        +    '<button id="octaveUpBtn" class="btn" title="+ Oitava" onclick="" ><i class="icon-arrow-up"></i>&#160;Oitava</button>'
-        +    '<button id="octaveDwBtn" class="btn" title="- Oitava" onclick="" ><i class="icon-arrow-down"></i>&#160;Oitava</button>'
-        +    '<button id="forceRefresh2" class="btn" title="Atualizar" onclick="" >Atualizar</button>'
-        + '</div>';
-                            
-
-    this.initEditArea( "editorTextArea", 850, 478 );
-    
-    this.keySelector = new ABCXJS.edit.KeySelector(ks, this);
-    
-    document.getElementById('octaveUpBtn').addEventListener("click", function (evt) {
-        evt.preventDefault();
-        this.blur();
-        that.editorChanged(12, "force");
-    }, false);
-    
-    document.getElementById('octaveDwBtn').addEventListener("click", function (evt) {
-        evt.preventDefault();
-        this.blur();
-        that.editorChanged(-12, "force");
-    }, false);
-    
-    document.getElementById('forceRefresh2').addEventListener("click", function (evt) {
-        evt.preventDefault();
-        this.blur();
-        that.editorChanged(0, "force");
-    }, false);
-
-   DR.forcedResource('forceRefresh', 'Atualizar', '2', 'forceRefresh2');
-
-};
-
-SITE.Estudio.prototype.editorCallback = function( e ) {
-    switch(e) {
-        case 'RESIZE':
-            this.editorWindow.resize();
-            break;
-        case 'MOVE':
-            //var k = this.keyboardWindow.topDiv;
-            //FILEMANAGER.saveLocal( 'property.keyboardDiv.settings',  k.style.top  + '|' + k.style.left );
-            break;
-        case 'MINUS':
-            this.hideEditor();
-            break;
-        case 'ZOOM-IN':
-        case 'RETWEET':
-        default:
-            alert(e);
-    }
-    return false;
-};
-
-SITE.Estudio.prototype.initEditArea = function( id, w, h) {
-    var o = {
-        id: id	// id of the textarea to transform	
-       ,start_highlight: true
-       ,allow_toggle: false
-       ,syntax: "abc"	
-       ,toolbar: "search, |, undo, redo, |, highlight , reset_highlight "
-       ,allow_resize: "both"
-       ,is_multi_files: false
-       ,show_line_colors: true
-       ,replace_tab_by_spaces: 4
-    };   
-    
-    switch(DR.language){
-        case DR.pt_BR: o.language = 'pt'; break;
-        case DR.en_US: o.language = 'en'; break;
-        case DR.de_DE: o.language = 'de'; break;
-    }
-    
-    if(w && h)  {
-        o.min_width = w;
-        o.min_height = h;
-    } else {    
-        var e = document.getElementById("frame_"+id);
-        if( this.editorVisible && o.language !== this.editorCurrLang && e) {
-            o.min_width =  e.clientWidth;
-            o.min_height = e.clientHeight;
-        } else {
-            return ; // não é necessário inicializar ou não é seguro
-        }
-    }
-        
-    editAreaLoader.init(o);
-    this.editorCurrLang = o.language;
-};
-
 SITE.Estudio.prototype.changePlayMode = function() {
     if( this.currentMode === "normal" ) {
         $("#divNormalPlayControls" ).hide();
         this.currentMode  = "learning";
-        this.modeButton.innerHTML = '<img src="img/learning5.png" alt="" width="20" height="20">';
+        this.modeButton.innerHTML = '<img src="images/learning5.png" alt="" width="20" height="20">';
         this.midiPlayer.resetAndamento(this.currentMode);
         $("#divDidacticPlayControls" ).fadeIn();
     } else {
         $("#divDidacticPlayControls" ).hide();
         this.currentMode  = "normal";
-        this.modeButton.innerHTML = '<img src="img/listening3.png" alt="" width="20" height="20">';
+        this.modeButton.innerHTML = '<img src="images/listening3.png" alt="" width="20" height="20">';
         this.midiPlayer.resetAndamento(this.currentMode);
         $("#divNormalPlayControls" ).fadeIn();
     }
@@ -638,29 +619,6 @@ SITE.Estudio.prototype.posicionaTeclado = function( ) {
     k.style.left = x+"px";
 };
 
-SITE.Estudio.prototype.resize = function( ) {
-    
-    console.log( 'Estúdio resize ainda não implementado');
-    return;
-    
-    var m = document.getElementById( 'studioMenu');
-    var h = document.getElementById( 'studioHeader');
-    
-    //this.editoWindow.resize();
-
-    var s = document.getElementById( 'studioDiv');
-    var o = document.getElementById( 'studioContentDiv');
-    
-    o.style.height = (window.innerHeight -50 /*topdiv*/ - 17) + "px";
-
-    this.studioCanvasDiv.style.height = (o.clientHeight - h.clientHeight - m.clientHeight - 2) + "px";
-    this.studioCanvasDiv.style.width = s.style.width;
-    
-   // posiciona a janela de teclado
-   this.posicionaTeclado();
-   
-};
-
 SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
     this.ypos = this.studioCanvasDiv.scrollTop;
     this.lastStaffGroup = -1;
@@ -669,7 +627,7 @@ SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
         
         if (type === "normal" ) {
             this.playButton.title = DR.getResource("playBtn");
-            this.playButton.innerHTML = '&#160;<i class="icon-play"></i>&#160;';
+            this.playButton.innerHTML = '&#160;<i class="ico-play"></i>&#160;';
             this.midiPlayer.pausePlay();
         } else {
             this.midiPlayer.pausePlay(true);
@@ -677,6 +635,9 @@ SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
         
     } else {
         this.accordion.clearKeyboard();
+        this.editorWindow.setReadOnly(true);
+        this.editorWindow.aceEditor.container.style.pointerEvents="none"
+
         this.StartPlayWithTimer(this.renderedTune.abc.midi, type, value, valueF, this.timerOn ? 10: 0 );
         
     }
@@ -701,7 +662,7 @@ SITE.Estudio.prototype.setTimerIcon = function( timerOn, value ) {
             MIDI.noteOn(0,  90, 100, 0 );
             MIDI.noteOff(0, 90, value > 3 ? 0.10 : 0.05  );
         }
-        this.timerButton.innerHTML = '<img id="timerBtnImg" src="img/timer.'+ico+'.png" alt="" width="25" height="20"/>';
+        this.timerButton.innerHTML = '<img id="timerBtnImg" src="images/timer.'+ico+'.png" alt="" width="25" height="20"/>';
     }
 };
 
@@ -719,7 +680,7 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
                 ga('send', 'event', 'Estúdio', 'play', this.renderedTune.title);
                 this.playButton.title = DR.getResource("DR_pause");
-                this.playButton.innerHTML = '&#160;<i class="icon-pause"></i>&#160;';
+                this.playButton.innerHTML = '&#160;<i class="ico-pause"></i>&#160;';
             }
         } else {
             this.midiPlayer.setPlayableClefs( this.clefsToPlay );
@@ -763,7 +724,7 @@ SITE.Estudio.prototype.parseABC = function(transpose) {
     }
     
     if ( this.midiParser ) {
-        this.midiParser.parse( this.renderedTune.abc, this.accordion.getKeyboard() );
+        this.midiParser.parse( this.renderedTune.abc, this.accordion.loadedKeyboard );
         var warnings = this.midiParser.getWarnings();
         for (var j=0; j<warnings.length; j++) {
            this.warnings.push(warnings[j]);
@@ -777,19 +738,6 @@ SITE.Estudio.prototype.parseABC = function(transpose) {
 SITE.Estudio.prototype.onChange = function() {
     this.studioCanvasDiv.scrollTop = this.lastYpos;
     this.resize();
-};
-
-SITE.Estudio.prototype.editorChanged = function (transpose, force) {
-    this.editorChanging = true;
-    this.setString(editAreaLoader.getValue("editorTextArea"));
-    this.fireChanged(transpose, force);
-};
-
-SITE.Estudio.prototype.endEditorChanged = function () {
-    if(!this.editorChanging) return;
-    editAreaLoader.setValue("editorTextArea", this.getString());
-    editAreaLoader.setSelectionRange("editorTextArea", 0, 0 );
-    this.editorChanging = false;
 };
 
 SITE.Estudio.prototype.fireChanged = function (transpose, force) {
@@ -811,8 +759,6 @@ SITE.Estudio.prototype.fireChanged2 = function (transpose, force, loader) {
         }
     }
     
-    this.endEditorChanged(); 
-    
     if(loader) {
         loader.stop();
     }    
@@ -830,9 +776,9 @@ SITE.Estudio.prototype.modelChanged = function() {
     //this.renderedTune.printer.printTune( this.renderedTune.abc, {color:'black', backgroundColor:'#ffd'} );
     this.renderedTune.printer.printTune( this.renderedTune.abc ); 
     
-    if (this.warningsdiv) {
-        this.warningsdiv.style.color = this.warnings.length > 0 ? "red" : "green";
-        this.warningsdiv.innerHTML = '<hr/>' + (this.warnings.length > 0 ? this.warnings.join("<br/>") : "No warnings or errors.") + '<hr/>';
+    if (this.warningsDiv) {
+        this.warningsDiv.style.color = this.warnings.length > 0 ? "red" : "green";
+        this.warningsDiv.innerHTML = (this.warnings.length > 0 ? this.warnings.join("<br/>") : "No warnings or errors.") ;
     }
     
     this.renderedTune.printer.addSelectListener(this);
@@ -845,26 +791,21 @@ SITE.Estudio.prototype.modelChanged = function() {
 };
 
 SITE.Estudio.prototype.highlight = function(abcelem) {
-    if(this.textVisible) {
+    if(this.editorVisible) {
         this.editorWindow.setSelection(abcelem);
     }    
     if(this.mapVisible && !this.midiPlayer.playing) {
         this.accordion.clearKeyboard(true);
         this.midiParser.setSelection(abcelem);
     }    
-//    if((ABCXJS.misc.isChrome()||ABCXJS.misc.isChromium()) && this.editorVisible) {
-//        editAreaLoader.setSelectionRange("editorTextArea", abcelem.startChar, abcelem.endChar, abcelem.line);
-//    }    
 };
-
 
 // limpa apenas a janela de texto. Os demais elementos são controlados por tempo 
 SITE.Estudio.prototype.unhighlight = function(abcelem) {
-    if(this.textVisible) {
+    if(this.editorVisible) {
         this.editorWindow.clearSelection(abcelem);
     }    
 };
-
 
 SITE.Estudio.prototype.updateSelection = function (force) {
     var that = this;

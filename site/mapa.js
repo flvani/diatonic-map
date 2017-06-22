@@ -30,8 +30,8 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
                     'Restaurar o original',
                     'Carregar do drive local',
                     'Exportar para drive local',
-                    'Partitura <i class="ico-play"> Tablatura',
-                    'Tablatura <i class="ico-play"> Partitura'
+                    'Partitura <i class="ico-play"></i> Tablatura',
+                    'Tablatura <i class="ico-play"></i> Partitura'
                 ]},
             {title: 'Informações', ddmId: 'menuInformacoes',
                 itens: [
@@ -113,7 +113,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
             var txt = "";
             warns.forEach(function(msg){ txt += msg + '<br/>'; });
             wd.style.color = 'blue';
-            wd.innerHTML = '<hr/>'+txt+'<hr/>';
+            wd.innerHTML = txt;
         }
     };
 
@@ -143,7 +143,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.showAccordionImage();
     this.loadOriginalRepertoire();
     
-    this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white'});
+    this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white', openColor:'orange'});
     
     DR.addAgent( this ); // register for translate
 
@@ -197,7 +197,7 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             e.setAttribute("src", "/diatonic-map/html5/sobre.html" );
             e.setAttribute("frameborder", "0" );
             e.setAttribute("scrolling", "no" );
-            e.setAttribute("height", "440" );
+            e.setAttribute("height", "412" );
             e.setAttribute("width", "800" );
             e.addEventListener("load", function () { 
                 e.style.height = e.contentWindow.document.body.scrollHeight + 'px';  
@@ -228,7 +228,7 @@ SITE.Mapa.prototype.setup = function (tabParams) {
 
     this.loadOriginalRepertoire(tabParams);
     
-    this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white'});
+    this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white', openColor:'orange'});
     
     this.resize();
 
@@ -245,7 +245,7 @@ SITE.Mapa.prototype.resize = function() {
     var s2 = document.getElementById( 'section2' );
     
     // -paddingTop 75 -margins 16 -2 shadow
-    var h = (winH - s1.clientHeight - (s2.clientHeight-this.tuneContainerDiv.clientHeight) -75 -16 -2 ); 
+    var h = (winH - s1.clientHeight - (s2.clientHeight - this.tuneContainerDiv.clientHeight) -75 -16 -2 ); 
     
     this.tuneContainerDiv.style.height = Math.max(h,200) +"px";
     
@@ -308,20 +308,27 @@ SITE.Mapa.prototype.showStudio = function (button, event) {
     }
 };
 
+SITE.Mapa.prototype.showMapa = function ( visible ) {
+    if( visible ) {
+        this.menu.enableSubMenu('menuGaitas');
+        this.menu.enableSubMenu('menuRepertorio');
+        $("#mapaDiv").show();
+    } else {
+        $("#mapaDiv").hide();
+        this.menu.disableSubMenu('menuGaitas');
+        this.menu.disableSubMenu('menuRepertorio');
+    }
+};
+
 SITE.Mapa.prototype.showStudio2 = function (loader) {
     
     var currentABC = this.getActiveTab();
     
     this.midiPlayer.stopPlay();
     
-    $("#mapaDiv").hide();
+    this.showMapa(false);
     
-    this.menu.disableSubMenu('menuGaitas');
-    this.menu.disableSubMenu('menuRepertorio');
-    
-    $("#studioDiv").show();
-
-    this.studio.setup(currentABC, this.getSelectedAccordion().getId() );
+    this.studio.setup( this, currentABC, this.getSelectedAccordion().getId() );
     
     loader.stop();
 };
@@ -339,10 +346,10 @@ SITE.Mapa.prototype.setupProps = function () {
         this.studio.editorWindow.topDiv.style.left   = props[4]; 
         this.studio.keyboardWindow.topDiv.style.top  = props[5]; 
         this.studio.keyboardWindow.topDiv.style.left = props[6]; 
-        this.studio.accordion.render_keyboard_opts.scale = parseFloat(props[7]);
-        this.studio.accordion.render_keyboard_opts.mirror  = (props[8] === 'true');
-        this.studio.accordion.render_keyboard_opts.transpose = (props[9] === 'true');
-        this.studio.accordion.render_keyboard_opts.label = (props[10] === 'true');
+        this.studio.accordion.loadedKeyboard.render_opts.scale = parseFloat(props[7]);
+        this.studio.accordion.loadedKeyboard.render_opts.mirror  = (props[8] === 'true');
+        this.studio.accordion.loadedKeyboard.render_opts.transpose = (props[9] === 'true');
+        this.studio.accordion.loadedKeyboard.render_opts.label = (props[10] === 'true');
         
         this.studio.textVisible    = ! this.studio.textVisible;
         this.studio.editorVisible  = ! this.studio.editorVisible;
@@ -361,10 +368,10 @@ SITE.Mapa.prototype.restoreStudio = function () {
     this.studio.editorWindow.topDiv.style.left = "40px";
     this.studio.keyboardWindow.topDiv.style.top = "120px";
     this.studio.keyboardWindow.topDiv.style.left = "900px";
-    this.studio.accordion.render_keyboard_opts.scale = 0.8;
-    this.studio.accordion.render_keyboard_opts.mirror = false;
-    this.studio.accordion.render_keyboard_opts.transpose = false;
-    this.studio.accordion.render_keyboard_opts.label = false;
+    this.studio.accordion.loadedKeyboard.render_opts.scale = 0.8;
+    this.studio.accordion.loadedKeyboard.render_opts.mirror = false;
+    this.studio.accordion.loadedKeyboard.render_opts.transpose = false;
+    this.studio.accordion.loadedKeyboard.render_opts.label = false;
     
     FILEMANAGER.saveLocal( 'property.studio.settings', 
         this.studio.textVisible 
@@ -374,10 +381,10 @@ SITE.Mapa.prototype.restoreStudio = function () {
         + '|' + this.studio.editorWindow.topDiv.style.left
         + '|' + this.studio.keyboardWindow.topDiv.style.top
         + '|' + this.studio.keyboardWindow.topDiv.style.left
-        + '|' + this.studio.accordion.render_keyboard_opts.scale
-        + '|' + this.studio.accordion.render_keyboard_opts.mirror
-        + '|' + this.studio.accordion.render_keyboard_opts.transpose
-        + '|' + this.studio.accordion.render_keyboard_opts.label
+        + '|' + this.studio.accordion.loadedKeyboard.render_opts.scale
+        + '|' + this.studio.accordion.loadedKeyboard.render_opts.mirror
+        + '|' + this.studio.accordion.loadedKeyboard.render_opts.transpose
+        + '|' + this.studio.accordion.loadedKeyboard.render_opts.label
         );
 
     this.setupProps();
@@ -401,19 +408,12 @@ SITE.Mapa.prototype.closeStudio2 = function (loader) {
         + '|' + this.studio.editorWindow.topDiv.style.left
         + '|' + this.studio.keyboardWindow.topDiv.style.top
         + '|' + this.studio.keyboardWindow.topDiv.style.left
-        + '|' + this.studio.accordion.render_keyboard_opts.scale
-        + '|' + this.studio.accordion.render_keyboard_opts.mirror
-        + '|' + this.studio.accordion.render_keyboard_opts.transpose
-        + '|' + this.studio.accordion.render_keyboard_opts.label
+        + '|' + this.studio.accordion.loadedKeyboard.render_opts.scale
+        + '|' + this.studio.accordion.loadedKeyboard.render_opts.mirror
+        + '|' + this.studio.accordion.loadedKeyboard.render_opts.transpose
+        + '|' + this.studio.accordion.loadedKeyboard.render_opts.label
         );
 
-    $("#studioDiv").fadeOut();
-    this.studio.visible = false;
-    document.getElementById("divMenuAccordions").style.pointerEvents = 'auto';
-    document.getElementById("divMenuRepertoire").style.pointerEvents = 'auto';
-    document.getElementById("DR_accordions").style.color = 'inherit';
-    document.getElementById("DR_repertoire").style.color = 'inherit';
-    $("#mapContainerDiv").fadeIn();
     this.printTab();
     this.resize();
     loader.stop();
@@ -569,7 +569,7 @@ SITE.Mapa.prototype.load = function(files) {
         }
     }
             
-    newAccordionJSON.image = newImage || 'img/accordion.default.gif';
+    newAccordionJSON.image = newImage || 'images/accordion.default.gif';
     
     if( ! this.accordionExists(newAccordionJSON.id) ) {
         newAccordion = new DIATONIC.map.AccordionMap( newAccordionJSON, true );
@@ -669,7 +669,7 @@ SITE.Mapa.prototype.debugRepertorio = function( abcParser, warnings, abc ) {
     }
     
     if ( this.midiParser ) {
-        this.midiParser.parse( abcParser.getTune(), this.accordion.getKeyboard() );
+        this.midiParser.parse( abcParser.getTune(), this.accordion.loadedKeyboard );
         var w= this.midiParser.getWarnings();
         for (var j=0; j<w.length; j++) {
            warnings.push(w[j]);
@@ -689,7 +689,7 @@ SITE.Mapa.prototype.showAccordionName = function() {
 SITE.Mapa.prototype.printTab = function( ) {
     var currentABC = this.getActiveTab();
     var accordion = this.getSelectedAccordion();
-    this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white'});
+    this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white', openColor:'orange'});
     
     var t = this.studio.getString();
     if( t === currentABC.text ) 
@@ -940,7 +940,7 @@ SITE.Mapa.prototype.parseABC = function(tab) {
     tab.abc = abcParser.getTune();
 
     if ( this.midiParser ) {
-        this.midiParser.parse( tab.abc, this.accordion.getKeyboard() );
+        this.midiParser.parse( tab.abc, this.accordion.loadedKeyboard );
     }
 };        
 
@@ -951,20 +951,19 @@ SITE.Mapa.prototype.translate = function() {
   
   document.title = DR.getResource("DR_title");  
   
-  
   DR.setDescription();
   
-  document.getElementById("toolsBtn").innerHTML = '<i class="icon-wrench"></i>&#160;'+DR.getResource("toolsBtn");
-  document.getElementById("printBtn2").innerHTML = '<i class="icon-print"></i>&#160;'+DR.getResource("printBtn");
-  document.getElementById("pdfBtn").innerHTML = '<i class="icon-print"></i>&#160;'+DR.getResource("pdfBtn");
+  document.getElementById("toolsBtn").innerHTML = '<i class="ico-wrench"></i>&#160;'+DR.getResource("toolsBtn");
+  document.getElementById("printBtn2").innerHTML = '<i class="ico-print"></i>&#160;'+DR.getResource("printBtn");
+  document.getElementById("pdfBtn").innerHTML = '<i class="ico-print"></i>&#160;'+DR.getResource("pdfBtn");
   document.getElementById("DR_message").alt = DR.getResource("DR_message");
   
   document.getElementById("octaveUpBtn").title = DR.getResource("DR_octave");
-  document.getElementById("octaveUpBtn").innerHTML = '<i class="icon-arrow-up"></i>&#160;'+DR.getResource("DR_octave");
+  document.getElementById("octaveUpBtn").innerHTML = '<i class="ico-arrow-up"></i>&#160;'+DR.getResource("DR_octave");
   document.getElementById("octaveDwBtn").title = DR.getResource("DR_octave");
-  document.getElementById("octaveDwBtn").innerHTML = '<i class="icon-arrow-down"></i>&#160;'+DR.getResource("DR_octave");
-  document.getElementById("printBtn").innerHTML = '<i class="icon-print"></i>&#160;'+DR.getResource("printBtn");
-  document.getElementById("saveBtn").innerHTML = '<i class="icon-download-alt"></i>&#160;'+DR.getResource("saveBtn");
+  document.getElementById("octaveDwBtn").innerHTML = '<i class="ico-arrow-down"></i>&#160;'+DR.getResource("DR_octave");
+  document.getElementById("printBtn").innerHTML = '<i class="ico-print"></i>&#160;'+DR.getResource("printBtn");
+  document.getElementById("saveBtn").innerHTML = '<i class="ico-download-alt"></i>&#160;'+DR.getResource("saveBtn");
   document.getElementById("forceRefresh").innerHTML = DR.getResource("forceRefresh");
   document.getElementById("forceRefresh2").innerHTML = DR.getResource("forceRefresh");
   document.getElementById("gotoMeasureBtn").value = DR.getResource("DR_goto");

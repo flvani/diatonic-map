@@ -138,7 +138,7 @@ SITE.TabGen = function( interfaceParams ) {
 };
 
 SITE.TabGen.prototype.update = function() {
-    var abcText = this.tabParser.parse(this.textarea.value, this.accordion.getKeyboard() );
+    var abcText = this.tabParser.parse(this.textarea.value, this.accordion.loadedKeyboard );
     this.printABC( abcText );
 };
 
@@ -167,7 +167,7 @@ SITE.TabGen.prototype.parseABC = function(tab) {
     tab.abc = abcParser.getTune();
 
     if ( this.midiParser ) {
-        this.midiParser.parse( tab.abc, this.accordion.getKeyboard() );
+        this.midiParser.parse( tab.abc, this.accordion.loadedKeyboard );
     }
 };        
 
@@ -184,7 +184,7 @@ SITE.TabGen.prototype.resize = function( ) {
 
 SITE.TabGen.prototype.hideMap = function() {
     this.mapVisible = false;
-    this.accordion.render_keyboard_opts.show = this.mapVisible;
+    this.accordion.loadedKeyboard.render_opts.show = this.mapVisible;
     this.keyboardWindow.topDiv.style.display = 'none';
     this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
     document.getElementById('t2p_I_showMap').setAttribute('class', 'icon-folder-close' );
@@ -192,7 +192,7 @@ SITE.TabGen.prototype.hideMap = function() {
 
 SITE.TabGen.prototype.showMap = function() {
     this.mapVisible = ! this.mapVisible;
-    this.accordion.render_keyboard_opts.show = this.mapVisible;
+    this.accordion.loadedKeyboard.render_opts.show = this.mapVisible;
     if(this.mapVisible) {
         this.keyboardWindow.topDiv.style.display = 'inline';
         this.accordion.printKeyboard(this.keyboardWindow.dataDiv);

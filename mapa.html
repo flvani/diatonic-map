@@ -10,13 +10,17 @@ teste.
         <title>Mapa para Acordeons Diatônicos</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="height=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0" />
+        <link rel="icon" type="image/icon" href="images/favicon.ico"/>
+        
         <link rel="stylesheet" href="fontsIco/abcx.css" />
         <link rel="stylesheet" href="fontsIco/abcx-window-font.css" />
         <link rel="stylesheet" href="fontsGoogle/fonts.css" />
+        
         <link rel="stylesheet" href="css/styles4abcx.css" />
+        
         <link rel="stylesheet" href="css/mapa.css" />
         <link rel="stylesheet" href="css/studio.css" />
-        <link rel="icon" type="image/icon" href="images/favicon.ico"/>
+        
   </head>
     <body>
         
@@ -107,13 +111,37 @@ teste.
                 </div>
             </div>
         </div> <!-- mapaDiv -->
-        <div id="studioDiv" class="studioDiv" >
-            <div id="studioCanvasDiv" >
-                <div id="warningsDiv"></div>
-                <div id="canvasDiv"></div>
-            </div> <!--studioCanvasDiv-->    
-            
-        </div> <!-- studioDiv -->
+        <div id="studioDiv" class="studioDiv" ></div>
+        <div id="studioControlDiv">
+            <div id="controlDiv1" class="btn-group2" >
+                <button id="showEditorBtn" title="Exibir/Ocultar Editor ABCX"><i id="I_showEditor" class="ico-folder-open"></i>&#160;<span id="DR_showEditor">Editor</span></button>
+                <button id="showMapBtn" title="Exibir/Ocultar Teclado"><i id="I_showMap" class="ico-folder"></i>&#160;<span id="DR_showMap">Teclado</span></button>
+                <button id="printBtn2" title="Imprimir" ><i class="ico-printer"></i>&#160;Imprimir</button>
+                <button id="saveBtn" title="Salvar Local" ><i class="ico-download"></i>&#160;Salvar Local</button>
+                <button id="forceRefresh" title="Atualizar" ><i class="ico-bolt"></i>&#160;Atualizar</button>
+                <button id="modeBtn" title="Modo normal/didático"><img src="images/listening3.png" alt="" width="20" height="20"/></button>
+                <button id="timerBtn" title="Timer"><img id="timerBtnImg" src="images/timer.off.png" alt="" width="25" height="20"/></button>
+                <button id="GClefBtn" title="Melodia"><img src="images/clave.sol.on.png" alt="" width="20" height="20"/></button>
+                <button id="FClefBtn" title="Baixos"><img src="images/clave.fa.on.png" alt="" width="20" height="20"/></button>
+                <input  style="display: none;" type="checkbox" id="chkAutoRefresh" /><span style="display: none;" id="DR_refresh">Auto atualização</span> 
+                <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
+            </div>
+            <div id="divDidacticPlayControls"  class="btn-group2" style="display: none;" >
+                <input id="gotoMeasureBtn" type="text" title="Ir para o compasso" value="Ir para..."/>
+                <b>..</b>
+                <input id="untilMeasureBtn" type="text" title="Executar até o compasso" value="até..."/>
+                <button id="stepBtn" title="Passo a passo">&#160;<i class="ico-play"></i>&#160;</button>
+                <button id="stepMeasureBtn" title="Executar compasso">&#160;<i class="ico-forward"></i>&#160;</button>
+                <button id="repeatBtn" title="Repetir">&#160;<i class="ico-repeat-ccw"></i>&#160;</button>
+                <button id="clearBtn" title="Limpar">&#160;<i class="ico-stop"></i>&#160;</button>
+                <button id="tempoBtn" title="Andamento"><b>&#160;1&#160;</b></button>
+            </div>
+            <div id="divNormalPlayControls" class="btn-group2" >
+                <button id="playBtn2" title="Executar">&#160;<i class="ico-play"></i>&#160;</button>
+                <button id="stopBtn2" title="Parar">&#160;<i class="ico-stop"></i>&#160;</button>
+            </div>
+            <span id="currentPlayTimeLabel2" class="text" >00:00:01</span>
+        </div>    
         <div id="printPreviewDiv" class="printPreviewClass"></div>
         
         <script id="mainScript" type="text/javascript">
@@ -129,9 +157,9 @@ teste.
             window.addEventListener( 'load', initApp );
                     
             window.onresize = function() {
-                if(! myStudio || ! myMap ) return;
+                if( !myStudio || !myMap ) return;
                 
-                if( myStudio.visible) {
+                if(window.getComputedStyle(myStudio.studioDiv.parent).display !== 'none') {
                     myStudio.resize();
                 } else {     
                     myMap.resize();
@@ -195,7 +223,7 @@ teste.
                 w1 = new DRAGGABLE.Div(
                           null
                         , null
-                        , {title: '', translate: false, statusBar: false, top: 100, left: 300, zIndex: 100}
+                        , {title: '', translate: false, draggable: true, statusBar: false, top: "200px", left: "300px", zIndex: 60}
                 );
 
                 //MIDI.widget = new sketch.ui.Timer({size:180, cor1:'#ffffff', cor2:'#ffff88' });
@@ -252,22 +280,18 @@ teste.
                 myStudio = new SITE.Estudio(
                     {   // interfaceParams
                         studioDiv: 'studioDiv'
+                       ,studioControlDiv: 'studioControlDiv'
                        ,studioCanvasDiv: 'studioCanvasDiv'
+                       ,generate_warnings: true
+                       ,generate_midi: true
+                       ,generate_tablature: 'accordion'
                        ,showMapBtn: 'showMapBtn'
                        ,showEditorBtn: 'showEditorBtn'
                        ,showTextBtn: 'showTextBtn'
                        ,printBtn:'printBtn2'
                        ,saveBtn:'saveBtn'
                        ,forceRefresh:'forceRefresh'
-                       
-                    },   
-                    {   // editorParams
-                        canvas_id: "canvasDiv"
-                       ,warnings_id: "warningsDiv"
                        ,refreshController_id: "chkAutoRefresh"
-                       ,generate_warnings: true
-                       ,generate_midi: true
-                       ,generate_tablature: 'accordion'
                        ,accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps

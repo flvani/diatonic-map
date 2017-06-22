@@ -19318,10 +19318,22 @@ define("ace/mode/abcx",["require","exports","module","ace/lib/oop","ace/mode/tex
 define("ace/theme/abcx",["require","exports","module","ace/lib/dom"], function(require, exports, module) {
 "use strict";
 
+
+
+
+
 exports.isDark = false;
 exports.cssText = ".ace-abcx {\
 background-color: #FFFFFF;\
 color: black;\
+}\
+.ace-datadiv {\
+position: relative;\
+display: block;\
+top: 0;\
+left: 0;\
+height:100%;\
+width:100%;\
 }\
 .ace-abcx .ace_cursor {\
 color: black;\
@@ -19349,10 +19361,12 @@ background: rgb(232, 242, 254);\
 }\
 .ace-abcx .ace_gutter-active-line {\
 background-color : #DADADA;\
+background: rgb(232, 242, 254);\
 color:white;\
 }\
 .ace-abcx .ace_gutter {\
-background: #ebebeb;\
+background: #EBEBEB;\
+background: #e9edf0;\
 border-right: 2px solid rgba(159, 159, 159, 0.3);\
 color: rgb(136, 136, 136);\
 }\

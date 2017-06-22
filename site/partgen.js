@@ -150,7 +150,7 @@ SITE.PartGen = function( interfaceParams ) {
     
 };
 SITE.PartGen.prototype.update = function() {
-    var abcText = this.tabParser.parse(this.textarea.value, this.accordion.getKeyboard(), this.ckConvertToClub.checked, this.ckConvertFromClub.checked );
+    var abcText = this.tabParser.parse(this.textarea.value, this.accordion.loadedKeyboard, this.ckConvertToClub.checked, this.ckConvertFromClub.checked );
     this.printABC( abcText );
 };
 
@@ -189,7 +189,7 @@ SITE.PartGen.prototype.parseABC = function(tab) {
     tab.abc = abcParser.getTune();
 
     if ( this.midiParser ) {
-        this.midiParser.parse( tab.abc, this.accordion.getKeyboard() );
+        this.midiParser.parse( tab.abc, this.accordion.loadedKeyboard );
     }
 };        
 
@@ -206,7 +206,7 @@ SITE.PartGen.prototype.resize = function( ) {
 
 SITE.PartGen.prototype.hideMap = function() {
     this.mapVisible = false;
-    this.accordion.render_keyboard_opts.show = this.mapVisible;
+    this.accordion.loadedKeyboard.render_opts.show = this.mapVisible;
     this.keyboardWindow.topDiv.style.display = 'none';
     this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
     document.getElementById('t2p_I_showMap').setAttribute('class', 'icon-folder-close' );
@@ -214,7 +214,7 @@ SITE.PartGen.prototype.hideMap = function() {
 
 SITE.PartGen.prototype.showMap = function() {
     this.mapVisible = ! this.mapVisible;
-    this.accordion.render_keyboard_opts.show = this.mapVisible;
+    this.accordion.loadedKeyboard.render_opts.show = this.mapVisible;
     if(this.mapVisible) {
         this.keyboardWindow.topDiv.style.display = 'inline';
         this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
