@@ -55,15 +55,18 @@ SITE.Estudio = function (interfaceParams, playerParams) {
 
     this.studioCanvasDiv = document.createElement("DIV");
     this.studioCanvasDiv.setAttribute("id", interfaceParams.studioCanvasDiv );
-    
+    this.studioCanvasDiv.setAttribute("class", "studioCanvasDiv customScrollBar" );
+   
     if (interfaceParams.generate_warnings) {
         this.warningsDiv = document.createElement("DIV");
         this.warningsDiv.setAttribute("id", warnings_id);
+        this.warningsDiv.setAttribute("class", "warningsDiv" );
         this.studioCanvasDiv.appendChild(this.warningsDiv);
     }
     
     this.canvasDiv = document.createElement("DIV");
     this.canvasDiv.setAttribute("id", canvas_id);
+    this.canvasDiv.setAttribute("class", "canvasDiv" );
     this.studioCanvasDiv.appendChild(this.canvasDiv);
     
     this.studioDiv.dataDiv.appendChild(this.studioCanvasDiv);
@@ -233,13 +236,13 @@ SITE.Estudio = function (interfaceParams, playerParams) {
         var andamento = that.midiPlayer.adjustAndamento();
         switch (andamento) {
             case 1:
-                that.tempoButton.innerHTML = '<b>&#160;1&#160;<b>';
+                that.tempoButton.innerHTML = '&#160;&#160;1&#160;&#160';
                 break;
             case 1 / 2:
-                that.tempoButton.innerHTML = '<b>&#160;&#189;&#160;<b>';
+                that.tempoButton.innerHTML = '&#160;&#189;&#160;';
                 break;
             case 1 / 4:
-                that.tempoButton.innerHTML = '<b>&#160;&#188;&#160;<b>';
+                that.tempoButton.innerHTML = '&#160;&#188;&#160;';
                 break;
         }
     }, false);

@@ -12,33 +12,37 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     var that = this;
     this.ypos = 0; // esta variável é usada para ajustar o scroll durante a execução do midi
     this.lastStaffGroup = -1; // também auxilia no controle de scroll
+    this.fileLoadMap = document.getElementById('fileLoadMap');
+    this.fileLoadRepertoire = document.getElementById('fileLoadRepertoire');
     
     this.mediaWidth = 300;
     this.mediaHeight = this.mediaWidth * 0.55666667;
 
+    this.settingsMenu = document.getElementById(interfaceParams.settingsMenu);
+            
     this.menu = new ABCXJS.edit.DropdownMenu(
            interfaceParams.mapMenuDiv
         ,  { listener:that, method:'menuCallback' }
         ,  [{title: 'Acordeons', ddmId: 'menuGaitas',
                 itens: [
                     '----',
-                    'Salvar mapa corrente',
-                    'Carregar mapa do disco local'
+                    'Salvar mapa corrente|SAVEMAP',
+                    'Carregar mapa do disco local|LOADMAP'
                 ]},
             {title: 'Repertório', ddmId: 'menuRepertorio',
                 itens: [
-                    'Restaurar o original',
-                    'Carregar do drive local',
-                    'Exportar para drive local',
-                    'Partitura <i class="ico-play"></i> Tablatura',
-                    'Tablatura <i class="ico-play"></i> Partitura'
+                    'Restaurar o original|RESTOREREPERTOIRE',
+                    'Carregar do drive local|LOADREPERTOIRE',
+                    'Exportar para drive local|EXPORTREPERTOIRE',
+                    'Partitura <i class="ico-play"></i> Tablatura|PART2TAB',
+                    'Tablatura <i class="ico-play"></i> Partitura|TAB2PART'
                 ]},
             {title: 'Informações', ddmId: 'menuInformacoes',
                 itens: [
-                    'Tutoriais <i class="ico-novo">|TUTORIAL',
+                    'Tutoriais|TUTORIAL',
                     'Mapas para acordeons|MAPS',
                     'Tablaturas para acordeons|TABS',
-                    'Tablaturas para gaita transportada|TABSTRANSPORTADA',
+                    'Tablaturas para gaita transportada <img src="images/novo.png">|TABSTRANSPORTADA',
                     'Símbolos de Repetição|JUMPS',
                     'Estúdio ABCX|ESTUDIO',
                     'Formato ABCX|ABCX',
@@ -78,7 +82,16 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.printButton.addEventListener("click", function(event) { that.printPartiture(this, event); }, false);
     this.toolsButton.addEventListener("touchstart", function(event) { that.showStudio(this, event); }, false);
     this.toolsButton.addEventListener("click", function(event) { that.showStudio(this, event); }, false);
+    this.fileLoadMap.addEventListener('change', function(event) { that.loadMap(event); }, false);        
+    this.fileLoadRepertoire.addEventListener('change', function(event) { that.loadRepertoire(event); }, false);        
 
+    this.settingsMenu.addEventListener("click", function(evt) {
+        evt.preventDefault();
+        this.blur();
+        that.showSettings();
+    }, false );
+    
+    
     this.buttonChangeNotation.addEventListener("click", function(evt) {
         evt.preventDefault();
         this.blur();
@@ -162,12 +175,29 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.resize();
 };
 
+
 SITE.Mapa.prototype.menuCallback = function (ev) {
     switch(ev) {
         case 'GAITA_MINUANO_GC':
         case 'GAITA_MINUANO_BC_TRANSPORTADA':
         case 'GAITA_HOHNER_CLUB_IIIM_BR':
             this.setup({accordionId:ev});
+            break;
+        case 'LOADMAP':
+            this.fileLoadMap.click();
+            break;
+        case 'SAVEMAP':
+            this.save();
+            break;
+        case 'RESTOREREPERTOIRE':
+            this.carregaRepertorio(true);
+            break;
+        case 'LOADREPERTOIRE':
+            // primeiro seleciona um ou mais arquivos e depois chama this.carregaRepertorio(false);
+            this.fileLoadRepertoire.click();
+            break;
+        case 'EXPORTREPERTOIRE':
+            this.exportaRepertorio();
             break;
         case 'TUTORIAL':
             w1.setTitle('Tutoriais')
@@ -244,8 +274,8 @@ SITE.Mapa.prototype.resize = function() {
     var s1 = document.getElementById( 'section1' );
     var s2 = document.getElementById( 'section2' );
     
-    // -paddingTop 75 -margins 16 -2 shadow
-    var h = (winH - s1.clientHeight - (s2.clientHeight - this.tuneContainerDiv.clientHeight) -75 -16 -2 ); 
+    // -paddingTop 75 -margins 18 -2 shadow
+    var h = (winH - s1.clientHeight - (s2.clientHeight - this.tuneContainerDiv.clientHeight) -75 -18 -2 ); 
     
     this.tuneContainerDiv.style.height = Math.max(h,200) +"px";
     
@@ -493,14 +523,9 @@ SITE.Mapa.prototype.loadAccordionList  = function() {
         // sempre na posição zero, assim o último será o primeiro (por isso ordena decrescente)
         this.menu.addItemSubMenu( 'menuGaitas', ord[c][1] + ' ' + DR.getResource('DR_keys')  + '|' + ord[c][2], 0 );
     }
-
-//    $('#opcoes_gaita')
-//        .append('<hr style="height: 3px; margin: 5px;" />')
-//        .append('<li><a id="extra1" href="#" onclick="saveMap();">' + DR.getResource('DR_save_map') + '</a></li>')
-//        .append('<li><a id="extra2" href="#" onclick="document.getElementById(\'fileLoadMap\').click();">' + DR.getResource('DR_load_map') + '</a></li>');
 };
 
-SITE.Mapa.prototype.salvaRepertorio = function() {
+SITE.Mapa.prototype.exportaRepertorio = function() {
     if ( FILEMANAGER.requiredFeaturesAvailable() ) {
         var accordion = this.getSelectedAccordion();
         var name = accordion.getId().toLowerCase() + ".repertorio.abcx";
@@ -541,6 +566,15 @@ SITE.Mapa.prototype.save = function() {
             '}\n';
     
     FILEMANAGER.download( accordion.getId().toLowerCase() + '.accordion', txtAccordion );
+};
+
+SITE.Mapa.prototype.loadMap = function(evt) {
+    var that = this;
+    evt.preventDefault();
+    FILEMANAGER.loadLocalFiles(evt, function() {
+      that.load(FILEMANAGER.files);
+      evt.target.value = "";
+    });
 };
 
 SITE.Mapa.prototype.load = function(files) {
@@ -615,6 +649,14 @@ SITE.Mapa.prototype.load = function(files) {
         this.renderedPractice.title = accordion.getFirstPractice();
         this.loadABCList(this.renderedPractice.tab);
     }
+};
+
+SITE.Mapa.prototype.loadRepertoire = function(evt) {
+    var that = this;
+    FILEMANAGER.loadLocalFiles( evt, function() {
+      that.carregaRepertorio(false, FILEMANAGER.files);
+      evt.target.value = "";
+    });
 };
 
 SITE.Mapa.prototype.carregaRepertorio = function(original, files) {
@@ -971,4 +1013,31 @@ SITE.Mapa.prototype.translate = function() {
   
   this.loadAccordionList();
 
+};
+
+SITE.Mapa.prototype.showSettings = function() {
+    if(!this.settingsWindow) {
+    
+        this.settingsWindow = new DRAGGABLE.Div( 
+              null 
+            , null
+            , {title: 'Preferências', translate: false, statusBar: false, top: "300px", left: "500px", height:'300px',  width:'600px', zIndex: 50} 
+            //, {listener: this, method: 'keyboardCallback'}
+        );
+        var e = document.getElementById("settingsDiv"); 
+        this.settingsWindow.dataDiv.innerHTML= e.innerHTML;
+        e.innerHTML = "";
+        var menu = new ABCXJS.edit.DropdownMenu(
+               'settingsLanguageMenu'
+            ,  null // { listener:that, method:'menuCallback' }
+            ,  [{title: 'Idioma', ddmId: 'menuIdiomas',
+                    itens: [
+                        '<img src="images/pt_BR.png" alt="idiomas" />&#160;&#160;Português|pt_BR',
+                        '<img src="images/en_US.png" alt="idiomas" />&#160;&#160;English|en_US',
+                        '<img src="images/de_DE.png" alt="idiomas" />&#160;&#160;Deustch|de_DE' 
+                    ]}]
+            );
+            menu.setSubMenuTitle('menuIdiomas', '<img src="images/pt_BR.png" alt="idiomas" />&#160;&#160;Português');
+    }            
+    this.settingsWindow.setVisible(true);
 };

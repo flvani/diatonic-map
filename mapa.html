@@ -47,11 +47,11 @@ teste.
         
 
         <div id="topBar" class="topBar gradiente" >
-            <span class="topTitle">
-                Mapa para Acordeons Diatônicos
-                <i class="ico-cogs topSettings" ></i>
-            </span>
+            <span id="DR_appName" class="topTitle">Mapa para Acordeons Diatônicos</span>
+            <a id="topSettings" class="topSettings" title="Ajustes"><i class="ico-cogs" ></i></a>
             <div class="dropdown-group">
+                <input id="fileLoadMap" type="file" accept="text/abc" multiple="multiple" style="display: none;"/>
+                <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" multiple="multiple" style="display: none;"/>
                 <div id="mapMenu" class="topMenu"></div>
             </div>
         </div> <!-- topBar -->
@@ -95,10 +95,10 @@ teste.
                     </button>
                     <button id="buttonPlay" ><i class="ico-play"></i></button>
                     <button id="buttonStop" ><i class="ico-stop"></i></button>
-                    <span id="currentPlayTimeLabel" class="text" >00:00:01</span>
+                    <label id="currentPlayTimeLabel" >00:00:00</label>
                 </div>
 
-                <div id="tuneContainerDiv" class="tv-content">
+                <div id="tuneContainerDiv" class="tv-content customScrollBar">
                     <div class="tv-content-1">
                         <div id="tabChordsDiv"></div>
                     </div>
@@ -112,7 +112,7 @@ teste.
             </div>
         </div> <!-- mapaDiv -->
         <div id="studioDiv" class="studioDiv" ></div>
-        <div id="studioControlDiv">
+        <div id="studioControlDiv" style="display:none;">
             <div id="controlDiv1" class="btn-group2" >
                 <button id="showEditorBtn" title="Exibir/Ocultar Editor ABCX"><i id="I_showEditor" class="ico-folder-open"></i>&#160;<span id="DR_showEditor">Editor</span></button>
                 <button id="showMapBtn" title="Exibir/Ocultar Teclado"><i id="I_showMap" class="ico-folder"></i>&#160;<span id="DR_showMap">Teclado</span></button>
@@ -134,14 +134,23 @@ teste.
                 <button id="stepMeasureBtn" title="Executar compasso">&#160;<i class="ico-forward"></i>&#160;</button>
                 <button id="repeatBtn" title="Repetir">&#160;<i class="ico-repeat-ccw"></i>&#160;</button>
                 <button id="clearBtn" title="Limpar">&#160;<i class="ico-stop"></i>&#160;</button>
-                <button id="tempoBtn" title="Andamento"><b>&#160;1&#160;</b></button>
+                <button id="tempoBtn" title="Andamento">&#160;&#160;1&#160;&#160</button>
             </div>
             <div id="divNormalPlayControls" class="btn-group2" >
                 <button id="playBtn2" title="Executar">&#160;<i class="ico-play"></i>&#160;</button>
                 <button id="stopBtn2" title="Parar">&#160;<i class="ico-stop"></i>&#160;</button>
             </div>
-            <span id="currentPlayTimeLabel2" class="text" >00:00:01</span>
-        </div>    
+            <label id="currentPlayTimeLabel2" >00:00:02</label>
+        </div>  <!-- controlDiv - este bloco é tratado internamente -->  
+        <div id="settingsDiv" style="display:none;">
+            <div class="menu-group">
+                <label>Acordeon:&nbsp;</label><div id="settingsAcordeonsMenu" class="topMenu"></div>
+                <br><br>
+                <label>Idioma:&nbsp;</label><div id="settingsLanguageMenu" class="topMenu"></div>
+                <br><br>
+                <label>Mostrar avisos e erros:&nbsp;</label><div id="languageMenu" class="topMenu"></div>
+            </div>
+        </div> <!-- settingsDiv - este bloco é tratado internamente -->
         <div id="printPreviewDiv" class="printPreviewClass"></div>
         
         <script id="mainScript" type="text/javascript">
@@ -165,6 +174,16 @@ teste.
                     myMap.resize();
                 }    
             };
+            
+            document.addEventListener( 'touchend', function(event) {
+                if( event.touches.length === 0 || !myStudio || !myMap ) return;
+                
+                if(window.getComputedStyle(myStudio.studioDiv.parent).display !== 'none') {
+                    myStudio.resize();
+                } else {     
+                    myMap.resize();
+                }    
+            }, false);
             
             function initApp() {
                 
@@ -330,6 +349,8 @@ teste.
                       , mapMenuDiv: 'mapMenu'
                       , keyboardDiv: "contentKeyboard"
                       , tuneContainerDiv: 'tuneContainerDiv'
+                      , settingsMenu:'topSettings'
+                      , settingsDiv: 'settingsDiv'
                       , accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps
