@@ -1,0 +1,7 @@
+convert listening.png learning.png clave.fa.off.png clave.fa.on.png clave.sol.off.png clave.sol.on.png \
+	timer.off.png timer.3.png timer.2.png  timer.1.png  timer.0.66.png  timer.0.33.png timer.0.00.png timer.on.png  +append black.png
+
+convert listening.red.png learning.red.png clave.fa.red.off.png clave.fa.red.on.png clave.sol.red.off.png clave.sol.red.on.png \
+	timer.red.off.png timer.3.png timer.2.png timer.1.png timer.0.66.png timer.0.33.png timer.0.00.png timer.red.on.png +append red.png
+
+

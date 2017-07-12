@@ -171,9 +171,11 @@ SITE.Estudio = function (interfaceParams, playerParams) {
         evt.preventDefault();
         this.blur();
         if( that.playBass) {
-            this.innerHTML = '<img src="images/clave.fa.off.png" alt="" width="20" height="20">';
+            this.innerHTML = '<i class="m-ico-bass-clef-3" style="opacity:0.9;color:lightgray;"></i>'+
+                              '<i class="m-ico-forbidden" style="position:absolute;left:4px;top:6px"></i>';
         } else {
-            this.innerHTML = '<img src="images/clave.fa.on.png" alt="" width="20" height="20">';
+            this.innerHTML = '<i class="m-ico-bass-clef-3" ></i>';
+
         }
         that.playBass = ! that.playBass;
         that.clefsToPlay = (that.playTreble?"T":"")+(that.playBass?"B":"");
@@ -183,9 +185,10 @@ SITE.Estudio = function (interfaceParams, playerParams) {
         evt.preventDefault();
         this.blur();
         if( that.playTreble) {
-            this.innerHTML = '<img src="images/clave.sol.off.png" alt="" width="20" height="20">';
+            this.innerHTML = '<i class="m-ico-treble-clef-5" style="opacity:0.9;color:lightgray;"></i>'+
+                              '<i class="m-ico-forbidden" style="position:absolute;left:4px;top:6px"></i>';
         } else {
-            this.innerHTML = '<img src="images/clave.sol.on.png" alt="" width="20" height="20">';
+            this.innerHTML = '<i class="m-ico-treble-clef-5" ></i>';
         }
         that.playTreble = ! that.playTreble;
         that.clefsToPlay = (that.playTreble?"T":"")+(that.playBass?"B":"");
@@ -590,18 +593,17 @@ SITE.Estudio.prototype.salvaMusica = function () {
         alert(DR.getResource("DR_err_saving"));
     }
 };
-    
 SITE.Estudio.prototype.changePlayMode = function() {
     if( this.currentMode === "normal" ) {
         $("#divNormalPlayControls" ).hide();
         this.currentMode  = "learning";
-        this.modeButton.innerHTML = '<img src="images/learning5.png" alt="" width="20" height="20">';
+        this.modeButton.innerHTML = '<i class="m-ico-learning-4" ></i>';
         this.midiPlayer.resetAndamento(this.currentMode);
         $("#divDidacticPlayControls" ).fadeIn();
     } else {
         $("#divDidacticPlayControls" ).hide();
         this.currentMode  = "normal";
-        this.modeButton.innerHTML = '<img src="images/listening3.png" alt="" width="20" height="20">';
+        this.modeButton.innerHTML = '<i class="m-ico-headphones" ></i>';
         this.midiPlayer.resetAndamento(this.currentMode);
         $("#divNormalPlayControls" ).fadeIn();
     }
@@ -648,24 +650,27 @@ SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
 
 SITE.Estudio.prototype.setTimerIcon = function( timerOn, value ) {
     value = value || 0;
-    var ico = 'off';
+    
+    
+    
+    var ico = '400';
     if( timerOn ) {
         switch( value ) {
-            case 0:  ico = 'on'; break;
-            case 1:  ico = '0.00'; break;
-            case 2: ico = '0.33'; break;
-            case 3: ico = '0.66'; break;
-            case 6: ico = '2'; break;
-            case 9: ico = '3'; break;
+            case 0:  ico = '300'; break;
+            case 1:  ico = '000'; break;
+            case 2: ico = '033'; break;
+            case 3: ico = '066'; break;
+            case 6: ico = '100'; break;
+            case 9: ico = '200'; break;
             default: ico = '';
         }
     }
     if( ico !== ''  ) {
-        if( ico !== 'on' && ico !== 'off') {
+        if( ico !== '400' && ico !== '300') {
             MIDI.noteOn(0,  90, 100, 0 );
             MIDI.noteOff(0, 90, value > 3 ? 0.10 : 0.05  );
         }
-        this.timerButton.innerHTML = '<img id="timerBtnImg" src="images/timer.'+ico+'.png" alt="" width="25" height="20"/>';
+        this.timerButton.innerHTML = '<i class="m-ico-timer-'+ico+'" ></i>';
     }
 };
 

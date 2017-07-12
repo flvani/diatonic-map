@@ -156,7 +156,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.showAccordionImage();
     this.loadOriginalRepertoire();
     
-    this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white', openColor:'orange'});
+    this.printKeyboard();
     
     DR.addAgent( this ); // register for translate
 
@@ -239,6 +239,10 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
     }
 };
 
+SITE.Mapa.prototype.printKeyboard = function() {
+    this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white', openColor:'#ffba3b', closeColor:'#ff3a3a'});
+};
+
 SITE.Mapa.prototype.setup = function (tabParams) {
 
     var gaita = this.accordion.loadById(tabParams.accordionId);
@@ -258,7 +262,7 @@ SITE.Mapa.prototype.setup = function (tabParams) {
 
     this.loadOriginalRepertoire(tabParams);
     
-    this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white', openColor:'orange'});
+    this.printKeyboard();
     
     this.resize();
 
@@ -731,7 +735,7 @@ SITE.Mapa.prototype.showAccordionName = function() {
 SITE.Mapa.prototype.printTab = function( ) {
     var currentABC = this.getActiveTab();
     var accordion = this.getSelectedAccordion();
-    this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white', openColor:'orange'});
+    this.printKeyboard();
     
     var t = this.studio.getString();
     if( t === currentABC.text ) 

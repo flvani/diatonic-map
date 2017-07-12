@@ -23,7 +23,7 @@
     float:left;
     text-align: left;
     vertical-align: middle;
-    font-family: 'titleFont3','Arial';
+    font-family: 'menuFont','Arial';
     font-weight: normal;
     font-size: 20px;
     line-height: 16px;
@@ -95,15 +95,21 @@
 }
 
 .btn-group i,
-.btn-group img,
 .menu-group i,
+.dropdown i {
+    position: relative;
+    vertical-align: middle;
+    top: -1px;
+    height:22px;
+}    
+
+.btn-group img,
 .menu-group img,
-.dropdown i,
 .dropdown img {
     position: relative;
     vertical-align: middle;
-    top: 0px;
-    height:20px;
+    top: -1px;
+    height:22px;
 }    
 
 .dropdown [data-toggle="toggle"] {
@@ -144,6 +150,7 @@
     -moz-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -ms-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -o-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
+    font-family: "subMenuFont", "arial";
     font-weight: normal;
     font-size: 18px;
     font-style: italic;
@@ -275,7 +282,7 @@
     background: linear-gradient(top, lavender 0%, white 100%);
   */
 
-    font-family: 'titleFont3';
+    font-family: 'menuFont';
     font-size: 15px;
     line-height: 30px;
     height: 30px;
@@ -346,10 +353,11 @@
 .tv-content,
 .tv-content-always {
     clear: both;
+    float: left;
     background: #e9edf0;
     position: relative;
-    min-width: 400px;
-    min-height: 200px;
+    min-width: 756px;
+    min-height: 304px;
     z-index: 10;
     opacity: 1;
     display:block;
@@ -362,7 +370,7 @@
 
 .tv-content {
     min-width: 1024px;
-    min-height: 300px;
+    min-height: 400px;
     width: inherit;
     height: inherit;
     overflow: hidden;
@@ -477,10 +485,11 @@ and open the template in the editor.
   top: 0;
   display:block;
   padding: 0; 
-  padding-top: 2px; 
+  padding-top: 1px; 
   height: auto;
   text-align: left;
-  font-family: sans-serif;
+  font-family: subMenuFont, sans-serif;
+  font-size: 16px;
   font-weight: bold;
   pointer-events: none;
   background-color: transparent;

@@ -43,6 +43,7 @@ and open the template in the editor.
     background-color: #dadada;
     background-color: #e9edf0;
     border-bottom: 1px solid rgba(255, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 153, 34, 0.2);
 /*
     box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
     -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
@@ -99,7 +100,7 @@ and open the template in the editor.
     border: 1px solid rgba(159,159,159,0.4);
 }
 
-.btn-group2 {
+.btn-subgroup {
     display: inline-block;
     float:left;
 }

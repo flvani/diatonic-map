@@ -8965,56 +8965,57 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
     var estilo = 
 '\n\
    .abc_title {\n\
-        font-size: 20px;\n\
-        font-family: serif;\n\
+        font-size: 18px;\n\
+        font-weight: bold;\n\
+        font-family: abcFont, serif;\n\
     }\n\
     \n\
     .abc_subtitle {\n\
         font-size: 16px;\n\
-        font-family: serif;\n\
+        font-family: abcFont, serif;\n\
         font-style: italic;\n\
     }\n\
     \n\
     .abc_author {\n\
         font-size: 14px;\n\
-        font-family: serif;\n\
+        font-family: abcFont, serif;\n\
         font-style: italic;\n\
         font-weight: bold;\n\
     }\n\
     \n\
     .abc_rhythm {\n\
         font-size: 12px;\n\
-        font-family: serif;\n\
+        font-family: abcFont, serif;\n\
         font-style: italic;\n\
     }\n\
     \n\
     .abc_voice_header {\n\
         font-size: 12px;\n\
-        font-family: serif;\n\
+        font-family: abcFont, serif;\n\
         font-style: italic;\n\
         font-weight: bold;\n\
     }\n\
     \n\
     .abc_tempo {\n\
         font-size: 12px;\n\
-        font-family: serif;\n\
+        font-family: abcFont, serif;\n\
         font-weight: bold;\n\
     }\n\
     \n\
     .abc_text {\n\
         font-size: 12px;\n\
-        font-family: serif;\n\
+        font-family: arial, serif;\n\
     }\n\
     \n\
     .abc_lyrics {\n\
         font-size: 13px;\n\
-        font-family: serif;\n\
-        font-weight: bold;\n\
+        font-family: abcFont, serif;\n\
+        font-weight: normal;\n\
     }\n\
     \n\
     .abc_ending {\n\
         font-size: 10px;\n\
-        font-family: serif;\n\
+        font-family: abcFont, serif;\n\
     }\n\
     \n\
     .abc_tabtext\n\
@@ -9485,9 +9486,9 @@ ABCXJS.write.Printer.prototype.printExtraText = function(text, x) {
 };
 
 ABCXJS.write.Printer.prototype.printSubtitleLine = function(subtitle) {
-    this.paper.text(this.width/2, this.y, subtitle, 'abc_subtitle', 'middle');
+    this.paper.text(this.width/2, this.y+2, subtitle, 'abc_subtitle', 'middle');
 };
-/**
+    /**
  * sprintf() for JavaScript v.0.4
  *
  * Copyright (c) 2007 Alexandru Marasteanu <http://alexei.417.ro/>

@@ -40,7 +40,7 @@
   -moz-osx-font-smoothing: grayscale;
  
   /* Uncomment for 3D effect */
-   text-shadow: 1px 1px 1px rgba(180, 180, 180, 0.8); 
+   text-shadow: 2px 1px 2px rgba(50, 50, 50, 0.8); 
 }
  
 .ico-novo:before { content:  url(../images/novo.mini.png);  height: 10px; width: 10px; }
