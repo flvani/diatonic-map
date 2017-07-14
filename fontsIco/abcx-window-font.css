@@ -43,17 +43,18 @@
    text-shadow: 1px 1px 1px rgba(180, 180, 180, 0.8); 
  }
  
-.wico-dock:before { content: '\e800'; } /* '' */
-.wico-dock-2:before { content: '\e801'; } /* '' */
 .wico-close:before { content: '\e802'; } /* '' */
 .wico-move-2:before { content: '\e803'; } /* '' */
 .wico-move:before { content: '\e804'; } /* '' */
 .wico-rotate:before { content: '\e805'; } /* '' */
 .wico-restore:before { content: '\e806'; } /* '' */
-.wico-globe:before { content: '\e807'; } /* '' */
 .wico-zoom-in:before { content: '\e808'; } /* '' */
 .wico-zoom-out:before { content: '\e809'; } /* '' */
-.wico-popout:before { content: '\e80a'; } /* '' */
+.wico-popin:before { content: '\e80b'; } /* '' */
+.wico-popout:before { content: '\e80c'; } /* '' */
+.wico-world-3:before { content: '\e81e'; } /* '' */
+.wico-world-2:before { content: '\e836'; } /* '' */
+.wico-world:before { content: '\e837'; } /* '' */
 
 .ico-large {
   font-size: 200%;

@@ -471,7 +471,7 @@ SITE.Estudio.prototype.editorCallback = function (e) {
         case 'LIGHT': // liga/desliga realce de sintaxe
             this.editorWindow.setSyntaxHighLight();
             break;
-        case 'DOCK':
+        case 'POPIN':
             this.editorWindow.setVisible(false);
             this.editorWindow = this.editareaFixa;
             this.editorWindow.setString(this.editareaMovel.getString());

@@ -427,15 +427,22 @@ and open the template in the editor.
     min-height: 60px;
     z-index: 100;
     border: thin solid rgba(100,100,100,0.3);
+    background: #F1F1F1;
+    pointer-events: auto;
+    overflow: hidden;
+    
     box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -webkit-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -moz-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -ms-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -o-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-    
-    background: #F1F1F1;
-    pointer-events: auto;
-    overflow: hidden;
+}
+.noShadow {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -ms-box-shadow: none;
+    -o-box-shadow: none;
 }
 
 .draggableMenu {

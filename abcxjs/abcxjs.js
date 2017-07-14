@@ -10197,7 +10197,7 @@ ABCXJS.edit.EditArea = function (editor_id, listener) {
     } else {
         this.container = new DRAGGABLE.Div( 
             null
-            , [ 'move|Mover', 'dock|Fixar Janela' ]
+            , [ 'move|Mover', 'popin|Fixar Janela' ]
             , {translate:false, statusBar:true, left:"0", top:"0", width: "640px", height: "480px", title: 'Editor ABCX' }
             , {listener : listener, method: 'editorCallback' }
             , [ 'gutter|Numeração das Linhas', 'fontsize|Tamanho da fonte', 'down|Tom', 'arrowdn|Oitava|Oitava', 'arrowup|Oitava|Oitava', 'search|Procurar', 'undo|Dezfazer', 'redo|Refazer', 'light|Realçar texto' ] 
@@ -11688,7 +11688,7 @@ DRAGGABLE.Div = function( parent, aButtons, options, callback, aToolBarButtons )
 
     var div = document.createElement("DIV");
     div.setAttribute("id", "draggableWindow" +  this.id ); 
-    div.setAttribute("class", "draggableWindow" ); 
+    div.setAttribute("class", "draggableWindow" + (this.draggable? "" : " noShadow") ); 
     this.topDiv = div;
     
     if( opts.zIndex ) {
@@ -11924,7 +11924,7 @@ DRAGGABLE.Div.prototype.addButtons = function( id,  aButtons ) {
     var defaultButtons = ['close|Fechar'];
     var self = this;
     
-    var buttonMap = { CLOSE: 'close', MOVE: 'move', ROTATE: 'rotate', GLOBE: 'globe', ZOOM:'zoom-in', DOCK: 'dock', POPOUT: 'popout'  };
+    var buttonMap = { CLOSE: 'close', MOVE: 'move', ROTATE: 'rotate', GLOBE: 'world', ZOOM:'zoom-in', POPIN: 'popin', POPOUT: 'popout'  };
     
     if(aButtons)
         defaultButtons = defaultButtons.concat(aButtons);
