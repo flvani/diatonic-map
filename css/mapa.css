@@ -153,28 +153,4 @@ body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     cursor:pointer;
 }    
-
-[class^="icon-"],[class*=" icon-"] {
-  display:inline-block;
-  height:22px;
-  width:22px;
-  background-image:url("../images/modes.black.png");
-  background-image:url("../images/modes.red.png");
-  background-repeat:no-repeat;
-}
- 
-.icon-listening     {background-position:   -5px -6px }
-.icon-learning      {background-position:  -32px -6px }
-.icon-clave-fa-off  {background-position:  -60px -6px }
-.icon-clave-fa-on   {background-position:  -87px -6px }
-.icon-clave-sol-off {background-position: -114px -6px }
-.icon-clave-sol-on  {background-position: -141px -6px }
-.icon-timer-off     {background-position: -167px -6px }
-.icon-timer-3       {background-position: -194px -6px }
-.icon-timer-2       {background-position: -221px -6px }
-.icon-timer-1       {background-position: -248px -6px }
-.icon-timer-066     {background-position: -275px -6px }
-.icon-timer-033     {background-position: -302px -6px }
-.icon-timer-000     {background-position: -329px -6px }
-.icon-timer-on      {background-position: -356px -6px }
  

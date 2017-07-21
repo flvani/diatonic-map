@@ -13,8 +13,6 @@ teste.
         <link rel="icon" type="image/icon" href="images/favicon.ico"/>
         
         <link rel="stylesheet" href="fontsIco/abcx.css" />
-        <link rel="stylesheet" href="fontsIco/abcx-window-font.css" />
-        <link rel="stylesheet" href="fontsIco/abcx-menu-font.css" />
         <link rel="stylesheet" href="fontsGoogle/fonts.css" />
         
         <link rel="stylesheet" href="css/styles4abcx.css" />
@@ -29,7 +27,8 @@ teste.
         <script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
         
         <!-- suporte a MIDI -->
-        <script type="text/javascript" src="MIDI.js/MIDI.js"></script>
+        <script type="text/javascript" src="jslib/MIDI.js"></script>
+        <script type="text/javascript" src="jslib/jscolor.js"></script>
         
         <!-- suporte a arquivos -->
         <script type="text/javascript" src="file/filemanager.js"></script>
@@ -53,6 +52,7 @@ teste.
             <div class="dropdown-group">
                 <input id="fileLoadMap" type="file" accept="text/abc" multiple="multiple" style="display: none;"/>
                 <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" multiple="multiple" style="display: none;"/>
+                <div id="acordeonMenu" class="topMenu"></div>
                 <div id="mapMenu" class="topMenu"></div>
             </div>
         </div> <!-- topBar -->
@@ -62,7 +62,7 @@ teste.
                 <label id="a_nome_gaita">...</label>
                 <div class="btn-group">
                     <button id="buttonChangeNotation" >
-                        <i class="ico-globe"></i>&nbsp;<span id="DR_chlabel">Mudar a notação</span>
+                        <i class="ico-world-2"></i>&nbsp;<span id="DR_chlabel">Mudar a notação</span>
                     </button>
                 </div>
                 <div class="tv-content-always">
@@ -120,10 +120,10 @@ teste.
                 <button id="printBtn2" title="Imprimir" ><i class="ico-printer"></i>&#160;Imprimir</button>
                 <button id="saveBtn" title="Salvar Local" ><i class="ico-download"></i>&#160;Salvar Local</button>
                 <button id="forceRefresh" title="Atualizar" ><i class="ico-bolt"></i>&#160;Atualizar</button>
-                <button id="modeBtn" title="Modo normal/didático" ><i class="m-ico-headphones" ></i></button>
-                <button id="timerBtn" title="Timer"><i class="m-ico-timer-400" ></i></button>
-                <button id="GClefBtn" title="Melodia"><i class="m-ico-treble-clef-5" ></i></button>
-                <button id="FClefBtn" title="Baixos"><i class="m-ico-bass-clef-3" ></i></button>
+                <button id="modeBtn" title="Modo normal/didático" ><i class="ico-listening" ></i></button>
+                <button id="timerBtn" title="Timer"><i class="ico-timer-00" ></i></button>
+                <button id="GClefBtn" title="Melodia"><i class="ico-clef-treble" ></i></button>
+                <button id="FClefBtn" title="Baixos"><i class="ico-clef-bass" ></i></button>
                 <input  style="display: none;" type="checkbox" id="chkAutoRefresh" /><span style="display: none;" id="DR_refresh">Auto atualização</span> 
                 <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
             </div>
@@ -133,7 +133,7 @@ teste.
                 <input id="untilMeasureBtn" type="text" title="Executar até o compasso" value="até..."/>
                 <button id="stepBtn" title="Passo a passo">&#160;<i class="ico-play"></i>&#160;</button>
                 <button id="stepMeasureBtn" title="Executar compasso">&#160;<i class="ico-forward"></i>&#160;</button>
-                <button id="repeatBtn" title="Repetir">&#160;<i class="ico-repeat-ccw"></i>&#160;</button>
+                <button id="repeatBtn" title="Repetir">&#160;<i class="ico-repeat-cw"></i>&#160;</button>
                 <button id="clearBtn" title="Limpar">&#160;<i class="ico-stop"></i>&#160;</button>
                 <button id="tempoBtn" title="Andamento">&#160;&#160;1&#160;&#160</button>
             </div>
@@ -143,15 +143,6 @@ teste.
             </div>
             <label id="currentPlayTimeLabel2" >00:00:02</label>
         </div>  <!-- controlDiv - este bloco é tratado internamente -->  
-        <div id="settingsDiv" style="display:none;">
-            <div class="menu-group">
-                <label>Acordeon:&nbsp;</label><div id="settingsAcordeonsMenu" class="topMenu"></div>
-                <br><br>
-                <label>Idioma:&nbsp;</label><div id="settingsLanguageMenu" class="topMenu"></div>
-                <br><br>
-                <label>Mostrar avisos e erros:&nbsp;</label><div id="languageMenu" class="topMenu"></div>
-            </div>
-        </div> <!-- settingsDiv - este bloco é tratado internamente -->
         <div id="printPreviewDiv" class="printPreviewClass"></div>
         
         <script id="mainScript" type="text/javascript">
@@ -280,20 +271,16 @@ teste.
                 MIDI.loadPlugin({
                      soundfontUrl: "./soundfont/"
                     ,instruments: "accordion" // default
-                    ,onprogress: function(event) {
-                        MIDI.widget.setValue(Math.round(MIDI.getPercent(event)*.35)+15);
-                    }                            
-                    ,onprogress2: function( percent ) {
-                        MIDI.widget.setValue(50+Math.round(percent/2));
-                    }        
+                    ,onprogress: function( total, done, currentPercent ) {
+                        var percent = ((done*100)+currentPercent)*85/(total*100);
+                        MIDI.widget.setValue(15+Math.round(percent));
+                    }
                     ,callback: createMap
                 });
             }
             
             function createMap() {
                 
-                MIDI.widget.setValue(100);
-
                 var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
 
                 myStudio = new SITE.Estudio(
@@ -347,10 +334,10 @@ teste.
                       , printBtn: 'buttonPrinter'
                       , toolsBtn: 'buttonTools'
                       , mapMenuDiv: 'mapMenu'
+                      , acordeonMenuDiv: 'acordeonMenu'
                       , keyboardDiv: "contentKeyboard"
                       , tuneContainerDiv: 'tuneContainerDiv'
                       , settingsMenu:'topSettings'
-                      , settingsDiv: 'settingsDiv'
                       , accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps

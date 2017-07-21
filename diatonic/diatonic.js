@@ -346,10 +346,7 @@ DIATONIC.map.Keyboard.prototype.print = function ( div  ) {
     this.paper.initDoc( 'keyb', 'Diatonic Map Keyboard', estilo, this.render_opts );
     this.paper.initPage( this.render_opts.scale );
     
-    var legenda_opt = ABCXJS.parse.clone( this.render_opts );
-    legenda_opt.kls = 'blegenda';
-    
-    this.legenda.draw('l00', this.paper, this.limits, legenda_opt );
+    this.drawLegenda();
     
     if(this.render_opts.transpose) {
         sz = {w:this.height, h:this.width};
@@ -445,6 +442,15 @@ DIATONIC.map.Keyboard.prototype.parseNote = function(txtNota, isBass) {
   return nota;
 };
 
+DIATONIC.map.Keyboard.prototype.drawLegenda = function() {
+    
+    var legenda_opt = ABCXJS.parse.clone( this.render_opts );
+    legenda_opt.kls = 'blegenda';
+    
+    this.legenda.draw('l00', this.paper, this.limits, legenda_opt );
+    
+};
+
 DIATONIC.map.Keyboard.prototype.redraw = function() {
     for (var j = 0; j < this.keyMap.length; j++) {
         for (var i = 0; i < this.keyMap[j].length; i++) {
@@ -521,8 +527,8 @@ DIATONIC.map.Button.prototype.draw = function( id, printer, limits, options ) {
     options.borderColor = this.borderColor;
     options.borderWidth = this.borderWidth;
     options.fillColor = this.kb.render_opts.fillColor;
-    options.openColor = (options.kls && options.kls === 'blegenda'? this.kb.render_opts.openColor : 'none' );
-    options.closeColor = (options.kls && options.kls === 'blegenda'? this.kb.render_opts.closeColor : 'none' );
+    options.openColor = (options.kls && options.kls === 'blegenda'? options.openColor : 'none' );
+    options.closeColor = (options.kls && options.kls === 'blegenda'? options.closeColor : 'none' );
     
     this.SVG.gid = printer.printButton( id, currX, currY, options );
 

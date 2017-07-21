@@ -19,23 +19,36 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.mediaHeight = this.mediaWidth * 0.55666667;
 
     this.settingsMenu = document.getElementById(interfaceParams.settingsMenu);
-            
-    this.menu = new ABCXJS.edit.DropdownMenu(
-           interfaceParams.mapMenuDiv
-        ,  { listener:that, method:'menuCallback' }
-        ,  [{title: 'Acordeons', ddmId: 'menuGaitas',
-                itens: [
-                    '----',
+
+    this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options );
+    this.keyboardDiv = interfaceParams.keyboardDiv;
+    this.accordionSelector = null;
+    
+    if( interfaceParams.acordeonMenuDiv ) {
+        this.accordionSelector = new ABCXJS.edit.AccordionSelector( 
+                'sel1', interfaceParams.acordeonMenuDiv, 
+                { listener:this, method: 'menuCallback' }, 
+                [
+                    '---',
                     'Salvar mapa corrente|SAVEMAP',
                     'Carregar mapa do disco local|LOADMAP'
-                ]},
-            {title: 'Repertório', ddmId: 'menuRepertorio',
+                ]
+        );
+
+        this.accordionSelector.populate(false);
+    }
+    
+    this.menu = new ABCXJS.edit.DropdownMenu(
+           interfaceParams.mapMenuDiv
+        ,  { listener: that, method:'menuCallback' }
+        ,  [{title: 'Repertório', ddmId: 'menuRepertorio',
                 itens: [
                     'Restaurar o original|RESTOREREPERTOIRE',
                     'Carregar do drive local|LOADREPERTOIRE',
                     'Exportar para drive local|EXPORTREPERTOIRE',
-                    'Partitura <i class="ico-play"></i> Tablatura|PART2TAB',
-                    'Tablatura <i class="ico-play"></i> Partitura|TAB2PART'
+                    '---',
+                    'Partitura&nbsp;&nbsp;<i class="ico-open-right"></i> Tablatura|PART2TAB',
+                    'Tablatura&nbsp;&nbsp;<i class="ico-open-right"></i> Partitura|TAB2PART'
                 ]},
             {title: 'Informações', ddmId: 'menuInformacoes',
                 itens: [
@@ -147,11 +160,6 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.midiPlayer.defineCallbackOnEnd( that.playerCallBackOnEnd );
     this.midiPlayer.defineCallbackOnScroll( that.playerCallBackOnScroll );
 
-    this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options );
-    this.keyboardDiv = interfaceParams.keyboardDiv;
-    
-    this.loadAccordionList();
-    
     this.showAccordionName();
     this.showAccordionImage();
     this.loadOriginalRepertoire();
@@ -175,6 +183,54 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.resize();
 };
 
+
+SITE.Mapa.prototype.setup = function (tabParams) {
+
+    var gaita = this.accordion.loadById(tabParams.accordionId);
+    
+    if (!gaita) {
+        console.log('Gaita não encontrada!');
+        return;
+    }
+    
+    this.accordionSelector.populate(false);
+
+
+    if (!gaita.localResource) { // não salva informação para acordeon local
+        FILEMANAGER.saveLocal('property.accordion', gaita.getId());
+    }
+
+    this.showAccordionName();
+    this.showAccordionImage();
+    this.midiPlayer.reset();
+
+    this.loadOriginalRepertoire(tabParams);
+    
+    this.printKeyboard();
+    
+    this.resize();
+
+};
+
+SITE.Mapa.prototype.resize = function() {
+   
+    // redimensiona a tela partitura
+    var winH = window.innerHeight
+                || document.documentElement.clientHeight
+                || document.body.clientHeight;    
+   
+    var s1 = document.getElementById( 'section1' );
+    var s2 = document.getElementById( 'section2' );
+    
+    // -paddingTop 75 -margins 18 -2 shadow
+    var h = (winH - s1.clientHeight - (s2.clientHeight - this.tuneContainerDiv.clientHeight) -75 -18 -2 ); 
+    
+    this.tuneContainerDiv.style.height = Math.max(h,200) +"px";
+    
+    // posiciona a janela de midia
+    this.posicionaMidia();
+
+};
 
 SITE.Mapa.prototype.menuCallback = function (ev) {
     switch(ev) {
@@ -235,57 +291,13 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             w1.topDiv.style.display = 'inline';
             break;
         default:
+            this.setup({accordionId:ev});
             break;
     }
 };
 
 SITE.Mapa.prototype.printKeyboard = function() {
     this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white', openColor:'#ffba3b', closeColor:'#ff3a3a'});
-};
-
-SITE.Mapa.prototype.setup = function (tabParams) {
-
-    var gaita = this.accordion.loadById(tabParams.accordionId);
-
-    if (!gaita) {
-        console.log('Gaita não encontrada!');
-        return;
-    }
-
-    if (!gaita.localResource) { // não salva informação para acordeon local
-        FILEMANAGER.saveLocal('property.accordion', gaita.getId());
-    }
-
-    this.showAccordionName();
-    this.showAccordionImage();
-    this.midiPlayer.reset();
-
-    this.loadOriginalRepertoire(tabParams);
-    
-    this.printKeyboard();
-    
-    this.resize();
-
-};
-
-SITE.Mapa.prototype.resize = function() {
-   
-    // redimensiona a tela partitura
-    var winH = window.innerHeight
-                || document.documentElement.clientHeight
-                || document.body.clientHeight;    
-   
-    var s1 = document.getElementById( 'section1' );
-    var s2 = document.getElementById( 'section2' );
-    
-    // -paddingTop 75 -margins 18 -2 shadow
-    var h = (winH - s1.clientHeight - (s2.clientHeight - this.tuneContainerDiv.clientHeight) -75 -18 -2 ); 
-    
-    this.tuneContainerDiv.style.height = Math.max(h,200) +"px";
-    
-    // posiciona a janela de midia
-    this.posicionaMidia();
-
 };
 
 SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
@@ -298,20 +310,20 @@ SITE.Mapa.prototype.loadOriginalRepertoire2 = function (tabParams, loader) {
     tabParams = tabParams || {};
     
     this.renderedChord.title = tabParams.chordTitle
-        || FILEMANAGER.loadLocal('property.' + this.getSelectedAccordion().getId() + '.chord.title')
-        || this.getSelectedAccordion().getFirstChord();
+        || FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.chord.title')
+        || this.accordion.loaded.getFirstChord();
 
     this.loadABCList(this.renderedChord.tab);
 
     this.renderedPractice.title = tabParams.practiceTitle
-        || FILEMANAGER.loadLocal('property.' + this.getSelectedAccordion().getId() + '.practice.title')
-        || this.getSelectedAccordion().getFirstPractice();
+        || FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.practice.title')
+        || this.accordion.loaded.getFirstPractice();
 
     this.loadABCList(this.renderedPractice.tab);
 
     this.renderedTune.title = tabParams.songTitle
-        || FILEMANAGER.loadLocal('property.' + this.getSelectedAccordion().getId() + '.song.title')
-        || this.getSelectedAccordion().getFirstSong();
+        || FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.song.title')
+        || this.accordion.loaded.getFirstSong();
 
     this.loadABCList(this.renderedTune.tab);
     
@@ -362,7 +374,7 @@ SITE.Mapa.prototype.showStudio2 = function (loader) {
     
     this.showMapa(false);
     
-    this.studio.setup( this, currentABC, this.getSelectedAccordion().getId() );
+    this.studio.setup( this, currentABC, this.accordion.getId() );
     
     loader.stop();
 };
@@ -509,29 +521,9 @@ SITE.Mapa.prototype.scaleKeyboard = function() {
     this.accordion.scaleKeyboard();
 };
 
-SITE.Mapa.prototype.loadAccordionList  = function() {
-    var accordions = this.accordion.accordions;
-    var ord = [];
-    for (var c=0; c < accordions.length; c++) {
-       ord.push( [ parseInt( accordions[c].menuOrder ), accordions[c].getFullName() , accordions[c].getId() ] );
-    }
-
-    // ordena decrescente
-    ord.sort(function(a, b) {
-        return a[0] < b[0];
-    });
-    
-    //this.menu.emptySubMenu('menuGaitas');
-
-    for (var c=0; c < ord.length; c++) {
-        // sempre na posição zero, assim o último será o primeiro (por isso ordena decrescente)
-        this.menu.addItemSubMenu( 'menuGaitas', ord[c][1] + ' ' + DR.getResource('DR_keys')  + '|' + ord[c][2], 0 );
-    }
-};
-
 SITE.Mapa.prototype.exportaRepertorio = function() {
     if ( FILEMANAGER.requiredFeaturesAvailable() ) {
-        var accordion = this.getSelectedAccordion();
+        var accordion = this.accordion;
         var name = accordion.getId().toLowerCase() + ".repertorio.abcx";
         var conteudo = "";
         for( var title in accordion.songs.items) {
@@ -544,7 +536,7 @@ SITE.Mapa.prototype.exportaRepertorio = function() {
 };
 
 SITE.Mapa.prototype.save = function() {
-    var accordion = this.getSelectedAccordion();
+    var accordion = this.accordion;
     var txtAccordion = 
             '{\n'+
             '   "id":'+JSON.stringify(accordion.id)+'\n'+
@@ -613,15 +605,19 @@ SITE.Mapa.prototype.load = function(files) {
         newAccordion = new DIATONIC.map.AccordionMap( newAccordionJSON, true );
         
         DIATONIC.map.accordionMaps.push( newAccordion );
-        this.loadAccordionList();
-        //this.editor.accordionSelector.updateAccordionList();
+        
+        DIATONIC.map.accordionMaps.sort( function(a,b) { 
+            return a.menuOrder > b.menuOrder;
+        });
+        
+        this.accordionSelector.populate(false);
     }   
     
     if( ! this.accordionIsCurrent(newAccordionJSON.id) ) {
         this.setup({accordionId:newAccordionJSON.id});
     }   
     
-    var accordion = this.getSelectedAccordion();
+    var accordion = this.accordion.loaded;
     
     if( newTunes ) {
         var tunebook = new ABCXJS.TuneBook(newTunes);
@@ -724,17 +720,17 @@ SITE.Mapa.prototype.debugRepertorio = function( abcParser, warnings, abc ) {
 };        
 
 SITE.Mapa.prototype.showAccordionImage = function() {
-  this.gaitaImagePlaceHolder.innerHTML = '<img src="'+this.getSelectedAccordion().getPathToImage()
-        +'" alt="'+this.getSelectedAccordion().getFullName() + ' ' + DR.getResource('DR_keys') + '" style="height:200px; width:200px;" />';
+  this.gaitaImagePlaceHolder.innerHTML = '<img src="'+this.accordion.loaded.image;
+        +'" alt="'+this.accordion.getFullName() + ' ' + DR.getResource('DR_keys') + '" style="height:200px; width:200px;" />';
 };
 
 SITE.Mapa.prototype.showAccordionName = function() {
-  this.gaitaNamePlaceHolder.innerHTML = this.getSelectedAccordion().getFullName() + ' ' + DR.getResource('DR_keys');
+  this.gaitaNamePlaceHolder.innerHTML = this.accordion.getFullName() + ' ' + DR.getResource('DR_keys');
 };
 
 SITE.Mapa.prototype.printTab = function( ) {
     var currentABC = this.getActiveTab();
-    var accordion = this.getSelectedAccordion();
+    var accordion = this.accordion;
     this.printKeyboard();
     
     var t = this.studio.getString();
@@ -755,10 +751,6 @@ SITE.Mapa.prototype.accordionIsCurrent = function(id) {
     return this.accordion.accordionIsCurrent(id);
 };
 
-SITE.Mapa.prototype.getSelectedAccordion = function() {
-    return this.accordion.accordions[this.accordion.selected];
-};
-
 SITE.Mapa.prototype.showABC = function(evt) {
     var self = this;
     var a = evt.split('-');
@@ -773,19 +765,19 @@ SITE.Mapa.prototype.showABC2 = function(type, i, loader ) {
     switch( type ) {
         case 'songs':
             tab = this.renderedTune;
-            tab.title = this.getSelectedAccordion().songs.sortedIndex[i];
+            tab.title = this.accordion.songs.sortedIndex[i];
             break;
         case 'practices':
             tab = this.renderedPractice;
-            tab.title = this.getSelectedAccordion().practices.sortedIndex[i];
+            tab.title = this.accordion.practices.sortedIndex[i];
             break;
         case 'chords':
             tab = this.renderedChord;
-            tab.title = this.getSelectedAccordion().chords.sortedIndex[i];
+            tab.title = this.accordion.chords.sortedIndex[i];
             break;
     };
     
-    FILEMANAGER.saveLocal( 'property.'+this.getSelectedAccordion().getId()+'.'+type+'.title', tab.title );
+    FILEMANAGER.saveLocal( 'property.'+this.accordion.getId()+'.'+type+'.title', tab.title );
     tab.menu.setSubMenuTitle( tab.ddmId, (tab.title.length>43 ? tab.title.substr(0,40) + "..." : tab.title) );
     this.renderTAB( tab.tab );
     this.tuneContainerDiv.scrollTop = 0;    
@@ -800,17 +792,17 @@ SITE.Mapa.prototype.loadABCList = function(type) {
         case 'songs':
             tab = this.renderedTune;
             tab.ddmId = 'songsMenu';
-            items = this.getSelectedAccordion().songs.sortedIndex;
+            items = this.accordion.loaded.songs.sortedIndex;
             break;
         case 'practices':
             tab = this.renderedPractice;
             tab.ddmId = 'practicesMenu';
-            items = this.getSelectedAccordion().practices.sortedIndex;
+            items = this.accordion.loaded.practices.sortedIndex;
             break;
         case 'chords':
             tab = this.renderedChord;
             tab.ddmId = 'chorsMenu';
-            items = this.getSelectedAccordion().chords.sortedIndex;
+            items = this.accordion.loaded.chords.sortedIndex;
             break;
     };
     
@@ -866,15 +858,15 @@ SITE.Mapa.prototype.renderTAB = function( type ) {
     switch( type ) {
         case 'songs':
             tab = this.renderedTune;
-            tab.text = this.getSelectedAccordion().getSong(tab.title);
+            tab.text = this.accordion.loaded.getSong(tab.title);
             break;
         case 'practices':
             tab = this.renderedPractice;
-            tab.text = this.getSelectedAccordion().getPractice(tab.title);
+            tab.text = this.accordion.loaded.getPractice(tab.title);
             break;
         case 'chords':
             tab = this.renderedChord;
-            tab.text = this.getSelectedAccordion().getChord(tab.title);
+            tab.text = this.accordion.loaded.getChord(tab.title);
             break; 
     };
     
@@ -992,7 +984,7 @@ SITE.Mapa.prototype.parseABC = function(tab) {
 
 SITE.Mapa.prototype.translate = function() {
     
-  this.getSelectedAccordion().keyboard.legenda.setText( true, DR.getResource('DR_pull'), DR.getResource('DR_push') );
+  this.accordion.keyboard.legenda.setText( true, DR.getResource('DR_pull'), DR.getResource('DR_push') );
   this.showAccordionName();
   
   document.title = DR.getResource("DR_title");  
@@ -1005,11 +997,11 @@ SITE.Mapa.prototype.translate = function() {
   document.getElementById("DR_message").alt = DR.getResource("DR_message");
   
   document.getElementById("octaveUpBtn").title = DR.getResource("DR_octave");
-  document.getElementById("octaveUpBtn").innerHTML = '<i class="ico-arrow-up"></i>&#160;'+DR.getResource("DR_octave");
+  document.getElementById("octaveUpBtn").innerHTML = '<i class="ico-octave-up"></i>&#160;'+DR.getResource("DR_octave");
   document.getElementById("octaveDwBtn").title = DR.getResource("DR_octave");
-  document.getElementById("octaveDwBtn").innerHTML = '<i class="ico-arrow-down"></i>&#160;'+DR.getResource("DR_octave");
+  document.getElementById("octaveDwBtn").innerHTML = '<i class="ico--octave-down"></i>&#160;'+DR.getResource("DR_octave");
   document.getElementById("printBtn").innerHTML = '<i class="ico-print"></i>&#160;'+DR.getResource("printBtn");
-  document.getElementById("saveBtn").innerHTML = '<i class="ico-download-alt"></i>&#160;'+DR.getResource("saveBtn");
+  document.getElementById("saveBtn").innerHTML = '<i class="ico-download"></i>&#160;'+DR.getResource("saveBtn");
   document.getElementById("forceRefresh").innerHTML = DR.getResource("forceRefresh");
   document.getElementById("forceRefresh2").innerHTML = DR.getResource("forceRefresh");
   document.getElementById("gotoMeasureBtn").value = DR.getResource("DR_goto");
@@ -1019,29 +1011,80 @@ SITE.Mapa.prototype.translate = function() {
 
 };
 
+SITE.Mapa.prototype.settingsCallback = function(action) {
+    switch(action) {
+        case 'MOVE': 
+            break;
+        case 'CLOSE': 
+           ABCXJS.write.highLightColor = '#'+this.p1.value;
+           this.accordion.loadedKeyboard.render_opts.closeColor = '#'+this.p2.value;
+           this.accordion.loadedKeyboard.render_opts.openColor = '#'+this.p3.value;
+           this.accordion.loadedKeyboard.legenda.setOpen();
+           this.accordion.loadedKeyboard.legenda.setClose();
+           this.settingsWindow.setVisible(false);
+   }
+};
+
 SITE.Mapa.prototype.showSettings = function() {
+    
     if(!this.settingsWindow) {
     
         this.settingsWindow = new DRAGGABLE.Div( 
               null 
             , null
-            , {title: 'Preferências', translate: false, statusBar: false, top: "300px", left: "500px", height:'300px',  width:'600px', zIndex: 50} 
-            //, {listener: this, method: 'keyboardCallback'}
+            , {title: 'Preferências', translate: false, statusBar: false, top: "300px", left: "500px", height:'400px',  width:'600px', zIndex: 50} 
+            , {listener: this, method: 'settingsCallback'}
         );
-        var e = document.getElementById("settingsDiv"); 
-        this.settingsWindow.dataDiv.innerHTML= e.innerHTML;
-        e.innerHTML = "";
+
+        this.settingsWindow.topDiv.style.zIndex = 101;
+        this.settingsWindow.dataDiv.style.padding = '10px';
+        
+        this.settingsWindow.dataDiv.innerHTML= '\
+        <div class="menu-group">\
+        <label>Acordeon:&nbsp;</label><div id="settingsAcordeonsMenu" class="topMenu"></div>\
+        <br><br>\
+        <label>Idioma:&nbsp;</label><div id="settingsLanguageMenu" class="topMenu"></div>\
+        <br><br>\
+        <label><input type="checkbox"> Mostrar avisos e erros de compilação</label>\
+        <br>\
+        <label><input type="checkbox"> Atualizar partitura automaticamente</label>\
+        <br>\
+        <label><input type="checkbox"> Mostrar linhas de debug</label>\
+        <br><br><br><br>Cores:<br>\
+        <br>Cor de Realce:&nbsp;<input id="corRealce">\
+        <br><br>Fole Fechando:&nbsp;<input id="foleFechando">\
+        <br><br>Fole Abrindo:&nbsp;<input id="foleAbrindo">\
+        <br>\
+        </div>';
+        
+        var selector = new ABCXJS.edit.AccordionSelector( 'sel2', 'settingsAcordeonsMenu', {listener: this, method: 'settingsCallback'} );
+        selector.populate();
+        
         var menu = new ABCXJS.edit.DropdownMenu(
                'settingsLanguageMenu'
-            ,  null // { listener:that, method:'menuCallback' }
+            ,  { listener:this, method:'settingsCallback' }
             ,  [{title: 'Idioma', ddmId: 'menuIdiomas',
                     itens: [
-                        '<img src="images/pt_BR.png" alt="idiomas" />&#160;&#160;Português|pt_BR',
-                        '<img src="images/en_US.png" alt="idiomas" />&#160;&#160;English|en_US',
-                        '<img src="images/de_DE.png" alt="idiomas" />&#160;&#160;Deustch|de_DE' 
+                        '<img src="images/pt_BR.png" alt="idiomas" />&#160;Português|pt_BR',
+                        '<img src="images/en_US.png" alt="idiomas" />&#160;English|en_US',
+                        '<img src="images/de_DE.png" alt="idiomas" />&#160;Deustch|de_DE' 
                     ]}]
             );
-            menu.setSubMenuTitle('menuIdiomas', '<img src="images/pt_BR.png" alt="idiomas" />&#160;&#160;Português');
+            menu.setSubMenuTitle('menuIdiomas', '<img src="images/pt_BR.png" alt="idiomas" />&#160;Português');
+            
+            this.p1 = document.getElementById( 'corRealce');
+            this.p2 = document.getElementById( 'foleFechando');
+            this.p3 = document.getElementById( 'foleAbrindo');
+            
+            this.p1.setAttribute( "value", ABCXJS.write.highLightColor );
+            this.p2.setAttribute( "value", this.accordion.loadedKeyboard.render_opts.closeColor );
+            this.p3.setAttribute( "value", this.accordion.loadedKeyboard.render_opts.openColor );
+            
+            var picker1 = new jscolor( this.p1 );
+            var picker2 = new jscolor( this.p2 );
+            var picker3 = new jscolor( this.p3 );
+
     }            
     this.settingsWindow.setVisible(true);
+    
 };

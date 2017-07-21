@@ -27,7 +27,7 @@ SITE.Estudio = function (interfaceParams, playerParams) {
                 
     this.studioDiv = new DRAGGABLE.Div( 
           interfaceParams.studioDiv 
-        , [ 'restore|Restaurar configuração padrão']
+        , null
         , {translate: false, statusBar: false, draggable: false, top: "3px", left: "1px", width: '100%', height: "100%", title: 'Estúdio ABCX'}
         , {listener: this, method: 'studioCallback'}
     );
@@ -136,7 +136,7 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     this.forceRefreshButton.addEventListener("click", function (evt) {
         evt.preventDefault();
         this.blur();
-        that.fireChanged(0, "force");
+        that.fireChanged(0, true );
     }, false);
     
     this.saveButton.addEventListener("click", function (evt) {
@@ -171,10 +171,10 @@ SITE.Estudio = function (interfaceParams, playerParams) {
         evt.preventDefault();
         this.blur();
         if( that.playBass) {
-            this.innerHTML = '<i class="m-ico-bass-clef-3" style="opacity:0.9;color:lightgray;"></i>'+
-                              '<i class="m-ico-forbidden" style="position:absolute;left:4px;top:6px"></i>';
+            this.innerHTML = '<i class="ico-clef-bass" style="opacity:0.5;"></i>'+
+                              '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px"></i>';
         } else {
-            this.innerHTML = '<i class="m-ico-bass-clef-3" ></i>';
+            this.innerHTML = '<i class="ico-clef-bass" ></i>';
 
         }
         that.playBass = ! that.playBass;
@@ -185,10 +185,10 @@ SITE.Estudio = function (interfaceParams, playerParams) {
         evt.preventDefault();
         this.blur();
         if( that.playTreble) {
-            this.innerHTML = '<i class="m-ico-treble-clef-5" style="opacity:0.9;color:lightgray;"></i>'+
-                              '<i class="m-ico-forbidden" style="position:absolute;left:4px;top:6px"></i>';
+            this.innerHTML = '<i class="ico-clef-treble" style="opacity:0.5;"></i>'+
+                              '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px"></i>';
         } else {
-            this.innerHTML = '<i class="m-ico-treble-clef-5" ></i>';
+            this.innerHTML = '<i class="ico-clef-treble" ></i>';
         }
         that.playTreble = ! that.playTreble;
         that.clefsToPlay = (that.playTreble?"T":"")+(that.playBass?"B":"");
@@ -399,7 +399,7 @@ SITE.Estudio.prototype.setup = function( mapa, tab, accordionId) {
 
     this.studioCanvasDiv.scrollTop = 0;
     
-    this.fireChanged2(0,'force');
+    this.fireChanged2(0, true );
 };
 
 SITE.Estudio.prototype.showMap = function() {
@@ -442,7 +442,7 @@ SITE.Estudio.prototype.hideEditor = function() {
 
 
 
-SITE.Estudio.prototype.editorCallback = function (e) {
+SITE.Estudio.prototype.editorCallback = function (action, elem) {
     //    this.keySelector = new ABCXJS.edit.KeySelector(ks, this);
     //    
     //    document.getElementById('octaveUpBtn').addEventListener("click", function (evt) {
@@ -464,11 +464,26 @@ SITE.Estudio.prototype.editorCallback = function (e) {
     //    }, false);
     //
     //   DR.forcedResource('forceRefresh', 'Atualizar', '2', 'forceRefresh2');
-    switch(e) {
+    switch(action) {
         case 'GUTTER': // liga/desliga a numeracao de linhas
             this.editorWindow.setGutter();
             break;
-        case 'LIGHT': // liga/desliga realce de sintaxe
+        case 'FONTSIZE': 
+        case 'SEARCH': 
+        case 'DOWNLOAD': 
+           alert( action ); 
+           break;
+        case 'OCTAVEUP': 
+           this.fireChanged(12, true );
+           break;
+        case 'OCTAVEDOWN': 
+           this.fireChanged(-12, true );
+           break;
+        case 'LIGHTON': // liga/desliga realce de sintaxe
+            if( elem.innerHTML.indexOf('ico-lightbulb-on' ) > 0 )
+                elem.innerHTML = '<a href="" title="Realçar texto"><i class="ico-lightbulb-off ico-black ico-large"></i></a>';
+            else 
+                elem.innerHTML = '<a href="" title="Realçar texto"><i class="ico-lightbulb-on ico-black ico-large"></i></a>';
             this.editorWindow.setSyntaxHighLight();
             break;
         case 'POPIN':
@@ -597,13 +612,13 @@ SITE.Estudio.prototype.changePlayMode = function() {
     if( this.currentMode === "normal" ) {
         $("#divNormalPlayControls" ).hide();
         this.currentMode  = "learning";
-        this.modeButton.innerHTML = '<i class="m-ico-learning-4" ></i>';
+        this.modeButton.innerHTML = '<i class="ico-learning" ></i>';
         this.midiPlayer.resetAndamento(this.currentMode);
         $("#divDidacticPlayControls" ).fadeIn();
     } else {
         $("#divDidacticPlayControls" ).hide();
         this.currentMode  = "normal";
-        this.modeButton.innerHTML = '<i class="m-ico-headphones" ></i>';
+        this.modeButton.innerHTML = '<i class="ico-listening" ></i>';
         this.midiPlayer.resetAndamento(this.currentMode);
         $("#divNormalPlayControls" ).fadeIn();
     }
@@ -651,26 +666,27 @@ SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
 SITE.Estudio.prototype.setTimerIcon = function( timerOn, value ) {
     value = value || 0;
     
-    
-    
-    var ico = '400';
+    var ico = '00';
     if( timerOn ) {
         switch( value ) {
-            case 0:  ico = '300'; break;
-            case 1:  ico = '000'; break;
-            case 2: ico = '033'; break;
-            case 3: ico = '066'; break;
-            case 6: ico = '100'; break;
-            case 9: ico = '200'; break;
+            case 0:  ico = '00'; break;
+            case 1:  ico = '05'; break;
+            case 2:  ico = '15'; break;
+            case 3:  ico = '20'; break;
+            case 6:  ico = '30'; break;
+            case 9:  ico = '45'; break;
             default: ico = '';
         }
-    }
-    if( ico !== ''  ) {
-        if( ico !== '400' && ico !== '300') {
-            MIDI.noteOn(0,  90, 100, 0 );
-            MIDI.noteOff(0, 90, value > 3 ? 0.10 : 0.05  );
+        if( ico !== ''  ) {
+            if( ico !== '00' ) {
+                MIDI.noteOn(0,  90, 100, 0 );
+                MIDI.noteOff(0, 90, value > 3 ? 0.10 : 0.05  );
+            }
+            this.timerButton.innerHTML = '<i class="ico-timer-'+ico+'" ></i>';
         }
-        this.timerButton.innerHTML = '<i class="m-ico-timer-'+ico+'" ></i>';
+    } else {
+        this.timerButton.innerHTML = '<i class="ico-timer-00" style="opacity:0.5;"></i>'+
+                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px"></i>';
     }
 };
 

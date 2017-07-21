@@ -6859,6 +6859,7 @@ if (!window.ABCXJS.write)
     window.ABCXJS.write = {};
 
 ABCXJS.write.highLightColor = "#5151ff";
+ABCXJS.write.highLightColor = "#ff0000";
 ABCXJS.write.unhighLightColor = 'black';
 
 ABCXJS.write.StaffGroupElement = function() {
@@ -7376,10 +7377,44 @@ ABCXJS.write.AbsoluteElement.prototype.draw = function(printer, staveInfo ) {
                                                                  // lembrando que o staffgroup sera incluido mais adiante.
     
 };
+/*
+var svgns = "http://www.w3.org/2000/svg";
+for (var x = 0; x < 5000; x += 50) {
+    for (var y = 0; y < 3000; y += 50) {
+        var rect = document.createElementNS(svgns, 'rect');
+        rect.setAttributeNS(null, 'x', x);
+        rect.setAttributeNS(null, 'y', y);
+        rect.setAttributeNS(null, 'height', '50');
+        rect.setAttributeNS(null, 'width', '50');
+        rect.setAttributeNS(null, 'fill', '#'+Math.round(0xffffff * Math.random()).toString(16));
+        document.getElementById('svgOne').appendChild(rect);
 
+  var translate = d3.transform(d3.select(this.parentNode).attr("transform")).translate;
+        var dataset = [1,2,3,4]                                    // HERE
+        vis.selectAll("line")                                      // HERE
+            .data(dataset)                                 // HERE
+            .enter()                                       // HERE
+            .append("line")                                // HERE
+            .attr("x1", translate[0])                            // HERE'S THE PROBLEM FOR PERRY
+            .attr("y1", translate[1])   
+
+ */
 ABCXJS.write.AbsoluteElement.prototype.setMouse = function(printer) {
     var self = this;
+    var svgns = "http://www.w3.org/2000/svg";
     this.svgElem = document.getElementById(self.gid);
+    
+    var bounds = this.svgElem.getBBox();
+    var rect = document.createElementNS(svgns, 'rect');
+        rect.setAttributeNS(null, 'x', bounds.x.toFixed(1)-1);
+        rect.setAttributeNS(null, 'y', bounds.y.toFixed(1)-1);
+        rect.setAttributeNS(null, 'height', bounds.height.toFixed(1)+2);
+        rect.setAttributeNS(null, 'width', bounds.width.toFixed(1)+2);
+        rect.setAttributeNS(null, 'fill', 'none' );
+
+    this.svgElem.appendChild(rect);
+    this.svgArea = rect;
+    
     this.svgElem.onmouseover =  function() {self.highlight(true);};
     this.svgElem.onmouseout =  function() {self.unhighlight(true);};
     this.svgElem.onclick =  function() {printer.notifyClearNSelect(self, true);};
@@ -7389,12 +7424,15 @@ ABCXJS.write.AbsoluteElement.prototype.highlight = function(keepState) {
     if(!this.svgElem) return;
     if(keepState) this.svgElem.prevFill = this.svgElem.style.fill;
     this.svgElem.style.setProperty( 'fill', ABCXJS.write.highLightColor );
+    this.svgArea.style.setProperty( 'fill', ABCXJS.write.highLightColor );
+    this.svgArea.style.setProperty( 'fill-opacity', '0.15' );
 };
 
 ABCXJS.write.AbsoluteElement.prototype.unhighlight = function(keepState) {
     if(!this.svgElem) return;
     var fill = (keepState && this.svgElem.prevFill ) ? this.svgElem.prevFill : ABCXJS.write.unhighLightColor;
     this.svgElem.style.setProperty( 'fill', fill );
+    this.svgArea.style.setProperty( 'fill-opacity', '0' );
 };
 
 ABCXJS.write.RelativeElement = function(c, dx, w, pitch, opt) {
@@ -7715,7 +7753,14 @@ ABCXJS.write.BeamElem.prototype.draw = function(printer) {
         this.starty = printer.calcY(6);
         this.endy = printer.calcY(6);
     }
-    printer.paper.printBeam(this.startx, this.starty, this.endx, this.endy, this.endx, (this.endy + this.dy), this.startx, this.starty + this.dy);
+    printer.paper.printBeam(
+        this.startx, this.starty
+       ,this.startx, (this.starty + this.dy) 
+       ,this.endx, (this.endy + this.dy)
+       ,this.endx, this.endy
+       
+    );
+
     
     this.drawAuxBeams(printer);
 };
@@ -9143,7 +9188,7 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
     }    
     
     if(h1> 0) {
-        height = ABCXJS.write.spacing.STEP*3 + h1*1.5*17; 
+        height = ABCXJS.write.spacing.STEP*3 + h1*1.5*16; 
         if( ( this.pageNumber - ((this.y+height)/this.estimatedPageLength) ) < 0 ) {
            this.skipPage();
         } else {
@@ -9154,7 +9199,7 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
     }
 
     if(h2> 0) {
-        height = ABCXJS.write.spacing.STEP*3 + h2*1.5*17;
+        height = ABCXJS.write.spacing.STEP*3 + h2*1.5*16;
         if( ( this.pageNumber - ((this.y+height)/this.estimatedPageLength) ) < 0 ) {
            this.skipPage();
         } else {
@@ -9447,6 +9492,7 @@ ABCXJS.write.Printer.prototype.skipPage = function(lastPage) {
     if( ! lastPage || this.pageNumber > 1) {
         this.printPageNumber();
     }
+    
     this.totalY += this.y;
     
     this.paper.endPage({w: (this.maxwidth + this.paddingright) , h: this.y });
@@ -9739,24 +9785,35 @@ SVG.Printer.prototype.printLine = function (x,y,dx,dy) {
         dy = ABCXJS.misc.isIE() ? 1: 0.6;
         dx -=  x;
     }
-    var pathString = ABCXJS.write.sprintf('<rect style="fill:'+this.color+';"  x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', x, y, dx, dy);
+    var pathString = ABCXJS.write.sprintf('<rect style="fill:'+this.color+';"  x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>\n', x, y, dx, dy);
     this.svg_pages[this.currentPage] += pathString;
 };
 
 SVG.Printer.prototype.printLedger = function (x,y,dx,dy) {
-    var pathString = ABCXJS.write.sprintf('<path style="stroke:'+this.baseColor+'; fill: white; stroke-width:0.6; stroke-dasharray: 1 1;" d="M %.2f %.2f h%.2f"/>\n', x, y, dx-x);
+    var pathString = ABCXJS.write.sprintf('<path style="stroke:'+this.baseColor+'; fill: white; stroke-width:0.6; stroke-dasharray: 1 1;" d="M %.1f %.1f h%.1f"/>\n', x, y, dx-x);
     this.svg_pages[this.currentPage] += pathString;
 };
 
 SVG.Printer.prototype.printBeam = function (x1,y1,x2,y2,x3,y3,x4,y4) {
-    var pathString = ABCXJS.write.sprintf('<path style="fill:'+this.color+'; stroke:none" d="M %.2f %.2f L %.2f %.2f L %.2f %.2f L %.2f %.2f z"/>\n',  x1, y1, x2, y2, x3, y3, x4, y4);
-    this.svg_pages[this.currentPage] += pathString;
+    
+//    this.svg_pages[this.currentPage] += ABCXJS.write.sprintf(
+//        '<path style="fill:'+this.color + '; stroke:none;" ' +
+//        'd="M %.1f %.1f L %.1f %.1f L %.1f %.1f L %.1f %.1f Z" />\n'
+//        , x1, y1, x2, y2, x3, y3, x4, y4);
+        
+// Por algum motivo o path acima apresenta vazamento do preenchimento em algumas escalas de zoom.
+// Resolvi usando um path diferente (e não muito eficiente para desenhar o beam
+        
+    this.svg_pages[this.currentPage] += ABCXJS.write.sprintf(
+        '<path style="stroke:none; fill:'+ this.color + ';" ' +
+        'd="M %.1f %.1f L %.1f %.1f L %.1f %.1f Z L %.1f %.1f L %.1f %.1f Z" />\n'
+        , x1, y1, x2, y2, x3, y3, x3, y3, x4, y4 );
 };
 
 SVG.Printer.prototype.printStaveLine = function (x1, x2, y, debug) {
     var color = debug? debug : this.baseColor;
     var dy =0.6;   
-    var pathString = ABCXJS.write.sprintf('<rect style="stroke:none; fill: %s;" x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', 
+    var pathString = ABCXJS.write.sprintf('<rect style="stroke:none; fill: %s;" x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>\n', 
                                                 color, x1, y, Math.abs(x2-x1), dy );
     this.svg_pages[this.currentPage] += pathString;
 };
@@ -9773,7 +9830,7 @@ SVG.Printer.prototype.printBar = function (x, dx, y1, y2, real) {
     var dy = Math.abs(y2-y1);
     dx = Math.abs(dx); 
     
-    var pathString = ABCXJS.write.sprintf('<rect '+kls+' x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
+    var pathString = ABCXJS.write.sprintf('<rect '+kls+' x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
 
     this.svg_pages[this.currentPage] += pathString;
 };
@@ -9789,7 +9846,7 @@ SVG.Printer.prototype.printStem = function (x, dx, y1, y2) {
     var dy = Math.abs(y2-y1);
     dx = Math.abs(dx); 
     
-    var pathString = ABCXJS.write.sprintf('<rect x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
+    var pathString = ABCXJS.write.sprintf('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
 
     this.svg_pages[this.currentPage] += pathString;
 };
@@ -9813,7 +9870,7 @@ SVG.Printer.prototype.printTieArc = function (x1,y1,x2,y2,up) {
     var controly2 = y2-flatten*uy+curve*ux;
     var thickness = 2;
     
-    var pathString = ABCXJS.write.sprintf('<path style="fill:'+this.color+'; stroke-width:0.6px; stroke:none;" d="M %.2f %.2f C %.2f %.2f %.2f %.2f %.2f %.2f C %.2f %.2f %.2f %.2f %.2f %.2f z"/>\n', 
+    var pathString = ABCXJS.write.sprintf('<path style="fill:'+this.color+'; stroke-width:0.6px; stroke:none;" d="M %.1f %.1f C %.1f %.1f %.1f %.1f %.1f %.1f C %.1f %.1f %.1f %.1f %.1f %.1f z"/>\n', 
                             x1, y1,
                             controlx1, controly1, controlx2, controly2, x2, y2, 
                             controlx2-thickness*uy, controly2+thickness*ux, controlx1-thickness*uy, controly1+thickness*ux, x1, y1 );
@@ -9825,13 +9882,13 @@ SVG.Printer.prototype.printBrace = function (x, y1, y2) {
     var sz = Math.abs(y1-y2); // altura esperada
     var scale = sz / 1027; // altura real do simbolo
     this.setDefine('scripts.lbrace');
-    var pathString = ABCXJS.write.sprintf('<use style="fill:'+this.baseColor+'" x="0" y="0" xlink:href="#scripts.lbrace" transform="translate(%.2f %.2f) scale(0.13 %.5f)" />\n', x, y2, scale );
+    var pathString = ABCXJS.write.sprintf('<use style="fill:'+this.baseColor+'" x="0" y="0" xlink:href="#scripts.lbrace" transform="translate(%.1f %.1f) scale(0.13 %.5f)" />\n', x, y2, scale );
     this.svg_pages[this.currentPage] += pathString;
 };
 
 SVG.Printer.prototype.printSymbol = function (x, y, symbol) {
     if (this.setDefine(symbol)) {
-        var pathString = ABCXJS.write.sprintf('<use x="%.2f" y="%.2f" xlink:href="#%s" />\n', x, y, symbol );
+        var pathString = ABCXJS.write.sprintf('<use x="%.1f" y="%.1f" xlink:href="#%s" />\n', x, y, symbol );
         this.svg_pages[this.currentPage] += pathString;
     } else {
         throw 'Undefined: ' + symbol;
@@ -9887,7 +9944,7 @@ SVG.Printer.prototype.printButton = function (id, x, y, options) {
     var gid = 'p'+this.printerId+id;
     var estilo = 'stroke:'+options.borderColor+'; stroke-width:'+options.borderWidth+'px; fill: none;';
 
-    var pathString = ABCXJS.write.sprintf( '<g id="%s" transform="translate(%.2f %.2f) scale(%.5f)">\n\
+    var pathString = ABCXJS.write.sprintf( '<g id="%s" transform="translate(%.1f %.1f) scale(%.5f)">\n\
         <circle cx="28" cy="28" r="26" style="stroke:none; fill: %s;" ></circle>\n\
         <path id="%s_ac" style="stroke: none; fill: %s;" d="M 2 34 a26 26 0 0 1 52 -12"></path>\n\
         <path id="%s_ao" style="stroke: none; fill: %s;" d="M 54 22 a26 26 0 0 1 -52 12"></path>\n\
@@ -10064,82 +10121,70 @@ if (!window.ABCXJS)
 if (!ABCXJS.edit)
 	ABCXJS.edit = {};
 
-ABCXJS.edit.AccordionSelector = function (id, editor) {
-    this.selector = document.getElementById(id);
-    if (editor) {
-        this.addChangeListener(editor);
-        if(editor.accordion)
-            this.accordion = editor.accordion;
+ABCXJS.edit.AccordionSelector = function (id, divId, callBack, extraItems ) {
+    
+    this.extraItems = extraItems || [];
+    this.ddmId = id;
+    this.menu = new ABCXJS.edit.DropdownMenu(
+           divId
+        ,  callBack
+        ,  [{title: 'Acordeons', ddmId: this.ddmId, itens: []}]
+    );
+    
+    // tratar os casos os o listener não possui um acordeon definido
+    if (callBack && callBack.listener && callBack.listener.accordion) {
+        this.accordion = callBack.listener.accordion;
     }
-};
-
-ABCXJS.edit.AccordionSelector.prototype.updateAccordionList = function() {
-    while(this.selector.options.length > 0){                
-        this.selector.remove(0);
-    }    
-    this.populate();
-};
-
-ABCXJS.edit.AccordionSelector.prototype.addChangeListener = function(editor) {
-  this.selector.onchange = function() {
-    editor.accordion.load(parseInt(this.value));
-    editor.accordion.printKeyboard('keyboardDiv' );
-    editor.fireChanged( 0, {force: true} );
-  };
 };
     
-ABCXJS.edit.AccordionSelector.prototype.populate = function() {
+ABCXJS.edit.AccordionSelector.prototype.populate = function(changeTitle) {
+    this.menu.emptySubMenu( this.ddmId );    
     for (var i = 0; i < this.accordion.accordions.length; i++) {
-        var opt = document.createElement('option');
-        opt.innerHTML = this.accordion.accordions[i].getFullName();
-        opt.value = i;
-        this.selector.appendChild(opt);
+        var m = this.menu.addItemSubMenu( 
+            this.ddmId, 
+            this.accordion.accordions[i].getFullName() + '|' 
+                + this.accordion.accordions[i].getId() );
+        if( this.accordion.getId() === this.accordion.accordions[i].getId() ) {
+            if(changeTitle)
+                this.menu.setSubMenuTitle(this.ddmId, this.accordion.getFullName() );
+            this.menu.selectItem(this.ddmId, m);
+        }
+    }
+    for (var i = 0; i < this.extraItems.length; i++) {
+        var m = this.menu.addItemSubMenu( this.ddmId, this.extraItems[i] );
     }
 };
 
-ABCXJS.edit.AccordionSelector.prototype.set = function(val) {
-    this.selector.value = val;
-};
-
-ABCXJS.edit.KeySelector = function(id, listener) {
-
-    this.selector = document.getElementById(id);
-    this.cromaticLength = 12;
-    if (this.selector) {
-        this.populate(0);
-    }
-    if(listener)
-        this.addChangeListener(listener);
+ABCXJS.edit.KeySelector = function(id, divId, callBack ) {
+    
+    this.ddmId = id;
+    this.menu = new ABCXJS.edit.DropdownMenu(
+           divId
+        ,  callBack
+        ,  [{title: 'Keys', ddmId: this.ddmId, itens: []}]
+    );
     
 };
 
 ABCXJS.edit.KeySelector.prototype.populate = function(offSet) {
+    var cromaticSize = 12;
+    this.menu.emptySubMenu( this.ddmId );    
     
-    while( this.selector.options.length > 0 ) {
-        this.selector.remove(0);
-    }            
-        
-    for (var i = this.cromaticLength+offSet; i >= -this.cromaticLength+2+offSet; i--) {
-        var opt = document.createElement('option');
-        if(i-1 > offSet) 
-            opt.innerHTML = ABCXJS.parse.number2keysharp[(i+this.cromaticLength-1)%this.cromaticLength] ;
+    for (var i = +(cromaticSize+offSet-1); i > -(cromaticSize-offSet); i--) {
+        var opt; 
+        if(i > offSet) 
+            opt = ABCXJS.parse.number2keysharp[(i+cromaticSize)%cromaticSize] ;
         else
-            opt.innerHTML = ABCXJS.parse.number2keyflat[(i+this.cromaticLength-1)%this.cromaticLength] ;
-        opt.value = (i+this.cromaticLength-1);
-        this.selector.appendChild(opt);
+            opt = ABCXJS.parse.number2keyflat[(i+cromaticSize)%cromaticSize] ;
+        
+        var e = this.menu.addItemSubMenu( this.ddmId, opt + '|' + (i-offSet) );
+        
+        if( i === offSet ) {
+            this.menu.setSubMenuTitle( this.ddmId, opt );
+            this.menu.selectItem( this.ddmId, e );
+        }
+      
     }
-    this.oldValue = offSet+this.cromaticLength;
-    this.selector.value = offSet+this.cromaticLength;
-};
-
-ABCXJS.edit.KeySelector.prototype.set = function(value) {
-    this.populate(value);
-};
-
-ABCXJS.edit.KeySelector.prototype.addChangeListener = function(editor) {
-  this.selector.onchange = function() {
-    editor.fireChanged( this.value - editor.keySelector.oldValue, {force: true} );
-  };
 };
 
 // EditArea is an example of using a ace editor as the control that is shown to the user. As long as
@@ -10173,6 +10218,9 @@ if (!ABCXJS.edit)
 ABCXJS.edit.EditArea = function (editor_id, listener) {
     
     this.container = {};
+    var aBotoes = [ 'gutter|Numeração das Linhas', 'download|Salvar Local', 'fontsize|Tamanho da fonte', 'down|Tom', 
+                    'octavedown|Oitava|Oitava', 'octaveup|Oitava|Oitava', 'search|Localizar e substituir', 
+                    'undo|Dezfazer', 'redo|Refazer', 'lighton|Realçar texto', 'readonly|Bloquear edição' ] ;
     
     if(editor_id) {
         var topDiv;
@@ -10184,41 +10232,64 @@ ABCXJS.edit.EditArea = function (editor_id, listener) {
             
             this.container = new DRAGGABLE.Div( 
                   topDiv
-                , [ 'popout|Expandir Janela' ]
+                , [ 'popout|Expandir janela' ]
                 , {translate:false, draggable:false, width: "100%", height: "200px", title: 'Editor ABCX' }
                 , {listener : listener, method: 'editorCallback' }
-                , [ 'gutter|Numeração das Linhas', 'fontsize|Tamanho da fonte', 'down|Tom', 'arrowdn|Oitava|Oitava', 'arrowup|Oitava|Oitava', 'search|Procurar', 'undo|Dezfazer', 'redo|Refazer', 'light|Realçar texto' ] 
+                , aBotoes
             );
             
-            this.container.dataDiv.setAttribute("class", "ace-datadiv"); 
+            //this.container.dataDiv.setAttribute("class", "ace-datadiv"); 
         } else {
             alert( 'this.container: elemento "'+editor_id+'" não encontrado.');
         }
     } else {
         this.container = new DRAGGABLE.Div( 
             null
-            , [ 'move|Mover', 'popin|Fixar Janela' ]
+            , [ 'move|Mover', 'popin|Fixar janela' , 'maximize|Maximizar janela' ]
             , {translate:false, statusBar:true, left:"0", top:"0", width: "640px", height: "480px", title: 'Editor ABCX' }
             , {listener : listener, method: 'editorCallback' }
-            , [ 'gutter|Numeração das Linhas', 'fontsize|Tamanho da fonte', 'down|Tom', 'arrowdn|Oitava|Oitava', 'arrowup|Oitava|Oitava', 'search|Procurar', 'undo|Dezfazer', 'redo|Refazer', 'light|Realçar texto' ] 
+            , aBotoes
         );
-        this.container.dataDiv.setAttribute("class", "ace-editor"); 
+//        this.container.dataDiv.setAttribute("class", "ace-datadiv"); 
+        
+        document.getElementById('dDOWNButton4').innerHTML = '<div id="menu4Div" class="topMenu" ></div>';
+        
+        this.keySelector = new ABCXJS.edit.KeySelector( 'k2', 'menu4Div', {listener: this, method: 'editorCallback'} );
     }
+    
+    //this.container.dataDiv.className += " ace-datadiv"; 
     
     this.aceEditor = ace.edit(this.container.dataDiv);
     this.aceEditor.setOptions( {highlightActiveLine: true, selectionStyle: "text", cursorStyle: "smooth"/*, maxLines: Infinity*/ } );
-    this.aceEditor.setOptions( {fontFamily: "monospace",  fontSize: "11pt", fontWeight: "normal" });
+    this.aceEditor.setOptions( {fontFamily: "monospace",  fontSize: "15px", fontWeight: "normal" });
     this.aceEditor.renderer.setOptions( {highlightGutterLine: true, showPrintMargin: false, showFoldWidgets: false } );
     this.aceEditor.$blockScrolling = Infinity;
     this.Range = require("ace/range").Range;
-    
     this.gutterVisible = true;
     this.syntaxHighLightVisible = true;
     this.isDragging = false;
     this.selectionEnabled = true;
     
+    this.createStyleSheet();
+    
     if(listener)
         this.addChangeListener(listener);
+};
+
+// Este css é usado apenas quando o playback da partitura está funcionando
+// e então a cor de realce é no edidor fica igual a cor de destaque da partitura.
+ABCXJS.edit.EditArea.prototype.createStyleSheet = function () {
+    this.style = document.createElement('style');
+    this.style.type = 'text/css';
+    document.getElementsByTagName('head')[0].appendChild(this.style);        
+};
+
+ABCXJS.edit.EditArea.prototype.setEditorHighLightStyle = function () {
+    this.style.innerHTML = '.ABCXHighLight { background-color: '+ABCXJS.write.highLightColor+' !important; opacity: 0.15; }';
+};
+
+ABCXJS.edit.EditArea.prototype.clearEditorHighLightStyle = function () {
+    this.style.innerHTML = '.ABCXHighLight { }';
 };
 
 ABCXJS.edit.EditArea.prototype.setGutter = function (visible) {
@@ -10250,6 +10321,12 @@ ABCXJS.edit.EditArea.prototype.setVisible = function (visible) {
 };
 
 ABCXJS.edit.EditArea.prototype.setReadOnly = function (readOnly) {
+    
+//    if( readOnly)
+//        this.aceEditor.renderer.hideCursor();
+//    else
+//        this.aceEditor.renderer.showCursor();
+
     this.aceEditor.setOptions({
         readOnly: readOnly,
         highlightActiveLine: !readOnly,
@@ -10261,17 +10338,9 @@ ABCXJS.edit.EditArea.prototype.setReadOnly = function (readOnly) {
 
 ABCXJS.edit.EditArea.prototype.resize = function () {
     
-    var h = this.container.topDiv.clientHeight -
-            (this.container.menuDiv ? this.container.menuDiv.clientHeight : 0 ) -
-            (this.container.toolBar ? this.container.toolBar.clientHeight : 0 ) -
-            (this.container.bottomDiv ? this.container.bottomDiv.clientHeight : 0 );
-    
-    this.container.dataDiv.style.height =  (h-2) + 'px';
-    
-    if(this.container.parent)
-        this.container.topDiv.style.width =  (this.container.parent.clientWidth-5) + 'px';
-    
+    this.container.resize();
     this.aceEditor.resize();
+    
 };
 
 ABCXJS.edit.EditArea.prototype.setOptions = function (editorOptions, rendererOptions ) {
@@ -10340,9 +10409,13 @@ ABCXJS.edit.EditArea.prototype.getSelection = function() {
 ABCXJS.edit.EditArea.prototype.setSelection = function (abcelem) {
     if (abcelem && abcelem.position) {
         
-        var range = new this.Range(abcelem.position.anchor.line, abcelem.position.anchor.ch, abcelem.position.head.line, abcelem.position.head.ch);
+        var range = new this.Range(
+            abcelem.position.anchor.line, abcelem.position.anchor.ch, 
+            abcelem.position.head.line, abcelem.position.head.ch
+        );
 
         this.aceEditor.selection.addRange(range);
+        
         if(abcelem.position.selectable || !this.selectionEnabled)
             this.aceEditor.scrollToLine(range.start.row);
     }   
@@ -10350,21 +10423,15 @@ ABCXJS.edit.EditArea.prototype.setSelection = function (abcelem) {
 
 ABCXJS.edit.EditArea.prototype.clearSelection = function (abcelem) {
     if (abcelem && abcelem.position) {
-        var range = new this.Range(abcelem.position.anchor.line, abcelem.position.anchor.ch, abcelem.position.head.line, abcelem.position.head.ch);
-        var aSel = this.getSelection();
         
-        this.aceEditor.selection.toSingleRange(); 
-        this.aceEditor.clearSelection(); 
-        
-        for( var r = 0; r < aSel.length; r ++  ) { 
-            if( ! aSel[r].isEqual(range) ) {
-                this.aceEditor.selection.addRange(aSel[r], false);
-            }
-        }
+        var range = new this.Range(
+            abcelem.position.anchor.line, abcelem.position.anchor.ch, 
+            abcelem.position.head.line, abcelem.position.head.ch
+        );
+
+        this.aceEditor.selection.clearRange(range); 
     }
 };
-    
-
 if (!window.ABCXJS)
     window.ABCXJS = {};
 
@@ -11389,8 +11456,8 @@ ABCXJS.midi.Player.prototype.startPlay = function(what) {
     
     if(this.currentTime === 0 ) {
         //flavio - pq no IOS tenho que tocar uma nota antes de qualquer pausa
-        MIDI.noteOn(0, 21, 0, 0);
-        MIDI.noteOff(0, 21, 0.01);
+        MIDI.noteOn(0, 20, 0, 0);
+        MIDI.noteOff(0, 20, 0.01);
     }
    
     this.playlist = what.playlist;
@@ -11538,7 +11605,7 @@ ABCXJS.midi.Player.prototype.doDidacticPlay = function(criteria) {
 ABCXJS.midi.Player.prototype.executa = function(pl) {
     
     var self = this;
-    var loudness = 256;
+    var loudness = 128;
     var delay = 0;
     var aqui;
 
@@ -11589,8 +11656,8 @@ ABCXJS.midi.Player.prototype.executa = function(pl) {
             pl.item.abcelems.forEach( function( elem ) {
                 delay = self.calcTempo( elem.delay );
                 aqui=4;
+                self.currAbsElem = elem.abcelem.parent;
                 if( self.callbackOnScroll ) {
-                    self.currAbsElem = elem.abcelem.parent;
                     self.callbackOnScroll(self);
                 }
                 aqui=5;
@@ -11807,7 +11874,7 @@ DRAGGABLE.Div = function( parent, aButtons, options, callback, aToolBarButtons )
             self.y = e.clientY;
         };
 
-        this.resizeCorner.addEventListener( 'mouseover', function() { this.resizeCorner.style.cursor='nwse-resize'; }, false);
+        this.resizeCorner.addEventListener( 'mouseover', function() { self.resizeCorner.style.cursor='nwse-resize'; }, false);
         this.resizeCorner.addEventListener( 'mousedown', this.mouseResize, false);
         this.resizeCorner.addEventListener('touchstart', this.mouseResize, false);
     }
@@ -11869,13 +11936,28 @@ DRAGGABLE.Div = function( parent, aButtons, options, callback, aToolBarButtons )
     
 };
 
+DRAGGABLE.Div.prototype.resize = function( ) {
+    
+    var h = this.topDiv.clientHeight 
+            - (this.menuDiv ? this.menuDiv.clientHeight : 0 ) 
+            - (this.toolBar ? this.toolBar.clientHeight : 0 ) 
+            - (this.bottomDiv ? this.bottomDiv.clientHeight : 0 );
+    
+    this.dataDiv.style.height =  (h-2) + 'px';
+    
+    if(this.parent) {
+        this.topDiv.style.width =  (this.parent.clientWidth-5) + 'px';
+    }
+
+};
+
 DRAGGABLE.Div.prototype.defineCallback = function( cb ) {
     this.callback = cb;
 };
 
-DRAGGABLE.Div.prototype.eventsCentral = function (ev) {
+DRAGGABLE.Div.prototype.eventsCentral = function (action, elem) {
     if (this.callback) {
-        this.callback.listener[this.callback.method](ev);
+        this.callback.listener[this.callback.method](action, elem);
     } else {
         if (ev === 'CLOSE') {
             this.close();
@@ -11924,7 +12006,8 @@ DRAGGABLE.Div.prototype.addButtons = function( id,  aButtons ) {
     var defaultButtons = ['close|Fechar'];
     var self = this;
     
-    var buttonMap = { CLOSE: 'close', MOVE: 'move', ROTATE: 'rotate', GLOBE: 'world', ZOOM:'zoom-in', POPIN: 'popin', POPOUT: 'popout'  };
+    var buttonMap = { CLOSE: 'close', MOVE: 'move', ROTATE: 'rotate', GLOBE: 'world', ZOOM:'zoom-in', 
+                        POPIN: 'popin', POPOUT: 'popout', RESTORE:'restore', MAXIMIZE:'full-screen'  };
     
     if(aButtons)
         defaultButtons = defaultButtons.concat(aButtons);
@@ -11933,7 +12016,7 @@ DRAGGABLE.Div.prototype.addButtons = function( id,  aButtons ) {
         label = label.split('|');
         var action = label[0].toUpperCase();
         var rotulo = label.length > 1 ? label[1] : "";
-        var icon = 'wico-' + (buttonMap[action] ? buttonMap[action] : action.toLowerCase());
+        var icon = 'ico-' + (buttonMap[action] ? buttonMap[action] : action.toLowerCase());
         
         if( self.translate ) {
             DR.forcedResource('d'+ action +'ButtonA', rotulo, id, 'd'+ action +'ButtonA'+id); 
@@ -11946,11 +12029,11 @@ DRAGGABLE.Div.prototype.addButtons = function( id,  aButtons ) {
         self.menuDiv.appendChild(div);
         div.addEventListener( 'click', function(e) {
             e.preventDefault(); 
-            self.eventsCentral(action);
+            self.eventsCentral(action, div);
         }, false);
         div.addEventListener( 'touchstart', function(e) {
             e.preventDefault(); 
-            self.eventsCentral(action);
+            self.eventsCentral(action, div);
         }, false);
         
     });
@@ -11960,7 +12043,8 @@ DRAGGABLE.Div.prototype.addToolButtons = function( id,  aButtons ) {
     if(!aButtons) return;
     var self = this;
     
-    var buttonMap = { GUTTER:'list-numbered', FONTSIZE: 'fontsize', DOWN:'down-2', ARROWDN:'long-arrow-down', ARROWUP:'long-arrow-up', SEARCH:'search', UNDO:'undo', REDO:'redo', LIGHT:'lightbulb-2' };
+    var buttonMap = { GUTTER:'list-numbered', DOWNLAOD:'download', FONTSIZE: 'fontsize', DOWN:'open-down', OCTAVEDOWN:'octave-down', OCTAVEUP:'octave-up', 
+                        SEARCH:'find-and-replace', UNDO:'undo', REDO:'redo', LIGHTON:'lightbulb-on', READONLY:'lock-open' };
     
     aButtons.forEach( function (label) {
         label = label.split('|');
@@ -11979,7 +12063,7 @@ DRAGGABLE.Div.prototype.addToolButtons = function( id,  aButtons ) {
         self.toolBar.appendChild(div);
         div.addEventListener( 'click', function(e) {
             e.preventDefault(); 
-            self.eventsCentral(action);
+            self.eventsCentral(action, div);
         }, false);
         
     });
@@ -12026,11 +12110,11 @@ ABCXJS.edit.DropdownMenu = function (topDiv, options, menu) {
         var e2 = document.createElement("input");
         e2.setAttribute( "type", "checkbox" );
         e1.appendChild(e2);
-        this.headers[ddmId] = { chk: e2, btn: null, list: null };
+        this.headers[ddmId] = { div: null, chk: e2, btn: null, list: null };
         
         e2 = document.createElement("button");
         e2.setAttribute( "data-state", ddmId );
-        e2.innerHTML = (menu[m].title || '' ) +'&#160;&#160;'+'<i class="ico-down-2" data-toggle="toggle"></i>';
+        e2.innerHTML = (menu[m].title || '' ) +'&#160;'+'<i class="ico-open-down" data-toggle="toggle"></i>';
         e2.addEventListener( 'click', function(e) {
            e.stopPropagation(); 
            e.preventDefault(); 
@@ -12043,11 +12127,11 @@ ABCXJS.edit.DropdownMenu = function (topDiv, options, menu) {
 //        }, false);
         e1.appendChild(e2);
         this.headers[ddmId].btn = e2;
-        
         e2 = document.createElement("div");
         e2.setAttribute( "class", "dropdown-menu customScrollBar" );
         e2.setAttribute( "data-toggle", "toggle-menu" );
         e1.appendChild(e2);
+        this.headers[ddmId].div = e2;
         
         //element.addEventListener("msTransitionEnd", callfunction,false);
         //element.addEventListener("oTransitionEnd", callfunction,false);
@@ -12109,11 +12193,20 @@ ABCXJS.edit.DropdownMenu.prototype.emptySubMenu = function (ddm) {
     }
     
     self.headers[ddm].list.innerHTML = "";
-    self.setSubMenuTitle(ddm, '...');
+    //self.setSubMenuTitle(ddm, '...');
     
 };
 
 
+ABCXJS.edit.DropdownMenu.prototype.selectItem = function (ddm, item) {
+    if( this.selectedItem ) {
+        this.headers[ddm].selectedItem.className = '';
+    }
+    
+    item.className = 'selected';
+    this.headers[ddm].selectedItem = item;
+};
+    
 ABCXJS.edit.DropdownMenu.prototype.setSubMenuTitle = function (ddm, newTitle) {
     
     var self = this;
@@ -12123,7 +12216,7 @@ ABCXJS.edit.DropdownMenu.prototype.setSubMenuTitle = function (ddm, newTitle) {
         return;
     }
     
-    self.headers[ddm].btn.innerHTML = (newTitle || '' ) +'&#160;&#160;<i class="ico-down-2" data-toggle="toggle"></i>';
+    self.headers[ddm].btn.innerHTML = (newTitle || '' ) +'&#160;<i class="ico-open-down" data-toggle="toggle"></i>';
     
 };
     
@@ -12141,10 +12234,13 @@ ABCXJS.edit.DropdownMenu.prototype.addItemSubMenu = function (ddm, newItem, pos)
         var e4 = document.createElement("hr");
     } else {
         var e4 = document.createElement("li"); 
+        var action = tags.length > 1 ? tags[1] : tags[0];
+        e4.setAttribute( "id",  action );
+        
         var e5 = document.createElement("a");
         e5.innerHTML = tags[0];
         e5.setAttribute( "data-state", ddm );
-        e5.setAttribute( "data-value", tags.length > 1 ? tags[1] : tags[0] );
+        e5.setAttribute( "data-value", action );
         e5.addEventListener( 'click', function(e) {
            e.stopPropagation(); 
            e.preventDefault(); 
@@ -12156,7 +12252,10 @@ ABCXJS.edit.DropdownMenu.prototype.addItemSubMenu = function (ddm, newItem, pos)
         self.headers[ddm].list.insertBefore(e4, self.headers[ddm].list.children[pos]);
     } else {
         self.headers[ddm].list.appendChild(e4);
-    }            
+    }  
+    
+    // added li element
+    return e4;
 };
 
 ABCXJS.edit.DropdownMenu.prototype.setListener = function (listener, method) {
@@ -12168,6 +12267,9 @@ ABCXJS.edit.DropdownMenu.prototype.eventsCentral = function (state, event) {
     for( var e in this.headers ) {
         if( e === state ) {
             this.headers[e].chk.checked = ! this.headers[e].chk.checked;
+            if( this.headers[e].chk.checked && this.headers[e].selectedItem ){
+                this.headers[e].div.scrollTop = this.headers[e].selectedItem.offsetTop-115;
+            }
         } else {
             this.headers[e].chk.checked = false;
         }
@@ -12302,6 +12404,9 @@ ABCXJS.tablature.Accordion.prototype.printKeyboard = function(div_id, options) {
     }
 };
 
+ABCXJS.tablature.Accordion.prototype.getId = function () {
+    return this.loaded.getId();
+};
 ABCXJS.tablature.Accordion.prototype.getFullName = function () {
     return this.loaded.getFullName();
 };

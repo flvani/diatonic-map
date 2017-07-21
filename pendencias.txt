@@ -1,29 +1,7 @@
 Mapa
 1) Associar videos com partituras
-2) Melhorar a apresentacao
 2) Traduzir FClef e GCLef
 3) Traduzir o menu tab2part
 4) Atualizar documentacao
 
-Studio
--- 1) Mudar em tempo real a seleção de vozes em execucao
 
-Gerador
--- 1) Verificar se o baixo existe para a direção do fole
--- 2) Mostrar teclado
--- 3) Salvar texto
--- 5) Mostrar ABC
--- 6) Resize de tela
--- 7) Implementar warnings
--- 8) Converter valores para hexa para incluir na tablatura
-
-4) Executar (verificar uma forma melhor de carregar o plugin)
-9) Criar conversor para club
-
-ABCXJS  
-
-1) MIDI.noteOff
-                if(  true /*self.playClef( elem.midipitch.clef.charAt(0) )*/ ) {
-                    delay = self.calcTempo( elem.delay );
-                    MIDI.noteOff(elem.midipitch.channel, elem.midipitch.midipitch, delay);
-                }
