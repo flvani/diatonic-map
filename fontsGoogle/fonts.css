@@ -1,10 +1,12 @@
+
 @font-face { font-family: 'titleFont';          src: url('./RockSalt.ttf') format('truetype'); }
 @font-face { font-family: 'menuFont';           src: url('./Milonga-Regular.ttf') format('truetype'); }
 
-@font-face { font-family: 'subMenuFont';              src: url('./Coda-Regular.ttf') format('truetype'); }
-@font-face { font-family: 'subMenuFont2';              src: url('./Righteous-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'subMenuFont';        src: url('./AllertaStencil-Regular.ttf') format('truetype'); }
 
-@font-face { font-family: 'abcFont';              src: url('./Merienda-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'subMenuFont2';       src: url('./Righteous-Regular.ttf') format('truetype'); }
+
+@font-face { font-family: 'abcFont';            src: url('./Merienda-Regular.ttf') format('truetype'); }
 
 
 @font-face { font-family: 'atual01';              src: url('./Neucha.ttf') format('truetype'); }

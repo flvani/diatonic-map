@@ -4,7 +4,7 @@ if (!window.SITE)
 
 SITE.Estudio = function (interfaceParams, playerParams) {
     
-    this.ypos = 0; // controle de scroll
+    this.ypos = 0; // controle de scrollf
     this.lastStaffGroup = -1; // controle de scroll
     this.lastYpos = 0; // controle de scroll
     var that = this;
@@ -149,7 +149,7 @@ SITE.Estudio = function (interfaceParams, playerParams) {
         evt.preventDefault();
         this.blur();
         ga('send', 'event', 'Estúdio', 'print', that.renderedTune.title);
-        that.printPreview(that.renderedTune.div.innerHTML, ["#divTitulo","#studioDiv"], that.renderedTune.abc.formatting.landscape);
+        that.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#studioDiv"], that.renderedTune.abc.formatting.landscape);
         return;
 
     }, false);
@@ -204,6 +204,8 @@ SITE.Estudio = function (interfaceParams, playerParams) {
         evt.preventDefault();
         this.blur();
         that.midiPlayer.stopPlay();
+        that.editorWindow.setReadOnly(false);
+        this.editorWindow.clearEditorHighLightStyle();
     }, false);
 
     this.clearButton.addEventListener("click", function (evt) {
@@ -212,6 +214,8 @@ SITE.Estudio = function (interfaceParams, playerParams) {
         that.renderedTune.printer.clearSelection();
         that.accordion.clearKeyboard(true);
         that.currentPlayTimeLabel.innerHTML = "00:00.00";
+        that.editorWindow.setReadOnly(false);
+        this.editorWindow.clearEditorHighLightStyle();
         that.midiPlayer.stopPlay();
     }, false);
 
@@ -443,35 +447,19 @@ SITE.Estudio.prototype.hideEditor = function() {
 
 
 SITE.Estudio.prototype.editorCallback = function (action, elem) {
-    //    this.keySelector = new ABCXJS.edit.KeySelector(ks, this);
-    //    
-    //    document.getElementById('octaveUpBtn').addEventListener("click", function (evt) {
-    //        evt.preventDefault();
-    //        this.blur();
-    //        that.editorChanged(12, "force");
-    //    }, false);
-    //    
-    //    document.getElementById('octaveDwBtn').addEventListener("click", function (evt) {
-    //        evt.preventDefault();
-    //        this.blur();
-    //        that.editorChanged(-12, "force");
-    //    }, false);
-    //    
-    //    document.getElementById('forceRefresh2').addEventListener("click", function (evt) {
-    //        evt.preventDefault();
-    //        this.blur();
-    //        that.editorChanged(0, "force");
-    //    }, false);
-    //
-    //   DR.forcedResource('forceRefresh', 'Atualizar', '2', 'forceRefresh2');
     switch(action) {
-        case 'GUTTER': // liga/desliga a numeracao de linhas
-            this.editorWindow.setGutter();
-            break;
         case 'FONTSIZE': 
         case 'SEARCH': 
         case 'DOWNLOAD': 
            alert( action ); 
+           break;
+        case '0': 
+            break;
+        case  '1':  case  '2':  case  '3':  case   '4': case   '5': case '6': 
+        case  '7':  case  '8':  case  '9':  case  '10': case  '11': 
+        case '-1':  case '-2':  case '-3':  case  '-4': case  '-5': case '-6': 
+        case '-7':  case '-8':  case '-9':  case '-10': case '-11': 
+            this.fireChanged( parseInt(action), true );
            break;
         case 'OCTAVEUP': 
            this.fireChanged(12, true );
@@ -479,6 +467,27 @@ SITE.Estudio.prototype.editorCallback = function (action, elem) {
         case 'OCTAVEDOWN': 
            this.fireChanged(-12, true );
            break;
+        case 'GUTTER': // liga/desliga a numeracao de linhas
+            this.editorWindow.setGutter();
+            break;
+        case 'MAXIMIZE': 
+            if( elem.innerHTML.indexOf('ico-full' ) > 0 ) {
+                elem.innerHTML = '<a href="" title="Restaurar janela"><i class="ico-restore"></i></a>';
+                //this.fullEditarea();
+            } else {
+                elem.innerHTML = '<a href="" title="Maximizar janela"><i class="ico-full-screen"></i></a>';
+            }
+            break;
+            
+        case 'READONLY': // habilita/bloqueia a edição
+            if( elem.innerHTML.indexOf('ico-lock-open' ) > 0 ) {
+                elem.innerHTML = '<a href="" title="Bloquear edição"><i class="ico-lock ico-black ico-large"></i></a>';
+                this.editorWindow.setReadOnly(true);
+            } else {
+                elem.innerHTML = '<a href="" title="Bloquear edição"><i class="ico-lock-open ico-black ico-large"></i></a>';
+                this.editorWindow.setReadOnly(false);
+            }
+            break;
         case 'LIGHTON': // liga/desliga realce de sintaxe
             if( elem.innerHTML.indexOf('ico-lightbulb-on' ) > 0 )
                 elem.innerHTML = '<a href="" title="Realçar texto"><i class="ico-lightbulb-off ico-black ico-large"></i></a>';
@@ -585,9 +594,13 @@ SITE.Estudio.prototype.changePageOrientation = function (orientation) {
 
 };
 
-SITE.Estudio.prototype.printPreview = function (html, landscape ) {
+SITE.Estudio.prototype.printPreview = function (html, divsToHide, landscape ) {
     
     var dv = document.getElementById('printPreviewDiv');
+
+    divsToHide.forEach( function( div ) {
+        $(div).hide();
+    });
     
     this.changePageOrientation(landscape? 'landscape': 'portrait');
     
@@ -595,7 +608,11 @@ SITE.Estudio.prototype.printPreview = function (html, landscape ) {
     dv.innerHTML = html;
     window.print();
     dv.style.display = 'none';
-    
+
+    divsToHide.forEach( function( div ) {
+        $(div).show();
+    });
+
 };
 
 SITE.Estudio.prototype.salvaMusica = function () {
@@ -652,11 +669,13 @@ SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
         } else {
             this.midiPlayer.pausePlay(true);
         }    
+        this.editorWindow.setReadOnly(false);
+        this.editorWindow.clearEditorHighLightStyle();
         
     } else {
         this.accordion.clearKeyboard();
         this.editorWindow.setReadOnly(true);
-        this.editorWindow.aceEditor.container.style.pointerEvents="none"
+        this.editorWindow.setEditorHighLightStyle();
 
         this.StartPlayWithTimer(this.renderedTune.abc.midi, type, value, valueF, this.timerOn ? 10: 0 );
         
@@ -738,10 +757,10 @@ SITE.Estudio.prototype.parseABC = function(transpose) {
     this.setString( this.renderedTune.text );
     delete this.parsing;
     
-    if( this.transposer && this.keySelector ) {
-        this.keySelector.set( this.transposer.keyToNumber( this.transposer.getKeyVoice(0) ) );       
+    if( this.transposer && this.editareaMovel.keySelector ) {
+        this.editareaMovel.keySelector.populate( this.transposer.keyToNumber( this.transposer.getKeyVoice(0) ) );       
     }
-    
+
     var warnings = abcParser.getWarnings() || [];
     for (var j=0; j<warnings.length; j++) {
         this.warnings.push(warnings[j]);

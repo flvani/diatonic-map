@@ -1141,7 +1141,7 @@ window.ABCXJS.misc.isChrome= function() {
     if(!test1) return false;
     
     for (var i=0; i<navigator.plugins.length; i++)
-        if (navigator.plugins[i].name == 'Chrome PDF Viewer') return true;
+        if (navigator.plugins[i].name === 'Chrome PDF Viewer') return true;
     
     return false;
 };
@@ -1152,7 +1152,7 @@ window.ABCXJS.misc.isChromium= function() {
     if(!test1) return false;
     
     for (var i=0; i<navigator.plugins.length; i++)
-        if (navigator.plugins[i].name == 'Chrome PDF Viewer') return false;
+        if (navigator.plugins[i].name === 'Chrome PDF Viewer') return false;
     
     return true;
 };
@@ -7399,21 +7399,27 @@ for (var x = 0; x < 5000; x += 50) {
             .attr("y1", translate[1])   
 
  */
+
 ABCXJS.write.AbsoluteElement.prototype.setMouse = function(printer) {
     var self = this;
-    var svgns = "http://www.w3.org/2000/svg";
-    this.svgElem = document.getElementById(self.gid);
     
-    var bounds = this.svgElem.getBBox();
-    var rect = document.createElementNS(svgns, 'rect');
-        rect.setAttributeNS(null, 'x', bounds.x.toFixed(1)-1);
-        rect.setAttributeNS(null, 'y', bounds.y.toFixed(1)-1);
-        rect.setAttributeNS(null, 'height', bounds.height.toFixed(1)+2);
-        rect.setAttributeNS(null, 'width', bounds.width.toFixed(1)+2);
-        rect.setAttributeNS(null, 'fill', 'none' );
+    try {
+        var svgns = "http://www.w3.org/2000/svg";
+        this.svgElem = document.getElementById(self.gid);
 
-    this.svgElem.appendChild(rect);
-    this.svgArea = rect;
+        var bounds = this.svgElem.getBBox();
+        var rect = document.createElementNS(svgns, 'rect');
+            rect.setAttributeNS(null, 'x', bounds.x.toFixed(1)-1);
+            rect.setAttributeNS(null, 'y', bounds.y.toFixed(1)-1);
+            rect.setAttributeNS(null, 'height', bounds.height.toFixed(1)+2);
+            rect.setAttributeNS(null, 'width', bounds.width.toFixed(1)+2);
+            rect.setAttributeNS(null, 'fill', 'none' );
+
+        this.svgElem.appendChild(rect);
+        this.svgArea = rect;
+    } catch( e ) {
+        // Firefox dies if svgElem is not Visible
+    }
     
     this.svgElem.onmouseover =  function() {self.highlight(true);};
     this.svgElem.onmouseout =  function() {self.unhighlight(true);};
@@ -7424,16 +7430,17 @@ ABCXJS.write.AbsoluteElement.prototype.highlight = function(keepState) {
     if(!this.svgElem) return;
     if(keepState) this.svgElem.prevFill = this.svgElem.style.fill;
     this.svgElem.style.setProperty( 'fill', ABCXJS.write.highLightColor );
-    this.svgArea.style.setProperty( 'fill', ABCXJS.write.highLightColor );
-    this.svgArea.style.setProperty( 'fill-opacity', '0.15' );
+    (this.svgArea) && this.svgArea.style.setProperty( 'fill', ABCXJS.write.highLightColor );
+    (this.svgArea) && this.svgArea.style.setProperty( 'fill-opacity', '0.15' );
 };
 
 ABCXJS.write.AbsoluteElement.prototype.unhighlight = function(keepState) {
     if(!this.svgElem) return;
     var fill = (keepState && this.svgElem.prevFill ) ? this.svgElem.prevFill : ABCXJS.write.unhighLightColor;
     this.svgElem.style.setProperty( 'fill', fill );
-    this.svgArea.style.setProperty( 'fill-opacity', '0' );
+    (this.svgArea) && this.svgArea.style.setProperty( 'fill-opacity', '0' );
 };
+
 
 ABCXJS.write.RelativeElement = function(c, dx, w, pitch, opt) {
     opt = opt || {};
@@ -10125,11 +10132,16 @@ ABCXJS.edit.AccordionSelector = function (id, divId, callBack, extraItems ) {
     
     this.extraItems = extraItems || [];
     this.ddmId = id;
-    this.menu = new ABCXJS.edit.DropdownMenu(
-           divId
-        ,  callBack
-        ,  [{title: 'Acordeons', ddmId: this.ddmId, itens: []}]
-    );
+    
+    if (divId instanceof ABCXJS.edit.DropdownMenu) {
+        this.menu = divId;   
+    } else {
+        this.menu = new ABCXJS.edit.DropdownMenu(
+               divId
+            ,  callBack
+            ,  [{title: 'Acordeons', ddmId: this.ddmId, itens: []}]
+        );
+    }
     
     // tratar os casos os o listener não possui um acordeon definido
     if (callBack && callBack.listener && callBack.listener.accordion) {
@@ -10137,33 +10149,56 @@ ABCXJS.edit.AccordionSelector = function (id, divId, callBack, extraItems ) {
     }
 };
     
-ABCXJS.edit.AccordionSelector.prototype.populate = function(changeTitle) {
+ABCXJS.edit.AccordionSelector.prototype.populate = function(changeTitle, selectId ) {
+    var m, selectItem, title;
+
     this.menu.emptySubMenu( this.ddmId );    
+    
     for (var i = 0; i < this.accordion.accordions.length; i++) {
-        var m = this.menu.addItemSubMenu( 
+        m = this.menu.addItemSubMenu( 
             this.ddmId, 
             this.accordion.accordions[i].getFullName() + '|' 
                 + this.accordion.accordions[i].getId() );
-        if( this.accordion.getId() === this.accordion.accordions[i].getId() ) {
-            if(changeTitle)
-                this.menu.setSubMenuTitle(this.ddmId, this.accordion.getFullName() );
-            this.menu.selectItem(this.ddmId, m);
+        
+        // identifica o item a ser selecionado
+        if( typeof selectId === "undefined"  ) {
+            if( this.accordion.getId() === this.accordion.accordions[i].getId() ) {
+                selectItem = m;
+                title = this.accordion.getFullName();
+            }
+        } else {
+            if( selectId === this.accordion.accordions[i].getId() ) {
+                selectItem = m;
+                title = this.accordion.accordions[i].getFullName();
+            }
         }
     }
+    
+    // adiciona os itens extra
     for (var i = 0; i < this.extraItems.length; i++) {
         var m = this.menu.addItemSubMenu( this.ddmId, this.extraItems[i] );
     }
+    
+    if(changeTitle && title )
+        this.menu.setSubMenuTitle(this.ddmId, title );
+    
+    if( selectItem )
+        this.menu.selectItem(this.ddmId, selectItem );
+    
 };
 
 ABCXJS.edit.KeySelector = function(id, divId, callBack ) {
     
     this.ddmId = id;
-    this.menu = new ABCXJS.edit.DropdownMenu(
-           divId
-        ,  callBack
-        ,  [{title: 'Keys', ddmId: this.ddmId, itens: []}]
-    );
-    
+    if (divId instanceof ABCXJS.edit.DropdownMenu) {
+        this.menu = divId;   
+    } else {
+        this.menu = new ABCXJS.edit.DropdownMenu(
+               divId
+            ,  callBack
+            ,  [{title: 'Keys', ddmId: this.ddmId, itens: []}]
+        );
+    }
 };
 
 ABCXJS.edit.KeySelector.prototype.populate = function(offSet) {
@@ -10218,7 +10253,7 @@ if (!ABCXJS.edit)
 ABCXJS.edit.EditArea = function (editor_id, listener) {
     
     this.container = {};
-    var aBotoes = [ 'gutter|Numeração das Linhas', 'download|Salvar Local', 'fontsize|Tamanho da fonte', 'down|Tom', 
+    var aBotoes = [ 'gutter|Numeração das Linhas', 'download|Salvar Local', 'fontsize|Tamanho da fonte', 'DROPDOWN|Tom|selKey', 
                     'octavedown|Oitava|Oitava', 'octaveup|Oitava|Oitava', 'search|Localizar e substituir', 
                     'undo|Dezfazer', 'redo|Refazer', 'lighton|Realçar texto', 'readonly|Bloquear edição' ] ;
     
@@ -10238,11 +10273,11 @@ ABCXJS.edit.EditArea = function (editor_id, listener) {
                 , aBotoes
             );
             
-            //this.container.dataDiv.setAttribute("class", "ace-datadiv"); 
         } else {
             alert( 'this.container: elemento "'+editor_id+'" não encontrado.');
         }
     } else {
+        
         this.container = new DRAGGABLE.Div( 
             null
             , [ 'move|Mover', 'popin|Fixar janela' , 'maximize|Maximizar janela' ]
@@ -10250,14 +10285,12 @@ ABCXJS.edit.EditArea = function (editor_id, listener) {
             , {listener : listener, method: 'editorCallback' }
             , aBotoes
         );
-//        this.container.dataDiv.setAttribute("class", "ace-datadiv"); 
+
+        this.keySelector = new ABCXJS.edit.KeySelector( 
+                'selKey', this.container.menu['selKey'], {listener: this, method: 'editorCallback'} );
         
-        document.getElementById('dDOWNButton4').innerHTML = '<div id="menu4Div" class="topMenu" ></div>';
-        
-        this.keySelector = new ABCXJS.edit.KeySelector( 'k2', 'menu4Div', {listener: this, method: 'editorCallback'} );
     }
     
-    //this.container.dataDiv.className += " ace-datadiv"; 
     
     this.aceEditor = ace.edit(this.container.dataDiv);
     this.aceEditor.setOptions( {highlightActiveLine: true, selectionStyle: "text", cursorStyle: "smooth"/*, maxLines: Infinity*/ } );
@@ -10417,7 +10450,7 @@ ABCXJS.edit.EditArea.prototype.setSelection = function (abcelem) {
         this.aceEditor.selection.addRange(range);
         
         if(abcelem.position.selectable || !this.selectionEnabled)
-            this.aceEditor.scrollToLine(range.start.row);
+            this.aceEditor.renderer.scrollCursorIntoView(range.end, 1 );
     }   
 };
 
@@ -12043,28 +12076,49 @@ DRAGGABLE.Div.prototype.addToolButtons = function( id,  aButtons ) {
     if(!aButtons) return;
     var self = this;
     
-    var buttonMap = { GUTTER:'list-numbered', DOWNLAOD:'download', FONTSIZE: 'fontsize', DOWN:'open-down', OCTAVEDOWN:'octave-down', OCTAVEUP:'octave-up', 
+    var buttonMap = { GUTTER:'list-numbered', DOWNLAOD:'download', FONTSIZE: 'fontsize', DROPDOWN:'open-down', OCTAVEDOWN:'octave-down', OCTAVEUP:'octave-up', 
                         SEARCH:'find-and-replace', UNDO:'undo', REDO:'redo', LIGHTON:'lightbulb-on', READONLY:'lock-open' };
     
     aButtons.forEach( function (label) {
         label = label.split('|');
         var action = label[0].toUpperCase();
         var rotulo = label.length > 1 ? label[1] : "";
-        var icon = 'ico-' + (buttonMap[action] ? buttonMap[action] : action.toLowerCase());
         
         if( self.translate ) {
             DR.forcedResource('d'+ action +'ButtonA', rotulo, id, 'd'+ action +'ButtonA'+id); 
         }
         
         var div = document.createElement("DIV");
-        div.setAttribute("id", 'd'+ action +'Button'+id ); 
-        div.setAttribute("class", "dButton" ); 
-        div.innerHTML = '<a href="" title="'+ rotulo +'"><i class="'+ icon +' ico-black ico-large"></i></a>';
+        div.id =  'd'+ action +'Button'+id ; 
         self.toolBar.appendChild(div);
-        div.addEventListener( 'click', function(e) {
-            e.preventDefault(); 
-            self.eventsCentral(action, div);
-        }, false);
+        
+        if( action === 'DROPDOWN' ) {
+            
+            div.className = "dButton topMenu";
+            
+            if( typeof self.menu === "undefined" ) {
+                self.menu = {};
+            }
+                    
+            var ddmId = label[2];
+            self.menu[ddmId] = new ABCXJS.edit.DropdownMenu(
+                   div
+                ,  self.callback
+                ,  [{title: '...', ddmId: ddmId, itens: []}]
+            );
+    
+        } else {
+            
+            div.className = "dButton";
+            
+            var icon = 'ico-' + (buttonMap[action] ? buttonMap[action] : action.toLowerCase());
+            div.innerHTML = '<a href="" title="'+ rotulo +'"><i class="'+ icon +' ico-black ico-large"></i></a>';
+            div.addEventListener( 'click', function(e) {
+                e.preventDefault(); 
+                self.eventsCentral(action, div);
+            }, false);
+        }
+        
         
     });
 };
@@ -12197,14 +12251,34 @@ ABCXJS.edit.DropdownMenu.prototype.emptySubMenu = function (ddm) {
     
 };
 
+ABCXJS.edit.DropdownMenu.prototype.getItemByName = function (ddm, item) {
+    
+    var a_elements = this.headers[ddm].list.getElementsByTagName("a");
 
+    for (var i = 0, len = a_elements.length; i < len; i++ ) {
+        if( item === a_elements[ i ].innerHTML ) {
+            return a_elements[ i ].parentElement;
+        }
+    }        
+    return undefined;
+};
+
+//    if( tab.menu.selectItem(tab.ddmId, tab.title) ) {
 ABCXJS.edit.DropdownMenu.prototype.selectItem = function (ddm, item) {
-    if( this.selectedItem ) {
+    var toSel = item;
+    if(  typeof item === "string" ) {
+        toSel = this.getItemByName(ddm, item);
+    } 
+    
+    if( ! toSel ) return false;
+    
+    if( this.headers[ddm].selectedItem ) {
         this.headers[ddm].selectedItem.className = '';
     }
     
-    item.className = 'selected';
-    this.headers[ddm].selectedItem = item;
+    toSel.className = 'selected';
+    this.headers[ddm].selectedItem = toSel;
+    return true;
 };
     
 ABCXJS.edit.DropdownMenu.prototype.setSubMenuTitle = function (ddm, newTitle) {
@@ -12297,8 +12371,7 @@ if (!window.ABCXJS.tablature)
 	window.ABCXJS.tablature = {};
 
 ABCXJS.tablature.Accordion = function( params ) {
-    
-    this.selected     = -1;
+    this.loaded       = undefined;
     this.tabLines     = [];
     this.accordions   = params.accordionMaps || [] ;
     this.transposer   = new window.ABCXJS.parse.Transposer();
@@ -12327,8 +12400,7 @@ ABCXJS.tablature.Accordion.prototype.loadById = function (id) {
 };
 
 ABCXJS.tablature.Accordion.prototype.load = function (sel) {
-    this.selected = sel;
-    this.loaded = this.accordions[this.selected];
+    this.loaded = this.accordions[sel];
     this.loadedKeyboard = this.loaded.keyboard;
     return this.loaded;
 };
@@ -12342,11 +12414,7 @@ ABCXJS.tablature.Accordion.prototype.accordionExists = function(id) {
 };
 
 ABCXJS.tablature.Accordion.prototype.accordionIsCurrent = function(id) {
-    var ret = false;
-    for(var a = 0; a < this.accordions.length; a++ ) {
-        if( this.accordions[a].id === id && this.selected === a) ret = true;
-    }
-    return ret;
+    return (this.accordions.loaded && this.accordions.loaded.id === id);
 };
 
 ABCXJS.tablature.Accordion.prototype.clearKeyboard = function(full) {

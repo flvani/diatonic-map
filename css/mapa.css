@@ -10,11 +10,14 @@ and open the template in the editor.
 
 
 body {
-    font-family: 'Londrina';
+    font-family: 'Arial';
     font-size: 16px;
     margin: 0;
     padding: 0;
+    padding-top: 75px;  
+    
     overflow: auto;
+    
     /* inicio - evita que textos fiquem selecionáveis */
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -32,15 +35,19 @@ body {
     background-color: white;
 }
     
-.mapaDiv {
-    position:absolute;
-    display: block;
-    top: 75px;
-    width: auto;
-    height: auto;
-    z-index: 50;
-    margin-left: 2px;
-}
+.topSettings {
+    position:absolute; 
+    top:10px; 
+    right:20px; 
+    font-size: 50px;
+    color: #dab390;
+}    
+
+.topSettings:hover {
+    color:#ff9922;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    cursor:pointer;
+}    
 
 .topBar {
     z-index: 100;
@@ -91,26 +98,30 @@ body {
 
 }
 
-.menuBar {
-    position: relative;
-    top: 0; 
-    left: 0;
-    height: 40px;
-    width: 100%;
-    padding: 0;
-}
-
 .topMenu {
     position: relative;
     float: left;
+    display: anything;
     border: none;
     background: none;
     margin-top: 0px;
 }
 
+.mapaDiv {
+    position:absolute;
+    display: block;
+    top: 75px;
+    width: auto;
+    height: auto;
+    z-index: 50;
+    margin-left: 2px;
+}
+
+
 .menu-group {
     margin:20px;
 }
+
 
 .btn-group b,
 .btn-group label,
@@ -121,6 +132,7 @@ body {
     color: red;
     border-color: lightpink;
 }
+
 
 .btn-group input[type="text"] {
     margin-top:0px;
@@ -136,21 +148,11 @@ body {
     background-color: #D4482D;
 }
 
-.dButton > a { color: white; text-decoration: none; }
-.dButton > a { color: #dab390; text-decoration: none; }
+.dButton > a { color: #dab390; text-decoration: none }
+.dButton > a { color: white; text-decoration: none }
 
 
-.topSettings {
-    position:absolute; 
-    top:10px; 
-    right:20px; 
-    font-size: 50px;
-    color: #dab390;
-}    
-
-.topSettings:hover {
-    color:#ff9922;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    cursor:pointer;
-}    
+.dropdown-menu .selected {
+    background:  #6E2518 !important;
+}
  

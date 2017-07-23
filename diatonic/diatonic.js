@@ -242,7 +242,9 @@ DIATONIC.map.Keyboard.prototype.setup = function (keyMap) {
     this.width = (nIlheiras + nIlheirasBaixo + 1) * (this.size) +2;
     this.height = (maiorIlheira) * (this.size) +2;
     
-    var bassY = (maiorIlheira - (maiorIlheiraBaixo/2) ) / 2 * this.size;
+    var bassY = (maiorIlheiraBaixo === 4 ? 4 : 3 ) * this.size;
+    bassY += (maiorIlheira-11)/2*this.size; // move meio botão baixo nas gaitas com mais botões
+    
     var openRow, closeRow, bass, noteVal;
     
     for (var j = 0; j < this.keyMap.length; j++) {
@@ -290,8 +292,8 @@ DIATONIC.map.Keyboard.prototype.setup = function (keyMap) {
     }
     // posiciona linha decorativa
     x = (nIlheiras+0.5) * (this.size);
-    y = bassY - 0.5 * this.size;
-    this.baseLine = {x: x, yi:y, yf:y + 5 * this.size};
+    y = bassY - (0.5*this.size);
+    this.baseLine = {x: x, yi:y, yf:y + ((maiorIlheiraBaixo+1) * this.size)};
     
     // adiciona o botão de legenda
     var raio=40;
