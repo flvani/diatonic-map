@@ -17,7 +17,6 @@ teste.
         
         <link rel="stylesheet" href="css/styles4abcx.css" />
         
-        
         <link rel="stylesheet" href="css/mapa.css" />
         <link rel="stylesheet" href="css/studio.css" >
         
@@ -30,7 +29,8 @@ teste.
         
         <!-- suporte a MIDI -->
         <script type="text/javascript" src="jslib/MIDI.js"></script>
-        <script type="text/javascript" src="jslib/jscolor.js"></script>
+        
+        <script type="text/javascript" src="jslib/html5kellycolorpicker.js"></script>
         
         <!-- suporte a arquivos -->
         <script type="text/javascript" src="file/filemanager.js"></script>
@@ -252,7 +252,7 @@ teste.
                    ,'dRESTOREButtonA'
                 ]);
                 
-                w1 = new DRAGGABLE.Div(
+                w1 = new DRAGGABLE.ui.Window(
                           null
                         , null
                         , {title: '', translate: false, draggable: true, statusBar: false, top: "200px", left: "300px", zIndex: 60}

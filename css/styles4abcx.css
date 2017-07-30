@@ -1,21 +1,98 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 28/07/2017, 19:21:49
+    Author     : p_7236
+*/
+
+.menu-group {
+    width: auto;
+    height: auto;
+    white-space: normal;
+    display: block;
+    margin: 20px;
+    margin-top: 10px;
+}
+
+.menu-group th {
+    text-align: left;
+}
+
+.menu-group label,
+.menu-group button {
+    position: relative;
+    display: block;
+    float:left;
+    text-align: left;
+    vertical-align: middle;
+    font-family: 'menuFont','Arial';
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 16px;
+    height: 26px;
+    width: auto;
+    /*text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);*/
+    left: 0;
+    margin: 0;
+    margin-left: 4px;
+    padding: 4px;
+    outline: none !important;
+    border: none;
+    color: black;
+    background-color: transparent;
+    
+}
+
+.menu-group > label {
+    text-align: left;
+    padding-top: 6px;
+    height: 16px;
+    font-size: 16px;
+}
+
+
+.menu-group input[type="text"] {
+    width: 4em;
+    height: 22px;
+    width: 60px;
+    padding: 0;
+    margin: 0;
+    border-color: gray;
+    margin-top: 2px;
+    margin-left: 5px;
+    padding-left:2px;
+}
+
+.menu-group button:hover {
+    background:  lavender;
+    cursor: pointer;
+}
+
+.menu-group button::-moz-focus-inner {
+  border: 0;
+}
+
+.menu-group img {
+    top: -4px;
+    height:20px;
+}    
 .btn-group ,
-.menu-group ,
 .dropdown-group {
     width: auto;
     white-space: normal;
     display: inline-block;
 }
 
-.btn-group ,
-.menu-group {
+.btn-group {
     height: 22px;
     margin-top: 2px;
     margin-left: 5px;
 }
 
 .btn-group label,
-.menu-group label,
-.menu-group button,
 .btn-group button,
 .dropdown-group button {
     position: relative;
@@ -54,7 +131,6 @@
     background-color: transparent;
 }
 
-.menu-group label,
 .btn-group label {
     text-align: left;
     padding-top: 6px;
@@ -62,8 +138,6 @@
     font-size: 16px;
 }
 
-
-.menu-group input[type="text"],
 .btn-group input[type="text"] {
     width: 4em;
     height: 22px;
@@ -75,13 +149,11 @@
     padding-left:2px;
 }
 
-.menu-group button:hover,
 .btn-group button:hover {
     background:  lavender;
     cursor: pointer;
 }
 
-.menu-group button::-moz-focus-inner,
 .btn-group button::-moz-focus-inner,
 .dropdown-group button::-moz-focus-inner {
   border: 0;
@@ -95,7 +167,6 @@
 }
 
 .btn-group img,
-.menu-group img,
 .dropdown img {
     position: relative;
     vertical-align: middle;
@@ -510,7 +581,7 @@ and open the template in the editor.
     margin: 0;
     overflow: auto;
     width: 100%;
-    height: 100%;
+    height: calc( 100% - 24px );
 }
 
 .dTitle {
@@ -583,3 +654,104 @@ and open the template in the editor.
   background-color: rgba(255, 153, 34, 0.8);
   outline: 1px solid slategrey;
 } 
+
+.pushbutton-group {
+    position: absolute;
+    display: block;
+}
+
+.pushbutton {
+    position: relative;
+    display: block;
+    float: left;
+    background-color: darkgray;
+    color: white;
+    min-width: 50px;
+    min-height: 20px;
+    margin: 5px;
+    margin-left: 0;
+    padding: 5px;
+}
+
+
+.pushbutton:hover {
+    background-color: blue;
+    color: white;
+    opacity: 0.4;
+}
+
+.cancel:hover {
+    background-color: red !important;
+}
+
+.pushbutton i {
+    font-size: 150%;
+    font-weight: bolder;
+    margin: 5px;
+    margin-left: 2px;
+}
+
+.picker-group { 
+    display: inline-block;
+    margin:5px;
+    width: auto;
+    height: auto;
+}
+
+.picker-group .pickerCanvas { 
+    display: block;
+}    
+
+.picker-group > input { 
+    width: 93px;
+    height: 30px;
+    font-family: "menuFont";
+    font-weight: bold;
+    border: none;
+    text-align: center;
+}    
+
+.alert {
+    min-height: 200px;
+    min-width: 500px;
+    display: block;
+}
+
+.alert .flag {
+    min-height: 100px;
+    min-width: 100px;
+    display: block;
+    font-size: 600%;
+    color:red;
+    margin: 20px;
+    padding: 10px 0px 10px 0px;
+    border: 1px solid red;
+    border: none;
+    float:left;
+}
+
+.alert .text-group {
+    min-height: 30px;
+    min-width: 350px;
+    max-width: 350px;
+    display: block;
+    margin: 20px 20px 20px -20px;
+    padding: 10px;
+    border: 1px solid blue;
+    border: none;
+    float:left;
+}
+
+.alert .text-group .title {
+    float:bottom;
+    font-size: 20px;
+    text-align: center;
+    padding-bottom: 10px;
+    
+}
+
+.alert .text-group .description {
+    float:bottom;
+    font-size: 15px;
+    text-align: left;
+}

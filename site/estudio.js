@@ -18,14 +18,14 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     this.editorVisible = true;
     this.mapVisible = false;
     
-    this.keyboardWindow = new DRAGGABLE.Div( 
+    this.keyboardWindow = new DRAGGABLE.ui.Window( 
           null 
         , [ 'move|Mover', 'rotate|Rotacionar', 'zoom|Zoom','globe|Mudar Notação']
         , {title: 'Keyb', translate: false, statusBar: false, top: "100px", left: "300px", zIndex: 100} 
         , {listener: this, method: 'keyboardCallback'}
     );
                 
-    this.studioDiv = new DRAGGABLE.Div( 
+    this.studioDiv = new DRAGGABLE.ui.Window( 
           interfaceParams.studioDiv 
         , null
         , {translate: false, statusBar: false, draggable: false, top: "3px", left: "1px", width: '100%', height: "100%", title: 'Estúdio ABCX'}

@@ -26,7 +26,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.keyboardDiv = interfaceParams.keyboardDiv;
     this.settingsMenu = document.getElementById(interfaceParams.settingsMenu);
     
-    this.menu = new ABCXJS.edit.DropdownMenu(
+    this.menu = new DRAGGABLE.ui.DropdownMenu(
            interfaceParams.mapMenuDiv
         ,  { listener: that, method:'menuCallback' }
         ,  [{title: 'Acordeons', ddmId: 'menuGaitas', itens: [] }
@@ -872,7 +872,7 @@ SITE.Mapa.prototype.loadABCList = function(type) {
     
     tab.abc = tab.text = undefined;
     tab.div.innerHTML = "";
-    tab.menu = new ABCXJS.edit.DropdownMenu( 
+    tab.menu = new DRAGGABLE.ui.DropdownMenu( 
         tab.selector
         , {listener:this, method: 'showABC' }
         , [{title: '...', ddmId: tab.ddmId, itens: []}]
@@ -982,7 +982,7 @@ SITE.Mapa.prototype.mediaCallback = function( e ) {
 SITE.Mapa.prototype.showMedia = function(url) {
     
     if( ! this.mediaWindow ) {
-        this.mediaWindow = new DRAGGABLE.Div( 
+        this.mediaWindow = new DRAGGABLE.ui.Window( 
               null 
             , null
             , {title: 'Mídia...', translate: false, statusBar: false, top: "300px", left: "1500px", zIndex: 1000} 
@@ -1064,17 +1064,36 @@ SITE.Mapa.prototype.translate = function() {
   
 };
 
-SITE.Mapa.prototype.settingsCallback = function(action) {
+SITE.Mapa.prototype.settingsCallback = function(action, elem ) {
     switch(action) {
         case 'MOVE': 
             break;
         case 'CLOSE': 
-           ABCXJS.write.highLightColor = '#'+this.p1.value;
-           this.accordion.loadedKeyboard.render_opts.closeColor = '#'+this.p2.value;
-           this.accordion.loadedKeyboard.render_opts.openColor = '#'+this.p3.value;
+        case 'CANCEL':
+            this.settingsWindow.setVisible(false);
+            break;
+        case 'APPLY':
+           ABCXJS.write.highLightColor = this.p1.value;
+           this.accordion.loadedKeyboard.render_opts.closeColor = this.p2.value;
+           this.accordion.loadedKeyboard.render_opts.openColor = this.p3.value;
            this.accordion.loadedKeyboard.legenda.setOpen();
            this.accordion.loadedKeyboard.legenda.setClose();
            this.settingsWindow.setVisible(false);
+           break;
+        case 'RESET':
+            this.alert = new DRAGGABLE.ui.Alert( 
+                this.settingsWindow, action, 
+                'Você deseja redefinir todos os itens?',
+                'Isto fará com que todos os itens retornem para suas configurações iniciais, \
+                 isto inclui cores e posicionamento, entre outras coisas.');
+            break;
+        case 'RESET-YES':
+            break;
+        case 'RESET-NO':
+        case 'RESET-CANCEL':
+            this.alert.close();
+            this.alert = null;
+            break;
    }
 };
 
@@ -1082,7 +1101,7 @@ SITE.Mapa.prototype.showSettings = function() {
     
     if(!this.settingsWindow) {
     
-        this.settingsWindow = new DRAGGABLE.Div( 
+        this.settingsWindow = new DRAGGABLE.ui.Window( 
               null 
             , null
             , {title: 'Preferências', translate: false, statusBar: false, top: "300px", left: "500px", height:'400px',  width:'600px', zIndex: 50} 
@@ -1090,31 +1109,61 @@ SITE.Mapa.prototype.showSettings = function() {
         );
 
         this.settingsWindow.topDiv.style.zIndex = 101;
-        this.settingsWindow.dataDiv.style.padding = '10px';
         
         this.settingsWindow.dataDiv.innerHTML= '\
         <div class="menu-group">\
-        <label>Acordeon:&nbsp;</label><div id="settingsAcordeonsMenu" class="topMenu"></div>\
-        <br><br>\
-        <label>Idioma:&nbsp;</label><div id="settingsLanguageMenu" class="topMenu"></div>\
-        <br><br>\
-        <label><input type="checkbox"> Mostrar avisos e erros de compilação</label>\
-        <br>\
-        <label><input type="checkbox"> Atualizar partitura automaticamente</label>\
-        <br>\
-        <label><input type="checkbox"> Soar como Piano Acústico</label>\
-        <br><br><br><br>Cores:<br>\
-        <br>Cor de Realce:&nbsp;<input id="corRealce">\
-        <br><br>Fole Fechando:&nbsp;<input id="foleFechando">\
-        <br><br>Fole Abrindo:&nbsp;<input id="foleAbrindo">\
-        <br>\
+            <table>\
+              <tr>\
+                <th colspan="2">Idioma:</th><th><div id="settingsLanguageMenu" class="topMenu"></div></th>\
+              </tr>\
+              <tr>\
+                <th colspan="2">Acordeon:</th><td><div id="settingsAcordeonsMenu" class="topMenu"></div></td>\
+              </tr>\
+              <tr>\
+                <th colspan="2"><br>Cores:</th><td></td>\
+              </tr>\
+              <tr>\
+                <td></td><td>Cor de Realce</td><td><input type="text" id="corRealce" ></td>\
+              </tr>\
+              <tr>\
+                <td></td><td>Fole Fechando</td><td><input type="text" id="foleFechando" ></td>\
+              </tr>\
+              <tr>\
+                <td></td><td>Fole Abrindo</td><td><input type="text" id="foleAbrindo" ></td>\
+              </tr>\
+              <tr>\
+                <th colspan="2"><br>Propriedades:</th><td></td>\
+              </tr>\
+              <tr>\
+                <td><input type="checkbox"> </td><td colspan="2">Mostrar avisos e erros de compilação</td>\
+              </tr>\
+              <tr>\
+                <td><input type="checkbox"> </td><td colspan="2">Atualizar partitura automaticamente</td>\
+              </tr>\
+              <tr>\
+                <td><input type="checkbox"> </td><td colspan="2">Usar sons de Piano Acústico</td>\
+              </tr>\
+            </table>\
+        </div>\
+        <div id="pg" class="pushbutton-group" style="right: 0; bottom: 0;" >\
+            <div id="botao1"></div>\n\
+            <div id="botao2"></div>\n\
+            <div id="botao3"></div>\n\
         </div>';
         
-        var selector = new ABCXJS.edit.AccordionSelector( 'sel2', 'settingsAcordeonsMenu', {listener: this, method: 'settingsCallback'} );
+        this.settingsWindow.addPushButtons([
+            'botao1|APPLY|Aplicar',
+            'botao2|RESET|Redefinir',
+            'botao3|CANCEL|Cancelar'
+        ]);
+                
+                
+        var selector = new ABCXJS.edit.AccordionSelector( 
+                'sel2', 'settingsAcordeonsMenu', {listener: this, method: 'settingsCallback'} );
         
         selector.populate(true, 'GAITA_HOHNER_CLUB_IIIM_BR');
         
-        var menu = new ABCXJS.edit.DropdownMenu(
+        var menu = new DRAGGABLE.ui.DropdownMenu(
                'settingsLanguageMenu'
             ,  { listener:this, method:'settingsCallback' }
             ,  [{title: 'Idioma', ddmId: 'menuIdiomas',
@@ -1124,21 +1173,21 @@ SITE.Mapa.prototype.showSettings = function() {
                         '<img src="images/de_DE.png" alt="idiomas" />&#160;Deustch|de_DE' 
                     ]}]
             );
+    
             menu.setSubMenuTitle('menuIdiomas', '<img src="images/pt_BR.png" alt="idiomas" />&#160;Português');
             
             this.p1 = document.getElementById( 'corRealce');
             this.p2 = document.getElementById( 'foleFechando');
             this.p3 = document.getElementById( 'foleAbrindo');
             
-            this.p1.setAttribute( "value", ABCXJS.write.highLightColor );
-            this.p2.setAttribute( "value", this.accordion.loadedKeyboard.render_opts.closeColor );
-            this.p3.setAttribute( "value", this.accordion.loadedKeyboard.render_opts.openColor );
-            
-            var picker1 = new jscolor( this.p1 );
-            var picker2 = new jscolor( this.p2 );
-            var picker3 = new jscolor( this.p3 );
+            this.p1.style.backgroundColor = this.p1.value = ABCXJS.write.highLightColor;
+            this.p2.style.backgroundColor = this.p2.value = this.accordion.loadedKeyboard.render_opts.closeColor;
+            this.p3.style.backgroundColor = this.p3.value = this.accordion.loadedKeyboard.render_opts.openColor ;
+
+            new DRAGGABLE.ui.ColorPicker(['corRealce', 'foleFechando', 'foleAbrindo']);
 
     }            
+    
     this.settingsWindow.setVisible(true);
     
 };

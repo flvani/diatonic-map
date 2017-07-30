@@ -10133,10 +10133,10 @@ ABCXJS.edit.AccordionSelector = function (id, divId, callBack, extraItems ) {
     this.extraItems = extraItems || [];
     this.ddmId = id;
     
-    if (divId instanceof ABCXJS.edit.DropdownMenu) {
+    if (divId instanceof DRAGGABLE.ui.DropdownMenu) {
         this.menu = divId;   
     } else {
-        this.menu = new ABCXJS.edit.DropdownMenu(
+        this.menu = new DRAGGABLE.ui.DropdownMenu(
                divId
             ,  callBack
             ,  [{title: 'Acordeons', ddmId: this.ddmId, itens: []}]
@@ -10190,10 +10190,10 @@ ABCXJS.edit.AccordionSelector.prototype.populate = function(changeTitle, selectI
 ABCXJS.edit.KeySelector = function(id, divId, callBack ) {
     
     this.ddmId = id;
-    if (divId instanceof ABCXJS.edit.DropdownMenu) {
+    if (divId instanceof DRAGGABLE.ui.DropdownMenu) {
         this.menu = divId;   
     } else {
-        this.menu = new ABCXJS.edit.DropdownMenu(
+        this.menu = new DRAGGABLE.ui.DropdownMenu(
                divId
             ,  callBack
             ,  [{title: 'Keys', ddmId: this.ddmId, itens: []}]
@@ -10265,7 +10265,7 @@ ABCXJS.edit.EditArea = function (editor_id, listener) {
             topDiv = editor_id;
         if(topDiv) {
             
-            this.container = new DRAGGABLE.Div( 
+            this.container = new DRAGGABLE.ui.Window( 
                   topDiv
                 , [ 'popout|Expandir janela' ]
                 , {translate:false, draggable:false, width: "100%", height: "200px", title: 'Editor ABCX' }
@@ -10278,7 +10278,7 @@ ABCXJS.edit.EditArea = function (editor_id, listener) {
         }
     } else {
         
-        this.container = new DRAGGABLE.Div( 
+        this.container = new DRAGGABLE.ui.Window( 
             null
             , [ 'move|Mover', 'popin|Fixar janela' , 'maximize|Maximizar janela' ]
             , {translate:false, statusBar:true, left:"0", top:"0", width: "640px", height: "480px", title: 'Editor ABCX' }
@@ -11764,16 +11764,19 @@ ABCXJS.midi.Player.prototype.getTime = function() {
  * and open the template in the editor.
  */
 
-if (!window.DRAGGABLE)
-    window.DRAGGABLE= { id: 0 };
+if (! window.DRAGGABLE )
+    window.DRAGGABLE  = {};
 
-DRAGGABLE.Div = function( parent, aButtons, options, callback, aToolBarButtons ) {
-    
-    this.id = ++ DRAGGABLE.id ;
+if (! window.DRAGGABLE.ui )
+    window.DRAGGABLE.ui  = { windowId: 0, menuId: 0 };
+        
+DRAGGABLE.ui.Window = function( parent, aButtons, options, callback, aToolBarButtons ) {
     
     var self = this;
     var opts = options || {};
 
+    this.id = ++ DRAGGABLE.ui.windowId;
+    
     this.title = opts.title || '';
     this.top = opts.top || 0;
     this.left = opts.left || 0;
@@ -11784,8 +11787,9 @@ DRAGGABLE.Div = function( parent, aButtons, options, callback, aToolBarButtons )
     this.minHeight = opts.minHeight ||  48;
     this.hasStatusBar = opts.statusBar || false;
     this.translate = opts.translate || false;
+    this.closeAction = 'CLOSE';
     this.draggable = typeof opts.draggable !== 'undefined' ? opts.draggable : true;
-
+    
     var div = document.createElement("DIV");
     div.setAttribute("id", "draggableWindow" +  this.id ); 
     div.setAttribute("class", "draggableWindow" + (this.draggable? "" : " noShadow") ); 
@@ -11969,7 +11973,12 @@ DRAGGABLE.Div = function( parent, aButtons, options, callback, aToolBarButtons )
     
 };
 
-DRAGGABLE.Div.prototype.resize = function( ) {
+DRAGGABLE.ui.Window.prototype.move = function( left, top ) {
+    this.topDiv.style.left = ( parseInt(left) ? parseInt(left) + 'px' : left );
+    this.topDiv.style.top = ( parseInt(top) ? parseInt(top) + 'px' : top );
+};
+
+DRAGGABLE.ui.Window.prototype.resize = function( ) {
     
     var h = this.topDiv.clientHeight 
             - (this.menuDiv ? this.menuDiv.clientHeight : 0 ) 
@@ -11984,34 +11993,38 @@ DRAGGABLE.Div.prototype.resize = function( ) {
 
 };
 
-DRAGGABLE.Div.prototype.defineCallback = function( cb ) {
+DRAGGABLE.ui.Window.prototype.defineCallback = function( cb ) {
     this.callback = cb;
 };
 
-DRAGGABLE.Div.prototype.eventsCentral = function (action, elem) {
+DRAGGABLE.ui.Window.prototype.modifyCloseAction = function( newAction ) {
+    this.closeAction = newAction;
+};
+
+DRAGGABLE.ui.Window.prototype.eventsCentral = function (action, elem) {
     if (this.callback) {
-        this.callback.listener[this.callback.method](action, elem);
+        this.callback.listener[this.callback.method](( action === 'CLOSE' ? this.closeAction : action ), elem);
     } else {
-        if (ev === 'CLOSE') {
+        if (action === 'CLOSE') {
             this.close();
         }
     }
 };
 
-DRAGGABLE.Div.prototype.isResizable = function(  ) {
+DRAGGABLE.ui.Window.prototype.isResizable = function(  ) {
     return this.hasStatusBar;
 };
 
-DRAGGABLE.Div.prototype.setVisible = function( visible ) {
+DRAGGABLE.ui.Window.prototype.setVisible = function( visible ) {
     this.topDiv.style.display=(visible? 'block':'none');
 };
 
 
-DRAGGABLE.Div.prototype.setTitle = function( title ) {
+DRAGGABLE.ui.Window.prototype.setTitle = function( title ) {
     this.titleSpan.innerHTML = title;
 };
 
-DRAGGABLE.Div.prototype.addTitle = function( id, title  ) {
+DRAGGABLE.ui.Window.prototype.addTitle = function( id, title  ) {
     var self = this;
     
     var div = document.createElement("DIV");
@@ -12035,12 +12048,12 @@ DRAGGABLE.Div.prototype.addTitle = function( id, title  ) {
     
 };
 
-DRAGGABLE.Div.prototype.addButtons = function( id,  aButtons ) {
+DRAGGABLE.ui.Window.prototype.addButtons = function( id,  aButtons ) {
     var defaultButtons = ['close|Fechar'];
     var self = this;
     
     var buttonMap = { CLOSE: 'close', MOVE: 'move', ROTATE: 'rotate', GLOBE: 'world', ZOOM:'zoom-in', 
-                        POPIN: 'popin', POPOUT: 'popout', RESTORE:'restore', MAXIMIZE:'full-screen'  };
+                        POPIN: 'popin', POPOUT: 'popout', RESTORE:'restore', MAXIMIZE:'full-screen', APPLY:'tick'  };
     
     if(aButtons)
         defaultButtons = defaultButtons.concat(aButtons);
@@ -12062,17 +12075,19 @@ DRAGGABLE.Div.prototype.addButtons = function( id,  aButtons ) {
         self.menuDiv.appendChild(div);
         div.addEventListener( 'click', function(e) {
             e.preventDefault(); 
+            e.stopPropagation(); 
             self.eventsCentral(action, div);
         }, false);
         div.addEventListener( 'touchstart', function(e) {
             e.preventDefault(); 
+            e.stopPropagation(); 
             self.eventsCentral(action, div);
         }, false);
         
     });
 };
 
-DRAGGABLE.Div.prototype.addToolButtons = function( id,  aButtons ) {
+DRAGGABLE.ui.Window.prototype.addToolButtons = function( id,  aButtons ) {
     if(!aButtons) return;
     var self = this;
     
@@ -12101,7 +12116,7 @@ DRAGGABLE.Div.prototype.addToolButtons = function( id,  aButtons ) {
             }
                     
             var ddmId = label[2];
-            self.menu[ddmId] = new ABCXJS.edit.DropdownMenu(
+            self.menu[ddmId] = new DRAGGABLE.ui.DropdownMenu(
                    div
                 ,  self.callback
                 ,  [{title: '...', ddmId: ddmId, itens: []}]
@@ -12115,6 +12130,7 @@ DRAGGABLE.Div.prototype.addToolButtons = function( id,  aButtons ) {
             div.innerHTML = '<a href="" title="'+ rotulo +'"><i class="'+ icon +' ico-black ico-large"></i></a>';
             div.addEventListener( 'click', function(e) {
                 e.preventDefault(); 
+                e.stopPropagation(); 
                 self.eventsCentral(action, div);
             }, false);
         }
@@ -12122,26 +12138,189 @@ DRAGGABLE.Div.prototype.addToolButtons = function( id,  aButtons ) {
         
     });
 };
+
+DRAGGABLE.ui.Window.prototype.addPushButtons = function( aButtons ) {
+    for( var p = 0; p < aButtons.length; p ++ ) {
+        var ico, claz;
+        var part = aButtons[p].split('|');
+        var button = document.getElementById(part[0]);
+        
+        var action = part[1].split('-');
+
+        switch( action[action.length-1] ) {
+            case 'YES': 
+            case 'APPLY': 
+                ico = 'ico-circle-tick';  
+                claz = 'pushbutton';  
+                break;
+            case 'RESET': 
+                ico = 'ico-circle-r';     
+                claz = 'pushbutton';  
+                break;
+            case 'NO': 
+            case 'CANCEL':
+                ico = 'ico-circle-error'; 
+                claz = 'pushbutton cancel'; 
+                break;
+        }
+        
+        new DRAGGABLE.ui.PushButton(button, claz, ico, part[1], part[2], this );
+        
+    }
+};
+
+DRAGGABLE.ui.Alert = function( parent, action, text, description ) {
+    
+    this.container = new DRAGGABLE.ui.Window(
+          null
+        , null
+        , {title: 'Alerta', translate: false, statusBar: false, top: "100px", left: "300px",  zIndex: 300}
+        , parent.callback
+    );
+    
+    this.container.dataDiv.innerHTML = '<div class="alert" >\n\
+        <div class="flag"><i class="ico-circle-exclamation"></i></div>\n\
+        <div class="text-group">\n\
+            <div class="title">'+text+'</div>\n\
+            <div class="descrition">'+description+'</div>\n\
+        </div>\n\
+        <div id="pgAlert" class="pushbutton-group" style="right: 0; bottom: 0;" >\
+            <div id="botao1Alert"></div>\n\
+            <div id="botao2Alert"></div>\n\
+        </div>\n\
+    </div>';
+    
+    this.container.addPushButtons([
+        'botao1Alert|'+action+'-YES|Sim',
+        'botao2Alert|'+action+'-NO|Não'
+    ]);
+    
+    this.container.modifyCloseAction(action+'-CANCEL');
+
+    this.modalPane = document.getElementById('modalPane');
+    
+    if( ! this.modalPane ) {
+        
+        var div = document.createElement("DIV");
+        div.id = 'modalPane';
+        div.style = "position:absolute; z-index:250; background-color:black; opacity:0.4; top:0; left:0; bottom:0; right:0; pointer-events: block; display:none;";
+        document.body.appendChild(div);
+        this.modalPane = div;
+        
+    }    
+    
+    this.modalPane.style.display = 'block';
+    this.container.move( parent.topDiv.offsetLeft + 50, parent.topDiv.offsetTop+ 50 );
+        
+    this.container.setVisible(true);
+
+};
+
+DRAGGABLE.ui.Alert.prototype.close = function( ) {
+    this.modalPane.style.display = 'none';
+    this.container.setVisible(false);
+    this.container.topDiv.remove();
+    this.container = null;
+};
+
+DRAGGABLE.ui.PushButton = function( item, claz, ico, act, text, janela) {
+    this.item = item;
+    this.item.className = claz;
+    this.item.innerHTML = '<i class="'+ico+'" ></i>'+text+'</div>' ;
+    this.item.addEventListener('click', function(e) {
+        e.preventDefault(); 
+        e.stopPropagation(); 
+        janela.eventsCentral(act, item);
+    }, false );
+};
+
+DRAGGABLE.ui.ColorPicker = function( itens ) {
+    this.container = new DRAGGABLE.ui.Window( 
+          null
+        , [ 'apply|Selecionar' ]
+        , {translate:false, draggable:true, width: "auto", height: "auto", title: 'Seletor de Cores', zIndex:"200" }
+        , {listener : this, method: 'pickerCallBack' }
+    );
+
+    this.container.dataDiv.innerHTML = '\
+<div class="picker-group">\
+    <canvas id="colorPickerCanvas"></canvas><br>\
+    <input id="originalColor"></input>\
+    <input id="newColor"></input>\
+</div>';
+   
+    this.originalColor = document.getElementById( 'originalColor' );
+    this.newColor = document.getElementById( 'newColor' );
+    
+    this.cp = new KellyColorPicker({
+        place : 'colorPickerCanvas', 
+        size : 190, 
+        input : 'newColor'  
+    });
+    
+    var self = this;
+    
+    for( var i = 0; i < itens.length; i++ ) {
+        document.getElementById(itens[i]).addEventListener('click', function( e ) { self.activate(this); e.stopPropagation(); } );
+    }
+};
+
+DRAGGABLE.ui.ColorPicker.prototype.pickerCallBack = function( action, elem ) {
+    switch(action) {
+        case 'MOVE': 
+            break;
+        case 'APPLY': 
+            this.item.style.backgroundColor = this.item.value = this.newColor.value;
+            this.container.setVisible(false);
+            break;
+        case 'CLOSE': 
+           this.item.style.backgroundColor = this.item.value = this.originalColor.value;
+           this.container.setVisible(false);
+   }
+};
+
+DRAGGABLE.ui.ColorPicker.prototype.activate = function( parent ) {
+    var self = this;
+    
+    var oneTimeCloseFunction = function () { 
+        self.container.setVisible(false); 
+        this.removeEventListener('click', oneTimeCloseFunction, false );
+    };
+    
+    document.addEventListener( 'click', oneTimeCloseFunction  );
+    
+    this.item = parent;
+    this.container.topDiv.addEventListener( 'click', function (e) { e.stopPropagation(); } );
+    
+    this.newColor.value = this.originalColor.value = this.item.value;
+    this.originalColor.style.backgroundColor = this.item.value;
+    this.cp.setColorByHex(this.item.value);
+    
+    var bounds = this.item.getBoundingClientRect();
+    
+    this.container.topDiv.style.top = ( bounds.top + bounds.height/2  -120 ) + "px";
+    this.container.topDiv.style.left = bounds.left + bounds.width + 5 + "px";
+    this.container.setVisible(true);
+};
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
- */
+*/
 
-if (!window.ABCXJS)
-	window.ABCXJS = {};
+if (! window.DRAGGABLE )
+    window.DRAGGABLE  = {};
 
-if (!ABCXJS.edit)
-	ABCXJS.edit = {};
-
-ABCXJS.edit.element = {id:0};
-
-ABCXJS.edit.DropdownMenu = function (topDiv, options, menu) {
+if (! window.DRAGGABLE.ui )
+    window.DRAGGABLE.ui  = { windowId: 0, menuId: 0 };
+        
+DRAGGABLE.ui.DropdownMenu = function (topDiv, options, menu) {
     var self = this;
     var opts = options || {};
     this.headers = {};
     
-    this.id = ++ ABCXJS.edit.element.id;
+    this.id = ++ DRAGGABLE.ui.menuId;
+    
     this.container = ( typeof topDiv === 'object' ) ? topDiv : document.getElementById(topDiv);
     this.listener = opts.listener || null;
     this.method = opts.method || null;
@@ -12208,7 +12387,7 @@ ABCXJS.edit.DropdownMenu = function (topDiv, options, menu) {
     }
 };
 
-ABCXJS.edit.DropdownMenu.prototype.disableSubMenu = function (ddm) {
+DRAGGABLE.ui.DropdownMenu.prototype.disableSubMenu = function (ddm) {
     
     var self = this;
     
@@ -12222,7 +12401,7 @@ ABCXJS.edit.DropdownMenu.prototype.disableSubMenu = function (ddm) {
     
 };
 
-ABCXJS.edit.DropdownMenu.prototype.enableSubMenu = function (ddm) {
+DRAGGABLE.ui.DropdownMenu.prototype.enableSubMenu = function (ddm) {
     
     var self = this;
     
@@ -12237,7 +12416,7 @@ ABCXJS.edit.DropdownMenu.prototype.enableSubMenu = function (ddm) {
 };
 
 
-ABCXJS.edit.DropdownMenu.prototype.emptySubMenu = function (ddm) {
+DRAGGABLE.ui.DropdownMenu.prototype.emptySubMenu = function (ddm) {
     
     var self = this;
     
@@ -12251,7 +12430,7 @@ ABCXJS.edit.DropdownMenu.prototype.emptySubMenu = function (ddm) {
     
 };
 
-ABCXJS.edit.DropdownMenu.prototype.getItemByName = function (ddm, item) {
+DRAGGABLE.ui.DropdownMenu.prototype.getItemByName = function (ddm, item) {
     
     var a_elements = this.headers[ddm].list.getElementsByTagName("a");
 
@@ -12264,7 +12443,7 @@ ABCXJS.edit.DropdownMenu.prototype.getItemByName = function (ddm, item) {
 };
 
 //    if( tab.menu.selectItem(tab.ddmId, tab.title) ) {
-ABCXJS.edit.DropdownMenu.prototype.selectItem = function (ddm, item) {
+DRAGGABLE.ui.DropdownMenu.prototype.selectItem = function (ddm, item) {
     var toSel = item;
     if(  typeof item === "string" ) {
         toSel = this.getItemByName(ddm, item);
@@ -12281,7 +12460,7 @@ ABCXJS.edit.DropdownMenu.prototype.selectItem = function (ddm, item) {
     return true;
 };
     
-ABCXJS.edit.DropdownMenu.prototype.setSubMenuTitle = function (ddm, newTitle) {
+DRAGGABLE.ui.DropdownMenu.prototype.setSubMenuTitle = function (ddm, newTitle) {
     
     var self = this;
     
@@ -12294,7 +12473,7 @@ ABCXJS.edit.DropdownMenu.prototype.setSubMenuTitle = function (ddm, newTitle) {
     
 };
     
-ABCXJS.edit.DropdownMenu.prototype.addItemSubMenu = function (ddm, newItem, pos) {
+DRAGGABLE.ui.DropdownMenu.prototype.addItemSubMenu = function (ddm, newItem, pos) {
     
     var self = this;
     var tags = newItem.split('|'); 
@@ -12332,18 +12511,33 @@ ABCXJS.edit.DropdownMenu.prototype.addItemSubMenu = function (ddm, newItem, pos)
     return e4;
 };
 
-ABCXJS.edit.DropdownMenu.prototype.setListener = function (listener, method) {
+DRAGGABLE.ui.DropdownMenu.prototype.setListener = function (listener, method) {
     this.listener = listener || null;
     this.method = method || 'callback';
 };
 
-ABCXJS.edit.DropdownMenu.prototype.eventsCentral = function (state, event) {
+DRAGGABLE.ui.DropdownMenu.prototype.eventsCentral = function (state, event) {
     for( var e in this.headers ) {
         if( e === state ) {
+            
             this.headers[e].chk.checked = ! this.headers[e].chk.checked;
-            if( this.headers[e].chk.checked && this.headers[e].selectedItem ){
-                this.headers[e].div.scrollTop = this.headers[e].selectedItem.offsetTop-115;
+            
+            if( this.headers[e].chk.checked ) {
+                
+                var menu = e;
+                var self = this;
+                var oneTimeCloseFunction = function () { 
+                    self.headers[menu].chk.checked = false; 
+                    this.removeEventListener('click', oneTimeCloseFunction, false );
+                };
+                
+                document.addEventListener( 'click', oneTimeCloseFunction  );
+                
+                if( this.headers[e].selectedItem )
+                     this.headers[e].div.scrollTop = this.headers[e].selectedItem.offsetTop-115;
+
             }
+            
         } else {
             this.headers[e].chk.checked = false;
         }
@@ -12354,7 +12548,7 @@ ABCXJS.edit.DropdownMenu.prototype.eventsCentral = function (state, event) {
 };
 
 
-//ABCXJS.edit.DropdownMenu.prototype.closeMenu = function (state) {
+//DRAGGABLE.ui.DropdownMenu.prototype.closeMenu = function (state) {
 //    var e = document.getElementById(state);
 //    e.checked=false;
 //};
