@@ -1,7 +1,55 @@
-Mapa
-1) Associar videos com partituras
-2) Traduzir FClef e GCLef
-3) Traduzir o menu tab2part
-4) Atualizar documentacao
+- Estudio
+    - Resize não acerta a largura do editor
+    - Posição e tamanho dos itens de tela
+
+- Implementar o controle de preferencias
+
+- Verificar as chamadas de Partitura para tablatura e vice versa
+
+- Implementar no editor
+ - Download 
+ - Procura e substituição
+ - Atualizar (compilar)
+ - Redo e Undo (all?)
+
+- Pagina de créditos (about) e licenças e release
+    - Buscar a versão do site
+
+- Atualizar as paginas de ajuda
+
+- Avisar para não usar o browser Microsoft
+
+- Recolocar os scripts do GA
+
+- Tradução (após a release 5.0, provavelmente 5.1)
+- Tratar bug getBBox no Firefox (elemento não visivel) - isso vale para o chrome (não dá erro), mas nas outras abas não destaca os elementos adequadamente
+- Bug na sintaxe colorida da tablatura quando há acordes
+- Janela de midia
+  -Preparar versao com abas para multiplos videos da mesma musica
 
 
+FEITO
+- Imprimir a versao automaticamente
+- Ao voltar do estudio redesenhar o teclado (não está destacando ao executar)
+- Fazer uma classe para Seletor de musicas (com registro do item selecionado)
+- Mudar a cor de menu selecionado
+- Atualizar as imagens das gaitas
+- Ajustar a impressao
+- Incluir carga de arquivo ABCX	na carga de mapa
+- Incluir opção para carregar repertorio adicionando à lista
+
+- Implementar a tela de ajustes
+     Incluir botões para 
+	Aplicar, 
+	Cancelar e 
+	Restaurar configurações Originais (Redefinir)
+
+- Controlar janelas ao entrar e sair do studio (isso tem a ver com janelas flutuantes que tem ou não pai)
+- Janelas podem ser flutuantes e ter pai
+- A editarea deve receber uma lista de opções, 
+- Fazer com que as propriedades do teclado sejam de posicionamento sejam do acordeon
+
+- Identificar o chaveamento entre abas e permitir alguns controles tais como abrir/fechar a janela de mídia.
+ - Fazer mais testes 
+- Janela de midia
+  -Incluir um botão para reabrir a janela de midia

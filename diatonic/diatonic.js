@@ -10,9 +10,17 @@ if (!window.DIATONIC)
 if (!window.DIATONIC.map)
     window.DIATONIC.map = {};
 
-DIATONIC.map.accordionMaps = [];
+DIATONIC.map.color = {};
+DIATONIC.map.color.fill = 'none';
+DIATONIC.map.color.background = 'none';
+DIATONIC.map.color.open = '#00ff00';
+DIATONIC.map.color.close = '#00b2ee';
 
 DIATONIC.map.loadAccordionMaps = function ( files, cb )  {
+    
+    if( ! DIATONIC.map.accordionMaps )
+        DIATONIC.map.accordionMaps = [];
+    
     var toLoad = 0;
     for( var f = 0; f <  files.length; f ++ ) {
         toLoad ++;
@@ -196,9 +204,6 @@ if (!window.DIATONIC.map)
 
 DIATONIC.map.Keyboard = function ( keyMap, pedalInfo, options ) {
     
-    this.render_opts = {};
-    this.setRenderOptions( options, true );
-    
     this.pedalInfo = pedalInfo;
     this.layout = keyMap.layout;
     this.keys = keyMap.keys;
@@ -300,25 +305,7 @@ DIATONIC.map.Keyboard.prototype.setup = function (keyMap) {
     this.legenda = new DIATONIC.map.Button( this, this.limits.maxX-(raio+this.radius), this.limits.minY+raio, { radius: raio, borderWidth: 2 } );
 };
 
-DIATONIC.map.Keyboard.prototype.setRenderOptions = function ( options, force ) {
-    
-    var opt = options || {};
-
-    this.render_opts.transpose = opt.transpose || (force? false : this.render_opts.transpose );
-    this.render_opts.mirror = opt.mirror || (force? false : this.render_opts.mirror );
-    this.render_opts.scale = opt.scale || (force? 1 : this.render_opts.scale );
-    this.render_opts.draggable = opt.draggable || (force? false : this.render_opts.draggable );
-    this.render_opts.show = opt.show || (force? false : this.render_opts.show );
-    this.render_opts.label = opt.label || (force? false : this.render_opts.label );
-
-    this.render_opts.fillColor = opt.fillColor || ( force? 'none' : this.render_opts.fillColor );
-    this.render_opts.backgroundColor = opt.backgroundColor || ( force? 'none' : this.render_opts.backgroundColor );
-    this.render_opts.openColor = opt.openColor || ( force? '#00ff00' : this.render_opts.openColor );
-    this.render_opts.closeColor = opt.closeColor || ( force? '#00b2ee' : this.render_opts.closeColor ); 
-    
-};
-
-DIATONIC.map.Keyboard.prototype.print = function ( div  ) {
+DIATONIC.map.Keyboard.prototype.print = function ( div, render_opts  ) {
     
     var sz;
     
@@ -345,26 +332,28 @@ DIATONIC.map.Keyboard.prototype.print = function ( div  ) {
     div.appendChild(keyboardPane);
     
     this.paper = new SVG.Printer( keyboardPane ); 
-    this.paper.initDoc( 'keyb', 'Diatonic Map Keyboard', estilo, this.render_opts );
-    this.paper.initPage( this.render_opts.scale );
+    this.paper.initDoc( 'keyb', 'Diatonic Map Keyboard', estilo, render_opts );
+    this.paper.initPage( render_opts.scale );
     
-    this.drawLegenda();
+    var legenda_opts = ABCXJS.parse.clone( render_opts );
+    legenda_opts.kls = 'blegenda';
+    this.legenda.draw( 'l00', this.paper, this.limits, legenda_opts );
     
-    if(this.render_opts.transpose) {
+    if(render_opts.transpose) {
         sz = {w:this.height, h:this.width};
-        var mirr = this.render_opts.mirror ? this.baseLine.x : this.limits.maxX - (this.baseLine.x - this.limits.minX);
+        var mirr = render_opts.mirror ? this.baseLine.x : this.limits.maxX - (this.baseLine.x - this.limits.minX);
         for (var x = mirr-10; x <= mirr+10; x+=10) {
             this.drawLine(this.baseLine.yi, x, this.baseLine.yf, x);
         }
     } else {
         sz = {w:this.width, h:this.height};
-        var mirr = this.render_opts.mirror ? this.limits.maxX - (this.baseLine.x - this.limits.minX) : this.baseLine.x;
+        var mirr = render_opts.mirror ? this.limits.maxX - (this.baseLine.x - this.limits.minX) : this.baseLine.x;
         for (var x = mirr-10; x <= mirr+10; x+=10) {
             this.drawLine(x, this.baseLine.yi, x, this.baseLine.yf);
         }
     }
  
-    var btn_opt = ABCXJS.parse.clone( this.render_opts );
+    var btn_opt = ABCXJS.parse.clone( render_opts );
     btn_opt.kls = 'button';
      
     for (var j = 0; j < this.keyMap.length; j++) {
@@ -377,10 +366,10 @@ DIATONIC.map.Keyboard.prototype.print = function ( div  ) {
     this.paper.endDoc();
 
     //binds SVG elements
-    this.legenda.setSVG(this.render_opts.label, 'Abre', 'Fecha');
+    this.legenda.setSVG(render_opts.label, 'Abre', 'Fecha');
     for (var j = 0; j < this.keyMap.length; j++) {
         for (var i = 0; i < this.keyMap[j].length; i++) {
-            this.keyMap[j][i].setSVG(this.render_opts.label); 
+            this.keyMap[j][i].setSVG(render_opts.label); 
         }
     }
 };
@@ -444,19 +433,10 @@ DIATONIC.map.Keyboard.prototype.parseNote = function(txtNota, isBass) {
   return nota;
 };
 
-DIATONIC.map.Keyboard.prototype.drawLegenda = function() {
-    
-    var legenda_opt = ABCXJS.parse.clone( this.render_opts );
-    legenda_opt.kls = 'blegenda';
-    
-    this.legenda.draw('l00', this.paper, this.limits, legenda_opt );
-    
-};
-
-DIATONIC.map.Keyboard.prototype.redraw = function() {
+DIATONIC.map.Keyboard.prototype.redraw = function(render_opts) {
     for (var j = 0; j < this.keyMap.length; j++) {
         for (var i = 0; i < this.keyMap[j].length; i++) {
-            this.keyMap[j][i].setText( this.render_opts.label );
+            this.keyMap[j][i].setText( render_opts.label );
         }
     }
 };
@@ -528,9 +508,9 @@ DIATONIC.map.Button.prototype.draw = function( id, printer, limits, options ) {
     options.radius = this.radius;
     options.borderColor = this.borderColor;
     options.borderWidth = this.borderWidth;
-    options.fillColor = this.kb.render_opts.fillColor;
-    options.openColor = (options.kls && options.kls === 'blegenda'? options.openColor : 'none' );
-    options.closeColor = (options.kls && options.kls === 'blegenda'? options.closeColor : 'none' );
+    options.fillColor = (options.kls && options.kls === 'blegenda'? 'none' : DIATONIC.map.color.fill );
+    options.openColor = (options.kls && options.kls === 'blegenda'? DIATONIC.map.color.open : 'none' );
+    options.closeColor = (options.kls && options.kls === 'blegenda'? DIATONIC.map.color.close : 'none' );
     
     this.SVG.gid = printer.printButton( id, currX, currY, options );
 
@@ -554,7 +534,7 @@ DIATONIC.map.Button.prototype.setOpen = function(delay) {
         window.setTimeout(function(){that.setOpen();}, delay*1000 );
         return;
     } 
-    this.SVG.openArc.style.setProperty( 'fill', this.kb.render_opts.openColor );
+    this.SVG.openArc.style.setProperty( 'fill', DIATONIC.map.color.open );
 };
 
 DIATONIC.map.Button.prototype.setClose = function(delay) {
@@ -564,7 +544,7 @@ DIATONIC.map.Button.prototype.setClose = function(delay) {
         window.setTimeout(function(){that.setClose();}, delay*1000);
         return;
     } 
-    this.SVG.closeArc.style.setProperty( 'fill', this.kb.render_opts.closeColor );
+    this.SVG.closeArc.style.setProperty( 'fill', DIATONIC.map.color.close );
 };
 
 DIATONIC.map.Button.prototype.setSVG = function(showLabel, open, close ) {

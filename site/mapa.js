@@ -14,14 +14,38 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.lastStaffGroup = -1; // também auxilia no controle de scroll
     this.fileLoadMap = document.getElementById('fileLoadMap');
     this.fileLoadRepertoire = document.getElementById('fileLoadRepertoire');
+
+    var radios = document.querySelectorAll('input[type=radio][name="tabControl"]');
+        
+
+    Array.prototype.forEach.call(radios, function(radio) {
+       radio.addEventListener('change', function(){ that.reprintTab(false); } );
+    });    
+    
+    this.mediaVisible = true;
+    this.mapDiv = document.getElementById(interfaceParams.mapDiv);
+    
+    this.showMediaButton = document.getElementById('buttonShowMedia');
+    this.showMediaButton.addEventListener('click', function () { 
+        that.mediaVisible = true;
+        that.mediaWindow.setVisible(true);
+        that.posicionaMidia();
+        that.showMediaButton.style.display = 'none';
+    });
     
     this.mediaWidth = 300;
     this.mediaHeight = this.mediaWidth * 0.55666667;
 
     this.midiParser = new ABCXJS.midi.Parse();
     this.midiPlayer = new ABCXJS.midi.Player(this);
+    
+    ABCXJS.write.color.highLight = 'red';
+    DIATONIC.map.color.fill = 'white';
+    DIATONIC.map.color.background = 'none';
+    DIATONIC.map.color.close = '#ff3a3a';
+    DIATONIC.map.color.open = '#ffba3b';
+    
     this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options );
-    this.initial_keyboard_opts = interfaceParams.accordion_options.render_keyboard_opts;
     
     this.keyboardDiv = interfaceParams.keyboardDiv;
     this.settingsMenu = document.getElementById(interfaceParams.settingsMenu);
@@ -314,7 +338,7 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
 };
 
 SITE.Mapa.prototype.printKeyboard = function() {
-    this.accordion.printKeyboard(this.keyboardDiv, {fillColor:'white', openColor:'#ffba3b', closeColor:'#ff3a3a'});
+    this.accordion.printKeyboard( this.keyboardDiv );
 };
 
 SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
@@ -371,17 +395,19 @@ SITE.Mapa.prototype.showStudio = function (button, event) {
     }
 };
 
+SITE.Mapa.prototype.setVisible = function ( visible ) {
+    this.mapDiv.style.display = (visible? 'inline':'none');
+};
+
 SITE.Mapa.prototype.showMapa = function ( visible ) {
     if( visible ) {
         this.menu.enableSubMenu('menuGaitas');
         this.menu.enableSubMenu('menuRepertorio');
-        
-        $("#mapaDiv").show();
-        
-        this.printTab();
-        
+        this.setVisible(true);
+        this.reprintTab(true, this.studio.getString() );
+        this.printKeyboard();
     } else {
-        $("#mapaDiv").hide();
+        this.setVisible(false);
         this.menu.disableSubMenu('menuGaitas');
         this.menu.disableSubMenu('menuRepertorio');
     }
@@ -393,7 +419,7 @@ SITE.Mapa.prototype.showStudio2 = function (loader) {
     
     this.midiPlayer.stopPlay();
     
-    this.showMedia(false);
+    this.pauseMedia();
     this.showMapa(false);
     
     this.studio.setup( this, currentABC, this.accordion.getId() );
@@ -458,34 +484,34 @@ SITE.Mapa.prototype.restoreStudio = function () {
     this.setupProps();
 };
 
-SITE.Mapa.prototype.closeStudio = function () {
-    var self = this;
-    var loader = this.startLoader( "XStudio" );
-    loader.start(  function() { self.closeStudio2(loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
-};
-    
-SITE.Mapa.prototype.closeStudio2 = function (loader) {
-    
-    this.studio.midiPlayer.stopPlay();
-    
-    FILEMANAGER.saveLocal( 'property.studio.settings', 
-        this.studio.textVisible 
-        + '|' + this.studio.editorVisible 
-        + '|' + this.studio.mapVisible 
-        + '|' + this.studio.editorWindow.topDiv.style.top
-        + '|' + this.studio.editorWindow.topDiv.style.left
-        + '|' + this.studio.keyboardWindow.topDiv.style.top
-        + '|' + this.studio.keyboardWindow.topDiv.style.left
-        + '|' + this.studio.accordion.loadedKeyboard.render_opts.scale
-        + '|' + this.studio.accordion.loadedKeyboard.render_opts.mirror
-        + '|' + this.studio.accordion.loadedKeyboard.render_opts.transpose
-        + '|' + this.studio.accordion.loadedKeyboard.render_opts.label
-        );
-
-    this.printTab();
-    this.resize();
-    loader.stop();
-};
+//SITE.Mapa.prototype.closeStudio = function () {
+//    var self = this;
+//    var loader = this.startLoader( "XStudio" );
+//    loader.start(  function() { self.closeStudio2(loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
+//};
+//    
+//SITE.Mapa.prototype.closeStudio2 = function (loader) {
+//    
+//    this.studio.midiPlayer.stopPlay();
+//    
+//    FILEMANAGER.saveLocal( 'property.studio.settings', 
+//        this.studio.textVisible 
+//        + '|' + this.studio.editorVisible 
+//        + '|' + this.studio.mapVisible 
+//        + '|' + this.studio.editorWindow.topDiv.style.top
+//        + '|' + this.studio.editorWindow.topDiv.style.left
+//        + '|' + this.studio.keyboardWindow.topDiv.style.top
+//        + '|' + this.studio.keyboardWindow.topDiv.style.left
+//        + '|' + this.studio.accordion.loadedKeyboard.render_opts.scale
+//        + '|' + this.studio.accordion.loadedKeyboard.render_opts.mirror
+//        + '|' + this.studio.accordion.loadedKeyboard.render_opts.transpose
+//        + '|' + this.studio.accordion.loadedKeyboard.render_opts.label
+//        );
+//
+//    this.printTab();
+//    this.resize();
+//    loader.stop();
+//};
 
 SITE.Mapa.prototype.startPlay = function( type, value ) {
     var currentABC = this.getActiveTab();
@@ -630,7 +656,7 @@ SITE.Mapa.prototype.doLoadMap = function( files, loader ) {
         
         newAccordion = new DIATONIC.map.AccordionMap( newAccordionJSON, true );
         
-        newAccordion.keyboard.setRenderOptions(this.initial_keyboard_opts);
+        //newAccordion.keyboard.setRenderOptions(this.initial_keyboard_opts);
         
         DIATONIC.map.accordionMaps.push( newAccordion );
         
@@ -780,20 +806,19 @@ SITE.Mapa.prototype.showAccordionName = function() {
   this.gaitaNamePlaceHolder.innerHTML = this.accordion.getFullName() + ' ' + DR.getResource('DR_keys');
 };
 
-SITE.Mapa.prototype.printTab = function( ) {
+SITE.Mapa.prototype.reprintTab = function( ignoreMedia, newABCText ) {
     
     var currentABC = this.getActiveTab();
     
-    this.printKeyboard();
+    if( newABCText ) {
+        if( newABCText === currentABC.text ) 
+            return;
+        else 
+            currentABC.text = newABCText;
+    }
     
-    var t = this.studio.getString();
-    if( t === currentABC.text ) 
-        return;
-    
-    currentABC.text = t;
-
     this.accordion.loaded.setSong(currentABC.title, currentABC.text );
-    this.renderTAB( currentABC.tab );
+    this.renderTAB( currentABC.tab, ignoreMedia  );
 };
 
 SITE.Mapa.prototype.accordionExists = function(id) {
@@ -908,7 +933,7 @@ SITE.Mapa.prototype.getActiveTab = function( ) {
     return null;
 };
         
-SITE.Mapa.prototype.renderTAB = function( type ) {
+SITE.Mapa.prototype.renderTAB = function( type, ignoreMedia ) {
     var tab;
     
     switch( type ) {
@@ -945,13 +970,16 @@ SITE.Mapa.prototype.renderTAB = function( type ) {
     tab.printer.addSelectListener(this);
     this.accordion.clearKeyboard(true);
     
-    if( window.getComputedStyle( tab.selector ).display !== 'none') {
-        if(tab.abc) {
-            this.showMedia(tab.abc.metaText.url);
-        } else {
-            this.showMedia();
-        } 
+    if( ! ignoreMedia ) {
+        if( window.getComputedStyle( tab.selector ).display !== 'none') {
+            if(tab.abc) {
+                this.showMedia(tab.abc.metaText.url);
+            } else {
+                this.showMedia();
+            } 
+        }
     }
+    
 };
 
 SITE.Mapa.prototype.highlight = function(abcelem) {
@@ -973,17 +1001,28 @@ SITE.Mapa.prototype.mediaCallback = function( e ) {
             FILEMANAGER.saveLocal( 'property.mediaDiv.settings',  m.style.top  + '|' + m.style.left );
             break;
         case 'CLOSE':
-            this.showMedia();
+            this.pauseMedia();
+            this.mediaWindow.setVisible(false);
+            this.showMediaButton.style.display = 'inline';
+            this.mediaVisible = false;
             break;
     }
     return false;
+};
+
+SITE.Mapa.prototype.pauseMedia = function() {
+    if(!this.mediaWindow) return;
+    var iframe = this.mediaWindow.dataDiv.getElementsByTagName("iframe")[0];
+    if(!iframe) return;
+    iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo", "args":""}', '*');            
+    //iframe.postMessage('{"event":"command","func":"playVideo", "args":""}', '*');            
 };
 
 SITE.Mapa.prototype.showMedia = function(url) {
     
     if( ! this.mediaWindow ) {
         this.mediaWindow = new DRAGGABLE.ui.Window( 
-              null 
+              this.mapDiv
             , null
             , {title: 'Mídia...', translate: false, statusBar: false, top: "300px", left: "1500px", zIndex: 1000} 
             , {listener: this, method: 'mediaCallback'}
@@ -995,16 +1034,22 @@ SITE.Mapa.prototype.showMedia = function(url) {
             this.mediaWidth = 600;
             this.mediaHeight = this.mediaWidth * 0.55666667;
         }
-        var embbed = '<iframe width="'+this.mediaWidth+'" height="'+this.mediaHeight+'" src="'+url+'?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
+        var embbed = '<iframe width="'+this.mediaWidth+'" height="'+this.mediaHeight+'" src="'+url+'?rel=0&amp;showinfo=0&amp;enablejsapi=1" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
         this.mediaWindow.dataDiv.innerHTML = embbed;
         this.mediaWindow.dataDiv.style.width = this.mediaWidth + 'px'; 
         this.mediaWindow.dataDiv.style.height = this.mediaHeight + 'px';
         this.mediaWindow.dataDiv.style.overflow = 'hidden';
-        this.mediaWindow.setVisible(true);
-        this.posicionaMidia();
+        if( this.mediaVisible ) {
+            this.mediaWindow.setVisible(true);
+            this.posicionaMidia();
+            //this.showMediaButton.style.display = 'none';
+        } else {
+            this.showMediaButton.style.display = 'inline';
+        }
     } else {
+        this.pauseMedia();
         this.mediaWindow.setVisible(false);
-        this.mediaWindow.dataDiv.innerHTML = "";
+        this.showMediaButton.style.display = 'none';
     }
 };
 
@@ -1073,9 +1118,9 @@ SITE.Mapa.prototype.settingsCallback = function(action, elem ) {
             this.settingsWindow.setVisible(false);
             break;
         case 'APPLY':
-           ABCXJS.write.highLightColor = this.p1.value;
-           this.accordion.loadedKeyboard.render_opts.closeColor = this.p2.value;
-           this.accordion.loadedKeyboard.render_opts.openColor = this.p3.value;
+           ABCXJS.write.color.highLight = this.p1.value;
+           DIATONIC.map.color.close = this.p2.value;
+           DIATONIC.map.color.open = this.p3.value;
            this.accordion.loadedKeyboard.legenda.setOpen();
            this.accordion.loadedKeyboard.legenda.setClose();
            this.settingsWindow.setVisible(false);
@@ -1180,9 +1225,9 @@ SITE.Mapa.prototype.showSettings = function() {
             this.p2 = document.getElementById( 'foleFechando');
             this.p3 = document.getElementById( 'foleAbrindo');
             
-            this.p1.style.backgroundColor = this.p1.value = ABCXJS.write.highLightColor;
-            this.p2.style.backgroundColor = this.p2.value = this.accordion.loadedKeyboard.render_opts.closeColor;
-            this.p3.style.backgroundColor = this.p3.value = this.accordion.loadedKeyboard.render_opts.openColor ;
+            this.p1.style.backgroundColor = this.p1.value = ABCXJS.write.color.highLight;
+            this.p2.style.backgroundColor = this.p2.value = DIATONIC.map.color.close;
+            this.p3.style.backgroundColor = this.p3.value = DIATONIC.map.color.open ;
 
             new DRAGGABLE.ui.ColorPicker(['corRealce', 'foleFechando', 'foleAbrindo']);
 

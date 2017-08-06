@@ -35,7 +35,6 @@ and open the template in the editor.
     position: relative;
     display: inline-block;
     margin: 0;
-    left: 0;
     padding: 3px;
     /* font-size: 15px; */
     width: inherit;
@@ -53,12 +52,27 @@ and open the template in the editor.
     */
 }
 
+.warningsDiv {
+    clear:both;
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    padding: 3px;
+    padding-left: 13px;
+    /* font-size: 15px; */
+    width: inherit;
+    height: auto;
+    background-color: #dadada;
+    background-color: #e9edf0;
+    border-bottom: 1px solid rgba(255, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 153, 34, 0.2);
+}
+
 .studioCanvasDiv {
     clear:both;
     position: relative;
     display: block;
     margin: 0px;
-    top: -4px; /*why?*/
     /*
     margin-top: 6px;
     margin-left: 4px;
@@ -71,8 +85,12 @@ and open the template in the editor.
 
 
 .canvasDiv {
+    clear:both;
     position: relative;
+    display: inline-block;
+    padding: 3px;
     margin: 4px;
+    margin-bottom: 60px; /* why? */
     border: 1px solid rgba(159,159,159,0.2);
     background-color: #f1f1dd; 
     background-color: honeydew; 
@@ -88,16 +106,6 @@ and open the template in the editor.
     -moz-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -ms-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -o-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-}
-
-.warningsDiv {
-    margin: 0;
-    padding: 6px;
-    margin: 4px;
-    margin-bottom: 0px;
-    min-width: 1012px; 
-    width:fit-content;
-    border: 1px solid rgba(159,159,159,0.4);
 }
 
 .btn-subgroup {

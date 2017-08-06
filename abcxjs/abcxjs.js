@@ -6858,10 +6858,6 @@ if (!window.ABCXJS)
 if (!window.ABCXJS.write)
     window.ABCXJS.write = {};
 
-ABCXJS.write.highLightColor = "#5151ff";
-ABCXJS.write.highLightColor = "#ff0000";
-ABCXJS.write.unhighLightColor = 'black';
-
 ABCXJS.write.StaffGroupElement = function() {
     this.voices = [];
 };
@@ -7429,14 +7425,14 @@ ABCXJS.write.AbsoluteElement.prototype.setMouse = function(printer) {
 ABCXJS.write.AbsoluteElement.prototype.highlight = function(keepState) {
     if(!this.svgElem) return;
     if(keepState) this.svgElem.prevFill = this.svgElem.style.fill;
-    this.svgElem.style.setProperty( 'fill', ABCXJS.write.highLightColor );
-    (this.svgArea) && this.svgArea.style.setProperty( 'fill', ABCXJS.write.highLightColor );
+    this.svgElem.style.setProperty( 'fill', ABCXJS.write.color.highLight );
+    (this.svgArea) && this.svgArea.style.setProperty( 'fill', ABCXJS.write.color.highLight );
     (this.svgArea) && this.svgArea.style.setProperty( 'fill-opacity', '0.15' );
 };
 
 ABCXJS.write.AbsoluteElement.prototype.unhighlight = function(keepState) {
     if(!this.svgElem) return;
-    var fill = (keepState && this.svgElem.prevFill ) ? this.svgElem.prevFill : ABCXJS.write.unhighLightColor;
+    var fill = (keepState && this.svgElem.prevFill ) ? this.svgElem.prevFill : ABCXJS.write.color.unhighLight;
     this.svgElem.style.setProperty( 'fill', fill );
     (this.svgArea) && this.svgArea.style.setProperty( 'fill-opacity', '0' );
 };
@@ -7829,12 +7825,10 @@ ABCXJS.write.BeamElem.prototype.drawAuxBeams = function(printer) {
 /*global window, ABCXJS */
 
 if (!window.ABCXJS)
-	window.ABCXJS = {};
+    window.ABCXJS = {};
 
 if (!window.ABCXJS.write)
-	window.ABCXJS.write = {
-            
-        };
+    window.ABCXJS.write = {};
     
 window.ABCXJS.write.chartable = {rest:{0:"rests.whole", 1:"rests.half", 2:"rests.quarter", 3:"rests.8th", 4: "rests.16th",5: "rests.32nd", 6: "rests.64th", 7: "rests.128th"},
 		   note:{"-1": "noteheads.dbl", 0:"noteheads.whole", 1:"noteheads.half", 2:"noteheads.quarter", 3:"noteheads.quarter", 4:"noteheads.quarter", 5:"noteheads.quarter", 6:"noteheads.quarter"},
@@ -7980,7 +7974,7 @@ ABCXJS.write.Layout.prototype.layoutJumpDecorationItem = function(jumpDecoration
 };
 
 ABCXJS.write.Layout.prototype.layoutStaffGroup = function() {
-    var newspace = this.printer.space;
+    var newspace = ABCXJS.write.spacing.SPACEX;
 
     for (var it = 0; it < 3; it++) { // TODO shouldn't need this triple pass any more
         this.staffgroup.layout(newspace, this.printer, false);
@@ -8959,13 +8953,17 @@ if (!window.ABCXJS)
 if (!window.ABCXJS.write)
 	window.ABCXJS.write = {};
 
-ABCXJS.write.spacing = function() {};
+ABCXJS.write.spacing = {};
 ABCXJS.write.spacing.FONTEM = 360;
 ABCXJS.write.spacing.FONTSIZE = 30;
 ABCXJS.write.spacing.STEP = ABCXJS.write.spacing.FONTSIZE*(93)/720;
-ABCXJS.write.spacing.SPACE = 10;
+ABCXJS.write.spacing.SPACEX = 30;
 ABCXJS.write.spacing.TOPNOTE = 10; 
-ABCXJS.write.spacing.STAVEHEIGHT = 100;
+
+ABCXJS.write.color = {};
+ABCXJS.write.color.highLight = "#5151ff";
+ABCXJS.write.color.highLight = "#ff0000";
+ABCXJS.write.color.unhighLight = 'black';
 
 
 //--------------------------------------------------------------------PRINTER
@@ -8977,7 +8975,6 @@ ABCXJS.write.Printer = function (paper, params) {
     this.pageNumber = 1;
     this.estimatedPageLength = 0;
     this.paper = paper;
-    this.space = 3 * ABCXJS.write.spacing.SPACE;
     this.glyphs = new ABCXJS.write.Glyphs();
     this.listeners = [];
     this.selected = [];
@@ -9012,7 +9009,7 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
     options.color = options.color ||'black';
     options.backgroundColor = options.backgroundColor ||'none';
     
-    ABCXJS.write.unhighLightColor = options.color;
+    ABCXJS.write.color.unhighLight = options.color;
     
     var estilo = 
 '\n\
@@ -10250,48 +10247,49 @@ if (!window.ABCXJS)
 if (!ABCXJS.edit)
 	ABCXJS.edit = {};
 
-ABCXJS.edit.EditArea = function (editor_id, listener) {
+ABCXJS.edit.EditArea = function (editor_id, callback, options ) {
     
     this.container = {};
-    var aBotoes = [ 'gutter|Numeração das Linhas', 'download|Salvar Local', 'fontsize|Tamanho da fonte', 'DROPDOWN|Tom|selKey', 
-                    'octavedown|Oitava|Oitava', 'octaveup|Oitava|Oitava', 'search|Localizar e substituir', 
-                    'undo|Dezfazer', 'redo|Refazer', 'lighton|Realçar texto', 'readonly|Bloquear edição' ] ;
+    var aToolBotoes = [ 
+        'gutter|Numeração das Linhas', 'download|Salvar Local', 'fontsize|Tamanho da fonte', 'DROPDOWN|Tom|selKey', 
+        'octavedown|Oitava|Oitava', 'octaveup|Oitava|Oitava', 'search|Localizar e substituir', 
+        'undo|Dezfazer', 'redo|Refazer', 'lighton|Realçar texto', 'readonly|Bloquear edição' 
+    ] ;
     
-    if(editor_id) {
-        var topDiv;
-        if(typeof editor_id === 'string'  )
-            topDiv = document.getElementById( editor_id );
-        else 
-            topDiv = editor_id;
-        if(topDiv) {
-            
-            this.container = new DRAGGABLE.ui.Window( 
-                  topDiv
-                , [ 'popout|Expandir janela' ]
-                , {translate:false, draggable:false, width: "100%", height: "200px", title: 'Editor ABCX' }
-                , {listener : listener, method: 'editorCallback' }
-                , aBotoes
-            );
-            
-        } else {
-            alert( 'this.container: elemento "'+editor_id+'" não encontrado.');
-        }
-    } else {
-        
+    options.draggable = typeof( options.draggable ) === 'undefined'? true: options.draggable;
+    
+    var topDiv;
+    if(typeof editor_id === 'string'  )
+        topDiv = document.getElementById( editor_id );
+    else 
+        topDiv = editor_id;
+    
+    if(!topDiv) {
+        alert( 'this.container: elemento "'+editor_id+'" não encontrado.');
+    }
+    
+    if(! options.draggable ) {
         this.container = new DRAGGABLE.ui.Window( 
-            null
-            , [ 'move|Mover', 'popin|Fixar janela' , 'maximize|Maximizar janela' ]
-            , {translate:false, statusBar:true, left:"0", top:"0", width: "640px", height: "480px", title: 'Editor ABCX' }
-            , {listener : listener, method: 'editorCallback' }
-            , aBotoes
+              topDiv
+            , [ 'popout|Janela flutuante' ]
+            , options
+            , callback
+            , aToolBotoes
+        );
+    } else {
+        this.container = new DRAGGABLE.ui.Window( 
+              topDiv
+            , [ 'move|Mover', 'popin|Janela fixa' , 'maximize|Maximizar janela' ]
+            , options
+            , callback
+            , aToolBotoes
         );
 
         this.keySelector = new ABCXJS.edit.KeySelector( 
-                'selKey', this.container.menu['selKey'], {listener: this, method: 'editorCallback'} );
+                'selKey', this.container.menu['selKey'], callback );
         
     }
-    
-    
+   
     this.aceEditor = ace.edit(this.container.dataDiv);
     this.aceEditor.setOptions( {highlightActiveLine: true, selectionStyle: "text", cursorStyle: "smooth"/*, maxLines: Infinity*/ } );
     this.aceEditor.setOptions( {fontFamily: "monospace",  fontSize: "15px", fontWeight: "normal" });
@@ -10305,8 +10303,8 @@ ABCXJS.edit.EditArea = function (editor_id, listener) {
     
     this.createStyleSheet();
     
-    if(listener)
-        this.addChangeListener(listener);
+    if(callback.listener)
+        this.addChangeListener(callback.listener);
 };
 
 // Este css é usado apenas quando o playback da partitura está funcionando
@@ -10318,7 +10316,7 @@ ABCXJS.edit.EditArea.prototype.createStyleSheet = function () {
 };
 
 ABCXJS.edit.EditArea.prototype.setEditorHighLightStyle = function () {
-    this.style.innerHTML = '.ABCXHighLight { background-color: '+ABCXJS.write.highLightColor+' !important; opacity: 0.15; }';
+    this.style.innerHTML = '.ABCXHighLight { background-color: '+ABCXJS.write.color.highLight+' !important; opacity: 0.15; }';
 };
 
 ABCXJS.edit.EditArea.prototype.clearEditorHighLightStyle = function () {
@@ -10355,11 +10353,6 @@ ABCXJS.edit.EditArea.prototype.setVisible = function (visible) {
 
 ABCXJS.edit.EditArea.prototype.setReadOnly = function (readOnly) {
     
-//    if( readOnly)
-//        this.aceEditor.renderer.hideCursor();
-//    else
-//        this.aceEditor.renderer.showCursor();
-
     this.aceEditor.setOptions({
         readOnly: readOnly,
         highlightActiveLine: !readOnly,
@@ -11782,7 +11775,7 @@ DRAGGABLE.ui.Window = function( parent, aButtons, options, callback, aToolBarBut
     this.left = opts.left || 0;
     this.width = opts.width || '';
     this.height = opts.height || '';
-    this.minTop = opts.minTop ||  1;
+    //this.minTop = opts.minTop ||  1;
     this.minWidth = opts.minWidth ||  160;
     this.minHeight = opts.minHeight ||  48;
     this.hasStatusBar = opts.statusBar || false;
@@ -11801,15 +11794,38 @@ DRAGGABLE.ui.Window = function( parent, aButtons, options, callback, aToolBarBut
     
     if(!parent) {
         document.body.appendChild(this.topDiv);
-    }else{
-        this.topDiv.style.position = "relative";
-        this.topDiv.style.margin = "1px";
+    } else {
         if(typeof parent === 'string') {
             this.parent = document.getElementById(parent);
         } else {
             this.parent = parent;
         }
         this.parent.appendChild(this.topDiv);
+    }
+    
+    if( ! this.draggable ) {
+        this.topDiv.style.position = "relative";
+        this.topDiv.style.margin = "1px";
+    } else {
+        if(this.parent) {
+            this.topDiv.style.position = "absolute";
+        }
+        this.minTop = 1;
+        this.minLeft = 1;
+            // encontrar um jeito eficiente de limitar a janela filha dentro da principal
+            
+//            var yPos = 0;
+//            var tempEl = this.topDiv;
+//
+//            while ( tempEl !== null ) 
+//            {
+//                yPos += tempEl.getBoundingClientRect().top;
+//                tempEl = tempEl.parentElement;
+//            }              
+//                
+//            this.minTop = yPos;
+//            this.minLeft = childOffset.left;
+            
     }
     
     if(callback) {
@@ -11928,8 +11944,9 @@ DRAGGABLE.ui.Window = function( parent, aButtons, options, callback, aToolBarBut
         }
         e.preventDefault();
         var y = ((p.y - self.y) + parseInt(self.topDiv.style.top));
+        var x = ((p.x - self.x) + parseInt(self.topDiv.style.left));
         self.topDiv.style.top = (self.minTop && y < self.minTop ? self.minTop: y) + "px"; //hardcoded top of window
-        self.topDiv.style.left = ((p.x - self.x) + parseInt(self.topDiv.style.left)) + "px";
+        self.topDiv.style.left = (self.minLeft && x < self.minLeft ? self.minLeft: x) + "px";
         self.x = p.x;
         self.y = p.y;
     };
@@ -11987,7 +12004,7 @@ DRAGGABLE.ui.Window.prototype.resize = function( ) {
     
     this.dataDiv.style.height =  (h-2) + 'px';
     
-    if(this.parent) {
+    if(this.parent && !this.draggable) {
         this.topDiv.style.width =  (this.parent.clientWidth-5) + 'px';
     }
 
@@ -12238,7 +12255,7 @@ DRAGGABLE.ui.ColorPicker = function( itens ) {
     this.container = new DRAGGABLE.ui.Window( 
           null
         , [ 'apply|Selecionar' ]
-        , {translate:false, draggable:true, width: "auto", height: "auto", title: 'Seletor de Cores', zIndex:"200" }
+        , {translate:false, draggable:true, width: "auto", height: "auto", title: 'Selecionar cor', zIndex:"200" }
         , {listener : this, method: 'pickerCallBack' }
     );
 
@@ -12565,6 +12582,7 @@ if (!window.ABCXJS.tablature)
 	window.ABCXJS.tablature = {};
 
 ABCXJS.tablature.Accordion = function( params ) {
+    
     this.loaded       = undefined;
     this.tabLines     = [];
     this.accordions   = params.accordionMaps || [] ;
@@ -12574,8 +12592,10 @@ ABCXJS.tablature.Accordion = function( params ) {
         throw new Error( 'No accordionMap found!');
     }
     
-    for (var g = 0; g < this.accordions.length; g ++)
-        this.accordions[g].keyboard.setRenderOptions(params.render_keyboard_opts);
+    this.render_opts = {};
+    this.setRenderOptions( params.render_keyboard_opts, true );
+
+//    this.render_opts =  params.render_keyboard_opts;
     
     if( params.id )
         this.loadById( params.id );
@@ -12583,6 +12603,27 @@ ABCXJS.tablature.Accordion = function( params ) {
         this.load( 0 );
     
 };
+
+ABCXJS.tablature.Accordion.prototype.setRenderOptions = function ( options, initial ) {
+    
+    var opt = options || {};
+
+    this.render_opts.transpose = (typeof opt.transpose === 'undefined'? (initial? false : this.render_opts.transpose ): opt.transpose) ;
+    this.render_opts.mirror = (typeof opt.mirror === 'undefined'? (initial? false : this.render_opts.mirror ): opt.mirror) ;
+    this.render_opts.draggable = (typeof opt.draggable === 'undefined'? (initial? false : this.render_opts.draggable ): opt.draggable) ;
+    this.render_opts.show = (typeof opt.show === 'undefined'? (initial? false : this.render_opts.show ): opt.show) ;
+    this.render_opts.label = (typeof opt.label === 'undefined'? (initial? false : this.render_opts.label ): opt.label) ;
+    
+    this.render_opts.scale = (typeof opt.scale === 'undefined'? (initial? 1 : this.render_opts.scale ): opt.scale) ;
+    
+    if( ! initial ) {
+        DIATONIC.map.color.fill = (typeof opt.fillColor === 'undefined'? DIATONIC.map.color.fill : opt.fillColor) ;
+        DIATONIC.map.color.background = (typeof opt.backgroundColor === 'undefined'? DIATONIC.map.color.background : opt.backgroundColor) ;
+        DIATONIC.map.color.open = (typeof opt.openColor === 'undefined'? DIATONIC.map.color.open : opt.openColor) ;
+        DIATONIC.map.color.close = (typeof opt.closeColor === 'undefined'? DIATONIC.map.color.close : opt.closeColor) ;
+    }    
+};
+
 
 ABCXJS.tablature.Accordion.prototype.loadById = function (id) {
     for (var g = 0; g < this.accordions.length; g ++)
@@ -12616,51 +12657,40 @@ ABCXJS.tablature.Accordion.prototype.clearKeyboard = function(full) {
 };
 
 ABCXJS.tablature.Accordion.prototype.changeNotation = function() {
-    var k = this.loadedKeyboard;
-    k.render_opts.label = ! k.render_opts.label;
-    k.redraw();
+    this.render_opts.label = ! this.render_opts.label;
+    this.loadedKeyboard.redraw(this.render_opts);
 };
 
-ABCXJS.tablature.Accordion.prototype.rotateKeyboard = function(div) {
-    var o = this.loadedKeyboard.render_opts;
+ABCXJS.tablature.Accordion.prototype.rotateKeyboard = function(div_id) {
+    var o = this.render_opts;
     
     if( o.transpose ) {
         o.mirror=!o.mirror;
     }
+    
     o.transpose=!o.transpose;
     
-    this.printKeyboard(div);
-};
-
-ABCXJS.tablature.Accordion.prototype.scaleKeyboard = function(div_id) {
-    var k = this.loadedKeyboard;
-    if( k.render_opts.scale < 1.2 ) {
-        k.render_opts.scale += 0.2;
-    } else {
-        k.render_opts.scale = 0.8;
-    }
     this.printKeyboard(div_id);
 };
 
-ABCXJS.tablature.Accordion.prototype.layoutKeyboard = function( div_id, options ) {
-    var k = this.loadedKeyboard;
-    if(options.transpose!==undefined)
-        k.render_opts.transpose = options.transpose;
-    if(options.mirror!==undefined)
-        k.render_opts.mirror = options.mirror;
+ABCXJS.tablature.Accordion.prototype.scaleKeyboard = function(div_id) {
+    if( this.render_opts.scale < 1.2 ) {
+        this.render_opts.scale += 0.2;
+    } else {
+        this.render_opts.scale = 0.8;
+    }
     this.printKeyboard(div_id);
 };
 
 ABCXJS.tablature.Accordion.prototype.printKeyboard = function(div_id, options) {
     
-    var k = this.loadedKeyboard;
+    this.setRenderOptions( options );
+    
     var div =( typeof(div_id) === "string" ? document.getElementById(div_id) : div_id );
 
-    k.setRenderOptions(options);
-
-    if( k.render_opts.show ) {
+    if( this.render_opts.show ) {
         div.style.display="inline-block";
-        k.print(div);
+        this.loadedKeyboard.print(div,this.render_opts);
     } else {
         div.style.display="none";
     }

@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'abcx';
-  src: url('./abcx.ttf?56136009') format('truetype'),
-       url('./abcx.svg?56136009#abcx') format('svg');
+  src: url('./abcx.ttf?34718525') format('truetype'),
+       url('./abcx.svg?34718525#abcx') format('svg');
 }
 
 /* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
@@ -131,6 +131,10 @@
 .ico-wrench:before { content: '\e854'; } /* '' */
 .ico-zoom-in:before { content: '\e855'; } /* '' */
 .ico-zoom-out:before { content: '\e856'; } /* '' */
+.ico-vplayer-4:before { content: '\e857'; } /* '' */
+.ico-vplayer-3:before { content: '\e858'; } /* '' */
+.ico-vplayer:before { content: '\e859'; } /* '' */
+.ico-vplayer-2:before { content: '\e85a'; } /* '' */
 
 .ico-large {
   font-size: 200%;

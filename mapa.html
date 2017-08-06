@@ -67,6 +67,9 @@ teste.
                     <button id="buttonChangeNotation" >
                         <i class="ico-world-2"></i>&nbsp;<span id="DR_chlabel">Mudar a notação</span>
                     </button>
+                    <button id="buttonShowMedia" style="display:none;" >
+                        <i class="ico-vplayer-3"></i>&nbsp;<span id="DR_showmedia">Videoaula</span>
+                    </button>
                 </div>
                 <div class="tv-content-always">
                     <div id="contentKeyboard" style="position: relative; top: 0; left: 0; padding-right: 130px; padding-bottom: 10px; min-height: 180px; height: auto; width: auto;" ></div>
@@ -78,13 +81,13 @@ teste.
             <div id="mapaWarningsDiv"></div>
 
             <div id="section2" class="tabs">
-                <input id="tab-1" type="radio" name="radio-set" class="tab-selector-1" />
+                <input id="tab-1" type="radio" name="tabControl" class="tab-selector-1" />
                 <label for="tab-1" class="tab-label-1">Acordes</label>
 
-                <input id="tab-2" type="radio" name="radio-set" class="tab-selector-2" />
+                <input id="tab-2" type="radio" name="tabControl" class="tab-selector-2" />
                 <label for="tab-2" class="tab-label-2">Exercícios</label>
 
-                <input id="tab-3" type="radio" name="radio-set" class="tab-selector-3" checked="checked" />
+                <input id="tab-3" type="radio" name="tabControl" class="tab-selector-3" checked="checked" />
                 <label for="tab-3" class="tab-label-3">Músicas</label>
 
                 <div class="btn-group" >
@@ -354,6 +357,7 @@ teste.
                       , accordionImagePlaceHolder: 'td_imagem_gaita'
                       , printBtn: 'buttonPrinter'
                       , toolsBtn: 'buttonTools'
+                      , mapDiv: 'mapaDiv'
                       , mapMenuDiv: 'mapMenu'
                       , keyboardDiv: "contentKeyboard"
                       , tuneContainerDiv: 'tuneContainerDiv'

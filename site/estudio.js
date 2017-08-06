@@ -18,15 +18,8 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     this.editorVisible = true;
     this.mapVisible = false;
     
-    this.keyboardWindow = new DRAGGABLE.ui.Window( 
-          null 
-        , [ 'move|Mover', 'rotate|Rotacionar', 'zoom|Zoom','globe|Mudar Notação']
-        , {title: 'Keyb', translate: false, statusBar: false, top: "100px", left: "300px", zIndex: 100} 
-        , {listener: this, method: 'keyboardCallback'}
-    );
-                
     this.studioDiv = new DRAGGABLE.ui.Window( 
-          interfaceParams.studioDiv 
+          interfaceParams.studioDiv
         , null
         , {translate: false, statusBar: false, draggable: false, top: "3px", left: "1px", width: '100%', height: "100%", title: 'Estúdio ABCX'}
         , {listener: this, method: 'studioCallback'}
@@ -34,11 +27,21 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     
     this.studioDiv.setVisible(true);
     
-    this.editareaFixa = new ABCXJS.edit.EditArea(this.studioDiv.dataDiv, this);
+    this.editareaFixa = new ABCXJS.edit.EditArea(
+          this.studioDiv.dataDiv
+        , {listener : this, method: 'editorCallback' }
+        , {draggable:false, toolbar: false, translate:false, width: "100%", height: "200px", title: 'Editor ABCX' }
+    );
 
-    this.editareaMovel = new ABCXJS.edit.EditArea(null, this);
+    this.editareaMovel = new ABCXJS.edit.EditArea(
+          this.studioDiv.dataDiv
+        , {listener: this, method: 'editorCallback' }
+        , { toolbar: true, statusBar:true, translate:false, left:"100px", top:"100px", width: "640px", height: "480px", title: 'Editor ABCX' } 
+    );
+    
+    this.studioDiv.dataDiv.style.overflow = 'hidden';
     this.editareaMovel.setVisible(false);
-
+   
     this.editorWindow = this.editareaFixa;
 
     this.editorWindow.setVisible(true);
@@ -53,24 +56,33 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     this.controlDiv.innerHTML = document.getElementById(interfaceParams.studioControlDiv).innerHTML;
     document.getElementById(interfaceParams.studioControlDiv).innerHTML = "";
 
-    this.studioCanvasDiv = document.createElement("DIV");
-    this.studioCanvasDiv.setAttribute("id", interfaceParams.studioCanvasDiv );
-    this.studioCanvasDiv.setAttribute("class", "studioCanvasDiv customScrollBar" );
-   
     if (interfaceParams.generate_warnings) {
         this.warningsDiv = document.createElement("DIV");
         this.warningsDiv.setAttribute("id", warnings_id);
         this.warningsDiv.setAttribute("class", "warningsDiv" );
-        this.studioCanvasDiv.appendChild(this.warningsDiv);
+        this.studioDiv.dataDiv.appendChild(this.warningsDiv);
     }
-    
+
+
+    this.studioCanvasDiv = document.createElement("DIV");
+    this.studioCanvasDiv.setAttribute("id", interfaceParams.studioCanvasDiv );
+    this.studioCanvasDiv.setAttribute("class", "studioCanvasDiv customScrollBar" );
+   
+   
     this.canvasDiv = document.createElement("DIV");
     this.canvasDiv.setAttribute("id", canvas_id);
     this.canvasDiv.setAttribute("class", "canvasDiv" );
     this.studioCanvasDiv.appendChild(this.canvasDiv);
     
     this.studioDiv.dataDiv.appendChild(this.studioCanvasDiv);
-    
+
+    this.keyboardWindow = new DRAGGABLE.ui.Window( 
+          this.studioDiv.dataDiv
+        , [ 'move|Mover', 'rotate|Rotacionar', 'zoom|Zoom','globe|Mudar Notação']
+        , {title: '', translate: false, statusBar: false, top: "100px", left: "300px", zIndex: 100} 
+        , {listener: this, method: 'keyboardCallback'}
+    );
+                
     this.playTreble = true;
     this.playBass = true;
     this.timerOn = false;
@@ -205,7 +217,7 @@ SITE.Estudio = function (interfaceParams, playerParams) {
         this.blur();
         that.midiPlayer.stopPlay();
         that.editorWindow.setReadOnly(false);
-        this.editorWindow.clearEditorHighLightStyle();
+        that.editorWindow.clearEditorHighLightStyle();
     }, false);
 
     this.clearButton.addEventListener("click", function (evt) {
@@ -215,7 +227,7 @@ SITE.Estudio = function (interfaceParams, playerParams) {
         that.accordion.clearKeyboard(true);
         that.currentPlayTimeLabel.innerHTML = "00:00.00";
         that.editorWindow.setReadOnly(false);
-        this.editorWindow.clearEditorHighLightStyle();
+        that.editorWindow.clearEditorHighLightStyle();
         that.midiPlayer.stopPlay();
     }, false);
 
@@ -384,7 +396,7 @@ SITE.Estudio.prototype.setup = function( mapa, tab, accordionId) {
     //this.setupProps();
     
     this.setVisible(true);
-    this.resize();
+    //this.resize();
     this.mapa = mapa;
     
     this.accordion.loadById(accordionId);
@@ -403,12 +415,18 @@ SITE.Estudio.prototype.setup = function( mapa, tab, accordionId) {
 
     this.studioCanvasDiv.scrollTop = 0;
     
+    if(this.mapVisible) {
+        this.keyboardWindow.setVisible(true);
+        this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
+        document.getElementById('I_showMap').setAttribute('class', 'ico-folder-open' );
+    }
+    
     this.fireChanged2(0, true );
 };
 
 SITE.Estudio.prototype.showMap = function() {
     this.mapVisible = ! this.mapVisible;
-    this.accordion.loadedKeyboard.render_opts.show = this.mapVisible;
+    this.accordion.render_opts.show = this.mapVisible;
     if(this.mapVisible) {
         this.keyboardWindow.setVisible(true);
         this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
@@ -420,9 +438,8 @@ SITE.Estudio.prototype.showMap = function() {
 
 SITE.Estudio.prototype.hideMap = function() {
     this.mapVisible = false;
-    this.accordion.loadedKeyboard.render_opts.show = this.mapVisible;
+    this.accordion.render_opts.show = this.mapVisible;
     this.keyboardWindow.setVisible(false);
-    this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
     document.getElementById('I_showMap').setAttribute('class', 'ico-folder' );
 };
 
@@ -528,6 +545,7 @@ SITE.Estudio.prototype.studioCallback = function( e ) {
     switch(e) {
         case 'CLOSE':
             this.setVisible(false);
+            this.midiPlayer.stopPlay();
             this.mapa.showMapa(true);
             break;
         case 'RESTORE':
