@@ -1,16 +1,16 @@
 - Estudio
-    - Resize não acerta a largura do editor
     - Posição e tamanho dos itens de tela
+    - Editor full screen
+
+- Implementar no editor
+ - Download 
+ - Atualizar (compilar)
+ - Procura e substituição
+ - Redo e Undo (all?)
 
 - Implementar o controle de preferencias
 
 - Verificar as chamadas de Partitura para tablatura e vice versa
-
-- Implementar no editor
- - Download 
- - Procura e substituição
- - Atualizar (compilar)
- - Redo e Undo (all?)
 
 - Pagina de créditos (about) e licenças e release
     - Buscar a versão do site
@@ -53,3 +53,5 @@ FEITO
  - Fazer mais testes 
 - Janela de midia
   -Incluir um botão para reabrir a janela de midia
+- Estudio
+    - Resize não acerta a largura do editor

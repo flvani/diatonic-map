@@ -1116,8 +1116,6 @@ window.ABCXJS.data.Tune = function() {
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 if (!window.ABCXJS)
 	window.ABCXJS = {};
 
@@ -1131,23 +1129,16 @@ window.ABCXJS.math.isNumber = function (n) {
 if (!window.ABCXJS.parse)
 	window.ABCXJS.misc = {};
     
-window.ABCXJS.misc.isOpera = function() {
-    return ( !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0 );
+window.ABCXJS.misc.isOpera = function() { // Opera 8.0+
+    return ( (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0 );
 };
 
 window.ABCXJS.misc.isChrome= function() {
-    var test1 =  (( !!window.chrome && !ABCXJS.misc.isOpera() ) > 0 ); // Chrome 1+
-   
-    if(!test1) return false;
-    
-    for (var i=0; i<navigator.plugins.length; i++)
-        if (navigator.plugins[i].name === 'Chrome PDF Viewer') return true;
-    
-    return false;
+    return (!!window.chrome && !!window.chrome.webstore);
 };
 
-window.ABCXJS.misc.isChromium= function() {
-    var test1 =  (( !!window.chrome && !ABCXJS.misc.isOpera() ) > 0 ); // Chrome 1+
+window.ABCXJS.misc.isChromium= function() { // Chrome 1+
+    var test1 =  (( !!window.chrome && !ABCXJS.misc.isOpera() ) > 0 ); 
    
     if(!test1) return false;
     
@@ -1157,65 +1148,33 @@ window.ABCXJS.misc.isChromium= function() {
     return true;
 };
 
-window.ABCXJS.misc.isFirefox = function() {
-    return ( typeof InstallTrigger !== 'undefined' );  // Firefox 1+ 
+window.ABCXJS.misc.isFirefox = function() { // Firefox 1+ 
+    return ( typeof InstallTrigger !== 'undefined' );  
 };
 
-window.ABCXJS.misc.isSafari = function() {
-    return ( Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0 ); 
+window.ABCXJS.misc.isSafari = function() { // Safari 3.0+
+    return ( /constructor/i.test(window.HTMLElement) || (function (p) { 
+        return p.toString() === "[object SafariRemoteNotification]"; } )
+            (!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification)) 
+    ); 
 };
 
 window.ABCXJS.misc.isIE = function() {
-  // Test values; Uncomment to check result …
-
-  // IE 10
-  // ua = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)';
-  
-  // IE 11
-  // ua = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko';
-  
-  // IE 12 / Spartan
-  // ua = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36 Edge/12.0';
-  
-  // Edge (IE 12+)
-  // ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586';
-  
-  
-    if( /*@cc_on!@*/false || !!document.documentMode  ) { // At least IE6    
+    
+    if( /*@cc_on!@*/false || !!document.documentMode  ) { // Internet Explorer 6-11
       return true;
-  }
+    }
 
-  if( navigator.appName.indexOf("Internet Explorer")!==-1 ){     //yeah, he's using IE
-     return true;
-  }
-  
-  var ua = window.navigator.userAgent;
-  
-  var msie = ua.indexOf('MSIE ');
-  if (msie > 0) {
-    // IE 10 or older => return version number
-    //return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
-    return true;
-  }
+    if( navigator.appName.indexOf("Internet Explorer")!==-1 ){ // Yeah, he's using IE
+       return true;
+    }
+    return false;
+};    
 
-  var trident = ua.indexOf('Trident/');
-  if (trident > 0) {
-    // IE 11 => return version number
-    var rv = ua.indexOf('rv:');
-    //return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
-    return true;
-  }
-
-  var edge = ua.indexOf('Edge/');
-  if (edge > 0) {
-    // Edge (IE 12+) => return version number
-    //return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
-    return true;
-}
-
-  // other browser
-  return false;
+window.ABCXJS.misc.isEdge = function() {
+    return (!ABCXJS.misc.isIE() && !!window.StyleMedia); // Edge 20+
 };
+
 
 if (!window.ABCXJS)
 	window.ABCXJS = {};
@@ -9599,522 +9558,6 @@ ABCXJS.write.sprintf = function() {
   }
   return o.join('');
 };
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/* 
-    Created on : 27/04/2016, 10:55:16
-    Author     : flavio.vani@gmail.com
-*/
-
-/*
-
-Main document structure:
-
-<div style"..." >
-
-    Header:
-     Contains a title, the style definitions for the entire document and the defined symbols.
-    <svg id="tune" ... >
-        <title>Música criada por ABCXJS.</title><style type="text/css">
-        <style type="text/css">
-            @media print {
-                div.nobrk {page-break-inside: avoid} 
-                div.newpage {page-break-before: always} 
-            }    
-        </style>
-        <defs>
-        </defs>
-    </svg>
-
-    Page1:
-      Class nobrk, an optional group to control aspects like scaling and the content of the page 
-    <div class="nobrk" >
-        <svg id="page1"  ... >
-            <g id="gpage1" ... ></g>
-        </svg>
-    </div>
-
-    Page2 and subsequents:
-      Class newpage, an optional group to control aspects like scaling and the content of the page 
-    <div class="newpage" >
-        <svg id="page2"  ...>
-            <g id="gpage2" ... ></g>
-        </svg>
-    </div>
-
-</div>
-*/
-
-if (!window.SVG)
-    window.SVG = {};
-
-if (! window.SVG.misc )
-    window.SVG.misc = { printerId: 0 };
-
-if (! window.SVG.Printer )
-    window.SVG.Printer = {};
-
-SVG.Printer = function ( d ) {
-    this.topDiv = d;
-    this.scale = 1;
-    this.gid=0;
-    this.printerId = ++SVG.misc.printerId;
-   
-    this.title;
-    this.styles = '';
-    this.defines = '';
-    this.defined_glyph = [];
-
-    this.svg_pages = [];
-    this.currentPage = 0;
-    
-    this.glyphs = new SVG.Glyphs();
-    
-    this.initDoc();
-    
-    this.svgHead = function( id, kls, size ) {
-        
-        var w = size? size.w*this.scale + 'px' : '0';
-        var h = size? size.h*this.scale + 'px' : '0';
-        var d = size? '' : 'display: none; ';
-        
-//        // not in use
-//        id = id? 'id="'+id+'"' : '' ;
-//        kls = kls? 'class="'+kls+'"' : '' ;
-        
-        return '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="'+d+'width:'+w+'; height: '+h+';" >\n';
-    };
-};
-
-SVG.Printer.prototype.initDoc = function( docId, title, add_styles, options ) {
-    options = options || {};
-    this.docId = docId || 'dcto';
-    this.title = title || '';
-    this.backgroundColor = options.backgroundColor || 'none';
-    this.color = options.color || 'black';
-    this.baseColor = options.baseColor || 'black';
-    this.scale = 1.0;
-    this.defines = '';
-    this.defined_glyph = [];
-
-    this.svg_pages = [];
-    this.currentPage = -1;
-    this.gid=0;
-    this.styles = 
-'<style type="text/css">\n\
-    @media print {\n\
-        div.nobrk {page-break-inside: avoid}\n\
-        div.newpage {page-break-before: always}\n\
-    }\n'+(add_styles||'')+'\n</style>\n';
-    
-//<![CDATA[\n\
-//]]>\n
-    
-};
-
-SVG.Printer.prototype.endDoc = function( ) {
-
-    var output = '<div style="display:block; margin:0; padding: 0; width: fit-content; background-color:'+this.backgroundColor+'; ">\n' + this.svgHead( this.docId );
-    
-    output += '<title>'+this.title+'</title>\n';
-    output += this.styles;
-    
-    if(this.defines.length > 0 ) {
-        output += '<defs>'+this.defines+'</defs>\n';
-    }
-    
-    output += '</svg>\n';
-    
-    for( var p=0; p <=  this.currentPage; p++ ) {
-        output += '<div class="'+(p>0?'newpage':'nobrk')+'">'+this.svg_pages[p]+'</div>\n';  
-    }
-    
-    output +='</div>';
-    
-    this.topDiv.innerHTML = output;
-
-};
-
-SVG.Printer.prototype.initPage = function( scl ) {
-    this.scale = scl || this.scale;
-    this.currentPage++;
-    this.svg_pages[this.currentPage] = '';
-    var g = 'g' + this.docId + (this.currentPage+1);
-    if( this.scale !== 1.0 ) {
-        this.svg_pages[this.currentPage]  += '<g id="'+g+'" transform="scale( '+ this.scale +')">';
-    }
-};
-
-SVG.Printer.prototype.endPage = function( size ) {
-    if( this.scale && this.scale !== 1.0 ) {
-        this.svg_pages[this.currentPage]  += '</g>';
-    }
-    var pg = this.docId + (this.currentPage+1);
-    this.svg_pages[this.currentPage] = this.svgHead( pg, this.currentPage < 1 ? 'nobrk':'newpage', size ) + this.svg_pages[this.currentPage] + '</svg>\n';
-};
-
-SVG.Printer.prototype.beginGroup = function (el_type) {
-    var id = 'p'+this.printerId+'g'+(++this.gid); 
-    var kls = ' style="fill:'+this.color+'; stroke:none;" ' ;
-    this.svg_pages[this.currentPage] += '<g id="'+id+'"'+kls+'>\n';  
-    return id;
-};
-
-SVG.Printer.prototype.endGroup = function () {
-    this.svg_pages[this.currentPage] += '</g>\n';  
-};
-
-SVG.Printer.prototype.setDefine = function (s) {
-    var p =  this.glyphs.getDefinition(s);
-    
-    if(p.length === 0 ) return false;
-    
-    if(!this.defined_glyph[s]) {
-        this.defines += p;
-        this.defined_glyph[s] = true;
-    }
-    return true;
-};
-
-SVG.Printer.prototype.printLine = function (x,y,dx,dy) {
-    if( x === dx ) {
-        dx = ABCXJS.misc.isIE() ? 1: 0.6;
-        dy -=  y;
-    }
-    if( y === dy ) {
-        dy = ABCXJS.misc.isIE() ? 1: 0.6;
-        dx -=  x;
-    }
-    var pathString = ABCXJS.write.sprintf('<rect style="fill:'+this.color+';"  x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>\n', x, y, dx, dy);
-    this.svg_pages[this.currentPage] += pathString;
-};
-
-SVG.Printer.prototype.printLedger = function (x,y,dx,dy) {
-    var pathString = ABCXJS.write.sprintf('<path style="stroke:'+this.baseColor+'; fill: white; stroke-width:0.6; stroke-dasharray: 1 1;" d="M %.1f %.1f h%.1f"/>\n', x, y, dx-x);
-    this.svg_pages[this.currentPage] += pathString;
-};
-
-SVG.Printer.prototype.printBeam = function (x1,y1,x2,y2,x3,y3,x4,y4) {
-    
-//    this.svg_pages[this.currentPage] += ABCXJS.write.sprintf(
-//        '<path style="fill:'+this.color + '; stroke:none;" ' +
-//        'd="M %.1f %.1f L %.1f %.1f L %.1f %.1f L %.1f %.1f Z" />\n'
-//        , x1, y1, x2, y2, x3, y3, x4, y4);
-        
-// Por algum motivo o path acima apresenta vazamento do preenchimento em algumas escalas de zoom.
-// Resolvi usando um path diferente (e não muito eficiente para desenhar o beam
-        
-    this.svg_pages[this.currentPage] += ABCXJS.write.sprintf(
-        '<path style="stroke:none; fill:'+ this.color + ';" ' +
-        'd="M %.1f %.1f L %.1f %.1f L %.1f %.1f Z L %.1f %.1f L %.1f %.1f Z" />\n'
-        , x1, y1, x2, y2, x3, y3, x3, y3, x4, y4 );
-};
-
-SVG.Printer.prototype.printStaveLine = function (x1, x2, y, debug) {
-    var color = debug? debug : this.baseColor;
-    var dy =0.6;   
-    var pathString = ABCXJS.write.sprintf('<rect style="stroke:none; fill: %s;" x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>\n', 
-                                                color, x1, y, Math.abs(x2-x1), dy );
-    this.svg_pages[this.currentPage] += pathString;
-};
-
-SVG.Printer.prototype.printBar = function (x, dx, y1, y2, real) {
-    
-    var x2 = x+dx;
-    var kls = real?'':'style="stroke:none; fill:'+this.baseColor+'"';
-    
-    if (ABCXJS.misc.isIE() && dx<1) {
-      dx = 1;
-    }
-    
-    var dy = Math.abs(y2-y1);
-    dx = Math.abs(dx); 
-    
-    var pathString = ABCXJS.write.sprintf('<rect '+kls+' x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
-
-    this.svg_pages[this.currentPage] += pathString;
-};
-
-SVG.Printer.prototype.printStem = function (x, dx, y1, y2) {
-    
-    var x2 = x+dx;
-    
-    if (ABCXJS.misc.isIE() && dx<1) {
-      dx = 1;
-    }
-    
-    var dy = Math.abs(y2-y1);
-    dx = Math.abs(dx); 
-    
-    var pathString = ABCXJS.write.sprintf('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
-
-    this.svg_pages[this.currentPage] += pathString;
-};
-
-
-SVG.Printer.prototype.printTieArc = function (x1,y1,x2,y2,up) {
-    
-    //unit direction vector
-    var dx = x2-x1;
-    var dy = y2-y1;
-    var norm= Math.sqrt(dx*dx+dy*dy);
-    var ux = dx/norm;
-    var uy = dy/norm;
-
-    var flatten = norm/3.5;
-    var curve = (up?-1:1)*Math.min(25, Math.max(4, flatten));
-
-    var controlx1 = x1+flatten*ux-curve*uy;
-    var controly1 = y1+flatten*uy+curve*ux;
-    var controlx2 = x2-flatten*ux-curve*uy;
-    var controly2 = y2-flatten*uy+curve*ux;
-    var thickness = 2;
-    
-    var pathString = ABCXJS.write.sprintf('<path style="fill:'+this.color+'; stroke-width:0.6px; stroke:none;" d="M %.1f %.1f C %.1f %.1f %.1f %.1f %.1f %.1f C %.1f %.1f %.1f %.1f %.1f %.1f z"/>\n', 
-                            x1, y1,
-                            controlx1, controly1, controlx2, controly2, x2, y2, 
-                            controlx2-thickness*uy, controly2+thickness*ux, controlx1-thickness*uy, controly1+thickness*ux, x1, y1 );
-    
-    this.svg_pages[this.currentPage] += pathString;
-};
-    
-SVG.Printer.prototype.printBrace = function (x, y1, y2) {
-    var sz = Math.abs(y1-y2); // altura esperada
-    var scale = sz / 1027; // altura real do simbolo
-    this.setDefine('scripts.lbrace');
-    var pathString = ABCXJS.write.sprintf('<use style="fill:'+this.baseColor+'" x="0" y="0" xlink:href="#scripts.lbrace" transform="translate(%.1f %.1f) scale(0.13 %.5f)" />\n', x, y2, scale );
-    this.svg_pages[this.currentPage] += pathString;
-};
-
-SVG.Printer.prototype.printSymbol = function (x, y, symbol) {
-    if (this.setDefine(symbol)) {
-        var pathString = ABCXJS.write.sprintf('<use x="%.1f" y="%.1f" xlink:href="#%s" />\n', x, y, symbol );
-        this.svg_pages[this.currentPage] += pathString;
-    } else {
-        throw 'Undefined: ' + symbol;
-    }
-};
-
-SVG.Printer.prototype.tabText = function( x, y, str, clss, anch ) {
-    
-   if( str === 'scripts.rarrow') {
-       //fixme: deveria mudar o tipe de tabtext para symbol, adequadamente
-       this.printSymbol(x, y, str );
-       return;
-   }
-   
-   str = ""+str;
-   if( str.length===0) return;
-   
-   anch = anch || 'start';
-   x = x.toFixed(2);
-   y = y.toFixed(2);
-   
-   this.svg_pages[this.currentPage] += '<text class="'+clss+'" x="'+x+'" y="'+y+'" >'+str+'</text>\n';
-};
-
-SVG.Printer.prototype.text = function( x, y, str, clss, anch ) {
-   var t; 
-   var estilo = clss === 'abc_lyrics' ? '' : 'style="stroke:none; fill: '+this.color+';"' ;
-   
-   str = ""+str;
-   if( str.length===0) return;
-   
-   t = str.split('\n');
-   
-   anch = anch || 'start';
-   x = x.toFixed(2);
-   y = y.toFixed(2);
-   
-   this.svg_pages[this.currentPage] += '<g class="'+clss+'" '+estilo+' transform="translate('+x+' '+y+')">\n';
-    if(t.length < 2) {
-       this.svg_pages[this.currentPage] += '<text text-anchor="'+anch+'" x="0" y="0" >'+t[0]+'</text>\n';
-    } else {
-       this.svg_pages[this.currentPage] += '<text text-anchor="'+anch+'" x="0" y="0">\n';
-       for(var i = 0; i < t.length; i++ )
-           this.svg_pages[this.currentPage] += '<tspan x="0" dy="1.2em" >'+t[i]+'</tspan>\n';
-       this.svg_pages[this.currentPage] += '</text>\n';
-    }
-    this.svg_pages[this.currentPage] += '</g>\n';
-};
-
-SVG.Printer.prototype.printButton = function (id, x, y, options) {
-    
-    var scale = options.radius/26; // 26 é o raio inicial do botão
-    var gid = 'p'+this.printerId+id;
-    var estilo = 'stroke:'+options.borderColor+'; stroke-width:'+options.borderWidth+'px; fill: none;';
-
-    var pathString = ABCXJS.write.sprintf( '<g id="%s" transform="translate(%.1f %.1f) scale(%.5f)">\n\
-        <circle cx="28" cy="28" r="26" style="stroke:none; fill: %s;" ></circle>\n\
-        <path id="%s_ac" style="stroke: none; fill: %s;" d="M 2 34 a26 26 0 0 1 52 -12"></path>\n\
-        <path id="%s_ao" style="stroke: none; fill: %s;" d="M 54 22 a26 26 0 0 1 -52 12"></path>\n\
-        <circle style="'+estilo+'" cx="28" cy="28" r="26"></circle>\n\
-        <path style="'+estilo+'" d="m 2 34 l 52 -12" ></path>\n\
-        <text id="%s_tc" class="%s" style="stroke:none; fill: black;" x="27" y="22" >...</text>\n\
-        <text id="%s_to" class="%s" style="stroke:none; fill: black;" x="27" y="44" >...</text>\n</g>\n',
-        gid, x, y, scale, options.fillColor, gid, options.closeColor, gid, options.openColor, gid, options.kls, gid, options.kls );
-        
-    this.svg_pages[this.currentPage] += pathString;
-    return gid;
-
-};
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-if (!window.SVG)
-    window.SVG = {};
-
-if (!window.SVG.Glyphs )
-    window.SVG.Glyphs = {};
-
-SVG.Glyphs = function () {
-    
-    var abc_glyphs = new ABCXJS.write.Glyphs();
-
-    var glyphs = { // the @@ will be replaced by the abc_glyph contents.
-       "0": '<path id="0" transform="scale(0.95)" \nd="@@"/>'
-      ,"1": '<path id="1" transform="scale(0.95)" \nd="@@"/>'
-      ,"2": '<path id="2" transform="scale(0.95)" \nd="@@"/>'
-      ,"3": '<path id="3" transform="scale(0.95)" \nd="@@"/>'
-      ,"4": '<path id="4" transform="scale(0.95)" \nd="@@"/>'
-      ,"5": '<path id="5" transform="scale(0.95)" \nd="@@"/>'
-      ,"6": '<path id="6" transform="scale(0.95)" \nd="@@"/>'
-      ,"7": '<path id="7" transform="scale(0.95)" \nd="@@"/>'
-      ,"8": '<path id="8" transform="scale(0.95)" \nd="@@"/>'
-      ,"9": '<path id="9" transform="scale(0.95)" \nd="@@"/>'
-      ,"f": '<path id="f" transform="scale(0.95)" \nd="@@"/>'
-      ,"m": '<path id="m" transform="scale(0.95)" \nd="@@"/>'
-      ,"p": '<path id="p" transform="scale(0.95)" \nd="@@"/>'
-      ,"r": '<path id="r" transform="scale(0.95)" \nd="@@"/>'
-      ,"s": '<path id="s" transform="scale(0.95)" \nd="@@"/>'
-      ,"z": '<path id="z" transform="scale(0.95)" \nd="@@"/>'
-      ,"+": '<path id="+" transform="scale(0.95)" \nd="@@"/>'
-      ,",": '<path id="," transform="scale(0.95)" \nd="@@"/>'
-      ,"-": '<path id="-" transform="scale(0.95)" \nd="@@"/>'
-      ,".": '<path id="." transform="scale(0.95)" \nd="@@"/>'
-      ,"accidentals.nat": '<path id="accidentals.nat" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.sharp": '<path id="accidentals.sharp" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.flat": '<path id="accidentals.flat" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.halfsharp": '<path id="accidentals.halfsharp" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.dblsharp": '<path id="accidentals.dblsharp" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.halfflat": '<path id="accidentals.halfflat" transform="scale(0.8)" \nd="@@"/>'
-      ,"accidentals.dblflat": '<path id="accidentals.dblflat" transform="scale(0.8)" \nd="@@"/>'
-      ,"clefs.C": '<path id="clefs.C" \nd="@@"/>'
-      ,"clefs.F": '<path id="clefs.F" \nd="@@"/>'
-      ,"clefs.G": '<path id="clefs.G" \nd="@@"/>'
-      ,"clefs.perc": '<path id="clefs.perc" \nd="@@"/>'
-      ,"clefs.tab": '<path id="clefs.tab" transform="scale(0.9)" \nd="@@"/>'
-      ,"dots.dot": '<path id="dots.dot" \nd="@@"/>'
-      ,"flags.d8th": '<path id="flags.d8th" \nd="@@"/>'
-      ,"flags.d16th": '<path id="flags.d16th" \nd="@@"/>'
-      ,"flags.d32nd": '<path id="flags.d32nd" \nd="@@"/>'
-      ,"flags.d64th": '<path id="flags.d64th" \nd="@@"/>'
-      ,"flags.dgrace": '<path id="flags.dgrace" \nd="@@"/>'
-      ,"flags.u8th": '<path id="flags.u8th" \nd="@@"/>'
-      ,"flags.u16th": '<path id="flags.u16th" \nd="@@"/>'
-      ,"flags.u32nd": '<path id="flags.u32nd" \nd="@@"/>'
-      ,"flags.u64th": '<path id="flags.u64th" \nd="@@"/>'
-      ,"flags.ugrace": '<path id="flags.ugrace" \nd="@@"/>'
-      ,"graceheads.quarter": '<g id="graceheads.quarter" transform="scale(0.6)" ><use xlink:href="#noteheads.quarter" /></g>'
-      ,"graceflags.d8th": '<g id="graceflags.d8th" transform="scale(0.6)" ><use xlink:href="#flags.d8th" /></g>'
-      ,"graceflags.u8th": '<g id="graceflags.u8th" transform="scale(0.6)" ><use xlink:href="#flags.u8th" /></g>'
-      ,"noteheads.quarter": '<path id="noteheads.quarter" \nd="@@"/>'
-      ,"noteheads.whole": '<path id="noteheads.whole" \nd="@@"/>'
-      ,"notehesad.dbl": '<path id="noteheads.dbl" \nd="@@"/>'
-      ,"noteheads.half": '<path id="noteheads.half" \nd="@@"/>'
-      ,"rests.whole": '<path id="rests.whole" \nd="@@"/>'
-      ,"rests.half": '<path id="rests.half" \nd="@@"/>'
-      ,"rests.quarter": '<path id="rests.quarter" \nd="@@"/>'
-      ,"rests.8th": '<path id="rests.8th" \nd="@@"/>'
-      ,"rests.16th": '<path id="rests.16th" \nd="@@"/>'
-      ,"rests.32nd": '<path id="rests.32nd" \nd="@@"/>'
-      ,"rests.64th": '<path id="rests.64th" \nd="@@"/>'
-      ,"rests.128th": '<path id="rests.128th" \nd="@@"/>'
-      ,"scripts.rarrow": '<path id="scripts.rarrow" \nd="M -6 -5 h 8 v -3 l 4 4 l -4 4 v -3 h -8 z"/>'
-      ,"scripts.tabrest": '<path id="scripts.tabrest" \nd="M -5 5 h 10 v 2 h -10 z"/>'
-      ,"scripts.lbrace": '<path id="scripts.lbrace" \nd="@@"/>'
-      ,"scripts.ufermata": '<path id="scripts.ufermata" \nd="@@"/>'
-      ,"scripts.dfermata": '<path id="scripts.dfermata" \nd="@@"/>'
-      ,"scripts.sforzato": '<path id="scripts.sforzato" \nd="@@"/>'
-      ,"scripts.staccato": '<path id="scripts.staccato" \nd="@@"/>'
-      ,"scripts.tenuto": '<path id="scripts.tenuto" \nd="@@"/>'
-      ,"scripts.umarcato": '<path id="scripts.umarcato" \nd="@@"/>'
-      ,"scripts.dmarcato": '<path id="scripts.dmarcato" \nd="@@"/>'
-      ,"scripts.stopped": '<path id="scripts.stopped" \nd="@@"/>'
-      ,"scripts.upbow": '<path id="scripts.upbow" \nd="@@"/>'
-      ,"scripts.downbow": '<path id="scripts.downbow" \nd="@@"/>'
-      ,"scripts.turn": '<path id="scripts.turn" \nd="@@"/>'
-      ,"scripts.trill": '<path id="scripts.trill" \nd="@@"/>'
-      ,"scripts.segno": '<path id="scripts.segno" transform="scale(0.8)" \nd="@@"/>'
-      ,"scripts.coda": '<path id="scripts.coda" transform="scale(0.8)" \nd="@@"/>'
-      ,"scripts.comma": '<path id="scripts.comma" \nd="@@"/>'
-      ,"scripts.roll": '<path id="scripts.roll" \nd="@@"/>'
-      ,"scripts.prall": '<path id="scripts.prall" \nd="@@"/>'
-      ,"scripts.mordent": '<path id="scripts.mordent" \nd="@@"/>'
-      ,"timesig.common": '<path id="timesig.common" \nd="@@"/>'
-      ,"it.punto": '<path id="it.punto" \nd="@@"/>'
-      ,"it.l": '<path id="it.l" \nd="@@"/>'
-      ,"it.f": '<path id="it.f" \nd="@@"/>'
-      ,"it.F": '<path id="it.F" \nd="@@"/>'
-      ,"it.i": '<path id="it.i" \nd="@@"/>'
-      ,"it.n": '<path id="it.n" \nd="@@"/>'
-      ,"it.e": '<path id="it.e" \nd="@@"/>'
-      ,"it.D": '<path id="it.D" \nd="@@"/>'
-      ,"it.d": '<path id="it.d" \nd="@@"/>'
-      ,"it.a": '<path id="it.a" \nd="@@"/>'
-      ,"it.C": '<path id="it.C" \nd="@@"/>'
-      ,"it.c": '<path id="it.c" \nd="@@"/>'
-      ,"it.p": '<path id="it.p" \nd="@@"/>'
-      ,"it.o": '<path id="it.o" \nd="@@"/>'
-      ,"it.S": '<path id="it.S" \nd="@@"/>'
-      ,"it.s": '<path id="it.s" \nd="@@"/>'
-      ,"it.Fine": '<g id="it.Fine" ><use xlink:href="#it.F" x="0" y="3" /><use xlink:href="#it.i" x="12" y="3" /><use xlink:href="#it.n" x="17.5" y="3" /><use xlink:href="#it.e" x="27" y="3" /></g>'
-      ,"it.Coda": '<g id="it.Coda" ><use xlink:href="#it.C" x="0" y="3" /><use xlink:href="#it.o" x="12" y="3" /><use xlink:href="#it.d" x="20" y="3" /><use xlink:href="#it.a" x="30" y="3" /></g>'
-      ,"it.Da": '<g id="it.Da"><use xlink:href="#it.D" x="0" y="3" /><use xlink:href="#it.a" x="14" y="3" /></g>'
-      ,"it.DaCoda": '<g id="it.DaCoda"><use xlink:href="#it.Da" x="0" y="0" /><use xlink:href="#scripts.coda" x="32" y="0" /></g>'
-      ,"it.DaSegno": '<g id="it.DaSegno"><use xlink:href="#it.Da" x="0" y="0" /><use xlink:href="#scripts.segno" x="32" y="-3" /></g>'
-      ,"it.DC": '<g id="it.DC"><use xlink:href="#it.D" x="0" y="1" /><use xlink:href="#it.punto" x="12" y="2" /><use xlink:href="#it.C" x="18" y="1" /><use xlink:href="#it.punto" x="29" y="2" /></g>'
-      ,"it.DS": '<g id="it.DS"><use xlink:href="#it.D" x="0" y="1" /><use xlink:href="#it.punto" x="12" y="2" /><use xlink:href="#it.S" x="18" y="1" /><use xlink:href="#it.punto" x="29" y="2" /></g>'
-      ,"it.al": '<g id="it.al"><use xlink:href="#it.a" x="0" y="2" /><use xlink:href="#it.l" x="10" y="2" /></g>'
-      ,"it.DCalFine": '<g id="it.DCalFine"><use xlink:href="#it.DC" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Fine" x="46" y="-1" /></g>'
-      ,"it.DCalCoda": '<g id="it.DCalCoda"><use xlink:href="#it.DC" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Coda" x="46" y="-1" /></g>'
-      ,"it.DSalFine": '<g id="it.DSalFine"><use xlink:href="#it.DS" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Fine" x="46" y="-1" /></g>'
-      ,"it.DSalCoda": '<g id="it.DSalCoda"><use xlink:href="#it.DS" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Coda" x="46" y="-1" /></g>'
-    };
-    
-    this.getDefinition = function (gl) {
-        
-        
-        var g = glyphs[gl];
-        
-        if (!g) {
-            return "";
-        }
-        
-        // expande path se houver, buscando a definicao do original do ABCJS.
-        g = g.replace('@@', abc_glyphs.getTextSymbol(gl) );
-        
-        var i = 0, j = 0;
-
-        while (i>=0) {
-            i = g.indexOf('xlink:href="#', j );
-            if (i < 0) continue;
-            i += 13;
-            j = g.indexOf('"', i);
-            g += this.getDefinition(g.slice(i, j));
-        }
-
-        return '\n' +  g;
-    };
-};
 /* abc_selectors.js
    Implenta alguns objetos para controle de tela, tais como o um seletor de acordeons e um seletor de tonalidades
  */
@@ -10249,9 +9692,12 @@ if (!ABCXJS.edit)
 
 ABCXJS.edit.EditArea = function (editor_id, callback, options ) {
     
+    this.parentCallback = callback;
+    this.callback = { listener: this, method: 'editareaCallback' };
+    
     this.container = {};
     var aToolBotoes = [ 
-        'gutter|Numeração das Linhas', 'download|Salvar Local', 'fontsize|Tamanho da fonte', 'DROPDOWN|Tom|selKey', 
+        'gutter|Numeração das Linhas', 'download|Salvar Local', 'REFRESH|Atualizar', 'fontsize|Tamanho da fonte', 'DROPDOWN|Tom|selKey', 
         'octavedown|Oitava|Oitava', 'octaveup|Oitava|Oitava', 'search|Localizar e substituir', 
         'undo|Dezfazer', 'redo|Refazer', 'lighton|Realçar texto', 'readonly|Bloquear edição' 
     ] ;
@@ -10273,7 +9719,7 @@ ABCXJS.edit.EditArea = function (editor_id, callback, options ) {
               topDiv
             , [ 'popout|Janela flutuante' ]
             , options
-            , callback
+            , this.callback
             , aToolBotoes
         );
     } else {
@@ -10281,12 +9727,12 @@ ABCXJS.edit.EditArea = function (editor_id, callback, options ) {
               topDiv
             , [ 'move|Mover', 'popin|Janela fixa' , 'maximize|Maximizar janela' ]
             , options
-            , callback
+            , this.callback
             , aToolBotoes
         );
 
         this.keySelector = new ABCXJS.edit.KeySelector( 
-                'selKey', this.container.menu['selKey'], callback );
+                'selKey', this.container.menu['selKey'], this.callback );
         
     }
    
@@ -10305,6 +9751,70 @@ ABCXJS.edit.EditArea = function (editor_id, callback, options ) {
     
     if(callback.listener)
         this.addChangeListener(callback.listener);
+};
+
+ABCXJS.edit.EditArea.prototype.editareaCallback = function ( action, elem, searchTerm, replaceTerm ) {
+    switch(action) {
+        case 'UNDO': 
+        case 'REDO': 
+        case 'UNDO-ALL': 
+        case 'REDO-ALL': 
+        case 'FONTSIZE': 
+            alert( 'EditArea: ' + action );
+            break;
+        case 'DO-SEARCH': 
+            this.searchRange = this.aceEditor.find(searchTerm, {
+                wrap: true,
+                caseSensitive: true, 
+                wholeWord: true,
+                regExp: false,
+                preventScroll: true // do not change selection
+            });
+            this.aceEditor.selection.setRange(this.searchRange);
+            break;
+        case 'DO-REPLACE': 
+            this.aceEditor.session.replace(this.searchRange, replaceTerm );
+            break;
+        case 'DO-REPLACEALL': 
+            this.aceEditor.replaceAll(searchTerm, replaceTerm );
+            break;
+        case 'SEARCH': 
+            this.alert = new DRAGGABLE.ui.ReplaceDialog( this.container );
+            break;
+        case 'GUTTER': // liga/desliga a numeracao de linhas
+            this.setGutter();
+            break;
+        case 'MAXIMIZE': 
+            if( elem.innerHTML.indexOf('ico-full' ) > 0 ) {
+                elem.innerHTML = '<a href="" title="Restaurar janela"><i class="ico-restore"></i></a>';
+                this.fullEditarea();
+            } else {
+                elem.innerHTML = '<a href="" title="Maximizar janela"><i class="ico-full-screen"></i></a>';
+            }
+            break;
+            
+        case 'READONLY': // habilita/bloqueia a edição
+            if( elem.innerHTML.indexOf('ico-lock-open' ) > 0 ) {
+                elem.innerHTML = '<a href="" title="Bloquear edição"><i class="ico-lock ico-black ico-large"></i></a>';
+                this.setReadOnly(true);
+            } else {
+                elem.innerHTML = '<a href="" title="Bloquear edição"><i class="ico-lock-open ico-black ico-large"></i></a>';
+                this.setReadOnly(false);
+            }
+            break;
+        case 'LIGHTON': // liga/desliga realce de sintaxe
+            if( elem.innerHTML.indexOf('ico-lightbulb-on' ) > 0 )
+                elem.innerHTML = '<a href="" title="Realçar texto"><i class="ico-lightbulb-off ico-black ico-large"></i></a>';
+            else 
+                elem.innerHTML = '<a href="" title="Realçar texto"><i class="ico-lightbulb-on ico-black ico-large"></i></a>';
+            this.setSyntaxHighLight();
+            break;
+        case 'RESIZE':
+            this.resize();
+            break;
+        default:
+            this.parentCallback.listener[this.parentCallback.method](action, elem);
+    }
 };
 
 // Este css é usado apenas quando o playback da partitura está funcionando
@@ -12014,13 +11524,9 @@ DRAGGABLE.ui.Window.prototype.defineCallback = function( cb ) {
     this.callback = cb;
 };
 
-DRAGGABLE.ui.Window.prototype.modifyCloseAction = function( newAction ) {
-    this.closeAction = newAction;
-};
-
 DRAGGABLE.ui.Window.prototype.eventsCentral = function (action, elem) {
     if (this.callback) {
-        this.callback.listener[this.callback.method](( action === 'CLOSE' ? this.closeAction : action ), elem);
+        this.callback.listener[this.callback.method]( action, elem);
     } else {
         if (action === 'CLOSE') {
             this.close();
@@ -12053,7 +11559,8 @@ DRAGGABLE.ui.Window.prototype.addTitle = function( id, title  ) {
         }
     }
     
-    div.innerHTML = '<span id="dSpanTranslatableTitle'+id+'" style="padding-left: 5px;">'+title+'</span><span id="dSpanTitle'+id+'" style="padding-left: 5px;"></span>';
+    div.innerHTML = '<span id="dSpanTranslatableTitle'+id+'" style="padding-left: 5px;">'+title+
+                        '</span><span id="dSpanTitle'+id+'" style="padding-left: 5px; white-space: nowrap;"></span>';
     
     self.menuDiv.appendChild(div);
     
@@ -12108,7 +11615,8 @@ DRAGGABLE.ui.Window.prototype.addToolButtons = function( id,  aButtons ) {
     if(!aButtons) return;
     var self = this;
     
-    var buttonMap = { GUTTER:'list-numbered', DOWNLAOD:'download', FONTSIZE: 'fontsize', DROPDOWN:'open-down', OCTAVEDOWN:'octave-down', OCTAVEUP:'octave-up', 
+    var buttonMap = { GUTTER:'list-numbered', REFRESH:'bolt', DOWNLOAD:'download', FONTSIZE: 'fontsize', 
+                        DROPDOWN:'open-down', OCTAVEDOWN:'octave-down', OCTAVEUP:'octave-up', 
                         SEARCH:'find-and-replace', UNDO:'undo', REDO:'redo', LIGHTON:'lightbulb-on', READONLY:'lock-open' };
     
     aButtons.forEach( function (label) {
@@ -12165,6 +11673,18 @@ DRAGGABLE.ui.Window.prototype.addPushButtons = function( aButtons ) {
         var action = part[1].split('-');
 
         switch( action[action.length-1] ) {
+            case 'SEARCH': 
+                ico = 'ico-search';  
+                claz = 'pushbutton';  
+                break;
+            case 'REPLACE': 
+                ico = 'ico-redo';  
+                claz = 'pushbutton';  
+                break;
+            case 'REPLACEALL': 
+                ico = 'ico-redo-all';  
+                claz = 'pushbutton';  
+                break;
             case 'YES': 
             case 'APPLY': 
                 ico = 'ico-circle-tick';  
@@ -12175,6 +11695,7 @@ DRAGGABLE.ui.Window.prototype.addPushButtons = function( aButtons ) {
                 claz = 'pushbutton';  
                 break;
             case 'NO': 
+            case 'CLOSE': 
             case 'CANCEL':
                 ico = 'ico-circle-error'; 
                 claz = 'pushbutton cancel'; 
@@ -12188,18 +11709,47 @@ DRAGGABLE.ui.Window.prototype.addPushButtons = function( aButtons ) {
 
 DRAGGABLE.ui.Alert = function( parent, action, text, description ) {
     
+    var x, y, callback;
+    
+    this.callback = { listener: this, method: 'alertCallback' };
+    
+    if(!parent) {
+        
+        this.parentCallback = parent.callback;
+        callback = null;
+        
+        // redimensiona a workspace
+        var winH = window.innerHeight
+                    || document.documentElement.clientHeight
+                    || document.body.clientHeight;
+
+        var winW = window.innerWidth
+                || document.documentElement.clientWidth
+                || daocument.body.clientWidth;
+        
+        x = winW/2-350;
+        y = winH/2-200;
+        
+    } else {
+        callback = parent.callback;
+        x = parent.topDiv.offsetLeft + 50;
+        y = parent.topDiv.offsetTop+ 50;
+    }
+    
+    var w = ( action ? "500px" : "700px" );
+    
     this.container = new DRAGGABLE.ui.Window(
           null
         , null
-        , {title: 'Alerta', translate: false, statusBar: false, top: "100px", left: "300px",  zIndex: 300}
-        , parent.callback
+        , {title: 'Alerta', translate: false, statusBar: false, top: "100px", left: "300px", width: w, height:"auto", zIndex: 300}
+        , this.callback
     );
     
-    this.container.dataDiv.innerHTML = '<div class="alert" >\n\
-        <div class="flag"><i class="ico-circle-exclamation"></i></div>\n\
-        <div class="text-group">\n\
+    this.container.dataDiv.innerHTML = '<div class="dialog" >\n\
+        <div class="flag"><i class="ico-circle-'+(action? 'question' : 'exclamation')+'"></i></div>\n\
+        <div class="text-group'+(action? '' : ' wide')+'">\n\
             <div class="title">'+text+'</div>\n\
-            <div class="descrition">'+description+'</div>\n\
+            <div class="description">'+description+'</div>\n\
         </div>\n\
         <div id="pgAlert" class="pushbutton-group" style="right: 0; bottom: 0;" >\
             <div id="botao1Alert"></div>\n\
@@ -12207,13 +11757,20 @@ DRAGGABLE.ui.Alert = function( parent, action, text, description ) {
         </div>\n\
     </div>';
     
-    this.container.addPushButtons([
-        'botao1Alert|'+action+'-YES|Sim',
-        'botao2Alert|'+action+'-NO|Não'
-    ]);
+    if( action ) {
     
-    this.container.modifyCloseAction(action+'-CANCEL');
+        this.container.addPushButtons([
+            'botao1Alert|'+action+'-YES|Sim',
+            'botao2Alert|'+action+'-NO|Não'
+        ]);
 
+    } else {
+        
+        this.container.addPushButtons([
+            'botao1Alert|CLOSE|Ok'
+        ]);
+        
+    }   
     this.modalPane = document.getElementById('modalPane');
     
     if( ! this.modalPane ) {
@@ -12227,7 +11784,7 @@ DRAGGABLE.ui.Alert = function( parent, action, text, description ) {
     }    
     
     this.modalPane.style.display = 'block';
-    this.container.move( parent.topDiv.offsetLeft + 50, parent.topDiv.offsetTop+ 50 );
+    this.container.move( x, y );
         
     this.container.setVisible(true);
 
@@ -12239,6 +11796,19 @@ DRAGGABLE.ui.Alert.prototype.close = function( ) {
     this.container.topDiv.remove();
     this.container = null;
 };
+
+DRAGGABLE.ui.Alert.prototype.alertCallback = function ( action, elem ) {
+    switch(action) {
+        case 'CLOSE': 
+        case 'CANCEL': 
+           this.close();
+           break;
+        default:
+            if( this.parentCallback )
+                this.parentCallback.listener[this.parentCallback.method](action, elem);
+    }
+};
+
 
 DRAGGABLE.ui.PushButton = function( item, claz, ico, act, text, janela) {
     this.item = item;
@@ -12318,6 +11888,86 @@ DRAGGABLE.ui.ColorPicker.prototype.activate = function( parent ) {
     this.container.topDiv.style.top = ( bounds.top + bounds.height/2  -120 ) + "px";
     this.container.topDiv.style.left = bounds.left + bounds.width + 5 + "px";
     this.container.setVisible(true);
+};
+
+
+DRAGGABLE.ui.ReplaceDialog = function( parent ) {
+    
+    var x, y;
+    
+    this.parentCallback = parent.callback;
+    this.callback = { listener: this, method: 'dialogCallback' };
+    x = parent.topDiv.offsetLeft + 50;
+    y = parent.topDiv.offsetTop+ 50;
+    
+    this.container = new DRAGGABLE.ui.Window(
+          null
+        , null
+        , {title: 'Procurar e substituir', translate: false, statusBar: false, top: "100px", left: "300px", width: "700px", height:"auto", zIndex: 300}
+        , this.callback
+    );
+    
+    this.container.dataDiv.innerHTML = '<div class="dialog" >\n\
+        <div class="flag"><i class="ico-find-and-replace"></i></div>\n\
+        <div class="text-group">\n\
+            <br>Localizar:<input id="searchTerm" type="text" value="nós"></input>\n\
+            <br><br>Substituir por: <input id="replaceTerm" type="text" value="vós"></input>\n\
+        </div>\n\
+        <div id="pgAlert" class="pushbutton-group" style="right: 0; bottom: 0;" >\
+            <div id="botao1Replace"></div>\n\
+            <div id="botao2Replace"></div>\n\
+            <div id="botao3Replace"></div>\n\
+            <div id="botao4Replace"></div>\n\
+        </div>\n\
+    </div>';
+    
+        this.container.addPushButtons([
+            'botao1Replace|SEARCH|Localizar',
+            'botao2Replace|REPLACE|Substituir',
+            'botao3Replace|REPLACEALL|Substituir Tudo',
+            'botao4Replace|CANCEL|Cancelar'
+        ]);
+        
+        this.searchTerm = document.getElementById("searchTerm");
+        this.replaceTerm = document.getElementById("replaceTerm");
+        
+//    this.modalPane = document.getElementById('modalPane');
+//    
+//    if( ! this.modalPane ) {
+//        
+//        var div = document.createElement("DIV");
+//        div.id = 'modalPane';
+//        div.style = "position:absolute; z-index:250; background-color:black; opacity:0.4; top:0; left:0; bottom:0; right:0; pointer-events: block; display:none;";
+//        document.body.appendChild(div);
+//        this.modalPane = div;
+//        
+//    }    
+//    
+//    this.modalPane.style.display = 'block';
+    this.container.move( x, y );
+        
+    this.container.setVisible(true);
+
+};
+
+DRAGGABLE.ui.ReplaceDialog.prototype.close = function( ) {
+    //this.modalPane.style.display = 'none';
+    this.container.setVisible(false);
+    this.container.topDiv.remove();
+    this.container = null;
+};
+
+DRAGGABLE.ui.ReplaceDialog.prototype.dialogCallback = function ( action, elem ) {
+    switch(action) {
+        case 'MOVE': 
+           break;
+        case 'CLOSE': 
+        case 'CANCEL': 
+           this.close();
+           break;
+        default:
+            this.parentCallback.listener[this.parentCallback.method]('DO-'+action, elem, this.searchTerm.value, this.replaceTerm.value);
+    }
 };
 /* 
  * To change this license header, choose License Headers in Project Properties.
@@ -12799,465 +12449,6 @@ ABCXJS.tablature.Accordion.prototype.updateEditor = function () {
     }
     this.tabLines = [];
     return ret;
-};
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * TODO:
- * - Verificar porque no caso de slur a ordem dos elementos não está sendo respeitada
-*/
-
-/*
- 
-            Definição da sintaxe para tablatura
-        
-           " |: G+5'2g-6>-5 | G-3'2d-5d-[678]1/2 | G+5d-5d-> | G-xd-5d-6 | +{786'}2 | +11/2 | c+ac+b |"
-        
-           Linha de tablatura ::= { <comentario> | <barra> | <coluna> }*
-        
-           comentario := "%[texto]"
-
-           barra ::=  "|", "||", ":|", "|:", ":|:", ":||:", "::", ":||", ":||", "[|", "|]", "|[|", "|]|" [endings]
-        
-           coluna ::=  ["("<triplet>][<bassNote>]<bellows><note>[<duration>] [")"] 
-        
-           bassNote ::=  { "abcdefgABCDEFG>xz" }*
-          
-           bellows ::= "-"|"+" 
-        
-           note ::= <button>[<row>] | chord 
-        
-           chord ::= "[" {<button>[<row>]}* "]" 
-        
-           button ::=  {hexDigit} | "x" | "z" | ">"
-        
-           row ::= { "'" }*
-
-           duration ::=  number|fracao 
-
- */
-
-if (!window.ABCXJS)
-	window.ABCXJS = {};
-
-if (!window.ABCXJS.tablature)
-	window.ABCXJS.tablature = {};
-
-ABCXJS.tablature.Parse = function( accordion, str, vars ) {
-    this.accordion = accordion;
-    this.invalid = false;
-    this.finished = false;
-    this.line = str;
-    this.vars = vars || {} ;
-    this.bassNoteSyms = "abcdefgABCDEFG>xz";
-    this.trebNoteSyms = "0123456789abcdefABCDEF>xz";
-    this.durSyms = "0123456789/.";
-    this.belSyms = "+-";
-    this.barSyms = ":]|[";
-    this.accSyms = "♭♯";
-    this.i = 0;
-    this.xi = 0;
-    this.offset = 8.9;
-    
-    this.warn = function(str) {
-        var bad_char = this.line.charAt(this.i);
-        if (bad_char === ' ')
-            bad_char = "SPACE";
-        var clean_line = this.encode(this.line.substring(0, this.i)) +
-                '<span style="text-decoration:underline;font-size:1.3em;font-weight:bold;">' + bad_char + '</span>' +
-                this.encode(this.line.substring(this.i + 1));
-        this.addWarning("Music Line:" + /*line*/ 0 + ":" + /*column*/(this.i + 1) + ': ' + str + ": " + clean_line);
-    };
-    
-    this.addWarning = function(str) {
-        if (!this.vars.warnings) this.vars.warnings = [];
-        this.vars.warnings.push(str);
-    };
-
-    this.encode = function(str) {
-        var ret = window.ABCXJS.parse.gsub(str, '\x12', ' ');
-        ret = window.ABCXJS.parse.gsub(ret, '&', '&amp;');
-        ret = window.ABCXJS.parse.gsub(ret, '<', '&lt;');
-        return window.ABCXJS.parse.gsub(ret, '>', '&gt;');
-    };
-
-};
-
-ABCXJS.tablature.Parse.prototype.parseTabVoice = function ( ) {
-    var voice = [];
-    this.i = 0;
-    var token = {el_type: "unrecognized"};
-
-    while (this.i < this.line.length && !this.finished) {
-        token = this.getToken();
-        switch (token.el_type) {
-            case "bar":
-                token.startChar = this.xi;
-                token.endChar = this.i-1;
-                if (!this.invalid)
-                    voice[voice.length] = token;
-                this.vars.lastBarElem = token;
-                break;
-            case "note":
-                if(this.vars.lastBarElem && this.vars.lastBarElem.barNumber === undefined)
-                    this.vars.lastBarElem.barNumber = this.vars.currentVoice.currBarNumber ++;
-                if (!this.invalid)
-                    voice[voice.length] = this.formatChild(token);
-                break;
-            case "comment":
-            case "unrecognized":
-            default:
-                break;
-        }
-    }
-    return voice;
-};
-
-ABCXJS.tablature.Parse.prototype.formatChild = function (token) {
-    var child = {
-        el_type: token.el_type
-        , startChar: this.xi
-        , endChar: this.i-1
-        , pitches: []
-        , duration: token.duration * this.vars.default_length
-        , bellows: token.bellows
-    };
-
-    var pitchBase = 18;
-    var tt = "tabText";
-
-    if (token.bassNote.length > 1) {
-        pitchBase = 21.3;
-        tt = "tabText2";
-    }
-    
-    
-    for (var b = 0; b < token.bassNote.length; ++b) {
-
-        if (token.bassNote[b] === "x") {
-            this.registerMissingNote( this.vars.lastBarElem.barNumber );
-        }
-        
-        if( ! this.checkBassButton(token.bellows, token.bassNote[b]) ) {
-            this.registerInvalidBass( this.vars.lastBarElem.barNumber );
-        }
-
-        if (token.bassNote[b] === "z") {
-            child.pitches[b] = {bass: true, type: "rest", c: 'scripts.tabrest', pitch: 0.7 + pitchBase - (b * 3)};
-        } else {
-            child.pitches[b] = {bass: true, type: tt, c: this.getTabSymbol(token.bassNote[b]), pitch: pitchBase - (b * 3) - 0.5};
-        }
-    }
-
-    var qtd = token.buttons.length;
-
-    for (var i = 0; i < token.buttons.length; i++) {
-        var n = child.pitches.length;
-
-        if (token.buttons[i] === "x") {
-            this.registerMissingNote( this.vars.lastBarElem.barNumber );
-        }
-
-        if (token.buttons[i] === "z")
-            child.pitches[n] = {type: "rest", c: "scripts.tabrest", pitch: token.bellows === "+" ? 13.2 : 13.2 - this.offset};
-        else {
-            var offset = (qtd >= 3 ? -(this.offset - (2.8 * (qtd - 2))) : -this.offset);
-            var p = (qtd === 1 ? 11.7 : 13.4 - (i * 2.8)) + (token.bellows === "+" ? 0 : offset);
-            child.pitches[n] = {c: this.getTabSymbol(token.buttons[i]), type: "tabText" + (qtd > 1 ? "2" : ""), pitch: p};
-        }
-
-    }
-
-    if (token.startTriplet) {
-        child.startTriplet = token.startTriplet;
-    }
-
-    if (token.endTriplet) {
-        child.endTriplet = token.endTriplet;
-    }
-
-
-    return child;
-};
-
-ABCXJS.tablature.Parse.prototype.getTabSymbol = function(text) {
-    switch(text) {
-        case '>': return 'scripts.rarrow';
-        default: return text;
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getToken = function() {
-    this.invalid = false;
-    this.parseMultiCharToken( ' \t' );
-    this.xi = this.i;
-    switch(this.line.charAt(this.i)) {
-        case '%':
-          this.finished = true;  
-          return { el_type:"comment",  token: this.line.substr( this.i+1 ) };
-        case '|':
-        case ':':
-          return this.getBarLine();
-          
-        case '[': // se o proximo caracter não for um pipe, deve ser tratado como uma coluna de notas
-          if( this.line.charAt(this.i+1) === '|' ) {
-            return this.getBarLine();
-          }
-        default:    
-          return this.getColumn();
-    }
-   
-};
-
-ABCXJS.tablature.Parse.prototype.parseMultiCharToken = function( syms ) {
-    while (this.i < this.line.length && syms.indexOf(this.line.charAt(this.i)) >= 0) {
-        this.i++;
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getBarLine = function() {
-  var endings  =   '1234567890,'; // due syntax conflict I will not consider the  dash '-'.
-  var validBars = { 
-        "|"   : "bar_thin"
-      , "||"  : "bar_thin_thin"
-      , "[|"  : "bar_thick_thin"
-      , "|]"  : "bar_thin_thick"
-      , ":|:" : "bar_dbl_repeat"
-      , ":||:": "bar_dbl_repeat"
-      , "::"  : "bar_dbl_repeat" 
-      , "|:"  : "bar_left_repeat"
-      , "||:" : "bar_left_repeat"
-      , "[|:" : "bar_left_repeat"
-      , ":|"  : "bar_right_repeat"
-      , ":||" : "bar_right_repeat"
-      , ":|]" : "bar_right_repeat"
-  };
-  
-  if(this.triplet) {
-    this.triplet = false;
-    this.warn( "Expected triplet end but found " + this.line.charAt(this.i) );
-  }
-
-  var token = { el_type:"bar", type:"bar", token: undefined };
-  var p = this.i;
-  
-  this.parseMultiCharToken(this.barSyms);
-  
-  token.token = this.line.substr( p, this.i-p );
-  this.finished =  this.i >= this.line.length;
-  
-  // validar o tipo de barra
-  token.type = validBars[token.token];
-  this.invalid = !token.type;
-
-  if(! this.invalid) {
-    this.parseMultiCharToken( ' \t' );
-    if (this.vars.inEnding ) {
-            token.endDrawEnding = true;
-            if( token.type !== 'bar_thin') {
-                token.endEnding = true;
-                this.vars.inEnding = false;
-            }    
-    }
-    if( (! this.finished ) && endings.indexOf(this.line.charAt(this.i))>=0) {
-        token.startEnding = this.line.charAt(this.i);
-        if (this.vars.inEnding) {
-            token.endDrawEnding = true;
-            token.endEnding = true;
-        }    
-        this.vars.inEnding = true;
-        this.i++;
-    }
-  }
-  return token;
-};
-
-ABCXJS.tablature.Parse.prototype.getColumn = function() {
-    var token = {el_type: "note", type: "note", bassNote: undefined, bellows: "", buttons: [], duration: 1};
-    token.bassNote = [];
-    
-    if(this.line.charAt(this.i) === "(") {
-        token.startTriplet = this.getTripletDef();
-        this.triplet = true;
-    }
-    
-    while (this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-      token.bassNote[token.bassNote.length] = this.getBassNote();
-    }
-    
-    token.bellows = this.getBelows();
-    token.buttons = this.getNote();
-    token.duration = this.getDuration();
-
-    
-    if( this.isTripletEnd() ) {
-        token.endTriplet = true;
-    }
-    
-    this.finished = this.i >= this.line.length;
-    return token;
-
-};
-
-ABCXJS.tablature.Parse.prototype.checkBassButton = function( bellows, b ) {
-    var kb = this.accordion.loadedKeyboard;
-    
-    if( !kb  || b === undefined || ('.>.x.z.').indexOf(b) > 0 ) return true;
-    
-    var nota = kb.parseNote(b, true );
-    for( var j = kb.keyMap.length; j > kb.keyMap.length - 2; j-- ) {
-      for( var i = 0; i < kb.keyMap[j-1].length; i++ ) {
-          var tecla = kb.keyMap[j-1][i];
-          if(bellows === '+') {
-            if(tecla.closeNote.key === nota.key ) return tecla;
-          } else {  
-            if(tecla.openNote.key === nota.key ) return tecla;
-          }
-      }   
-    }
-    return false;
-};
-
-
-ABCXJS.tablature.Parse.prototype.getTripletDef = function() {
-    this.i++;
-    this.parseMultiCharToken( ' \t' );
-    var t =  this.line.charAt(this.i); //espero um único número como indicador de triplet
-    this.i++;
-    this.parseMultiCharToken( ' \t' );
-    return t;    
-};
-
-ABCXJS.tablature.Parse.prototype.isTripletEnd = function() {
-    this.parseMultiCharToken( ' \t' );
-    if( this.line.charAt(this.i) === ')' ) {
-        this.i++;
-        this.triplet = false;
-        return true;
-    } 
-    
-    return false;
-};
-
-
-ABCXJS.tablature.Parse.prototype.getBassNote = function() {
-  var note = "";
-  if( this.bassNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-    this.warn( "Expected Bass Note but found " + this.line.charAt(this.i) );
-    this.i++;
-  } else {
-    note = this.line.charAt(this.i);
-    this.i++;
-    if( this.accSyms.indexOf(this.line.charAt(this.i)) >= 0 ) {
-      note += this.line.charAt(this.i);
-      this.i++;
-    }
-  }
-  return note;
-};
-
-ABCXJS.tablature.Parse.prototype.getDuration = function() {
-    var dur = 1;
-    var p = this.i;
-
-    this.parseMultiCharToken(this.durSyms);
-    
-    if (p !== this.i) {
-        dur = this.line.substr(p, this.i - p);
-        if (isNaN(eval(dur))) {
-          this.warn( "Expected numeric or fractional note duration, but found " + dur);
-        } else {
-            dur = eval(dur);
-        }
-    }
-    return dur;
-};
-
-ABCXJS.tablature.Parse.prototype.getBelows = function() {
-    if(this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-       this.warn( "Expected belows information, but found " + this.line.charAt(this.i) );
-       this.invalid = true;
-       return '+';
-    } else {
-        this.i++;
-        return this.line.charAt(this.i-1);
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.getNote = function() {
-  var b = [];
-  switch( this.line.charAt(this.i) ) {
-      case '[':
-         this.i++;
-         b = this.getChord();
-         break;
-      default: 
-         b[b.length] = this.getButton();
-  }
-  return b;
-};
-
-ABCXJS.tablature.Parse.prototype.getChord = function( token ) {
-    var b = [];
-    while (this.i < this.line.length && this.line.charAt(this.i) !== ']' ) {
-        b[b.length] = this.getButton();
-    }
-    if( this.line.charAt(this.i) !== ']' ) {
-       this.warn( "Expected end of chord - ']'");
-       this.invalid = true;
-    } else {
-        this.i++;
-    }
-    return b;
-};
-
-ABCXJS.tablature.Parse.prototype.getButton = function() {
-    var c = "x";
-    var row = "";
-    
-    if(this.trebNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
-       this.warn( "Expected button number, but found " + this.line.charAt(this.i));
-    } else {
-        c = this.line.charAt(this.i);
-        switch(c) {
-            case '>':
-            case 'x':
-            case 'z':
-               break;
-            default:   
-                c = isNaN(parseInt(c, 16))? 'x': parseInt(c, 16).toString();
-        }
-    }
-    this.i++;
-    
-    var p = this.i;
-
-    this.parseMultiCharToken("'");
-    
-    if (p !== this.i) 
-        row = this.line.substr(p, this.i - p);
-        
-    return c + row;
-};
-
-ABCXJS.tablature.Parse.prototype.registerMissingNote = function(barNumber) {
-    if( ! this.vars.missingNotes )  this.vars.missingNotes = ',';
-    
-    if( this.vars.missingNotes.indexOf( ''+barNumber ) < 0 ) {
-        this.vars.missingNotes += barNumber + ',';
-    }
-};
-
-ABCXJS.tablature.Parse.prototype.registerInvalidBass = function(barNumber) {
-    if( ! this.vars.InvalidBass )  this.vars.InvalidBass = ',';
-    
-    if( this.vars.InvalidBass.indexOf( ''+barNumber ) < 0 ) {
-        this.vars.InvalidBass += barNumber + ',';
-    }
 };
 /* 
  * To change this license header, choose License Headers in Project Properties.
@@ -14122,3 +13313,978 @@ ABCXJS.tablature.Layout.prototype.printBarLine = function (elem) {
     return abselem;
 
 };
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * TODO:
+ * - Verificar porque no caso de slur a ordem dos elementos não está sendo respeitada
+*/
+
+/*
+ 
+            Definição da sintaxe para tablatura
+        
+           " |: G+5'2g-6>-5 | G-3'2d-5d-[678]1/2 | G+5d-5d-> | G-xd-5d-6 | +{786'}2 | +11/2 | c+ac+b |"
+        
+           Linha de tablatura ::= { <comentario> | <barra> | <coluna> }*
+        
+           comentario := "%[texto]"
+
+           barra ::=  "|", "||", ":|", "|:", ":|:", ":||:", "::", ":||", ":||", "[|", "|]", "|[|", "|]|" [endings]
+        
+           coluna ::=  ["("<triplet>][<bassNote>]<bellows><note>[<duration>] [")"] 
+        
+           bassNote ::=  { "abcdefgABCDEFG>xz" }*
+          
+           bellows ::= "-"|"+" 
+        
+           note ::= <button>[<row>] | chord 
+        
+           chord ::= "[" {<button>[<row>]}* "]" 
+        
+           button ::=  {hexDigit} | "x" | "z" | ">"
+        
+           row ::= { "'" }*
+
+           duration ::=  number|fracao 
+
+ */
+
+if (!window.ABCXJS)
+	window.ABCXJS = {};
+
+if (!window.ABCXJS.tablature)
+	window.ABCXJS.tablature = {};
+
+ABCXJS.tablature.Parse = function( accordion, str, vars ) {
+    this.accordion = accordion;
+    this.invalid = false;
+    this.finished = false;
+    this.line = str;
+    this.vars = vars || {} ;
+    this.bassNoteSyms = "abcdefgABCDEFG>xz";
+    this.trebNoteSyms = "0123456789abcdefABCDEF>xz";
+    this.durSyms = "0123456789/.";
+    this.belSyms = "+-";
+    this.barSyms = ":]|[";
+    this.accSyms = "♭♯";
+    this.i = 0;
+    this.xi = 0;
+    this.offset = 8.9;
+    
+    this.warn = function(str) {
+        var bad_char = this.line.charAt(this.i);
+        if (bad_char === ' ')
+            bad_char = "SPACE";
+        var clean_line = this.encode(this.line.substring(0, this.i)) +
+                '<span style="text-decoration:underline;font-size:1.3em;font-weight:bold;">' + bad_char + '</span>' +
+                this.encode(this.line.substring(this.i + 1));
+        this.addWarning("Music Line:" + /*line*/ 0 + ":" + /*column*/(this.i + 1) + ': ' + str + ": " + clean_line);
+    };
+    
+    this.addWarning = function(str) {
+        if (!this.vars.warnings) this.vars.warnings = [];
+        this.vars.warnings.push(str);
+    };
+
+    this.encode = function(str) {
+        var ret = window.ABCXJS.parse.gsub(str, '\x12', ' ');
+        ret = window.ABCXJS.parse.gsub(ret, '&', '&amp;');
+        ret = window.ABCXJS.parse.gsub(ret, '<', '&lt;');
+        return window.ABCXJS.parse.gsub(ret, '>', '&gt;');
+    };
+
+};
+
+ABCXJS.tablature.Parse.prototype.parseTabVoice = function ( ) {
+    var voice = [];
+    this.i = 0;
+    var token = {el_type: "unrecognized"};
+
+    while (this.i < this.line.length && !this.finished) {
+        token = this.getToken();
+        switch (token.el_type) {
+            case "bar":
+                token.startChar = this.xi;
+                token.endChar = this.i-1;
+                if (!this.invalid)
+                    voice[voice.length] = token;
+                this.vars.lastBarElem = token;
+                break;
+            case "note":
+                if(this.vars.lastBarElem && this.vars.lastBarElem.barNumber === undefined)
+                    this.vars.lastBarElem.barNumber = this.vars.currentVoice.currBarNumber ++;
+                if (!this.invalid)
+                    voice[voice.length] = this.formatChild(token);
+                break;
+            case "comment":
+            case "unrecognized":
+            default:
+                break;
+        }
+    }
+    return voice;
+};
+
+ABCXJS.tablature.Parse.prototype.formatChild = function (token) {
+    var child = {
+        el_type: token.el_type
+        , startChar: this.xi
+        , endChar: this.i-1
+        , pitches: []
+        , duration: token.duration * this.vars.default_length
+        , bellows: token.bellows
+    };
+
+    var pitchBase = 18;
+    var tt = "tabText";
+
+    if (token.bassNote.length > 1) {
+        pitchBase = 21.3;
+        tt = "tabText2";
+    }
+    
+    
+    for (var b = 0; b < token.bassNote.length; ++b) {
+
+        if (token.bassNote[b] === "x") {
+            this.registerMissingNote( this.vars.lastBarElem.barNumber );
+        }
+        
+        if( ! this.checkBassButton(token.bellows, token.bassNote[b]) ) {
+            this.registerInvalidBass( this.vars.lastBarElem.barNumber );
+        }
+
+        if (token.bassNote[b] === "z") {
+            child.pitches[b] = {bass: true, type: "rest", c: 'scripts.tabrest', pitch: 0.7 + pitchBase - (b * 3)};
+        } else {
+            child.pitches[b] = {bass: true, type: tt, c: this.getTabSymbol(token.bassNote[b]), pitch: pitchBase - (b * 3) - 0.5};
+        }
+    }
+
+    var qtd = token.buttons.length;
+
+    for (var i = 0; i < token.buttons.length; i++) {
+        var n = child.pitches.length;
+
+        if (token.buttons[i] === "x") {
+            this.registerMissingNote( this.vars.lastBarElem.barNumber );
+        }
+
+        if (token.buttons[i] === "z")
+            child.pitches[n] = {type: "rest", c: "scripts.tabrest", pitch: token.bellows === "+" ? 13.2 : 13.2 - this.offset};
+        else {
+            var offset = (qtd >= 3 ? -(this.offset - (2.8 * (qtd - 2))) : -this.offset);
+            var p = (qtd === 1 ? 11.7 : 13.4 - (i * 2.8)) + (token.bellows === "+" ? 0 : offset);
+            child.pitches[n] = {c: this.getTabSymbol(token.buttons[i]), type: "tabText" + (qtd > 1 ? "2" : ""), pitch: p};
+        }
+
+    }
+
+    if (token.startTriplet) {
+        child.startTriplet = token.startTriplet;
+    }
+
+    if (token.endTriplet) {
+        child.endTriplet = token.endTriplet;
+    }
+
+
+    return child;
+};
+
+ABCXJS.tablature.Parse.prototype.getTabSymbol = function(text) {
+    switch(text) {
+        case '>': return 'scripts.rarrow';
+        default: return text;
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getToken = function() {
+    this.invalid = false;
+    this.parseMultiCharToken( ' \t' );
+    this.xi = this.i;
+    switch(this.line.charAt(this.i)) {
+        case '%':
+          this.finished = true;  
+          return { el_type:"comment",  token: this.line.substr( this.i+1 ) };
+        case '|':
+        case ':':
+          return this.getBarLine();
+          
+        case '[': // se o proximo caracter não for um pipe, deve ser tratado como uma coluna de notas
+          if( this.line.charAt(this.i+1) === '|' ) {
+            return this.getBarLine();
+          }
+        default:    
+          return this.getColumn();
+    }
+   
+};
+
+ABCXJS.tablature.Parse.prototype.parseMultiCharToken = function( syms ) {
+    while (this.i < this.line.length && syms.indexOf(this.line.charAt(this.i)) >= 0) {
+        this.i++;
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getBarLine = function() {
+  var endings  =   '1234567890,'; // due syntax conflict I will not consider the  dash '-'.
+  var validBars = { 
+        "|"   : "bar_thin"
+      , "||"  : "bar_thin_thin"
+      , "[|"  : "bar_thick_thin"
+      , "|]"  : "bar_thin_thick"
+      , ":|:" : "bar_dbl_repeat"
+      , ":||:": "bar_dbl_repeat"
+      , "::"  : "bar_dbl_repeat" 
+      , "|:"  : "bar_left_repeat"
+      , "||:" : "bar_left_repeat"
+      , "[|:" : "bar_left_repeat"
+      , ":|"  : "bar_right_repeat"
+      , ":||" : "bar_right_repeat"
+      , ":|]" : "bar_right_repeat"
+  };
+  
+  if(this.triplet) {
+    this.triplet = false;
+    this.warn( "Expected triplet end but found " + this.line.charAt(this.i) );
+  }
+
+  var token = { el_type:"bar", type:"bar", token: undefined };
+  var p = this.i;
+  
+  this.parseMultiCharToken(this.barSyms);
+  
+  token.token = this.line.substr( p, this.i-p );
+  this.finished =  this.i >= this.line.length;
+  
+  // validar o tipo de barra
+  token.type = validBars[token.token];
+  this.invalid = !token.type;
+
+  if(! this.invalid) {
+    this.parseMultiCharToken( ' \t' );
+    if (this.vars.inEnding ) {
+            token.endDrawEnding = true;
+            if( token.type !== 'bar_thin') {
+                token.endEnding = true;
+                this.vars.inEnding = false;
+            }    
+    }
+    if( (! this.finished ) && endings.indexOf(this.line.charAt(this.i))>=0) {
+        token.startEnding = this.line.charAt(this.i);
+        if (this.vars.inEnding) {
+            token.endDrawEnding = true;
+            token.endEnding = true;
+        }    
+        this.vars.inEnding = true;
+        this.i++;
+    }
+  }
+  return token;
+};
+
+ABCXJS.tablature.Parse.prototype.getColumn = function() {
+    var token = {el_type: "note", type: "note", bassNote: undefined, bellows: "", buttons: [], duration: 1};
+    token.bassNote = [];
+    
+    if(this.line.charAt(this.i) === "(") {
+        token.startTriplet = this.getTripletDef();
+        this.triplet = true;
+    }
+    
+    while (this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+      token.bassNote[token.bassNote.length] = this.getBassNote();
+    }
+    
+    token.bellows = this.getBelows();
+    token.buttons = this.getNote();
+    token.duration = this.getDuration();
+
+    
+    if( this.isTripletEnd() ) {
+        token.endTriplet = true;
+    }
+    
+    this.finished = this.i >= this.line.length;
+    return token;
+
+};
+
+ABCXJS.tablature.Parse.prototype.checkBassButton = function( bellows, b ) {
+    var kb = this.accordion.loadedKeyboard;
+    
+    if( !kb  || b === undefined || ('.>.x.z.').indexOf(b) > 0 ) return true;
+    
+    var nota = kb.parseNote(b, true );
+    for( var j = kb.keyMap.length; j > kb.keyMap.length - 2; j-- ) {
+      for( var i = 0; i < kb.keyMap[j-1].length; i++ ) {
+          var tecla = kb.keyMap[j-1][i];
+          if(bellows === '+') {
+            if(tecla.closeNote.key === nota.key ) return tecla;
+          } else {  
+            if(tecla.openNote.key === nota.key ) return tecla;
+          }
+      }   
+    }
+    return false;
+};
+
+
+ABCXJS.tablature.Parse.prototype.getTripletDef = function() {
+    this.i++;
+    this.parseMultiCharToken( ' \t' );
+    var t =  this.line.charAt(this.i); //espero um único número como indicador de triplet
+    this.i++;
+    this.parseMultiCharToken( ' \t' );
+    return t;    
+};
+
+ABCXJS.tablature.Parse.prototype.isTripletEnd = function() {
+    this.parseMultiCharToken( ' \t' );
+    if( this.line.charAt(this.i) === ')' ) {
+        this.i++;
+        this.triplet = false;
+        return true;
+    } 
+    
+    return false;
+};
+
+
+ABCXJS.tablature.Parse.prototype.getBassNote = function() {
+  var note = "";
+  if( this.bassNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+    this.warn( "Expected Bass Note but found " + this.line.charAt(this.i) );
+    this.i++;
+  } else {
+    note = this.line.charAt(this.i);
+    this.i++;
+    if( this.accSyms.indexOf(this.line.charAt(this.i)) >= 0 ) {
+      note += this.line.charAt(this.i);
+      this.i++;
+    }
+  }
+  return note;
+};
+
+ABCXJS.tablature.Parse.prototype.getDuration = function() {
+    var dur = 1;
+    var p = this.i;
+
+    this.parseMultiCharToken(this.durSyms);
+    
+    if (p !== this.i) {
+        dur = this.line.substr(p, this.i - p);
+        if (isNaN(eval(dur))) {
+          this.warn( "Expected numeric or fractional note duration, but found " + dur);
+        } else {
+            dur = eval(dur);
+        }
+    }
+    return dur;
+};
+
+ABCXJS.tablature.Parse.prototype.getBelows = function() {
+    if(this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+       this.warn( "Expected belows information, but found " + this.line.charAt(this.i) );
+       this.invalid = true;
+       return '+';
+    } else {
+        this.i++;
+        return this.line.charAt(this.i-1);
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.getNote = function() {
+  var b = [];
+  switch( this.line.charAt(this.i) ) {
+      case '[':
+         this.i++;
+         b = this.getChord();
+         break;
+      default: 
+         b[b.length] = this.getButton();
+  }
+  return b;
+};
+
+ABCXJS.tablature.Parse.prototype.getChord = function( token ) {
+    var b = [];
+    while (this.i < this.line.length && this.line.charAt(this.i) !== ']' ) {
+        b[b.length] = this.getButton();
+    }
+    if( this.line.charAt(this.i) !== ']' ) {
+       this.warn( "Expected end of chord - ']'");
+       this.invalid = true;
+    } else {
+        this.i++;
+    }
+    return b;
+};
+
+ABCXJS.tablature.Parse.prototype.getButton = function() {
+    var c = "x";
+    var row = "";
+    
+    if(this.trebNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+       this.warn( "Expected button number, but found " + this.line.charAt(this.i));
+    } else {
+        c = this.line.charAt(this.i);
+        switch(c) {
+            case '>':
+            case 'x':
+            case 'z':
+               break;
+            default:   
+                c = isNaN(parseInt(c, 16))? 'x': parseInt(c, 16).toString();
+        }
+    }
+    this.i++;
+    
+    var p = this.i;
+
+    this.parseMultiCharToken("'");
+    
+    if (p !== this.i) 
+        row = this.line.substr(p, this.i - p);
+        
+    return c + row;
+};
+
+ABCXJS.tablature.Parse.prototype.registerMissingNote = function(barNumber) {
+    if( ! this.vars.missingNotes )  this.vars.missingNotes = ',';
+    
+    if( this.vars.missingNotes.indexOf( ''+barNumber ) < 0 ) {
+        this.vars.missingNotes += barNumber + ',';
+    }
+};
+
+ABCXJS.tablature.Parse.prototype.registerInvalidBass = function(barNumber) {
+    if( ! this.vars.InvalidBass )  this.vars.InvalidBass = ',';
+    
+    if( this.vars.InvalidBass.indexOf( ''+barNumber ) < 0 ) {
+        this.vars.InvalidBass += barNumber + ',';
+    }
+};
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+if (!window.SVG)
+    window.SVG = {};
+
+if (!window.SVG.Glyphs )
+    window.SVG.Glyphs = {};
+
+SVG.Glyphs = function () {
+    
+    var abc_glyphs = new ABCXJS.write.Glyphs();
+
+    var glyphs = { // the @@ will be replaced by the abc_glyph contents.
+       "0": '<path id="0" transform="scale(0.95)" \nd="@@"/>'
+      ,"1": '<path id="1" transform="scale(0.95)" \nd="@@"/>'
+      ,"2": '<path id="2" transform="scale(0.95)" \nd="@@"/>'
+      ,"3": '<path id="3" transform="scale(0.95)" \nd="@@"/>'
+      ,"4": '<path id="4" transform="scale(0.95)" \nd="@@"/>'
+      ,"5": '<path id="5" transform="scale(0.95)" \nd="@@"/>'
+      ,"6": '<path id="6" transform="scale(0.95)" \nd="@@"/>'
+      ,"7": '<path id="7" transform="scale(0.95)" \nd="@@"/>'
+      ,"8": '<path id="8" transform="scale(0.95)" \nd="@@"/>'
+      ,"9": '<path id="9" transform="scale(0.95)" \nd="@@"/>'
+      ,"f": '<path id="f" transform="scale(0.95)" \nd="@@"/>'
+      ,"m": '<path id="m" transform="scale(0.95)" \nd="@@"/>'
+      ,"p": '<path id="p" transform="scale(0.95)" \nd="@@"/>'
+      ,"r": '<path id="r" transform="scale(0.95)" \nd="@@"/>'
+      ,"s": '<path id="s" transform="scale(0.95)" \nd="@@"/>'
+      ,"z": '<path id="z" transform="scale(0.95)" \nd="@@"/>'
+      ,"+": '<path id="+" transform="scale(0.95)" \nd="@@"/>'
+      ,",": '<path id="," transform="scale(0.95)" \nd="@@"/>'
+      ,"-": '<path id="-" transform="scale(0.95)" \nd="@@"/>'
+      ,".": '<path id="." transform="scale(0.95)" \nd="@@"/>'
+      ,"accidentals.nat": '<path id="accidentals.nat" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.sharp": '<path id="accidentals.sharp" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.flat": '<path id="accidentals.flat" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.halfsharp": '<path id="accidentals.halfsharp" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.dblsharp": '<path id="accidentals.dblsharp" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.halfflat": '<path id="accidentals.halfflat" transform="scale(0.8)" \nd="@@"/>'
+      ,"accidentals.dblflat": '<path id="accidentals.dblflat" transform="scale(0.8)" \nd="@@"/>'
+      ,"clefs.C": '<path id="clefs.C" \nd="@@"/>'
+      ,"clefs.F": '<path id="clefs.F" \nd="@@"/>'
+      ,"clefs.G": '<path id="clefs.G" \nd="@@"/>'
+      ,"clefs.perc": '<path id="clefs.perc" \nd="@@"/>'
+      ,"clefs.tab": '<path id="clefs.tab" transform="scale(0.9)" \nd="@@"/>'
+      ,"dots.dot": '<path id="dots.dot" \nd="@@"/>'
+      ,"flags.d8th": '<path id="flags.d8th" \nd="@@"/>'
+      ,"flags.d16th": '<path id="flags.d16th" \nd="@@"/>'
+      ,"flags.d32nd": '<path id="flags.d32nd" \nd="@@"/>'
+      ,"flags.d64th": '<path id="flags.d64th" \nd="@@"/>'
+      ,"flags.dgrace": '<path id="flags.dgrace" \nd="@@"/>'
+      ,"flags.u8th": '<path id="flags.u8th" \nd="@@"/>'
+      ,"flags.u16th": '<path id="flags.u16th" \nd="@@"/>'
+      ,"flags.u32nd": '<path id="flags.u32nd" \nd="@@"/>'
+      ,"flags.u64th": '<path id="flags.u64th" \nd="@@"/>'
+      ,"flags.ugrace": '<path id="flags.ugrace" \nd="@@"/>'
+      ,"graceheads.quarter": '<g id="graceheads.quarter" transform="scale(0.6)" ><use xlink:href="#noteheads.quarter" /></g>'
+      ,"graceflags.d8th": '<g id="graceflags.d8th" transform="scale(0.6)" ><use xlink:href="#flags.d8th" /></g>'
+      ,"graceflags.u8th": '<g id="graceflags.u8th" transform="scale(0.6)" ><use xlink:href="#flags.u8th" /></g>'
+      ,"noteheads.quarter": '<path id="noteheads.quarter" \nd="@@"/>'
+      ,"noteheads.whole": '<path id="noteheads.whole" \nd="@@"/>'
+      ,"notehesad.dbl": '<path id="noteheads.dbl" \nd="@@"/>'
+      ,"noteheads.half": '<path id="noteheads.half" \nd="@@"/>'
+      ,"rests.whole": '<path id="rests.whole" \nd="@@"/>'
+      ,"rests.half": '<path id="rests.half" \nd="@@"/>'
+      ,"rests.quarter": '<path id="rests.quarter" \nd="@@"/>'
+      ,"rests.8th": '<path id="rests.8th" \nd="@@"/>'
+      ,"rests.16th": '<path id="rests.16th" \nd="@@"/>'
+      ,"rests.32nd": '<path id="rests.32nd" \nd="@@"/>'
+      ,"rests.64th": '<path id="rests.64th" \nd="@@"/>'
+      ,"rests.128th": '<path id="rests.128th" \nd="@@"/>'
+      ,"scripts.rarrow": '<path id="scripts.rarrow" \nd="M -6 -5 h 8 v -3 l 4 4 l -4 4 v -3 h -8 z"/>'
+      ,"scripts.tabrest": '<path id="scripts.tabrest" \nd="M -5 5 h 10 v 2 h -10 z"/>'
+      ,"scripts.lbrace": '<path id="scripts.lbrace" \nd="@@"/>'
+      ,"scripts.ufermata": '<path id="scripts.ufermata" \nd="@@"/>'
+      ,"scripts.dfermata": '<path id="scripts.dfermata" \nd="@@"/>'
+      ,"scripts.sforzato": '<path id="scripts.sforzato" \nd="@@"/>'
+      ,"scripts.staccato": '<path id="scripts.staccato" \nd="@@"/>'
+      ,"scripts.tenuto": '<path id="scripts.tenuto" \nd="@@"/>'
+      ,"scripts.umarcato": '<path id="scripts.umarcato" \nd="@@"/>'
+      ,"scripts.dmarcato": '<path id="scripts.dmarcato" \nd="@@"/>'
+      ,"scripts.stopped": '<path id="scripts.stopped" \nd="@@"/>'
+      ,"scripts.upbow": '<path id="scripts.upbow" \nd="@@"/>'
+      ,"scripts.downbow": '<path id="scripts.downbow" \nd="@@"/>'
+      ,"scripts.turn": '<path id="scripts.turn" \nd="@@"/>'
+      ,"scripts.trill": '<path id="scripts.trill" \nd="@@"/>'
+      ,"scripts.segno": '<path id="scripts.segno" transform="scale(0.8)" \nd="@@"/>'
+      ,"scripts.coda": '<path id="scripts.coda" transform="scale(0.8)" \nd="@@"/>'
+      ,"scripts.comma": '<path id="scripts.comma" \nd="@@"/>'
+      ,"scripts.roll": '<path id="scripts.roll" \nd="@@"/>'
+      ,"scripts.prall": '<path id="scripts.prall" \nd="@@"/>'
+      ,"scripts.mordent": '<path id="scripts.mordent" \nd="@@"/>'
+      ,"timesig.common": '<path id="timesig.common" \nd="@@"/>'
+      ,"it.punto": '<path id="it.punto" \nd="@@"/>'
+      ,"it.l": '<path id="it.l" \nd="@@"/>'
+      ,"it.f": '<path id="it.f" \nd="@@"/>'
+      ,"it.F": '<path id="it.F" \nd="@@"/>'
+      ,"it.i": '<path id="it.i" \nd="@@"/>'
+      ,"it.n": '<path id="it.n" \nd="@@"/>'
+      ,"it.e": '<path id="it.e" \nd="@@"/>'
+      ,"it.D": '<path id="it.D" \nd="@@"/>'
+      ,"it.d": '<path id="it.d" \nd="@@"/>'
+      ,"it.a": '<path id="it.a" \nd="@@"/>'
+      ,"it.C": '<path id="it.C" \nd="@@"/>'
+      ,"it.c": '<path id="it.c" \nd="@@"/>'
+      ,"it.p": '<path id="it.p" \nd="@@"/>'
+      ,"it.o": '<path id="it.o" \nd="@@"/>'
+      ,"it.S": '<path id="it.S" \nd="@@"/>'
+      ,"it.s": '<path id="it.s" \nd="@@"/>'
+      ,"it.Fine": '<g id="it.Fine" ><use xlink:href="#it.F" x="0" y="3" /><use xlink:href="#it.i" x="12" y="3" /><use xlink:href="#it.n" x="17.5" y="3" /><use xlink:href="#it.e" x="27" y="3" /></g>'
+      ,"it.Coda": '<g id="it.Coda" ><use xlink:href="#it.C" x="0" y="3" /><use xlink:href="#it.o" x="12" y="3" /><use xlink:href="#it.d" x="20" y="3" /><use xlink:href="#it.a" x="30" y="3" /></g>'
+      ,"it.Da": '<g id="it.Da"><use xlink:href="#it.D" x="0" y="3" /><use xlink:href="#it.a" x="14" y="3" /></g>'
+      ,"it.DaCoda": '<g id="it.DaCoda"><use xlink:href="#it.Da" x="0" y="0" /><use xlink:href="#scripts.coda" x="32" y="0" /></g>'
+      ,"it.DaSegno": '<g id="it.DaSegno"><use xlink:href="#it.Da" x="0" y="0" /><use xlink:href="#scripts.segno" x="32" y="-3" /></g>'
+      ,"it.DC": '<g id="it.DC"><use xlink:href="#it.D" x="0" y="1" /><use xlink:href="#it.punto" x="12" y="2" /><use xlink:href="#it.C" x="18" y="1" /><use xlink:href="#it.punto" x="29" y="2" /></g>'
+      ,"it.DS": '<g id="it.DS"><use xlink:href="#it.D" x="0" y="1" /><use xlink:href="#it.punto" x="12" y="2" /><use xlink:href="#it.S" x="18" y="1" /><use xlink:href="#it.punto" x="29" y="2" /></g>'
+      ,"it.al": '<g id="it.al"><use xlink:href="#it.a" x="0" y="2" /><use xlink:href="#it.l" x="10" y="2" /></g>'
+      ,"it.DCalFine": '<g id="it.DCalFine"><use xlink:href="#it.DC" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Fine" x="46" y="-1" /></g>'
+      ,"it.DCalCoda": '<g id="it.DCalCoda"><use xlink:href="#it.DC" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Coda" x="46" y="-1" /></g>'
+      ,"it.DSalFine": '<g id="it.DSalFine"><use xlink:href="#it.DS" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Fine" x="46" y="-1" /></g>'
+      ,"it.DSalCoda": '<g id="it.DSalCoda"><use xlink:href="#it.DS" x="-14" y="1" /><use xlink:href="#it.al" x="25" y="1" /><use xlink:href="#it.Coda" x="46" y="-1" /></g>'
+    };
+    
+    this.getDefinition = function (gl) {
+        
+        
+        var g = glyphs[gl];
+        
+        if (!g) {
+            return "";
+        }
+        
+        // expande path se houver, buscando a definicao do original do ABCJS.
+        g = g.replace('@@', abc_glyphs.getTextSymbol(gl) );
+        
+        var i = 0, j = 0;
+
+        while (i>=0) {
+            i = g.indexOf('xlink:href="#', j );
+            if (i < 0) continue;
+            i += 13;
+            j = g.indexOf('"', i);
+            g += this.getDefinition(g.slice(i, j));
+        }
+
+        return '\n' +  g;
+    };
+};
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/* 
+    Created on : 27/04/2016, 10:55:16
+    Author     : flavio.vani@gmail.com
+*/
+
+/*
+
+Main document structure:
+
+<div style"..." >
+
+    Header:
+     Contains a title, the style definitions for the entire document and the defined symbols.
+    <svg id="tune" ... >
+        <title>Música criada por ABCXJS.</title><style type="text/css">
+        <style type="text/css">
+            @media print {
+                div.nobrk {page-break-inside: avoid} 
+                div.newpage {page-break-before: always} 
+            }    
+        </style>
+        <defs>
+        </defs>
+    </svg>
+
+    Page1:
+      Class nobrk, an optional group to control aspects like scaling and the content of the page 
+    <div class="nobrk" >
+        <svg id="page1"  ... >
+            <g id="gpage1" ... ></g>
+        </svg>
+    </div>
+
+    Page2 and subsequents:
+      Class newpage, an optional group to control aspects like scaling and the content of the page 
+    <div class="newpage" >
+        <svg id="page2"  ...>
+            <g id="gpage2" ... ></g>
+        </svg>
+    </div>
+
+</div>
+*/
+
+if (!window.SVG)
+    window.SVG = {};
+
+if (! window.SVG.misc )
+    window.SVG.misc = { printerId: 0 };
+
+if (! window.SVG.Printer )
+    window.SVG.Printer = {};
+
+SVG.Printer = function ( d ) {
+    this.topDiv = d;
+    this.scale = 1;
+    this.gid=0;
+    this.printerId = ++SVG.misc.printerId;
+   
+    this.title;
+    this.styles = '';
+    this.defines = '';
+    this.defined_glyph = [];
+
+    this.svg_pages = [];
+    this.currentPage = 0;
+    
+    this.glyphs = new SVG.Glyphs();
+    
+    this.initDoc();
+    
+    this.svgHead = function( id, kls, size ) {
+        
+        var w = size? size.w*this.scale + 'px' : '0';
+        var h = size? size.h*this.scale + 'px' : '0';
+        var d = size? '' : 'display: none; ';
+        
+//        // not in use
+//        id = id? 'id="'+id+'"' : '' ;
+//        kls = kls? 'class="'+kls+'"' : '' ;
+        
+        return '<svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="'+d+'width:'+w+'; height: '+h+';" >\n';
+    };
+};
+
+SVG.Printer.prototype.initDoc = function( docId, title, add_styles, options ) {
+    options = options || {};
+    this.docId = docId || 'dcto';
+    this.title = title || '';
+    this.backgroundColor = options.backgroundColor || 'none';
+    this.color = options.color || 'black';
+    this.baseColor = options.baseColor || 'black';
+    this.scale = 1.0;
+    this.defines = '';
+    this.defined_glyph = [];
+
+    this.svg_pages = [];
+    this.currentPage = -1;
+    this.gid=0;
+    this.styles = 
+'<style type="text/css">\n\
+    @media print {\n\
+        div.nobrk {page-break-inside: avoid}\n\
+        div.newpage {page-break-before: always}\n\
+    }\n'+(add_styles||'')+'\n</style>\n';
+    
+//<![CDATA[\n\
+//]]>\n
+    
+};
+
+SVG.Printer.prototype.endDoc = function( ) {
+
+    var output = '<div style="display:block; margin:0; padding: 0; width: fit-content; background-color:'+this.backgroundColor+'; ">\n' + this.svgHead( this.docId );
+    
+    output += '<title>'+this.title+'</title>\n';
+    output += this.styles;
+    
+    if(this.defines.length > 0 ) {
+        output += '<defs>'+this.defines+'</defs>\n';
+    }
+    
+    output += '</svg>\n';
+    
+    for( var p=0; p <=  this.currentPage; p++ ) {
+        output += '<div class="'+(p>0?'newpage':'nobrk')+'">'+this.svg_pages[p]+'</div>\n';  
+    }
+    
+    output +='</div>';
+    
+    this.topDiv.innerHTML = output;
+
+};
+
+SVG.Printer.prototype.initPage = function( scl ) {
+    this.scale = scl || this.scale;
+    this.currentPage++;
+    this.svg_pages[this.currentPage] = '';
+    var g = 'g' + this.docId + (this.currentPage+1);
+    if( this.scale !== 1.0 ) {
+        this.svg_pages[this.currentPage]  += '<g id="'+g+'" transform="scale( '+ this.scale +')">';
+    }
+};
+
+SVG.Printer.prototype.endPage = function( size ) {
+    if( this.scale && this.scale !== 1.0 ) {
+        this.svg_pages[this.currentPage]  += '</g>';
+    }
+    var pg = this.docId + (this.currentPage+1);
+    this.svg_pages[this.currentPage] = this.svgHead( pg, this.currentPage < 1 ? 'nobrk':'newpage', size ) + this.svg_pages[this.currentPage] + '</svg>\n';
+};
+
+SVG.Printer.prototype.beginGroup = function (el_type) {
+    var id = 'p'+this.printerId+'g'+(++this.gid); 
+    var kls = ' style="fill:'+this.color+'; stroke:none;" ' ;
+    this.svg_pages[this.currentPage] += '<g id="'+id+'"'+kls+'>\n';  
+    return id;
+};
+
+SVG.Printer.prototype.endGroup = function () {
+    this.svg_pages[this.currentPage] += '</g>\n';  
+};
+
+SVG.Printer.prototype.setDefine = function (s) {
+    var p =  this.glyphs.getDefinition(s);
+    
+    if(p.length === 0 ) return false;
+    
+    if(!this.defined_glyph[s]) {
+        this.defines += p;
+        this.defined_glyph[s] = true;
+    }
+    return true;
+};
+
+SVG.Printer.prototype.printLine = function (x,y,dx,dy) {
+    if( x === dx ) {
+        dx = ABCXJS.misc.isIE() ? 1: 0.6;
+        dy -=  y;
+    }
+    if( y === dy ) {
+        dy = ABCXJS.misc.isIE() ? 1: 0.6;
+        dx -=  x;
+    }
+    var pathString = ABCXJS.write.sprintf('<rect style="fill:'+this.color+';"  x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>\n', x, y, dx, dy);
+    this.svg_pages[this.currentPage] += pathString;
+};
+
+SVG.Printer.prototype.printLedger = function (x,y,dx,dy) {
+    var pathString = ABCXJS.write.sprintf('<path style="stroke:'+this.baseColor+'; fill: white; stroke-width:0.6; stroke-dasharray: 1 1;" d="M %.1f %.1f h%.1f"/>\n', x, y, dx-x);
+    this.svg_pages[this.currentPage] += pathString;
+};
+
+SVG.Printer.prototype.printBeam = function (x1,y1,x2,y2,x3,y3,x4,y4) {
+    
+//    this.svg_pages[this.currentPage] += ABCXJS.write.sprintf(
+//        '<path style="fill:'+this.color + '; stroke:none;" ' +
+//        'd="M %.1f %.1f L %.1f %.1f L %.1f %.1f L %.1f %.1f Z" />\n'
+//        , x1, y1, x2, y2, x3, y3, x4, y4);
+        
+// Por algum motivo o path acima apresenta vazamento do preenchimento em algumas escalas de zoom.
+// Resolvi usando um path diferente (e não muito eficiente para desenhar o beam
+        
+    this.svg_pages[this.currentPage] += ABCXJS.write.sprintf(
+        '<path style="stroke:none; fill:'+ this.color + ';" ' +
+        'd="M %.1f %.1f L %.1f %.1f L %.1f %.1f Z L %.1f %.1f L %.1f %.1f Z" />\n'
+        , x1, y1, x2, y2, x3, y3, x3, y3, x4, y4 );
+};
+
+SVG.Printer.prototype.printStaveLine = function (x1, x2, y, debug) {
+    var color = debug? debug : this.baseColor;
+    var dy =0.6;   
+    var pathString = ABCXJS.write.sprintf('<rect style="stroke:none; fill: %s;" x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>\n', 
+                                                color, x1, y, Math.abs(x2-x1), dy );
+    this.svg_pages[this.currentPage] += pathString;
+};
+
+SVG.Printer.prototype.printBar = function (x, dx, y1, y2, real) {
+    
+    var x2 = x+dx;
+    var kls = real?'':'style="stroke:none; fill:'+this.baseColor+'"';
+    
+    if (ABCXJS.misc.isIE() && dx<1) {
+      dx = 1;
+    }
+    
+    var dy = Math.abs(y2-y1);
+    dx = Math.abs(dx); 
+    
+    var pathString = ABCXJS.write.sprintf('<rect '+kls+' x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
+
+    this.svg_pages[this.currentPage] += pathString;
+};
+
+SVG.Printer.prototype.printStem = function (x, dx, y1, y2) {
+    
+    var x2 = x+dx;
+    
+    if (ABCXJS.misc.isIE() && dx<1) {
+      dx = 1;
+    }
+    
+    var dy = Math.abs(y2-y1);
+    dx = Math.abs(dx); 
+    
+    var pathString = ABCXJS.write.sprintf('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
+
+    this.svg_pages[this.currentPage] += pathString;
+};
+
+
+SVG.Printer.prototype.printTieArc = function (x1,y1,x2,y2,up) {
+    
+    //unit direction vector
+    var dx = x2-x1;
+    var dy = y2-y1;
+    var norm= Math.sqrt(dx*dx+dy*dy);
+    var ux = dx/norm;
+    var uy = dy/norm;
+
+    var flatten = norm/3.5;
+    var curve = (up?-1:1)*Math.min(25, Math.max(4, flatten));
+
+    var controlx1 = x1+flatten*ux-curve*uy;
+    var controly1 = y1+flatten*uy+curve*ux;
+    var controlx2 = x2-flatten*ux-curve*uy;
+    var controly2 = y2-flatten*uy+curve*ux;
+    var thickness = 2;
+    
+    var pathString = ABCXJS.write.sprintf('<path style="fill:'+this.color+'; stroke-width:0.6px; stroke:none;" d="M %.1f %.1f C %.1f %.1f %.1f %.1f %.1f %.1f C %.1f %.1f %.1f %.1f %.1f %.1f z"/>\n', 
+                            x1, y1,
+                            controlx1, controly1, controlx2, controly2, x2, y2, 
+                            controlx2-thickness*uy, controly2+thickness*ux, controlx1-thickness*uy, controly1+thickness*ux, x1, y1 );
+    
+    this.svg_pages[this.currentPage] += pathString;
+};
+    
+SVG.Printer.prototype.printBrace = function (x, y1, y2) {
+    var sz = Math.abs(y1-y2); // altura esperada
+    var scale = sz / 1027; // altura real do simbolo
+    this.setDefine('scripts.lbrace');
+    var pathString = ABCXJS.write.sprintf('<use style="fill:'+this.baseColor+'" x="0" y="0" xlink:href="#scripts.lbrace" transform="translate(%.1f %.1f) scale(0.13 %.5f)" />\n', x, y2, scale );
+    this.svg_pages[this.currentPage] += pathString;
+};
+
+SVG.Printer.prototype.printSymbol = function (x, y, symbol) {
+    if (this.setDefine(symbol)) {
+        var pathString = ABCXJS.write.sprintf('<use x="%.1f" y="%.1f" xlink:href="#%s" />\n', x, y, symbol );
+        this.svg_pages[this.currentPage] += pathString;
+    } else {
+        throw 'Undefined: ' + symbol;
+    }
+};
+
+SVG.Printer.prototype.tabText = function( x, y, str, clss, anch ) {
+    
+   if( str === 'scripts.rarrow') {
+       //fixme: deveria mudar o tipe de tabtext para symbol, adequadamente
+       this.printSymbol(x, y, str );
+       return;
+   }
+   
+   str = ""+str;
+   if( str.length===0) return;
+   
+   anch = anch || 'start';
+   x = x.toFixed(2);
+   y = y.toFixed(2);
+   
+   this.svg_pages[this.currentPage] += '<text class="'+clss+'" x="'+x+'" y="'+y+'" >'+str+'</text>\n';
+};
+
+SVG.Printer.prototype.text = function( x, y, str, clss, anch ) {
+   var t; 
+   var estilo = clss === 'abc_lyrics' ? '' : 'style="stroke:none; fill: '+this.color+';"' ;
+   
+   str = ""+str;
+   if( str.length===0) return;
+   
+   t = str.split('\n');
+   
+   anch = anch || 'start';
+   x = x.toFixed(2);
+   y = y.toFixed(2);
+   
+   this.svg_pages[this.currentPage] += '<g class="'+clss+'" '+estilo+' transform="translate('+x+' '+y+')">\n';
+    if(t.length < 2) {
+       this.svg_pages[this.currentPage] += '<text text-anchor="'+anch+'" x="0" y="0" >'+t[0]+'</text>\n';
+    } else {
+       this.svg_pages[this.currentPage] += '<text text-anchor="'+anch+'" x="0" y="0">\n';
+       for(var i = 0; i < t.length; i++ )
+           this.svg_pages[this.currentPage] += '<tspan x="0" dy="1.2em" >'+t[i]+'</tspan>\n';
+       this.svg_pages[this.currentPage] += '</text>\n';
+    }
+    this.svg_pages[this.currentPage] += '</g>\n';
+};
+
+SVG.Printer.prototype.printButton = function (id, x, y, options) {
+    
+    var scale = options.radius/26; // 26 é o raio inicial do botão
+    var gid = 'p'+this.printerId+id;
+    var estilo = 'stroke:'+options.borderColor+'; stroke-width:'+options.borderWidth+'px; fill: none;';
+
+    var pathString = ABCXJS.write.sprintf( '<g id="%s" transform="translate(%.1f %.1f) scale(%.5f)">\n\
+        <circle cx="28" cy="28" r="26" style="stroke:none; fill: %s;" ></circle>\n\
+        <path id="%s_ac" style="stroke: none; fill: %s;" d="M 2 34 a26 26 0 0 1 52 -12"></path>\n\
+        <path id="%s_ao" style="stroke: none; fill: %s;" d="M 54 22 a26 26 0 0 1 -52 12"></path>\n\
+        <circle style="'+estilo+'" cx="28" cy="28" r="26"></circle>\n\
+        <path style="'+estilo+'" d="m 2 34 l 52 -12" ></path>\n\
+        <text id="%s_tc" class="%s" style="stroke:none; fill: black;" x="27" y="22" >...</text>\n\
+        <text id="%s_to" class="%s" style="stroke:none; fill: black;" x="27" y="44" >...</text>\n</g>\n',
+        gid, x, y, scale, options.fillColor, gid, options.closeColor, gid, options.openColor, gid, options.kls, gid, options.kls );
+        
+    this.svg_pages[this.currentPage] += pathString;
+    return gid;
+
+};
+

@@ -36,7 +36,7 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     this.editareaMovel = new ABCXJS.edit.EditArea(
           this.studioDiv.dataDiv
         , {listener: this, method: 'editorCallback' }
-        , { toolbar: true, statusBar:true, translate:false, left:"100px", top:"100px", width: "640px", height: "480px", title: 'Editor ABCX' } 
+        , { toolbar: true, statusBar:true, translate:false, left:"100px", top:"100px", width: "680px", height: "480px", title: 'Editor ABCX' } 
     );
     
     this.studioDiv.dataDiv.style.overflow = 'hidden';
@@ -377,6 +377,7 @@ SITE.Estudio.prototype.resize = function( ) {
     var t = this.studioDiv.dataDiv.clientHeight;
     if(window.getComputedStyle(this.editareaFixa.container.topDiv).display !== 'none') {
         e = this.editareaFixa.container.topDiv.clientHeight+4;
+        this.editareaFixa.container.topDiv.style.width = "";
     }
     var c = this.controlDiv.clientHeight;
 
@@ -407,7 +408,7 @@ SITE.Estudio.prototype.setup = function( mapa, tab, accordionId) {
     
     this.setString(this.renderedTune.text);
     this.editorWindow.setVisible(true);
-    this.editorWindow.resize(true);
+    //this.editorWindow.resize(true);
     
     this.editorWindow.container.setTitle('-&#160;' + tab.title);
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
@@ -421,7 +422,7 @@ SITE.Estudio.prototype.setup = function( mapa, tab, accordionId) {
         document.getElementById('I_showMap').setAttribute('class', 'ico-folder-open' );
     }
     
-    this.fireChanged2(0, true );
+    this.doFireChanged(0, true );
 };
 
 SITE.Estudio.prototype.showMap = function() {
@@ -465,8 +466,7 @@ SITE.Estudio.prototype.hideEditor = function() {
 
 SITE.Estudio.prototype.editorCallback = function (action, elem) {
     switch(action) {
-        case 'FONTSIZE': 
-        case 'SEARCH': 
+        case 'REFRESH': 
         case 'DOWNLOAD': 
            alert( action ); 
            break;
@@ -484,9 +484,6 @@ SITE.Estudio.prototype.editorCallback = function (action, elem) {
         case 'OCTAVEDOWN': 
            this.fireChanged(-12, true );
            break;
-        case 'GUTTER': // liga/desliga a numeracao de linhas
-            this.editorWindow.setGutter();
-            break;
         case 'MAXIMIZE': 
             if( elem.innerHTML.indexOf('ico-full' ) > 0 ) {
                 elem.innerHTML = '<a href="" title="Restaurar janela"><i class="ico-restore"></i></a>';
@@ -494,23 +491,6 @@ SITE.Estudio.prototype.editorCallback = function (action, elem) {
             } else {
                 elem.innerHTML = '<a href="" title="Maximizar janela"><i class="ico-full-screen"></i></a>';
             }
-            break;
-            
-        case 'READONLY': // habilita/bloqueia a edição
-            if( elem.innerHTML.indexOf('ico-lock-open' ) > 0 ) {
-                elem.innerHTML = '<a href="" title="Bloquear edição"><i class="ico-lock ico-black ico-large"></i></a>';
-                this.editorWindow.setReadOnly(true);
-            } else {
-                elem.innerHTML = '<a href="" title="Bloquear edição"><i class="ico-lock-open ico-black ico-large"></i></a>';
-                this.editorWindow.setReadOnly(false);
-            }
-            break;
-        case 'LIGHTON': // liga/desliga realce de sintaxe
-            if( elem.innerHTML.indexOf('ico-lightbulb-on' ) > 0 )
-                elem.innerHTML = '<a href="" title="Realçar texto"><i class="ico-lightbulb-off ico-black ico-large"></i></a>';
-            else 
-                elem.innerHTML = '<a href="" title="Realçar texto"><i class="ico-lightbulb-on ico-black ico-large"></i></a>';
-            this.editorWindow.setSyntaxHighLight();
             break;
         case 'POPIN':
             this.editorWindow.setVisible(false);
@@ -529,14 +509,9 @@ SITE.Estudio.prototype.editorCallback = function (action, elem) {
             this.resize();
             break;
         case 'MOVE':
-            //var k = this.keyboardWindow.topDiv;
-            //FILEMANAGER.saveLocal( 'property.keyboardDiv.settings',  k.style.top  + '|' + k.style.left );
             break;
         case 'CLOSE':
             this.hideEditor();
-            break;
-        case 'RESIZE':
-            this.editorWindow.resize(true);
             break;
     }
 };
@@ -573,7 +548,6 @@ SITE.Estudio.prototype.keyboardCallback = function( e ) {
             alert(e);
     }
 };
-
 
 SITE.Estudio.prototype.getString = function() {
     return this.editorWindow.getString();
@@ -763,12 +737,13 @@ SITE.Estudio.prototype.parseABC = function(transpose) {
           this.transposer = new ABCXJS.parse.Transposer( transpose );
     }
     
-    var abcParser = new ABCXJS.parse.Parse( this.transposer, this.accordion );
+    if( ! this.abcParser )
+        this.abcParser = new ABCXJS.parse.Parse( this.transposer, this.accordion );
     
-    abcParser.parse(this.getString(), this.parserparams );
+    this.abcParser.parse(this.getString(), this.parserparams );
     
-    this.renderedTune.abc = abcParser.getTune();
-    this.renderedTune.text = abcParser.getStrTune();
+    this.renderedTune.abc = this.abcParser.getTune();
+    this.renderedTune.text = this.abcParser.getStrTune();
     
     // transposição e geracao de tablatura podem ter alterado o texto ABC
     this.parsing = true; // tratar melhor essa forma de inibir evento change da editarea durante a atualização da string
@@ -779,7 +754,7 @@ SITE.Estudio.prototype.parseABC = function(transpose) {
         this.editareaMovel.keySelector.populate( this.transposer.keyToNumber( this.transposer.getKeyVoice(0) ) );       
     }
 
-    var warnings = abcParser.getWarnings() || [];
+    var warnings = this.abcParser.getWarnings() || [];
     for (var j=0; j<warnings.length; j++) {
         this.warnings.push(warnings[j]);
     }
@@ -804,10 +779,10 @@ SITE.Estudio.prototype.onChange = function() {
 SITE.Estudio.prototype.fireChanged = function (transpose, force) {
     var self = this;
     var loader = this.startLoader( "FC" );
-    loader.start(  function() { self.fireChanged2(transpose, force, loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
+    loader.start(  function() { self.doFireChanged(transpose, force, loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
 };
 
-SITE.Estudio.prototype.fireChanged2 = function (transpose, force, loader) {
+SITE.Estudio.prototype.doFireChanged = function (transpose, force, loader) {
 
     if( force || this.oldAbcText !== this.getString() ) {
         

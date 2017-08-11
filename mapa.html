@@ -68,7 +68,7 @@ teste.
                         <i class="ico-world-2"></i>&nbsp;<span id="DR_chlabel">Mudar a notação</span>
                     </button>
                     <button id="buttonShowMedia" style="display:none;" >
-                        <i class="ico-vplayer-3"></i>&nbsp;<span id="DR_showmedia">Videoaula</span>
+                        <i class="ico-vplayer"></i>&nbsp;<span id="DR_showmedia">Videoaula</span>
                     </button>
                 </div>
                 <div class="tv-content-always">
@@ -81,19 +81,19 @@ teste.
             <div id="mapaWarningsDiv"></div>
 
             <div id="section2" class="tabs">
-                <input id="tab-1" type="radio" name="tabControl" class="tab-selector-1" />
-                <label for="tab-1" class="tab-label-1">Acordes</label>
+                <input id="tabChords" type="radio" name="tabControl" class="tab-selector-1" />
+                <label for="tabChords" class="tab-label-1">Acordes</label>
 
-                <input id="tab-2" type="radio" name="tabControl" class="tab-selector-2" />
-                <label for="tab-2" class="tab-label-2">Exercícios</label>
+                <input id="tabPractices" type="radio" name="tabControl" class="tab-selector-2" />
+                <label for="tabPractices" class="tab-label-2">Exercícios</label>
 
-                <input id="tab-3" type="radio" name="tabControl" class="tab-selector-3" checked="checked" />
-                <label for="tab-3" class="tab-label-3">Músicas</label>
+                <input id="tabSongs" type="radio" name="tabControl" class="tab-selector-3" />
+                <label for="tabSongs" class="tab-label-3">Músicas</label>
 
                 <div class="btn-group" >
-                    <div id="menuChords" class="topMenu tv-m1"></div>
-                    <div id="menuPractices" class="topMenu tv-m2"></div>
-                    <div id="menuSongs" class="topMenu tv-m3"></div>
+                    <div id="menuChords" class="topMenu" style="display:none;"></div>
+                    <div id="menuPractices" class="topMenu" style="display:none;"></div>
+                    <div id="menuSongs" class="topMenu" style="display:none;"></div>
                     <button id="buttonTools">
                         <i class="ico-wrench"></i>&#160;<span id="DR_tools">Ferramentas</span>
                     </button>
@@ -141,13 +141,13 @@ teste.
                 <button id="stepMeasureBtn" title="Executar compasso">&#160;<i class="ico-forward"></i>&#160;</button>
                 <button id="repeatBtn" title="Repetir">&#160;<i class="ico-repeat-cw"></i>&#160;</button>
                 <button id="clearBtn" title="Limpar">&#160;<i class="ico-stop"></i>&#160;</button>
-                <button id="tempoBtn" title="Andamento">&#160;&#160;1&#160;&#160</button>
+                <button id="tempoBtn" title="Andamento">&#160;&#160;1&#160;&#160;</button>
             </div>
             <div id="divNormalPlayControls" class="btn-subgroup" >
                 <button id="playBtn2" title="Executar">&#160;<i class="ico-play"></i>&#160;</button>
                 <button id="stopBtn2" title="Parar">&#160;<i class="ico-stop"></i>&#160;</button>
             </div>
-            <label id="currentPlayTimeLabel2" >00:00:02</label>
+            <label id="currentPlayTimeLabel2" >00:00:00</label>
         </div>  <!-- controlDiv - este bloco é tratado internamente -->  
         <div id="printPreviewDiv" class="printPreviewClass"></div>
         
@@ -203,6 +203,16 @@ teste.
             
             function initApp() {
                 
+                if( ABCXJS.misc.isIE() ){
+                    var alert = new DRAGGABLE.ui.Alert( 
+                        null, null, 
+                        'Notamos que você está usando o Internet Explorer.',
+                        'Infelizmente, algumas funcionalidades do site não estarão disponíveis para este navegador. Assim, '+
+                                ' sugerimos que você use, de preferência, os navegadores: '+
+                                '<ul><li>Chrome (chromium)</li><li>Firefox</li><li>Safari</li><li>MS-Edge</li></ul>' );
+                    return;
+                }
+        
                 DR.initializeTranslator([
                     'DR_appName'
                    ,'DR_about'
@@ -255,6 +265,17 @@ teste.
                    ,'dRESTOREButtonA'
                 ]);
                 
+                
+                console.log( 
+                      '\nChrome: ' + ABCXJS.misc.isChrome() 
+                    + '\nCromium: ' + ABCXJS.misc.isChromium() 
+                    + '\nFirefox: ' + ABCXJS.misc.isFirefox()  
+                    + '\nIE: ' + ABCXJS.misc.isIE() 
+                    + '\nEdge: ' + ABCXJS.misc.isEdge() 
+                    + '\nOpera: ' + ABCXJS.misc.isOpera() 
+                    + '\nSafari: ' + ABCXJS.misc.isSafari() + '\n '
+                );
+        
                 w1 = new DRAGGABLE.ui.Window(
                           null
                         , null
@@ -380,9 +401,7 @@ teste.
                     } 
                 );
         
-        
                 // myMap.debugRepertorio();
-        
             }
             
             function getABCXversion() {

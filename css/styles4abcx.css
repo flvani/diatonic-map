@@ -711,15 +711,15 @@ and open the template in the editor.
     text-align: center;
 }    
 
-.alert {
+.dialog {
     min-height: 200px;
-    min-width: 500px;
     display: block;
 }
 
-.alert .flag {
-    min-height: 100px;
-    min-width: 100px;
+.dialog .flag {
+    position: absolute;
+    height: 100px;
+    width: 100px;
     display: block;
     font-size: 600%;
     color:red;
@@ -730,28 +730,39 @@ and open the template in the editor.
     float:left;
 }
 
-.alert .text-group {
-    min-height: 30px;
+.dialog .text-group {
+    position:relative;
+    clear:both;
+    top:0;
+    left: 120px;
+    margin: 0;
+    float:none;
+    min-height: 200px;
     min-width: 350px;
     max-width: 350px;
-    display: block;
-    margin: 20px 20px 20px -20px;
+    display: inline-block;
     padding: 10px;
     border: 1px solid blue;
     border: none;
-    float:left;
 }
+.dialog .wide {
+   max-width: 520px;
+ }
 
-.alert .text-group .title {
+.dialog .text-group .title {
     float:bottom;
     font-size: 20px;
-    text-align: center;
+    text-align: left;
     padding-bottom: 10px;
     
 }
 
-.alert .text-group .description {
-    float:bottom;
-    font-size: 15px;
-    text-align: left;
+.dialog .text-group .description {
+    float: bottom;
+    font-size: 14px;
+    text-align: justify;
+}
+
+.dialog .text-group input[type="text"] {
+  width: 400px;   
 }
