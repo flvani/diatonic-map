@@ -228,3 +228,7 @@ FILEMANAGER.saveLocal = function(name, content) {
 FILEMANAGER.loadLocal = function(name) {
    return localStorage.getItem(name);
 };
+
+FILEMANAGER.removeLocal = function(name) {
+   return localStorage.removeItem(name);
+};

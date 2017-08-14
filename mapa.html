@@ -121,7 +121,7 @@ teste.
         <div id="studioDiv" class="studioDiv" ></div>
         <div id="studioControlDiv" style="display:none;">
             <div id="controlDiv1" class="btn-subgroup" >
-                <button id="showEditorBtn" title="Exibir/Ocultar Editor"><i id="I_showEditor" class="ico-folder-open"></i>&#160;<span id="DR_showEditor">Editor</span></button>
+                <button id="showEditorBtn" title="Exibir/Ocultar Editor"><i id="I_showEditor" class="ico-folder"></i>&#160;<span id="DR_showEditor">Editor</span></button>
                 <button id="showMapBtn" title="Exibir/Ocultar Teclado"><i id="I_showMap" class="ico-folder"></i>&#160;<span id="DR_showMap">Teclado</span></button>
                 <button id="printBtn2" title="Imprimir" ><i class="ico-printer"></i>&#160;Imprimir</button>
                 <button id="saveBtn" title="Salvar Local" ><i class="ico-download"></i>&#160;Salvar Local</button>
@@ -202,6 +202,8 @@ teste.
             }, false);
             
             function initApp() {
+                
+                SITE.LoadProperties();
                 
                 if( ABCXJS.misc.isIE() ){
                     var alert = new DRAGGABLE.ui.Alert( 

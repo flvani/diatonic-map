@@ -14,9 +14,14 @@ SITE.Estudio = function (interfaceParams, playerParams) {
 
     this.oldAbcText = null;
     this.warnings = [];
-    this.currentMode = "normal"; 
-    this.editorVisible = true;
-    this.mapVisible = false;
+    this.currentMode = SITE.properties.studio.mode; 
+    this.playTreble = SITE.properties.studio.trebleOn;
+    this.playBass = SITE.properties.studio.bassOn;
+    this.timerOn = SITE.properties.studio.timerOn;
+    this.clefsToPlay = (this.playTreble?"T":"")+(this.playBass?"B":"");
+    
+    this.renderedTune = {text:undefined, abc:undefined, title:undefined
+                         , tab: undefined, div: undefined ,selector: undefined };
     
     this.studioDiv = new DRAGGABLE.ui.Window( 
           interfaceParams.studioDiv
@@ -25,73 +30,9 @@ SITE.Estudio = function (interfaceParams, playerParams) {
         , {listener: this, method: 'studioCallback'}
     );
     
+    
     this.studioDiv.setVisible(true);
-    
-    this.editareaFixa = new ABCXJS.edit.EditArea(
-          this.studioDiv.dataDiv
-        , {listener : this, method: 'editorCallback' }
-        , {draggable:false, toolbar: false, translate:false, width: "100%", height: "200px", title: 'Editor ABCX' }
-    );
-
-    this.editareaMovel = new ABCXJS.edit.EditArea(
-          this.studioDiv.dataDiv
-        , {listener: this, method: 'editorCallback' }
-        , { toolbar: true, statusBar:true, translate:false, left:"100px", top:"100px", width: "680px", height: "480px", title: 'Editor ABCX' } 
-    );
-    
     this.studioDiv.dataDiv.style.overflow = 'hidden';
-    this.editareaMovel.setVisible(false);
-   
-    this.editorWindow = this.editareaFixa;
-
-    this.editorWindow.setVisible(true);
-    this.editorWindow.setToolBarVisible(false);
-    this.editorWindow.resize(true);
-
-    this.controlDiv = document.createElement("DIV");
-    this.controlDiv.setAttribute("id", 'controlDiv' );
-    this.controlDiv.setAttribute("class", 'controlDiv btn-group' );
-    this.studioDiv.dataDiv.appendChild(this.controlDiv);
-    
-    this.controlDiv.innerHTML = document.getElementById(interfaceParams.studioControlDiv).innerHTML;
-    document.getElementById(interfaceParams.studioControlDiv).innerHTML = "";
-
-    if (interfaceParams.generate_warnings) {
-        this.warningsDiv = document.createElement("DIV");
-        this.warningsDiv.setAttribute("id", warnings_id);
-        this.warningsDiv.setAttribute("class", "warningsDiv" );
-        this.studioDiv.dataDiv.appendChild(this.warningsDiv);
-    }
-
-
-    this.studioCanvasDiv = document.createElement("DIV");
-    this.studioCanvasDiv.setAttribute("id", interfaceParams.studioCanvasDiv );
-    this.studioCanvasDiv.setAttribute("class", "studioCanvasDiv customScrollBar" );
-   
-   
-    this.canvasDiv = document.createElement("DIV");
-    this.canvasDiv.setAttribute("id", canvas_id);
-    this.canvasDiv.setAttribute("class", "canvasDiv" );
-    this.studioCanvasDiv.appendChild(this.canvasDiv);
-    
-    this.studioDiv.dataDiv.appendChild(this.studioCanvasDiv);
-
-    this.keyboardWindow = new DRAGGABLE.ui.Window( 
-          this.studioDiv.dataDiv
-        , [ 'move|Mover', 'rotate|Rotacionar', 'zoom|Zoom','globe|Mudar Notação']
-        , {title: '', translate: false, statusBar: false, top: "100px", left: "300px", zIndex: 100} 
-        , {listener: this, method: 'keyboardCallback'}
-    );
-                
-    this.playTreble = true;
-    this.playBass = true;
-    this.timerOn = false;
-    this.clefsToPlay = (this.playTreble?"T":"")+(this.playBass?"B":"");
-    
-    this.renderedTune = {text:undefined, abc:undefined, title:undefined
-                         , tab: undefined, div: undefined ,selector: undefined };
-    
-    this.renderedTune.div = this.canvasDiv;
     
     if (interfaceParams.generate_tablature) {
         if (interfaceParams.generate_tablature === 'accordion') {
@@ -105,6 +46,78 @@ SITE.Estudio = function (interfaceParams, playerParams) {
             throw new Error('Tablatura para ' + interfaceParams.generate_tablature + ' não suportada!');
         }
     }
+    
+    this.editareaFixa = new ABCXJS.edit.EditArea(
+          this.studioDiv.dataDiv
+        , {listener : this, method: 'editorCallback' }
+        , {draggable:false, toolbar: false, translate:false, width: "100%", height: "200px", title: 'Editor ABCX' }
+    );
+    this.editareaFixa.setToolBarVisible(false);
+    this.editareaFixa.setVisible(false);
+
+    this.editareaMovel = new ABCXJS.edit.EditArea(
+        this.studioDiv.dataDiv
+       ,{listener: this, method: 'editorCallback' }
+       ,{ toolbar: true, statusBar:true, translate:false
+            , title: 'Editor ABCX'
+            , left: SITE.properties.studio.editor.left
+            , top: SITE.properties.studio.editor.top
+            , width: SITE.properties.studio.editor.width
+            , height: SITE.properties.studio.editor.height
+        } 
+    );
+    this.editareaMovel.setVisible(false);
+   
+    this.editorWindow = SITE.properties.studio.editor.floating ? this.editareaMovel : this.editareaFixa;
+    
+    this.keyboardWindow = new DRAGGABLE.ui.Window( 
+        this.studioDiv.dataDiv
+       ,[ 'move|Mover', 'rotate|Rotacionar', 'zoom|Zoom','globe|Mudar Notação']
+       ,{title: '', translate: false, statusBar: false
+            , top: SITE.properties.studio.keyboard.top
+            , left: SITE.properties.studio.keyboard.left
+            , zIndex: 100
+       } 
+      ,{listener: this, method: 'keyboardCallback'}
+    );
+    
+    this.accordion.setRenderOptions({
+        draggable: true
+       ,show: SITE.properties.studio.keyboard.visible
+       ,transpose: SITE.properties.studio.keyboard.transpose
+       ,mirror: SITE.properties.studio.keyboard.mirror
+       ,scale: SITE.properties.studio.keyboard.scale
+       ,label: SITE.properties.studio.keyboard.label
+    });
+    
+    this.controlDiv = document.createElement("DIV");
+    this.controlDiv.setAttribute("id", 'controlDiv' );
+    this.controlDiv.setAttribute("class", 'controlDiv btn-group' );
+    this.studioDiv.dataDiv.appendChild(this.controlDiv);
+    
+    this.controlDiv.innerHTML = document.getElementById(interfaceParams.studioControlDiv).innerHTML;
+    document.getElementById(interfaceParams.studioControlDiv).innerHTML = "";
+   
+    if (interfaceParams.generate_warnings) {
+        this.warningsDiv = document.createElement("DIV");
+        this.warningsDiv.setAttribute("id", warnings_id);
+        this.warningsDiv.setAttribute("class", "warningsDiv" );
+        this.studioDiv.dataDiv.appendChild(this.warningsDiv);
+        this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
+    }
+
+    this.studioCanvasDiv = document.createElement("DIV");
+    this.studioCanvasDiv.setAttribute("id", interfaceParams.studioCanvasDiv );
+    this.studioCanvasDiv.setAttribute("class", "studioCanvasDiv customScrollBar" );
+   
+    this.canvasDiv = document.createElement("DIV");
+    this.canvasDiv.setAttribute("id", canvas_id);
+    this.canvasDiv.setAttribute("class", "canvasDiv" );
+    this.studioCanvasDiv.appendChild(this.canvasDiv);
+    
+    this.renderedTune.div = this.canvasDiv;
+    
+    this.studioDiv.dataDiv.appendChild(this.studioCanvasDiv);
     
     if( interfaceParams.onchange ) {
         this.onchangeCallback = interfaceParams.onchange;
@@ -142,7 +155,7 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     this.showMapButton.addEventListener("click", function (evt) {
         evt.preventDefault();
         this.blur();
-        that.showMap();
+        that.showKeyboard();
     }, false);
     
     this.forceRefreshButton.addEventListener("click", function (evt) {
@@ -374,16 +387,20 @@ SITE.Estudio.prototype.resize = function( ) {
     this.studioDiv.dataDiv.style.height = "100%";
    
     var e = 0;
+    var c = this.controlDiv.clientHeight;
     var t = this.studioDiv.dataDiv.clientHeight;
-    if(window.getComputedStyle(this.editareaFixa.container.topDiv).display !== 'none') {
+    
+    if(! SITE.properties.studio.editor.floating) {
         e = this.editareaFixa.container.topDiv.clientHeight+4;
         this.editareaFixa.container.topDiv.style.width = "";
     }
-    var c = this.controlDiv.clientHeight;
 
-    this.studioCanvasDiv.style.height = (t-e-c-6) +"px";
+    this.studioCanvasDiv.style.height = (e-c-t-6) +"px";
     
     this.posicionaTeclado();
+    
+    this.editorWindow.resize();
+
     
 };
 
@@ -393,12 +410,11 @@ SITE.Estudio.prototype.setVisible = function(  visible ) {
 
 SITE.Estudio.prototype.setup = function( mapa, tab, accordionId) {
     
-    //window.getComputedStyle( tab.selector ).display !== 'none'
-    //this.setupProps();
+    this.mapa = mapa;
     
     this.setVisible(true);
-    //this.resize();
-    this.mapa = mapa;
+    this.showEditor(SITE.properties.studio.editor.visible);
+    this.showKeyboard(SITE.properties.studio.keyboard.visible);
     
     this.accordion.loadById(accordionId);
     
@@ -407,8 +423,7 @@ SITE.Estudio.prototype.setup = function( mapa, tab, accordionId) {
     this.renderedTune.abc = tab.abc;
     
     this.setString(this.renderedTune.text);
-    this.editorWindow.setVisible(true);
-    //this.editorWindow.resize(true);
+    //this.editorWindow.setVisible(true);
     
     this.editorWindow.container.setTitle('-&#160;' + tab.title);
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
@@ -416,59 +431,49 @@ SITE.Estudio.prototype.setup = function( mapa, tab, accordionId) {
 
     this.studioCanvasDiv.scrollTop = 0;
     
-    if(this.mapVisible) {
-        this.keyboardWindow.setVisible(true);
-        this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
-        document.getElementById('I_showMap').setAttribute('class', 'ico-folder-open' );
-    }
-    
     this.doFireChanged(0, true );
 };
 
-SITE.Estudio.prototype.showMap = function() {
-    this.mapVisible = ! this.mapVisible;
-    this.accordion.render_opts.show = this.mapVisible;
-    if(this.mapVisible) {
+SITE.Estudio.prototype.showKeyboard = function(show) {
+    SITE.properties.studio.keyboard.visible = 
+            (typeof show === 'undefined'? ! SITE.properties.studio.keyboard.visible : show );
+    
+    this.accordion.render_opts.show = SITE.properties.studio.keyboard.visible;
+    
+    if(SITE.properties.studio.keyboard.visible) {
         this.keyboardWindow.setVisible(true);
         this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
         document.getElementById('I_showMap').setAttribute('class', 'ico-folder-open' );
+        this.posicionaTeclado();
     } else {
-        this.hideMap();
+        this.accordion.render_opts.show = false;
+        this.keyboardWindow.setVisible(false);
+        document.getElementById('I_showMap').setAttribute('class', 'ico-folder' );
     }
 };
 
-SITE.Estudio.prototype.hideMap = function() {
-    this.mapVisible = false;
-    this.accordion.render_opts.show = this.mapVisible;
-    this.keyboardWindow.setVisible(false);
-    document.getElementById('I_showMap').setAttribute('class', 'ico-folder' );
-};
-
-SITE.Estudio.prototype.showEditor = function() {
-    this.editorVisible = ! this.editorVisible;
-    if(this.editorVisible) {
-        this.editorWindow.setVisible(this.editorVisible);
+SITE.Estudio.prototype.showEditor = function(show) {
+    SITE.properties.studio.editor.visible = 
+            (typeof show === 'undefined'? ! SITE.properties.studio.editor.visible : show );
+    
+    if(SITE.properties.studio.editor.visible) {
+        this.editorWindow.setVisible(true);
         document.getElementById('I_showEditor').setAttribute('class', 'ico-folder-open' );
-        this.resize();
+        //this.editorWindow.resize();
     } else {
-        this.hideEditor();
+        document.getElementById('I_showEditor').setAttribute('class', 'ico-folder' );
+        this.editorWindow.setVisible(false);
     }
-};
-
-SITE.Estudio.prototype.hideEditor = function() {
-    document.getElementById('I_showEditor').setAttribute('class', 'ico-folder' );
-    this.editorWindow.setVisible(false);
-    this.editorVisible = false;
     this.resize();
 };
-
-
 
 SITE.Estudio.prototype.editorCallback = function (action, elem) {
     switch(action) {
         case 'REFRESH': 
+           this.fireChanged(0, true );
+           break;
         case 'DOWNLOAD': 
-           alert( action ); 
+           this.salvaMusica();
            break;
         case '0': 
             break;
@@ -485,19 +490,14 @@ SITE.Estudio.prototype.editorCallback = function (action, elem) {
            this.fireChanged(-12, true );
            break;
         case 'MAXIMIZE': 
-            if( elem.innerHTML.indexOf('ico-full' ) > 0 ) {
-                elem.innerHTML = '<a href="" title="Restaurar janela"><i class="ico-restore"></i></a>';
-                //this.fullEditarea();
-            } else {
-                elem.innerHTML = '<a href="" title="Maximizar janela"><i class="ico-full-screen"></i></a>';
-            }
+            this.maximizeEditor(elem);
             break;
         case 'POPIN':
             this.editorWindow.setVisible(false);
             this.editorWindow = this.editareaFixa;
             this.editorWindow.setString(this.editareaMovel.getString());
             this.editorWindow.setVisible(true);
-            this.editorWindow.resize();
+            //this.editorWindow.resize();
             this.resize();
             break;
         case 'POPOUT':
@@ -505,13 +505,15 @@ SITE.Estudio.prototype.editorCallback = function (action, elem) {
             this.editorWindow = this.editareaMovel;
             this.editorWindow.setString(this.editareaFixa.getString());
             this.editorWindow.setVisible(true);
-            this.editorWindow.resize();
+            //this.editorWindow.resize();
             this.resize();
             break;
+        case 'RESIZE':
         case 'MOVE':
+            //alert( action );
             break;
         case 'CLOSE':
-            this.hideEditor();
+            this.showEditor(false);
             break;
     }
 };
@@ -533,7 +535,7 @@ SITE.Estudio.prototype.keyboardCallback = function( e ) {
         case 'MOVE':
             break;
         case 'CLOSE':
-            this.hideMap();
+            this.showKeyboard(false);
             break;
         case 'ROTATE':
             this.accordion.rotateKeyboard(this.keyboardWindow.dataDiv);
@@ -633,7 +635,10 @@ SITE.Estudio.prototype.changePlayMode = function() {
     }
 };
 
-SITE.Estudio.prototype.posicionaTeclado = function( ) {
+SITE.Estudio.prototype.posicionaTeclado = function() {
+    
+    if( ! SITE.properties.studio.keyboard.visible ) return;
+    
     var w = window.innerWidth;
     
     var k = this.keyboardWindow.topDiv;
@@ -827,10 +832,10 @@ SITE.Estudio.prototype.modelChanged = function() {
 };
 
 SITE.Estudio.prototype.highlight = function(abcelem) {
-    if(this.editorVisible) {
+    if(SITE.properties.studio.editor.visible) {
         this.editorWindow.setSelection(abcelem);
     }    
-    if(this.mapVisible && !this.midiPlayer.playing) {
+    if(SITE.properties.studio.keyboard.visible && !this.midiPlayer.playing) {
         this.accordion.clearKeyboard(true);
         this.midiParser.setSelection(abcelem);
     }    
@@ -838,7 +843,7 @@ SITE.Estudio.prototype.highlight = function(abcelem) {
 
 // limpa apenas a janela de texto. Os demais elementos são controlados por tempo 
 SITE.Estudio.prototype.unhighlight = function(abcelem) {
-    if(this.editorVisible) {
+    if(SITE.properties.studio.editor.visible) {
         this.editorWindow.clearSelection(abcelem);
     }    
 };
@@ -875,3 +880,25 @@ SITE.Estudio.prototype.startLoader = function(id, start, stop) {
     });
     return loader;
 };
+
+SITE.Estudio.prototype.maximizeEditor = function(elem) {
+
+    if( elem.innerHTML.indexOf('ico-full' ) > 0 ) {
+        elem.innerHTML = '<a href="" title="Restaurar janela"><i class="ico-restore"></i></a>';
+        this.editorWindow.container.move(0,0);
+        this.editorWindow.container.topDiv.style.width = "100%";
+        this.editorWindow.container.topDiv.style.height = "100%";
+        this.editorWindow.container.draggable = false;
+        this.editorWindow.resize();
+    } else {
+        elem.innerHTML = '<a href="" title="Maximizar janela"><i class="ico-full-screen"></i></a>';
+        var k = this.editorWindow.container.topDiv.style;
+        k.left = SITE.properties.studio.editor.left;
+        k.top = SITE.properties.studio.editor.top;
+        k.width = SITE.properties.studio.editor.width;
+        k.height = SITE.properties.studio.editor.height;
+        this.editorWindow.container.draggable = true;
+        this.editorWindow.resize();
+    }
+};
+    

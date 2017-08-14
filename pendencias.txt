@@ -1,12 +1,9 @@
-- Estudio
-    - Posição e tamanho dos itens de tela
-    - Editor full screen
+- Bug com undo manager: toda vez que usa setstring zera. isso acontece inclusive apos a atualização da partitura
+- Remover seletores tv-m de tabbed view (agora uso javascript) para controlar a tab ativa
 
-- Implementar no editor
- - Download 
- - Atualizar (compilar)
- - Procura e substituição
- - Redo e Undo (all?)
+- Estudio
+    - Guardar Posição e tamanho dos itens de tela (e outras propriedades)
+    - Editor full screen
 
 - Implementar o controle de preferencias
 
@@ -27,6 +24,7 @@
 - Janela de midia
   -Preparar versao com abas para multiplos videos da mesma musica
 
+#######################################################################################
 
 FEITO
 - Imprimir a versao automaticamente
@@ -51,7 +49,19 @@ FEITO
 
 - Identificar o chaveamento entre abas e permitir alguns controles tais como abrir/fechar a janela de mídia.
  - Fazer mais testes 
+
 - Janela de midia
   -Incluir um botão para reabrir a janela de midia
+
 - Estudio
     - Resize não acerta a largura do editor
+
+- Implementar no estudio
+ - Download 
+ - Atualizar (compilar)
+
+- Implementar na edit area
+ - reorganizar os botoes: gutter, save, undo, redo, refresh, search, tom, oitavas, realce, readonly 
+ - Procura e substituição
+ - Redo e Undo (all?)
+

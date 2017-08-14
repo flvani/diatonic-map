@@ -7,6 +7,72 @@
 if (!window.SITE)
     window.SITE = {};
 
+SITE.LoadProperties = function() {
+    
+    FILEMANAGER.removeLocal('diatonic-map.site.properties' ); // para testes - remover ao final
+    
+    SITE.properties = JSON.parse( FILEMANAGER.loadLocal('diatonic-map.site.properties' ) ); 
+    
+    if( ! SITE.properties ) {
+        SITE.properties = {};
+        SITE.properties.colors = {
+             highLight: 'red'
+            ,fill: 'white'
+            ,background: 'none'
+            ,close: '#ff3a3a'
+            ,open: '#ffba3b'
+        };
+        
+        SITE.properties.options = {
+             language: 'pt_BR'
+            ,showWarnings: false
+            ,autoRefresh: false
+            ,pianoSound: false
+        };
+        
+        SITE.properties.mediaDiv = {
+             visible: false
+            ,top: "100px"
+            ,left: "1200px"
+            ,width: 300
+            ,height: 300 * 0.55666667
+        };
+        
+        SITE.properties.studio = {
+             mode: 'normal'
+            ,timerOn: false
+            ,trebleOn: true
+            ,bassOn: true
+            ,editor : {
+                 visible: true
+                ,floating:true
+                ,maximized: false
+                ,top: "40px"
+                ,left: "50px"
+                ,width: "700px"
+                ,height: "480px"
+            }
+            , keyboard: {
+                 visible: true
+                ,top: "65px"
+                ,left: "1200px"
+                ,scale: 0.8
+                ,mirror: true
+                ,transpose: false
+                ,label: false
+            }
+        };
+        
+        SITE.SaveProperties();
+        SITE.properties = JSON.parse( FILEMANAGER.loadLocal('diatonic-map.site.properties' ) ); // para testes - remover ao final
+    }
+};
+
+SITE.SaveProperties = function() {
+    FILEMANAGER.saveLocal('diatonic-map.site.properties', JSON.stringify(SITE.properties));
+};
+
+
 SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
 
     var that = this;
@@ -27,19 +93,16 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
        });
     }
     
-    this.mediaVisible = true;
-    this.mediaWidth = 300;
-    this.mediaHeight = this.mediaWidth * 0.55666667;
     this.showMediaButton = document.getElementById('buttonShowMedia');
     this.showMediaButton.addEventListener('click', function () { 
         that.mediaCallback('OPEN');
     });
 
-    ABCXJS.write.color.highLight = 'red';
-    DIATONIC.map.color.fill = 'white';
-    DIATONIC.map.color.background = 'none';
-    DIATONIC.map.color.close = '#ff3a3a';
-    DIATONIC.map.color.open = '#ffba3b';
+    ABCXJS.write.color.highLight = SITE.properties.colors.highLight;
+    DIATONIC.map.color.fill = SITE.properties.colors.fill;
+    DIATONIC.map.color.background = SITE.properties.colors.background;
+    DIATONIC.map.color.close = SITE.properties.colors.close;
+    DIATONIC.map.color.open = SITE.properties.colors.open;
     
     this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options );
 
@@ -185,6 +248,16 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.loadOriginalRepertoire();
     this.printKeyboard();
     
+    this.mediaWindow = new DRAGGABLE.ui.Window( 
+          this.mapDiv
+        , null
+        , {title: 'Videoaula', translate: false, statusBar: false
+            , top: SITE.properties.mediaDiv.top
+            , left: SITE.properties.mediaDiv.left
+            , zIndex: 1000} 
+        , {listener: this, method: 'mediaCallback'}
+    );
+    
     DR.addAgent( this ); // register for translate
 
     this.resize();
@@ -247,11 +320,6 @@ SITE.Mapa.prototype.resize = function() {
 
 SITE.Mapa.prototype.menuCallback = function (ev) {
     switch(ev) {
-        case 'GAITA_MINUANO_GC':
-        case 'GAITA_MINUANO_BC_TRANSPORTADA':
-        case 'GAITA_HOHNER_CLUB_IIIM_BR':
-            this.setup({accordionId:ev});
-            break;
         case 'LOADMAP':
             this.fileLoadMap.click();
             break;
@@ -262,7 +330,7 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             this.restauraRepertorio();
             break;
         case 'LOADREPERTOIRE':
-            // primeiro seleciona um ou mais arquivos e depois chama this.carregaRepertorio(false);
+            // primeiro seleciona um ou mais arquivos e depois chama carregaRepertorioLocal();
             this.fileLoadRepertoire.click();
             break;
         case 'EXPORTREPERTOIRE':
@@ -303,9 +371,15 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             } );
             w1.topDiv.style.display = 'inline';
             break;
-        default:
-            this.setup({accordionId:ev});
+        case 'PART2TAB':
+        case 'TAB2PART':
+            alert(ev);
             break;
+        case 'GAITA_MINUANO_GC':
+        case 'GAITA_MINUANO_BC_TRANSPORTADA':
+        case 'GAITA_HOHNER_CLUB_IIIM_BR':
+        default: // as gaitas conhecidas e outras carregadas so demanda
+            this.setup({accordionId:ev});
     }
 };
 
@@ -762,15 +836,15 @@ SITE.Mapa.prototype.showTab = function(tabString) {
 
 SITE.Mapa.prototype.reprintTab = function( newABCText ) {
     
-    var currentABC = this.getActiveTab();
+    var currentTab = this.getActiveTab();
     
     if( newABCText ) {
-        if( newABCText === currentABC.text )  {
+        if( newABCText === currentTab.text )  {
             return;
     } else {
-            currentABC.text = newABCText;
-            this.accordion.loaded.setSong(currentABC.title, currentABC.text );
-            this.renderTAB( currentABC.tab );
+            currentTab.text = newABCText;
+            this.accordion.loaded.setSong(currentTab.title, currentTab.text );
+            this.renderTAB( currentTab );
         }
     }
 };
@@ -796,14 +870,14 @@ SITE.Mapa.prototype.showABC = function(evt) {
     loader.start(  function() { self.doShowABC(type, currentTab, i, loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
 };
 
-SITE.Mapa.prototype.doShowABC = function(type, currentTab, i, loader ) {
-    var tab = currentTab;
+SITE.Mapa.prototype.doShowABC = function(type, tab, i, loader ) {
     tab.title = this.accordion.loaded[type].sortedIndex[i];
     
     if( tab.menu.selectItem(tab.ddmId, tab.title) ) {
-        FILEMANAGER.saveLocal( 'property.'+this.accordion.getId()+'.'+type+'.title', tab.title );
+        if( !this.accordion.loaded.localResource)
+            FILEMANAGER.saveLocal( 'property.'+this.accordion.getId()+'.'+type+'.title', tab.title );
         tab.menu.setSubMenuTitle( tab.ddmId, (tab.title.length>43 ? tab.title.substr(0,40) + "..." : tab.title) );
-        this.renderTAB( tab.tab );
+        this.renderTAB( tab );
         this.showMedia( tab );
         this.tuneContainerDiv.scrollTop = 0;    
         
@@ -853,27 +927,13 @@ SITE.Mapa.prototype.loadABCList = function(type) {
         }    
     }
 
-    this.renderTAB( type );
+    this.renderTAB( tab );
     
 };
 
-SITE.Mapa.prototype.renderTAB = function( type ) {
-    var tab;
+SITE.Mapa.prototype.renderTAB = function( tab ) {
     
-    switch( type ) {
-        case 'songs':
-            tab = this.renderedTune;
-            tab.text = this.accordion.loaded.getSong(tab.title);
-            break;
-        case 'practices':
-            tab = this.renderedPractice;
-            tab.text = this.accordion.loaded.getPractice(tab.title);
-            break;
-        case 'chords':
-            tab = this.renderedChord;
-            tab.text = this.accordion.loaded.getChord(tab.title);
-            break; 
-    };
+    tab.text = this.accordion.loaded.getAbcText(tab.tab, tab.title);
     
     if (tab.title === "" || tab.text === undefined ) {
         tab.text = undefined;
@@ -937,13 +997,13 @@ SITE.Mapa.prototype.mediaCallback = function( e ) {
             FILEMANAGER.saveLocal( 'property.mediaDiv.settings',  m.style.top  + '|' + m.style.left );
             break;
         case 'OPEN':
-            this.mediaVisible = true;
+            SITE.properties.mediaDiv.visible = true;
             this.mediaWindow.setVisible(true);
             this.showMediaButton.style.display = 'none';
             break;
         case 'CLOSE':
             this.pauseMedia();
-            this.mediaVisible = false;
+            SITE.properties.mediaDiv.visible = false;
             this.mediaWindow.setVisible(false);
             this.showMediaButton.style.display = 'inline';
             break;
@@ -967,29 +1027,24 @@ SITE.Mapa.prototype.showMedia = function(tab) {
         url = tab.abc.metaText.url;
     } 
     
-    if( ! this.mediaWindow ) {
-        this.mediaWindow = new DRAGGABLE.ui.Window( 
-              this.mapDiv
-            , null
-            , {title: 'Mídia...', translate: false, statusBar: false, top: "300px", left: "1500px", zIndex: 1000} 
-            , {listener: this, method: 'mediaCallback'}
-        );
-    }
-    
     if(url) {
         if( window.innerWidth > 1500 )  {
-            this.mediaWidth = 600;
-            this.mediaHeight = this.mediaWidth * 0.55666667;
+            SITE.properties.mediaDiv.width = 600;
+            SITE.properties.mediaDiv.height = SITE.properties.mediaDiv.width * 0.55666667;
         }
-        var embbed = '<iframe width="'+this.mediaWidth+'" height="'+this.mediaHeight+'" src="'+url+'?rel=0&amp;showinfo=0&amp;enablejsapi=1" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
+        var embbed = '<iframe width="'
+                +SITE.properties.mediaDiv.width+'" height="'
+                +SITE.properties.mediaDiv.height+'" src="'
+                +url+'?rel=0&amp;showinfo=0&amp;enablejsapi=1" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
+        
         this.mediaWindow.dataDiv.innerHTML = embbed;
-        this.mediaWindow.dataDiv.style.width = this.mediaWidth + 'px'; 
-        this.mediaWindow.dataDiv.style.height = this.mediaHeight + 'px';
+        this.mediaWindow.dataDiv.style.width = SITE.properties.mediaDiv.width + 'px'; 
+        this.mediaWindow.dataDiv.style.height = SITE.properties.mediaDiv.height + 'px';
         this.mediaWindow.dataDiv.style.overflow = 'hidden';
-        if( this.mediaVisible ) {
+        
+        if( SITE.properties.mediaDiv.visible ) {
             this.mediaWindow.setVisible(true);
             this.posicionaMidia();
-            //this.showMediaButton.style.display = 'none';
         } else {
             this.showMediaButton.style.display = 'inline';
         }
@@ -1003,26 +1058,24 @@ SITE.Mapa.prototype.showMedia = function(tab) {
 // posiciona a janela de mídia, se disponível
 SITE.Mapa.prototype.posicionaMidia = function () {
 
-    if( !this.mediaWindow || this.mediaWindow.topDiv.style.display === 'none') return;
+    if( ! SITE.properties.mediaDiv.visible 
+            || ! this.mediaWindow 
+                || this.mediaWindow.topDiv.style.display === 'none') 
+                        return;
     
-    var props = FILEMANAGER.loadLocal('property.mediaDiv.settings');
-
-    if ( props ) {
-        props = props.split('|');
-        this.mediaWindow.topDiv.style.top = props[0];
-        this.mediaWindow.topDiv.style.left = props[1];
-    }
-        
     var w = window.innerWidth;
-    var x = parseInt(this.mediaWindow.topDiv.style.left.replace('px', ''));
     
-    if( x + this.mediaWidth > w ) {
-        x = (w - (this.mediaWidth + 50));
+    var k = this.mediaWindow.topDiv;
+    var x = parseInt(k.style.left.replace('px', ''));
+    
+    if( x + k.offsetWidth > w ) {
+        x = (w - (k.offsetWidth + 50));
     }
     
     if(x < 0) x = 10;
     
-    this.mediaWindow.topDiv.style.left = x+"px";
+    SITE.properties.mediaDiv.left = k.style.left = x+"px";
+        
 };
 
 SITE.Mapa.prototype.startLoader = function(id, start, stop) {
@@ -1088,14 +1141,15 @@ SITE.Mapa.prototype.showSettings = function() {
 
         this.settingsWindow.topDiv.style.zIndex = 101;
         
+
+//              <tr>\
+//                <th colspan="2">Acordeon:</th><td><div id="settingsAcordeonsMenu" class="topMenu"></div></td>\
+//              </tr>\
         this.settingsWindow.dataDiv.innerHTML= '\
         <div class="menu-group">\
             <table>\
               <tr>\
                 <th colspan="2">Idioma:</th><th><div id="settingsLanguageMenu" class="topMenu"></div></th>\
-              </tr>\
-              <tr>\
-                <th colspan="2">Acordeon:</th><td><div id="settingsAcordeonsMenu" class="topMenu"></div></td>\
               </tr>\
               <tr>\
                 <th colspan="2"><br>Cores:</th><td></td>\
@@ -1136,10 +1190,10 @@ SITE.Mapa.prototype.showSettings = function() {
         ]);
                 
                 
-        var selector = new ABCXJS.edit.AccordionSelector( 
-                'sel2', 'settingsAcordeonsMenu', {listener: this, method: 'settingsCallback'} );
-        
-        selector.populate(true, 'GAITA_HOHNER_CLUB_IIIM_BR');
+//        var selector = new ABCXJS.edit.AccordionSelector( 
+//                'sel2', 'settingsAcordeonsMenu', {listener: this, method: 'settingsCallback'} );
+//        
+//        selector.populate(true, 'GAITA_HOHNER_CLUB_IIIM_BR');
         
         var menu = new DRAGGABLE.ui.DropdownMenu(
                'settingsLanguageMenu'
@@ -1153,6 +1207,7 @@ SITE.Mapa.prototype.showSettings = function() {
             );
     
         menu.setSubMenuTitle('menuIdiomas', '<img src="images/pt_BR.png" alt="idiomas" />&#160;Português');
+        menu.disableSubMenu('menuIdiomas');
 
         this.p1 = document.getElementById( 'corRealce');
         this.p2 = document.getElementById( 'foleFechando');
