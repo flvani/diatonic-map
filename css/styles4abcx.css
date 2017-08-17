@@ -445,9 +445,6 @@ and open the template in the editor.
     overflow-y: auto;
 }
 
-.tv-m1,
-.tv-m2,
-.tv-m3,
 .tv-content > div {
     display:none;
     opacity: 0;
@@ -460,9 +457,6 @@ and open the template in the editor.
     left: 0;
  }
  
-.tabs input.tab-selector-1:checked ~ .btn-group .tv-m1,
-.tabs input.tab-selector-2:checked ~ .btn-group .tv-m2,
-.tabs input.tab-selector-3:checked ~ .btn-group .tv-m3, 
 .tabs input.tab-selector-1:checked ~ .tv-content .tv-content-1 ,
 .tabs input.tab-selector-2:checked ~ .tv-content .tv-content-2 ,
 .tabs input.tab-selector-3:checked ~ .tv-content .tv-content-3 {

@@ -9,67 +9,69 @@ if (!window.SITE)
 
 SITE.LoadProperties = function() {
     
-    FILEMANAGER.removeLocal('diatonic-map.site.properties' ); // para testes - remover ao final
+    //FILEMANAGER.removeLocal('diatonic-map.site.properties' ); // para testes - remover ao final
     
     SITE.properties = JSON.parse( FILEMANAGER.loadLocal('diatonic-map.site.properties' ) ); 
     
     if( ! SITE.properties ) {
-        SITE.properties = {};
-        SITE.properties.colors = {
-             highLight: 'red'
-            ,fill: 'white'
-            ,background: 'none'
-            ,close: '#ff3a3a'
-            ,open: '#ffba3b'
-        };
-        
-        SITE.properties.options = {
-             language: 'pt_BR'
-            ,showWarnings: false
-            ,autoRefresh: false
-            ,pianoSound: false
-        };
-        
-        SITE.properties.mediaDiv = {
-             visible: false
-            ,top: "100px"
-            ,left: "1200px"
-            ,width: 300
-            ,height: 300 * 0.55666667
-        };
-        
-        SITE.properties.studio = {
-             mode: 'normal'
-            ,timerOn: false
-            ,trebleOn: true
-            ,bassOn: true
-            ,editor : {
-                 visible: true
-                ,floating:true
-                ,maximized: false
-                ,top: "40px"
-                ,left: "50px"
-                ,width: "700px"
-                ,height: "480px"
-            }
-            , keyboard: {
-                 visible: true
-                ,top: "65px"
-                ,left: "1200px"
-                ,scale: 0.8
-                ,mirror: true
-                ,transpose: false
-                ,label: false
-            }
-        };
-        
-        SITE.SaveProperties();
-        SITE.properties = JSON.parse( FILEMANAGER.loadLocal('diatonic-map.site.properties' ) ); // para testes - remover ao final
+        SITE.ResetProperties();
     }
 };
 
 SITE.SaveProperties = function() {
     FILEMANAGER.saveLocal('diatonic-map.site.properties', JSON.stringify(SITE.properties));
+};
+
+SITE.ResetProperties = function() {
+    SITE.properties = {};
+    SITE.properties.colors = {
+         highLight: 'red'
+        ,fill: 'white'
+        ,background: 'none'
+        ,close: '#ff3a3a'
+        ,open: '#ffba3b'
+    };
+
+    SITE.properties.options = {
+         language: 'pt_BR'
+        ,showWarnings: false
+        ,autoRefresh: false
+        ,pianoSound: true
+    };
+
+    SITE.properties.mediaDiv = {
+         visible: true
+        ,top: "100px"
+        ,left: "1200px"
+        ,width: 300
+        ,height: 300 * 0.55666667
+    };
+
+    SITE.properties.studio = {
+         mode: 'normal'
+        ,timerOn: false
+        ,trebleOn: true
+        ,bassOn: true
+        ,editor : {
+             visible: true
+            ,floating: false
+            ,maximized: false
+            ,top: "40px"
+            ,left: "50px"
+            ,width: "700px"
+            ,height: "480px"
+        }
+        , keyboard: {
+             visible: false
+            ,top: "65px"
+            ,left: "1200px"
+            ,scale: 1
+            ,mirror: true
+            ,transpose: false
+            ,label: false
+        }
+    };
+    SITE.SaveProperties();
 };
 
 
@@ -78,10 +80,17 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     var that = this;
     this.ypos = 0; // esta variável é usada para ajustar o scroll durante a execução do midi
     this.lastStaffGroup = -1; // também auxilia no controle de scroll
-    this.fileLoadMap = document.getElementById('fileLoadMap');
-    this.fileLoadRepertoire = document.getElementById('fileLoadRepertoire');
+    
+    ABCXJS.write.color.highLight = SITE.properties.colors.highLight;
+    DIATONIC.map.color.fill = SITE.properties.colors.fill;
+    DIATONIC.map.color.background = SITE.properties.colors.background;
+    DIATONIC.map.color.close = SITE.properties.colors.close;
+    DIATONIC.map.color.open = SITE.properties.colors.open;
     
     this.keyboardDiv = interfaceParams.keyboardDiv;
+    
+    this.fileLoadMap = document.getElementById('fileLoadMap');
+    this.fileLoadRepertoire = document.getElementById('fileLoadRepertoire');
     this.settingsMenu = document.getElementById(interfaceParams.settingsMenu);
     this.mapDiv = document.getElementById(interfaceParams.mapDiv);
 
@@ -98,16 +107,8 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         that.mediaCallback('OPEN');
     });
 
-    ABCXJS.write.color.highLight = SITE.properties.colors.highLight;
-    DIATONIC.map.color.fill = SITE.properties.colors.fill;
-    DIATONIC.map.color.background = SITE.properties.colors.background;
-    DIATONIC.map.color.close = SITE.properties.colors.close;
-    DIATONIC.map.color.open = SITE.properties.colors.open;
-    
     this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options );
-
     this.abcParser = new ABCXJS.parse.Parse( null, this.accordion );
-    
     this.midiParser = new ABCXJS.midi.Parse();
     this.midiPlayer = new ABCXJS.midi.Player(this);
     
@@ -177,8 +178,8 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     
     this.printButton.addEventListener("touchstart", function(event) {  that.printPartiture(this, event); }, false);
     this.printButton.addEventListener("click", function(event) { that.printPartiture(this, event); }, false);
-    this.toolsButton.addEventListener("touchstart", function(event) { that.showStudio(this, event); }, false);
-    this.toolsButton.addEventListener("click", function(event) { that.showStudio(this, event); }, false);
+    this.toolsButton.addEventListener("touchstart", function(event) { that.openEstudio(this, event); }, false);
+    this.toolsButton.addEventListener("click", function(event) { that.openEstudio(this, event); }, false);
     this.fileLoadMap.addEventListener('change', function(event) { that.loadMap(event); }, false);        
     this.fileLoadRepertoire.addEventListener('change', function(event) { that.carregaRepertorioLocal(event); }, false);        
 
@@ -259,7 +260,9 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     );
     
     DR.addAgent( this ); // register for translate
-
+    
+    this.defineInstrument();
+    
     this.resize();
     
 };
@@ -410,8 +413,7 @@ SITE.Mapa.prototype.doLoadOriginalRepertoire = function (tabParams, loader) {
 
     this.loadABCList(this.renderedTune.tab);
     
-    this.showTab('tabSongs');
-    
+    this.showTab('songsTab');
     loader.stop();
 
 };
@@ -422,144 +424,57 @@ SITE.Mapa.prototype.printPartiture = function (button, event) {
     button.blur();
     if(  currentABC.div.innerHTML && this.studio )  {
         ga('send', 'event', 'Mapa', 'print', currentABC.title);
-        this.studio.printPreview(currentABC.div.innerHTML, ["#topBar","#mapDiv"], currentABC.abc.formatting.landscape );
+        this.studio.printPreview(currentABC.div.innerHTML, ["#topBar","#mapaDiv"], currentABC.abc.formatting.landscape );
     }
 };
 
-SITE.Mapa.prototype.showMapa = function ( visible ) {
-    if( visible ) {
-        this.menu.enableSubMenu('menuGaitas');
-        this.menu.enableSubMenu('menuRepertorio');
-        this.reprintTab( this.studio.getString() );
-        this.setVisible(true);
-        this.printKeyboard();
-        this.resize();
+SITE.Mapa.prototype.openMapa = function (newABCText) {
+    
+    var tab = this.getActiveTab();
+    
+    this.menu.enableSubMenu('menuGaitas');
+    this.menu.enableSubMenu('menuRepertorio');
+    this.setVisible(true);
+    
+    this.printKeyboard();
+    this.resize();
+    
+    if( newABCText === tab.text )  {
+        return;
     } else {
-        this.pauseMedia();
-        this.midiPlayer.stopPlay();
-        this.setVisible(false);
-        this.menu.disableSubMenu('menuGaitas');
-        this.menu.disableSubMenu('menuRepertorio');
+        tab.text = newABCText;
+        this.accordion.loaded.setSong(tab.title, tab.text );
+        this.renderTAB( tab );
     }
 };
 
-SITE.Mapa.prototype.showStudio = function (button, event) {
+SITE.Mapa.prototype.closeMapa = function () {
+    this.pauseMedia();
+    this.midiPlayer.stopPlay();
+    this.setVisible(false);
+    this.menu.disableSubMenu('menuGaitas');
+    this.menu.disableSubMenu('menuRepertorio');
+};
+
+SITE.Mapa.prototype.openEstudio = function (button, event) {
     var self = this;
-    var currentABC = self.getActiveTab();
+    var tab = self.getActiveTab();
     
-    event.preventDefault();
-    button.blur();
+    if(event) {
+        event.preventDefault();
+        button.blur();
+    }
 
-    if( currentABC.div.innerHTML && this.studio ) {
-        ga('send', 'event', 'Mapa', 'tools', currentABC.title);
-        var loader = this.startLoader( "XStudio" );
-        loader.start(  function() { self.doShowStudio(loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
+    if( tab.text && self.studio ) {
+        ga('send', 'event', 'Mapa', 'tools', tab.title);
+        var loader = this.startLoader( "OpenEstudio" );
+        loader.start(  function() { 
+            self.closeMapa();
+            self.studio.setup( self, tab, self.accordion.getId() );
+            loader.stop();
+        }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
     }
 };
-
-SITE.Mapa.prototype.doShowStudio = function (loader) {
-    
-    this.showMapa(false);
-    this.studio.setup( this, this.getActiveTab(), this.accordion.getId() );
-    
-    loader.stop();
-};
-
-SITE.Mapa.prototype.setupProps = function () {
-    var props = FILEMANAGER.loadLocal('property.studio.settings');
-    //props = null; // debug
-   
-    if( props ) {
-        props = props.split('|');
-        this.studio.textVisible                      = (props[0] === 'true');
-        this.studio.editorVisible                    = (props[1] === 'true');
-        this.studio.mapVisible                       = (props[2] === 'true');
-        this.studio.editorWindow.topDiv.style.top    = props[3]; 
-        this.studio.editorWindow.topDiv.style.left   = props[4]; 
-        this.studio.keyboardWindow.topDiv.style.top  = props[5]; 
-        this.studio.keyboardWindow.topDiv.style.left = props[6]; 
-        this.studio.accordion.loadedKeyboard.render_opts.scale = parseFloat(props[7]);
-        this.studio.accordion.loadedKeyboard.render_opts.mirror  = (props[8] === 'true');
-        this.studio.accordion.loadedKeyboard.render_opts.transpose = (props[9] === 'true');
-        this.studio.accordion.loadedKeyboard.render_opts.label = (props[10] === 'true');
-        
-        this.studio.textVisible    = ! this.studio.textVisible;
-        this.studio.editorVisible  = ! this.studio.editorVisible;
-        this.studio.mapVisible     = ! this.studio.mapVisible;
-        this.studio.showABCXText();
-        this.studio.showEditor();
-        this.studio.showMap();
-    }
-};
-
-SITE.Mapa.prototype.restoreStudio = function () {
-    this.studio.textVisible = true;
-    this.studio.editorVisible = false;
-    this.studio.mapVisible = false;
-    this.studio.editorWindow.topDiv.style.top = "120px";
-    this.studio.editorWindow.topDiv.style.left = "40px";
-    this.studio.keyboardWindow.topDiv.style.top = "120px";
-    this.studio.keyboardWindow.topDiv.style.left = "900px";
-    this.studio.accordion.loadedKeyboard.render_opts.scale = 0.8;
-    this.studio.accordion.loadedKeyboard.render_opts.mirror = false;
-    this.studio.accordion.loadedKeyboard.render_opts.transpose = false;
-    this.studio.accordion.loadedKeyboard.render_opts.label = false;
-    
-    FILEMANAGER.saveLocal( 'property.studio.settings', 
-        this.studio.textVisible 
-        + '|' + this.studio.editorVisible 
-        + '|' + this.studio.mapVisible 
-        + '|' + this.studio.editorWindow.topDiv.style.top
-        + '|' + this.studio.editorWindow.topDiv.style.left
-        + '|' + this.studio.keyboardWindow.topDiv.style.top
-        + '|' + this.studio.keyboardWindow.topDiv.style.left
-        + '|' + this.studio.accordion.loadedKeyboard.render_opts.scale
-        + '|' + this.studio.accordion.loadedKeyboard.render_opts.mirror
-        + '|' + this.studio.accordion.loadedKeyboard.render_opts.transpose
-        + '|' + this.studio.accordion.loadedKeyboard.render_opts.label
-        );
-
-    this.setupProps();
-};
-
-//SITE.Mapa.prototype.closeStudio = function () {
-//    var self = this;
-//    var loader = this.startLoader( "XStudio" );
-//    loader.start(  function() { self.closeStudio2(loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
-//};
-//    
-//SITE.Mapa.prototype.closeStudio2 = function (loader) {
-//    
-//    this.studio.midiPlayer.stopPlay();
-//    
-//    FILEMANAGER.saveLocal( 'property.studio.settings', 
-//        this.studio.textVisible 
-//        + '|' + this.studio.editorVisible 
-//        + '|' + this.studio.mapVisible 
-//        + '|' + this.studio.editorWindow.topDiv.style.top
-//        + '|' + this.studio.editorWindow.topDiv.style.left
-//        + '|' + this.studio.keyboardWindow.topDiv.style.top
-//        + '|' + this.studio.keyboardWindow.topDiv.style.left
-//        + '|' + this.studio.accordion.loadedKeyboard.render_opts.scale
-//        + '|' + this.studio.accordion.loadedKeyboard.render_opts.mirror
-//        + '|' + this.studio.accordion.loadedKeyboard.render_opts.transpose
-//        + '|' + this.studio.accordion.loadedKeyboard.render_opts.label
-//        );
-//
-//    this.printTab();
-//    this.resize();
-//    loader.stop();
-//};
-
-
-//SITE.Mapa.prototype.rotateKeyboard = function() {
-//    this.accordion.rotateKeyboard();
-//};
-//
-//SITE.Mapa.prototype.scaleKeyboard = function() {
-//    this.accordion.scaleKeyboard();
-//};
-
 
 SITE.Mapa.prototype.startPlay = function( type, value ) {
     var currentABC = this.getActiveTab();
@@ -708,16 +623,6 @@ SITE.Mapa.prototype.doLoadMap = function( files, loader ) {
     
     var accordion = this.accordion.loaded;
     
-    if( newTunes ) {
-        var tunebook = new ABCXJS.TuneBook(newTunes);
-        for (var t = 0; t < tunebook.tunes.length; t++) {
-            accordion.songs.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
-            accordion.songs.sortedIndex.push(tunebook.tunes[t].title);
-        }    
-        accordion.songs.sortedIndex.sort();
-        this.renderedTune.title = accordion.getFirstSong();
-        this.loadABCList(this.renderedTune.tab);
-    }
     if( newChords ) {
         var tunebook = new ABCXJS.TuneBook(newChords);
         for (var t = 0; t < tunebook.tunes.length; t++) {
@@ -738,9 +643,18 @@ SITE.Mapa.prototype.doLoadMap = function( files, loader ) {
         this.renderedPractice.title = accordion.getFirstPractice();
         this.loadABCList(this.renderedPractice.tab);
     }
+    if( newTunes ) {
+        var tunebook = new ABCXJS.TuneBook(newTunes);
+        for (var t = 0; t < tunebook.tunes.length; t++) {
+            accordion.songs.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
+            accordion.songs.sortedIndex.push(tunebook.tunes[t].title);
+        }    
+        accordion.songs.sortedIndex.sort();
+        this.renderedTune.title = accordion.getFirstSong();
+        this.loadABCList(this.renderedTune.tab);
+    }
     
-    this.showTab('tabSongs');
-    
+    this.showTab('songsTab');
     loader.stop();
 };
 
@@ -754,18 +668,18 @@ SITE.Mapa.prototype.restauraRepertorio = function() {
         return;
     }
     
-    // devido à falta de sincronismo, preciso usar o call back;
     accordion.songs = accordion.loadABCX( accordion.songPathList, function() {  
         that.renderedTune.title = accordion.getFirstSong();
         that.loadABCList(that.renderedTune.tab);
-        that.showMedia(that.renderedTune);
+        this.showTab('songsTab');
+        //that.showMedia(that.renderedTune);
     });
 };
 
 SITE.Mapa.prototype.carregaRepertorioLocal = function(evt) {
     var that = this;
     FILEMANAGER.loadLocalFiles( evt, function() {
-      that.doCarregaRepertorioLocal(false, FILEMANAGER.files);
+      that.doCarregaRepertorioLocal(FILEMANAGER.files);
       evt.target.value = "";
     });
 };
@@ -784,7 +698,7 @@ SITE.Mapa.prototype.doCarregaRepertorioLocal = function(files) {
                 // adiciona novo index
                 accordion.songs.sortedIndex.push(tunebook.tunes[t].title);
             } 
-            //add or replace
+            // add or replace content
             accordion.songs.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
 
             if(! first ) {
@@ -792,16 +706,15 @@ SITE.Mapa.prototype.doCarregaRepertorioLocal = function(files) {
                 this.renderedTune.title = tunebook.tunes[t].title;
                 first = true;
             }
-
+            
             ga('send', 'event', 'Mapa', 'load', tunebook.tunes[t].title);
         }    
     }
 
     // reordena a lista
     accordion.songs.sortedIndex.sort();
-    //mostra?
     this.loadABCList(this.renderedTune.tab);
-    this.showMedia(this.renderedTune);
+    this.showTab('songsTab');
         
 };
 
@@ -834,21 +747,6 @@ SITE.Mapa.prototype.showTab = function(tabString) {
     this.showMedia(tab);
 };
 
-SITE.Mapa.prototype.reprintTab = function( newABCText ) {
-    
-    var currentTab = this.getActiveTab();
-    
-    if( newABCText ) {
-        if( newABCText === currentTab.text )  {
-            return;
-    } else {
-            currentTab.text = newABCText;
-            this.accordion.loaded.setSong(currentTab.title, currentTab.text );
-            this.renderTAB( currentTab );
-        }
-    }
-};
-
 SITE.Mapa.prototype.accordionExists = function(id) {
     return this.accordion.accordionExists(id);
 };
@@ -857,40 +755,33 @@ SITE.Mapa.prototype.accordionIsCurrent = function(id) {
     return this.accordion.accordionIsCurrent(id);
 };
 
-SITE.Mapa.prototype.showABC = function(evt) {
+SITE.Mapa.prototype.showABC = function(action) {
     var self = this;
-    var a = evt.split('-');
+    var a = action.split('-');
     var type = a[0];
     var i = parseInt(a[1]);
-    var currentTab = self.getActiveTab();
-    if( currentTab.title === this.accordion.loaded[type].sortedIndex[i] ) {
-        return; // já está ativo
-    }
-    var loader = this.startLoader( "TABLoader" + type );
-    loader.start(  function() { self.doShowABC(type, currentTab, i, loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
-};
-
-SITE.Mapa.prototype.doShowABC = function(type, tab, i, loader ) {
-    tab.title = this.accordion.loaded[type].sortedIndex[i];
-    
-    if( tab.menu.selectItem(tab.ddmId, tab.title) ) {
+    var tab = self.getActiveTab();
+    var title = this.accordion.loaded[type].sortedIndex[i];
+    if( tab.title !== title && tab.menu.selectItem( tab.ddmId, action ) ) {
+        tab.title = title;
+        tab.text = this.accordion.loaded.getAbcText( tab.tab, tab.title );
+        tab.menu.setSubMenuTitle( tab.ddmId, (tab.title.length>43 ? tab.title.substr(0,40) + "..." : tab.title) );
         if( !this.accordion.loaded.localResource)
             FILEMANAGER.saveLocal( 'property.'+this.accordion.getId()+'.'+type+'.title', tab.title );
-        tab.menu.setSubMenuTitle( tab.ddmId, (tab.title.length>43 ? tab.title.substr(0,40) + "..." : tab.title) );
-        this.renderTAB( tab );
-        this.showMedia( tab );
-        this.tuneContainerDiv.scrollTop = 0;    
-        
+        var loader = this.startLoader( "TABLoader" + type );
+        loader.start(  function() { 
+            self.renderTAB( tab );
+            self.showMedia( tab );
+            self.tuneContainerDiv.scrollTop = 0;    
+            loader.stop();
+        }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
     } else {
         console.log( 'Song title not found!');
     }
-    
-    loader.stop();
 };
 
 SITE.Mapa.prototype.loadABCList = function(type) {
-    var tab;
-    var items;
+    var tab, items;
     switch( type ) {
         case 'songs':
             tab = this.renderedTune;
@@ -924,25 +815,26 @@ SITE.Mapa.prototype.loadABCList = function(type) {
         if(title === tab.title ) {
             tab.menu.setSubMenuTitle( tab.ddmId, title );
             tab.menu.selectItem(tab.ddmId, m);
+            tab.text = this.accordion.loaded.getAbcText(type, title);
         }    
     }
-
+    
+    this.setActiveTab(type+'Tab');
     this.renderTAB( tab );
     
 };
 
 SITE.Mapa.prototype.renderTAB = function( tab ) {
     
-    tab.text = this.accordion.loaded.getAbcText(tab.tab, tab.title);
-    
-    if (tab.title === "" || tab.text === undefined ) {
+    if (tab.title === undefined || tab.text === undefined ) {
         tab.text = undefined;
-        tab.title = "";
+        tab.title = undefined;
         return;
     }
     
-    this.abcParser.parse(tab.text, this.parserparams );
+    this.abcParser.parse( tab.text, this.parserparams );
     tab.abc = this.abcParser.getTune();
+    tab.text = this.abcParser.getStrTune();
 
     if ( this.midiParser ) {
         this.midiParser.parse( tab.abc, this.accordion.loadedKeyboard );
@@ -950,7 +842,7 @@ SITE.Mapa.prototype.renderTAB = function( tab ) {
     
     var paper = new SVG.Printer( tab.div );
     tab.printer = new ABCXJS.write.Printer(paper, this.printerparams );
-
+            
     //tab.printer.printTune( tab.abc, {color:'black', backgroundColor:'#ffd' } ); 
     tab.printer.printTune( tab.abc ); 
     
@@ -962,13 +854,13 @@ SITE.Mapa.prototype.renderTAB = function( tab ) {
 SITE.Mapa.prototype.setActiveTab = function(tab) {
     document.getElementById(tab).checked = true;
     switch(tab) {
-        case 'tabSongs':
+        case 'songsTab':
             this.activeTab = this.renderedTune;
             break;
-        case 'tabPractices':
+        case 'practicesTab':
             this.activeTab = this.renderedPractice;
             break;
-        case 'tabChords':
+        case 'chordsTab':
             this.activeTab = this.renderedChord;
             break;
     }
@@ -994,16 +886,21 @@ SITE.Mapa.prototype.mediaCallback = function( e ) {
     switch(e) {
         case 'MOVE':
             var m = this.mediaWindow.topDiv;
-            FILEMANAGER.saveLocal( 'property.mediaDiv.settings',  m.style.top  + '|' + m.style.left );
+            SITE.properties.mediaDiv.top = m.style.top;
+            SITE.properties.mediaDiv.left = m.style.left;
+            SITE.SaveProperties();
+            //FILEMANAGER.saveLocal( 'property.mediaDiv.settings',  m.style.top  + '|' +  );
             break;
         case 'OPEN':
             SITE.properties.mediaDiv.visible = true;
+            SITE.SaveProperties();
             this.mediaWindow.setVisible(true);
             this.showMediaButton.style.display = 'none';
             break;
         case 'CLOSE':
             this.pauseMedia();
             SITE.properties.mediaDiv.visible = false;
+            SITE.SaveProperties();
             this.mediaWindow.setVisible(false);
             this.showMediaButton.style.display = 'inline';
             break;
@@ -1046,6 +943,8 @@ SITE.Mapa.prototype.showMedia = function(tab) {
             this.mediaWindow.setVisible(true);
             this.posicionaMidia();
         } else {
+            this.pauseMedia();
+            this.mediaWindow.setVisible(false);
             this.showMediaButton.style.display = 'inline';
         }
     } else {
@@ -1067,6 +966,7 @@ SITE.Mapa.prototype.posicionaMidia = function () {
     
     var k = this.mediaWindow.topDiv;
     var x = parseInt(k.style.left.replace('px', ''));
+    var xi = x;
     
     if( x + k.offsetWidth > w ) {
         x = (w - (k.offsetWidth + 50));
@@ -1074,7 +974,10 @@ SITE.Mapa.prototype.posicionaMidia = function () {
     
     if(x < 0) x = 10;
     
-    SITE.properties.mediaDiv.left = k.style.left = x+"px";
+    if( x !== xi ) {
+        SITE.properties.mediaDiv.left = k.style.left = x+"px";
+        SITE.SaveProperties();
+    }
         
 };
 
@@ -1095,37 +998,17 @@ SITE.Mapa.prototype.startLoader = function(id, start, stop) {
     return loader;
 };
 
-SITE.Mapa.prototype.settingsCallback = function(action, elem ) {
-    switch(action) {
-        case 'MOVE': 
-            break;
-        case 'CLOSE': 
-        case 'CANCEL':
-            this.settingsWindow.setVisible(false);
-            break;
-        case 'APPLY':
-           ABCXJS.write.color.highLight = this.p1.value;
-           DIATONIC.map.color.close = this.p2.value;
-           DIATONIC.map.color.open = this.p3.value;
-           this.accordion.loadedKeyboard.legenda.setOpen();
-           this.accordion.loadedKeyboard.legenda.setClose();
-           this.settingsWindow.setVisible(false);
-           break;
-        case 'RESET':
-            this.alert = new DRAGGABLE.ui.Alert( 
-                this.settingsWindow, action, 
-                '<br>Você deseja redefinir todos os itens?',
-                '<br>Isto fará com que todos os itens retornem para suas configurações iniciais, '+
-                    'isto inclui cores e posicionamento, entre outras coisas.');
-            break;
-        case 'RESET-YES':
-            break;
-        case 'RESET-NO':
-        case 'RESET-CANCEL':
-            this.alert.close();
-            this.alert = null;
-            break;
-   }
+SITE.Mapa.prototype.defineInstrument = function() {
+    
+    var instrument = SITE.properties.options.pianoSound? 0: 21; // accordion
+    
+    MIDI.programChange( 0, instrument );
+    MIDI.programChange( 1, instrument );
+    MIDI.programChange( 2, instrument );
+    MIDI.programChange( 3, instrument );
+    MIDI.programChange( 4, instrument );
+    MIDI.programChange( 5, instrument );
+    
 };
 
 SITE.Mapa.prototype.showSettings = function() {
@@ -1140,11 +1023,11 @@ SITE.Mapa.prototype.showSettings = function() {
         );
 
         this.settingsWindow.topDiv.style.zIndex = 101;
-        
 
 //              <tr>\
 //                <th colspan="2">Acordeon:</th><td><div id="settingsAcordeonsMenu" class="topMenu"></div></td>\
 //              </tr>\
+
         this.settingsWindow.dataDiv.innerHTML= '\
         <div class="menu-group">\
             <table>\
@@ -1155,25 +1038,25 @@ SITE.Mapa.prototype.showSettings = function() {
                 <th colspan="2"><br>Cores:</th><td></td>\
               </tr>\
               <tr>\
-                <td></td><td>Cor de Realce</td><td><input type="text" id="corRealce" ></td>\
+                <td></td><td>Cor de Realce</td><td><input id="corRealce" type="text" ></td>\
               </tr>\
               <tr>\
-                <td></td><td>Fole Fechando</td><td><input type="text" id="foleFechando" ></td>\
+                <td></td><td>Fole Fechando</td><td><input id="foleFechando" type="text" ></td>\
               </tr>\
               <tr>\
-                <td></td><td>Fole Abrindo</td><td><input type="text" id="foleAbrindo" ></td>\
+                <td></td><td>Fole Abrindo</td><td><input id="foleAbrindo" type="text" ></td>\
               </tr>\
               <tr>\
                 <th colspan="2"><br>Propriedades:</th><td></td>\
               </tr>\
               <tr>\
-                <td><input type="checkbox"> </td><td colspan="2">Mostrar avisos e erros de compilação</td>\
+                <td><input id="chkWarnings" type="checkbox"> </td><td colspan="2">Mostrar avisos e erros de compilação</td>\
               </tr>\
               <tr>\
-                <td><input type="checkbox"> </td><td colspan="2">Atualizar partitura automaticamente</td>\
+                <td><input id="chkAutoRefresh" type="checkbox"> </td><td colspan="2">Atualizar partitura automaticamente</td>\
               </tr>\
               <tr>\
-                <td><input type="checkbox"> </td><td colspan="2">Usar sons de Piano Acústico</td>\
+                <td><input id="chkPiano" type="checkbox"> </td><td colspan="2">Usar sons de Piano Acústico</td>\
               </tr>\
             </table>\
         </div>\
@@ -1205,24 +1088,112 @@ SITE.Mapa.prototype.showSettings = function() {
                         '<img src="images/de_DE.png" alt="idiomas" />&#160;Deustch|de_DE' 
                     ]}]
             );
-    
-        menu.setSubMenuTitle('menuIdiomas', '<img src="images/pt_BR.png" alt="idiomas" />&#160;Português');
+        menu.setSubMenuTitle('menuIdiomas', menu.selectItem('menuIdiomas', SITE.properties.options.language ) );
         menu.disableSubMenu('menuIdiomas');
 
         this.p1 = document.getElementById( 'corRealce');
         this.p2 = document.getElementById( 'foleFechando');
         this.p3 = document.getElementById( 'foleAbrindo');
+        this.p4 = document.getElementById( 'chkWarnings');
+        this.p5 = document.getElementById( 'chkAutoRefresh');
+        this.p6 = document.getElementById( 'chkPiano');
 
-        this.p1.style.backgroundColor = this.p1.value = ABCXJS.write.color.highLight;
-        this.p2.style.backgroundColor = this.p2.value = DIATONIC.map.color.close;
-        this.p3.style.backgroundColor = this.p3.value = DIATONIC.map.color.open ;
+        this.p1.style.backgroundColor = this.p1.value = SITE.properties.colors.highLight;
+        this.p2.style.backgroundColor = this.p2.value = SITE.properties.colors.close;
+        this.p3.style.backgroundColor = this.p3.value = SITE.properties.colors.open ;
+        
+        this.p4.checked = SITE.properties.options.showWarnings;
+        this.p5.checked = SITE.properties.options.autoRefresh;
+        this.p6.checked = SITE.properties.options.pianoSound;
 
-        new DRAGGABLE.ui.ColorPicker(['corRealce', 'foleFechando', 'foleAbrindo']);
+        this.picker = new DRAGGABLE.ui.ColorPicker(['corRealce', 'foleFechando', 'foleAbrindo']);
 
     }            
     
     this.settingsWindow.setVisible(true);
     
+};
+
+SITE.Mapa.prototype.settingsCallback = function (action, elem) {
+    switch (action) {
+        case 'MOVE':
+            break;
+        case 'CLOSE':
+        case 'CANCEL':
+            this.picker.close();
+            this.settingsWindow.setVisible(false);
+            break;
+        case 'APPLY':
+            // SITE.properties.options.language = // recuperar o valor selecionado no menu 
+            SITE.properties.colors.highLight = this.p1.value;
+            SITE.properties.colors.close = this.p2.value;
+            SITE.properties.colors.open = this.p3.value;
+            SITE.properties.options.showWarnings = this.p4.checked;
+            SITE.properties.options.autoRefresh = this.p5.checked;
+            SITE.properties.options.pianoSound = this.p6.checked;
+            SITE.SaveProperties();
+            this.applySettings();
+            this.picker.close();
+            this.settingsWindow.setVisible(false);
+            break;
+        case 'RESET':
+            this.alert = new DRAGGABLE.ui.Alert(
+                    this.settingsWindow, action,
+                    '<br>Você deseja redefinir todos os itens?',
+                    '<br>Isto fará com que todos os itens retornem para suas configurações iniciais, ' +
+                    'isto inclui cores e posicionamento, entre outras coisas.');
+            break;
+        case 'RESET-YES':
+            var v = ( this.studio && this.studio.studioDiv.parent.style.display === 'block' );
+            
+            this.alert.close();
+            this.picker.close();
+            this.settingsWindow.setVisible(false);
+            
+            if( v ) {
+                this.studio.setVisible(false);
+                this.studio.editorWindow.setVisible(false);
+                this.studio.midiPlayer.stopPlay();
+                this.openMapa( this.studio.getString() );
+            }
+            
+            SITE.ResetProperties();
+            
+            this.applySettings();
+            this.showMedia(this.getActiveTab());
+            
+            if( v )
+                this.openEstudio();
+            
+            break;
+        case 'RESET-NO':
+        case 'RESET-CANCEL':
+            this.alert.close();
+            this.alert = null;
+            break;
+    }
+};
+
+SITE.Mapa.prototype.applySettings = function() {
+
+    //implementar a tradução
+
+    this.defineInstrument();
+
+    if (this.studio) {
+        this.studio.setAutoRefresh(SITE.properties.options.autoRefresh);
+        this.studio.editorWindow = SITE.properties.studio.editor.floating ? this.studio.editareaMovel : this.studio.editareaFixa;
+
+        if (this.studio.warningsDiv)
+            this.studio.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
+    }
+    
+    ABCXJS.write.color.highLight = SITE.properties.colors.highLight;
+    DIATONIC.map.color.close = SITE.properties.colors.close;
+    DIATONIC.map.color.open = SITE.properties.colors.open;
+    
+    this.accordion.loadedKeyboard.legenda.setOpen();
+    this.accordion.loadedKeyboard.legenda.setClose();
 };
 
 SITE.Mapa.prototype.translate = function() {

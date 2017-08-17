@@ -1,11 +1,4 @@
-- Bug com undo manager: toda vez que usa setstring zera. isso acontece inclusive apos a atualização da partitura
-- Remover seletores tv-m de tabbed view (agora uso javascript) para controlar a tab ativa
-
-- Estudio
-    - Guardar Posição e tamanho dos itens de tela (e outras propriedades)
-    - Editor full screen
-
-- Implementar o controle de preferencias
+- Melhorar o estúdio, usando um único editor (em vez de um fixo e um movel)
 
 - Verificar as chamadas de Partitura para tablatura e vice versa
 
@@ -14,20 +7,18 @@
 
 - Atualizar as paginas de ajuda
 
-- Avisar para não usar o browser Microsoft
-
 - Recolocar os scripts do GA
+- Usar as versões minificadas dos scripts
 
 - Tradução (após a release 5.0, provavelmente 5.1)
-- Tratar bug getBBox no Firefox (elemento não visivel) - isso vale para o chrome (não dá erro), mas nas outras abas não destaca os elementos adequadamente
 - Bug na sintaxe colorida da tablatura quando há acordes
-- Janela de midia
-  -Preparar versao com abas para multiplos videos da mesma musica
+- Janela de midia: Preparar versao com abas para multiplos videos da mesma musica
+- Editor: Implementar funcao inativo para botões da toolbar, p. ex., quando não houver undo
+- Tratar bug getBBox no Firefox (elemento não visivel) - isso vale para o chrome (não dá erro), mas nas outras abas não destaca os elementos adequadamente
 
 #######################################################################################
 
 FEITO
-- Imprimir a versao automaticamente
 - Ao voltar do estudio redesenhar o teclado (não está destacando ao executar)
 - Fazer uma classe para Seletor de musicas (com registro do item selecionado)
 - Mudar a cor de menu selecionado
@@ -54,6 +45,8 @@ FEITO
   -Incluir um botão para reabrir a janela de midia
 
 - Estudio
+    - Guardar Posição e tamanho dos itens de tela (e outras propriedades)
+    - Editor full screen
     - Resize não acerta a largura do editor
 
 - Implementar no estudio
@@ -65,3 +58,7 @@ FEITO
  - Procura e substituição
  - Redo e Undo (all?)
 
+- Implementar o controle de preferencias
+- Remover seletores tv-m de tabbed view (agora uso javascript) para controlar a tab ativa
+- Avisar para não usar o browser Microsoft
+- Bug com undo manager: toda vez que usa setstring zera. isso acontece inclusive apos a atualização da partitura

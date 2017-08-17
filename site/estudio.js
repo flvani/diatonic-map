@@ -12,16 +12,10 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     var canvas_id = 'canvasDiv';
     var warnings_id = 'warningsDiv';
 
-    this.oldAbcText = null;
     this.warnings = [];
-    this.currentMode = SITE.properties.studio.mode; 
-    this.playTreble = SITE.properties.studio.trebleOn;
-    this.playBass = SITE.properties.studio.bassOn;
-    this.timerOn = SITE.properties.studio.timerOn;
-    this.clefsToPlay = (this.playTreble?"T":"")+(this.playBass?"B":"");
     
     this.renderedTune = {text:undefined, abc:undefined, title:undefined
-                         , tab: undefined, div: undefined ,selector: undefined };
+                         ,tab: undefined, div: undefined ,selector: undefined };
     
     this.studioDiv = new DRAGGABLE.ui.Window( 
           interfaceParams.studioDiv
@@ -29,7 +23,6 @@ SITE.Estudio = function (interfaceParams, playerParams) {
         , {translate: false, statusBar: false, draggable: false, top: "3px", left: "1px", width: '100%', height: "100%", title: 'Estúdio ABCX'}
         , {listener: this, method: 'studioCallback'}
     );
-    
     
     this.studioDiv.setVisible(true);
     this.studioDiv.dataDiv.style.overflow = 'hidden';
@@ -50,7 +43,10 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     this.editareaFixa = new ABCXJS.edit.EditArea(
           this.studioDiv.dataDiv
         , {listener : this, method: 'editorCallback' }
-        , {draggable:false, toolbar: false, translate:false, width: "100%", height: "200px", title: 'Editor ABCX' }
+        , {draggable:false, toolbar: false, translate:false, width: "100%", height: "200px"
+            , title: 'Editor ABCX'
+            , compileOnChange: SITE.properties.options.autoRefresh
+        }
     );
     this.editareaFixa.setToolBarVisible(false);
     this.editareaFixa.setVisible(false);
@@ -60,6 +56,7 @@ SITE.Estudio = function (interfaceParams, playerParams) {
        ,{listener: this, method: 'editorCallback' }
        ,{ toolbar: true, statusBar:true, translate:false
             , title: 'Editor ABCX'
+            , compileOnChange: SITE.properties.options.autoRefresh
             , left: SITE.properties.studio.editor.left
             , top: SITE.properties.studio.editor.top
             , width: SITE.properties.studio.editor.width
@@ -69,6 +66,10 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     this.editareaMovel.setVisible(false);
    
     this.editorWindow = SITE.properties.studio.editor.floating ? this.editareaMovel : this.editareaFixa;
+    
+    if( SITE.properties.studio.editor.maximized ) {
+        this.editorWindow.container.dispatchAction('MAXIMIZE');
+    }
     
     this.keyboardWindow = new DRAGGABLE.ui.Window( 
         this.studioDiv.dataDiv
@@ -125,7 +126,6 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     
     this.saveButton = document.getElementById(interfaceParams.saveBtn);
     this.forceRefreshButton = document.getElementById(interfaceParams.forceRefresh);
-    this.forceRefreshCheckbox = document.getElementById(interfaceParams.forceRefreshCheckbox);
     this.printButton = document.getElementById(interfaceParams.printBtn);
     this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
     this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
@@ -161,7 +161,7 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     this.forceRefreshButton.addEventListener("click", function (evt) {
         evt.preventDefault();
         this.blur();
-        that.fireChanged(0, true );
+        that.fireChanged(0, {force:true, showProgress:true } );
     }, false);
     
     this.saveButton.addEventListener("click", function (evt) {
@@ -188,35 +188,22 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     this.timerButton.addEventListener('click', function (evt) {
         evt.preventDefault();
         this.blur();
-        that.timerOn = ! that.timerOn;
-        that.setTimerIcon(that.timerOn, 0);
+        SITE.properties.studio.timerOn = ! SITE.properties.studio.timerOn;
+        that.setTimerIcon( 0 );
     }, false);
     
     this.FClefButton.addEventListener('click', function (evt) {
         evt.preventDefault();
         this.blur();
-        if( that.playBass) {
-            this.innerHTML = '<i class="ico-clef-bass" style="opacity:0.5;"></i>'+
-                              '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px"></i>';
-        } else {
-            this.innerHTML = '<i class="ico-clef-bass" ></i>';
-
-        }
-        that.playBass = ! that.playBass;
-        that.clefsToPlay = (that.playTreble?"T":"")+(that.playBass?"B":"");
+        SITE.properties.studio.bassOn = ! SITE.properties.studio.bassOn;
+        that.setBassIcon();
     }, false);
 
     this.GClefButton.addEventListener('click', function (evt) {
         evt.preventDefault();
         this.blur();
-        if( that.playTreble) {
-            this.innerHTML = '<i class="ico-clef-treble" style="opacity:0.5;"></i>'+
-                              '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px"></i>';
-        } else {
-            this.innerHTML = '<i class="ico-clef-treble" ></i>';
-        }
-        that.playTreble = ! that.playTreble;
-        that.clefsToPlay = (that.playTreble?"T":"")+(that.playBass?"B":"");
+        SITE.properties.studio.trebleOn = ! SITE.properties.studio.trebleOn;
+        that.setTrebleIcon();
     }, false);
 
     this.playButton.addEventListener("click", function (evt) {
@@ -335,8 +322,7 @@ SITE.Estudio = function (interfaceParams, playerParams) {
             if(that.currentPlayTimeLabel)
                 that.currentPlayTimeLabel.innerHTML = strTime;
             
-            that.midiPlayer.setPlayableClefs( that.clefsToPlay );
-
+            that.midiPlayer.setPlayableClefs( (SITE.properties.studio.trebleOn?"T":"")+(SITE.properties.studio.bassOn?"B":"") );
         };
 
         this.playerCallBackOnEnd = function( player ) {
@@ -367,6 +353,11 @@ SITE.Estudio = function (interfaceParams, playerParams) {
 
 };
 
+SITE.Estudio.prototype.setAutoRefresh = function( value ) {
+    this.editareaFixa.setCompileOnChange(value);
+    this.editareaMovel.setCompileOnChange(value);
+};
+
 SITE.Estudio.prototype.resize = function( ) {
     
     // redimensiona a workspace
@@ -395,7 +386,7 @@ SITE.Estudio.prototype.resize = function( ) {
         this.editareaFixa.container.topDiv.style.width = "";
     }
 
-    this.studioCanvasDiv.style.height = (e-c-t-6) +"px";
+    this.studioCanvasDiv.style.height = t-(e+c+6) +"px";
     
     this.posicionaTeclado();
     
@@ -415,15 +406,16 @@ SITE.Estudio.prototype.setup = function( mapa, tab, accordionId) {
     this.setVisible(true);
     this.showEditor(SITE.properties.studio.editor.visible);
     this.showKeyboard(SITE.properties.studio.keyboard.visible);
+    this.setTimerIcon( 0 );
+    this.setTrebleIcon();
+    this.setBassIcon();
     
     this.accordion.loadById(accordionId);
     
-    this.renderedTune.text = tab.text;
-    this.renderedTune.title = tab.title;
     this.renderedTune.abc = tab.abc;
-    
-    this.setString(this.renderedTune.text);
-    //this.editorWindow.setVisible(true);
+    this.renderedTune.title = tab.title;
+    this.renderedTune.text = tab.text;
+    this.setString(tab.text);
     
     this.editorWindow.container.setTitle('-&#160;' + tab.title);
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
@@ -431,7 +423,8 @@ SITE.Estudio.prototype.setup = function( mapa, tab, accordionId) {
 
     this.studioCanvasDiv.scrollTop = 0;
     
-    this.doFireChanged(0, true );
+    this.fireChanged(0, {force:true} );
+    
 };
 
 SITE.Estudio.prototype.showKeyboard = function(show) {
@@ -470,7 +463,7 @@ SITE.Estudio.prototype.showEditor = function(show) {
 SITE.Estudio.prototype.editorCallback = function (action, elem) {
     switch(action) {
         case 'REFRESH': 
-           this.fireChanged(0, true );
+           this.fireChanged(0, {force:true} );
            break;
         case 'DOWNLOAD': 
            this.salvaMusica();
@@ -481,36 +474,43 @@ SITE.Estudio.prototype.editorCallback = function (action, elem) {
         case  '7':  case  '8':  case  '9':  case  '10': case  '11': 
         case '-1':  case '-2':  case '-3':  case  '-4': case  '-5': case '-6': 
         case '-7':  case '-8':  case '-9':  case '-10': case '-11': 
-            this.fireChanged( parseInt(action), true );
+            this.fireChanged( parseInt(action), {force:true} );
            break;
         case 'OCTAVEUP': 
-           this.fireChanged(12, true );
+           this.fireChanged(12, {force:true} );
            break;
         case 'OCTAVEDOWN': 
-           this.fireChanged(-12, true );
+           this.fireChanged(-12, {force:true} );
            break;
         case 'MAXIMIZE': 
             this.maximizeEditor(elem);
             break;
         case 'POPIN':
+            SITE.properties.studio.editor.floating = false;
             this.editorWindow.setVisible(false);
             this.editorWindow = this.editareaFixa;
             this.editorWindow.setString(this.editareaMovel.getString());
             this.editorWindow.setVisible(true);
-            //this.editorWindow.resize();
             this.resize();
             break;
         case 'POPOUT':
+            SITE.properties.studio.editor.floating = true;
             this.editorWindow.setVisible(false);
             this.editorWindow = this.editareaMovel;
             this.editorWindow.setString(this.editareaFixa.getString());
             this.editorWindow.setVisible(true);
-            //this.editorWindow.resize();
+            this.editorWindow.restartUndoManager();
             this.resize();
             break;
         case 'RESIZE':
         case 'MOVE':
-            //alert( action );
+            if(SITE.properties.studio.editor.floating && !SITE.properties.studio.editor.maximized){
+                var k = this.editorWindow.container.topDiv.style;
+                SITE.properties.studio.editor.left = k.left;
+                SITE.properties.studio.editor.top = k.top;
+                SITE.properties.studio.editor.width = k.width;
+                SITE.properties.studio.editor.height = k.height;
+            }
             break;
         case 'CLOSE':
             this.showEditor(false);
@@ -521,33 +521,46 @@ SITE.Estudio.prototype.editorCallback = function (action, elem) {
 SITE.Estudio.prototype.studioCallback = function( e ) {
     switch(e) {
         case 'CLOSE':
-            this.setVisible(false);
-            this.midiPlayer.stopPlay();
-            this.mapa.showMapa(true);
-            break;
-        case 'RESTORE':
+            this.closeEstudio(true);
             break;
     }
 };
 
+SITE.Estudio.prototype.closeEstudio = function(save) {
+    var loader = this.startLoader( "CloseStudio" );
+    var self = this;
+    loader.start(  function() { 
+        (save) && SITE.SaveProperties();
+        self.setVisible(false);
+        self.midiPlayer.stopPlay();
+        self.mapa.openMapa( self.getString() );
+        loader.stop();
+    }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
+};
+        
 SITE.Estudio.prototype.keyboardCallback = function( e ) {
     switch(e) {
         case 'MOVE':
+            var k = this.keyboardWindow.topDiv.style;
+            SITE.properties.studio.keyboard.left = k.left;
+            SITE.properties.studio.keyboard.top = k.top;
+            break;
+        case 'ROTATE':
+            this.accordion.rotateKeyboard(this.keyboardWindow.dataDiv);
+            SITE.properties.studio.keyboard.transpose = this.accordion.render_opts.transpose;
+            SITE.properties.studio.keyboard.mirror = this.accordion.render_opts.mirror;
+            break;
+        case 'ZOOM':
+            this.accordion.scaleKeyboard(this.keyboardWindow.dataDiv);
+            SITE.properties.studio.keyboard.scale = this.accordion.render_opts.scale;
+            break;
+        case 'GLOBE':
+            this.accordion.changeNotation();
+            SITE.properties.studio.keyboard.label = this.accordion.render_opts.label;
             break;
         case 'CLOSE':
             this.showKeyboard(false);
             break;
-        case 'ROTATE':
-            this.accordion.rotateKeyboard(this.keyboardWindow.dataDiv);
-            break;
-        case 'ZOOM':
-            this.accordion.scaleKeyboard(this.keyboardWindow.dataDiv);
-            break;
-        case 'GLOBE':
-            this.accordion.changeNotation();
-            break;
-        default:
-            alert(e);
     }
 };
 
@@ -611,7 +624,7 @@ SITE.Estudio.prototype.printPreview = function (html, divsToHide, landscape ) {
 
 SITE.Estudio.prototype.salvaMusica = function () {
     if (FILEMANAGER.requiredFeaturesAvailable()) {
-        this.parseABC(0);
+        this.parseABC(0, true );
         var name = this.renderedTune.abc.metaText.title + ".abcx";
         var conteudo = this.getString();
         FILEMANAGER.download(name, conteudo);
@@ -620,17 +633,17 @@ SITE.Estudio.prototype.salvaMusica = function () {
     }
 };
 SITE.Estudio.prototype.changePlayMode = function() {
-    if( this.currentMode === "normal" ) {
+    if( SITE.properties.studio.mode === "normal" ) {
         $("#divNormalPlayControls" ).hide();
-        this.currentMode  = "learning";
+        SITE.properties.studio.mode  = "learning";
         this.modeButton.innerHTML = '<i class="ico-learning" ></i>';
-        this.midiPlayer.resetAndamento(this.currentMode);
+        this.midiPlayer.resetAndamento(SITE.properties.studio.mode);
         $("#divDidacticPlayControls" ).fadeIn();
     } else {
         $("#divDidacticPlayControls" ).hide();
-        this.currentMode  = "normal";
+        SITE.properties.studio.mode  = "normal";
         this.modeButton.innerHTML = '<i class="ico-listening" ></i>';
-        this.midiPlayer.resetAndamento(this.currentMode);
+        this.midiPlayer.resetAndamento(SITE.properties.studio.mode);
         $("#divNormalPlayControls" ).fadeIn();
     }
 };
@@ -674,16 +687,34 @@ SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
         this.editorWindow.setReadOnly(true);
         this.editorWindow.setEditorHighLightStyle();
 
-        this.StartPlayWithTimer(this.renderedTune.abc.midi, type, value, valueF, this.timerOn ? 10: 0 );
+        this.StartPlayWithTimer(this.renderedTune.abc.midi, type, value, valueF, SITE.properties.studio.timerOn ? 10 : 0 );
         
     }
 };
 
-SITE.Estudio.prototype.setTimerIcon = function( timerOn, value ) {
+SITE.Estudio.prototype.setBassIcon = function() {
+    if( SITE.properties.studio.bassOn ) {
+        this.FClefButton.innerHTML = '<i class="ico-clef-bass" ></i>';
+    } else {
+        this.FClefButton.innerHTML = '<i class="ico-clef-bass" style="opacity:0.5;"></i>'+
+                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px"></i>';
+    }
+};
+
+SITE.Estudio.prototype.setTrebleIcon = function() {
+    if( SITE.properties.studio.trebleOn ) {
+        this.GClefButton.innerHTML = '<i class="ico-clef-treble" ></i>';
+    } else {
+        this.GClefButton.innerHTML = '<i class="ico-clef-treble" style="opacity:0.5;"></i>'+
+                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px"></i>';
+    }
+};
+
+SITE.Estudio.prototype.setTimerIcon = function( value ) {
     value = value || 0;
     
     var ico = '00';
-    if( timerOn ) {
+    if( SITE.properties.studio.timerOn ) {
         switch( value ) {
             case 0:  ico = '00'; break;
             case 1:  ico = '05'; break;
@@ -709,12 +740,12 @@ SITE.Estudio.prototype.setTimerIcon = function( timerOn, value ) {
 SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, counter ) {
      var that = this;
     
-    if( type !== 'note' && this.timerOn && counter > 0 ) {
-        that.setTimerIcon( that.timerOn, counter );
+    if( type !== 'note' && SITE.properties.studio.timerOn && counter > 0 ) {
+        that.setTimerIcon( counter );
         counter -= 1;
         window.setTimeout(function(){that.StartPlayWithTimer(midi, type, value, valueF, counter); }, 1000.0/3 );
     } else {
-        that.setTimerIcon( that.timerOn, 0 );
+        that.setTimerIcon( 0 );
         if(type==="normal") {
             this.midiPlayer.setPlayableClefs('TB');
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
@@ -723,7 +754,7 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
                 this.playButton.innerHTML = '&#160;<i class="ico-pause"></i>&#160;';
             }
         } else {
-            this.midiPlayer.setPlayableClefs( this.clefsToPlay );
+            this.midiPlayer.setPlayableClefs( (SITE.properties.studio.trebleOn?"T":"")+(SITE.properties.studio.bassOn?"B":"") );
             ga('send', 'event', 'Estúdio', 'didactic-play', this.renderedTune.title);
             this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value, valueF );
         }
@@ -731,87 +762,104 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
 };
 
 
-SITE.Estudio.prototype.parseABC = function(transpose) {
-    
+SITE.Estudio.prototype.parseABC = function (transpose, force) {
+
+    var text = this.getString();
+
     this.warnings = [];
-    
-    if(typeof transpose !== "undefined") {
-        if( this.transposer )
-          this.transposer.reset(transpose);
-        else
-          this.transposer = new ABCXJS.parse.Transposer( transpose );
+
+    if (text === "") {
+        this.renderedTune.text = this.initialText = this.renderedTune.abc = undefined;
+        return true;
     }
-    
-    if( ! this.abcParser )
-        this.abcParser = new ABCXJS.parse.Parse( this.transposer, this.accordion );
-    
-    this.abcParser.parse(this.getString(), this.parserparams );
-    
+
+    if (text === this.initialText && !force) {
+        this.updateSelection();
+        return false;
+    }
+
+    if (typeof transpose !== "undefined") {
+        if (this.transposer)
+            this.transposer.reset(transpose);
+        else
+            this.transposer = new ABCXJS.parse.Transposer(transpose);
+    }
+
+    if (!this.abcParser)
+        this.abcParser = new ABCXJS.parse.Parse(this.transposer, this.accordion);
+
+    this.abcParser.parse(text, this.parserparams);
+
     this.renderedTune.abc = this.abcParser.getTune();
-    this.renderedTune.text = this.abcParser.getStrTune();
-    
+    this.renderedTune.text = this.initialText = this.abcParser.getStrTune();
+
     // transposição e geracao de tablatura podem ter alterado o texto ABC
-    this.parsing = true; // tratar melhor essa forma de inibir evento change da editarea durante a atualização da string
-    this.setString( this.renderedTune.text );
-    delete this.parsing;
-    
-    if( this.transposer && this.editareaMovel.keySelector ) {
-        this.editareaMovel.keySelector.populate( this.transposer.keyToNumber( this.transposer.getKeyVoice(0) ) );       
+    if (text !== this.initialText)
+        this.setString(this.renderedTune.text);
+
+    if (this.transposer && this.editareaMovel.keySelector) {
+        this.editareaMovel.keySelector.populate(this.transposer.keyToNumber(this.transposer.getKeyVoice(0)));
     }
 
     var warnings = this.abcParser.getWarnings() || [];
-    for (var j=0; j<warnings.length; j++) {
+    for (var j = 0; j < warnings.length; j++) {
         this.warnings.push(warnings[j]);
     }
-    
-    if ( this.midiParser ) {
-        this.midiParser.parse( this.renderedTune.abc, this.accordion.loadedKeyboard );
+
+    if (this.midiParser) {
+        this.midiParser.parse(this.renderedTune.abc, this.accordion.loadedKeyboard);
         var warnings = this.midiParser.getWarnings();
-        for (var j=0; j<warnings.length; j++) {
-           this.warnings.push(warnings[j]);
+        for (var j = 0; j < warnings.length; j++) {
+            this.warnings.push(warnings[j]);
         }
     }
-    
-    return this.renderedTune.abc;
-    
-};        
+
+    return true;
+
+};
 
 SITE.Estudio.prototype.onChange = function() {
     this.studioCanvasDiv.scrollTop = this.lastYpos;
     this.resize();
 };
 
-SITE.Estudio.prototype.fireChanged = function (transpose, force) {
-    var self = this;
-    var loader = this.startLoader( "FC" );
-    loader.start(  function() { self.doFireChanged(transpose, force, loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
+SITE.Estudio.prototype.fireChanged = function (transpose, _opts) {
+    
+    if( this.changing ) return;
+    
+    this.changing = true;
+    var opts = _opts || {};
+    var force = opts.force || false;
+    var showProgress = opts.showProgress || false;
+
+    if (this.parseABC(transpose, force)) {
+        this.modelChanged(showProgress);
+    } else {
+        delete this.changing;
+    }
 };
 
-SITE.Estudio.prototype.doFireChanged = function (transpose, force, loader) {
-
-    if( force || this.oldAbcText !== this.getString() ) {
-        
-        this.oldAbcText = this.getString();
-    
-        this.lastYpos = this.studioCanvasDiv.scrollTop || 0;               
-
-        if( this.parseABC(transpose) ) {
-            this.modelChanged();
-        }
-    }
-    
-    if(loader) {
-        loader.stop();
+SITE.Estudio.prototype.modelChanged = function(showProgress) {
+    var self = this;
+    if(showProgress) {
+        var loader = this.startLoader( "ModelChanged" );
+        loader.start(  function() { self.onModelChanged(loader); }, '<br>&nbsp;&nbsp;&nbsp;Gerando partitura...<br><br>' );
+    } else {
+        self.onModelChanged();
     }    
 };
 
-SITE.Estudio.prototype.modelChanged = function() {
+SITE.Estudio.prototype.onModelChanged = function(loader) {
     
     this.renderedTune.div.innerHTML = "";
+    this.renderedTune.div.style.display = "none";
+    
     if (this.renderedTune.abc === undefined) {
+        delete this.changing;
         return;
     }
 
+    this.renderedTune.div.style.display = "";
     var paper = new SVG.Printer( this.renderedTune.div );
     this.renderedTune.printer = new ABCXJS.write.Printer(paper, this.printerparams );
     //this.renderedTune.printer.printTune( this.renderedTune.abc, {color:'black', backgroundColor:'#ffd'} );
@@ -828,6 +876,16 @@ SITE.Estudio.prototype.modelChanged = function() {
     if (this.onchangeCallback) {
         this.onchangeCallback(this);
     }    
+    if( loader ) {
+        loader.update( false, '<br>&nbsp;&nbsp;&nbsp;Gerando tablatura...<br><br>' );
+        loader.stop();
+    }
+    delete this.changing;
+    
+//    window.setTimeout(function() {
+//        self.printWarnings();
+//        self.resize();
+//    }, 1);
     
 };
 
@@ -887,7 +945,8 @@ SITE.Estudio.prototype.maximizeEditor = function(elem) {
         elem.innerHTML = '<a href="" title="Restaurar janela"><i class="ico-restore"></i></a>';
         this.editorWindow.container.move(0,0);
         this.editorWindow.container.topDiv.style.width = "100%";
-        this.editorWindow.container.topDiv.style.height = "100%";
+        this.editorWindow.container.topDiv.style.height = "calc( 100% - 7px)";
+        SITE.properties.studio.editor.maximized = true;
         this.editorWindow.container.draggable = false;
         this.editorWindow.resize();
     } else {
@@ -897,6 +956,7 @@ SITE.Estudio.prototype.maximizeEditor = function(elem) {
         k.top = SITE.properties.studio.editor.top;
         k.width = SITE.properties.studio.editor.width;
         k.height = SITE.properties.studio.editor.height;
+        SITE.properties.studio.editor.maximized = false;
         this.editorWindow.container.draggable = true;
         this.editorWindow.resize();
     }

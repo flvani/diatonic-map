@@ -20,7 +20,6 @@ teste.
         <link rel="stylesheet" href="css/mapa.css" />
         <link rel="stylesheet" href="css/studio.css" >
         
-        
   </head>
     <body>
         
@@ -81,14 +80,14 @@ teste.
             <div id="mapaWarningsDiv"></div>
 
             <div id="section2" class="tabs">
-                <input id="tabChords" type="radio" name="tabControl" class="tab-selector-1" />
-                <label for="tabChords" class="tab-label-1">Acordes</label>
+                <input id="chordsTab" type="radio" name="tabControl" class="tab-selector-1" />
+                <label for="chordsTab" class="tab-label-1">Acordes</label>
 
-                <input id="tabPractices" type="radio" name="tabControl" class="tab-selector-2" />
-                <label for="tabPractices" class="tab-label-2">Exercícios</label>
+                <input id="practicesTab" type="radio" name="tabControl" class="tab-selector-2" />
+                <label for="practicesTab" class="tab-label-2">Exercícios</label>
 
-                <input id="tabSongs" type="radio" name="tabControl" class="tab-selector-3" />
-                <label for="tabSongs" class="tab-label-3">Músicas</label>
+                <input id="songsTab" type="radio" name="tabControl" class="tab-selector-3" />
+                <label for="songsTab" class="tab-label-3">Músicas</label>
 
                 <div class="btn-group" >
                     <div id="menuChords" class="topMenu" style="display:none;"></div>
@@ -113,7 +112,7 @@ teste.
                         <div id="tabPracticesDiv" ></div>
                     </div>
                     <div class="tv-content-3">
-                        <div id="tabTunesDiv"></div>    
+                        <div id="tabSongsDiv"></div>    
                     </div>    
                 </div>
             </div>
@@ -130,8 +129,8 @@ teste.
                 <button id="timerBtn" title="Timer"><i class="ico-timer-00" ></i></button>
                 <button id="GClefBtn" title="Melodia"><i class="ico-clef-treble" ></i></button>
                 <button id="FClefBtn" title="Baixos"><i class="ico-clef-bass" ></i></button>
-                <input  style="display: none;" type="checkbox" id="chkAutoRefresh" /><span style="display: none;" id="DR_refresh">Auto atualização</span> 
-                <!--input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
+                <!--input  style="display: none;" type="checkbox" id="chkAutoRefresh" /><span style="display: none;" id="DR_refresh">Auto atualização</span> 
+                <input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
             </div>
             <div id="divDidacticPlayControls"  class="btn-subgroup" style="display: none;" >
                 <input id="gotoMeasureBtn" type="text" title="Ir para o compasso" value="Ir para..."/>
@@ -155,7 +154,7 @@ teste.
             
             var siteVersion = '5.00'; // definir automaticamente
             var abcxVersion = getABCXversion(); // Obtem e mostra a versão corrente da lib ABCX 
-            var debug=false;
+            var debug=false; // eliminar esta variável assim que possível
             
             var myMap;
             var myStudio;
@@ -206,10 +205,11 @@ teste.
                 SITE.LoadProperties();
                 
                 if( ABCXJS.misc.isIE() ){
+                    $('#mapaDiv').hide();
                     var alert = new DRAGGABLE.ui.Alert( 
                         null, null, 
                         'Notamos que você está usando o Internet Explorer.',
-                        'Infelizmente, algumas funcionalidades do site não estarão disponíveis para este navegador. Assim, '+
+                        'Infelizmente, muitas funcionalidades do aplicativo ficariam indisponíves neste navegador. Assim, '+
                                 ' sugerimos que você use, de preferência, os navegadores: '+
                                 '<ul><li>Chrome (chromium)</li><li>Firefox</li><li>Safari</li><li>MS-Edge</li></ul>' );
                     return;
@@ -238,7 +238,7 @@ teste.
                    ,"DR_repeatsyms" 
                    ,'DR_abc_editor'
                    ,'tabTunes'
-                   ,'tabChords'
+                   ,'chordsTab'
                    ,'tabPractices'
                    ,'showTextBtn'
                    ,'showEditorBtn'
@@ -299,13 +299,14 @@ teste.
                     , function () { 
                         FILEMANAGER.waitResources( { 
                             onProgress: function(event) {
-                                if(event.success){
-                                    MIDI.widget.setValue(0+Math.round(event.perc*.15));
-                                    //console.log('\nPercentual: '+ event.perc + '\nTimeouts: ' + event.timeouts + '\n' + event.success );
-                                } else {
-                                    MIDI.widget.setValue(0+Math.round(event.perc*.15));
-                                    //console.log('\nPercentual: '+ event.perc);
-                                }
+                                MIDI.widget.setValue(0+Math.round(event.perc*.15));
+//                                if(event.success){
+//                                    MIDI.widget.setValue(0+Math.round(event.perc*.15));
+//                                    //console.log('\nPercentual: '+ event.perc + '\nTimeouts: ' + event.timeouts + '\n' + event.success );
+//                                } else {
+//                                    MIDI.widget.setValue(0+Math.round(event.perc*.15));
+//                                    //console.log('\nPercentual: '+ event.perc);
+//                                }
                             }
                             ,onLoad: loadMIDI 
                         });
@@ -317,7 +318,7 @@ teste.
                 
                 MIDI.loadPlugin({
                      soundfontUrl: "./soundfont/"
-                    ,instruments: "accordion" // default
+                    ,instruments: [ "accordion", "acoustic_grand_piano" ]
                     ,onprogress: function( total, done, currentPercent ) {
                         var percent = ((done*100)+currentPercent)*85/(total*100);
                         MIDI.widget.setValue(15+Math.round(percent));
@@ -344,7 +345,6 @@ teste.
                        ,printBtn:'printBtn2'
                        ,saveBtn:'saveBtn'
                        ,forceRefresh:'forceRefresh'
-                       ,refreshController_id: "chkAutoRefresh"
                        ,accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps
@@ -391,7 +391,7 @@ teste.
                             ,render_keyboard_opts:{transpose:true, mirror:false, scale:1, draggable:false, show:true, label:false}}
                     }
                   , {   // tabParams
-                        songSelectorParms: { tabDiv: 'tabTunesDiv', menuDiv: 'menuSongs' }
+                        songSelectorParms: { tabDiv: 'tabSongsDiv', menuDiv: 'menuSongs' }
                       , chordSelectorParms:  { tabDiv: 'tabChordsDiv', menuDiv: 'menuChords' }
                       , practiceSelectorParms: { tabDiv: 'tabPracticesDiv', menuDiv: 'menuPractices' }
                       , studio: myStudio
@@ -402,7 +402,6 @@ teste.
                       , currentPlayTimeLabel: "currentPlayTimeLabel"
                     } 
                 );
-        
                 // myMap.debugRepertorio();
             }
             
