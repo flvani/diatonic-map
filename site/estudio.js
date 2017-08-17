@@ -20,7 +20,7 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     this.studioDiv = new DRAGGABLE.ui.Window( 
           interfaceParams.studioDiv
         , null
-        , {translate: false, statusBar: false, draggable: false, top: "3px", left: "1px", width: '100%', height: "100%", title: 'Estúdio ABCX'}
+        , {translate: false, statusbar: false, draggable: false, top: "3px", left: "1px", width: '100%', height: "100%", title: 'Estúdio ABCX'}
         , {listener: this, method: 'studioCallback'}
     );
     
@@ -40,32 +40,24 @@ SITE.Estudio = function (interfaceParams, playerParams) {
         }
     }
     
-    this.editareaFixa = new ABCXJS.edit.EditArea(
-          this.studioDiv.dataDiv
-        , {listener : this, method: 'editorCallback' }
-        , {draggable:false, toolbar: false, translate:false, width: "100%", height: "200px"
-            , title: 'Editor ABCX'
-            , compileOnChange: SITE.properties.options.autoRefresh
+    this.editorWindow = new ABCXJS.edit.EditArea(
+        this.studioDiv.dataDiv
+       ,{listener : this, method: 'editorCallback' }
+       ,{   draggable:SITE.properties.studio.editor.floating
+           ,toolbar: true, statusbar:true, translate:false
+           ,left: SITE.properties.studio.editor.left
+           ,top: SITE.properties.studio.editor.top
+           ,width: SITE.properties.studio.editor.width
+           ,height: SITE.properties.studio.editor.height
+           ,title: 'Editor ABCX'
+           ,compileOnChange: SITE.properties.options.autoRefresh
         }
     );
-    this.editareaFixa.setToolBarVisible(false);
-    this.editareaFixa.setVisible(false);
 
-    this.editareaMovel = new ABCXJS.edit.EditArea(
-        this.studioDiv.dataDiv
-       ,{listener: this, method: 'editorCallback' }
-       ,{ toolbar: true, statusBar:true, translate:false
-            , title: 'Editor ABCX'
-            , compileOnChange: SITE.properties.options.autoRefresh
-            , left: SITE.properties.studio.editor.left
-            , top: SITE.properties.studio.editor.top
-            , width: SITE.properties.studio.editor.width
-            , height: SITE.properties.studio.editor.height
-        } 
-    );
-    this.editareaMovel.setVisible(false);
-   
-    this.editorWindow = SITE.properties.studio.editor.floating ? this.editareaMovel : this.editareaFixa;
+    this.editorWindow.setVisible(SITE.properties.studio.editor.visible);
+    this.editorWindow.dockWindow(!SITE.properties.studio.editor.floating);
+    this.editorWindow.setToolBarVisible(SITE.properties.studio.editor.floating);
+    this.editorWindow.setStatusBarVisible(SITE.properties.studio.editor.floating);
     
     if( SITE.properties.studio.editor.maximized ) {
         this.editorWindow.container.dispatchAction('MAXIMIZE');
@@ -74,7 +66,7 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     this.keyboardWindow = new DRAGGABLE.ui.Window( 
         this.studioDiv.dataDiv
        ,[ 'move|Mover', 'rotate|Rotacionar', 'zoom|Zoom','globe|Mudar Notação']
-       ,{title: '', translate: false, statusBar: false
+       ,{title: '', translate: false, statusbar: false
             , top: SITE.properties.studio.keyboard.top
             , left: SITE.properties.studio.keyboard.left
             , zIndex: 100
@@ -354,8 +346,7 @@ SITE.Estudio = function (interfaceParams, playerParams) {
 };
 
 SITE.Estudio.prototype.setAutoRefresh = function( value ) {
-    this.editareaFixa.setCompileOnChange(value);
-    this.editareaMovel.setCompileOnChange(value);
+    this.editorWindow.setCompileOnChange(value);
 };
 
 SITE.Estudio.prototype.resize = function( ) {
@@ -382,8 +373,8 @@ SITE.Estudio.prototype.resize = function( ) {
     var t = this.studioDiv.dataDiv.clientHeight;
     
     if(! SITE.properties.studio.editor.floating) {
-        e = this.editareaFixa.container.topDiv.clientHeight+4;
-        this.editareaFixa.container.topDiv.style.width = "";
+        e = this.editorWindow.container.topDiv.clientHeight+4;
+//        this.editareaFixa.container.topDiv.style.width = "";
     }
 
     this.studioCanvasDiv.style.height = t-(e+c+6) +"px";
@@ -487,20 +478,25 @@ SITE.Estudio.prototype.editorCallback = function (action, elem) {
             break;
         case 'POPIN':
             SITE.properties.studio.editor.floating = false;
-            this.editorWindow.setVisible(false);
-            this.editorWindow = this.editareaFixa;
-            this.editorWindow.setString(this.editareaMovel.getString());
-            this.editorWindow.setVisible(true);
-            this.resize();
+            this.editorWindow.dockWindow(true);
+            this.editorWindow.setToolBarVisible(false);
+            this.editorWindow.setStatusBarVisible(false);
+            this.editorWindow.container.move(0,0);
+            this.editorWindow.container.setSize("calc(100% -5px)","200px");
+            this.editorWindow.resize();
             break;
         case 'POPOUT':
             SITE.properties.studio.editor.floating = true;
-            this.editorWindow.setVisible(false);
-            this.editorWindow = this.editareaMovel;
-            this.editorWindow.setString(this.editareaFixa.getString());
-            this.editorWindow.setVisible(true);
-            this.editorWindow.restartUndoManager();
-            this.resize();
+            this.editorWindow.dockWindow(false);
+            this.editorWindow.setToolBarVisible(true);
+            this.editorWindow.setStatusBarVisible(true);
+            this.editorWindow.container.move(
+                SITE.properties.studio.editor.left
+               ,SITE.properties.studio.editor.top );
+            this.editorWindow.container.setSize(
+                SITE.properties.studio.editor.width
+               ,SITE.properties.studio.editor.height);
+            this.editorWindow.resize();
             break;
         case 'RESIZE':
         case 'MOVE':
@@ -797,8 +793,8 @@ SITE.Estudio.prototype.parseABC = function (transpose, force) {
     if (text !== this.initialText)
         this.setString(this.renderedTune.text);
 
-    if (this.transposer && this.editareaMovel.keySelector) {
-        this.editareaMovel.keySelector.populate(this.transposer.keyToNumber(this.transposer.getKeyVoice(0)));
+    if (this.transposer && this.editorWindow.keySelector) {
+        this.editorWindow.keySelector.populate(this.transposer.keyToNumber(this.transposer.getKeyVoice(0)));
     }
 
     var warnings = this.abcParser.getWarnings() || [];

@@ -252,7 +252,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.mediaWindow = new DRAGGABLE.ui.Window( 
           this.mapDiv
         , null
-        , {title: 'Videoaula', translate: false, statusBar: false
+        , {title: 'Videoaula', translate: false, statusbar: false
             , top: SITE.properties.mediaDiv.top
             , left: SITE.properties.mediaDiv.left
             , zIndex: 1000} 
@@ -1018,7 +1018,7 @@ SITE.Mapa.prototype.showSettings = function() {
         this.settingsWindow = new DRAGGABLE.ui.Window( 
               null 
             , null
-            , {title: 'Preferências', translate: false, statusBar: false, top: "300px", left: "500px", height:'400px',  width:'600px', zIndex: 50} 
+            , {title: 'Preferências', translate: false, statusbar: false, top: "300px", left: "500px", height:'400px',  width:'600px', zIndex: 50} 
             , {listener: this, method: 'settingsCallback'}
         );
 
@@ -1182,7 +1182,6 @@ SITE.Mapa.prototype.applySettings = function() {
 
     if (this.studio) {
         this.studio.setAutoRefresh(SITE.properties.options.autoRefresh);
-        this.studio.editorWindow = SITE.properties.studio.editor.floating ? this.studio.editareaMovel : this.studio.editareaFixa;
 
         if (this.studio.warningsDiv)
             this.studio.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
