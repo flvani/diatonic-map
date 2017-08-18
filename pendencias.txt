@@ -1,5 +1,3 @@
-- Melhorar o estúdio, usando um único editor (em vez de um fixo e um movel)
-
 - Verificar as chamadas de Partitura para tablatura e vice versa
 
 - Pagina de créditos (about) e licenças e release
@@ -11,10 +9,14 @@
 - Usar as versões minificadas dos scripts
 
 - Tradução (após a release 5.0, provavelmente 5.1)
+- Eliminar esta variável assim que possível: var debug=false; 
 - Bug na sintaxe colorida da tablatura quando há acordes
 - Janela de midia: Preparar versao com abas para multiplos videos da mesma musica
 - Editor: Implementar funcao inativo para botões da toolbar, p. ex., quando não houver undo
-- Tratar bug getBBox no Firefox (elemento não visivel) - isso vale para o chrome (não dá erro), mas nas outras abas não destaca os elementos adequadamente
+
+- Tratar bug getBBox no Firefox (elemento não visivel) 
+    - isso vale para o chrome (não dá erro), mas nas outras abas não destaca os elementos adequadamente
+    - aparentemente resolvido - mostrando a aba antes de imprimir a partitura.
 
 #######################################################################################
 
@@ -62,3 +64,8 @@ FEITO
 - Remover seletores tv-m de tabbed view (agora uso javascript) para controlar a tab ativa
 - Avisar para não usar o browser Microsoft
 - Bug com undo manager: toda vez que usa setstring zera. isso acontece inclusive apos a atualização da partitura
+
+- Melhorar o estúdio, usando um único editor (em vez de um fixo e um movel)
+- Bug posiconamento da media ao redefinir
+
+

@@ -9,7 +9,7 @@ if (!window.SITE)
 
 SITE.LoadProperties = function() {
     
-    //FILEMANAGER.removeLocal('diatonic-map.site.properties' ); // para testes - remover ao final
+    //FILEMANAGER.removeLocal('diatonic-map.site.properties' ); // usdo para forçar reset da propriedades
     
     SITE.properties = JSON.parse( FILEMANAGER.loadLocal('diatonic-map.site.properties' ) ); 
     
@@ -47,6 +47,27 @@ SITE.ResetProperties = function() {
         ,height: 300 * 0.55666667
     };
 
+    SITE.properties.partGen = {
+        editor : {
+             visible: true
+            ,floating: true
+            ,maximized: false
+            ,top: "40px"
+            ,left: "50px"
+            ,width: "700px"
+            ,height: "480px"
+        }
+        , keyboard: {
+             visible: false
+            ,top: "65px"
+            ,left: "1200px"
+            ,scale: 1
+            ,mirror: true
+            ,transpose: false
+            ,label: false
+        }
+        
+    };
     SITE.properties.studio = {
          mode: 'normal'
         ,timerOn: false
@@ -71,9 +92,9 @@ SITE.ResetProperties = function() {
             ,label: false
         }
     };
+    
     SITE.SaveProperties();
 };
-
 
 SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
 
@@ -137,6 +158,8 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
                     'Sobre|ABOUT'
                 ]}
         ]);
+        
+    this.menu.disableSubItem( 'menuRepertorio', 'PART2TAB' )
     
     this.accordionSelector = new ABCXJS.edit.AccordionSelector( 
             'menuGaitas', this.menu, 
@@ -262,7 +285,6 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     DR.addAgent( this ); // register for translate
     
     this.defineInstrument();
-    
     this.resize();
     
 };
@@ -375,8 +397,33 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             w1.topDiv.style.display = 'inline';
             break;
         case 'PART2TAB':
-        case 'TAB2PART':
             alert(ev);
+        case 'TAB2PART':
+            if( ! this.tab2part ) {
+                this.partGen = new SITE.PartGen({
+                     partGenDiv: 'partGenDiv'
+                    ,controlDiv: 't2pControlDiv-raw' 
+                    ,showMapBtn: 't2pShowMapBtn'
+                    ,showEditorBtn: 't2pShowEditorBtn'
+                    ,printBtn:'t2pPrintBtn'
+                    ,saveBtn:'t2pSaveBtn'
+                    ,updateBtn:'t2pForceRefresh'
+                    ,playBtn: "t2pPlayBtn"
+                    ,stopBtn: "t2pStopBtn"
+                    ,currentPlayTimeLabel: "t2pCurrentPlayTimeLabel"
+                    ,ckShowABC:'ckShowABC'
+                    ,ckConvertToClub:'ckConvertToClub'
+                    ,ckConvertFromClub:'ckConvertFromClub'
+                    ,generate_warnings: true
+                    ,generate_tablature: 'accordion'
+                    ,accordion_options: {
+                          id: this.accordion.getId()
+                         ,accordionMaps: DIATONIC.map.accordionMaps
+                         ,render_keyboard_opts:{transpose:false, mirror: false, scale:0.8, draggable:true, show:false, label:false}}
+                });
+            } 
+            this.partGen.setup({accordionId: this.accordion.getId()});
+            
             break;
         case 'GAITA_MINUANO_GC':
         case 'GAITA_MINUANO_BC_TRANSPORTADA':
@@ -580,7 +627,7 @@ SITE.Mapa.prototype.loadMap = function(evt) {
 
 SITE.Mapa.prototype.doLoadMap = function( files, loader ) {
     
-    var newAccordion, newAccordionJSON, newImage;
+    var newAccordionJSON, newImage;
     var newTunes = "", newChords = "", newPractices = "";
     
     for(var f = 0; f < files.length; f++ ){
@@ -608,15 +655,8 @@ SITE.Mapa.prototype.doLoadMap = function( files, loader ) {
     newAccordionJSON.image = newImage || 'images/accordion.default.gif';
     
     if( ! this.accordionExists(newAccordionJSON.id) ) {
-        
-        newAccordion = new DIATONIC.map.AccordionMap( newAccordionJSON, true );
-        
-        DIATONIC.map.accordionMaps.push( newAccordion );
-        
-        DIATONIC.map.accordionMaps.sort( function(a,b) { 
-            return a.menuOrder > b.menuOrder;
-        });
-        
+        DIATONIC.map.accordionMaps.push( new DIATONIC.map.AccordionMap( newAccordionJSON, true ) );
+        DIATONIC.map.accordionMaps.sort( function(a,b) { return a.menuOrder > b.menuOrder; });
     }   
     
     this.setup({accordionId:newAccordionJSON.id});
@@ -664,7 +704,7 @@ SITE.Mapa.prototype.restauraRepertorio = function() {
     var accordion = that.accordion.loaded;
     
     if( accordion.localResource ) {
-        console.log( 'Can\'t reload repertoire for local accordion!');
+        // não é possível restaurar repertório para acordeon local;
         return;
     }
     
@@ -672,7 +712,6 @@ SITE.Mapa.prototype.restauraRepertorio = function() {
         that.renderedTune.title = accordion.getFirstSong();
         that.loadABCList(that.renderedTune.tab);
         this.showTab('songsTab');
-        //that.showMedia(that.renderedTune);
     });
 };
 
@@ -729,18 +768,11 @@ SITE.Mapa.prototype.showAccordionName = function() {
 
 SITE.Mapa.prototype.showTab = function(tabString) {
     
-    // procura tab ativa
     var tab = this.getActiveTab();
     
-    // na primeira vez não existe (melhorar isso)
-    if( tab )
-        tab.selector.style.display = 'none';
+    if( tab ) tab.selector.style.display = 'none';
     
-    // define a nova ativa
-    this.setActiveTab(tabString);
-    
-    // obtem a nova tab ativa 
-    tab = this.getActiveTab();
+    tab = this.setActiveTab(tabString);
     
     tab.selector.style.display = 'block';
     
@@ -864,6 +896,7 @@ SITE.Mapa.prototype.setActiveTab = function(tab) {
             this.activeTab = this.renderedChord;
             break;
     }
+    return this.activeTab;
 };
 
 SITE.Mapa.prototype.getActiveTab = function() {
@@ -939,13 +972,13 @@ SITE.Mapa.prototype.showMedia = function(tab) {
         this.mediaWindow.dataDiv.style.height = SITE.properties.mediaDiv.height + 'px';
         this.mediaWindow.dataDiv.style.overflow = 'hidden';
         
+        this.showMediaButton.style.display = SITE.properties.mediaDiv.visible? 'none' : 'inline';
+        this.mediaWindow.setVisible( SITE.properties.mediaDiv.visible );
+        
         if( SITE.properties.mediaDiv.visible ) {
-            this.mediaWindow.setVisible(true);
             this.posicionaMidia();
         } else {
             this.pauseMedia();
-            this.mediaWindow.setVisible(false);
-            this.showMediaButton.style.display = 'inline';
         }
     } else {
         this.pauseMedia();
@@ -978,7 +1011,6 @@ SITE.Mapa.prototype.posicionaMidia = function () {
         SITE.properties.mediaDiv.left = k.style.left = x+"px";
         SITE.SaveProperties();
     }
-        
 };
 
 SITE.Mapa.prototype.startLoader = function(id, start, stop) {
@@ -1152,7 +1184,6 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             
             if( v ) {
                 this.studio.setVisible(false);
-                this.studio.editorWindow.setVisible(false);
                 this.studio.midiPlayer.stopPlay();
                 this.openMapa( this.studio.getString() );
             }
@@ -1177,7 +1208,7 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
 SITE.Mapa.prototype.applySettings = function() {
 
     //implementar a tradução
-
+    
     this.defineInstrument();
 
     if (this.studio) {

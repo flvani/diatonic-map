@@ -45,8 +45,12 @@ teste.
         <script type="text/javascript" src="ace4abcx/ace4abcx.js"></script>
         
         
+        <script type="text/javascript" src="tab2part/t2p_parser.js"></script>
+        
+        
         <script type="text/javascript" src="site/mapa.js"></script>
         <script type="text/javascript" src="site/estudio.js"></script>
+        <script type="text/javascript" src="site/partgen.js"></script>
         
 
         <div id="topBar" class="topBar gradiente" >
@@ -118,6 +122,7 @@ teste.
             </div>
         </div> <!-- mapaDiv -->
         <div id="studioDiv" class="studioDiv" ></div>
+        <div id="partGenDiv" class="studioDiv" ></div>
         <div id="studioControlDiv" style="display:none;">
             <div id="controlDiv1" class="btn-subgroup" >
                 <button id="showEditorBtn" title="Exibir/Ocultar Editor"><i id="I_showEditor" class="ico-folder"></i>&#160;<span id="DR_showEditor">Editor</span></button>
@@ -129,8 +134,6 @@ teste.
                 <button id="timerBtn" title="Timer"><i class="ico-timer-00" ></i></button>
                 <button id="GClefBtn" title="Melodia"><i class="ico-clef-treble" ></i></button>
                 <button id="FClefBtn" title="Baixos"><i class="ico-clef-bass" ></i></button>
-                <!--input  style="display: none;" type="checkbox" id="chkAutoRefresh" /><span style="display: none;" id="DR_refresh">Auto atualização</span> 
-                <input type="checkbox" id="chkDebug" onclick="javascript:doCheckDebug();" /><span id="DR_debug">Depurar</span-->
             </div>
             <div id="divDidacticPlayControls"  class="btn-subgroup" style="display: none;" >
                 <input id="gotoMeasureBtn" type="text" title="Ir para o compasso" value="Ir para..."/>
@@ -148,6 +151,26 @@ teste.
             </div>
             <label id="currentPlayTimeLabel2" >00:00:00</label>
         </div>  <!-- controlDiv - este bloco é tratado internamente -->  
+        <div id="t2pControlDiv-raw" style="display:none;">
+            <div id="t2pControlDiv1" class="btn-subgroup" >
+                <button id="t2pShowEditorBtn" title="Exibir/Ocultar Editor"><i id="t2pI_showEditor" class="ico-folder"></i>&#160;<span id="t2pDR_showEditor">Editor</span></button>
+                <button id="t2pShowMapBtn" title="Exibir/Ocultar Teclado"><i id="t2pI_showMap" class="ico-folder"></i>&#160;<span id="t2pDR_showMap">Teclado</span></button>
+                <button id="t2pPrintBtn" title="Imprimir" ><i class="ico-printer"></i>&#160;Imprimir</button>
+                <button id="t2pSaveBtn" title="Salvar Local" ><i class="ico-download"></i>&#160;Salvar Local</button>
+                <button id="t2pForceRefresh" title="Atualizar" ><i class="ico-bolt"></i>&#160;Atualizar</button>
+            </div>
+            <div id="t2pDivNormalPlayControls" class="btn-subgroup" >
+                <button id="t2pPlayBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="ico-play"></i>&nbsp;</button>
+                <button id="t2pStopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="ico-stop"></i>&nbsp;</button>
+                <label id="t2pCurrentPlayTimeLabel" >00:00:00</label>
+            </div>
+            <div id="t2pDivChecks" class="btn-subgroup" >
+                <input type="checkbox" id="ckShowABC" >&nbsp;<span>Mostrar o texto ABCX</span><br>
+                <span id="convertToClub" style="display: none;"><input type="checkbox" id="ckConvertToClub">&nbsp;<span>Converter para Club IIIM (br)</span></span>
+                <span id="convertFromClub" style="display: none;"><input type="checkbox" id="ckConvertFromClub">&nbsp;<span>Converter de Club IIIM (br)</span></span>
+            </div>
+        </div> <!-- t2pcontrolDiv - este bloco é tratado internamente -->     
+        
         <div id="printPreviewDiv" class="printPreviewClass"></div>
         
         <script id="mainScript" type="text/javascript">
@@ -267,7 +290,6 @@ teste.
                    ,'dRESTOREButtonA'
                 ]);
                 
-                
                 console.log( 
                       '\nChrome: ' + ABCXJS.misc.isChrome() 
                     + '\nCromium: ' + ABCXJS.misc.isChromium() 
@@ -283,8 +305,7 @@ teste.
                         , null
                         , {title: '', translate: false, draggable: true, statusbar: false, top: "200px", left: "300px", zIndex: 60}
                 );
-                MIDI.widget = new sketch.ui.Timer({size:180, cor1:'#ff3a3a', cor2:'#ffba3b' });
-                //MIDI.widget = new sketch.ui.Timer({size:180 });
+                MIDI.widget = new sketch.ui.Timer({size:180, cor1:SITE.properties.colors.close, cor2: SITE.properties.colors.open});
                 MIDI.widget.setFormat( 'Carregando...');
 
                 DIATONIC.map.loadAccordionMaps(
@@ -300,13 +321,6 @@ teste.
                         FILEMANAGER.waitResources( { 
                             onProgress: function(event) {
                                 MIDI.widget.setValue(0+Math.round(event.perc*.15));
-//                                if(event.success){
-//                                    MIDI.widget.setValue(0+Math.round(event.perc*.15));
-//                                    //console.log('\nPercentual: '+ event.perc + '\nTimeouts: ' + event.timeouts + '\n' + event.success );
-//                                } else {
-//                                    MIDI.widget.setValue(0+Math.round(event.perc*.15));
-//                                    //console.log('\nPercentual: '+ event.perc);
-//                                }
                             }
                             ,onLoad: loadMIDI 
                         });

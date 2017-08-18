@@ -30,7 +30,6 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     if (interfaceParams.generate_tablature) {
         if (interfaceParams.generate_tablature === 'accordion') {
             this.accordion = new ABCXJS.tablature.Accordion(interfaceParams.accordion_options);
-
             if (interfaceParams.accordionNameSpan) {
                 this.accordionNameSpan = document.getElementById(interfaceParams.accordionNameSpan);
                 this.accordionNameSpan.innerHTML = this.accordion.getFullName();
@@ -45,27 +44,15 @@ SITE.Estudio = function (interfaceParams, playerParams) {
        ,{listener : this, method: 'editorCallback' }
        ,{   draggable:SITE.properties.studio.editor.floating
            ,toolbar: true, statusbar:true, translate:false
-           ,left: SITE.properties.studio.editor.left
-           ,top: SITE.properties.studio.editor.top
-           ,width: SITE.properties.studio.editor.width
-           ,height: SITE.properties.studio.editor.height
            ,title: 'Editor ABCX'
            ,compileOnChange: SITE.properties.options.autoRefresh
         }
     );
+    this.editorWindow.setVisible(false);
 
-    this.editorWindow.setVisible(SITE.properties.studio.editor.visible);
-    this.editorWindow.dockWindow(!SITE.properties.studio.editor.floating);
-    this.editorWindow.setToolBarVisible(SITE.properties.studio.editor.floating);
-    this.editorWindow.setStatusBarVisible(SITE.properties.studio.editor.floating);
-    
-    if( SITE.properties.studio.editor.maximized ) {
-        this.editorWindow.container.dispatchAction('MAXIMIZE');
-    }
-    
     this.keyboardWindow = new DRAGGABLE.ui.Window( 
         this.studioDiv.dataDiv
-       ,[ 'move|Mover', 'rotate|Rotacionar', 'zoom|Zoom','globe|Mudar Notação']
+       ,[ 'move|Mover', 'rotate|Rotacionar', 'zoom|Zoom', 'globe|Mudar Notação']
        ,{title: '', translate: false, statusbar: false
             , top: SITE.properties.studio.keyboard.top
             , left: SITE.properties.studio.keyboard.left
@@ -137,10 +124,10 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     this.repeatButton = document.getElementById(playerParams.repeatBtn);
     this.clearButton = document.getElementById(playerParams.clearBtn);
     this.tempoButton = document.getElementById(playerParams.tempoBtn);
-
     
     this.showEditorButton.addEventListener("click", function (evt) {
         evt.preventDefault();
+        this.blur();
         that.showEditor();
     }, false);
     
@@ -260,42 +247,36 @@ SITE.Estudio = function (interfaceParams, playerParams) {
 
 
     this.gotoMeasureButton.addEventListener("keypress", function (evt) {
-        //evt.preventDefault();
         if (evt.keyCode === 13) {
             that.startPlay('goto', this.value, that.untilMeasureButton.value);
         }
     }, false);
 
     this.gotoMeasureButton.addEventListener("focus", function (evt) {
-        //evt.preventDefault();
         if (this.value === DR.getResource("DR_goto")) {
             this.value = "";
         }
     }, false);
 
     this.gotoMeasureButton.addEventListener("blur", function (evt) {
-        //evt.preventDefault();
         if (this.value === "") {
             this.value = DR.getResource("DR_goto");
         }
     }, false);
     
     this.untilMeasureButton.addEventListener("keypress", function (evt) {
-        //evt.preventDefault();
         if (evt.keyCode === 13) {
             that.startPlay('goto', that.gotoMeasureButton.value, this.value);
         }
     }, false);
 
     this.untilMeasureButton.addEventListener("focus", function (evt) {
-        //evt.preventDefault();
         if (this.value === DR.getResource("DR_until")) {
             this.value = "";
         }
     }, false);
 
     this.untilMeasureButton.addEventListener("blur", function (evt) {
-        //evt.preventDefault();
         if (this.value === "") {
             this.value = DR.getResource("DR_until");
         }
@@ -342,11 +323,45 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     }
     
     DR.addAgent( this ); // register for translate
-
 };
 
-SITE.Estudio.prototype.setAutoRefresh = function( value ) {
-    this.editorWindow.setCompileOnChange(value);
+SITE.Estudio.prototype.setup = function( mapa, tab, accordionId) {
+    
+    this.renderedTune.abc = tab.abc;
+    this.renderedTune.text = tab.text;
+    this.renderedTune.title = tab.title;
+    this.studioCanvasDiv.scrollTop = 0;
+    
+    this.mapa = mapa;
+    this.accordion.loadById(accordionId);
+    
+    this.setBassIcon();
+    this.setTrebleIcon();
+    this.setTimerIcon( 0 );
+    
+    this.setVisible(true);
+    this.setString(tab.text);
+    this.fireChanged(0, {force:true} );
+    this.studioDiv.setTitle( '-&#160;' + this.accordion.getTxtModel() );
+    
+    this.showEditor(SITE.properties.studio.editor.visible);
+    this.editorWindow.container.setTitle('-&#160;' + tab.title);
+    this.editorWindow.dockWindow(!SITE.properties.studio.editor.floating);
+    this.editorWindow.setToolBarVisible(SITE.properties.studio.editor.floating);
+    this.editorWindow.setStatusBarVisible(SITE.properties.studio.editor.floating);
+    
+    if(SITE.properties.studio.editor.floating) {
+        if( SITE.properties.studio.editor.maximized ) {
+            this.editorWindow.container.dispatchAction('MAXIMIZE');
+        } else {
+            this.editorWindow.container.dispatchAction('POPOUT');
+        }
+    } else {
+        this.editorWindow.container.dispatchAction('POPIN');
+    }
+
+    this.showKeyboard(SITE.properties.studio.keyboard.visible);
+    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
 };
 
 SITE.Estudio.prototype.resize = function( ) {
@@ -358,7 +373,7 @@ SITE.Estudio.prototype.resize = function( ) {
 
     var winW = window.innerWidth
             || document.documentElement.clientWidth
-            || daocument.body.clientWidth;
+            || document.body.clientWidth;
 
     // -paddingTop 78
     var h = (winH -78 - 10 ); 
@@ -374,47 +389,12 @@ SITE.Estudio.prototype.resize = function( ) {
     
     if(! SITE.properties.studio.editor.floating) {
         e = this.editorWindow.container.topDiv.clientHeight+4;
-//        this.editareaFixa.container.topDiv.style.width = "";
     }
 
     this.studioCanvasDiv.style.height = t-(e+c+6) +"px";
     
     this.posicionaTeclado();
-    
     this.editorWindow.resize();
-
-    
-};
-
-SITE.Estudio.prototype.setVisible = function(  visible ) {
-    this.studioDiv.parent.style.display = visible?'block':'none';
-};
-
-SITE.Estudio.prototype.setup = function( mapa, tab, accordionId) {
-    
-    this.mapa = mapa;
-    
-    this.setVisible(true);
-    this.showEditor(SITE.properties.studio.editor.visible);
-    this.showKeyboard(SITE.properties.studio.keyboard.visible);
-    this.setTimerIcon( 0 );
-    this.setTrebleIcon();
-    this.setBassIcon();
-    
-    this.accordion.loadById(accordionId);
-    
-    this.renderedTune.abc = tab.abc;
-    this.renderedTune.title = tab.title;
-    this.renderedTune.text = tab.text;
-    this.setString(tab.text);
-    
-    this.editorWindow.container.setTitle('-&#160;' + tab.title);
-    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
-    this.studioDiv.setTitle( '-&#160;' + this.accordion.getTxtModel() );
-
-    this.studioCanvasDiv.scrollTop = 0;
-    
-    this.fireChanged(0, {force:true} );
     
 };
 
@@ -443,7 +423,6 @@ SITE.Estudio.prototype.showEditor = function(show) {
     if(SITE.properties.studio.editor.visible) {
         this.editorWindow.setVisible(true);
         document.getElementById('I_showEditor').setAttribute('class', 'ico-folder-open' );
-        //this.editorWindow.resize();
     } else {
         document.getElementById('I_showEditor').setAttribute('class', 'ico-folder' );
         this.editorWindow.setVisible(false);
@@ -453,12 +432,6 @@ SITE.Estudio.prototype.showEditor = function(show) {
 
 SITE.Estudio.prototype.editorCallback = function (action, elem) {
     switch(action) {
-        case 'REFRESH': 
-           this.fireChanged(0, {force:true} );
-           break;
-        case 'DOWNLOAD': 
-           this.salvaMusica();
-           break;
         case '0': 
             break;
         case  '1':  case  '2':  case  '3':  case   '4': case   '5': case '6': 
@@ -473,8 +446,17 @@ SITE.Estudio.prototype.editorCallback = function (action, elem) {
         case 'OCTAVEDOWN': 
            this.fireChanged(-12, {force:true} );
            break;
+        case 'REFRESH': 
+           this.fireChanged(0, {force:true} );
+           break;
+        case 'DOWNLOAD': 
+           this.salvaMusica();
+           break;
         case 'MAXIMIZE': 
-            this.maximizeEditor(elem);
+            this.maximizeEditor(true);
+            break;
+        case 'RESTORE': 
+            this.maximizeEditor(false);
             break;
         case 'POPIN':
             SITE.properties.studio.editor.floating = false;
@@ -483,20 +465,15 @@ SITE.Estudio.prototype.editorCallback = function (action, elem) {
             this.editorWindow.setStatusBarVisible(false);
             this.editorWindow.container.move(0,0);
             this.editorWindow.container.setSize("calc(100% -5px)","200px");
-            this.editorWindow.resize();
+            this.resize();
             break;
         case 'POPOUT':
             SITE.properties.studio.editor.floating = true;
             this.editorWindow.dockWindow(false);
             this.editorWindow.setToolBarVisible(true);
             this.editorWindow.setStatusBarVisible(true);
-            this.editorWindow.container.move(
-                SITE.properties.studio.editor.left
-               ,SITE.properties.studio.editor.top );
-            this.editorWindow.container.setSize(
-                SITE.properties.studio.editor.width
-               ,SITE.properties.studio.editor.height);
-            this.editorWindow.resize();
+            this.maximizeEditor(SITE.properties.studio.editor.maximized);
+            this.resize();
             break;
         case 'RESIZE':
         case 'MOVE':
@@ -514,12 +491,48 @@ SITE.Estudio.prototype.editorCallback = function (action, elem) {
     }
 };
 
+SITE.Estudio.prototype.maximizeEditor = function(maximize) {
+
+    this.editorWindow.setMaximized(maximize);
+    SITE.properties.studio.editor.maximized = maximize;
+    
+    if( maximize ) {
+        this.editorWindow.container.move(0,0);
+        this.editorWindow.container.topDiv.style.width = "100%";
+        this.editorWindow.container.topDiv.style.height = "calc( 100% - 7px)";
+    } else {
+        var k = this.editorWindow.container.topDiv.style;
+        k.left = SITE.properties.studio.editor.left;
+        k.top = SITE.properties.studio.editor.top;
+        k.width = SITE.properties.studio.editor.width;
+        k.height = SITE.properties.studio.editor.height;
+    }
+    this.editorWindow.resize();
+};
+
+
 SITE.Estudio.prototype.studioCallback = function( e ) {
     switch(e) {
         case 'CLOSE':
             this.closeEstudio(true);
             break;
     }
+};
+
+SITE.Estudio.prototype.setVisible = function(  visible ) {
+    this.studioDiv.parent.style.display = visible?'block':'none';
+};
+
+SITE.Estudio.prototype.setAutoRefresh = function( value ) {
+    this.editorWindow.setCompileOnChange(value);
+};
+
+SITE.Estudio.prototype.getString = function() {
+    return this.editorWindow.getString();
+};
+
+SITE.Estudio.prototype.setString = function(str) {
+    this.editorWindow.setString(str);
 };
 
 SITE.Estudio.prototype.closeEstudio = function(save) {
@@ -560,14 +573,6 @@ SITE.Estudio.prototype.keyboardCallback = function( e ) {
     }
 };
 
-SITE.Estudio.prototype.getString = function() {
-    return this.editorWindow.getString();
-};
-
-SITE.Estudio.prototype.setString = function(str) {
-    this.editorWindow.setString(str);
-};
-
 SITE.Estudio.prototype.setScrolling = function(player) {
     if( !this.studioCanvasDiv || player.currAbsElem.staffGroup === this.lastStaffGroup ) return;
     
@@ -585,10 +590,6 @@ SITE.Estudio.prototype.setScrolling = function(player) {
     }
 
 };
-
-SITE.Estudio.prototype.translate = function( ) {
-    //this.initEditArea( "editorTextArea" );
-}; 
 
 SITE.Estudio.prototype.changePageOrientation = function (orientation) {
     var style = document.createElement('style');
@@ -757,7 +758,6 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
     }
 };
 
-
 SITE.Estudio.prototype.parseABC = function (transpose, force) {
 
     var text = this.getString();
@@ -878,11 +878,6 @@ SITE.Estudio.prototype.onModelChanged = function(loader) {
     }
     delete this.changing;
     
-//    window.setTimeout(function() {
-//        self.printWarnings();
-//        self.resize();
-//    }, 1);
-    
 };
 
 SITE.Estudio.prototype.highlight = function(abcelem) {
@@ -935,26 +930,6 @@ SITE.Estudio.prototype.startLoader = function(id, start, stop) {
     return loader;
 };
 
-SITE.Estudio.prototype.maximizeEditor = function(elem) {
-
-    if( elem.innerHTML.indexOf('ico-full' ) > 0 ) {
-        elem.innerHTML = '<a href="" title="Restaurar janela"><i class="ico-restore"></i></a>';
-        this.editorWindow.container.move(0,0);
-        this.editorWindow.container.topDiv.style.width = "100%";
-        this.editorWindow.container.topDiv.style.height = "calc( 100% - 7px)";
-        SITE.properties.studio.editor.maximized = true;
-        this.editorWindow.container.draggable = false;
-        this.editorWindow.resize();
-    } else {
-        elem.innerHTML = '<a href="" title="Maximizar janela"><i class="ico-full-screen"></i></a>';
-        var k = this.editorWindow.container.topDiv.style;
-        k.left = SITE.properties.studio.editor.left;
-        k.top = SITE.properties.studio.editor.top;
-        k.width = SITE.properties.studio.editor.width;
-        k.height = SITE.properties.studio.editor.height;
-        SITE.properties.studio.editor.maximized = false;
-        this.editorWindow.container.draggable = true;
-        this.editorWindow.resize();
-    }
-};
-    
+SITE.Estudio.prototype.translate = function( ) {
+    //this.initEditArea( "editorTextArea" );
+}; 
