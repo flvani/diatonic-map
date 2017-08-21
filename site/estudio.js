@@ -153,7 +153,7 @@ SITE.Estudio = function (interfaceParams, playerParams) {
         evt.preventDefault();
         this.blur();
         ga('send', 'event', 'Estúdio', 'print', that.renderedTune.title);
-        that.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#studioDiv"], that.renderedTune.abc.formatting.landscape);
+        that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#studioDiv"], that.renderedTune.abc.formatting.landscape);
         return;
 
     }, false);
@@ -335,6 +335,7 @@ SITE.Estudio.prototype.setup = function( mapa, tab, accordionId) {
     this.mapa = mapa;
     this.accordion.loadById(accordionId);
     
+    this.changePlayMode(SITE.properties.studio.mode);
     this.setBassIcon();
     this.setTrebleIcon();
     this.setTimerIcon( 0 );
@@ -345,10 +346,9 @@ SITE.Estudio.prototype.setup = function( mapa, tab, accordionId) {
     this.studioDiv.setTitle( '-&#160;' + this.accordion.getTxtModel() );
     
     this.showEditor(SITE.properties.studio.editor.visible);
+    
     this.editorWindow.container.setTitle('-&#160;' + tab.title);
-    this.editorWindow.dockWindow(!SITE.properties.studio.editor.floating);
-    this.editorWindow.setToolBarVisible(SITE.properties.studio.editor.floating);
-    this.editorWindow.setStatusBarVisible(SITE.properties.studio.editor.floating);
+    this.editorWindow.restartUndoManager();
     
     if(SITE.properties.studio.editor.floating) {
         if( SITE.properties.studio.editor.maximized ) {
@@ -381,7 +381,6 @@ SITE.Estudio.prototype.resize = function( ) {
     
     this.studioDiv.topDiv.style.height = Math.max(h,200) +"px";
     this.studioDiv.topDiv.style.width = Math.max(w,400) +"px";
-    this.studioDiv.dataDiv.style.height = "100%";
    
     var e = 0;
     var c = this.controlDiv.clientHeight;
@@ -394,7 +393,6 @@ SITE.Estudio.prototype.resize = function( ) {
     this.studioCanvasDiv.style.height = t-(e+c+6) +"px";
     
     this.posicionaTeclado();
-    this.editorWindow.resize();
     
 };
 
@@ -453,63 +451,28 @@ SITE.Estudio.prototype.editorCallback = function (action, elem) {
            this.salvaMusica();
            break;
         case 'MAXIMIZE': 
-            this.maximizeEditor(true);
+            this.editorWindow.maximizeWindow( true, SITE.properties.studio.editor );
             break;
         case 'RESTORE': 
-            this.maximizeEditor(false);
+            this.editorWindow.maximizeWindow( false, SITE.properties.studio.editor );
             break;
         case 'POPIN':
-            SITE.properties.studio.editor.floating = false;
-            this.editorWindow.dockWindow(true);
-            this.editorWindow.setToolBarVisible(false);
-            this.editorWindow.setStatusBarVisible(false);
-            this.editorWindow.container.move(0,0);
-            this.editorWindow.container.setSize("calc(100% -5px)","200px");
+            this.editorWindow.dockWindow(true, SITE.properties.studio.editor, 0, 0, "calc(100% - 5px)", "200px"  );
             this.resize();
             break;
         case 'POPOUT':
-            SITE.properties.studio.editor.floating = true;
-            this.editorWindow.dockWindow(false);
-            this.editorWindow.setToolBarVisible(true);
-            this.editorWindow.setStatusBarVisible(true);
-            this.maximizeEditor(SITE.properties.studio.editor.maximized);
+            this.editorWindow.dockWindow(false, SITE.properties.studio.editor );
             this.resize();
             break;
         case 'RESIZE':
         case 'MOVE':
-            if(SITE.properties.studio.editor.floating && !SITE.properties.studio.editor.maximized){
-                var k = this.editorWindow.container.topDiv.style;
-                SITE.properties.studio.editor.left = k.left;
-                SITE.properties.studio.editor.top = k.top;
-                SITE.properties.studio.editor.width = k.width;
-                SITE.properties.studio.editor.height = k.height;
-            }
+            this.editorWindow.retrieveProps( SITE.properties.studio.editor );
             break;
         case 'CLOSE':
             this.showEditor(false);
             break;
     }
 };
-
-SITE.Estudio.prototype.maximizeEditor = function(maximize) {
-
-    this.editorWindow.setMaximized(maximize);
-    SITE.properties.studio.editor.maximized = maximize;
-    
-    if( maximize ) {
-        this.editorWindow.container.move(0,0);
-        this.editorWindow.container.topDiv.style.width = "100%";
-        this.editorWindow.container.topDiv.style.height = "calc( 100% - 7px)";
-    } else {
-        var k = this.editorWindow.container.topDiv.style;
-        k.left = SITE.properties.studio.editor.left;
-        k.top = SITE.properties.studio.editor.top;
-        k.width = SITE.properties.studio.editor.width;
-        k.height = SITE.properties.studio.editor.height;
-    }
-    this.editorWindow.resize();
-};
-
 
 SITE.Estudio.prototype.studioCallback = function( e ) {
     switch(e) {
@@ -519,6 +482,18 @@ SITE.Estudio.prototype.studioCallback = function( e ) {
     }
 };
 
+SITE.Estudio.prototype.closeEstudio = function(save) {
+    var loader = this.mapa.startLoader( "CloseStudio" );
+    var self = this;
+    loader.start(  function() { 
+        (save) && SITE.SaveProperties();
+        self.setVisible(false);
+        self.midiPlayer.stopPlay();
+        self.mapa.openMapa( self.getString() );
+        loader.stop();
+    }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
+};
+        
 SITE.Estudio.prototype.setVisible = function(  visible ) {
     this.studioDiv.parent.style.display = visible?'block':'none';
 };
@@ -535,18 +510,6 @@ SITE.Estudio.prototype.setString = function(str) {
     this.editorWindow.setString(str);
 };
 
-SITE.Estudio.prototype.closeEstudio = function(save) {
-    var loader = this.startLoader( "CloseStudio" );
-    var self = this;
-    loader.start(  function() { 
-        (save) && SITE.SaveProperties();
-        self.setVisible(false);
-        self.midiPlayer.stopPlay();
-        self.mapa.openMapa( self.getString() );
-        loader.stop();
-    }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
-};
-        
 SITE.Estudio.prototype.keyboardCallback = function( e ) {
     switch(e) {
         case 'MOVE':
@@ -588,35 +551,6 @@ SITE.Estudio.prototype.setScrolling = function(player) {
         this.ypos = top;
         this.studioCanvasDiv.scrollTop = this.ypos;    
     }
-
-};
-
-SITE.Estudio.prototype.changePageOrientation = function (orientation) {
-    var style = document.createElement('style');
-    document.head.appendChild(style);
-    style.innerHTML = '@page {margin: 1cm; size: ' + orientation + '}';
-
-};
-
-SITE.Estudio.prototype.printPreview = function (html, divsToHide, landscape ) {
-    
-    var dv = document.getElementById('printPreviewDiv');
-
-    divsToHide.forEach( function( div ) {
-        $(div).hide();
-    });
-    
-    this.changePageOrientation(landscape? 'landscape': 'portrait');
-    
-    dv.style.display = 'block';
-    dv.innerHTML = html;
-    window.print();
-    dv.style.display = 'none';
-
-    divsToHide.forEach( function( div ) {
-        $(div).show();
-    });
-
 };
 
 SITE.Estudio.prototype.salvaMusica = function () {
@@ -629,19 +563,23 @@ SITE.Estudio.prototype.salvaMusica = function () {
         alert(DR.getResource("DR_err_saving"));
     }
 };
-SITE.Estudio.prototype.changePlayMode = function() {
+SITE.Estudio.prototype.changePlayMode = function(mode) {
+    
+    SITE.properties.studio.mode = mode? mode : 
+            (SITE.properties.studio.mode==="normal"? "learning":"normal");
+    
     if( SITE.properties.studio.mode === "normal" ) {
-        $("#divNormalPlayControls" ).hide();
-        SITE.properties.studio.mode  = "learning";
-        this.modeButton.innerHTML = '<i class="ico-learning" ></i>';
-        this.midiPlayer.resetAndamento(SITE.properties.studio.mode);
-        $("#divDidacticPlayControls" ).fadeIn();
-    } else {
         $("#divDidacticPlayControls" ).hide();
         SITE.properties.studio.mode  = "normal";
         this.modeButton.innerHTML = '<i class="ico-listening" ></i>';
         this.midiPlayer.resetAndamento(SITE.properties.studio.mode);
         $("#divNormalPlayControls" ).fadeIn();
+    } else {
+        $("#divNormalPlayControls" ).hide();
+        SITE.properties.studio.mode  = "learning";
+        this.modeButton.innerHTML = '<i class="ico-learning" ></i>';
+        this.midiPlayer.resetAndamento(SITE.properties.studio.mode);
+        $("#divDidacticPlayControls" ).fadeIn();
     }
 };
 
@@ -838,7 +776,7 @@ SITE.Estudio.prototype.fireChanged = function (transpose, _opts) {
 SITE.Estudio.prototype.modelChanged = function(showProgress) {
     var self = this;
     if(showProgress) {
-        var loader = this.startLoader( "ModelChanged" );
+        var loader = this.mapa.startLoader( "ModelChanged" );
         loader.start(  function() { self.onModelChanged(loader); }, '<br>&nbsp;&nbsp;&nbsp;Gerando partitura...<br><br>' );
     } else {
         self.onModelChanged();
@@ -911,23 +849,6 @@ SITE.Estudio.prototype.updateSelection = function (force) {
         this.updating = true;
         setTimeout( that.updateSelection(true), 300 );
     }
-};
-
-SITE.Estudio.prototype.startLoader = function(id, start, stop) {
-
-    var loader = new window.widgets.Loader({
-         id: id
-        ,bars: 0
-        ,radius: 0
-        ,lineWidth: 20
-        ,lineHeight: 70
-        ,timeout: 1 // maximum timeout in seconds.
-        ,background: "rgba(0,0,0,0.5)"
-        ,container: document.body
-        ,oncomplete: stop // call function once loader has started	
-        ,onstart: start // call function once loader has started	
-    });
-    return loader;
 };
 
 SITE.Estudio.prototype.translate = function( ) {

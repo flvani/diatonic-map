@@ -46,11 +46,13 @@ teste.
         
         
         <script type="text/javascript" src="tab2part/t2p_parser.js"></script>
+        <script type="text/javascript" src="part2tab/p2t_parser.js"></script>
         
         
         <script type="text/javascript" src="site/mapa.js"></script>
         <script type="text/javascript" src="site/estudio.js"></script>
         <script type="text/javascript" src="site/partgen.js"></script>
+        <script type="text/javascript" src="site/tabgen.js"></script>
         
 
         <div id="topBar" class="topBar gradiente" >
@@ -123,6 +125,7 @@ teste.
         </div> <!-- mapaDiv -->
         <div id="studioDiv" class="studioDiv" ></div>
         <div id="partGenDiv" class="studioDiv" ></div>
+        <div id="tabGenDiv" class="studioDiv" ></div>
         <div id="studioControlDiv" style="display:none;">
             <div id="controlDiv1" class="btn-subgroup" >
                 <button id="showEditorBtn" title="Exibir/Ocultar Editor"><i id="I_showEditor" class="ico-folder"></i>&#160;<span id="DR_showEditor">Editor</span></button>
@@ -165,11 +168,18 @@ teste.
                 <label id="t2pCurrentPlayTimeLabel" >00:00:00</label>
             </div>
             <div id="t2pDivChecks" class="btn-subgroup" >
-                <input type="checkbox" id="ckShowABC" >&nbsp;<span>Mostrar o texto ABCX</span><br>
+                <input type="checkbox" id="ckShowABC" checked >&nbsp;<span>Mostrar o texto ABCX</span><br>
                 <span id="convertToClub" style="display: none;"><input type="checkbox" id="ckConvertToClub">&nbsp;<span>Converter para Club IIIM (br)</span></span>
                 <span id="convertFromClub" style="display: none;"><input type="checkbox" id="ckConvertFromClub">&nbsp;<span>Converter de Club IIIM (br)</span></span>
             </div>
         </div> <!-- t2pcontrolDiv - este bloco é tratado internamente -->     
+        <div id="p2tControlDiv-raw" style="display:none;">
+            <div id="p2tControlDiv1" class="btn-subgroup" >
+                <button id="p2tForceRefresh" title="Extrair tablatura" ><i class="ico-bolt"></i>&#160;Extrair</button>
+                <button id="p2tOpenInGenerator" title="Abrir no gerador de partituras" ><i class="ico-folder-open"></i>&#160;Abrir no gerador de partitura</button>
+                <button id="p2tSaveBtn" title="Salvar Local" ><i class="ico-download"></i>&#160;Salvar Local</button>
+            </div> <!-- p2tcontrolDiv - este bloco é tratado internamente -->     
+        </div>    
         
         <div id="printPreviewDiv" class="printPreviewClass"></div>
         

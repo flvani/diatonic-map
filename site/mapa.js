@@ -46,11 +46,32 @@ SITE.ResetProperties = function() {
         ,width: 300
         ,height: 300 * 0.55666667
     };
+    SITE.properties.tabGen = {
+        abcEditor : {
+            floating: false
+            ,maximized: false
+            ,top: "40px"
+            ,left: "50px"
+            ,width: "700px"
+            ,height: "480px"
+        }
+        , tabEditor : {
+             floating: false
+            ,maximized: false
+            ,top: "40px"
+            ,left: "50px"
+            ,width: "700px"
+            ,height: "480px"
+        }
+    };
 
     SITE.properties.partGen = {
-        editor : {
+        showABCText:false
+        , convertFromClub:false
+        , convertToClub:false
+        , editor : {
              visible: true
-            ,floating: true
+            ,floating: false
             ,maximized: false
             ,top: "40px"
             ,left: "50px"
@@ -66,7 +87,6 @@ SITE.ResetProperties = function() {
             ,transpose: false
             ,label: false
         }
-        
     };
     SITE.properties.studio = {
          mode: 'normal'
@@ -143,7 +163,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
                     'Carregar do drive local|LOADREPERTOIRE',
                     'Exportar para drive local|EXPORTREPERTOIRE',
                     '---',
-                    'Partitura&nbsp;&nbsp;<i class="ico-open-right"></i> Tablatura|PART2TAB',
+                    'Extrair tablatura|PART2TAB',
                     'Tablatura&nbsp;&nbsp;<i class="ico-open-right"></i> Partitura|TAB2PART'
                 ]}
            ,{title: 'Informações', ddmId: 'menuInformacoes',
@@ -159,8 +179,6 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
                 ]}
         ]);
         
-    this.menu.disableSubItem( 'menuRepertorio', 'PART2TAB' )
-    
     this.accordionSelector = new ABCXJS.edit.AccordionSelector( 
             'menuGaitas', this.menu, 
             { listener:this, method: 'menuCallback' }, 
@@ -211,7 +229,6 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         this.blur();
         that.showSettings();
     }, false );
-    
     
     this.buttonChangeNotation.addEventListener("click", function(evt) {
         evt.preventDefault();
@@ -265,7 +282,6 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.midiPlayer.defineCallbackOnEnd( that.playerCallBackOnEnd );
     this.midiPlayer.defineCallbackOnScroll( that.playerCallBackOnScroll );
 
-
     this.accordionSelector.populate(false);
     this.showAccordionName();
     this.showAccordionImage();
@@ -313,14 +329,6 @@ SITE.Mapa.prototype.setup = function (tabParams) {
     } else {
         this.resize();
     }
-};
-
-SITE.Mapa.prototype.setVisible = function ( visible ) {
-    this.mapDiv.style.display = (visible? 'inline':'none');
-};
-
-SITE.Mapa.prototype.printKeyboard = function() {
-    this.accordion.printKeyboard( this.keyboardDiv );
 };
 
 SITE.Mapa.prototype.resize = function() {
@@ -397,40 +405,63 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             w1.topDiv.style.display = 'inline';
             break;
         case 'PART2TAB':
-            alert(ev);
+            if( ! this.part2tab ) {
+                this.part2tab = new SITE.TabGen(
+                    this
+                    ,{  // interfaceParams
+                        tabGenDiv: 'tabGenDiv'
+                       ,controlDiv: 'p2tControlDiv-raw' 
+                       ,saveBtn:'p2tSaveBtn'
+                       ,updateBtn:'p2tForceRefresh'
+                       ,openBtn: 'p2tOpenInGenerator'
+                    }
+                );
+            }
+            this.part2tab.setup(this.activeTab.text);
+            break;
+            
         case 'TAB2PART':
             if( ! this.tab2part ) {
-                this.partGen = new SITE.PartGen({
-                     partGenDiv: 'partGenDiv'
-                    ,controlDiv: 't2pControlDiv-raw' 
-                    ,showMapBtn: 't2pShowMapBtn'
-                    ,showEditorBtn: 't2pShowEditorBtn'
-                    ,printBtn:'t2pPrintBtn'
-                    ,saveBtn:'t2pSaveBtn'
-                    ,updateBtn:'t2pForceRefresh'
-                    ,playBtn: "t2pPlayBtn"
-                    ,stopBtn: "t2pStopBtn"
-                    ,currentPlayTimeLabel: "t2pCurrentPlayTimeLabel"
-                    ,ckShowABC:'ckShowABC'
-                    ,ckConvertToClub:'ckConvertToClub'
-                    ,ckConvertFromClub:'ckConvertFromClub'
-                    ,generate_warnings: true
-                    ,generate_tablature: 'accordion'
-                    ,accordion_options: {
-                          id: this.accordion.getId()
-                         ,accordionMaps: DIATONIC.map.accordionMaps
-                         ,render_keyboard_opts:{transpose:false, mirror: false, scale:0.8, draggable:true, show:false, label:false}}
-                });
+                this.tab2part = new SITE.PartGen(
+                    this
+                    ,{   // interfaceParams
+                        partGenDiv: 'partGenDiv'
+                       ,controlDiv: 't2pControlDiv-raw' 
+                       ,showMapBtn: 't2pShowMapBtn'
+                       ,showEditorBtn: 't2pShowEditorBtn'
+                       ,printBtn:'t2pPrintBtn'
+                       ,saveBtn:'t2pSaveBtn'
+                       ,updateBtn:'t2pForceRefresh'
+                       ,playBtn: "t2pPlayBtn"
+                       ,stopBtn: "t2pStopBtn"
+                       ,currentPlayTimeLabel: "t2pCurrentPlayTimeLabel"
+                       ,ckShowABC:'ckShowABC'
+                       ,ckConvertToClub:'ckConvertToClub'
+                       ,ckConvertFromClub:'ckConvertFromClub'
+                       ,generate_tablature: 'accordion'
+                       ,accordion_options: {
+                             id: this.accordion.getId()
+                            ,accordionMaps: DIATONIC.map.accordionMaps
+                            ,render_keyboard_opts:{transpose:false, mirror: false, scale:0.8, draggable:true, show:false, label:false}}
+                    });
             } 
-            this.partGen.setup({accordionId: this.accordion.getId()});
-            
+            this.tab2part.setup({accordionId: this.accordion.getId()});
             break;
+            
         case 'GAITA_MINUANO_GC':
         case 'GAITA_MINUANO_BC_TRANSPORTADA':
         case 'GAITA_HOHNER_CLUB_IIIM_BR':
-        default: // as gaitas conhecidas e outras carregadas so demanda
+        default: // as gaitas conhecidas e outras carregadas sob demanda
             this.setup({accordionId:ev});
     }
+};
+
+SITE.Mapa.prototype.setVisible = function ( visible ) {
+    this.mapDiv.style.display = (visible? 'inline':'none');
+};
+
+SITE.Mapa.prototype.printKeyboard = function() {
+    this.accordion.printKeyboard( this.keyboardDiv );
 };
 
 SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
@@ -469,9 +500,9 @@ SITE.Mapa.prototype.printPartiture = function (button, event) {
     var currentABC = this.getActiveTab();
     event.preventDefault();
     button.blur();
-    if(  currentABC.div.innerHTML && this.studio )  {
+    if(  currentABC.div.innerHTML )  {
         ga('send', 'event', 'Mapa', 'print', currentABC.title);
-        this.studio.printPreview(currentABC.div.innerHTML, ["#topBar","#mapaDiv"], currentABC.abc.formatting.landscape );
+        this.printPreview(currentABC.div.innerHTML, ["#topBar","#mapaDiv"], currentABC.abc.formatting.landscape );
     }
 };
 
@@ -1023,7 +1054,7 @@ SITE.Mapa.prototype.startLoader = function(id, start, stop) {
         ,lineHeight: 70
         ,timeout: 1 // maximum timeout in seconds.
         ,background: "rgba(0,0,0,0.5)"
-        ,container: this.tuneContainerDiv //document.body
+        //,container: this.tuneContainerDiv //document.body
         ,oncomplete: stop // call function once loader has started	
         ,onstart: start // call function once loader has started	
     });
@@ -1224,6 +1255,34 @@ SITE.Mapa.prototype.applySettings = function() {
     
     this.accordion.loadedKeyboard.legenda.setOpen();
     this.accordion.loadedKeyboard.legenda.setClose();
+};
+
+SITE.Mapa.prototype.changePageOrientation = function (orientation) {
+    var style = document.createElement('style');
+    document.head.appendChild(style);
+    style.innerHTML = '@page {margin: 1cm; size: ' + orientation + '}';
+
+};
+
+SITE.Mapa.prototype.printPreview = function (html, divsToHide, landscape ) {
+    
+    var dv = document.getElementById('printPreviewDiv');
+
+    divsToHide.forEach( function( div ) {
+        $(div).hide();
+    });
+    
+    this.changePageOrientation(landscape? 'landscape': 'portrait');
+    
+    dv.style.display = 'block';
+    dv.innerHTML = html;
+    window.print();
+    dv.style.display = 'none';
+
+    divsToHide.forEach( function( div ) {
+        $(div).show();
+    });
+
 };
 
 SITE.Mapa.prototype.translate = function() {

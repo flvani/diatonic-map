@@ -1,4 +1,8 @@
-- Verificar as chamadas de Partitura para tablatura e vice versa
+
+- Bugs Studio:
+  - Resize deve levar em conta a tela de warnings
+  - Ao transpor oitava acima e abaixo, o editor acumula o texto abcx
+  - Falta resize do editor em algum ponto
 
 - Pagina de créditos (about) e licenças e release
     - Buscar a versão do site
@@ -7,6 +11,9 @@
 
 - Recolocar os scripts do GA
 - Usar as versões minificadas dos scripts
+
+- Melhorar a aplicação dos ajustes (p.ex., mostrar warnings deve ser verificado em todos os locais onde é usado)
+- Ajustar posicionamento das telas de alerta
 
 - Tradução (após a release 5.0, provavelmente 5.1)
 - Eliminar esta variável assim que possível: var debug=false; 
@@ -17,6 +24,11 @@
 - Tratar bug getBBox no Firefox (elemento não visivel) 
     - isso vale para o chrome (não dá erro), mas nas outras abas não destaca os elementos adequadamente
     - aparentemente resolvido - mostrando a aba antes de imprimir a partitura.
+
+- Condensar código de algumas rotinas do site (estudio.js, partgen,js), tais como:
+    - resize, posicionateclado e outras
+
+- Evitar que editarea chame updateselection se não existir no listener
 
 #######################################################################################
 
@@ -68,4 +80,10 @@ FEITO
 - Melhorar o estúdio, usando um único editor (em vez de um fixo e um movel)
 - Bug posiconamento da media ao redefinir
 
+- persistir checkbox de tab2part
+
+- Refazer tab2part
+- Refazer part2tab
+
+- TabGen: Implementar salvar tablatura
 
