@@ -2,7 +2,9 @@
 if (!window.SITE)
     window.SITE = {};
 
-SITE.Estudio = function (interfaceParams, playerParams) {
+SITE.Estudio = function (mapa, interfaceParams, playerParams) {
+    
+    this.mapa = mapa;
     
     this.ypos = 0; // controle de scrollf
     this.lastStaffGroup = -1; // controle de scroll
@@ -78,13 +80,10 @@ SITE.Estudio = function (interfaceParams, playerParams) {
     this.controlDiv.innerHTML = document.getElementById(interfaceParams.studioControlDiv).innerHTML;
     document.getElementById(interfaceParams.studioControlDiv).innerHTML = "";
    
-    if (interfaceParams.generate_warnings) {
-        this.warningsDiv = document.createElement("DIV");
-        this.warningsDiv.setAttribute("id", warnings_id);
-        this.warningsDiv.setAttribute("class", "warningsDiv" );
-        this.studioDiv.dataDiv.appendChild(this.warningsDiv);
-        this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
-    }
+    this.warningsDiv = document.createElement("DIV");
+    this.warningsDiv.setAttribute("id", warnings_id);
+    this.warningsDiv.setAttribute("class", "warningsDiv" );
+    this.studioDiv.dataDiv.appendChild(this.warningsDiv);
 
     this.studioCanvasDiv = document.createElement("DIV");
     this.studioCanvasDiv.setAttribute("id", interfaceParams.studioCanvasDiv );
@@ -282,58 +281,57 @@ SITE.Estudio = function (interfaceParams, playerParams) {
         }
     }, false);
     
-    if (interfaceParams.generate_midi) {
-        
-        this.playerCallBackOnScroll = function( player ) {
-            that.setScrolling(player);
-        };
+    this.playerCallBackOnScroll = function( player ) {
+        that.setScrolling(player);
+    };
 
-        this.playerCallBackOnPlay = function( player ) {
-            var strTime = player.getTime().cTime;
-            if(that.gotoMeasureButton && ! parseInt(that.untilMeasureButton.value))
-                that.gotoMeasureButton.value = player.currentMeasure;
-            if(that.currentPlayTimeLabel)
-                that.currentPlayTimeLabel.innerHTML = strTime;
-            
-            that.midiPlayer.setPlayableClefs( (SITE.properties.studio.trebleOn?"T":"")+(SITE.properties.studio.bassOn?"B":"") );
-        };
+    this.playerCallBackOnPlay = function( player ) {
+        var strTime = player.getTime().cTime;
+        if(that.gotoMeasureButton && ! parseInt(that.untilMeasureButton.value))
+            that.gotoMeasureButton.value = player.currentMeasure;
+        if(that.currentPlayTimeLabel)
+            that.currentPlayTimeLabel.innerHTML = strTime;
 
-        this.playerCallBackOnEnd = function( player ) {
-            var warns = that.midiPlayer.getWarnings();
-            that.playButton.title = DR.getResource("playBtn");
-            that.playButton.innerHTML = '&#160;<i class="ico-play"></i>&#160;';
-            that.renderedTune.printer.clearSelection();
-            that.accordion.clearKeyboard(true);
-            if(that.currentPlayTimeLabel)
-                that.currentPlayTimeLabel.innerHTML = "00:00.00";
-            if( warns ) {
-                var wd =  document.getElementById("warningsDiv");
-                var txt = "";
-                warns.forEach(function(msg){ txt += msg + '<br/>'; });
-                wd.style.color = 'blue';
-                wd.innerHTML = txt;
-            }
-        };
-        
-        this.midiParser = new ABCXJS.midi.Parse();
-        this.midiPlayer = new ABCXJS.midi.Player(this);
-        this.midiPlayer.defineCallbackOnPlay( this.playerCallBackOnPlay );
-        this.midiPlayer.defineCallbackOnEnd( this.playerCallBackOnEnd );
-        this.midiPlayer.defineCallbackOnScroll( this.playerCallBackOnScroll );
-    }
+        that.midiPlayer.setPlayableClefs( (SITE.properties.studio.trebleOn?"T":"")+(SITE.properties.studio.bassOn?"B":"") );
+    };
+
+    this.playerCallBackOnEnd = function( player ) {
+        var warns = that.midiPlayer.getWarnings();
+        that.playButton.title = DR.getResource("playBtn");
+        that.playButton.innerHTML = '&#160;<i class="ico-play"></i>&#160;';
+        that.renderedTune.printer.clearSelection();
+        that.accordion.clearKeyboard(true);
+        if(that.currentPlayTimeLabel)
+            that.currentPlayTimeLabel.innerHTML = "00:00.00";
+        if( warns ) {
+            var wd =  document.getElementById("warningsDiv");
+            var txt = "";
+            warns.forEach(function(msg){ txt += msg + '<br/>'; });
+            wd.style.color = 'blue';
+            wd.innerHTML = txt;
+        }
+    };
+
+    this.midiParser = new ABCXJS.midi.Parse();
+    this.midiPlayer = new ABCXJS.midi.Player(this);
+    this.midiPlayer.defineCallbackOnPlay( this.playerCallBackOnPlay );
+    this.midiPlayer.defineCallbackOnEnd( this.playerCallBackOnEnd );
+    this.midiPlayer.defineCallbackOnScroll( this.playerCallBackOnScroll );
     
     DR.addAgent( this ); // register for translate
 };
 
-SITE.Estudio.prototype.setup = function( mapa, tab, accordionId) {
+SITE.Estudio.prototype.setup = function( tab, accordionId) {
+    
+    this.mapa.closeMapa();
+    
+    this.accordion.loadById(accordionId);
     
     this.renderedTune.abc = tab.abc;
     this.renderedTune.text = tab.text;
     this.renderedTune.title = tab.title;
     this.studioCanvasDiv.scrollTop = 0;
     
-    this.mapa = mapa;
-    this.accordion.loadById(accordionId);
     
     this.changePlayMode(SITE.properties.studio.mode);
     this.setBassIcon();
@@ -344,6 +342,7 @@ SITE.Estudio.prototype.setup = function( mapa, tab, accordionId) {
     this.setString(tab.text);
     this.fireChanged(0, {force:true} );
     this.studioDiv.setTitle( '-&#160;' + this.accordion.getTxtModel() );
+    this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
     
     this.showEditor(SITE.properties.studio.editor.visible);
     
@@ -377,20 +376,24 @@ SITE.Estudio.prototype.resize = function( ) {
 
     // -paddingTop 78
     var h = (winH -78 - 10 ); 
-    var w = (winW - 10 ); 
+    var w = (winW - 8 ); 
     
     this.studioDiv.topDiv.style.height = Math.max(h,200) +"px";
     this.studioDiv.topDiv.style.width = Math.max(w,400) +"px";
    
-    var e = 0;
+    var w = 0, e = 0;
     var c = this.controlDiv.clientHeight;
     var t = this.studioDiv.dataDiv.clientHeight;
+    
+    if(! SITE.properties.showWarnings) {
+        w = this.warningsDiv.clientHeight;
+    }
     
     if(! SITE.properties.studio.editor.floating) {
         e = this.editorWindow.container.topDiv.clientHeight+4;
     }
 
-    this.studioCanvasDiv.style.height = t-(e+c+6) +"px";
+    this.studioCanvasDiv.style.height = t-(w+e+c+6) +"px";
     
     this.posicionaTeclado();
     

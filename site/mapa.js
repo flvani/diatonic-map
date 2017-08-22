@@ -50,18 +50,18 @@ SITE.ResetProperties = function() {
         abcEditor : {
             floating: false
             ,maximized: false
-            ,top: "40px"
-            ,left: "50px"
-            ,width: "700px"
-            ,height: "480px"
+            ,top: "70px"
+            ,left: "25px"
+            ,width: "940px"
+            ,height: "560px"
         }
         , tabEditor : {
              floating: false
             ,maximized: false
-            ,top: "40px"
-            ,left: "50px"
-            ,width: "700px"
-            ,height: "480px"
+            ,top: "140px"
+            ,left: "75px"
+            ,width: "940px"
+            ,height: "560px"
         }
     };
 
@@ -189,8 +189,6 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
             ]
     );
 
-    this.studio = tabParams.studio;
-    
     // tab control
     this.tuneContainerDiv = document.getElementById(interfaceParams.tuneContainerDiv);
     
@@ -250,22 +248,23 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
 
     this.playerCallBackOnEnd = function( player ) {
         var currentABC = that.getActiveTab();
-        var warns = that.midiPlayer.getWarnings();
         that.playButton.title = DR.getResource("playBtn");
         that.playButton.innerHTML = '<i class="ico-play"></i>';
         currentABC.abc.midi.printer.clearSelection();
         that.accordion.clearKeyboard(true);
         if(that.currentPlayTimeLabel)
             that.currentPlayTimeLabel.innerHTML = "00:00.00";
-        
-        var wd =  document.getElementById("mapaWarningsDiv");
-        
-        if( warns && wd) {
-            var txt = "";
-            warns.forEach(function(msg){ txt += msg + '<br/>'; });
-            wd.style.color = 'blue';
-            wd.innerHTML = txt;
-        }
+
+//        //Por definição, a tela principal do mapa nunca mostra warnings
+//        var warns = that.midiPlayer.getWarnings();
+//        var wd =  document.getElementById("mapaWarningsDiv");
+//        if( warns && wd) {
+//            var txt = "";
+//            warns.forEach(function(msg){ txt += msg + '<br/>'; });
+//            wd.style.color = 'blue';
+//            wd.innerHTML = txt;
+//        }
+
     };
 
     this.playButton.addEventListener("click", function(evt) {
@@ -341,8 +340,8 @@ SITE.Mapa.prototype.resize = function() {
     var s1 = document.getElementById( 'section1' );
     var s2 = document.getElementById( 'section2' );
     
-    // -paddingTop 75 -margins 18 -2 shadow
-    var h = (winH - s1.clientHeight - (s2.clientHeight - this.tuneContainerDiv.clientHeight) -75 -18 -2 ); 
+    // -paddingTop 78 -margins 14 -shadow 2 
+    var h = (winH - s1.clientHeight - (s2.clientHeight - this.tuneContainerDiv.clientHeight) -78 -14 -2 ); 
     
     this.tuneContainerDiv.style.height = Math.max(h,200) +"px";
     
@@ -363,91 +362,32 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             this.restauraRepertorio();
             break;
         case 'LOADREPERTOIRE':
-            // primeiro seleciona um ou mais arquivos e depois chama carregaRepertorioLocal();
             this.fileLoadRepertoire.click();
             break;
         case 'EXPORTREPERTOIRE':
             this.exportaRepertorio();
             break;
+        case 'PART2TAB':
+            this.openPart2Tab();
+            break;
+        case 'TAB2PART':
+            this.openTab2part();
+            break;
         case 'TUTORIAL':
-            w1.setTitle('Tutoriais')
-            w1.dataDiv.innerHTML = '<embed src="/diatonic-map/html5/tutoriais.pt_BR.html" height="600" width="1024"></embed>';
-            w1.topDiv.style.display = 'inline';
+            this.showHelp('Tutoriais', '/diatonic-map/html5/tutoriais.pt_BR.html', '1024', '600' );
             break;
         case 'TABS':
-            w1.setTitle('Tablaturas para Acordeons')
-            w1.dataDiv.innerHTML = '<embed src="/diatonic-map/html5/tablatura.pt_BR.html" height="600" width="1024"></embed>';
-            w1.topDiv.style.display = 'inline';
+            this.showHelp('Tablaturas para Acordeons', '/diatonic-map/html5/tablatura.pt_BR.html', '1024', '600' );
             break;
         case 'TABSTRANSPORTADA':
-            w1.setTitle('Tablaturas para Transportada')
-            w1.dataDiv.innerHTML = '<embed src="/diatonic-map/html5/tablaturaTransportada.pt_BR.html" height="600" width="1024"></embed>';
-            w1.topDiv.style.display = 'inline';
+            this.showHelp('Tablaturas para Transportada', '/diatonic-map/html5/tablaturaTransportada.pt_BR.html', '1024', '600' );
             break;
         case 'MAPS':
-            w1.setTitle('Mapas para Acordeons')
-            w1.dataDiv.innerHTML = '<embed src="/diatonic-map/html5/mapas.pt_BR.html" height="600" width="1024"></embed>';
-            w1.topDiv.style.display = 'inline';
+            this.showHelp('Mapas para Acordeons', '/diatonic-map/html5/mapas.pt_BR.html', '1024', '600' );
             break;
         case 'ABOUT':
-            var e = document.createElement("iframe"); 
-            w1.setTitle('Sobre...')
-            w1.dataDiv.innerHTML = '';
-            w1.dataDiv.appendChild(e);
-            e.setAttribute("src", "/diatonic-map/html5/sobre.html" );
-            e.setAttribute("frameborder", "0" );
-            e.setAttribute("scrolling", "no" );
-            e.setAttribute("height", "412" );
-            e.setAttribute("width", "800" );
-            e.addEventListener("load", function () { 
-                e.style.height = e.contentWindow.document.body.scrollHeight + 'px';  
-            } );
-            w1.topDiv.style.display = 'inline';
+            this.showHelp('Sobre..', '/diatonic-map/html5/about.pt_BR.html', '800' );
             break;
-        case 'PART2TAB':
-            if( ! this.part2tab ) {
-                this.part2tab = new SITE.TabGen(
-                    this
-                    ,{  // interfaceParams
-                        tabGenDiv: 'tabGenDiv'
-                       ,controlDiv: 'p2tControlDiv-raw' 
-                       ,saveBtn:'p2tSaveBtn'
-                       ,updateBtn:'p2tForceRefresh'
-                       ,openBtn: 'p2tOpenInGenerator'
-                    }
-                );
-            }
-            this.part2tab.setup(this.activeTab.text);
-            break;
-            
-        case 'TAB2PART':
-            if( ! this.tab2part ) {
-                this.tab2part = new SITE.PartGen(
-                    this
-                    ,{   // interfaceParams
-                        partGenDiv: 'partGenDiv'
-                       ,controlDiv: 't2pControlDiv-raw' 
-                       ,showMapBtn: 't2pShowMapBtn'
-                       ,showEditorBtn: 't2pShowEditorBtn'
-                       ,printBtn:'t2pPrintBtn'
-                       ,saveBtn:'t2pSaveBtn'
-                       ,updateBtn:'t2pForceRefresh'
-                       ,playBtn: "t2pPlayBtn"
-                       ,stopBtn: "t2pStopBtn"
-                       ,currentPlayTimeLabel: "t2pCurrentPlayTimeLabel"
-                       ,ckShowABC:'ckShowABC'
-                       ,ckConvertToClub:'ckConvertToClub'
-                       ,ckConvertFromClub:'ckConvertFromClub'
-                       ,generate_tablature: 'accordion'
-                       ,accordion_options: {
-                             id: this.accordion.getId()
-                            ,accordionMaps: DIATONIC.map.accordionMaps
-                            ,render_keyboard_opts:{transpose:false, mirror: false, scale:0.8, draggable:true, show:false, label:false}}
-                    });
-            } 
-            this.tab2part.setup({accordionId: this.accordion.getId()});
-            break;
-            
         case 'GAITA_MINUANO_GC':
         case 'GAITA_MINUANO_BC_TRANSPORTADA':
         case 'GAITA_HOHNER_CLUB_IIIM_BR':
@@ -517,21 +457,69 @@ SITE.Mapa.prototype.openMapa = function (newABCText) {
     this.printKeyboard();
     this.resize();
     
-    if( newABCText === tab.text )  {
-        return;
-    } else {
-        tab.text = newABCText;
-        this.accordion.loaded.setSong(tab.title, tab.text );
-        this.renderTAB( tab );
+    if( newABCText !== undefined ) {
+        if( newABCText === tab.text )  {
+            return;
+        } else {
+            tab.text = newABCText;
+            this.accordion.loaded.setSong(tab.title, tab.text );
+            this.renderTAB( tab );
+        }
     }
+    
 };
 
 SITE.Mapa.prototype.closeMapa = function () {
     this.pauseMedia();
     this.midiPlayer.stopPlay();
     this.setVisible(false);
+    
     this.menu.disableSubMenu('menuGaitas');
     this.menu.disableSubMenu('menuRepertorio');
+};
+
+SITE.Mapa.prototype.openPart2tab = function () {
+    if( ! this.part2tab ) {
+        this.part2tab = new SITE.TabGen(
+            this
+            ,{  // interfaceParams
+                tabGenDiv: 'tabGenDiv'
+               ,controlDiv: 'p2tControlDiv-raw' 
+               ,saveBtn:'p2tSaveBtn'
+               ,updateBtn:'p2tForceRefresh'
+               ,openBtn: 'p2tOpenInGenerator'
+            }
+        );
+    }
+    this.part2tab.setup(this.activeTab.text);
+};
+
+SITE.Mapa.prototype.openTab2part = function () {
+    if( ! this.tab2part ) {
+        this.tab2part = new SITE.PartGen(
+            this
+            ,{   // interfaceParams
+                partGenDiv: 'partGenDiv'
+               ,controlDiv: 't2pControlDiv-raw' 
+               ,showMapBtn: 't2pShowMapBtn'
+               ,showEditorBtn: 't2pShowEditorBtn'
+               ,printBtn:'t2pPrintBtn'
+               ,saveBtn:'t2pSaveBtn'
+               ,updateBtn:'t2pForceRefresh'
+               ,playBtn: "t2pPlayBtn"
+               ,stopBtn: "t2pStopBtn"
+               ,currentPlayTimeLabel: "t2pCurrentPlayTimeLabel"
+               ,ckShowABC:'ckShowABC'
+               ,ckConvertToClub:'ckConvertToClub'
+               ,ckConvertFromClub:'ckConvertFromClub'
+               ,generate_tablature: 'accordion'
+               ,accordion_options: {
+                     id: this.accordion.getId()
+                    ,accordionMaps: DIATONIC.map.accordionMaps
+                    ,render_keyboard_opts:{transpose:false, mirror: false, scale:0.8, draggable:true, show:false, label:false}}
+            });
+    } 
+    this.tab2part.setup({accordionId: this.accordion.getId()});
 };
 
 SITE.Mapa.prototype.openEstudio = function (button, event) {
@@ -542,13 +530,51 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
         event.preventDefault();
         button.blur();
     }
+    
+    if( ! this.studio ) {
+        this.studio = new SITE.Estudio(
+            this
+            ,{   // interfaceParams
+                studioDiv: 'studioDiv'
+               ,studioControlDiv: 'studioControlDiv'
+               ,studioCanvasDiv: 'studioCanvasDiv'
+               ,generate_tablature: 'accordion'
+               ,showMapBtn: 'showMapBtn'
+               ,showEditorBtn: 'showEditorBtn'
+               ,showTextBtn: 'showTextBtn'
+               ,printBtn:'printBtn2'
+               ,saveBtn:'saveBtn'
+               ,forceRefresh:'forceRefresh'
+               ,accordion_options: {
+                     id: this.accordion.getId()
+                    ,accordionMaps: DIATONIC.map.accordionMaps
+                    ,render_keyboard_opts:{transpose:false, mirror:false, scale:0.8, draggable:true, show:false, label:false}}
+               ,onchange: function( studio ) { studio.onChange(); }
+          } 
+          , {   // playerParams
+                modeBtn: "modeBtn"
+              , timerBtn: "timerBtn"
+              , playBtn: "playBtn2"
+              , stopBtn: "stopBtn2"
+              , clearBtn: "clearBtn"
+              , gotoMeasureBtn: "gotoMeasureBtn"
+              , untilMeasureBtn: "untilMeasureBtn"
+              , stepBtn: "stepBtn"
+              , repeatBtn: "repeatBtn"
+              , stepMeasureBtn: "stepMeasureBtn"
+              , tempoBtn: "tempoBtn"
+              , GClefBtn: "GClefBtn"
+              , FClefBtn: "FClefBtn"
+              , currentPlayTimeLabel: "currentPlayTimeLabel2"
+          } 
+        );
+    }
 
-    if( tab.text && self.studio ) {
+    if( tab.text ) {
         ga('send', 'event', 'Mapa', 'tools', tab.title);
         var loader = this.startLoader( "OpenEstudio" );
         loader.start(  function() { 
-            self.closeMapa();
-            self.studio.setup( self, tab, self.accordion.getId() );
+            self.studio.setup( tab, self.accordion.getId() );
             loader.stop();
         }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
     }
@@ -742,7 +768,7 @@ SITE.Mapa.prototype.restauraRepertorio = function() {
     accordion.songs = accordion.loadABCX( accordion.songPathList, function() {  
         that.renderedTune.title = accordion.getFirstSong();
         that.loadABCList(that.renderedTune.tab);
-        this.showTab('songsTab');
+        that.showTab('songsTab');
     });
 };
 
@@ -1195,9 +1221,10 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             SITE.properties.options.autoRefresh = this.p5.checked;
             SITE.properties.options.pianoSound = this.p6.checked;
             SITE.SaveProperties();
-            this.applySettings();
+            
             this.picker.close();
             this.settingsWindow.setVisible(false);
+            this.applySettings();
             break;
         case 'RESET':
             this.alert = new DRAGGABLE.ui.Alert(
@@ -1207,25 +1234,24 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
                     'isto inclui cores e posicionamento, entre outras coisas.');
             break;
         case 'RESET-YES':
-            var v = ( this.studio && this.studio.studioDiv.parent.style.display === 'block' );
+            //var v = ( this.studio && this.studio.studioDiv.parent.style.display === 'block' );
             
             this.alert.close();
             this.picker.close();
             this.settingsWindow.setVisible(false);
             
-            if( v ) {
-                this.studio.setVisible(false);
-                this.studio.midiPlayer.stopPlay();
-                this.openMapa( this.studio.getString() );
-            }
+//            if( v ) {
+//                this.studio.setVisible(false);
+//                this.studio.midiPlayer.stopPlay();
+//                this.openMapa( this.studio.getString() );
+//            }
             
             SITE.ResetProperties();
             
             this.applySettings();
-            this.showMedia(this.getActiveTab());
             
-            if( v )
-                this.openEstudio();
+//            if( v )
+//                this.openEstudio();
             
             break;
         case 'RESET-NO':
@@ -1241,13 +1267,20 @@ SITE.Mapa.prototype.applySettings = function() {
     //implementar a tradução
     
     this.defineInstrument();
+    this.showMedia(this.getActiveTab());
 
     if (this.studio) {
         this.studio.setAutoRefresh(SITE.properties.options.autoRefresh);
-
-        if (this.studio.warningsDiv)
-            this.studio.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
+        this.studio.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
     }
+    if (this.tab2part) {
+        this.tab2part.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
+    }
+    if (this.part2tab) {
+        this.part2tab.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
+    }
+    
+    this.resizeActiveWindow();
     
     ABCXJS.write.color.highLight = SITE.properties.colors.highLight;
     DIATONIC.map.color.close = SITE.properties.colors.close;
@@ -1282,7 +1315,34 @@ SITE.Mapa.prototype.printPreview = function (html, divsToHide, landscape ) {
     divsToHide.forEach( function( div ) {
         $(div).show();
     });
+};
 
+SITE.Mapa.prototype.resizeActiveWindow = function() {
+    if(this.studio && window.getComputedStyle(this.studio.studioDiv.parent).display !== 'none') {
+       this.studio.resize();
+    } else if(this.tab2part && window.getComputedStyle(this.tab2part.Div.parent).display !== 'none') {      
+       this.tab2part.resize();
+    } else if(this.part2tab && window.getComputedStyle(this.part2tab.Div.parent).display !== 'none') {      
+       this.part2tab.resize();
+    } else {    
+        this.resize();
+    }    
+};
+
+SITE.Mapa.prototype.silencia = function() {
+    if(this.studio && window.getComputedStyle(this.studio.studioDiv.parent).display !== 'none') {
+        if( this.studio.midiPlayer.playing) {
+            this.studio.startPlay('normal'); // pause
+        }
+    } else if(this.tab2part && window.getComputedStyle(this.tab2part.Div.parent).display !== 'none') {      
+        if( this.tab2part.midiPlayer.playing) {
+            this.tab2part.startPlay('normal'); // pause
+        }
+    } else {
+        if( this.midiPlayer.playing) {
+            this.startPlay('normal'); // pause
+        }
+    }
 };
 
 SITE.Mapa.prototype.translate = function() {
@@ -1311,6 +1371,42 @@ SITE.Mapa.prototype.translate = function() {
   document.getElementById("untilMeasureBtn").value = DR.getResource("DR_until");
   
 };
+
+SITE.Mapa.prototype.showHelp = function ( title, url, width, height ) {
+    var that = this;
+    
+    if( ! this.helpWindow ) {
+        this.helpWindow = new DRAGGABLE.ui.Window(
+            null
+          , null
+          , {title: '', translate: false, draggable: true, statusbar: false, top: "200px", left: "300px", width: "auto", height:"auto", zIndex: 70}
+        );
+    }
+
+    this.helpWindow.setTitle(title);
+    this.helpWindow.dataDiv.innerHTML = '<iframe src="'+url+'"></iframe>';
+    var e = document.getElementsByTagName('iframe')[0];
+    
+    e.setAttribute("frameborder", "0" );
+    e.setAttribute("width", width );
+    
+    var loader = this.startLoader( "About" );
+    loader.start(  function() { 
+        if( height ) {
+            e.setAttribute("height", height );
+            loader.stop();
+            that.helpWindow.setVisible(true);
+        } else { // auto determina a altura
+            e.setAttribute("scrolling", "no" );
+            e.addEventListener("load", function () { 
+                loader.stop();
+                that.helpWindow.setVisible(true);
+                e.setAttribute("height", this.contentWindow.document.body.offsetHeight );
+            });
+        }
+    }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
+};
+
 
 // Esta rotina foi criada como forma de verificar todos warnings de compilacao do repertório
 SITE.Mapa.prototype.debugRepertorio = function( ) {

@@ -190,47 +190,26 @@ teste.
             var debug=false; // eliminar esta variável assim que possível
             
             var myMap;
-            var myStudio;
 
             function ga(){
                 console.log('Funcao ga não definida - para enganar o google');
             }
 
             window.addEventListener( 'load', initApp );
-                    
 
             window.onblur = function() {
-                if( !myStudio || !myMap ) return;
-                
-                if(myStudio.visible) {
-                    if( myStudio.midiPlayer.playing) {
-                        myStudio.startPlay('normal'); // pause
-                    }
-                } else {
-                    if( myMap.midiPlayer.playing) {
-                        myMap.startPlay('normal'); // pause
-                    }
-                }
+                if( !myMap ) return;
+                myMap.silencia();
             };
             
             window.onresize = function() {
-                if( !myStudio || !myMap ) return;
-                
-                if(window.getComputedStyle(myStudio.studioDiv.parent).display !== 'none') {
-                    myStudio.resize();
-                } else {     
-                    myMap.resize();
-                }    
+                if( !myMap ) return;
+                myMap.resizeActiveWindow();
             };
             
             document.addEventListener( 'touchend', function(event) {
-                if( event.touches.length === 0 || !myStudio || !myMap ) return;
-                
-                if(window.getComputedStyle(myStudio.studioDiv.parent).display !== 'none') {
-                    myStudio.resize();
-                } else {     
-                    myMap.resize();
-                }    
+                if( event.touches.length === 0 || !myMap ) return;
+                myMap.resizeActiveWindow();
             }, false);
             
             function initApp() {
@@ -310,11 +289,6 @@ teste.
                     + '\nSafari: ' + ABCXJS.misc.isSafari() + '\n '
                 );
         
-                w1 = new DRAGGABLE.ui.Window(
-                          null
-                        , null
-                        , {title: '', translate: false, draggable: true, statusbar: false, top: "200px", left: "300px", zIndex: 60}
-                );
                 MIDI.widget = new sketch.ui.Timer({size:180, cor1:SITE.properties.colors.close, cor2: SITE.properties.colors.open});
                 MIDI.widget.setFormat( 'Carregando...');
 
@@ -323,8 +297,8 @@ teste.
                         'accordions/minuano.gc.accordion'
                        ,'accordions/minuano.bc.transportada.accordion'
                        ,'accordions/hohner.cf.club.br.accordion'
+                       ,'accordions/hohner.adg.corona.accordion'
                        // 'accordions/hohner.gc.accordion'
-                       //,'accordions/hohner.adg.corona.accordion'
                        //,'accordions/hohner.cf.club.accordion'
                     ]
                     , function () { 
@@ -355,44 +329,6 @@ teste.
                 
                 var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
 
-                myStudio = new SITE.Estudio(
-                    {   // interfaceParams
-                        studioDiv: 'studioDiv'
-                       ,studioControlDiv: 'studioControlDiv'
-                       ,studioCanvasDiv: 'studioCanvasDiv'
-                       ,generate_warnings: true
-                       ,generate_midi: true
-                       ,generate_tablature: 'accordion'
-                       ,showMapBtn: 'showMapBtn'
-                       ,showEditorBtn: 'showEditorBtn'
-                       ,showTextBtn: 'showTextBtn'
-                       ,printBtn:'printBtn2'
-                       ,saveBtn:'saveBtn'
-                       ,forceRefresh:'forceRefresh'
-                       ,accordion_options: {
-                             id: accordion
-                            ,accordionMaps: DIATONIC.map.accordionMaps
-                            ,render_keyboard_opts:{transpose:false, mirror:false, scale:0.8, draggable:true, show:false, label:false}}
-                       ,onchange: function( studio ) { studio.onChange(); }
-                  } 
-                  , {   // playerParams
-                        modeBtn: "modeBtn"
-                      , timerBtn: "timerBtn"
-                      , playBtn: "playBtn2"
-                      , stopBtn: "stopBtn2"
-                      , clearBtn: "clearBtn"
-                      , gotoMeasureBtn: "gotoMeasureBtn"
-                      , untilMeasureBtn: "untilMeasureBtn"
-                      , stepBtn: "stepBtn"
-                      , repeatBtn: "repeatBtn"
-                      , stepMeasureBtn: "stepMeasureBtn"
-                      , tempoBtn: "tempoBtn"
-                      , GClefBtn: "GClefBtn"
-                      , FClefBtn: "FClefBtn"
-                      , currentPlayTimeLabel: "currentPlayTimeLabel2"
-                  } 
-                );
-        
                 myMap = new SITE.Mapa(
                     {   // interfaceParams
                         ckPiano: 'checkboxPiano'
@@ -418,7 +354,6 @@ teste.
                         songSelectorParms: { tabDiv: 'tabSongsDiv', menuDiv: 'menuSongs' }
                       , chordSelectorParms:  { tabDiv: 'tabChordsDiv', menuDiv: 'menuChords' }
                       , practiceSelectorParms: { tabDiv: 'tabPracticesDiv', menuDiv: 'menuPractices' }
-                      , studio: myStudio
                     }
                   , {   // playerParams
                         playBtn: "buttonPlay"
@@ -426,6 +361,7 @@ teste.
                       , currentPlayTimeLabel: "currentPlayTimeLabel"
                     } 
                 );
+        
                 // myMap.debugRepertorio();
             }
             

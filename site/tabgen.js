@@ -28,22 +28,21 @@ SITE.TabGen = function( mapa, interfaceParams ) {
     this.Div.dataDiv.style.overflow = 'hidden';
     
     this.controlDiv = document.createElement("DIV");
-    this.controlDiv.setAttribute("id", 'petcontrolDiv' );
+    this.controlDiv.setAttribute("id", 'p2tcontrolDiv' );
     this.controlDiv.setAttribute("class", 'controlDiv btn-group' );
     this.Div.dataDiv.appendChild(this.controlDiv);
     
     this.controlDiv.innerHTML = document.getElementById(interfaceParams.controlDiv).innerHTML;
     document.getElementById(interfaceParams.controlDiv).innerHTML = "";
     
-    this.abcEditorDiv = document.createElement("DIV");
-    this.Div.dataDiv.appendChild(this.abcEditorDiv);
-
     this.warningsDiv = document.createElement("DIV");
     this.warningsDiv.setAttribute("id", warnings_id);
     this.warningsDiv.setAttribute("class", "warningsDiv" );
     this.Div.dataDiv.appendChild(this.warningsDiv);
-    this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
     
+    this.abcEditorDiv = document.createElement("DIV");
+    this.Div.dataDiv.appendChild(this.abcEditorDiv);
+
     this.tabEditorDiv = document.createElement("DIV");
     this.Div.dataDiv.appendChild(this.tabEditorDiv);
 
@@ -77,7 +76,6 @@ SITE.TabGen = function( mapa, interfaceParams ) {
     );
     this.tabEditorWindow.setVisible(true);
     
-    
     this.tabEditorWindow.container.setButtonVisible( 'CLOSE', false);
     this.tabEditorWindow.container.setButtonVisible( 'DOWNLOAD', false);
     this.tabEditorWindow.container.setButtonVisible( 'OCTAVEUP', false);
@@ -108,17 +106,9 @@ SITE.TabGen = function( mapa, interfaceParams ) {
     
 };
 
-SITE.TabGen.prototype.salvaTablatura = function() {
-    if (FILEMANAGER.requiredFeaturesAvailable()) {
-        var name = this.title + ".tab";
-        var conteudo = this.tabEditorWindow.getString();
-        FILEMANAGER.download(name, conteudo);
-    } else {
-        alert(DR.getResource("DR_err_saving"));
-    }
-};
-
 SITE.TabGen.prototype.setup = function(abcText) {
+    
+    this.mapa.closeMapa();
     
     this.setVisible(true);
     this.abcEditorWindow.setString(abcText);
@@ -133,6 +123,7 @@ SITE.TabGen.prototype.setup = function(abcText) {
         this.abcEditorWindow.container.dispatchAction('POPIN');
     }
     
+    this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
     this.fireChanged();
     
     if(SITE.properties.tabGen.tabEditor.floating) {
@@ -158,6 +149,16 @@ SITE.TabGen.prototype.fireChanged = function() {
     var abcText = this.tabParser.parse(this.abcEditorWindow.getString(), this.accordion.loadedKeyboard );
     this.title = this.tabParser.title;
     this.printTablature(abcText);
+};
+
+SITE.TabGen.prototype.salvaTablatura = function() {
+    if (FILEMANAGER.requiredFeaturesAvailable()) {
+        var name = this.title + ".tab";
+        var conteudo = this.tabEditorWindow.getString();
+        FILEMANAGER.download(name, conteudo);
+    } else {
+        alert(DR.getResource("DR_err_saving"));
+    }
 };
 
 SITE.TabGen.prototype.printTablature = function(abcText) {
@@ -187,7 +188,7 @@ SITE.TabGen.prototype.resize = function( ) {
 
     // -paddingTop 78
     var h = (winH -78 - 10 ); 
-    var w = (winW - 10 ); 
+    var w = (winW - 8 ); 
     
     this.Div.topDiv.style.height = Math.max(h,200) +"px";
     this.Div.topDiv.style.width = Math.max(w,400) +"px";
@@ -203,6 +204,7 @@ SITE.TabGen.prototype.p2tCallback = function( e ) {
         case 'CLOSE':
             this.setVisible(false);
             SITE.SaveProperties();
+            this.mapa.openMapa();
             break;
     }
 };

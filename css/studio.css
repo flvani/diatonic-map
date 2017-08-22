@@ -90,7 +90,6 @@ and open the template in the editor.
     display: inline-block;
     padding: 3px;
     margin: 4px;
-    margin-bottom: 60px; /* why? */
     border: 1px solid rgba(159,159,159,0.2);
     background-color: #f1f1dd; 
     background-color: honeydew; 

@@ -132,14 +132,14 @@ FILEMANAGER.waitResources = function (cb) {
         case -1: 
             cb.onProgress && cb.onProgress({perc:FILEMANAGER.getPercent()});
             window.setTimeout(function(){ FILEMANAGER.waitResources(cb); }, FILEMANAGER.timeoutInterval);
-            return;
+            break;
         case 1:
-            var alert = new DRAGGABLE.ui.Alert( 
+            new DRAGGABLE.ui.Alert( 
                 null, null, 
-                'OPS!!! Tivemos problemas para carregar alguns recursos!',
-                'Por favor, pressione F5 para recarregar esta página!'+
-                        '<br>Se o problema persistir, avise-nos pelo email:\nflavio.vani@gmail.com' );
-            return;
+                '<br>OPS!!! Tivemos problemas para carregar alguns recursos!',
+                '<br>Por favor, pressione <b>F5</b> para recarregar esta página!'+
+                        '<br>Se o problema persistir, avise-nos pelo e-mail: <b>flavio.vani@gmail.com</b>' );
+            break;
         case 0:    
             cb.onProgress && cb.onProgress({perc:FILEMANAGER.getPercent(), timeouts:FILEMANAGER.timeouts, success: FILEMANAGER.success} );
             cb.onLoad && cb.onLoad();

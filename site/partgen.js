@@ -97,7 +97,6 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     this.warningsDiv.setAttribute("id", warnings_id);
     this.warningsDiv.setAttribute("class", "warningsDiv" );
     this.Div.dataDiv.appendChild(this.warningsDiv);
-    this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
 
     this.abcDiv = document.createElement("DIV");
     this.abcDiv.style.display = SITE.properties.partGen.showABCText ? '' : 'none';
@@ -236,6 +235,8 @@ SITE.PartGen = function( mapa, interfaceParams ) {
 
 SITE.PartGen.prototype.setup = function(options) {
     
+    this.mapa.closeMapa();
+    
     this.accordion.loadById(options.accordionId);
     
     this.setVisible(true);
@@ -246,6 +247,8 @@ SITE.PartGen.prototype.setup = function(options) {
         }
         this.editorWindow.setString(text);
     }
+    
+    this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
     
     this.fireChanged();
     this.editorWindow.restartUndoManager();
@@ -283,7 +286,7 @@ SITE.PartGen.prototype.resize = function( ) {
 
     // -paddingTop 78
     var h = (winH -78 - 10 ); 
-    var w = (winW - 10 ); 
+    var w = (winW - 8 ); 
     
     this.Div.topDiv.style.height = Math.max(h,200) +"px";
     this.Div.topDiv.style.width = Math.max(w,400) +"px";
@@ -332,6 +335,7 @@ SITE.PartGen.prototype.closePartGen = function(save) {
         (save) && SITE.SaveProperties();
         if(text !== "" ) 
             FILEMANAGER.saveLocal( 'ultimaTablaturaEditada', text );
+        self.mapa.openMapa();
         loader.stop();
     }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
 };
@@ -384,7 +388,7 @@ SITE.PartGen.prototype.editorCallback = function (action, elem) {
             this.editorWindow.maximizeWindow( false, SITE.properties.partGen.editor );
             break;
         case 'POPIN':
-            this.editorWindow.dockWindow(true, SITE.properties.partGen.editor, 0, 0, "calc(100% -5px)", "200px"  );
+            this.editorWindow.dockWindow(true, SITE.properties.partGen.editor, 0, 0, "calc(100% - 5px)", "200px"  );
             this.resize();
             break;
         case 'POPOUT':
@@ -425,7 +429,6 @@ SITE.PartGen.prototype.setVisible = function(  visible ) {
     this.Div.parent.style.display = visible?'block':'none';
 };
 
-
 SITE.PartGen.prototype.fireChanged = function() {
     
     var text = this.editorWindow.getString();
@@ -439,7 +442,6 @@ SITE.PartGen.prototype.fireChanged = function() {
            ,this.accordion.loadedKeyboard
            ,this.ckConvertToClub.checked
            ,this.ckConvertFromClub.checked );
-
 
         this.printABC();
         
