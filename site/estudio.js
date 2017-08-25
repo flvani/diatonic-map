@@ -19,15 +19,15 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.renderedTune = {text:undefined, abc:undefined, title:undefined
                          ,tab: undefined, div: undefined ,selector: undefined };
     
-    this.studioDiv = new DRAGGABLE.ui.Window( 
+    this.Div = new DRAGGABLE.ui.Window( 
           interfaceParams.studioDiv
         , null
         , {translate: false, statusbar: false, draggable: false, top: "3px", left: "1px", width: '100%', height: "100%", title: 'Estúdio ABCX'}
         , {listener: this, method: 'studioCallback'}
     );
     
-    this.studioDiv.setVisible(true);
-    this.studioDiv.dataDiv.style.overflow = 'hidden';
+    this.Div.setVisible(true);
+    this.Div.dataDiv.style.overflow = 'hidden';
     
     if (interfaceParams.generate_tablature) {
         if (interfaceParams.generate_tablature === 'accordion') {
@@ -42,7 +42,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     }
     
     this.editorWindow = new ABCXJS.edit.EditArea(
-        this.studioDiv.dataDiv
+        this.Div.dataDiv
        ,{listener : this, method: 'editorCallback' }
        ,{   draggable:SITE.properties.studio.editor.floating
            ,toolbar: true, statusbar:true, translate:false
@@ -53,7 +53,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.editorWindow.setVisible(false);
 
     this.keyboardWindow = new DRAGGABLE.ui.Window( 
-        this.studioDiv.dataDiv
+        this.Div.dataDiv
        ,[ 'move|Mover', 'rotate|Rotacionar', 'zoom|Zoom', 'globe|Mudar Notação']
        ,{title: '', translate: false, statusbar: false
             , top: SITE.properties.studio.keyboard.top
@@ -75,7 +75,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.controlDiv = document.createElement("DIV");
     this.controlDiv.setAttribute("id", 'controlDiv' );
     this.controlDiv.setAttribute("class", 'controlDiv btn-group' );
-    this.studioDiv.dataDiv.appendChild(this.controlDiv);
+    this.Div.dataDiv.appendChild(this.controlDiv);
     
     this.controlDiv.innerHTML = document.getElementById(interfaceParams.studioControlDiv).innerHTML;
     document.getElementById(interfaceParams.studioControlDiv).innerHTML = "";
@@ -83,7 +83,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.warningsDiv = document.createElement("DIV");
     this.warningsDiv.setAttribute("id", warnings_id);
     this.warningsDiv.setAttribute("class", "warningsDiv" );
-    this.studioDiv.dataDiv.appendChild(this.warningsDiv);
+    this.Div.dataDiv.appendChild(this.warningsDiv);
 
     this.studioCanvasDiv = document.createElement("DIV");
     this.studioCanvasDiv.setAttribute("id", interfaceParams.studioCanvasDiv );
@@ -96,7 +96,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     
     this.renderedTune.div = this.canvasDiv;
     
-    this.studioDiv.dataDiv.appendChild(this.studioCanvasDiv);
+    this.Div.dataDiv.appendChild(this.studioCanvasDiv);
     
     if( interfaceParams.onchange ) {
         this.onchangeCallback = interfaceParams.onchange;
@@ -341,7 +341,7 @@ SITE.Estudio.prototype.setup = function( tab, accordionId) {
     this.setVisible(true);
     this.setString(tab.text);
     this.fireChanged(0, {force:true} );
-    this.studioDiv.setTitle( '-&#160;' + this.accordion.getTxtModel() );
+    this.Div.setTitle( '-&#160;' + this.accordion.getTxtModel() );
     this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
     
     this.showEditor(SITE.properties.studio.editor.visible);
@@ -378,12 +378,12 @@ SITE.Estudio.prototype.resize = function( ) {
     var h = (winH -78 - 10 ); 
     var w = (winW - 8 ); 
     
-    this.studioDiv.topDiv.style.height = Math.max(h,200) +"px";
-    this.studioDiv.topDiv.style.width = Math.max(w,400) +"px";
+    this.Div.topDiv.style.height = Math.max(h,200) +"px";
+    this.Div.topDiv.style.width = Math.max(w,400) +"px";
    
     var w = 0, e = 0;
     var c = this.controlDiv.clientHeight;
-    var t = this.studioDiv.dataDiv.clientHeight;
+    var t = this.Div.dataDiv.clientHeight;
     
     if(! SITE.properties.showWarnings) {
         w = this.warningsDiv.clientHeight;
@@ -498,7 +498,7 @@ SITE.Estudio.prototype.closeEstudio = function(save) {
 };
         
 SITE.Estudio.prototype.setVisible = function(  visible ) {
-    this.studioDiv.parent.style.display = visible?'block':'none';
+    this.Div.parent.style.display = visible?'block':'none';
 };
 
 SITE.Estudio.prototype.setAutoRefresh = function( value ) {

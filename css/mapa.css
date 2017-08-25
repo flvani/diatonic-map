@@ -8,12 +8,16 @@ and open the template in the editor.
     Author     : Flávio Vani 
 */
 
+html {
+    height: calc( 100% - 75px);
+}
 
 body {
     font-family: 'Arial';
     font-size: 16px;
     margin: 0;
     padding: 0;
+    height: 100%;
     padding-top: 75px;  
     
     overflow: auto;

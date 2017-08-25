@@ -138,7 +138,7 @@ FILEMANAGER.waitResources = function (cb) {
                 null, null, 
                 '<br>OPS!!! Tivemos problemas para carregar alguns recursos!',
                 '<br>Por favor, pressione <b>F5</b> para recarregar esta página!'+
-                        '<br>Se o problema persistir, avise-nos pelo e-mail: <b>flavio.vani@gmail.com</b>' );
+                        '<br>Se o problema persistir, avise-nos pelo e-mail: <b>flavio.vani@gmail.com</b>', {y:83} );
             break;
         case 0:    
             cb.onProgress && cb.onProgress({perc:FILEMANAGER.getPercent(), timeouts:FILEMANAGER.timeouts, success: FILEMANAGER.success} );

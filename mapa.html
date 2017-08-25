@@ -17,10 +17,10 @@ teste.
         
         <link rel="stylesheet" href="css/styles4abcx.css" />
         
+        <link rel="stylesheet" href="css/help.css" /><!-- preciso dos estilos na hora de imprimir o help --> 
         <link rel="stylesheet" href="css/mapa.css" />
         <link rel="stylesheet" href="css/studio.css" >
-        
-  </head>
+    </head>
     <body>
         
         <script type="text/javascript" src="proto_noconflict.js" ></script>
@@ -49,7 +49,7 @@ teste.
         <script type="text/javascript" src="part2tab/p2t_parser.js"></script>
         
         
-        <script type="text/javascript" src="site/mapa.js"></script>
+        <script id="mainSITE" type="text/javascript" src="site/mapa.js"></script>
         <script type="text/javascript" src="site/estudio.js"></script>
         <script type="text/javascript" src="site/partgen.js"></script>
         <script type="text/javascript" src="site/tabgen.js"></script>
@@ -185,8 +185,11 @@ teste.
         
         <script id="mainScript" type="text/javascript">
             
-            var siteVersion = '5.00'; // definir automaticamente
-            var abcxVersion = getABCXversion(); // Obtem e mostra a versão corrente da lib ABCX 
+            SITE.siteVersion = SITE.getVersion('mainSITE'); // Obtem e mostra a versão corrente da lib do site
+            SITE.abcxVersion = SITE.getVersion('mainABCX'); // Obtem e mostra a versão corrente da lib ABCX 
+            
+             document.getElementById("divABCXversion").innerHTML = '<i>Powered by ABCXJS version '+SITE.abcxVersion+'.</i>';
+            
             var debug=false; // eliminar esta variável assim que possível
             
             var myMap;
@@ -289,7 +292,11 @@ teste.
                     + '\nSafari: ' + ABCXJS.misc.isSafari() + '\n '
                 );
         
-                MIDI.widget = new sketch.ui.Timer({size:180, cor1:SITE.properties.colors.close, cor2: SITE.properties.colors.open});
+                MIDI.widget = new sketch.ui.Timer({
+                    size:180
+                    //, container: document.getElementById('mapaDiv')
+                    , cor1:SITE.properties.colors.close, cor2: SITE.properties.colors.open});
+                
                 MIDI.widget.setFormat( 'Carregando...');
 
                 DIATONIC.map.loadAccordionMaps(
@@ -363,19 +370,6 @@ teste.
                 );
         
                 // myMap.debugRepertorio();
-            }
-            
-            function getABCXversion() {
-                var str = document.getElementById("mainABCX").src;
-                var res = str.match(/[0-9]*\.[0-9][0-9]/g);
-                
-                if( res ) {
-                   document.getElementById("divABCXversion").innerHTML = '<i>Powered by ABCXJS version '+res[0]+'.</i>';
-                   return res[0];
-                } else {
-                   document.getElementById("divABCXversion").innerHTML = '<i>Powered by ABCXJS debug version.</i>';
-                   return false;
-               }   
             }
             
         </script> <!-- mainScript -->

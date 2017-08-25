@@ -11430,9 +11430,6 @@ DRAGGABLE.ui.Window = function( parent, aButtons, options, callback, aToolBarBut
     this.zIndex  = opts.zIndex? opts.zIndex : 100;
     this.draggable = typeof opts.draggable !== 'undefined' ? opts.draggable : true;
     
-    //this.minTop = opts.minTop ||  1;
-    //this.closeAction = 'CLOSE';
-    
     var div = document.createElement("DIV");
     div.setAttribute("id", "draggableWindow" +  this.id ); 
     div.setAttribute("class", "draggableWindow" + (this.draggable? "" : " noShadow") ); 
@@ -11627,14 +11624,24 @@ DRAGGABLE.ui.Window = function( parent, aButtons, options, callback, aToolBarBut
     
 };
 
+DRAGGABLE.ui.Window.prototype.formatStyleParam = function ( p ) {
+    p = (isNaN(p)===false) ? ''+p : p;
+    return (p === ''+parseInt(p)? p + 'px' : p );
+};
+
 DRAGGABLE.ui.Window.prototype.move = function( left, top ) {
-    this.topDiv.style.left = ( left !== ''+parseInt(left) ? left : parseInt(left) + 'px' );
-    this.topDiv.style.top = ( top !== ''+parseInt(top) ? top : parseInt(top) + 'px' );
+    this.topDiv.style.left = this.formatStyleParam( left );
+    this.topDiv.style.top = this.formatStyleParam( top );
 };
 
 DRAGGABLE.ui.Window.prototype.setSize = function( width, height ) {
-    this.topDiv.style.width = ( width !== ''+parseInt(width) ? width : parseInt(width) + 'px' );
-    this.topDiv.style.height = ( height !== ''+parseInt(height) ? height : parseInt(height) + 'px' );
+    this.topDiv.style.width = this.formatStyleParam( width ); 
+    this.topDiv.style.height = this.formatStyleParam( height ); 
+};
+
+
+DRAGGABLE.ui.Window.prototype.setVisible = function( visible ) {
+    this.topDiv.style.display=(visible? 'block':'none');
 };
 
 DRAGGABLE.ui.Window.prototype.setToolBarVisible = function (visible) {
@@ -11655,14 +11662,6 @@ DRAGGABLE.ui.Window.prototype.setButtonVisible = function( action, visible ) {
     var b = this.actionList[action.toUpperCase()];
     if( b ) {
         b.style.display = visible? '' : 'none';
-    }
-};
-
-
-DRAGGABLE.ui.Window.prototype.setVisible = function (visible) {
-    if( this.toolbar ) {
-        this.toolBar.style.display = visible ? 'block' : 'none';
-        this.resize();
     }
 };
 
@@ -11709,11 +11708,6 @@ DRAGGABLE.ui.Window.prototype.eventsCentral = function (action, elem) {
     }
 };
 
-DRAGGABLE.ui.Window.prototype.setVisible = function( visible ) {
-    this.topDiv.style.display=(visible? 'block':'none');
-};
-
-
 DRAGGABLE.ui.Window.prototype.setTitle = function( title ) {
     this.titleSpan.innerHTML = title;
 };
@@ -11748,7 +11742,7 @@ DRAGGABLE.ui.Window.prototype.addButtons = function( id,  aButtons ) {
     var self = this;
     
     var buttonMap = { CLOSE: 'close', MOVE: 'move', ROTATE: 'rotate', GLOBE: 'world', ZOOM:'zoom-in', HELP:'circle-question', 
-                        POPIN: 'popin', POPOUT: 'popout', RESTORE:'restore', MAXIMIZE:'full-screen', APPLY:'tick'  };
+                        POPIN: 'popin', POPOUT: 'popout', RESTORE:'restore', MAXIMIZE:'full-screen', APPLY:'tick', PRINT:'printer'  };
     
     if(aButtons)
         defaultButtons = defaultButtons.concat(aButtons);
@@ -11766,9 +11760,15 @@ DRAGGABLE.ui.Window.prototype.addButtons = function( id,  aButtons ) {
         var div = document.createElement("DIV");
         div.setAttribute("id", 'd'+ action +'Button'+id ); 
         div.setAttribute("class", "dButton" ); 
-        div.innerHTML = '<a href="" title="'+ rotulo +'"><i class="'+ icon +' ico-white"></i></a>';
-        self.menuDiv.appendChild(div);
+        
+        if(action === 'MOVE') {
+            div.innerHTML = '<i class="'+ icon +' ico-white"></i>';
+        } else {
+            div.innerHTML = '<a href="" title="'+ rotulo +'"><i class="'+ icon +' ico-white"></i></a>';
+        }
+        
         self.addAction( action, div, self );
+        self.menuDiv.appendChild(div);
         
     });
 };
@@ -11781,21 +11781,17 @@ DRAGGABLE.ui.Window.prototype.addAction = function( action, div, self ) {
     
     this.actionList[action] = div; // salva a lista de acões 
     
-    if(action === 'MOVE') return; // move já está coberto pelo dMenu
+    if( action === 'MOVE' ) return; // apenas registra na lista de ações 
     
-    div.addEventListener( 'mousedown', function(e) {
-        e.stopPropagation(); 
-    }, true);
-    div.addEventListener( 'click', function(e) {
+    var f = function(e) {
         e.preventDefault(); 
         e.stopPropagation(); 
         self.eventsCentral(action, div);
-    }, true);
-    div.addEventListener( 'touchstart', function(e) {
-        e.preventDefault(); 
-        e.stopPropagation(); 
-        self.eventsCentral(action, div);
-    }, true);
+    };
+    
+    div.addEventListener( 'click', f, false);
+    div.addEventListener( 'touchstart', f, false);
+    div.addEventListener( 'mousedown', function(e) { e.preventDefault(); e.stopPropagation(); }, false);
 };
 
 DRAGGABLE.ui.Window.prototype.dispatchAction = function( action ) {
@@ -11897,9 +11893,11 @@ DRAGGABLE.ui.Window.prototype.addPushButtons = function( aButtons ) {
     }
 };
 
-DRAGGABLE.ui.Alert = function( parent, action, text, description ) {
+DRAGGABLE.ui.Alert = function( parent, action, text, description, options ) {
     
-    var x, y, callback;
+    var x, y, w, h, callback;
+    
+    options = options? options : {};
     
     this.callback = { listener: this, method: 'alertCallback' };
     
@@ -11914,23 +11912,29 @@ DRAGGABLE.ui.Alert = function( parent, action, text, description ) {
 
         var winW = window.innerWidth
                 || document.documentElement.clientWidth
-                || daocument.body.clientWidth;
+                || document.body.clientWidth;
         
         x = winW/2-350;
-        y = winH/2-200;
+        y = winH/2-150;
         
     } else {
         this.parentCallback = parent.callback;
         x = parent.topDiv.offsetLeft + 50;
-        y = parent.topDiv.offsetTop+ 50;
+        y = parent.topDiv.offsetTop + 50;
     }
     
     var w = ( action ? "500px" : "700px" );
+    var h = "auto";
+    
+    x = options.x !== undefined ? options.x : x;
+    y = options.y !== undefined ? options.y : y;
+    w = options.w !== undefined ? options.w : w;
+    h = options.h !== undefined ? options.h : h;
     
     this.container = new DRAGGABLE.ui.Window(
           null
         , null
-        , {title: 'Alerta', translate: false, statusbar: false, top: "100px", left: "300px", width: w, height:"auto", zIndex: 300}
+        , {title: 'Alerta', translate: false, statusbar: false, top: y+"px", left: x+"px", width: w, height: h, zIndex: 300}
         , this.callback
     );
     
@@ -11973,7 +11977,6 @@ DRAGGABLE.ui.Alert = function( parent, action, text, description ) {
     }    
     
     this.modalPane.style.display = 'block';
-    this.container.move( x, y );
         
     this.container.setVisible(true);
 
@@ -12090,13 +12093,13 @@ DRAGGABLE.ui.ReplaceDialog = function( parent ) {
     
     this.parentCallback = parent.callback;
     this.callback = { listener: this, method: 'dialogCallback' };
-    x = parent.topDiv.offsetLeft + 50;
-    y = parent.topDiv.offsetTop+ 50;
+    x = Math.min( parent.dataDiv.clientWidth/2 - 250, 200);
+    y = 20;
     
     this.container = new DRAGGABLE.ui.Window(
-          null
+          parent.dataDiv
         , null
-        , {title: 'Procurar e substituir', translate: false, statusbar: false, top: "100px", left: "300px", width: "700px", height:"auto", zIndex: 300}
+        , {title: 'Procurar e substituir', translate: false, statusbar: false, top: y+"px", left: x+"px", width: "500px", height:"auto", zIndex: 300}
         , this.callback
     );
     
@@ -12123,21 +12126,6 @@ DRAGGABLE.ui.ReplaceDialog = function( parent ) {
         
         this.searchTerm = document.getElementById("searchTerm");
         this.replaceTerm = document.getElementById("replaceTerm");
-        
-//    this.modalPane = document.getElementById('modalPane');
-//    
-//    if( ! this.modalPane ) {
-//        
-//        var div = document.createElement("DIV");
-//        div.id = 'modalPane';
-//        div.style = "position:absolute; z-index:250; background-color:black; opacity:0.4; top:0; left:0; bottom:0; right:0; pointer-events: block; display:none;";
-//        document.body.appendChild(div);
-//        this.modalPane = div;
-//        
-//    }    
-//    
-//    this.modalPane.style.display = 'block';
-    this.container.move( x, y );
         
     this.container.setVisible(true);
 
@@ -12209,11 +12197,8 @@ DRAGGABLE.ui.DropdownMenu = function (topDiv, options, menu) {
         e2 = document.createElement("button");
         e2.setAttribute( "data-state", ddmId );
         e2.innerHTML = (menu[m].title || '' ) +'&#160;'+'<i class="ico-open-down" data-toggle="toggle"></i>';
-        e2.addEventListener( 'click', function(e) {
-           e.stopPropagation(); 
-           e.preventDefault(); 
-           self.eventsCentral(this.getAttribute("data-state"));
-        }, false);
+        e2.addEventListener( 'click', function(e) { e.stopPropagation(); e.preventDefault(); self.eventsCentral(this.getAttribute("data-state")); }, false);
+        e2.addEventListener( 'touchstart', function(e) { e.stopPropagation(); e.preventDefault(); self.eventsCentral(this.getAttribute("data-state")); }, false);
         e1.appendChild(e2);
         this.headers[ddmId].btn = e2;
         e2 = document.createElement("div");
@@ -12387,17 +12372,11 @@ DRAGGABLE.ui.DropdownMenu.prototype.addItemSubMenu = function (ddm, newItem, pos
         
         var e5 = document.createElement("a");
         e5.innerHTML = tags[0];
-        e5.setAttribute( "data-state", ddm );
-        e5.setAttribute( "data-value", action );
-        e5.addEventListener( 'click', function(e) {
-           e.stopPropagation(); 
-           e.preventDefault(); 
-           self.eventsCentral(this.getAttribute("data-state"), this.getAttribute("data-value") );
-        }, false);
         e4.appendChild(e5);
+        
+        this.addAction( ddm, action, e4, this);
+        
     }
-    
-    self.headers[ddm].actionList[action]=e4;
     
     if(pos>=0) {
         self.headers[ddm].list.insertBefore(e4, self.headers[ddm].list.children[pos]);
@@ -12445,6 +12424,24 @@ DRAGGABLE.ui.DropdownMenu.prototype.eventsCentral = function (state, event) {
     }
 };
 
+DRAGGABLE.ui.DropdownMenu.prototype.addAction = function( ddm, action, div, self ) {
+    
+    self.headers[ddm].actionList[action]=div; 
+    
+    var f = function(e) {
+       e.preventDefault(); 
+       e.stopPropagation(); 
+       self.eventsCentral(this.getAttribute("data-state"), this.getAttribute("data-value") );
+    };
+    
+    div.setAttribute( "data-state", ddm );
+    div.setAttribute( "data-value", action );
+    
+    div.addEventListener( 'click', f, false);
+    div.addEventListener( 'touchstart', f, false);
+    div.addEventListener( 'mousedown', function(e) { e.preventDefault(); e.stopPropagation(); }, false);
+    
+};
 
 //DRAGGABLE.ui.DropdownMenu.prototype.closeMenu = function (state) {
 //    var e = document.getElementById(state);

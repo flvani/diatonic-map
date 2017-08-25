@@ -7,6 +7,12 @@
 if (!window.SITE)
     window.SITE = {};
 
+SITE.getVersion = function(tag) {
+    var str = document.getElementById(tag).src;
+    var res = str.match(/[0-9]*\.[0-9][0-9]/g);
+    return res ? res[0] : 'debug';
+};
+
 SITE.LoadProperties = function() {
     
     //FILEMANAGER.removeLocal('diatonic-map.site.properties' ); // usdo para forçar reset da propriedades
@@ -371,22 +377,31 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             this.openPart2Tab();
             break;
         case 'TAB2PART':
-            this.openTab2part();
+            this.openTab2Part();
             break;
-        case 'TUTORIAL':
-            this.showHelp('Tutoriais', '/diatonic-map/html5/tutoriais.pt_BR.html', '1024', '600' );
+        case 'JUMPS':
+            this.showHelp('Ajuda - Símbolos de Repetição', '/diatonic-map/html5/sinaisRepeticao.pt_BR.html', { width: '1024', height: '600' } );
+            break;
+        case 'ABCX':
+            this.showHelp('Ajuda - Formato ABCX', '/diatonic-map/html5/formatoABCX.pt_BR.html', { width: '1024', height: '600' } );
+            break;
+        case 'ESTUDIO':
+            this.showHelp('Ajuda - Estúdio ABCX', '/diatonic-map/html5/estudioABCX.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TABS':
-            this.showHelp('Tablaturas para Acordeons', '/diatonic-map/html5/tablatura.pt_BR.html', '1024', '600' );
+            this.showHelp('Ajuda - Tablaturas para Acordeons', '/diatonic-map/html5/tablatura.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TABSTRANSPORTADA':
-            this.showHelp('Tablaturas para Transportada', '/diatonic-map/html5/tablaturaTransportada.pt_BR.html', '1024', '600' );
+            this.showHelp('Ajuda - Tablaturas para Transportada', '/diatonic-map/html5/tablaturaTransportada.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'MAPS':
-            this.showHelp('Mapas para Acordeons', '/diatonic-map/html5/mapas.pt_BR.html', '1024', '600' );
+            this.showHelp('Ajuda - Mapas para Acordeons', '/diatonic-map/html5/mapas.pt_BR.html', { width: '1024', height: '600' } );
+            break;
+        case 'TUTORIAL':
+            this.showHelp('Ajuda - Tutoriais', '/diatonic-map/html5/tutoriais.pt_BR.html', { width: '1024', height: '600', print:false } );
             break;
         case 'ABOUT':
-            this.showHelp('Sobre..', '/diatonic-map/html5/about.pt_BR.html', '800' );
+            this.showHelp('Sobre...', '/diatonic-map/html5/about.pt_BR.html', { width: '800', print:false } );
             break;
         case 'GAITA_MINUANO_GC':
         case 'GAITA_MINUANO_BC_TRANSPORTADA':
@@ -406,7 +421,7 @@ SITE.Mapa.prototype.printKeyboard = function() {
 
 SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
     var self = this;
-    var loader = this.startLoader( "LoadRepertoire" );
+    var loader = this.startLoader( "LoadRepertoire", this.tuneContainerDiv );
     loader.start(  function() { self.doLoadOriginalRepertoire(tabParams,loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
 };
     
@@ -478,7 +493,7 @@ SITE.Mapa.prototype.closeMapa = function () {
     this.menu.disableSubMenu('menuRepertorio');
 };
 
-SITE.Mapa.prototype.openPart2tab = function () {
+SITE.Mapa.prototype.openPart2Tab = function () {
     if( ! this.part2tab ) {
         this.part2tab = new SITE.TabGen(
             this
@@ -494,7 +509,7 @@ SITE.Mapa.prototype.openPart2tab = function () {
     this.part2tab.setup(this.activeTab.text);
 };
 
-SITE.Mapa.prototype.openTab2part = function () {
+SITE.Mapa.prototype.openTab2Part = function () {
     if( ! this.tab2part ) {
         this.tab2part = new SITE.PartGen(
             this
@@ -675,7 +690,7 @@ SITE.Mapa.prototype.loadMap = function(evt) {
     var that = this;
     evt.preventDefault();
     FILEMANAGER.loadLocalFiles(evt, function() {
-        var loader = that.startLoader( "LoadRepertoire" );
+        var loader = that.startLoader( "LoadRepertoire", that.tuneContainerDiv  );
         loader.start(  function() { that.doLoadMap(FILEMANAGER.files, loader ); }
                 , '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
         evt.target.value = "";
@@ -857,7 +872,7 @@ SITE.Mapa.prototype.showABC = function(action) {
         tab.menu.setSubMenuTitle( tab.ddmId, (tab.title.length>43 ? tab.title.substr(0,40) + "..." : tab.title) );
         if( !this.accordion.loaded.localResource)
             FILEMANAGER.saveLocal( 'property.'+this.accordion.getId()+'.'+type+'.title', tab.title );
-        var loader = this.startLoader( "TABLoader" + type );
+        var loader = this.startLoader( "TABLoader" + type, this.tuneContainerDiv );
         loader.start(  function() { 
             self.renderTAB( tab );
             self.showMedia( tab );
@@ -1070,7 +1085,7 @@ SITE.Mapa.prototype.posicionaMidia = function () {
     }
 };
 
-SITE.Mapa.prototype.startLoader = function(id, start, stop) {
+SITE.Mapa.prototype.startLoader = function(id, container, start, stop) {
 
     var loader = new window.widgets.Loader({
          id: id
@@ -1080,9 +1095,9 @@ SITE.Mapa.prototype.startLoader = function(id, start, stop) {
         ,lineHeight: 70
         ,timeout: 1 // maximum timeout in seconds.
         ,background: "rgba(0,0,0,0.5)"
-        //,container: this.tuneContainerDiv //document.body
-        ,oncomplete: stop // call function once loader has started	
+        ,container: container? container: document.body
         ,onstart: start // call function once loader has started	
+        ,oncomplete: stop // call function once loader has started	
     });
     return loader;
 };
@@ -1101,23 +1116,30 @@ SITE.Mapa.prototype.defineInstrument = function() {
 };
 
 SITE.Mapa.prototype.showSettings = function() {
+
+    var width = 600;
+    var winW = window.innerWidth
+                || document.documentElement.clientWidth
+                || document.body.clientWidth;    
+        
+    var x = winW/2 - width/2;
     
-    if(!this.settingsWindow) {
-    
-        this.settingsWindow = new DRAGGABLE.ui.Window( 
+    if(!this.settings) {
+        this.settings = {};
+        this.settings.window = new DRAGGABLE.ui.Window( 
               null 
             , null
-            , {title: 'Preferências', translate: false, statusbar: false, top: "300px", left: "500px", height:'400px',  width:'600px', zIndex: 50} 
+            , {title: 'Preferências', translate: false, statusbar: false, top: "300px", left: x+"px", height:'400px',  width: width+'px', zIndex: 50} 
             , {listener: this, method: 'settingsCallback'}
         );
 
-        this.settingsWindow.topDiv.style.zIndex = 101;
+        this.settings.window.topDiv.style.zIndex = 101;
 
 //              <tr>\
 //                <th colspan="2">Acordeon:</th><td><div id="settingsAcordeonsMenu" class="topMenu"></div></td>\
 //              </tr>\
 
-        this.settingsWindow.dataDiv.innerHTML= '\
+        this.settings.window.dataDiv.innerHTML= '\
         <div class="menu-group">\
             <table>\
               <tr>\
@@ -1127,7 +1149,7 @@ SITE.Mapa.prototype.showSettings = function() {
                 <th colspan="2"><br>Cores:</th><td></td>\
               </tr>\
               <tr>\
-                <td></td><td>Cor de Realce</td><td><input id="corRealce" type="text" ></td>\
+                <td style="width:15px;"></td><td>Cor de Realce</td><td><input id="corRealce" type="text" ></td>\
               </tr>\
               <tr>\
                 <td></td><td>Fole Fechando</td><td><input id="foleFechando" type="text" ></td>\
@@ -1139,13 +1161,13 @@ SITE.Mapa.prototype.showSettings = function() {
                 <th colspan="2"><br>Propriedades:</th><td></td>\
               </tr>\
               <tr>\
-                <td><input id="chkWarnings" type="checkbox"> </td><td colspan="2">Mostrar avisos e erros de compilação</td>\
+                <td> </td><td colspan="2"><input id="chkPiano" type="checkbox">&nbsp;Usar sons de Piano Acústico</td>\
               </tr>\
               <tr>\
-                <td><input id="chkAutoRefresh" type="checkbox"> </td><td colspan="2">Atualizar partitura automaticamente</td>\
+                <td> </td><td colspan="2"><input id="chkWarnings" type="checkbox">&nbsp;Mostrar avisos e erros de compilação</td>\
               </tr>\
               <tr>\
-                <td><input id="chkPiano" type="checkbox"> </td><td colspan="2">Usar sons de Piano Acústico</td>\
+                <td> </td><td colspan="2"><input id="chkAutoRefresh" type="checkbox">&nbsp;Atualizar partitura automaticamente (experimental)</td>\
               </tr>\
             </table>\
         </div>\
@@ -1155,19 +1177,18 @@ SITE.Mapa.prototype.showSettings = function() {
             <div id="botao3"></div>\n\
         </div>';
         
-        this.settingsWindow.addPushButtons([
+        this.settings.window.addPushButtons([
             'botao1|APPLY|Aplicar',
             'botao2|RESET|Redefinir',
             'botao3|CANCEL|Cancelar'
         ]);
-                
                 
 //        var selector = new ABCXJS.edit.AccordionSelector( 
 //                'sel2', 'settingsAcordeonsMenu', {listener: this, method: 'settingsCallback'} );
 //        
 //        selector.populate(true, 'GAITA_HOHNER_CLUB_IIIM_BR');
         
-        var menu = new DRAGGABLE.ui.DropdownMenu(
+        this.settings.menu = new DRAGGABLE.ui.DropdownMenu(
                'settingsLanguageMenu'
             ,  { listener:this, method:'settingsCallback' }
             ,  [{title: 'Idioma', ddmId: 'menuIdiomas',
@@ -1177,29 +1198,28 @@ SITE.Mapa.prototype.showSettings = function() {
                         '<img src="images/de_DE.png" alt="idiomas" />&#160;Deustch|de_DE' 
                     ]}]
             );
-        menu.setSubMenuTitle('menuIdiomas', menu.selectItem('menuIdiomas', SITE.properties.options.language ) );
-        menu.disableSubMenu('menuIdiomas');
-
-        this.p1 = document.getElementById( 'corRealce');
-        this.p2 = document.getElementById( 'foleFechando');
-        this.p3 = document.getElementById( 'foleAbrindo');
-        this.p4 = document.getElementById( 'chkWarnings');
-        this.p5 = document.getElementById( 'chkAutoRefresh');
-        this.p6 = document.getElementById( 'chkPiano');
-
-        this.p1.style.backgroundColor = this.p1.value = SITE.properties.colors.highLight;
-        this.p2.style.backgroundColor = this.p2.value = SITE.properties.colors.close;
-        this.p3.style.backgroundColor = this.p3.value = SITE.properties.colors.open ;
-        
-        this.p4.checked = SITE.properties.options.showWarnings;
-        this.p5.checked = SITE.properties.options.autoRefresh;
-        this.p6.checked = SITE.properties.options.pianoSound;
-
+    
         this.picker = new DRAGGABLE.ui.ColorPicker(['corRealce', 'foleFechando', 'foleAbrindo']);
+        
+        this.settings.menu.setSubMenuTitle('menuIdiomas', this.settings.menu.selectItem('menuIdiomas', SITE.properties.options.language ) );
+        this.settings.menu.disableSubMenu('menuIdiomas');
 
+        this.settings.corRealce = document.getElementById( 'corRealce');
+        this.settings.closeColor = document.getElementById( 'foleFechando');
+        this.settings.openColor = document.getElementById( 'foleAbrindo');
+        this.settings.showWarnings = document.getElementById( 'chkWarnings');
+        this.settings.autoRefresh = document.getElementById( 'chkAutoRefresh');
+        this.settings.pianoSound = document.getElementById( 'chkPiano');
     }            
     
-    this.settingsWindow.setVisible(true);
+    this.settings.corRealce.style.backgroundColor = this.settings.corRealce.value = SITE.properties.colors.highLight;
+    this.settings.closeColor.style.backgroundColor = this.settings.closeColor.value = SITE.properties.colors.close;
+    this.settings.openColor.style.backgroundColor = this.settings.openColor.value = SITE.properties.colors.open ;
+
+    this.settings.showWarnings.checked = SITE.properties.options.showWarnings;
+    this.settings.autoRefresh.checked = SITE.properties.options.autoRefresh;
+    this.settings.pianoSound.checked = SITE.properties.options.pianoSound;
+    this.settings.window.setVisible(true);
     
 };
 
@@ -1210,54 +1230,38 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
         case 'CLOSE':
         case 'CANCEL':
             this.picker.close();
-            this.settingsWindow.setVisible(false);
+            this.settings.window.setVisible(false);
             break;
         case 'APPLY':
             // SITE.properties.options.language = // recuperar o valor selecionado no menu 
-            SITE.properties.colors.highLight = this.p1.value;
-            SITE.properties.colors.close = this.p2.value;
-            SITE.properties.colors.open = this.p3.value;
-            SITE.properties.options.showWarnings = this.p4.checked;
-            SITE.properties.options.autoRefresh = this.p5.checked;
-            SITE.properties.options.pianoSound = this.p6.checked;
+            SITE.properties.colors.highLight = this.settings.corRealce.value;
+            SITE.properties.colors.close = this.settings.closeColor.value;
+            SITE.properties.colors.open = this.settings.openColor.value;
+            SITE.properties.options.showWarnings = this.settings.showWarnings.checked;
+            SITE.properties.options.autoRefresh = this.settings.autoRefresh.checked;
+            SITE.properties.options.pianoSound = this.settings.pianoSound.checked;
             SITE.SaveProperties();
-            
             this.picker.close();
-            this.settingsWindow.setVisible(false);
+            this.settings.window.setVisible(false);
             this.applySettings();
             break;
         case 'RESET':
             this.alert = new DRAGGABLE.ui.Alert(
-                    this.settingsWindow, action,
+                    this.settings.window, action,
                     '<br>Você deseja redefinir todos os itens?',
                     '<br>Isto fará com que todos os itens retornem para suas configurações iniciais, ' +
                     'isto inclui cores e posicionamento, entre outras coisas.');
             break;
         case 'RESET-YES':
-            //var v = ( this.studio && this.studio.studioDiv.parent.style.display === 'block' );
-            
             this.alert.close();
             this.picker.close();
-            this.settingsWindow.setVisible(false);
-            
-//            if( v ) {
-//                this.studio.setVisible(false);
-//                this.studio.midiPlayer.stopPlay();
-//                this.openMapa( this.studio.getString() );
-//            }
-            
+            this.settings.window.setVisible(false);
             SITE.ResetProperties();
-            
             this.applySettings();
-            
-//            if( v )
-//                this.openEstudio();
-            
             break;
         case 'RESET-NO':
         case 'RESET-CANCEL':
             this.alert.close();
-            this.alert = null;
             break;
     }
 };
@@ -1309,16 +1313,18 @@ SITE.Mapa.prototype.printPreview = function (html, divsToHide, landscape ) {
     
     dv.style.display = 'block';
     dv.innerHTML = html;
-    window.print();
-    dv.style.display = 'none';
+    window.setTimeout(function(){
+        window.print();
+        dv.style.display = 'none';
 
-    divsToHide.forEach( function( div ) {
-        $(div).show();
-    });
+        divsToHide.forEach( function( div ) {
+            $(div).show();
+        });
+    }, 100 );
 };
 
 SITE.Mapa.prototype.resizeActiveWindow = function() {
-    if(this.studio && window.getComputedStyle(this.studio.studioDiv.parent).display !== 'none') {
+    if(this.studio && window.getComputedStyle(this.studio.Div.parent).display !== 'none') {
        this.studio.resize();
     } else if(this.tab2part && window.getComputedStyle(this.tab2part.Div.parent).display !== 'none') {      
        this.tab2part.resize();
@@ -1330,7 +1336,7 @@ SITE.Mapa.prototype.resizeActiveWindow = function() {
 };
 
 SITE.Mapa.prototype.silencia = function() {
-    if(this.studio && window.getComputedStyle(this.studio.studioDiv.parent).display !== 'none') {
+    if(this.studio && window.getComputedStyle(this.studio.Div.parent).display !== 'none') {
         if( this.studio.midiPlayer.playing) {
             this.studio.startPlay('normal'); // pause
         }
@@ -1372,41 +1378,80 @@ SITE.Mapa.prototype.translate = function() {
   
 };
 
-SITE.Mapa.prototype.showHelp = function ( title, url, width, height ) {
+SITE.Mapa.prototype.showHelp = function ( title, url, options ) {
     var that = this;
+    options = options || {};
+    options.width = typeof options.width === 'undefined'? '800' : options.width;
+    options.height = typeof options.height === 'undefined'? undefined : options.height;
+    options.print = typeof options.print === 'undefined'? true : options.print;
+    
+    var winW = window.innerWidth
+                || document.documentElement.clientWidth
+                || document.body.clientWidth;    
+        
+    var x = winW/2 - options.width/2;
     
     if( ! this.helpWindow ) {
         this.helpWindow = new DRAGGABLE.ui.Window(
             null
-          , null
-          , {title: '', translate: false, draggable: true, statusbar: false, top: "200px", left: "300px", width: "auto", height:"auto", zIndex: 70}
+          , ['PRINT|Imprimir']
+          , {title: '', translate: false, draggable: true, statusbar: false, top: "200px", left: x+"px", height:"auto", zIndex: 70}
+          , { listener: this, method:'helpCallback' }
         );
+        this.helpWindow.dataDiv.style.height = "auto";
+        this.helpWindow.dataDiv.className+=" customScrollBar";
     }
 
     this.helpWindow.setTitle(title);
-    this.helpWindow.dataDiv.innerHTML = '<iframe src="'+url+'"></iframe>';
-    var e = document.getElementsByTagName('iframe')[0];
+    this.helpWindow.setButtonVisible('PRINT', options.print );
     
-    e.setAttribute("frameborder", "0" );
-    e.setAttribute("width", width );
-    
+    this.helpWindow.dataDiv.innerHTML = '<object data="'+url+'" type="text/html" ></object>';
+    this.iframe = this.helpWindow.dataDiv.getElementsByTagName("object")[0];
     var loader = this.startLoader( "About" );
+    
+    this.iframe.style.width = options.width+"px";
+    this.iframe.style.height = (options.height?options.height:400)+"px";
+    that.helpWindow.topDiv.style.opacity = "0";
+    that.helpWindow.setVisible(true);
+            
     loader.start(  function() { 
-        if( height ) {
-            e.setAttribute("height", height );
-            loader.stop();
-            that.helpWindow.setVisible(true);
-        } else { // auto determina a altura
-            e.setAttribute("scrolling", "no" );
-            e.addEventListener("load", function () { 
+        if( options.height ) {
+            that.iframe.addEventListener("load", function () { 
+                that.helpWindow.topDiv.style.opacity = "1";
+                that.iframe.style.height = options.height+"px";
                 loader.stop();
-                that.helpWindow.setVisible(true);
-                e.setAttribute("height", this.contentWindow.document.body.offsetHeight );
+                this.contentDocument.body.className+="customScrollBar";
+                var header = this.contentDocument.getElementById('helpHeader');
+                var container = this.contentDocument.getElementById('helpContainer');
+                if( header ) header.style.display = 'none';
+                if( container ) {
+                    container.style.top = '0';
+                    container.style.border = '1px solid rgba(255, 153, 34, 0.2)';
+                }
+            });    
+        } else { // auto determina a altura
+            that.iframe.addEventListener("load", function () { 
+                loader.stop();
+                that.iframe.style.height = this.contentDocument.body.offsetHeight+"px";
+                that.helpWindow.topDiv.style.opacity = "1";
+                that.iframe.style.height = this.contentDocument.body.offsetHeight+"px";
+                var info = this.contentDocument.getElementById('siteVerI');
+                if( info ) info.innerHTML=SITE.siteVersion;
             });
         }
     }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
 };
 
+SITE.Mapa.prototype.helpCallback = function ( action ) {
+    if( action === 'CLOSE' ) {
+        this.helpWindow.setVisible(false);
+    } else if( action === 'PRINT' ) {
+        var container = this.iframe.contentDocument.getElementById('helpContainer');
+        if( container )
+            this.printPreview( container.innerHTML, ["#topBar","#mapaDiv"], false );
+    }
+//    console.log( action );
+};
 
 // Esta rotina foi criada como forma de verificar todos warnings de compilacao do repertório
 SITE.Mapa.prototype.debugRepertorio = function( ) {

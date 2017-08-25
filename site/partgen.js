@@ -411,17 +411,7 @@ SITE.PartGen.prototype.t2pCallback = function( e ) {
             this.closePartGen(true);
             break;
         case 'HELP':
-            if( ! this.helpWindow ) {
-                this.helpWindow = new DRAGGABLE.ui.Window(
-                    null
-                  , null
-                  , {title: '', translate: false, draggable: true, 
-                     statusbar: false, top: "200px", left: "300px", zIndex: 60});
-            }
-            this.helpWindow.setVisible(true);
-            this.helpWindow.setTitle('Ajuda - Gerador de partituras');
-            this.helpWindow.dataDiv.innerHTML = '<embed src="/diatonic-map/html5/geradorPartitura.pt_BR.html" height="600" width="1024"></embed>';
-            break;
+            this.mapa.showHelp('Ajuda - Gerador de partituras', '/diatonic-map/html5/geradorPartitura.pt_BR.html', { width: '1024', height: '600' } );
     }
 };
 
