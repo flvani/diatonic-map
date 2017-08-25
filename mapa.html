@@ -338,27 +338,25 @@ teste.
 
                 myMap = new SITE.Mapa(
                     {   // interfaceParams
-                        ckPiano: 'checkboxPiano'
-                      , ckAccordion: 'checkboxAcordeon'
-                      , ckMirror: 'checkboxEspelho'
-                      , ckHorizontal: 'checkboxHorizontal'
-                      , btChangeNotation: 'buttonChangeNotation'
-                      , accordionNamePlaceHolder: 'a_nome_gaita'
+                        accordionNamePlaceHolder: 'a_nome_gaita'
                       , accordionImagePlaceHolder: 'td_imagem_gaita'
+                      , btShowMedia: 'buttonShowMedia'
+                      , btChangeNotation: 'buttonChangeNotation'
                       , printBtn: 'buttonPrinter'
                       , toolsBtn: 'buttonTools'
                       , mapDiv: 'mapaDiv'
                       , mapMenuDiv: 'mapMenu'
-                      , keyboardDiv: "contentKeyboard"
-                      , tuneContainerDiv: 'tuneContainerDiv'
                       , settingsMenu:'topSettings'
+                      , keyboardDiv: "contentKeyboard"
                       , accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps
                             ,render_keyboard_opts:{transpose:true, mirror:false, scale:1, draggable:false, show:true, label:false}}
                     }
                   , {   // tabParams
-                        songSelectorParms: { tabDiv: 'tabSongsDiv', menuDiv: 'menuSongs' }
+                        tabRadioGroup: 'tabControl'
+                      , tuneContainerDiv: 'tuneContainerDiv'
+                      , songSelectorParms: { tabDiv: 'tabSongsDiv', menuDiv: 'menuSongs' }
                       , chordSelectorParms:  { tabDiv: 'tabChordsDiv', menuDiv: 'menuChords' }
                       , practiceSelectorParms: { tabDiv: 'tabPracticesDiv', menuDiv: 'menuPractices' }
                     }

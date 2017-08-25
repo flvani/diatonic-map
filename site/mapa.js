@@ -40,9 +40,9 @@ SITE.ResetProperties = function() {
 
     SITE.properties.options = {
          language: 'pt_BR'
-        ,showWarnings: false
-        ,autoRefresh: false
+        ,showWarnings: true
         ,pianoSound: true
+        ,autoRefresh: false
     };
 
     SITE.properties.mediaDiv = {
@@ -141,19 +141,6 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.settingsMenu = document.getElementById(interfaceParams.settingsMenu);
     this.mapDiv = document.getElementById(interfaceParams.mapDiv);
 
-    // melhorar este tratamento
-    var radios = document.getElementsByName('tabControl');
-    for( var r=0; r < radios.length; r ++ ) {
-       radios[r].addEventListener('change', function() { 
-           that.showTab(this.id); 
-       });
-    }
-    
-    this.showMediaButton = document.getElementById('buttonShowMedia');
-    this.showMediaButton.addEventListener('click', function () { 
-        that.mediaCallback('OPEN');
-    });
-
     this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options );
     this.abcParser = new ABCXJS.parse.Parse( null, this.accordion );
     this.midiParser = new ABCXJS.midi.Parse();
@@ -196,7 +183,15 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     );
 
     // tab control
-    this.tuneContainerDiv = document.getElementById(interfaceParams.tuneContainerDiv);
+    var radios = document.getElementsByName( tabParams.tabRadioGroup);
+    
+    for( var r=0; r < radios.length; r ++ ) {
+       radios[r].addEventListener('change', function() { 
+           that.showTab(this.id); 
+       });
+    }
+    
+    this.tuneContainerDiv = document.getElementById(tabParams.tuneContainerDiv);
     
     this.renderedTune = {text:undefined, abc:undefined, title:undefined, tab:'songs'
                         ,div: document.getElementById(tabParams.songSelectorParms.tabDiv)
@@ -214,6 +209,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.currentPlayTimeLabel = document.getElementById(playerParams.currentPlayTimeLabel);
     
     // screen control
+    this.showMediaButton = document.getElementById(interfaceParams.btShowMedia);
     this.buttonChangeNotation = document.getElementById(interfaceParams.btChangeNotation);
     this.printButton = document.getElementById(interfaceParams.printBtn);
     this.toolsButton = document.getElementById(interfaceParams.toolsBtn);
@@ -234,6 +230,10 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         that.showSettings();
     }, false );
     
+    this.showMediaButton.addEventListener('click', function () { 
+        that.mediaCallback('OPEN');
+    }, false );
+
     this.buttonChangeNotation.addEventListener("click", function(evt) {
         evt.preventDefault();
         this.blur();
@@ -260,17 +260,6 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         that.accordion.clearKeyboard(true);
         if(that.currentPlayTimeLabel)
             that.currentPlayTimeLabel.innerHTML = "00:00.00";
-
-//        //Por definição, a tela principal do mapa nunca mostra warnings
-//        var warns = that.midiPlayer.getWarnings();
-//        var wd =  document.getElementById("mapaWarningsDiv");
-//        if( warns && wd) {
-//            var txt = "";
-//            warns.forEach(function(msg){ txt += msg + '<br/>'; });
-//            wd.style.color = 'blue';
-//            wd.innerHTML = txt;
-//        }
-
     };
 
     this.playButton.addEventListener("click", function(evt) {
@@ -287,52 +276,36 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.midiPlayer.defineCallbackOnEnd( that.playerCallBackOnEnd );
     this.midiPlayer.defineCallbackOnScroll( that.playerCallBackOnScroll );
 
-    this.accordionSelector.populate(false);
+    DR.addAgent( this ); // register for translate
+    this.defineInstrument();
+    
     this.showAccordionName();
     this.showAccordionImage();
+    this.accordionSelector.populate(false);
+    this.accordion.printKeyboard( this.keyboardDiv );
     this.loadOriginalRepertoire();
-    this.printKeyboard();
-    
-    this.mediaWindow = new DRAGGABLE.ui.Window( 
-          this.mapDiv
-        , null
-        , {title: 'Videoaula', translate: false, statusbar: false
-            , top: SITE.properties.mediaDiv.top
-            , left: SITE.properties.mediaDiv.left
-            , zIndex: 1000} 
-        , {listener: this, method: 'mediaCallback'}
-    );
-    
-    DR.addAgent( this ); // register for translate
-    
-    this.defineInstrument();
     this.resize();
     
 };
 
 SITE.Mapa.prototype.setup = function (tabParams) {
 
-    if( this.accordionIsCurrent(tabParams.accordionId) ) {
+    if( this.accordion.accordionIsCurrent(tabParams.accordionId) ) {
         return;
     }   
     
-    var gaita = this.accordion.loadById(tabParams.accordionId);
+    this.midiPlayer.reset();
+    this.accordion.loadById(tabParams.accordionId);
     
-    if (!gaita) {
-        console.log('Gaita não encontrada!');
-        return;
-    }
-    
-    this.accordionSelector.populate(false);
     this.showAccordionName();
     this.showAccordionImage();
-    this.midiPlayer.reset();
+    this.accordionSelector.populate(false);
+    this.accordion.printKeyboard( this.keyboardDiv );
+    this.loadOriginalRepertoire();
+    this.resize();
     
-    if (!gaita.localResource) { // não salva informação para acordeon local
-        FILEMANAGER.saveLocal('property.accordion', gaita.getId());
-        this.loadOriginalRepertoire(tabParams);
-    } else {
-        this.resize();
+    if (!this.accordion.loaded.localResource) { // não salva informação para acordeon local
+        FILEMANAGER.saveLocal('property.accordion', this.accordion.getId());
     }
 };
 
@@ -351,7 +324,6 @@ SITE.Mapa.prototype.resize = function() {
     
     this.tuneContainerDiv.style.height = Math.max(h,200) +"px";
     
-    // posiciona a janela de midia
     this.posicionaMidia();
 
 };
@@ -411,37 +383,31 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
     }
 };
 
-SITE.Mapa.prototype.setVisible = function ( visible ) {
-    this.mapDiv.style.display = (visible? 'inline':'none');
-};
+SITE.Mapa.prototype.loadOriginalRepertoire = function () {
+    
+    if (this.accordion.loaded.localResource) return;
 
-SITE.Mapa.prototype.printKeyboard = function() {
-    this.accordion.printKeyboard( this.keyboardDiv );
-};
-
-SITE.Mapa.prototype.loadOriginalRepertoire = function (tabParams) {
     var self = this;
     var loader = this.startLoader( "LoadRepertoire", this.tuneContainerDiv );
-    loader.start(  function() { self.doLoadOriginalRepertoire(tabParams,loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
+    loader.start(  function() { self.doLoadOriginalRepertoire(loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
 };
     
-SITE.Mapa.prototype.doLoadOriginalRepertoire = function (tabParams, loader) {
-    tabParams = tabParams || {};
+SITE.Mapa.prototype.doLoadOriginalRepertoire = function (loader) {
     
-    this.renderedChord.title = tabParams.chordTitle
-        || FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.chords.title')
+    this.renderedChord.title = 
+           FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.chords.title')
         || this.accordion.loaded.getFirstChord();
 
     this.loadABCList(this.renderedChord.tab);
 
-    this.renderedPractice.title = tabParams.practiceTitle
-        || FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.practices.title')
+    this.renderedPractice.title = 
+           FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.practices.title')
         || this.accordion.loaded.getFirstPractice();
 
     this.loadABCList(this.renderedPractice.tab);
 
-    this.renderedTune.title = tabParams.songTitle
-        || FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.songs.title')
+    this.renderedTune.title = 
+           FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.songs.title')
         || this.accordion.loaded.getFirstSong();
 
     this.loadABCList(this.renderedTune.tab);
@@ -469,7 +435,7 @@ SITE.Mapa.prototype.openMapa = function (newABCText) {
     this.menu.enableSubMenu('menuRepertorio');
     this.setVisible(true);
     
-    this.printKeyboard();
+    this.accordion.printKeyboard( this.keyboardDiv );
     this.resize();
     
     if( newABCText !== undefined ) {
@@ -481,7 +447,6 @@ SITE.Mapa.prototype.openMapa = function (newABCText) {
             this.renderTAB( tab );
         }
     }
-    
 };
 
 SITE.Mapa.prototype.closeMapa = function () {
@@ -723,10 +688,16 @@ SITE.Mapa.prototype.doLoadMap = function( files, loader ) {
              }
         }
     }
+    
+    if( newAccordionJSON === undefined ) {
+        loader.stop();
+        console.log( 'O arquivo principal .accordion não foi encontrado!' );
+        return;
+    }
             
     newAccordionJSON.image = newImage || 'images/accordion.default.gif';
     
-    if( ! this.accordionExists(newAccordionJSON.id) ) {
+    if( ! this.accordion.accordionExists(newAccordionJSON.id) ) {
         DIATONIC.map.accordionMaps.push( new DIATONIC.map.AccordionMap( newAccordionJSON, true ) );
         DIATONIC.map.accordionMaps.sort( function(a,b) { return a.menuOrder > b.menuOrder; });
     }   
@@ -829,15 +800,6 @@ SITE.Mapa.prototype.doCarregaRepertorioLocal = function(files) {
         
 };
 
-SITE.Mapa.prototype.showAccordionImage = function() {
-  this.gaitaImagePlaceHolder.innerHTML = '<img src="'+this.accordion.loaded.image
-        +'" alt="'+this.accordion.getFullName() + ' ' + DR.getResource('DR_keys') + '" style="height:200px; width:200px;" />';
-};
-
-SITE.Mapa.prototype.showAccordionName = function() {
-  this.gaitaNamePlaceHolder.innerHTML = this.accordion.getFullName() + ' ' + DR.getResource('DR_keys');
-};
-
 SITE.Mapa.prototype.showTab = function(tabString) {
     
     var tab = this.getActiveTab();
@@ -849,14 +811,6 @@ SITE.Mapa.prototype.showTab = function(tabString) {
     tab.selector.style.display = 'block';
     
     this.showMedia(tab);
-};
-
-SITE.Mapa.prototype.accordionExists = function(id) {
-    return this.accordion.accordionExists(id);
-};
-
-SITE.Mapa.prototype.accordionIsCurrent = function(id) {
-    return this.accordion.accordionIsCurrent(id);
 };
 
 SITE.Mapa.prototype.showABC = function(action) {
@@ -974,7 +928,19 @@ SITE.Mapa.prototype.setActiveTab = function(tab) {
 SITE.Mapa.prototype.getActiveTab = function() {
     return this.activeTab;
 };
-        
+
+SITE.Mapa.prototype.setVisible = function ( visible ) {
+    this.mapDiv.style.display = (visible? 'inline':'none');
+};
+
+SITE.Mapa.prototype.showAccordionImage = function() {
+  this.gaitaImagePlaceHolder.innerHTML = '<img src="'+this.accordion.loaded.image
+        +'" alt="'+this.accordion.getFullName() + ' ' + DR.getResource('DR_keys') + '" style="height:200px; width:200px;" />';
+};
+
+SITE.Mapa.prototype.showAccordionName = function() {
+  this.gaitaNamePlaceHolder.innerHTML = this.accordion.getFullName() + ' ' + DR.getResource('DR_keys');
+};
 
 SITE.Mapa.prototype.highlight = function(abcelem) {
     if(!this.midiPlayer.playing) {
@@ -994,7 +960,6 @@ SITE.Mapa.prototype.mediaCallback = function( e ) {
             SITE.properties.mediaDiv.top = m.style.top;
             SITE.properties.mediaDiv.left = m.style.left;
             SITE.SaveProperties();
-            //FILEMANAGER.saveLocal( 'property.mediaDiv.settings',  m.style.top  + '|' +  );
             break;
         case 'OPEN':
             SITE.properties.mediaDiv.visible = true;
@@ -1028,6 +993,18 @@ SITE.Mapa.prototype.showMedia = function(tab) {
     if(tab.abc && tab.abc.metaText.url ) {
         url = tab.abc.metaText.url;
     } 
+    
+    if( ! this.mediaWindow ) {
+        this.mediaWindow = new DRAGGABLE.ui.Window( 
+              this.mapDiv
+            , null
+            , {title: 'Videoaula', translate: false, statusbar: false
+                , top: SITE.properties.mediaDiv.top
+                , left: SITE.properties.mediaDiv.left
+                , zIndex: 1000} 
+            , {listener: this, method: 'mediaCallback'}
+        );
+    }
     
     if(url) {
         if( window.innerWidth > 1500 )  {
