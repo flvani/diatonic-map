@@ -28,6 +28,7 @@ teste.
         
         <!-- suporte a MIDI -->
         <script type="text/javascript" src="jslib/MIDI.js"></script>
+        <script type="text/javascript" src="jslib/waterbug.js"> </script> 
         
         <script type="text/javascript" src="jslib/html5kellycolorpicker.js"></script>
         
@@ -58,6 +59,7 @@ teste.
         <div id="topBar" class="topBar gradiente" >
             <span id="DR_appName" class="topTitle">Mapa para Acordeons Diatônicos</span>
             <a id="topSettings" class="topSettings" title="Ajustes"><i class="ico-cogs" ></i></a>
+            <a class="oldVersion" href="mapa4.22.html" onclick="">Usar a versão anterior</a>
             <div class="dropdown-group">
                 <input id="fileLoadMap" type="file" accept="text/abc" multiple="multiple" style="display: none;"/>
                 <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" multiple="multiple" style="display: none;"/>
@@ -188,7 +190,9 @@ teste.
             SITE.siteVersion = SITE.getVersion('mainSITE'); // Obtem e mostra a versão corrente da lib do site
             SITE.abcxVersion = SITE.getVersion('mainABCX'); // Obtem e mostra a versão corrente da lib ABCX 
             
-             document.getElementById("divABCXversion").innerHTML = '<i>Powered by ABCXJS version '+SITE.abcxVersion+'.</i>';
+            waterbug.log("WATERBUG - console"); 
+
+            document.getElementById("divABCXversion").innerHTML = '<i>Powered by ABCXJS version '+SITE.abcxVersion+'.</i>';
             
             var debug=false; // eliminar esta variável assim que possível
             
@@ -198,7 +202,12 @@ teste.
                 console.log('Funcao ga não definida - para enganar o google');
             }
 
-            window.addEventListener( 'load', initApp );
+            if( document.readyState === "complete" ||
+                   (document.readyState !== "loading" && !document.documentElement.doScroll)) {
+              initApp();
+            } else {
+               document.addEventListener("DOMContentLoaded", initApp );
+            }
 
             window.onblur = function() {
                 if( !myMap ) return;
@@ -319,10 +328,21 @@ teste.
                 );
             }
             
-            function loadMIDI() {
-                
+            function loadMIDI(success) {
+                if(!success) {
+                    MIDI.widget.hide();
+                    new DRAGGABLE.ui.Alert( 
+                        null, null, 
+                        '<br>OPS!!! Tivemos problemas para carregar alguns recursos!',
+                        '<br>Por favor, clique <b><a href="" onclick="location.reload()">aqui</a></b> para recarregar esta página!'+
+                                '<br>Ou use a versão anterior deste site: <b><a href="mapa4.22.html" onclick="">4.22</a></b>' +
+                                '<br>Se o problema persistir, avise-nos pelo e-mail: <b>flavio.vani@gmail.com</b>', {y:83} );
+                    return;
+                }
+                //SITE.properties.options.pianoSound=false;
                 MIDI.loadPlugin({
                      soundfontUrl: "./soundfont/"
+                    //,instruments: "accordion"
                     ,instruments: [ "accordion", "acoustic_grand_piano" ]
                     ,onprogress: function( total, done, currentPercent ) {
                         var percent = ((done*100)+currentPercent)*85/(total*100);

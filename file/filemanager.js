@@ -73,7 +73,7 @@ FILEMANAGER.managedResources = {};
 FILEMANAGER.total = 0;
 FILEMANAGER.loaded = 0;
 FILEMANAGER.timeouts = 0;
-FILEMANAGER.timeoutInterval = 10;
+FILEMANAGER.timeoutInterval = 50;
 FILEMANAGER.maxTimeouts = 400;
 FILEMANAGER.errors = "";
 FILEMANAGER.success = "";
@@ -134,15 +134,11 @@ FILEMANAGER.waitResources = function (cb) {
             window.setTimeout(function(){ FILEMANAGER.waitResources(cb); }, FILEMANAGER.timeoutInterval);
             break;
         case 1:
-            new DRAGGABLE.ui.Alert( 
-                null, null, 
-                '<br>OPS!!! Tivemos problemas para carregar alguns recursos!',
-                '<br>Por favor, pressione <b>F5</b> para recarregar esta página!'+
-                        '<br>Se o problema persistir, avise-nos pelo e-mail: <b>flavio.vani@gmail.com</b>', {y:83} );
+            cb.onLoad && cb.onLoad(false);
             break;
         case 0:    
             cb.onProgress && cb.onProgress({perc:FILEMANAGER.getPercent(), timeouts:FILEMANAGER.timeouts, success: FILEMANAGER.success} );
-            cb.onLoad && cb.onLoad();
+            cb.onLoad && cb.onLoad(true);
     }
 };
 

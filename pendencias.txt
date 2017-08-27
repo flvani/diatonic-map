@@ -1,5 +1,7 @@
 ### TO DO ####################################################################################
 
+-- tratar bug quando o editor está maximizado (na abertura os botoes ficam invertidos)
+
 - Pagina de créditos (about) e licenças e release
     - Buscar a versão do site
 

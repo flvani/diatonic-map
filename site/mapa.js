@@ -9,8 +9,8 @@ if (!window.SITE)
 
 SITE.getVersion = function(tag) {
     var str = document.getElementById(tag).src;
-    var res = str.match(/[0-9]*\.[0-9][0-9]/g);
-    return res ? res[0] : 'debug';
+    var res = str.match(/\_[0-9]*\.[0-9]*/g);
+    return res ? res[0].substr(1) : 'debug';
 };
 
 SITE.LoadProperties = function() {
@@ -31,7 +31,8 @@ SITE.SaveProperties = function() {
 SITE.ResetProperties = function() {
     SITE.properties = {};
     SITE.properties.colors = {
-         highLight: 'red'
+         useTransparency: false
+        ,highLight: 'red'
         ,fill: 'white'
         ,background: 'none'
         ,close: '#ff3a3a'
@@ -41,6 +42,7 @@ SITE.ResetProperties = function() {
     SITE.properties.options = {
          language: 'pt_BR'
         ,showWarnings: true
+        ,showConsole: true
         ,pianoSound: true
         ,autoRefresh: false
     };
@@ -72,7 +74,7 @@ SITE.ResetProperties = function() {
     };
 
     SITE.properties.partGen = {
-        showABCText:false
+          showABCText:false
         , convertFromClub:false
         , convertToClub:false
         , editor : {
@@ -128,6 +130,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.ypos = 0; // esta variável é usada para ajustar o scroll durante a execução do midi
     this.lastStaffGroup = -1; // também auxilia no controle de scroll
     
+    ABCXJS.write.color.useTransparency = SITE.properties.colors.useTransparency;
     ABCXJS.write.color.highLight = SITE.properties.colors.highLight;
     DIATONIC.map.color.fill = SITE.properties.colors.fill;
     DIATONIC.map.color.background = SITE.properties.colors.background;
@@ -161,13 +164,13 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
                 ]}
            ,{title: 'Informações', ddmId: 'menuInformacoes',
                 itens: [
-                    'Tutoriais|TUTORIAL',
                     'Mapas para acordeons|MAPS',
                     'Tablaturas para acordeons|TABS',
                     'Tablaturas para gaita transportada <img src="images/novo.png">|TABSTRANSPORTADA',
                     'Símbolos de Repetição|JUMPS',
                     'Estúdio ABCX|ESTUDIO',
                     'Formato ABCX|ABCX',
+                    'Tutoriais|TUTORIAL',
                     'Sobre|ABOUT'
                 ]}
         ]);
@@ -699,7 +702,7 @@ SITE.Mapa.prototype.doLoadMap = function( files, loader ) {
     
     if( ! this.accordion.accordionExists(newAccordionJSON.id) ) {
         DIATONIC.map.accordionMaps.push( new DIATONIC.map.AccordionMap( newAccordionJSON, true ) );
-        DIATONIC.map.accordionMaps.sort( function(a,b) { return a.menuOrder > b.menuOrder; });
+        DIATONIC.map.sortAccordions();
     }   
     
     this.setup({accordionId:newAccordionJSON.id});
@@ -1094,6 +1097,8 @@ SITE.Mapa.prototype.defineInstrument = function() {
 
 SITE.Mapa.prototype.showSettings = function() {
 
+    //window.waterbug && window.waterbug.show();
+
     var width = 600;
     var winW = window.innerWidth
                 || document.documentElement.clientWidth
@@ -1126,7 +1131,7 @@ SITE.Mapa.prototype.showSettings = function() {
                 <th colspan="2"><br>Cores:</th><td></td>\
               </tr>\
               <tr>\
-                <td style="width:15px;"></td><td>Cor de Realce</td><td><input id="corRealce" type="text" ></td>\
+                <td style="width:15px;"></td><td>Cor de Realce</td><td><input id="corRealce" type="text" ><input id="chkTransparency" type="checkbox">&nbsp;Com transparência</td>\
               </tr>\
               <tr>\
                 <td></td><td>Fole Fechando</td><td><input id="foleFechando" type="text" ></td>\
@@ -1181,6 +1186,8 @@ SITE.Mapa.prototype.showSettings = function() {
         this.settings.menu.setSubMenuTitle('menuIdiomas', this.settings.menu.selectItem('menuIdiomas', SITE.properties.options.language ) );
         this.settings.menu.disableSubMenu('menuIdiomas');
 
+
+        this.settings.useTransparency =  document.getElementById( 'chkTransparency');
         this.settings.corRealce = document.getElementById( 'corRealce');
         this.settings.closeColor = document.getElementById( 'foleFechando');
         this.settings.openColor = document.getElementById( 'foleAbrindo');
@@ -1196,6 +1203,8 @@ SITE.Mapa.prototype.showSettings = function() {
     this.settings.showWarnings.checked = SITE.properties.options.showWarnings;
     this.settings.autoRefresh.checked = SITE.properties.options.autoRefresh;
     this.settings.pianoSound.checked = SITE.properties.options.pianoSound;
+    this.settings.useTransparency.checked = SITE.properties.colors.useTransparency;
+    
     this.settings.window.setVisible(true);
     
 };
@@ -1217,6 +1226,8 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             SITE.properties.options.showWarnings = this.settings.showWarnings.checked;
             SITE.properties.options.autoRefresh = this.settings.autoRefresh.checked;
             SITE.properties.options.pianoSound = this.settings.pianoSound.checked;
+            SITE.properties.colors.useTransparency = this.settings.useTransparency.checked;
+
             SITE.SaveProperties();
             this.picker.close();
             this.settings.window.setVisible(false);
@@ -1263,6 +1274,7 @@ SITE.Mapa.prototype.applySettings = function() {
     
     this.resizeActiveWindow();
     
+    ABCXJS.write.color.useTransparency = SITE.properties.colors.useTransparency;
     ABCXJS.write.color.highLight = SITE.properties.colors.highLight;
     DIATONIC.map.color.close = SITE.properties.colors.close;
     DIATONIC.map.color.open = SITE.properties.colors.open;
@@ -1408,12 +1420,12 @@ SITE.Mapa.prototype.showHelp = function ( title, url, options ) {
             });    
         } else { // auto determina a altura
             that.iframe.addEventListener("load", function () { 
-                loader.stop();
-                that.iframe.style.height = this.contentDocument.body.offsetHeight+"px";
-                that.helpWindow.topDiv.style.opacity = "1";
-                that.iframe.style.height = this.contentDocument.body.offsetHeight+"px";
+                this.contentDocument.body.style.overflow ="hidden";
                 var info = this.contentDocument.getElementById('siteVerI');
                 if( info ) info.innerHTML=SITE.siteVersion;
+                that.iframe.style.height = this.contentDocument.body.clientHeight+"px";
+                that.helpWindow.topDiv.style.opacity = "1";
+                loader.stop();
             });
         }
     }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );

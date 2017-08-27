@@ -423,6 +423,7 @@ SITE.Estudio.prototype.showEditor = function(show) {
     
     if(SITE.properties.studio.editor.visible) {
         this.editorWindow.setVisible(true);
+        this.editorWindow.resize();
         document.getElementById('I_showEditor').setAttribute('class', 'ico-folder-open' );
     } else {
         document.getElementById('I_showEditor').setAttribute('class', 'ico-folder' );
