@@ -1,0 +1,30 @@
+X:1036
+%%papersize A4
+%%barnumbers 0
+T:Country Girl
+T:Für Zara
+R:Blues
+Z:Flávio Vani
+F:https://www.youtube-nocookie.com/embed/p3xMoscy9H4
+N:Mapa para Acordeons Diatônicos powered by ABCXJS.
+C:Hans Lüdemann
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>adapt. Cezar Ferreira</a>)
+M:4/4
+L:1/8
+Q:160
+K:G
+V:1 treble
+| z2 [DFA][DFA] z2 [DFA]2 | C2 [CE][CE] z2 E2 | B,2 [B,D][B,D] z2 [B,D]2 | z2 [DFA][DFA]5 CE | 
+|: E3 D3 B,D | E2 D2 B,2 A,G,- | G,8- | G,3 z3 EG | 
+| A3 G3 EG | A2 G2 E2 B,D- | D8- | D3 z3 D2 | 
+| =F3 D3 z2 | G2 E2 C2 G,B,- | B,6 G,D,- | D,6 CE :| 
+V:2 bass
+| G,,2 z2 A,,2 D,,2 | C,,2 G,,2 G,,2 C,,2 | G,,2 z2 A,,2 G,,2 | D,,2 D,, D,,3 z4 | 
+|: G,,3 [G,,B,,D,]3 [G,,B,,D,]2 | G,,3 [G,,B,,D,]3 [D,F,A,] z | G,,3 [G,,B,,D,]3 [G,,B,,D,]2 | G,,3 [G,,B,,D,]3 [G,,B,,D,]2 | 
+| A,,3 [C,E,G,]3 [C,E,G,]2 | A,,2 z [C,E,G,]3 [C,E,G,]2 | G,,3 [G,,B,,D,]3 [G,,B,,D,]2 | G,,3 [G,,B,,D,]3 [G,,B,,D,]2 | 
+| D,,3 [D,F,A,]3 [D,F,A,]2 | C,,3 [C,E,G,]3 [C,E,G,]2 | G,,3 [G,,B,,D,]3 [D,F,A,]2 | D,,3 [D,F,A,]3 z2 :| 
+V:3 accordionTab
+| G+z2 z-[3'67] z-[3'67] A-z2 D-[3'67]2 | C+3'2 G+[3'4'] >+[3'4'] G+z2 C+4'2 | G-2'2 z-[2'3'] z-[2'3'] A-z2 G-[2'3']2 | D-z2 D-[3'67] D-[3'67]3 z-[>>>]2 z-4 z-5 | 
+|: G+4'3 g+53 g+4 >+5 | G+4'2 >+5 g+> >+42 d-3 z+3 | G+>3 g+>3 g+>2 | G+33 g+z3 g+4' >+5' | 
+| A-73 c+5'3 c+4' >+5' | A-72 z+5' c+> >+4'2 c+4 >+5 | G+>3 g+>3 g+>2 | G+53 g+z3 g+52 | 
+| D-4'3 d-3'3 d-z2 | C+5'2 >+4' c+> >+3'2 c+3 >+4 | G+>3 g+>3 d-1' >-1 | D->3 d->3 z-4 z-5 :| 
