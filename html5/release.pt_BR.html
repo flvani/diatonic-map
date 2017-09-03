@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html><head>
+<!--
+        To change this license header, choose License Headers in Project Properties.
+        To change this template file, choose Tools | Templates
+        and open the template in the editor.
+    --><title>Notas de Lançamento</title>
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <meta name="robots" content="index,follow">
+        <meta name="revisit-after" content="7 days">
+
+        <meta name="keywords" content="diatonic accordion, notation, learning, practice, repertoire, abc tunes, midi, tablature
+acordeon diatônico, gaita de oito baixos, gaita ponto, notação musical, aprendizagem, prática, repertorio, 
+notação abc, tablatura ">
+        
+        <link href="../css/help.css" rel="stylesheet">
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-62839199-3', 'auto');
+            ga('send', 'pageview');
+            
+        </script>        
+        <script type="text/javascript" src="../javascripts/help.js"></script><meta http-equiv="content-type" content="text/html; charset=utf-8"></head><body>
+        <div id="helpHeader" class="helpHeader" style="display: none;"> 
+            <span class="helpTit">Notas de Lançamento</span> 
+            <button id="printHelp" class="btn" title="Imprimir" onclick="printHelp('Release');">Imprimir</button> 
+            <button id="gotoSite" class="btn" title="Ir ao Site" onclick="gotoSite('Release');">Ir ao site</button> 
+            <button id="closeHelp" class="btn" title="Fechar" onclick="window.close();">Fechar</button>
+        </div>
+        <div id="helpContainer" class="helpContent" style="top:0; border-color:orange;" >
+            <h1>Notas de Lançamento<br>
+            </h1>
+            
+<h2>Versão 5.00<br>
+            </h2>
+
+<p>Setembro/2017: Nova apresentação (interface gráfica)<br>
+            </p>
+
+<ul>
+<li>A interface gráfica foi remodelada e ficou mais moderna.</li>
+  <li>Tudo em uma janela só: telas de ajuda, do gerador de partitura e de tablatura são abertas na própria página do site<br>
+  </li>
+<li>Editor de texto melhorado: editor de texto com várias funcionalidades para facilitar a edição dos arquivos ABCX.</li>
+  <li>Personalização: alguns itens do site agora podem ser personalizados.</li>
+  <li>Sons de piano: Agora é possível definir o instrumento MIDI para
+reproduzir as partituras. É possível escolher entre o som de piano e o
+som de gaita.</li>
+  <li>Novo acordeon cadastrado: Hohner Corona II - A afinação deste
+instrumento é diferente daquela que é comumente usada no Brasil. É mais
+usado na América Latina (centro-norte) e Caribe, onde é chamado, por vezes, de "Tex-Mex Accordion". A incluí para demonstrar que é possível gerar tablaturas para este modelo também.</li>
+</ul>
+<h2>Versão 4.20<br>
+            </h2>
+<p>Abril/2017: Vários ajustes<br>
+            </p>
+<ul>
+    
+    <li>Melhorias na inferência de tablatura: criada diretiva <i><b>%%tabinferenceopts</b></i>:
+Esta diretiva controla a inferência da tablatura. Um número negativo
+indica que a tablatura deve ser iniciada com fole abrindo (positivo,
+fechando) e valor numérico indica o número de compassos antes de
+inverter o movimento do fole, se possível.</li>
+    
+    <li>Melhorias
+na inferência de tablatura: acrescentado alerta de baixo não
+encontrado: o baixo que não existe na gaita continua sendo listado na
+tablatura, mas uma mensagem de alerta é gerada.</li>
+    
+    <li>Melhorias
+compilação tablatura: Ausência de mensagens no parse da tablatura.
+Antes as mensagens eram geradas apenas para novas tablaturas
+(inferidas), para aquelas que eram salvas não havia alertas. Agora, de
+forma similar à inferência, sempre que houver algum erro, serão
+listadas as incoformidades.</li>
+    
+    <li>Melhorias
+símbolos de repetição: Sinais no mesmo compasso. As marcações de
+repetição ficaram mais flexíveis, permitindo expressar melhor as
+necesidades de retorno e repetição.</li>
+    <li>Melhorias símbolos de repetição: Posicionamento de simbolos como "D.C." ou "D.S." foram melhorados no <i>layout da partitura</i></li>
+<i>    
+    </i><li><i>Melhorias no Midi Player: Corrigido problema em
+ligaduras encadeadas que não mantinha a nota em execução para duas ou
+mais ligaduras encadeadas.</i></li>
+<i>    </i><li><i>Melhorias no Midi Player: Corrigido problema que ligava notas diferentes, sem considerar os acidentes.</i></li>
+<i>    </i><li><i>Melhorias no Midi Player: Corrigido problema na
+númeração de compassos quando havia vozes sobrepostas e a primeira voz
+era composta majoritariamente de pausas</i></li>
+<i>    </i><li><i>Melhorias no Midi Player: Corrigido outros problemas
+na seleção de botões ao clicar na tablatura. Quando as notas eram
+continuadas de intervalos anteriores, nem sempre o botão da gaita era
+destacado.</i></li>
+<i>    </i><li><i>Melhorias no Midi Player: Corrigido problema na seleção dos botões: erro ao selecionar botão para nota inexistente.</i></li>
+<i>    </i><li><i>Melhorias no Midi Player: Melhora no efeito visual quando o mesmo botão é pressionado mais de uma vez</i></li>
+<i>    
+</i></ul><i>    
+            
+</i><h2><i>Versão 4.15<br>
+            </i></h2>
+<p><i>Dezembro/2016: Temporizador de início de execução<br>
+            </i></p>
+<ul>
+<li><i>Estúdio: A função <span style="font-weight: bold;">Timer</span> habilita um temporizador antes do início da execução
+do MIDI. Isso possibilita que o estudante inicie a execução da
+partitura (ou parte dela) e tenha um pequeno intervalo de tempo (3
+segundos) para se preparar e, assim, acompanhar a música no seu próprio instrumento.</i></li>
+<li><i>Osbotões de controle do Midi Player foram reorganizados para aumentar sua
+funcionalidade. As funções Clave de Sol e Clave de Fá agora ficam
+disponíveis tanto no modo normal quanto no modo didático.<br>
+</i></li>
+</ul>
+<h2><i>Versão 4.14<br>
+            </i></h2>
+<i>            </i><p><i>Outubro/2016: Suporte aos Símbolos de Repetição<br>
+            </i></p>
+<i>            </i><ul>
+<i>                </i><li><i>Os símbolos de repetição: <b><i>segno, coda, fine, D.C., D.S. al fine</i></b>,
+etc. são agora suportados. Além de serem graficamente representados na
+partitura, o MIDI player é capaz de executar a peça na ordem correta.
+Leia mais em: <a id="DR_repeatsyms" target="_blank" href="../html/sinaisRepeticao.pt_BR.html">Símbolos de Repetição</a></i></li>
+<i>                </i><li><i>Midi Player: Suporte para notas com tempo até 1/32.</i></li>
+<i>                </i><li><i>Editor: Transpor partituras sem alterar a oitava dos baixos (em desenvolvimento).</i></li>
+<i>                </i><li><i>Continuando
+o esforço para que o site functione em mais dispositivos e navegadores
+sejam aceitos, outras mudanças foram promovidas no sentido de torná-lo
+compativel. Agora deve ser possível executar o site nos dispositivos da
+APPLE: iPad e iPad 2. Caso note alguma incompatibilidade, por favor,
+avise pelo e-mail:&nbsp; <a href="mailto:flavio.vani@gmail.com">flavio.vani@gmail.com</a>.<br>
+                </i></li>
+<i>            </i></ul>
+<i>            
+            </i><h2><i>Versão 4.00<br>
+            </i></h2>
+<i>            </i><p><i>Maio/2016: Maior desempenho para o desenho da partitura<br>
+            </i></p>
+<i>            </i><ul>
+<i>                </i><li><i>Nesta versão do site, substituímos o mecanismo usado para desenhar
+                    as partituras. Passamos a utilizar um gerador mais leve de SVG (<span style="color: rgb(34, 34, 34); font-family: arial,sans-serif; font-size: 16px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: 19.2px; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: 1; word-spacing: 0px; display: inline ! important; float: none; background-color: rgb(255, 255, 255);">Scalable Vector Graphics</span>), o que garantiu a melhora no desempenho da ordem de 20 a 30 vezes durante a apresentação da partitura.</i></li>
+<i>                </i><li><i>Algumas outras mudanças foram promovidas no sentido de tornar o
+                    site mais compativel com um número maior de Navegadores, entre
+                    eles:&nbsp; IE 11 (Edge), Firefox e Chromium. Caso note alguma
+                    incompatibilidade, por favor, avise pelo e-mail:&nbsp; <a href="mailto:flavio.vani@gmail.com">flavio.vani@gmail.com</a>.<br>
+                </i></li>
+<i>            </i></ul>
+<i>            </i><h2><i>Versão 3.15<br>
+            </i></h2>
+<i>            </i><p><i>Abril/2016: Novo gerador de MIDI, Impressão melhorada e repertório aumentado.<br>
+            </i></p>
+<i>            </i><ul>
+<i>                </i><li><i>Novo algoritmo para geração do MIDI, controlando melhor a sequência de execução dos compassos.</i></li>
+<i>                </i><li><i>O marcador <i>segno</i> agora é considerado no MIDI Player.</i></li><li><i>Impressão de números de página (diretiva %%pagenumbering)<br>
+</i></li>
+<i>  </i><li><i>Controle do espaço entre os grupos de pauta (diretiva %%staffsep)</i></li>
+<i>  </i><li><i>Controle do formato de página: retrato ou paisagem (diretiva %%landscape)</i></li>
+<i>  </i><li><i>Controle de quantidade de compassos por linha (diretiva %%barsperstaff)<br>
+  </i></li>
+
+<i>  </i><li><i>Padronização da margem de impressão&nbsp;<br>
+ </i></li>
+
+<i>  
+  </i><li><i>Melhoria no posicionamento da janela de Mídia.<br>
+  </i></li>
+<li><i>Repertório ampliado: Juazeiro (Luiz Gonzaga), Meu Cabelo
+(tradicional), Paraíba Masculina (Luiz Gonzaga), Pezinho (tradicional),
+Starway to Heaven (Led Zeppelin), entre outras.</i></li>
+
+<i>            </i></ul>
+<i>            </i><h2><i>Versão 3.12<br>
+            </i></h2>
+<i>            </i><p><i>Março/2016: Introduzindo o extrator de tablaturas<br>
+            </i></p>
+<i>            </i><ul>
+<i>                </i><li><i>Extrator
+de tablaturas. A partir de um arquivo de partitura ABCX, esta
+ferramenta extrai a tablatura. Com isso é possível obter a tablatura já
+bem definida para um modelo de acordeon e gerar uma partitura para
+outro modelo de acordeon. Por exemplo, de uma partitura para um
+acordeon G/C, extrai-se a tablatura e, usa-se o gerador de partituras,
+convertendo a tablatura para uma partitura de um acordeon C/F Club.</i></li>
+<i>            </i></ul>
+<i>            </i><h2><i>Versão 3.10<br>
+            </i></h2>
+<i>            </i><p><i>Junho/2015: Introduzindo gerador de partituras<br>
+            </i></p>
+<i>            </i><ul>
+<i>                </i><li><i>Gerador de partituras derivadas de tablaturas. A partir de uma
+                    tablatura associada ao mapa de teclado do acordeon e com a sintaxe
+                    levemente modificada, é possível produzir uma partitura. Esta é a
+                    primeira versão e ainda não está totalmente funcional.</i></li>
+<i>                </i><li><i>Execução parcial de vozes da partitura. Agora, no modo didático,
+                    é possível selecionar quais vozes serão executadas no MIDI player. É
+                    possível executar uma partitura sem os seus baixos ou sem sua melodia,
+                    facilitando a aprendizagem. As vozes podem ser mudadas em tempo real,
+                    durante a execução do MIDI. Use os botões com as claves de Fá e Sol
+                    para controlar.<br>
+                </i></li>
+<i>                </i><li><i>Tablaturas transpostas. Em alguns casos a partitura foi escrita
+                    considerando a nota mais aguda de cada botão (ou seja, uma oitava
+                    acima). Se a tablatura for diretamente gerada da partitura, serão
+                    usados os botões mais altos do acordeon. Agora é possível fazer com que
+                    a tablatura seja gerada em uma oitava diferente da partitura, para cima
+                    ou para baixo. O efeito é obtido incluindo na linha onde é definida a
+                    tablatura, uma chave '<span style="font-weight: bold;">transpose</span>'.
+                    Os valores permitidos são + ou - 8., por exemplo: <span style="font-weight: bold;">"V:tab accordionTab transpose=-8</span>".<br>
+                </i></li>
+<i>                </i><li><i>Inclusão de um acordeon afinado na "<span style="font-weight: bold;">escala cromática nordestina</span>", também
+                    conhecida como "<span style="font-weight: bold;">afinação transportada"</span>.
+                    Na capa, foi usada uma foto de um modelo da marca Leticce.<br>
+                </i></li>
+<i>                </i><li><i>Substituição do acordeon Hohner Beija-Flor (G/C) pelo modelo
+                    equivalente, da marca Minuano. O repertório permaneceu inalterado.<br>
+                </i></li>
+<i>                </i><li><i>Suporte à execução de tercinas. <br>
+                </i></li>
+<i>                </i><li><i>Inclusão de alguns novos itens no repertório e associação com
+                    algumas vídeo-aulas.<br>
+                </i></li>
+<i>            </i></ul>
+<i>            </i><h2><i>Versão 3.0<br>
+            </i></h2>
+<i>            </i><p><i>Maio/2015: Melhorias na apresentação do site.</i></p>
+<i>            </i><ul>
+<i>                </i><li><i>Simplificação da página inicial, mantendo apenas o
+                    MIDI player, além da impressão das partituras e do acesso à tela de
+                    Ferramentas (agora
+                    chamada de "<span style="font-weight: bold;">Estúdio ABCX</span>").</i></li>
+<i>                </i><li><i>Reformulação da página de "<span style="font-weight: bold;">Ferramentas</span>",
+                    transformando-a em um pequeno "estúdio" para aprendizagem.</i></li>
+<i>                </i><li><i>Modo didático movido para a página do estúdio.</i></li>
+<i>                </i><li><i>Melhorias no modo didático, permitindo executar/repetir
+                    intervalos da partitura.</i></li>
+<i>                </i><li><i>Mapa de teclado visível também na página do estúdio.<br>
+                </i></li>
+<i>                </i><li><i>Aprimoramento do efeito visual de seleção dos botões no mapa do
+                    teclado durante a execução das partituras, permitindo uma melhor
+                    experiência de aprendizado sobre o momento exato&nbsp; em que o botão
+                    do acordeon deve ser pressionado ou liberado.<br>
+                </i></li>
+<i>                </i><li><i>Adição de um editor de textos ABCX na página estúdio (somente
+                    para o navegador Google Chrome)<br>
+                </i></li>
+<i>                </i><li><i>Janelas móveis para o editor textos e para mapa de teclado,
+                    visando facilitar a edição e execução em modo didático.</i></li>
+<i>                </i><li><i>Possibilidade
+                    de associação de mídias externas os itens do repertório. Por exemplo,
+                    um vídeo do YouTube pode ser associado a uma partitura.<br>
+                </i></li>
+<i>            </i></ul>
+<i>            </i><h2><i>Versão 2.01<br>
+            </i></h2>
+<i>            </i><p><i>Fevereiro/2015: Mudança na apresentação do site e correções nos
+                exercícios e acordes de exemplo.</i></p>
+<i>            </i><h2><i>Versão 2.00<br>
+            </i></h2>
+<i>            </i><p><i>Fevereiro/2015: O site apresenta algumas melhorias com relação ao
+                formato ABC, mas todas as características da primeira versão foram
+                mantidas. Entre as melhorias podemos destacar:<br>
+            </i></p>
+<i>            </i><ul>
+<i>                </i><li><i>Suporte a
+                    múltiplas vozes sobrepostas (inclusive para os baixos). </i></li>
+<i>                </i><li><i>Suporte
+                    a execução de notas longas (&gt; 2 segundos). </i></li>
+<i>                </i><li><i>Melhor apresentação da tablatura, permitindo representar mais
+                    vozes simultâneas sem comprometer a visualização.</i></li>
+<i>                </i><li><i>Melhor tratamento aos ritornellos e finalizações.</i></li>
+<i>                </i><li><i>Gerador de MIDI integrado à biblioteca ABCX.</i></li>
+<i>                </i><li><i>Relógio mostrando o tempo de execução do MIDI.<br>
+                </i></li>
+<i>            </i></ul>
+<i>            </i><h2><i>Versão 1.22<br>
+            </i></h2>
+<i>            </i><p><i>Julho/2014: Primeira versão do aplicativo. <br>
+            </i></p>
+<i>        </i></div>
+
+<i>    </i></body></html>

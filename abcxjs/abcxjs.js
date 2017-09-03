@@ -459,6 +459,9 @@ window.ABCXJS.data.Tune = function() {
                     vozes[r].el = 0; // sempre recomeçar a varredura dos elementos em cada nova linha
                 }
 
+                // talvez por conta da auto atualização isso acconteca - verificar problemas mais adiante
+                if(!this.lines[i].staffs[v0.sf] || !this.lines[i].staffs[vn.sf] ) continue;
+                
                 this.lines[i].staffs[v0.sf].voices[v0.vc].firstVoice = true;
                 this.lines[i].staffs[vn.sf].voices[vn.vc].lastVoice = true;
                 
@@ -1116,8 +1119,6 @@ window.ABCXJS.data.Tune = function() {
 //    You should have received a copy of the GNU General Public License
 //    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-
 if (!window.ABCXJS)
 	window.ABCXJS = {};
 
@@ -1131,91 +1132,52 @@ window.ABCXJS.math.isNumber = function (n) {
 if (!window.ABCXJS.parse)
 	window.ABCXJS.misc = {};
     
-window.ABCXJS.misc.isOpera = function() {
-    return ( !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0 );
+window.ABCXJS.misc.isOpera = function() { // Opera 8.0+
+    return ( (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0 );
 };
 
 window.ABCXJS.misc.isChrome= function() {
-    var test1 =  (( !!window.chrome && !ABCXJS.misc.isOpera() ) > 0 ); // Chrome 1+
-   
-    if(!test1) return false;
-    
-    for (var i=0; i<navigator.plugins.length; i++)
-        if (navigator.plugins[i].name == 'Chrome PDF Viewer') return true;
-    
-    return false;
+    return (!!window.chrome && !!window.chrome.webstore);
 };
 
-window.ABCXJS.misc.isChromium= function() {
-    var test1 =  (( !!window.chrome && !ABCXJS.misc.isOpera() ) > 0 ); // Chrome 1+
+window.ABCXJS.misc.isChromium= function() { // Chrome 1+
+    var test1 =  (( !!window.chrome && !ABCXJS.misc.isOpera() ) > 0 ); 
    
     if(!test1) return false;
     
     for (var i=0; i<navigator.plugins.length; i++)
-        if (navigator.plugins[i].name == 'Chrome PDF Viewer') return false;
+        if (navigator.plugins[i].name === 'Chrome PDF Viewer') return false;
     
     return true;
 };
 
-window.ABCXJS.misc.isFirefox = function() {
-    return ( typeof InstallTrigger !== 'undefined' );  // Firefox 1+ 
+window.ABCXJS.misc.isFirefox = function() { // Firefox 1+ 
+    return ( typeof InstallTrigger !== 'undefined' );  
 };
 
-window.ABCXJS.misc.isSafari = function() {
-    return ( Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0 ); 
+window.ABCXJS.misc.isSafari = function() { // Safari 3.0+
+    return ( /constructor/i.test(window.HTMLElement) || (function (p) { 
+        return p.toString() === "[object SafariRemoteNotification]"; } )
+            (!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification)) 
+    ); 
 };
 
 window.ABCXJS.misc.isIE = function() {
-  // Test values; Uncomment to check result …
-
-  // IE 10
-  // ua = 'Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)';
-  
-  // IE 11
-  // ua = 'Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko';
-  
-  // IE 12 / Spartan
-  // ua = 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.71 Safari/537.36 Edge/12.0';
-  
-  // Edge (IE 12+)
-  // ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586';
-  
-  
-    if( /*@cc_on!@*/false || !!document.documentMode  ) { // At least IE6    
+    
+    if( /*@cc_on!@*/false || !!document.documentMode  ) { // Internet Explorer 6-11
       return true;
-  }
+    }
 
-  if( navigator.appName.indexOf("Internet Explorer")!==-1 ){     //yeah, he's using IE
-     return true;
-  }
-  
-  var ua = window.navigator.userAgent;
-  
-  var msie = ua.indexOf('MSIE ');
-  if (msie > 0) {
-    // IE 10 or older => return version number
-    //return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);
-    return true;
-  }
+    if( navigator.appName.indexOf("Internet Explorer")!==-1 ){ // Yeah, he's using IE
+       return true;
+    }
+    return false;
+};    
 
-  var trident = ua.indexOf('Trident/');
-  if (trident > 0) {
-    // IE 11 => return version number
-    var rv = ua.indexOf('rv:');
-    //return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
-    return true;
-  }
-
-  var edge = ua.indexOf('Edge/');
-  if (edge > 0) {
-    // Edge (IE 12+) => return version number
-    //return parseInt(ua.substring(edge + 5, ua.indexOf('.', edge)), 10);
-    return true;
-}
-
-  // other browser
-  return false;
+window.ABCXJS.misc.isEdge = function() {
+    return (!ABCXJS.misc.isIE() && !!window.StyleMedia); // Edge 20+
 };
+
 
 if (!window.ABCXJS)
 	window.ABCXJS = {};
@@ -1314,13 +1276,23 @@ window.ABCXJS.parse.pitches =
     { C: 0, D: 1, E: 2, F: 3, G: 4, A: 5, B: 6, 
         c: 7, d: 8, e: 9, f: 10, g: 11, a: 12, b: 13 };
 
-window.ABCXJS.parse.number2keyflat  = ["C", "D♭", "D", "E♭", "E", "F", "G♭", "G", "A♭", "A", "B♭", "B"];
-window.ABCXJS.parse.number2keysharp = ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"];
-window.ABCXJS.parse.number2key_br   = ["Dó", "Ré♭", "Ré", "Mi♭", "Mi", "Fá", "Fá♯", "Sol", "Lá♭", "Lá", "Si♭", "Si"];
+window.ABCXJS.parse.key2br = 
+    {"C":"Dó", "C♯":"Dó♯", "D♭":"Ré♭", "D":"Ré", "D♯":"Ré♯", "E♭":"Mi♭", "E":"Mi", 
+     "F":"Fá" ,"F♯":"Fá♯" ,"G♭":"Sol♭", "G":"Sol", "G♯":"Sol♯" ,"A♭":"Lá♭", "A":"Lá", "A♯":"Lá♯", "B♭":"Si♭", "B":"Si" };
 
 window.ABCXJS.parse.key2number = 
     {"C":0, "C♯":1, "D♭":1, "D":2, "D♯":3, "E♭":3, "E":4, 
      "F":5 ,"F♯":6 ,"G♭":6, "G":7, "G♯":8 ,"A♭":8, "A":9, "A♯":10, "B♭":10, "B":11 };
+
+window.ABCXJS.parse.number2keyflat  = ["C", "D♭", "D", "E♭", "E", "F", "G♭", "G", "A♭", "A", "B♭", "B"];
+window.ABCXJS.parse.number2keysharp = ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"];
+window.ABCXJS.parse.number2key      = ["C", "C♯", "D", "E♭", "E", "F", "F♯", "G", "G♯", "A", "B♭", "B"];
+
+/*
+window.ABCXJS.parse.number2keyflat_br  = ["Dó", "Ré♭", "Ré", "Mi♭", "Mi", "Fá", "Sol♭", "Sol", "Lá♭",  "Lá", "Si♭", "Si"];
+window.ABCXJS.parse.number2keysharp_br = ["Dó", "Dó♯", "Ré", "Ré♯", "Mi", "Fá", "Fá♯",  "Sol", "Sol♯", "Lá", "Lá♯", "Si"];
+window.ABCXJS.parse.number2key_br      = ["Dó", "Dó♯", "Ré", "Mi♭", "Mi", "Fá", "Fá♯",  "Sol", "Sol♯", "Lá", "Si♭", "Si"];
+*/
 
 window.ABCXJS.parse.number2staff   = 
     [    
@@ -1369,6 +1341,11 @@ window.ABCXJS.parse.stringify = function(objeto) {
         return value;
     });
     return ret;
+};
+
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.split(search).join(replacement);
 };
 //    abc_parse.js: parses a string representing ABC Music Notation into a usable internal structure.
 //    Copyright (C) 2010 Paul Rosen (paul at paulrosen dot net)
@@ -1457,9 +1434,9 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
     if (accordion_)
         this.accordion = accordion_;
 
-    var tune = new window.ABCXJS.data.Tune();
-    var tokenizer = new window.ABCXJS.parse.tokenizer();
-
+    var tune;
+    var tokenizer;
+    var header;
     var strTune = '';
 
     this.getTune = function() {
@@ -1584,10 +1561,13 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                 }
                 break;
         }
-
-        this.handleTie( elem );
-        this.handleSlur( elem, line, xi );
-        tune.appendElement(type, multilineVars.currTexLineNum, xi, xf, elem, multilineVars.currentVoice); // flavio -startOfLine
+        try {
+            this.handleTie( elem );
+            this.handleSlur( elem, line, xi );
+            tune.appendElement(type, multilineVars.currTexLineNum, xi, xf, elem, multilineVars.currentVoice); // flavio -startOfLine
+        } catch(e) {
+             warn("Unknown character ignored", line, xi);
+        }
     };
     
 
@@ -1733,8 +1713,6 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
         return found;
     };
     
-    var header = new window.ABCXJS.parse.ParseHeader(tokenizer, warn, multilineVars, tune, this.transposer);
-
     var letter_to_chord = function(line, i)
     {
         if (line.charAt(i) === '"')
@@ -3186,29 +3164,34 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
         // Take care of whatever line endings come our way
         strTune = window.ABCXJS.parse.gsub(strTune, '\r\n', '\n');
         strTune = window.ABCXJS.parse.gsub(strTune, '\r', '\n');
-        strTune += '\n';	// Tacked on temporarily to make the last line continuation work
+        strTune += strTune.charAt(strTune.length-1) === '\n' ? '' : '\n';
         strTune = strTune.replace(/\n\\.*\n/g, "\n");	// get rid of latex commands.
+        
         var continuationReplacement = function(all, backslash, comment) {
             var spaces = "                                                                                                                                                                                                     ";
             var padding = comment ? spaces.substring(0, comment.length) : "";
             return backslash + " \x12" + padding;
         };
+        
         strTune = strTune.replace(/\\([ \t]*)(%.*)*\n/g, continuationReplacement);	// take care of line continuations right away, but keep the same number of characters
         var lines = strTune.split('\n');
-        // flavio - era só um if
+        
         while( window.ABCXJS.parse.last(lines).length === 0 )	// remove the blank lines at the end.
             lines.pop();
+        
         return lines;
+
     };
     
-    this.appendString = function(newLines) {
-        //retira \n ao final  
-        var t = strTune;
-        while( t.charAt(t.length-1) === '\n' ) {
-            t = t.substr(0,t.length-1);
-        }
-        return t + newLines;
-    };
+//    this.joinStrings = function(original, newLines) {
+//        while( original.charAt(original.length-1) === '\n' ) {
+//            original = original.substr(0,original.length-1);
+//        }
+//        while( newLines.charAt(newLines.length-1) === '\n' ) {
+//            newLines = newLines.substr(0,newLines.length-1);
+//        }
+//        return original + newLines + '\n';
+//    };
     
 
     this.parse = function(tuneTxt, switches) {
@@ -3217,15 +3200,22 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
         // switches.stop_on_warning : stop at the first warning encountered.
         // switches.print: format for the page instead of the browser.
         //window.ABCXJS.parse.transpose = transpose;
+        
         strTune = tuneTxt;
-        tune.reset();
+        
+        tune = new window.ABCXJS.data.Tune();
+        tokenizer = new window.ABCXJS.parse.tokenizer();
+        header = new window.ABCXJS.parse.ParseHeader(tokenizer, warn, multilineVars, tune, this.transposer);
+
+        //tune.reset();
+        
         if (switches && switches.print)
             tune.media = 'print';
         multilineVars.reset();
         header.reset(tokenizer, warn, multilineVars, tune);
 
         var lines = this.strTuneHouseKeeping();
-        //try {
+        try {
             for (var lineNumber = 0; lineNumber < lines.length; lineNumber++) {
                 multilineVars.currTexLineNum = lineNumber;
                 var line = lines[lineNumber];
@@ -3264,6 +3254,11 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                 multilineVars.iChar += line.length + 1;
             }
             
+            if( this.transposer && this.transposer.offSet !== 0 ) {
+                // substitui strTune com os valores transpostos
+                strTune = this.transposer.updateEditor( lines );
+            }
+            
             if (tune.hasTablature) {
                 // necessário inferir a tablatura
                 if (tune.lines[0].staffs[tune.tabStaffPos].voices[0].length === 0) {
@@ -3284,7 +3279,7 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                         this.accordion.inferTablature(tune, multilineVars, addWarning );
                         
                         // obtem possiveis linhas inferidas para tablatura
-                        strTune = this.appendString( this.accordion.updateEditor() );
+                        strTune += this.accordion.getTabLines();
                         
                     } else {
                         addWarning("Impossível inferir a tablatura: acordeon não definido!");
@@ -3311,22 +3306,10 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
 
             tune.cleanUp();
             
-            if( this.transposer && this.transposer.offSet !== 0 ) {
-                strTune = this.transposer.updateEditor( lines );
-            }
-            
-            //remover linhas vazias ao final
-            var end = strTune.indexOf('\n\n');
-            while(end >= 0) {
-                strTune = strTune.substring(0, end);
-                end = strTune.indexOf('\n\n');
-            }
-    
-            
-        //} catch (err) {
-        //    if (err !== "normal_abort")
-        //        throw err;
-        //}
+        } catch (err) {
+            if (err !== "normal_abort")
+                throw err;
+        }
     };
 };
 /*global window */
@@ -3927,7 +3910,7 @@ window.ABCXJS.parse.ParseHeader = function(tokenizer, warn, multilineVars, tune,
 
 	this.setTitle = function(title) {
 		if (multilineVars.hasMainTitle) {
-                  multilineVars.subtitle = tokenizer.translateString(tokenizer.stripComment(title))
+                  multilineVars.subtitle = tokenizer.translateString(tokenizer.stripComment(title));
 		  tune.addSubtitle(multilineVars.subtitle);	// display secondary title
                 } else {
 		  tune.addMetaText("title", tokenizer.translateString(tokenizer.theReverser(tokenizer.stripComment(title))));
@@ -6029,12 +6012,6 @@ if (!window.ABCXJS.parse)
 window.ABCXJS.parse.Transposer = function ( offSet ) {
     
     this.pitches           = ABCXJS.parse.pitches;
-    this.key2number        = ABCXJS.parse.key2number;
-    this.number2keyflat    = ABCXJS.parse.number2keyflat;
-    this.number2keysharp   = ABCXJS.parse.number2keysharp;
-    this.number2key_br     = ABCXJS.parse.number2key_br;
-    this.number2staff      = ABCXJS.parse.number2staff;
-    this.number2staffSharp = ABCXJS.parse.number2staffSharp;
     
     this.tokenizer         = new ABCXJS.parse.tokenizer();
     
@@ -6058,9 +6035,9 @@ window.ABCXJS.parse.Transposer.prototype.reset = function( offSet ) {
 window.ABCXJS.parse.Transposer.prototype.numberToStaff = function(number, newKacc) {
     var s ;
     if(newKacc.length > 0 && newKacc[0].acc === 'flat')
-        s = this.number2staff[number];
+        s = ABCXJS.parse.number2staff[number];
     else
-        s = this.number2staffSharp[number];
+        s = ABCXJS.parse.number2staffSharp[number];
     
     // octave can be altered below
     s.octVar = 0;
@@ -6401,6 +6378,7 @@ window.ABCXJS.parse.Transposer.prototype.deleteTabLine = function ( n ) {
 };
 
 window.ABCXJS.parse.Transposer.prototype.updateEditor = function ( lines ) {
+    
     for( i = 0; i < this.changedLines.length; i++ ){
         lines[this.changedLines[i].line] = this.changedLines[i].text;
     }
@@ -6414,7 +6392,7 @@ window.ABCXJS.parse.Transposer.prototype.updateEditor = function ( lines ) {
     }
     this.deletedLines = [];
     this.changedLines = [];
-    return newStr;
+    return newStr+'\n';
 };
 
 window.ABCXJS.parse.Transposer.prototype.getKeyVoice = function ( idx ) {
@@ -6467,14 +6445,14 @@ window.ABCXJS.parse.Transposer.prototype.extractStaffOctave = function(pitch) {
 };
 
 window.ABCXJS.parse.Transposer.prototype.numberToKey = function(number) {
-    number %= this.number2keyflat.length;
-    if( number < 0 ) number += this.number2keyflat.length;
-    return this.number2keyflat[number];
+    number %= ABCXJS.parse.number2keyflat.length;
+    if( number < 0 ) number += ABCXJS.parse.number2keyflat.length;
+    return ABCXJS.parse.number2keyflat[number];
 };
 
 window.ABCXJS.parse.Transposer.prototype.keyToNumber = function(key) {
     key = this.normalizeAcc(key);
-    return this.key2number[key];
+    return ABCXJS.parse.key2number[key];
 };
 
 window.ABCXJS.parse.Transposer.prototype.getAccOffset = function(txtAcc)
@@ -6848,9 +6826,6 @@ if (!window.ABCXJS)
 
 if (!window.ABCXJS.write)
     window.ABCXJS.write = {};
-
-ABCXJS.write.highLightColor = "#5151ff";
-ABCXJS.write.unhighLightColor = 'black';
 
 ABCXJS.write.StaffGroupElement = function() {
     this.voices = [];
@@ -7367,10 +7342,52 @@ ABCXJS.write.AbsoluteElement.prototype.draw = function(printer, staveInfo ) {
                                                                  // lembrando que o staffgroup sera incluido mais adiante.
     
 };
+/*
+var svgns = "http://www.w3.org/2000/svg";
+for (var x = 0; x < 5000; x += 50) {
+    for (var y = 0; y < 3000; y += 50) {
+        var rect = document.createElementNS(svgns, 'rect');
+        rect.setAttributeNS(null, 'x', x);
+        rect.setAttributeNS(null, 'y', y);
+        rect.setAttributeNS(null, 'height', '50');
+        rect.setAttributeNS(null, 'width', '50');
+        rect.setAttributeNS(null, 'fill', '#'+Math.round(0xffffff * Math.random()).toString(16));
+        document.getElementById('svgOne').appendChild(rect);
+
+  var translate = d3.transform(d3.select(this.parentNode).attr("transform")).translate;
+        var dataset = [1,2,3,4]                                    // HERE
+        vis.selectAll("line")                                      // HERE
+            .data(dataset)                                 // HERE
+            .enter()                                       // HERE
+            .append("line")                                // HERE
+            .attr("x1", translate[0])                            // HERE'S THE PROBLEM FOR PERRY
+            .attr("y1", translate[1])   
+
+ */
 
 ABCXJS.write.AbsoluteElement.prototype.setMouse = function(printer) {
     var self = this;
     this.svgElem = document.getElementById(self.gid);
+    
+    if(ABCXJS.write.color.useTransparency) {
+        try {
+            var svgns = "http://www.w3.org/2000/svg";
+
+            var bounds = this.svgElem.getBBox();
+            var rect = document.createElementNS(svgns, 'rect');
+                rect.setAttributeNS(null, 'x', bounds.x.toFixed(1)-1);
+                rect.setAttributeNS(null, 'y', bounds.y.toFixed(1)-1);
+                rect.setAttributeNS(null, 'height', bounds.height.toFixed(1)+2);
+                rect.setAttributeNS(null, 'width', bounds.width.toFixed(1)+2);
+                rect.setAttributeNS(null, 'fill', 'none' );
+
+            this.svgElem.appendChild(rect);
+            this.svgArea = rect;
+        } catch( e ) {
+            // Firefox dies if svgElem is not Visible
+        }
+    }    
+    
     this.svgElem.onmouseover =  function() {self.highlight(true);};
     this.svgElem.onmouseout =  function() {self.unhighlight(true);};
     this.svgElem.onclick =  function() {printer.notifyClearNSelect(self, true);};
@@ -7379,14 +7396,18 @@ ABCXJS.write.AbsoluteElement.prototype.setMouse = function(printer) {
 ABCXJS.write.AbsoluteElement.prototype.highlight = function(keepState) {
     if(!this.svgElem) return;
     if(keepState) this.svgElem.prevFill = this.svgElem.style.fill;
-    this.svgElem.style.setProperty( 'fill', ABCXJS.write.highLightColor );
+    this.svgElem.style.setProperty( 'fill', ABCXJS.write.color.highLight );
+    (this.svgArea) && this.svgArea.style.setProperty( 'fill', ABCXJS.write.color.highLight );
+    (this.svgArea) && this.svgArea.style.setProperty( 'fill-opacity', '0.15' );
 };
 
 ABCXJS.write.AbsoluteElement.prototype.unhighlight = function(keepState) {
     if(!this.svgElem) return;
-    var fill = (keepState && this.svgElem.prevFill ) ? this.svgElem.prevFill : ABCXJS.write.unhighLightColor;
+    var fill = (keepState && this.svgElem.prevFill ) ? this.svgElem.prevFill : ABCXJS.write.color.unhighLight;
     this.svgElem.style.setProperty( 'fill', fill );
+    (this.svgArea) && this.svgArea.style.setProperty( 'fill-opacity', '0' );
 };
+
 
 ABCXJS.write.RelativeElement = function(c, dx, w, pitch, opt) {
     opt = opt || {};
@@ -7706,7 +7727,14 @@ ABCXJS.write.BeamElem.prototype.draw = function(printer) {
         this.starty = printer.calcY(6);
         this.endy = printer.calcY(6);
     }
-    printer.paper.printBeam(this.startx, this.starty, this.endx, this.endy, this.endx, (this.endy + this.dy), this.startx, this.starty + this.dy);
+    printer.paper.printBeam(
+        this.startx, this.starty
+       ,this.startx, (this.starty + this.dy) 
+       ,this.endx, (this.endy + this.dy)
+       ,this.endx, this.endy
+       
+    );
+
     
     this.drawAuxBeams(printer);
 };
@@ -7768,12 +7796,10 @@ ABCXJS.write.BeamElem.prototype.drawAuxBeams = function(printer) {
 /*global window, ABCXJS */
 
 if (!window.ABCXJS)
-	window.ABCXJS = {};
+    window.ABCXJS = {};
 
 if (!window.ABCXJS.write)
-	window.ABCXJS.write = {
-            
-        };
+    window.ABCXJS.write = {};
     
 window.ABCXJS.write.chartable = {rest:{0:"rests.whole", 1:"rests.half", 2:"rests.quarter", 3:"rests.8th", 4: "rests.16th",5: "rests.32nd", 6: "rests.64th", 7: "rests.128th"},
 		   note:{"-1": "noteheads.dbl", 0:"noteheads.whole", 1:"noteheads.half", 2:"noteheads.quarter", 3:"noteheads.quarter", 4:"noteheads.quarter", 5:"noteheads.quarter", 6:"noteheads.quarter"},
@@ -7919,7 +7945,7 @@ ABCXJS.write.Layout.prototype.layoutJumpDecorationItem = function(jumpDecoration
 };
 
 ABCXJS.write.Layout.prototype.layoutStaffGroup = function() {
-    var newspace = this.printer.space;
+    var newspace = ABCXJS.write.spacing.SPACEX;
 
     for (var it = 0; it < 3; it++) { // TODO shouldn't need this triple pass any more
         this.staffgroup.layout(newspace, this.printer, false);
@@ -8898,14 +8924,18 @@ if (!window.ABCXJS)
 if (!window.ABCXJS.write)
 	window.ABCXJS.write = {};
 
-ABCXJS.write.spacing = function() {};
+ABCXJS.write.spacing = {};
 ABCXJS.write.spacing.FONTEM = 360;
 ABCXJS.write.spacing.FONTSIZE = 30;
 ABCXJS.write.spacing.STEP = ABCXJS.write.spacing.FONTSIZE*(93)/720;
-ABCXJS.write.spacing.SPACE = 10;
+ABCXJS.write.spacing.SPACEX = 30;
 ABCXJS.write.spacing.TOPNOTE = 10; 
-ABCXJS.write.spacing.STAVEHEIGHT = 100;
 
+ABCXJS.write.color = {};
+ABCXJS.write.color.highLight = "#5151ff";
+ABCXJS.write.color.highLight = "#ff0000";
+ABCXJS.write.color.unhighLight = 'black';
+ABCXJS.write.color.useTransparency = true;
 
 //--------------------------------------------------------------------PRINTER
 
@@ -8916,7 +8946,6 @@ ABCXJS.write.Printer = function (paper, params) {
     this.pageNumber = 1;
     this.estimatedPageLength = 0;
     this.paper = paper;
-    this.space = 3 * ABCXJS.write.spacing.SPACE;
     this.glyphs = new ABCXJS.write.Glyphs();
     this.listeners = [];
     this.selected = [];
@@ -8951,61 +8980,62 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
     options.color = options.color ||'black';
     options.backgroundColor = options.backgroundColor ||'none';
     
-    ABCXJS.write.unhighLightColor = options.color;
+    ABCXJS.write.color.unhighLight = options.color;
     
     var estilo = 
 '\n\
    .abc_title {\n\
-        font-size: 20px;\n\
-        font-family: serif;\n\
+        font-size: 18px;\n\
+        font-weight: bold;\n\
+        font-family: abcFont, serif;\n\
     }\n\
     \n\
     .abc_subtitle {\n\
         font-size: 16px;\n\
-        font-family: serif;\n\
+        font-family: abcFont, serif;\n\
         font-style: italic;\n\
     }\n\
     \n\
     .abc_author {\n\
         font-size: 14px;\n\
-        font-family: serif;\n\
+        font-family: abcFont, serif;\n\
         font-style: italic;\n\
         font-weight: bold;\n\
     }\n\
     \n\
     .abc_rhythm {\n\
         font-size: 12px;\n\
-        font-family: serif;\n\
+        font-family: abcFont, serif;\n\
         font-style: italic;\n\
     }\n\
     \n\
     .abc_voice_header {\n\
         font-size: 12px;\n\
-        font-family: serif;\n\
+        font-family: abcFont, serif;\n\
         font-style: italic;\n\
         font-weight: bold;\n\
     }\n\
     \n\
     .abc_tempo {\n\
         font-size: 12px;\n\
-        font-family: serif;\n\
+        font-family: abcFont, serif;\n\
         font-weight: bold;\n\
     }\n\
     \n\
     .abc_text {\n\
         font-size: 12px;\n\
-        font-family: serif;\n\
+        font-family: arial, serif;\n\
     }\n\
     \n\
     .abc_lyrics {\n\
         font-size: 13px;\n\
-        font-family: serif;\n\
-        font-weight: bold;\n\
+        font-family: abcFont, serif;\n\
+        font-weight: normal;\n\
     }\n\
     \n\
     .abc_ending {\n\
         font-size: 10px;\n\
-        font-family: serif;\n\
+        font-family: abcFont, serif;\n\
     }\n\
     \n\
     .abc_tabtext\n\
@@ -9133,7 +9163,7 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
     }    
     
     if(h1> 0) {
-        height = ABCXJS.write.spacing.STEP*3 + h1*1.5*17; 
+        height = ABCXJS.write.spacing.STEP*3 + h1*1.5*16; 
         if( ( this.pageNumber - ((this.y+height)/this.estimatedPageLength) ) < 0 ) {
            this.skipPage();
         } else {
@@ -9144,7 +9174,7 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
     }
 
     if(h2> 0) {
-        height = ABCXJS.write.spacing.STEP*3 + h2*1.5*17;
+        height = ABCXJS.write.spacing.STEP*3 + h2*1.5*16;
         if( ( this.pageNumber - ((this.y+height)/this.estimatedPageLength) ) < 0 ) {
            this.skipPage();
         } else {
@@ -9325,12 +9355,12 @@ ABCXJS.write.Printer.prototype.addSelectListener = function (listener) {
   this.listeners[this.listeners.length] = listener;
 };
 
-// notify all listeners que o modelo mudou
-ABCXJS.write.Printer.prototype.notifyChange = function () {
-  for (var i=0; i<this.listeners.length;i++) {
-    this.listeners[i].modelChanged && this.listeners[i].modelChanged();
-  }
-};
+//// notify all listeners que o modelo mudou
+//ABCXJS.write.Printer.prototype.notifyChange = function () {
+//  for (var i=0; i<this.listeners.length;i++) {
+//    this.listeners[i].modelChanged && this.listeners[i].modelChanged();
+//  }
+//};
 
 // notify all listeners that a graphical element has been selected
 ABCXJS.write.Printer.prototype.notifySelect = function (abselem, keepState) {
@@ -9437,6 +9467,7 @@ ABCXJS.write.Printer.prototype.skipPage = function(lastPage) {
     if( ! lastPage || this.pageNumber > 1) {
         this.printPageNumber();
     }
+    
     this.totalY += this.y;
     
     this.paper.endPage({w: (this.maxwidth + this.paddingright) , h: this.y });
@@ -9476,9 +9507,9 @@ ABCXJS.write.Printer.prototype.printExtraText = function(text, x) {
 };
 
 ABCXJS.write.Printer.prototype.printSubtitleLine = function(subtitle) {
-    this.paper.text(this.width/2, this.y, subtitle, 'abc_subtitle', 'middle');
+    this.paper.text(this.width/2, this.y+2, subtitle, 'abc_subtitle', 'middle');
 };
-/**
+    /**
  * sprintf() for JavaScript v.0.4
  *
  * Copyright (c) 2007 Alexandru Marasteanu <http://alexei.417.ro/>
@@ -9729,24 +9760,35 @@ SVG.Printer.prototype.printLine = function (x,y,dx,dy) {
         dy = ABCXJS.misc.isIE() ? 1: 0.6;
         dx -=  x;
     }
-    var pathString = ABCXJS.write.sprintf('<rect style="fill:'+this.color+';"  x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', x, y, dx, dy);
+    var pathString = ABCXJS.write.sprintf('<rect style="fill:'+this.color+';"  x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>\n', x, y, dx, dy);
     this.svg_pages[this.currentPage] += pathString;
 };
 
 SVG.Printer.prototype.printLedger = function (x,y,dx,dy) {
-    var pathString = ABCXJS.write.sprintf('<path style="stroke:'+this.baseColor+'; fill: white; stroke-width:0.6; stroke-dasharray: 1 1;" d="M %.2f %.2f h%.2f"/>\n', x, y, dx-x);
+    var pathString = ABCXJS.write.sprintf('<path style="stroke:'+this.baseColor+'; fill: white; stroke-width:0.6; stroke-dasharray: 1 1;" d="M %.1f %.1f h%.1f"/>\n', x, y, dx-x);
     this.svg_pages[this.currentPage] += pathString;
 };
 
 SVG.Printer.prototype.printBeam = function (x1,y1,x2,y2,x3,y3,x4,y4) {
-    var pathString = ABCXJS.write.sprintf('<path style="fill:'+this.color+'; stroke:none" d="M %.2f %.2f L %.2f %.2f L %.2f %.2f L %.2f %.2f z"/>\n',  x1, y1, x2, y2, x3, y3, x4, y4);
-    this.svg_pages[this.currentPage] += pathString;
+    
+//    this.svg_pages[this.currentPage] += ABCXJS.write.sprintf(
+//        '<path style="fill:'+this.color + '; stroke:none;" ' +
+//        'd="M %.1f %.1f L %.1f %.1f L %.1f %.1f L %.1f %.1f Z" />\n'
+//        , x1, y1, x2, y2, x3, y3, x4, y4);
+        
+// Por algum motivo o path acima apresenta vazamento do preenchimento em algumas escalas de zoom.
+// Resolvi usando um path diferente (e não muito eficiente para desenhar o beam
+        
+    this.svg_pages[this.currentPage] += ABCXJS.write.sprintf(
+        '<path style="stroke:none; fill:'+ this.color + ';" ' +
+        'd="M %.1f %.1f L %.1f %.1f L %.1f %.1f Z L %.1f %.1f L %.1f %.1f Z" />\n'
+        , x1, y1, x2, y2, x3, y3, x3, y3, x4, y4 );
 };
 
 SVG.Printer.prototype.printStaveLine = function (x1, x2, y, debug) {
     var color = debug? debug : this.baseColor;
     var dy =0.6;   
-    var pathString = ABCXJS.write.sprintf('<rect style="stroke:none; fill: %s;" x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', 
+    var pathString = ABCXJS.write.sprintf('<rect style="stroke:none; fill: %s;" x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>\n', 
                                                 color, x1, y, Math.abs(x2-x1), dy );
     this.svg_pages[this.currentPage] += pathString;
 };
@@ -9763,7 +9805,7 @@ SVG.Printer.prototype.printBar = function (x, dx, y1, y2, real) {
     var dy = Math.abs(y2-y1);
     dx = Math.abs(dx); 
     
-    var pathString = ABCXJS.write.sprintf('<rect '+kls+' x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
+    var pathString = ABCXJS.write.sprintf('<rect '+kls+' x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
 
     this.svg_pages[this.currentPage] += pathString;
 };
@@ -9779,7 +9821,7 @@ SVG.Printer.prototype.printStem = function (x, dx, y1, y2) {
     var dy = Math.abs(y2-y1);
     dx = Math.abs(dx); 
     
-    var pathString = ABCXJS.write.sprintf('<rect x="%.2f" y="%.2f" width="%.2f" height="%.2f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
+    var pathString = ABCXJS.write.sprintf('<rect x="%.1f" y="%.1f" width="%.1f" height="%.1f"/>\n', Math.min(x,x2), Math.min(y1,y2), dx, dy );
 
     this.svg_pages[this.currentPage] += pathString;
 };
@@ -9803,7 +9845,7 @@ SVG.Printer.prototype.printTieArc = function (x1,y1,x2,y2,up) {
     var controly2 = y2-flatten*uy+curve*ux;
     var thickness = 2;
     
-    var pathString = ABCXJS.write.sprintf('<path style="fill:'+this.color+'; stroke-width:0.6px; stroke:none;" d="M %.2f %.2f C %.2f %.2f %.2f %.2f %.2f %.2f C %.2f %.2f %.2f %.2f %.2f %.2f z"/>\n', 
+    var pathString = ABCXJS.write.sprintf('<path style="fill:'+this.color+'; stroke-width:0.6px; stroke:none;" d="M %.1f %.1f C %.1f %.1f %.1f %.1f %.1f %.1f C %.1f %.1f %.1f %.1f %.1f %.1f z"/>\n', 
                             x1, y1,
                             controlx1, controly1, controlx2, controly2, x2, y2, 
                             controlx2-thickness*uy, controly2+thickness*ux, controlx1-thickness*uy, controly1+thickness*ux, x1, y1 );
@@ -9815,13 +9857,13 @@ SVG.Printer.prototype.printBrace = function (x, y1, y2) {
     var sz = Math.abs(y1-y2); // altura esperada
     var scale = sz / 1027; // altura real do simbolo
     this.setDefine('scripts.lbrace');
-    var pathString = ABCXJS.write.sprintf('<use style="fill:'+this.baseColor+'" x="0" y="0" xlink:href="#scripts.lbrace" transform="translate(%.2f %.2f) scale(0.13 %.5f)" />\n', x, y2, scale );
+    var pathString = ABCXJS.write.sprintf('<use style="fill:'+this.baseColor+'" x="0" y="0" xlink:href="#scripts.lbrace" transform="translate(%.1f %.1f) scale(0.13 %.5f)" />\n', x, y2, scale );
     this.svg_pages[this.currentPage] += pathString;
 };
 
 SVG.Printer.prototype.printSymbol = function (x, y, symbol) {
     if (this.setDefine(symbol)) {
-        var pathString = ABCXJS.write.sprintf('<use x="%.2f" y="%.2f" xlink:href="#%s" />\n', x, y, symbol );
+        var pathString = ABCXJS.write.sprintf('<use x="%.1f" y="%.1f" xlink:href="#%s" />\n', x, y, symbol );
         this.svg_pages[this.currentPage] += pathString;
     } else {
         throw 'Undefined: ' + symbol;
@@ -9877,7 +9919,7 @@ SVG.Printer.prototype.printButton = function (id, x, y, options) {
     var gid = 'p'+this.printerId+id;
     var estilo = 'stroke:'+options.borderColor+'; stroke-width:'+options.borderWidth+'px; fill: none;';
 
-    var pathString = ABCXJS.write.sprintf( '<g id="%s" transform="translate(%.2f %.2f) scale(%.5f)">\n\
+    var pathString = ABCXJS.write.sprintf( '<g id="%s" transform="translate(%.1f %.1f) scale(%.5f)">\n\
         <circle cx="28" cy="28" r="26" style="stroke:none; fill: %s;" ></circle>\n\
         <path id="%s_ac" style="stroke: none; fill: %s;" d="M 2 34 a26 26 0 0 1 52 -12"></path>\n\
         <path id="%s_ao" style="stroke: none; fill: %s;" d="M 54 22 a26 26 0 0 1 -52 12"></path>\n\
@@ -10054,82 +10096,102 @@ if (!window.ABCXJS)
 if (!ABCXJS.edit)
 	ABCXJS.edit = {};
 
-ABCXJS.edit.AccordionSelector = function (id, editor) {
-    this.selector = document.getElementById(id);
-    if (editor) {
-        this.addChangeListener(editor);
-        if(editor.accordion)
-            this.accordion = editor.accordion;
+ABCXJS.edit.AccordionSelector = function (id, divId, callBack, extraItems ) {
+    
+    this.extraItems = extraItems || [];
+    this.ddmId = id;
+    
+    if (divId instanceof DRAGGABLE.ui.DropdownMenu) {
+        this.menu = divId;   
+    } else {
+        this.menu = new DRAGGABLE.ui.DropdownMenu(
+               divId
+            ,  callBack
+            ,  [{title: 'Acordeons', ddmId: this.ddmId, itens: []}]
+        );
+    }
+    
+    // tratar os casos os o listener não possui um acordeon definido
+    if (callBack && callBack.listener && callBack.listener.accordion) {
+        this.accordion = callBack.listener.accordion;
     }
 };
-
-ABCXJS.edit.AccordionSelector.prototype.updateAccordionList = function() {
-    while(this.selector.options.length > 0){                
-        this.selector.remove(0);
-    }    
-    this.populate();
-};
-
-ABCXJS.edit.AccordionSelector.prototype.addChangeListener = function(editor) {
-  this.selector.onchange = function() {
-    editor.accordion.load(parseInt(this.value));
-    editor.accordion.printKeyboard('keyboardDiv' );
-    editor.fireChanged( 0, {force: true} );
-  };
-};
     
-ABCXJS.edit.AccordionSelector.prototype.populate = function() {
+ABCXJS.edit.AccordionSelector.prototype.populate = function(changeTitle, selectId ) {
+    var m, selectItem, title;
+
+    this.menu.emptySubMenu( this.ddmId );    
+    
     for (var i = 0; i < this.accordion.accordions.length; i++) {
-        var opt = document.createElement('option');
-        opt.innerHTML = this.accordion.accordions[i].getFullName();
-        opt.value = i;
-        this.selector.appendChild(opt);
+        m = this.menu.addItemSubMenu( 
+            this.ddmId, 
+            this.accordion.accordions[i].getFullName() + '|' 
+                + this.accordion.accordions[i].getId() );
+        
+        // identifica o item a ser selecionado
+        if( typeof selectId === "undefined"  ) {
+            if( this.accordion.getId() === this.accordion.accordions[i].getId() ) {
+                selectItem = m;
+                title = this.accordion.getFullName();
+            }
+        } else {
+            if( selectId === this.accordion.accordions[i].getId() ) {
+                selectItem = m;
+                title = this.accordion.accordions[i].getFullName();
+            }
+        }
     }
-};
-
-ABCXJS.edit.AccordionSelector.prototype.set = function(val) {
-    this.selector.value = val;
-};
-
-ABCXJS.edit.KeySelector = function(id, listener) {
-
-    this.selector = document.getElementById(id);
-    this.cromaticLength = 12;
-    if (this.selector) {
-        this.populate(0);
-    }
-    if(listener)
-        this.addChangeListener(listener);
     
+    // adiciona os itens extra
+    for (var i = 0; i < this.extraItems.length; i++) {
+        var m = this.menu.addItemSubMenu( this.ddmId, this.extraItems[i] );
+    }
+    
+    if(changeTitle && title )
+        this.menu.setSubMenuTitle(this.ddmId, title );
+    
+    if( selectItem )
+        this.menu.selectItem(this.ddmId, selectItem );
+    
+};
+
+ABCXJS.edit.KeySelector = function(id, divId, callBack ) {
+    
+    this.ddmId = id;
+    if (divId instanceof DRAGGABLE.ui.DropdownMenu) {
+        this.menu = divId;   
+    } else {
+        this.menu = new DRAGGABLE.ui.DropdownMenu(
+               divId
+            ,  callBack
+            ,  [{title: 'Keys', ddmId: this.ddmId, itens: []}]
+        );
+    }
+};
+
+ABCXJS.edit.KeySelector.prototype.setVisible = function (visible) {
+    this.menu.setVisible(visible);
 };
 
 ABCXJS.edit.KeySelector.prototype.populate = function(offSet) {
+    var cromaticSize = 12;
+    this.menu.emptySubMenu( this.ddmId );    
     
-    while( this.selector.options.length > 0 ) {
-        this.selector.remove(0);
-    }            
-        
-    for (var i = this.cromaticLength+offSet; i >= -this.cromaticLength+2+offSet; i--) {
-        var opt = document.createElement('option');
-        if(i-1 > offSet) 
-            opt.innerHTML = ABCXJS.parse.number2keysharp[(i+this.cromaticLength-1)%this.cromaticLength] ;
+    for (var i = +(cromaticSize+offSet-1); i > -(cromaticSize-offSet); i--) {
+        var opt; 
+        if(i > offSet) 
+            opt = ABCXJS.parse.number2keysharp[(i+cromaticSize)%cromaticSize] ;
         else
-            opt.innerHTML = ABCXJS.parse.number2keyflat[(i+this.cromaticLength-1)%this.cromaticLength] ;
-        opt.value = (i+this.cromaticLength-1);
-        this.selector.appendChild(opt);
+            opt = ABCXJS.parse.number2keyflat[(i+cromaticSize)%cromaticSize] ;
+        
+        var e = this.menu.addItemSubMenu( this.ddmId, opt + '|' + (i-offSet) );
+        
+        if( i === offSet ) {
+            this.menu.setSubMenuTitle( this.ddmId, opt );
+            this.menu.selectItem( this.ddmId, e );
+        }
+      
     }
-    this.oldValue = offSet+this.cromaticLength;
-    this.selector.value = offSet+this.cromaticLength;
-};
-
-ABCXJS.edit.KeySelector.prototype.set = function(value) {
-    this.populate(value);
-};
-
-ABCXJS.edit.KeySelector.prototype.addChangeListener = function(editor) {
-  this.selector.onchange = function() {
-    editor.fireChanged( this.value - editor.keySelector.oldValue, {force: true} );
-  };
 };
 
 // EditArea is an example of using a ace editor as the control that is shown to the user. As long as
@@ -10160,48 +10222,207 @@ if (!window.ABCXJS)
 if (!ABCXJS.edit)
 	ABCXJS.edit = {};
 
-ABCXJS.edit.EditArea = function (editor_id, listener) {
+ABCXJS.edit.EditArea = function (editor_id, callback, options ) {
     
-    if(editor_id) {
-        this.container = {};
-        this.container.topDiv = document.getElementById( editor_id );
-        if(this.container.topDiv) {
-            var div = document.createElement("DIV");
-            div.setAttribute("id", "editorWindow" + editor_id ); 
-            this.container.topDiv.appendChild( div );
-            this.container.dataDiv = div;
-            this.container.dataDiv.setAttribute("class", "editorText fixedSize"); 
-        } else {
-            alert( 'this.container: elemento "'+editor_id+'" não encontrado.');
-        }
-    } else {
-        this.container = new DRAGGABLE.Div( 
-            null
-            , [ 'move|Mover', 'dock|Fixar Janela' ]
-            , {translate:false, statusBar:true, width: 600, height: 300, title: 'Editor ABCX' }
-            , {listener : listener, method: 'editorCallback' }
-            , [ 'gutter|Numeração das Linhas', 'fontsize|Tamanho da fonte', 'down|Tom', 'arrowdn|Oitava|Oitava', 'arrowup|Oitava|Oitava', 'search|Procurar', 'undo|Dezfazer', 'redo|Refazer', 'light|Realçar texto' ] 
-        );
-        this.container.dataDiv.setAttribute("class", "editorText"); 
+    this.parentCallback = callback;
+    this.callback = { listener: this, method: 'editareaCallback' };
+    
+    this.container = {};
+    
+    var aToolBotoes = [ 
+         'GUTTER|Numeração das Linhas'
+        ,'DOWNLOAD|Salvar Local'
+        ,'UNDOALL|Dezfazer Tudo'
+        ,'UNDO|Dezfazer'
+        ,'REDO|Refazer'
+        ,'REDOALL|Refazer Tudo'
+        ,'REFRESH|Atualizar'
+        ,'SEARCH|Localizar e substituir'
+        ,'FONTSIZE|Tamanho da fonte'
+        ,'DROPDOWN|Tom|selKey'
+        ,'OCTAVEDOWN|Oitava|Oitava'
+        ,'OCTAVEUP|Oitava|Oitava'
+        ,'LIGHTON|Realçar texto'
+        ,'READONLY|Bloquear edição' 
+    ] ;
+    
+    options.draggable = typeof( options.draggable ) === 'undefined'? true: options.draggable;
+    this.draggagle = options.draggable;
+    this.compileOnChange = typeof( options.compileOnChange ) === 'undefined'? false: options.compileOnChange;
+    this.maximized = typeof( options.maximized ) === 'undefined'? false: options.maximized;
+    
+    var topDiv;
+    
+    if(typeof editor_id === 'string'  )
+        topDiv = document.getElementById( editor_id );
+    else 
+        topDiv = editor_id;
+    
+    if(!topDiv) {
+        alert( 'this.container: elemento "'+editor_id+'" não encontrado.');
     }
     
+    this.container = new DRAGGABLE.ui.Window( 
+          topDiv
+        , [ 'move|Mover', 'popin|Janela fixa', 'popout|Janela flutuante' , 'restore|Restaurar janela', 'maximize|Maximizar janela' ]
+        , options
+        , this.callback
+        , aToolBotoes
+    );
+    
+    this.keySelector = new ABCXJS.edit.KeySelector( 
+        'selKey', this.container.menu['selKey'], this.callback );
+
+    this.setFloating(this.draggable);
+    
+    this.currrentFontSize = '15px';
     this.aceEditor = ace.edit(this.container.dataDiv);
     this.aceEditor.setOptions( {highlightActiveLine: true, selectionStyle: "text", cursorStyle: "smooth"/*, maxLines: Infinity*/ } );
-    this.aceEditor.setOptions( {fontFamily: "monospace",  fontSize: "11pt" });
+    this.aceEditor.setOptions( {fontFamily: "monospace",  fontSize: this.currrentFontSize, fontWeight: "normal" });
     this.aceEditor.renderer.setOptions( {highlightGutterLine: true, showPrintMargin: false, showFoldWidgets: false } );
+    this.aceEditor.session.setNewLineMode('unix');
     this.aceEditor.$blockScrolling = Infinity;
     this.Range = require("ace/range").Range;
-    
-    this.setVisible(true);
-    this.resize();
-    
     this.gutterVisible = true;
     this.syntaxHighLightVisible = true;
-    this.isDragging = false;
     this.selectionEnabled = true;
+
+    this.restartUndoManager();
+    this.createStyleSheet();
     
-    if(listener)
-        this.addChangeListener(listener);
+    if(callback.listener)
+        this.addChangeListener(callback.listener);
+};
+
+ABCXJS.edit.EditArea.prototype.setCompileOnChange = function ( value ) {
+    this.compileOnChange = value;
+};
+
+ABCXJS.edit.EditArea.prototype.setMaximized = function ( value ) {
+    this.maximized = value;
+    this.container.draggable = ! value;
+    this.container.setButtonVisible( 'maximize', this.draggable && !this.maximized);
+    this.container.setButtonVisible( 'restore', this.draggable && this.maximized);
+};
+
+ABCXJS.edit.EditArea.prototype.setFloating = function ( floating ) {
+    this.draggable = floating;
+    
+    this.container.setButtonVisible( 'popout', !this.draggable);
+    this.container.setButtonVisible( 'popin', this.draggable );
+    this.container.setButtonVisible( 'maximize', this.draggable && !this.maximized);
+    this.container.setButtonVisible( 'restore', this.draggable && this.maximized);
+    this.container.setButtonVisible( 'move', this.draggable );
+    
+    this.container.setFloating(floating);
+    
+};
+
+ABCXJS.edit.EditArea.prototype.editareaCallback = function ( action, elem, searchTerm, replaceTerm ) {
+    switch(action) {
+        case 'UNDO': 
+            this.undoManager.hasUndo() && this.undoManager.undo(false);
+            break;
+        case 'REDO': 
+            this.undoManager.hasRedo() && this.undoManager.redo(false);
+            break;
+        case 'UNDOALL': 
+            while( this.undoManager.hasUndo() )
+                this.undoManager.undo(false);
+            break;
+        case 'REDOALL': 
+            while( this.undoManager.hasRedo() )
+                this.undoManager.redo(false);
+            break;
+        case 'FONTSIZE': 
+            switch(this.currrentFontSize) {
+                case '15px': this.currrentFontSize = '18px'; break;
+                case '18px': this.currrentFontSize = '22px'; break;
+                case '22px': this.currrentFontSize = '15px'; break;
+            }
+            this.aceEditor.setOptions( { fontSize: this.currrentFontSize });
+            break;
+        case 'DO-SEARCH': 
+            this.searchRange = this.aceEditor.find(searchTerm, {
+                wrap: true,
+                caseSensitive: true, 
+                wholeWord: true,
+                regExp: false,
+                preventScroll: true // do not change selection
+            });
+            this.aceEditor.selection.setRange(this.searchRange);
+            break;
+        case 'DO-REPLACE': 
+            if(this.searchRange) {
+                this.aceEditor.session.replace(this.searchRange, replaceTerm );
+            }
+            this.searchRange = this.aceEditor.find(searchTerm, {
+                wrap: true,
+                caseSensitive: true, 
+                wholeWord: true,
+                regExp: false,
+                preventScroll: true // do not change selection
+            });
+            this.aceEditor.selection.setRange(this.searchRange);
+            break;
+        case 'DO-REPLACEALL': 
+            this.searchRange = true;
+            while(this.searchRange) {
+                this.searchRange = this.aceEditor.find(searchTerm, {
+                    wrap: true,
+                    caseSensitive: true, 
+                    wholeWord: true,
+                    regExp: false,
+                    preventScroll: true // do not change selection
+                });
+                this.aceEditor.session.replace(this.searchRange, replaceTerm );
+            }
+            break;
+        case 'SEARCH': 
+            this.alert = new DRAGGABLE.ui.ReplaceDialog( this.container );
+            break;
+        case 'GUTTER': // liga/desliga a numeracao de linhas
+            this.setGutter();
+            break;
+        case 'READONLY': // habilita/bloqueia a edição
+            if( elem.innerHTML.indexOf('ico-lock-open' ) > 0 ) {
+                elem.innerHTML = '<a href="" title="Bloquear edição"><i class="ico-lock ico-black ico-large"></i></a>';
+                this.setReadOnly(true);
+            } else {
+                elem.innerHTML = '<a href="" title="Bloquear edição"><i class="ico-lock-open ico-black ico-large"></i></a>';
+                this.setReadOnly(false);
+            }
+            break;
+        case 'LIGHTON': // liga/desliga realce de sintaxe
+            if( elem.innerHTML.indexOf('ico-lightbulb-on' ) > 0 )
+                elem.innerHTML = '<a href="" title="Realçar texto"><i class="ico-lightbulb-off ico-black ico-large"></i></a>';
+            else 
+                elem.innerHTML = '<a href="" title="Realçar texto"><i class="ico-lightbulb-on ico-black ico-large"></i></a>';
+            this.setSyntaxHighLight();
+            break;
+        case 'RESIZE':
+            this.resize();
+            this.parentCallback.listener[this.parentCallback.method](action, elem);
+            break;
+        default:
+            this.parentCallback.listener[this.parentCallback.method](action, elem);
+    }
+};
+
+// Este css é usado apenas quando o playback da partitura está funcionando
+// e então a cor de realce é no edidor fica igual a cor de destaque da partitura.
+ABCXJS.edit.EditArea.prototype.createStyleSheet = function () {
+    this.style = document.createElement('style');
+    this.style.type = 'text/css';
+    document.getElementsByTagName('head')[0].appendChild(this.style);        
+};
+
+ABCXJS.edit.EditArea.prototype.setEditorHighLightStyle = function () {
+    this.style.innerHTML = '.ABCXHighLight { background-color: '+ABCXJS.write.color.highLight+' !important; opacity: 0.15; }';
+};
+
+ABCXJS.edit.EditArea.prototype.clearEditorHighLightStyle = function () {
+    this.style.innerHTML = '.ABCXHighLight { }';
 };
 
 ABCXJS.edit.EditArea.prototype.setGutter = function (visible) {
@@ -10222,31 +10443,36 @@ ABCXJS.edit.EditArea.prototype.setSyntaxHighLight = function (visible) {
     this.aceEditor.getSession().setMode( this.syntaxHighLightVisible?'ace/mode/abcx':'ace/mode/text');
 };
 
+ABCXJS.edit.EditArea.prototype.setStatusBarVisible = function (visible) {
+    this.container.setStatusBarVisible(visible);
+    this.resize();
+};
+
+ABCXJS.edit.EditArea.prototype.setToolBarVisible = function (visible) {
+    this.container.setToolBarVisible(visible);
+    this.resize();
+};
+
 ABCXJS.edit.EditArea.prototype.setVisible = function (visible) {
     this.container.topDiv.style.display = visible ? 'block' : 'none';
 };
 
 ABCXJS.edit.EditArea.prototype.setReadOnly = function (readOnly) {
+    
     this.aceEditor.setOptions({
         readOnly: readOnly,
         highlightActiveLine: !readOnly,
         highlightGutterLine: !readOnly
     });
     
-    this.aceditor.textInput.getElement().disabled=readOnly;  
+    this.aceEditor.textInput.getElement().disabled=readOnly;  
 };
 
 ABCXJS.edit.EditArea.prototype.resize = function () {
     
-    if( this.container.isResizable && this.container.isResizable() ) {
-        var h = this.container.topDiv.clientHeight -
-                (this.container.menuDiv ? this.container.menuDiv.clientHeight : 0 ) -
-                (this.container.toolBar ? this.container.toolBar.clientHeight : 0 ) -
-                (this.container.bottomDiv ? this.container.bottomDiv.clientHeight : 0 );
-        this.container.dataDiv.style.height =  h + 'px';
-    }
-    
+    this.container.resize();
     this.aceEditor.resize();
+    
 };
 
 ABCXJS.edit.EditArea.prototype.setOptions = function (editorOptions, rendererOptions ) {
@@ -10261,36 +10487,31 @@ ABCXJS.edit.EditArea.prototype.setOptions = function (editorOptions, rendererOpt
 ABCXJS.edit.EditArea.prototype.addChangeListener = function (listener) {
     var that = this;
     
-    that.aceEditor.textInput.getElement().addEventListener('keyup', function (ev) {
+    that.aceEditor.textInput.getElement().addEventListener('keyup', function () {
         if(that.timerId1) clearTimeout(that.timerId1);
-        that.timerId1 = setTimeout(function () { 
-            listener.updateSelection(); 
-        }, 200);	
+        that.timerId1 = setTimeout(function () { listener.updateSelection(); }, 100);	
     });
    
     that.aceEditor.on('dblclick', function () {
         if(that.timerId2) clearTimeout(that.timerId2);
-        that.timerId2 = setTimeout(function () { 
-            listener.updateSelection(); 
-        }, 200);	
+        that.timerId2 = setTimeout(function () { listener.updateSelection(); }, 100);	
     });
     
     that.aceEditor.on('mousedown', function () {
-        that.isDragging = true;
         that.aceEditor.on('mouseup', function () {
             if(that.timerId3) clearTimeout(that.timerId3);
-            that.timerId3 = setTimeout(function () { 
-                listener.updateSelection(); that.isDragging = false;  
-            }, 200);	
+            that.timerId3 = setTimeout(function () { listener.updateSelection(); }, 100);	
         });
     });
     
     that.aceEditor.on('change', function () {
-        if(listener.refreshController && listener.refreshController.checked && !listener.parsing ) {
+        
+        var text  = that.aceEditor.getValue();
+        
+        if( that.compileOnChange && text !== that.initialText ) {
+            that.initialText = text;
             if(that.timerId4) clearTimeout(that.timerId4);
-            that.timerId4 = setTimeout(function () { 
-                listener.fireChanged( 0, {force:true} ); 
-            }, 300);	
+            that.timerId4 = setTimeout(function () { listener.fireChanged( 0, {force:false, showProgress:false} ); }, 300);	
         }
     });
 };
@@ -10300,6 +10521,7 @@ ABCXJS.edit.EditArea.prototype.getString = function() {
 };
 
 ABCXJS.edit.EditArea.prototype.setString = function ( str ) {
+    if( str === this.aceEditor.getValue() ) return;
     var cursorPosition = this.aceEditor.getCursorPosition();
     this.aceEditor.setValue(str);
     this.aceEditor.clearSelection();
@@ -10308,38 +10530,100 @@ ABCXJS.edit.EditArea.prototype.setString = function ( str ) {
     
 };
 
+ABCXJS.edit.EditArea.prototype.restartUndoManager = function ( ) {
+    this.aceEditor.getSession().setUndoManager(new ace.UndoManager());
+    this.undoManager = this.aceEditor.getSession().getUndoManager();
+};
+
 ABCXJS.edit.EditArea.prototype.getSelection = function() {
     return this.aceEditor.selection.getAllRanges();
 };
 
 ABCXJS.edit.EditArea.prototype.setSelection = function (abcelem) {
     if (abcelem && abcelem.position) {
-        
-        var range = new this.Range(abcelem.position.anchor.line, abcelem.position.anchor.ch, abcelem.position.head.line, abcelem.position.head.ch);
+        this.searchRange = null;
+        var range = new this.Range(
+            abcelem.position.anchor.line, abcelem.position.anchor.ch, 
+            abcelem.position.head.line, abcelem.position.head.ch
+        );
 
         this.aceEditor.selection.addRange(range);
+        
         if(abcelem.position.selectable || !this.selectionEnabled)
-            this.aceEditor.scrollToLine(range.start.row);
+            this.aceEditor.renderer.scrollCursorIntoView(range.end, 1 );
     }   
 };
 
 ABCXJS.edit.EditArea.prototype.clearSelection = function (abcelem) {
     if (abcelem && abcelem.position) {
-        var range = new this.Range(abcelem.position.anchor.line, abcelem.position.anchor.ch, abcelem.position.head.line, abcelem.position.head.ch);
-        var aSel = this.getSelection();
         
-        this.aceEditor.selection.toSingleRange(); 
-        this.aceEditor.clearSelection(); 
-        
-        for( var r = 0; r < aSel.length; r ++  ) { 
-            if( ! aSel[r].isEqual(range) ) {
-                this.aceEditor.selection.addRange(aSel[r], false);
-            }
-        }
+        var range = new this.Range(
+            abcelem.position.anchor.line, abcelem.position.anchor.ch, 
+            abcelem.position.head.line, abcelem.position.head.ch
+        );
+
+        this.aceEditor.selection.clearRange(range); 
     }
 };
-    
 
+ABCXJS.edit.EditArea.prototype.clearSelection = function (abcelem) {
+    if (abcelem && abcelem.position) {
+        
+        var range = new this.Range(
+            abcelem.position.anchor.line, abcelem.position.anchor.ch, 
+            abcelem.position.head.line, abcelem.position.head.ch
+        );
+
+        this.aceEditor.selection.clearRange(range); 
+    }
+};
+
+ABCXJS.edit.EditArea.prototype.maximizeWindow = function( maximize, props ) {
+
+    this.setMaximized(maximize);
+    props.maximized = maximize;
+    
+    if( maximize ) {
+        this.container.move(0,0);
+        this.container.setSize( "100%", "calc( 100% - 7px)" );
+    } else {
+        var k = this.container.topDiv.style;
+        k.left = props.left;
+        k.top = props.top;
+        k.width = props.width;
+        k.height = props.height;
+    }
+    this.resize();
+};
+
+ABCXJS.edit.EditArea.prototype.dockWindow = function(dock, props, x, y, w, h ) {
+    
+    props.floating = !dock;
+    this.setFloating(props.floating);
+    this.setToolBarVisible(props.floating);
+    this.setStatusBarVisible(props.floating);
+        
+    if( props.floating ) {
+        this.maximizeWindow(props.maximized, props);
+    } else {
+        this.container.move(x,y);
+        this.container.setSize( w, h);
+        this.resize();
+    } 
+};
+
+ABCXJS.edit.EditArea.prototype.retrieveProps = function( props ) {
+    if(props.floating && !props.maximized){
+        var k = this.container.topDiv.style;
+        props.left = k.left;
+        props.top = k.top;
+        props.width = k.width;
+        props.height = k.height;
+    }
+};
+
+    
+    
 if (!window.ABCXJS)
     window.ABCXJS = {};
 
@@ -10349,15 +10633,13 @@ if (!window.ABCXJS.midi)
 window.ABCXJS.midi.keyToNote = {}; // C8  == 108
 window.ABCXJS.midi.minNote = 0x15; //  A0 = first note
 window.ABCXJS.midi.maxNote = 0x6C; //  C8 = last note
-window.ABCXJS.midi.number2keyflat  = ["C", "D♭", "D", "E♭", "E", "F", "G♭", "G", "A♭", "A", "B♭", "B"];
-window.ABCXJS.midi.number2keysharp = ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"];
 
 // popular array keyToNote com o valor midi de cada nota nomeada
 for (var n = window.ABCXJS.midi.minNote; n <= window.ABCXJS.midi.maxNote; n++) {
     var octave = (n - 12) / 12 >> 0;
-    var name = ABCXJS.midi.number2keysharp[n % 12] + octave;
+    var name = ABCXJS.parse.number2keysharp[n % 12] + octave;
     ABCXJS.midi.keyToNote[name] = n;
-    name = ABCXJS.midi.number2keyflat[n % 12] + octave;
+    name = ABCXJS.parse.number2keyflat[n % 12] + octave;
     ABCXJS.midi.keyToNote[name] = n;
 }
 /* 
@@ -10579,7 +10861,7 @@ ABCXJS.midi.Parse.prototype.handleButtons = function(pitches, buttons ) {
                 }
             }
             
-            midipitch = 12 + 12 * note.octave + DIATONIC.map.key2number[ note.key ];
+            midipitch = 12 + 12 * note.octave + ABCXJS.parse.key2number[ note.key ];
         }
         
         // TODO:  no caso dos baixos, quando houver o baixo e o acorde simultaneamente
@@ -10590,7 +10872,7 @@ ABCXJS.midi.Parse.prototype.handleButtons = function(pitches, buttons ) {
             if(note.isBass && pitches[r].midipitch.clef === 'bass') {
                 pitch = pitches[r].midipitch.midipitch % 12;
                 hasBass=true;
-                if( pitch === DIATONIC.map.key2number[ key ] && ! pitches[r].button ){
+                if( pitch === ABCXJS.parse.key2number[ key ] && ! pitches[r].button ){
                     pitches[r].button = item.button;
                     item.button = null;
                     return;
@@ -11366,8 +11648,8 @@ ABCXJS.midi.Player.prototype.startPlay = function(what) {
     
     if(this.currentTime === 0 ) {
         //flavio - pq no IOS tenho que tocar uma nota antes de qualquer pausa
-        MIDI.noteOn(0, 21, 0, 0);
-        MIDI.noteOff(0, 21, 0.01);
+        MIDI.noteOn(0, 20, 0, 0);
+        MIDI.noteOff(0, 20, 0.01);
     }
    
     this.playlist = what.playlist;
@@ -11515,7 +11797,7 @@ ABCXJS.midi.Player.prototype.doDidacticPlay = function(criteria) {
 ABCXJS.midi.Player.prototype.executa = function(pl) {
     
     var self = this;
-    var loudness = 256;
+    var loudness = 128;
     var delay = 0;
     var aqui;
 
@@ -11566,8 +11848,8 @@ ABCXJS.midi.Player.prototype.executa = function(pl) {
             pl.item.abcelems.forEach( function( elem ) {
                 delay = self.calcTempo( elem.delay );
                 aqui=4;
+                self.currAbsElem = elem.abcelem.parent;
                 if( self.callbackOnScroll ) {
-                    self.currAbsElem = elem.abcelem.parent;
                     self.callbackOnScroll(self);
                 }
                 aqui=5;
@@ -11641,6 +11923,1054 @@ ABCXJS.midi.Player.prototype.getTime = function() {
  * and open the template in the editor.
  */
 
+if (! window.DRAGGABLE )
+    window.DRAGGABLE  = {};
+
+if (! window.DRAGGABLE.ui )
+    window.DRAGGABLE.ui  = { windowId: 0, menuId: 0 };
+        
+DRAGGABLE.ui.Window = function( parent, aButtons, options, callback, aToolBarButtons ) {
+    
+    var self = this;
+    var opts = options || {};
+
+    this.id = ++ DRAGGABLE.ui.windowId;
+    
+    this.title = opts.title || '';
+    this.top = opts.top || 0;
+    this.left = opts.left || 0;
+    this.width = opts.width || '';
+    this.height = opts.height || '';
+    this.minWidth = opts.minWidth ||  160;
+    this.minHeight = opts.minHeight ||  48;
+    this.hasStatusBar = opts.statusbar || false;
+    this.translate = opts.translate || false;
+    this.zIndex  = opts.zIndex? opts.zIndex : 100;
+    this.draggable = typeof opts.draggable !== 'undefined' ? opts.draggable : true;
+    
+    var div = document.createElement("DIV");
+    div.setAttribute("id", "draggableWindow" +  this.id ); 
+    div.setAttribute("class", "draggableWindow" + (this.draggable? "" : " noShadow") ); 
+    this.topDiv = div;
+    
+    this.topDiv.style.zIndex = this.zIndex;
+    
+    if(!parent) {
+        document.body.appendChild(this.topDiv);
+    } else {
+        if(typeof parent === 'string') {
+            this.parent = document.getElementById(parent);
+        } else {
+            this.parent = parent;
+        }
+        this.parent.appendChild(this.topDiv);
+    }
+    
+    if( ! this.draggable ) {
+        this.topDiv.style.position = "relative";
+        this.topDiv.style.margin = "1px";
+    } else {
+        if(this.parent) {
+            this.topDiv.style.position = "absolute";
+        }
+        this.minTop = 1;
+        this.minLeft = 1;
+    }
+    
+    if(callback) {
+        this.defineCallback(callback);
+    }
+    
+    if( this.translate && DR ) {
+        this.translate = function() {
+        };
+        DR.addAgent(this);
+    }
+    
+    if(this.topDiv.style.top === "" ) this.topDiv.style.top = this.top;
+    if(this.topDiv.style.left === "" ) this.topDiv.style.left = this.left;
+    if(this.topDiv.style.height === "" ) this.topDiv.style.height = this.height;
+    if(this.topDiv.style.width === "" ) this.topDiv.style.width = this.width;
+    
+    var div = document.createElement("DIV");
+    div.setAttribute("id", "dMenu" +  this.id ); 
+    div.setAttribute("class", "draggableMenu gradiente" ); 
+    this.topDiv.appendChild( div );
+    this.menuDiv = div;
+
+    if( aToolBarButtons ) {
+        var div = document.createElement("DIV");
+        div.setAttribute("id", "dToolBar" +  this.id ); 
+        div.setAttribute("class", "draggableToolBar" ); 
+        this.topDiv.appendChild( div );
+        this.toolBar = div;
+    }
+    
+    div = document.createElement("DIV");
+    div.setAttribute("id", "draggableData" + this.id ); 
+    div.setAttribute("class", "draggableData" ); 
+    this.topDiv.appendChild( div );
+    this.dataDiv = div;
+    
+    if( this.hasStatusBar ) {
+        
+        this.dataDiv.setAttribute("class", "draggableData withStatusBar" ); ;
+        div = document.createElement("DIV");
+        div.setAttribute("id", "draggableStatus" + this.id ); 
+        div.setAttribute("class", "draggableStatus" ); 
+        this.topDiv.appendChild( div );
+        this.bottomBar = div;
+
+        div = document.createElement("DIV");
+        div.setAttribute("id", "draggableStatusResize" + this.id ); 
+        div.setAttribute("class", "draggableStatusResize" ); 
+        this.bottomBar.appendChild( div );
+        this.resizeCorner = div;
+        this.resizeCorner.innerHTML = '<img src="images/statusbar_resize.gif">';
+        
+        this.divResize = function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            var touches = e.changedTouches;
+            var p = {x: e.clientX, y: e.clientY};
+
+            if (touches) {
+                var l = touches.length - 1;
+                p.x = touches[l].clientX;
+                p.y = touches[l].clientY;
+            }
+            e.preventDefault();
+            var w = (self.topDiv.clientWidth + p.x - self.x);
+            var h = (self.topDiv.clientHeight + p.y - self.y);
+            self.topDiv.style.width = ( w < self.minWidth ? self.minWidth : w ) + 'px';
+            self.topDiv.style.height = ( h < self.minHeight ? self.minHeight : h ) + 'px';
+
+            self.x = p.x;
+            self.y = p.y;
+            self.eventsCentral('RESIZE');
+        };
+
+        this.mouseEndResize = function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            window.removeEventListener('mouseup', self.mouseEndResize, false);
+            window.removeEventListener('touchend', self.mouseEndResize, false);
+            window.removeEventListener('touchmove', self.divResize, false);
+            window.removeEventListener('touchleave', self.divResize, false);
+            window.removeEventListener('mousemove', self.divResize, false);
+            window.removeEventListener('mouseout', self.divResize, false);
+            self.dataDiv.style.pointerEvents = "auto";
+            self.eventsCentral('RESIZE');
+        };
+
+        this.mouseResize = function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            self.dataDiv.style.pointerEvents = "none";
+            window.addEventListener('mouseup', self.mouseEndResize, false);
+            window.addEventListener('touchend', self.mouseEndResize, false);
+            window.addEventListener('touchmove', self.divResize, false);
+            window.addEventListener('touchleave', self.divResize, false);
+            window.addEventListener('mousemove', self.divResize, false);
+            window.addEventListener('mouseout', self.divResize, false);
+            self.x = e.clientX;
+            self.y = e.clientY;
+        };
+
+        this.resizeCorner.addEventListener( 'mouseover', function() { self.resizeCorner.style.cursor='nwse-resize'; }, false);
+        this.resizeCorner.addEventListener( 'mousedown', this.mouseResize, false);
+        this.resizeCorner.addEventListener('touchstart', this.mouseResize, false);
+    }
+    
+    this.divMove = function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var touches = e.changedTouches;
+        var p = {x: e.clientX, y: e.clientY};
+
+        if (touches) {
+            var l = touches.length - 1;
+            p.x = touches[l].clientX;
+            p.y = touches[l].clientY;
+        }
+        e.preventDefault();
+        var y = ((p.y - self.y) + parseInt(self.topDiv.style.top));
+        var x = ((p.x - self.x) + parseInt(self.topDiv.style.left));
+        self.topDiv.style.top = (self.minTop && y < self.minTop ? self.minTop: y) + "px"; //hardcoded top of window
+        self.topDiv.style.left = (self.minLeft && x < self.minLeft ? self.minLeft: x) + "px";
+        self.x = p.x;
+        self.y = p.y;
+    };
+
+    this.mouseEndMove = function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        window.removeEventListener('mouseup', self.mouseEndMove, false);
+        window.removeEventListener('touchend', self.mouseEndMove, false);
+        window.removeEventListener('touchmove', self.divMove, false);
+        window.removeEventListener('touchleave', self.divMove, false);
+        window.removeEventListener('mousemove', self.divMove, false);
+        window.removeEventListener('mouseout', self.divMove, false);
+        self.dataDiv.style.pointerEvents = "auto";
+        self.eventsCentral('MOVE');
+    };
+    
+    this.mouseMove = function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if(!self.draggable) return;
+        self.dataDiv.style.pointerEvents = "none";
+        window.addEventListener('mouseup', self.mouseEndMove, false);
+        window.addEventListener('touchend', self.mouseEndMove, false);
+        window.addEventListener('touchmove', self.divMove, false);
+        window.addEventListener('touchleave', self.divMove, false);
+        window.addEventListener('mousemove', self.divMove, false);
+        window.addEventListener('mouseout', self.divMove, false);
+        self.x = e.clientX;
+        self.y = e.clientY;
+    };
+
+    this.close = function(e) {
+        self.topDiv.style.display='none';
+    };
+    
+    this.addButtons( this.id, aButtons );
+    this.addToolButtons( this.id, aToolBarButtons );
+    this.addTitle( this.id, this.title );
+    
+    this.titleSpan = document.getElementById("dSpanTitle"+this.id);
+    
+};
+
+DRAGGABLE.ui.Window.prototype.formatStyleParam = function ( p ) {
+    p = (isNaN(p)===false) ? ''+p : p;
+    return (p === ''+parseInt(p)? p + 'px' : p );
+};
+
+DRAGGABLE.ui.Window.prototype.move = function( left, top ) {
+    this.topDiv.style.left = this.formatStyleParam( left );
+    this.topDiv.style.top = this.formatStyleParam( top );
+};
+
+DRAGGABLE.ui.Window.prototype.setSize = function( width, height ) {
+    this.topDiv.style.width = this.formatStyleParam( width ); 
+    this.topDiv.style.height = this.formatStyleParam( height ); 
+};
+
+
+DRAGGABLE.ui.Window.prototype.setVisible = function( visible ) {
+    this.topDiv.style.display=(visible? 'block':'none');
+};
+
+DRAGGABLE.ui.Window.prototype.setToolBarVisible = function (visible) {
+    if( this.toolBar ) {
+        this.toolBar.style.display = visible ? 'block' : 'none';
+        this.resize();
+    }
+};
+
+DRAGGABLE.ui.Window.prototype.setStatusBarVisible = function (visible) {
+    if( this.bottomBar ) {
+        this.bottomBar.style.display = visible ? 'block' : 'none';
+        this.resize();
+    }
+};
+
+DRAGGABLE.ui.Window.prototype.setButtonVisible = function( action, visible ) {
+    var b = this.actionList[action.toUpperCase()];
+    if( b ) {
+        b.style.display = visible? '' : 'none';
+    }
+};
+
+DRAGGABLE.ui.Window.prototype.setFloating = function (floating) {
+    this.draggable = floating;
+    
+    this.topDiv.style.zIndex = this.draggable? this.zIndex+1: this.zIndex;
+
+    if( this.draggable ) {
+        this.topDiv.className = "draggableWindow";
+        if(this.parent) {
+            this.topDiv.style.position = "absolute";
+        }
+        this.minTop = 1; // ver isso
+        this.minLeft = 1; // ver isso
+    } else {
+        this.topDiv.className = "draggableWindow noShadow";
+        this.topDiv.style.position = "relative";
+        this.topDiv.style.margin = "1px";
+    }
+};
+
+DRAGGABLE.ui.Window.prototype.resize = function() {
+    var h = this.topDiv.clientHeight 
+            - (this.menuDiv ? this.menuDiv.clientHeight : 0 ) 
+            - (this.toolBar && this.toolBar.style.display !== 'none' ? this.toolBar.clientHeight : 0 ) 
+            - (this.bottomBar && this.bottomBar.style.display !== 'none' ? this.bottomBar.clientHeight : 0 );
+    
+    this.dataDiv.style.height =  (h-2) + 'px';
+    this.dataDiv.style.width = "100%";
+};
+
+DRAGGABLE.ui.Window.prototype.defineCallback = function( cb ) {
+    this.callback = cb;
+};
+
+DRAGGABLE.ui.Window.prototype.eventsCentral = function (action, elem) {
+    if (this.callback) {
+        this.callback.listener[this.callback.method]( action, elem);
+    } else {
+        if (action === 'CLOSE') {
+            this.close();
+        }
+    }
+};
+
+DRAGGABLE.ui.Window.prototype.setTitle = function( title ) {
+    this.titleSpan.innerHTML = title;
+};
+
+DRAGGABLE.ui.Window.prototype.addTitle = function( id, title  ) {
+    var self = this;
+    
+    var div = document.createElement("DIV");
+    div.setAttribute("class", "dTitle" ); 
+    
+    if( title ) {
+        if( this.translate ) {
+            DR.forcedResource("dSpanTranslatableTitle"+id, title); 
+        }
+    }
+    
+    div.innerHTML = '<span id="dSpanTranslatableTitle'+id+'" style="padding-left: 5px;">'+title+
+                        '</span><span id="dSpanTitle'+id+'" style="padding-left: 5px; white-space: nowrap;"></span>';
+    
+    self.menuDiv.appendChild(div);
+    
+    if(self.draggable && self.menuDiv) {
+        self.menuDiv.addEventListener( 'mouseover', function() { self.menuDiv.style.cursor='move'; }, false);
+    }
+    self.menuDiv.addEventListener( 'mousedown', self.mouseMove, false);
+    self.menuDiv.addEventListener('touchstart', self.mouseMove, false);
+    
+};
+
+DRAGGABLE.ui.Window.prototype.addButtons = function( id,  aButtons ) {
+    var defaultButtons = ['close|Fechar'];
+    var self = this;
+    
+    var buttonMap = { CLOSE: 'close', MOVE: 'move', ROTATE: 'rotate', GLOBE: 'world', ZOOM:'zoom-in', HELP:'circle-question', 
+                        POPIN: 'popin', POPOUT: 'popout', RESTORE:'restore', MAXIMIZE:'full-screen', APPLY:'tick', PRINT:'printer'  };
+    
+    if(aButtons)
+        defaultButtons = defaultButtons.concat(aButtons);
+    
+    defaultButtons.forEach( function (label) {
+        label = label.split('|');
+        var action = label[0].toUpperCase();
+        var rotulo = label.length > 1 ? label[1] : "";
+        var icon = 'ico-' + (buttonMap[action] ? buttonMap[action] : action.toLowerCase());
+        
+        if( self.translate ) {
+            DR.forcedResource('d'+ action +'ButtonA', rotulo, id, 'd'+ action +'ButtonA'+id); 
+        }
+        
+        var div = document.createElement("DIV");
+        div.setAttribute("id", 'd'+ action +'Button'+id ); 
+        div.setAttribute("class", "dButton" ); 
+        
+        if(action === 'MOVE') {
+            div.innerHTML = '<i class="'+ icon +' ico-white"></i>';
+        } else {
+            div.innerHTML = '<a href="" title="'+ rotulo +'"><i class="'+ icon +' ico-white"></i></a>';
+        }
+        
+        self.addAction( action, div, self );
+        self.menuDiv.appendChild(div);
+        
+    });
+};
+
+DRAGGABLE.ui.Window.prototype.addAction = function( action, div, self ) {
+        
+    if(! this.actionList ) {
+        this.actionList = {};
+    }
+    
+    this.actionList[action] = div; // salva a lista de acões 
+    
+    if( action === 'MOVE' ) return; // apenas registra na lista de ações 
+    
+    var f = function(e) {
+        e.preventDefault(); 
+        e.stopPropagation(); 
+        self.eventsCentral(action, div);
+    };
+    
+    div.addEventListener( 'click', f, false);
+    div.addEventListener( 'touchstart', f, false);
+    div.addEventListener( 'mousedown', function(e) { e.preventDefault(); e.stopPropagation(); }, false);
+};
+
+DRAGGABLE.ui.Window.prototype.dispatchAction = function( action ) {
+    this.eventsCentral(action, this.actionList[action] );
+};
+
+DRAGGABLE.ui.Window.prototype.addToolButtons = function( id,  aButtons ) {
+    if(!aButtons) return;
+    var self = this;
+    
+    var buttonMap = { 
+        GUTTER:'list-numbered', REFRESH:'bolt', DOWNLOAD:'download', FONTSIZE: 'fontsize', 
+        DROPDOWN:'open-down', OCTAVEDOWN:'octave-down', OCTAVEUP:'octave-up', 
+        SEARCH:'find-and-replace', 
+        UNDO:'undo', UNDOALL:'undo-all', REDO:'redo', REDOALL:'redo-all', LIGHTON:'lightbulb-on', READONLY:'lock-open' };
+    
+    aButtons.forEach( function (label) {
+        label = label.split('|');
+        var action = label[0].toUpperCase();
+        var rotulo = label.length > 1 ? label[1] : "";
+        
+        if( self.translate ) {
+            DR.forcedResource('d'+ action +'ButtonA', rotulo, id, 'd'+ action +'ButtonA'+id); 
+        }
+        
+        var div = document.createElement("DIV");
+        div.id =  'd'+ action +'Button'+id ; 
+        self.toolBar.appendChild(div);
+        
+        if( action === 'DROPDOWN' ) {
+            
+            div.className = "dButton topMenu";
+            
+            if( typeof self.menu === "undefined" ) {
+                self.menu = {};
+            }
+                    
+            var ddmId = label[2];
+            self.menu[ddmId] = new DRAGGABLE.ui.DropdownMenu(
+                   div
+                ,  self.callback
+                ,  [{title: '...', ddmId: ddmId, itens: []}]
+            );
+    
+        } else {
+            
+            div.className = "dButton";
+            
+            var icon = 'ico-' + (buttonMap[action] ? buttonMap[action] : action.toLowerCase());
+            div.innerHTML = '<a href="" title="'+ rotulo +'"><i class="'+ icon +' ico-black ico-large"></i></a>';
+            self.addAction( action, div, self );
+            
+        }
+        
+        
+    });
+};
+
+DRAGGABLE.ui.Window.prototype.addPushButtons = function( aButtons ) {
+    for( var p = 0; p < aButtons.length; p ++ ) {
+        var ico, claz;
+        var part = aButtons[p].split('|');
+        var button = document.getElementById(part[0]);
+        
+        var action = part[1].split('-');
+
+        switch( action[action.length-1] ) {
+            case 'SEARCH': 
+                ico = 'ico-search';  
+                claz = 'pushbutton';  
+                break;
+            case 'REPLACE': 
+                ico = 'ico-redo';  
+                claz = 'pushbutton';  
+                break;
+            case 'REPLACEALL': 
+                ico = 'ico-redo-all';  
+                claz = 'pushbutton';  
+                break;
+            case 'YES': 
+            case 'APPLY': 
+                ico = 'ico-circle-tick';  
+                claz = 'pushbutton';  
+                break;
+            case 'RESET': 
+                ico = 'ico-circle-r';     
+                claz = 'pushbutton';  
+                break;
+            case 'NO': 
+            case 'CLOSE': 
+            case 'CANCEL':
+                ico = 'ico-circle-error'; 
+                claz = 'pushbutton cancel'; 
+                break;
+        }
+        
+        new DRAGGABLE.ui.PushButton(button, claz, ico, part[1], part[2], this );
+        
+    }
+};
+
+DRAGGABLE.ui.Alert = function( parent, action, text, description, options ) {
+    
+    var x, y, w, h, callback;
+    
+    options = options? options : {};
+    
+    this.callback = { listener: this, method: 'alertCallback' };
+    
+    if(!parent) {
+        
+        this.parentCallback = null;
+        
+        // redimensiona a workspace
+        var winH = window.innerHeight
+                    || document.documentElement.clientHeight
+                    || document.body.clientHeight;
+
+        var winW = window.innerWidth
+                || document.documentElement.clientWidth
+                || document.body.clientWidth;
+        
+        x = winW/2-350;
+        y = winH/2-150;
+        
+    } else {
+        this.parentCallback = parent.callback;
+        x = parent.topDiv.offsetLeft + 50;
+        y = parent.topDiv.offsetTop + 50;
+    }
+    
+    var w = ( action ? "500px" : "700px" );
+    var h = "auto";
+    
+    x = options.x !== undefined ? options.x : x;
+    y = options.y !== undefined ? options.y : y;
+    w = options.w !== undefined ? options.w : w;
+    h = options.h !== undefined ? options.h : h;
+    
+    this.container = new DRAGGABLE.ui.Window(
+          null
+        , null
+        , {title: 'Alerta', translate: false, statusbar: false, top: y+"px", left: x+"px", width: w, height: h, zIndex: 300}
+        , this.callback
+    );
+    
+    this.container.dataDiv.innerHTML = '<div class="dialog" >\n\
+        <div class="flag"><i class="ico-circle-'+(action? 'question' : 'exclamation')+'"></i></div>\n\
+        <div class="text-group'+(action? '' : ' wide')+'">\n\
+            <div class="title">'+text+'</div>\n\
+            <div class="description">'+description+'</div>\n\
+        </div>\n\
+        <div id="pgAlert" class="pushbutton-group" style="right: 0; bottom: 0;" >\
+            <div id="botao1Alert"></div>\n\
+            <div id="botao2Alert"></div>\n\
+        </div>\n\
+    </div>';
+    
+    if( action ) {
+    
+        this.container.addPushButtons([
+            'botao1Alert|'+action+'-YES|Sim',
+            'botao2Alert|'+action+'-NO|Não'
+        ]);
+
+    } else {
+        
+        this.container.addPushButtons([
+            'botao1Alert|CLOSE|Ok'
+        ]);
+        
+    }   
+    this.modalPane = document.getElementById('modalPane');
+    
+    if( ! this.modalPane ) {
+        
+        var div = document.createElement("DIV");
+        div.id = 'modalPane';
+        div.style = "position:absolute; z-index:250; background-color:black; opacity:0.4; top:0; left:0; bottom:0; right:0; pointer-events: block; display:none;";
+        document.body.appendChild(div);
+        this.modalPane = div;
+        
+    }    
+    
+    this.modalPane.style.display = 'block';
+        
+    this.container.setVisible(true);
+
+};
+
+DRAGGABLE.ui.Alert.prototype.close = function( ) {
+    this.modalPane.style.display = 'none';
+    this.container.setVisible(false);
+    this.container.topDiv.remove();
+    this.container = null;
+};
+
+DRAGGABLE.ui.Alert.prototype.alertCallback = function ( action, elem ) {
+    switch(action) {
+        case 'CLOSE': 
+        case 'CANCEL': 
+           this.close();
+           break;
+        default:
+            if( this.parentCallback )
+                this.parentCallback.listener[this.parentCallback.method](action, elem);
+    }
+};
+
+
+DRAGGABLE.ui.PushButton = function( item, claz, ico, act, text, janela) {
+    this.item = item;
+    this.item.className = claz;
+    this.item.innerHTML = '<i class="'+ico+'" ></i>'+text+'</div>' ;
+    this.item.addEventListener('click', function(e) {
+        e.preventDefault(); 
+        e.stopPropagation(); 
+        janela.eventsCentral(act, item);
+    }, false );
+};
+
+DRAGGABLE.ui.ColorPicker = function( itens ) {
+    this.container = new DRAGGABLE.ui.Window( 
+          null
+        , [ 'apply|Selecionar' ]
+        , {translate:false, draggable:true, width: "auto", height: "auto", title: 'Selecionar cor', zIndex:"200" }
+        , {listener : this, method: 'pickerCallBack' }
+    );
+
+    this.container.dataDiv.innerHTML = '\
+<div class="picker-group">\
+    <canvas id="colorPickerCanvas"></canvas><br>\
+    <input id="originalColor"></input>\
+    <input id="newColor"></input>\
+</div>';
+   
+    this.originalColor = document.getElementById( 'originalColor' );
+    this.newColor = document.getElementById( 'newColor' );
+    
+    this.cp = new KellyColorPicker({
+        place : 'colorPickerCanvas', 
+        size : 190, 
+        input : 'newColor'  
+    });
+    
+    var self = this;
+    
+    for( var i = 0; i < itens.length; i++ ) {
+        document.getElementById(itens[i]).addEventListener('click', function( e ) { self.activate(this); e.stopPropagation(); } );
+    }
+};
+
+DRAGGABLE.ui.ColorPicker.prototype.pickerCallBack = function( action, elem ) {
+    switch(action) {
+        case 'MOVE': 
+            break;
+        case 'APPLY': 
+            this.item.style.backgroundColor = this.item.value = this.newColor.value;
+            this.close();
+            break;
+        case 'CLOSE': 
+           this.item.style.backgroundColor = this.item.value = this.originalColor.value;
+           this.close();
+   }
+};
+
+DRAGGABLE.ui.ColorPicker.prototype.close = function( ) {
+    this.container.setVisible(false);
+};
+
+DRAGGABLE.ui.ColorPicker.prototype.activate = function( parent ) {
+    var self = this;
+    
+    var oneTimeCloseFunction = function () { 
+        self.close(); 
+        this.removeEventListener('click', oneTimeCloseFunction, false );
+    };
+    
+    document.addEventListener( 'click', oneTimeCloseFunction  );
+    
+    this.item = parent;
+    this.container.topDiv.addEventListener( 'click', function (e) { e.stopPropagation(); } );
+    
+    this.newColor.value = this.originalColor.value = this.item.value;
+    this.originalColor.style.backgroundColor = this.item.value;
+    this.cp.setColorByHex(this.item.value);
+    
+    var bounds = this.item.getBoundingClientRect();
+    
+    this.container.topDiv.style.top = ( bounds.top + bounds.height/2  -120 ) + "px";
+    this.container.topDiv.style.left = bounds.left + bounds.width + 5 + "px";
+    this.container.setVisible(true);
+};
+
+
+DRAGGABLE.ui.ReplaceDialog = function( parent ) {
+    
+    var x, y;
+    
+    this.parentCallback = parent.callback;
+    this.callback = { listener: this, method: 'dialogCallback' };
+    x = Math.min( parent.dataDiv.clientWidth/2 - 250, 200);
+    y = 20;
+    
+    this.container = new DRAGGABLE.ui.Window(
+          parent.dataDiv
+        , null
+        , {title: 'Procurar e substituir', translate: false, statusbar: false, top: y+"px", left: x+"px", width: "500px", height:"auto", zIndex: 300}
+        , this.callback
+    );
+    
+    this.container.dataDiv.innerHTML = '<div class="dialog" >\n\
+        <div class="flag"><i class="ico-find-and-replace"></i></div>\n\
+        <div class="text-group">\n\
+            <br>Localizar:<input id="searchTerm" type="text" value="nós"></input>\n\
+            <br><br>Substituir por: <input id="replaceTerm" type="text" value="vós"></input>\n\
+        </div>\n\
+        <div id="pgAlert" class="pushbutton-group" style="right: 0; bottom: 0;" >\
+            <div id="botao1Replace"></div>\n\
+            <div id="botao2Replace"></div>\n\
+            <div id="botao3Replace"></div>\n\
+            <div id="botao4Replace"></div>\n\
+        </div>\n\
+    </div>';
+    
+        this.container.addPushButtons([
+            'botao1Replace|SEARCH|Localizar',
+            'botao2Replace|REPLACE|Substituir',
+            'botao3Replace|REPLACEALL|Substituir Tudo',
+            'botao4Replace|CANCEL|Cancelar'
+        ]);
+        
+        this.searchTerm = document.getElementById("searchTerm");
+        this.replaceTerm = document.getElementById("replaceTerm");
+        
+    this.container.setVisible(true);
+
+};
+
+DRAGGABLE.ui.ReplaceDialog.prototype.close = function( ) {
+    //this.modalPane.style.display = 'none';
+    this.container.setVisible(false);
+    this.container.topDiv.remove();
+    this.container = null;
+};
+
+DRAGGABLE.ui.ReplaceDialog.prototype.dialogCallback = function ( action, elem ) {
+    switch(action) {
+        case 'MOVE': 
+           break;
+        case 'CLOSE': 
+        case 'CANCEL': 
+           this.close();
+           break;
+        default:
+            this.parentCallback.listener[this.parentCallback.method]('DO-'+action, elem, this.searchTerm.value, this.replaceTerm.value);
+    }
+};
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+*/
+
+if (! window.DRAGGABLE )
+    window.DRAGGABLE  = {};
+
+if (! window.DRAGGABLE.ui )
+    window.DRAGGABLE.ui  = { windowId: 0, menuId: 0 };
+        
+DRAGGABLE.ui.DropdownMenu = function (topDiv, options, menu) {
+    var self = this;
+    var opts = options || {};
+    this.headers = {};
+    
+    this.id = ++ DRAGGABLE.ui.menuId;
+    
+    this.container = ( typeof topDiv === 'object' ) ? topDiv : document.getElementById(topDiv);
+    this.listener = opts.listener || null;
+    this.method = opts.method || null;
+    
+    if (!this.container) {
+        console.log('Elemento ' + topDiv + ' não existe!');
+        return;
+    } else {
+        this.container.innerHTML = "";
+    }
+    
+    for ( var m = 0; m < menu.length; m++ ) {
+        
+        var ddmId = menu[m].ddmId || ('ddm' +this.id +m );
+        
+        var e1 = document.createElement("div");
+        e1.setAttribute( "class", 'dropdown' );
+        this.container.appendChild(e1);
+        
+        var e2 = document.createElement("input");
+        e2.setAttribute( "type", "checkbox" );
+        e1.appendChild(e2);
+        this.headers[ddmId] = { div: null, chk: e2, btn: null, list: null, actionList: {} };
+        
+        e2 = document.createElement("button");
+        e2.setAttribute( "data-state", ddmId );
+        e2.innerHTML = (menu[m].title || '' ) +'&#160;'+'<i class="ico-open-down" data-toggle="toggle"></i>';
+        e2.addEventListener( 'click', function(e) { e.stopPropagation(); e.preventDefault(); self.eventsCentral(this.getAttribute("data-state")); }, false);
+        e2.addEventListener( 'touchstart', function(e) { e.stopPropagation(); e.preventDefault(); self.eventsCentral(this.getAttribute("data-state")); }, false);
+        e1.appendChild(e2);
+        this.headers[ddmId].btn = e2;
+        e2 = document.createElement("div");
+        e2.setAttribute( "class", "dropdown-menu customScrollBar" );
+        e2.setAttribute( "data-toggle", "toggle-menu" );
+        e1.appendChild(e2);
+        this.headers[ddmId].div = e2;
+        
+        e2.addEventListener( 'transitionend', function(e) {
+            if( e2.clientHeight > 0 && e2.clientHeight < e2.scrollHeight ) {
+                e2.style = 'overflow-y: auto;';
+            } else {     
+                e2.style = 'overflow-y: hidden;';
+            }
+        }, false);
+
+        var e3 = document.createElement("ul");
+        e2.appendChild(e3);
+        this.headers[ddmId].list = e3;
+        
+        for ( var i = 0; i < menu[m].itens.length; i++ ) {
+            this.addItemSubMenu(ddmId, menu[m].itens[i]);
+        }
+    }
+};
+
+DRAGGABLE.ui.DropdownMenu.prototype.dispatchAction = function( ddm, action ) {
+    this.headers[ddm].actionList[action].getElementsByTagName('a')[0].click();
+};
+
+DRAGGABLE.ui.DropdownMenu.prototype.setVisible = function (visible) {
+    this.container.style.display = visible? '' : 'none' ;
+};
+
+DRAGGABLE.ui.DropdownMenu.prototype.getSubMenu = function (ddm) {
+    if( ! this.headers[ddm] ) {
+        console.log( 'Menu não encontrado!' );
+        return false;
+    }
+    return this.headers[ddm];
+};
+
+DRAGGABLE.ui.DropdownMenu.prototype.getSubItem = function (ddm, item) {
+    
+    if( ! this.getSubMenu(ddm) ) {
+        return false;
+    }
+    
+    var toSel = item;
+    if(  typeof item === "string" ) {
+        toSel = this.headers[ddm].actionList[item];
+    } 
+    
+    return (toSel ?  toSel: false );
+};
+
+DRAGGABLE.ui.DropdownMenu.prototype.disableSubItem = function (ddm, action) {
+    var item = this.getSubItem(ddm,action);
+    
+    if( ! item ) {
+        return false;
+    }
+    
+    item.style.pointerEvents = 'none';
+    item.style.opacity = '0.5';
+    
+};
+
+DRAGGABLE.ui.DropdownMenu.prototype.enableSubItem = function (ddm, action) {
+    
+    var item = this.getSubItem(ddm,action);
+    
+    if( ! item ) {
+        return false;
+    }
+    
+    item.style.pointerEvents = '';
+    item.style.opacity = '';
+    
+};
+
+DRAGGABLE.ui.DropdownMenu.prototype.disableSubMenu = function (ddm) {
+    
+    if( ! this.getSubMenu(ddm) ) {
+        return false;
+    }
+    
+    this.headers[ddm].chk.checked = false;
+    this.headers[ddm].btn.style.pointerEvents = 'none';
+    this.headers[ddm].btn.style.opacity = '0.5';
+    
+};
+
+DRAGGABLE.ui.DropdownMenu.prototype.enableSubMenu = function (ddm) {
+    
+    if( ! this.getSubMenu(ddm) ) {
+        return false;
+    }
+    
+    this.headers[ddm].chk.checked = false;
+    this.headers[ddm].btn.style.pointerEvents = '';
+    this.headers[ddm].btn.style.opacity = '';
+    
+};
+
+DRAGGABLE.ui.DropdownMenu.prototype.emptySubMenu = function (ddm) {
+    
+    if( ! this.getSubMenu(ddm) ) {
+        return false;
+    }
+    
+    this.headers[ddm].list.innerHTML = "";
+    //self.setSubMenuTitle(ddm, '...');
+    
+};
+
+DRAGGABLE.ui.DropdownMenu.prototype.selectItem = function (ddm, item) {
+    var toSel = item;
+    if(  typeof item === "string" ) {
+        toSel = this.headers[ddm].actionList[item];
+    } 
+    
+    if( ! toSel ) return false;
+    
+    if( this.headers[ddm].selectedItem ) {
+        this.headers[ddm].selectedItem.className = '';
+    }
+    
+    toSel.className = 'selected';
+    this.headers[ddm].selectedItem = toSel;
+    return toSel;
+};
+    
+DRAGGABLE.ui.DropdownMenu.prototype.setSubMenuTitle = function (ddm, newTitle) {
+    
+    if( ! this.headers[ddm] ) {
+        console.log( 'Menu não encontrado!' );
+        return;
+    }
+    
+    var title = newTitle;
+    if(  typeof title !== "string" ) {
+        title = newTitle.getElementsByTagName('a')[0].innerHTML;
+    } 
+    
+    if( ! title ) {
+        console.log( 'Título não encontrado!' );
+        return false;
+    }
+        
+    this.headers[ddm].btn.innerHTML = (title || '' ) +'&#160;<i class="ico-open-down" data-toggle="toggle"></i>';
+    
+};
+    
+DRAGGABLE.ui.DropdownMenu.prototype.addItemSubMenu = function (ddm, newItem, pos) {
+    
+    var self = this;
+    var tags = newItem.split('|'); 
+    
+    if( ! self.headers[ddm] ) {
+        console.log( 'Menu não encontrado!' );
+        return;
+    }
+    
+    if( tags[0].substring(0, 3) ===  '---' ) {
+        var e4 = document.createElement("hr");
+    } else {
+        var e4 = document.createElement("li"); 
+        var action = tags.length > 1 ? tags[1] : tags[0];
+        e4.setAttribute( "id",  action );
+        
+        var e5 = document.createElement("a");
+        e5.innerHTML = tags[0];
+        e4.appendChild(e5);
+        
+        this.addAction( ddm, action, e4, this);
+        
+    }
+    
+    if(pos>=0) {
+        self.headers[ddm].list.insertBefore(e4, self.headers[ddm].list.children[pos]);
+    } else {
+        self.headers[ddm].list.appendChild(e4);
+    }  
+    
+    // added li element
+    return e4;
+};
+
+DRAGGABLE.ui.DropdownMenu.prototype.setListener = function (listener, method) {
+    this.listener = listener || null;
+    this.method = method || 'callback';
+};
+
+DRAGGABLE.ui.DropdownMenu.prototype.eventsCentral = function (state, event) {
+    for( var e in this.headers ) {
+        if( e === state ) {
+            
+            this.headers[e].chk.checked = ! this.headers[e].chk.checked;
+            
+            if( this.headers[e].chk.checked ) {
+                
+                var menu = e;
+                var self = this;
+                var oneTimeCloseFunction = function () { 
+                    self.headers[menu].chk.checked = false; 
+                    this.removeEventListener('click', oneTimeCloseFunction, false );
+                };
+                
+                document.addEventListener( 'click', oneTimeCloseFunction  );
+                
+                if( this.headers[e].selectedItem )
+                     this.headers[e].div.scrollTop = this.headers[e].selectedItem.offsetTop-115;
+
+            }
+            
+        } else {
+            this.headers[e].chk.checked = false;
+        }
+    }
+    if(event && this.listener){
+        this.listener[this.method](event);
+    }
+};
+
+DRAGGABLE.ui.DropdownMenu.prototype.addAction = function( ddm, action, div, self ) {
+    
+    self.headers[ddm].actionList[action]=div; 
+    
+    var f = function(e) {
+       e.preventDefault(); 
+       e.stopPropagation(); 
+       self.eventsCentral(this.getAttribute("data-state"), this.getAttribute("data-value") );
+    };
+    
+    div.setAttribute( "data-state", ddm );
+    div.setAttribute( "data-value", action );
+    
+    div.addEventListener( 'click', f, false);
+    div.addEventListener( 'touchstart', f, false);
+    div.addEventListener( 'mousedown', function(e) { e.preventDefault(); e.stopPropagation(); }, false);
+    
+};
+
+//DRAGGABLE.ui.DropdownMenu.prototype.closeMenu = function (state) {
+//    var e = document.getElementById(state);
+//    e.checked=false;
+//};
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 if (!window.ABCXJS)
 	window.ABCXJS = {};
 
@@ -11649,17 +12979,20 @@ if (!window.ABCXJS.tablature)
 
 ABCXJS.tablature.Accordion = function( params ) {
     
-    this.transposer   = new window.ABCXJS.parse.Transposer();
-    this.selected     = -1;
+    this.loaded       = undefined;
     this.tabLines     = [];
     this.accordions   = params.accordionMaps || [] ;
+    this.transposer   = new window.ABCXJS.parse.Transposer();
     
     if( this.accordions.length === 0 ) {
         throw new Error( 'No accordionMap found!');
     }
     
-    this.render_keyboard_opts = params.render_keyboard_opts || {transpose:false, mirror: false, scale:1, draggable:false, show:false, label:false};
+    this.render_opts = {};
+    this.setRenderOptions( params.render_keyboard_opts, true );
 
+//    this.render_opts =  params.render_keyboard_opts;
+    
     if( params.id )
         this.loadById( params.id );
     else
@@ -11667,19 +13000,40 @@ ABCXJS.tablature.Accordion = function( params ) {
     
 };
 
+ABCXJS.tablature.Accordion.prototype.setRenderOptions = function ( options, initial ) {
+    
+    var opt = options || {};
+
+    this.render_opts.transpose = (typeof opt.transpose === 'undefined'? (initial? false : this.render_opts.transpose ): opt.transpose) ;
+    this.render_opts.mirror = (typeof opt.mirror === 'undefined'? (initial? false : this.render_opts.mirror ): opt.mirror) ;
+    this.render_opts.draggable = (typeof opt.draggable === 'undefined'? (initial? false : this.render_opts.draggable ): opt.draggable) ;
+    this.render_opts.show = (typeof opt.show === 'undefined'? (initial? false : this.render_opts.show ): opt.show) ;
+    this.render_opts.label = (typeof opt.label === 'undefined'? (initial? false : this.render_opts.label ): opt.label) ;
+    
+    this.render_opts.scale = (typeof opt.scale === 'undefined'? (initial? 1 : this.render_opts.scale ): opt.scale) ;
+    
+    if( ! initial ) {
+        DIATONIC.map.color.fill = (typeof opt.fillColor === 'undefined'? DIATONIC.map.color.fill : opt.fillColor) ;
+        DIATONIC.map.color.background = (typeof opt.backgroundColor === 'undefined'? DIATONIC.map.color.background : opt.backgroundColor) ;
+        DIATONIC.map.color.open = (typeof opt.openColor === 'undefined'? DIATONIC.map.color.open : opt.openColor) ;
+        DIATONIC.map.color.close = (typeof opt.closeColor === 'undefined'? DIATONIC.map.color.close : opt.closeColor) ;
+    }    
+};
+
+
 ABCXJS.tablature.Accordion.prototype.loadById = function (id) {
     for (var g = 0; g < this.accordions.length; g ++)
         if (this.accordions[g].id === id) {
             return this.load(g);
-            
         }
-    console.log( 'Accordion not found. Loading the first one.');
-    return this.load(0);
+        console.log( 'Accordion not found. Loading the first one.');
+        return this.load(0);
 };
 
 ABCXJS.tablature.Accordion.prototype.load = function (sel) {
-    this.selected = sel;
-    return this.accordions[this.selected];
+    this.loaded = this.accordions[sel];
+    this.loadedKeyboard = this.loaded.keyboard;
+    return this.loaded;
 };
 
 ABCXJS.tablature.Accordion.prototype.accordionExists = function(id) {
@@ -11691,92 +13045,70 @@ ABCXJS.tablature.Accordion.prototype.accordionExists = function(id) {
 };
 
 ABCXJS.tablature.Accordion.prototype.accordionIsCurrent = function(id) {
-    var ret = false;
-    for(var a = 0; a < this.accordions.length; a++ ) {
-        if( this.accordions[a].id === id && this.selected === a) ret  = true;
-    }
-    return ret;
+    return (this.accordions.loaded && this.accordions.loaded.id === id);
 };
 
 ABCXJS.tablature.Accordion.prototype.clearKeyboard = function(full) {
-    this.accordions[this.selected].keyboard.clear(full);
+    this.loadedKeyboard.clear(full);
 };
 
 ABCXJS.tablature.Accordion.prototype.changeNotation = function() {
-    this.render_keyboard_opts.label = ! this.render_keyboard_opts.label;
-    this.redrawKeyboard();
+    this.render_opts.label = ! this.render_opts.label;
+    this.loadedKeyboard.redraw(this.render_opts);
 };
 
-ABCXJS.tablature.Accordion.prototype.redrawKeyboard = function() {
-    this.getKeyboard().redraw(this.render_keyboard_opts);
-};
-
-ABCXJS.tablature.Accordion.prototype.rotateKeyboard = function(div) {
-    var o = this.render_keyboard_opts;
+ABCXJS.tablature.Accordion.prototype.rotateKeyboard = function(div_id) {
+    var o = this.render_opts;
     
     if( o.transpose ) {
         o.mirror=!o.mirror;
     }
+    
     o.transpose=!o.transpose;
     
-    this.printKeyboard(div);
+    this.printKeyboard(div_id);
 };
 
-ABCXJS.tablature.Accordion.prototype.scaleKeyboard = function(div) {
-    if( this.render_keyboard_opts.scale < 1.2 ) {
-        this.render_keyboard_opts.scale += 0.2;
+ABCXJS.tablature.Accordion.prototype.scaleKeyboard = function(div_id) {
+    if( this.render_opts.scale < 1.2 ) {
+        this.render_opts.scale += 0.2;
     } else {
-        this.render_keyboard_opts.scale = 0.8;
+        this.render_opts.scale = 0.8;
     }
-    this.printKeyboard(div);
-};
-
-ABCXJS.tablature.Accordion.prototype.layoutKeyboard = function(options, div) {
-    if(options.transpose!==undefined)
-        this.render_keyboard_opts.transpose = options.transpose;
-    if(options.mirror!==undefined)
-        this.render_keyboard_opts.mirror = options.mirror;
-    this.printKeyboard(div);
+    this.printKeyboard(div_id);
 };
 
 ABCXJS.tablature.Accordion.prototype.printKeyboard = function(div_id, options) {
     
+    this.setRenderOptions( options );
+    
     var div =( typeof(div_id) === "string" ? document.getElementById(div_id) : div_id );
 
-    options = options || {};
-    
-    this.render_keyboard_opts.fillColor = options.fillColor || this.render_keyboard_opts.fillColor;
-    this.render_keyboard_opts.backgroundColor = options.backgroundColor || this.render_keyboard_opts.backgroundColor;
-    this.render_keyboard_opts.openColor = options.openColor || this.render_keyboard_opts.openColor;
-    this.render_keyboard_opts.closeColor = options.closeColor || this.render_keyboard_opts.closeColor;
-    
-
-    if( this.render_keyboard_opts.show ) {
+    if( this.render_opts.show ) {
         div.style.display="inline-block";
-        this.getKeyboard().print(div, this.render_keyboard_opts);
+        this.loadedKeyboard.print(div,this.render_opts);
     } else {
         div.style.display="none";
     }
 };
-        
-ABCXJS.tablature.Accordion.prototype.getKeyboard = function () {
-    return this.accordions[this.selected].keyboard;
-};
 
+ABCXJS.tablature.Accordion.prototype.getId = function () {
+    return this.loaded.getId();
+};
 ABCXJS.tablature.Accordion.prototype.getFullName = function () {
-    return this.accordions[this.selected].getFullName();
+    return this.loaded.getFullName();
 };
 
 ABCXJS.tablature.Accordion.prototype.getTxtModel = function () {
-    return this.accordions[this.selected].getTxtModel();
+    return this.loaded.getTxtModel();
 };
 
 ABCXJS.tablature.Accordion.prototype.getTxtNumButtons = function () {
-    return this.accordions[this.selected].getTxtNumButtons();
+    return this.loaded.getTxtNumButtons();
 };
 
 ABCXJS.tablature.Accordion.prototype.getTxtTuning = function () {
-    return this.accordions[this.selected].getTxtTuning();
+    return this.loaded.getTxtTuning();
 };
 
 
@@ -11853,9 +13185,9 @@ ABCXJS.tablature.Accordion.prototype.setTabLine = function (line) {
     this.tabLines[this.tabLines.length] = line.trim();
 };
 
-ABCXJS.tablature.Accordion.prototype.updateEditor = function () {
-    var ret = "\n";
-    if(this.tabLines.length === 0) return "";
+ABCXJS.tablature.Accordion.prototype.getTabLines = function () {
+    var ret = "";
+    if(this.tabLines.length === 0) return ret;
     for(var l = 0; l < this.tabLines.length; l ++ ) {
         if(this.tabLines[l].length>0){
             ret += this.tabLines[l]+"\n";
@@ -12168,7 +13500,7 @@ ABCXJS.tablature.Parse.prototype.getColumn = function() {
 };
 
 ABCXJS.tablature.Parse.prototype.checkBassButton = function( bellows, b ) {
-    var kb = this.accordion.getKeyboard();
+    var kb = this.accordion.loadedKeyboard;
     
     if( !kb  || b === undefined || ('.>.x.z.').indexOf(b) > 0 ) return true;
     
@@ -12724,7 +14056,7 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token, line ) {
             default:
                 var item = { bass:true, type: tt, c: "", pitch: pitchBase - (b * 3) - 0.5, inTie: token.bassNote[b].inTie || false };
                 var note = this.accordion.getNoteName(token.bassNote[b], this.accBassKey, this.bassBarAcc, true);
-                item.buttons = this.accordion.getKeyboard().getButtons(note);
+                item.buttons = this.accordion.loadedKeyboard.getButtons(note);
                 baixoOpen  = baixoOpen  ? typeof (item.buttons.open) !== "undefined" : false;
                 baixoClose = baixoClose ? typeof (item.buttons.close) !== "undefined" : false;
                 item.note = note.key;
@@ -12757,7 +14089,7 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token, line ) {
                     }
                 }
                 
-                item.buttons = this.accordion.getKeyboard().getButtons(note);
+                item.buttons = this.accordion.loadedKeyboard.getButtons(note);
                 item.note = note.key + note.octave;
                 item.c =  (item.buttons.close || item.buttons.open) ? ( item.inTie ?  'scripts.rarrow': item.note ) :  'x';
                 item.pitch = (qtd === 1 ? 11.7 : 13.4 -( c * 2.8));

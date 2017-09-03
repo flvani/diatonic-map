@@ -1,0 +1,160 @@
+@font-face {
+  font-family: 'abcx';
+  src: url('./abcx.ttf?99038695') format('truetype'),
+       url('./abcx.svg?99038695#abcx') format('svg');
+}
+
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'abcx';
+    src: url('../font/abcx.svg?81969744#abcx') format('svg');
+  }
+}
+*/
+ 
+ [class^="ico-"]:before, [class*=" ico-"]:before {
+  font-family: "abcx";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  text-align: center;
+  width: 1em;
+  height: 1em;
+  padding: 0;
+  
+  /* 3D effect */
+   text-shadow: 2px 1px 2px rgba(50, 50, 50, 0.8); 
+   
+  /* Font smoothing. That was taken from TWBS */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+ 
+  /*position relative faz diferença aqui*/
+  /* opacity: .8; */
+  
+  /* you can be more comfortable with increased icons size */
+  /* font-size: 120%; */
+ 
+}
+
+.ico-backward:before { content: '\e800'; } /* '' */
+.ico-bolt:before { content: '\e801'; } /* '' */
+.ico-bolt-2:before { content: '\e802'; } /* '' */
+.ico-circle-question:before { content: '\e803'; } /* '' */
+.ico-circle-error:before { content: '\e804'; } /* '' */
+.ico-circle-exclamation:before { content: '\e805'; } /* '' */
+.ico-circle-r:before { content: '\e806'; } /* '' */
+.ico-circle-tick:before { content: '\e807'; } /* '' */
+.ico-clef-bass:before { content: '\e808'; } /* '' */
+.ico-clef-bass-2:before { content: '\e809'; } /* '' */
+.ico-clef-treble:before { content: '\e80a'; } /* '' */
+.ico-clef-treble-2:before { content: '\e80b'; } /* '' */
+.ico-close:before { content: '\e80c'; } /* '' */
+.ico-close-2:before { content: '\e80d'; } /* '' */
+.ico-cog:before { content: '\e80e'; } /* '' */
+.ico-cogs:before { content: '\e80f'; } /* '' */
+.ico-download:before { content: '\e810'; } /* '' */
+.ico-eject:before { content: '\e811'; } /* '' */
+.ico-e-mail:before { content: '\e812'; } /* '' */
+.ico-fast-backward:before { content: '\e813'; } /* '' */
+.ico-fast-forward:before { content: '\e814'; } /* '' */
+.ico-find:before { content: '\e815'; } /* '' */
+.ico-find-and-replace:before { content: '\e816'; } /* '' */
+.ico-folder:before { content: '\e817'; } /* '' */
+.ico-folder-open:before { content: '\e818'; } /* '' */
+.ico-fontsize:before { content: '\e819'; } /* '' */
+.ico-fontsize-minus:before { content: '\e81a'; } /* '' */
+.ico-fontsize-plus:before { content: '\e81b'; } /* '' */
+.ico-forbidden:before { content: '\e81c'; } /* '' */
+.ico-forward:before { content: '\e81d'; } /* '' */
+.ico-full-screen:before { content: '\e81e'; } /* '' */
+.ico-full-screen-2:before { content: '\e81f'; } /* '' */
+.ico-home:before { content: '\e820'; } /* '' */
+.ico-home-2:before { content: '\e821'; } /* '' */
+.ico-learning:before { content: '\e822'; } /* '' */
+.ico-learning-2:before { content: '\e823'; } /* '' */
+.ico-learning-3:before { content: '\e824'; } /* '' */
+.ico-lightbulb-off:before { content: '\e825'; } /* '' */
+.ico-lightbulb-on:before { content: '\e826'; } /* '' */
+.ico-listening:before { content: '\e827'; } /* '' */
+.ico-listening-2:before { content: '\e828'; } /* '' */
+.ico-list-numbered:before { content: '\e829'; } /* '' */
+.ico-lock:before { content: '\e82a'; } /* '' */
+.ico-lock-open:before { content: '\e82b'; } /* '' */
+.ico-long-arrow-down:before { content: '\e82c'; } /* '' */
+.ico-long-arrow-up:before { content: '\e82d'; } /* '' */
+.ico-move:before { content: '\e82e'; } /* '' */
+.ico-move-2:before { content: '\e82f'; } /* '' */
+.ico-music:before { content: '\e830'; } /* '' */
+.ico-octave-down:before { content: '\e831'; } /* '' */
+.ico-octave-up:before { content: '\e832'; } /* '' */
+.ico-open-down:before { content: '\e833'; } /* '' */
+.ico-open-right:before { content: '\e834'; } /* '' */
+.ico-pause:before { content: '\e835'; } /* '' */
+.ico-play:before { content: '\e836'; } /* '' */
+.ico-popin:before { content: '\e837'; } /* '' */
+.ico-popin-2:before { content: '\e838'; } /* '' */
+.ico-popout:before { content: '\e839'; } /* '' */
+.ico-popout-2:before { content: '\e83a'; } /* '' */
+.ico-printer:before { content: '\e83b'; } /* '' */
+.ico-redo:before { content: '\e83c'; } /* '' */
+.ico-redo-all:before { content: '\e83d'; } /* '' */
+.ico-repeat-ccw:before { content: '\e83e'; } /* '' */
+.ico-repeat-cw:before { content: '\e83f'; } /* '' */
+.ico-restore:before { content: '\e840'; } /* '' */
+.ico-rotate:before { content: '\e841'; } /* '' */
+.ico-search:before { content: '\e842'; } /* '' */
+.ico-search-2:before { content: '\e843'; } /* '' */
+.ico-step-backward:before { content: '\e844'; } /* '' */
+.ico-step-forward:before { content: '\e845'; } /* '' */
+.ico-stop:before { content: '\e846'; } /* '' */
+.ico-tick:before { content: '\e847'; } /* '' */
+.ico-timer-00:before { content: '\e848'; } /* '' */
+.ico-timer-05:before { content: '\e849'; } /* '' */
+.ico-timer-15:before { content: '\e84a'; } /* '' */
+.ico-timer-20:before { content: '\e84b'; } /* '' */
+.ico-timer-30:before { content: '\e84c'; } /* '' */
+.ico-timer-45:before { content: '\e84d'; } /* '' */
+.ico-undo:before { content: '\e84e'; } /* '' */
+.ico-undo-all:before { content: '\e84f'; } /* '' */
+.ico-upload:before { content: '\e850'; } /* '' */
+.ico-vplayer:before { content: '\e851'; } /* '' */
+.ico-vplayer-2:before { content: '\e852'; } /* '' */
+.ico-world:before { content: '\e853'; } /* '' */
+.ico-world-2:before { content: '\e854'; } /* '' */
+.ico-world-3:before { content: '\e855'; } /* '' */
+.ico-world-4:before { content: '\e856'; } /* '' */
+.ico-wrench:before { content: '\e857'; } /* '' */
+.ico-zoom-in:before { content: '\e858'; } /* '' */
+.ico-zoom-out:before { content: '\e859'; } /* '' */
+
+.ico-large {
+  font-size: 180%;
+}
+
+.ico-black {
+    color: black;
+}
+
+.ico-lightgreen {
+    color: lightgreen;
+}
+
+.ico-lightgoldenrodyellow {
+    color: lightgoldenrodyellow;
+}
+
+.ico-lightblue {
+    color: lightblue;
+}
+
+.ico-diatonic-green {
+    color: #5ba4a4;
+}

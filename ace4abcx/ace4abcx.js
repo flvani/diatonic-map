@@ -56,7 +56,7 @@ var define = function(module, deps, payload) {
         }
         return;
     }
-    if (arguments.length == 2)
+    if (arguments.length === 2)
         payload = deps;
     if (!define.modules[module]) {
         define.payloads[module] = payload;
@@ -73,7 +73,7 @@ define.payloads = {};
 var _require = function(parentId, module, callback) {
     if (typeof module === "string") {
         var payload = lookup(parentId, module);
-        if (payload != undefined) {
+        if (payload !== undefined) {
             callback && callback();
             return payload;
         }
@@ -81,7 +81,7 @@ var _require = function(parentId, module, callback) {
         var params = [];
         for (var i = 0, l = module.length; i < l; ++i) {
             var dep = lookup(parentId, module[i]);
-            if (dep == undefined && require.original)
+            if (dep === undefined && require.original)
                 return;
             params.push(dep);
         }
@@ -91,7 +91,7 @@ var _require = function(parentId, module, callback) {
 
 var require = function(module, callback) {
     var packagedModule = _require("", module, callback);
-    if (packagedModule == undefined && require.original)
+    if (packagedModule === undefined && require.original)
         return require.original.apply(this, arguments);
     return packagedModule;
 };
@@ -1089,6 +1089,8 @@ exports.scrollbarWidth = function(document) {
     inner.style.display = "block";
 
     var outer = exports.createElement("ace_outer");
+    outer.className ='customScrollBar';
+    
     var style = outer.style;
 
     style.position = "absolute";
@@ -3256,7 +3258,7 @@ function DragdropHandler(mouseHandler) {
 
     this.onMouseDrag = function(e) {
         var target = this.editor.container;
-        if (useragent.isIE && this.state == "dragReady") {
+        if (useragent.isIE && this.state === "dragReady") {
             var distance = calcDistance(this.mousedownEvent.x, this.mousedownEvent.y, this.x, this.y);
             if (distance > 3)
                 target.dragDrop();
@@ -3528,14 +3530,14 @@ var optionsProvider = {
 };
 
 function warn(message) {
-    if (typeof console != "undefined" && console.warn)
+    if (typeof console !== "undefined" && console.warn)
         console.warn.apply(console, arguments);
 }
 
 function reportError(msg, data) {
     var e = new Error(msg);
     e.data = data;
-    if (typeof console == "object" && console.error)
+    if (typeof console === "object" && console.error)
         console.error(e);
     setTimeout(function() { throw e; });
 }
@@ -3552,7 +3554,7 @@ var AppConfig = function() {
 
         Object.keys(options).forEach(function(key) {
             var opt = options[key];
-            if (typeof opt == "string")
+            if (typeof opt === "string")
                 opt = {forwardTo: opt};
 
             opt.name || (opt.name = key);
@@ -7402,7 +7404,7 @@ var RangeList = function() {
         return removed;
     };
 
-    this.substractPoint = function(pos) {
+    this.subtractPoint = function(pos) {
         var i = this.pointIndex(pos);
 
         if (i >= 0)
@@ -7499,7 +7501,7 @@ var RangeList = function() {
     };
 
     this.$onChange = function(delta) {
-        if (delta.action == "insert"){
+        if (delta.action === "insert"){
             var start = delta.start;
             var end = delta.end;
         } else {
@@ -7520,19 +7522,19 @@ var RangeList = function() {
             if (r.start.row > startRow)
                 break;
 
-            if (r.start.row == startRow && r.start.column >= start.column ) {
-                if (r.start.column == start.column && this.$insertRight) {
+            if (r.start.row === startRow && r.start.column >= start.column ) {
+                if (r.start.column === start.column && this.$insertRight) {
                 } else {
                     r.start.column += colDiff;
                     r.start.row += lineDif;
                 }
             }
-            if (r.end.row == startRow && r.end.column >= start.column) {
-                if (r.end.column == start.column && this.$insertRight) {
+            if (r.end.row === startRow && r.end.column >= start.column) {
+                if (r.end.column === start.column && this.$insertRight) {
                     continue;
                 }
-                if (r.end.column == start.column && colDiff > 0 && i < n - 1) {                
-                    if (r.end.column > r.start.column && r.end.column == ranges[i+1].start.column)
+                if (r.end.column === start.column && colDiff > 0 && i < n - 1) {                
+                    if (r.end.column > r.start.column && r.end.column === ranges[i+1].start.column)
                         r.end.column -= colDiff;
                 }
                 r.end.column += colDiff;
@@ -7540,7 +7542,7 @@ var RangeList = function() {
             }
         }
 
-        if (lineDif != 0 && i < n) {
+        if (lineDif !== 0 && i < n) {
             for (; i < n; i++) {
                 var r = ranges[i];
                 r.start.row += lineDif;
@@ -8882,7 +8884,7 @@ var EditSession = function(text, mode) {
             range : range,
             type : type || "line",
             renderer: typeof type == "function" ? type : null,
-            clazz : clazz,
+            clazz : clazz + ' ABCXHighLight',
             inFront: !!inFront,
             id: id
         };
@@ -13412,9 +13414,12 @@ var Editor = function(renderer, session) {
         var cursorLayer = this.renderer.$cursorLayer;
         if (!cursorLayer)
             return;
+        
         cursorLayer.setSmoothBlinking(/smooth/.test(style));
-        cursorLayer.isBlinking = !this.$readOnly && style != "wide";
+        cursorLayer.isBlinking = !this.$readOnly && style !== "wide";
+
         dom.setCssClass(cursorLayer.element, "ace_slim-cursors", /slim/.test(style));
+        
     };
 
 }).call(Editor.prototype);
@@ -13478,6 +13483,7 @@ config.defineOptions(Editor.prototype, "editor", {
     displayIndentGuides: "renderer",
     fontSize: "renderer",
     fontFamily: "renderer",
+    fontWeight: "renderer",
     maxLines: "renderer",
     minLines: "renderer",
     scrollPastEnd: "renderer",
@@ -14085,7 +14091,7 @@ var Text = function(parentEl) {
             this.EOL_CHAR = EOL_CHAR;
             return true;
         }
-    }
+    };
 
     this.setPadding = function(padding) {
         this.$padding = padding;
@@ -14802,7 +14808,7 @@ var EventEmitter = require("./lib/event_emitter").EventEmitter;
 var MAX_SCROLL_H = 0x8000;
 var ScrollBar = function(parent) {
     this.element = dom.createElement("div");
-    this.element.className = "ace_scrollbar ace_scrollbar" + this.classSuffix;
+    this.element.className = "customScrollBar ace_scrollbar ace_scrollbar" + this.classSuffix;
 
     this.inner = dom.createElement("div");
     this.inner.className = "ace_scrollbar-inner";
@@ -14832,8 +14838,10 @@ var VScrollBar = function(parent, renderer) {
     this.scrollHeight = 0;
     renderer.$scrollbarWidth = 
     this.width = dom.scrollbarWidth(parent.ownerDocument);
+    
     this.inner.style.width =
     this.element.style.width = (this.width || 15) + 5 + "px";
+
 };
 
 oop.inherits(VScrollBar, ScrollBar);
@@ -14882,8 +14890,10 @@ var HScrollBar = function(parent, renderer) {
     ScrollBar.call(this, parent);
     this.scrollLeft = 0;
     this.height = renderer.$scrollbarWidth;
+    
     this.inner.style.height =
     this.element.style.height = (this.height || 15) + 5 + "px";
+
 };
 
 oop.inherits(HScrollBar, ScrollBar);
@@ -16603,7 +16613,7 @@ var VirtualRenderer = function(container, theme) {
     };
     
     this.setCursorStyle = function(style) {
-        if (this.scroller.style.cursor != style)
+        if (this.scroller.style.cursor !== style)
             this.scroller.style.cursor = style;
     };
     this.setMouseCursor = function(cursorStyle) {
@@ -16709,7 +16719,7 @@ config.defineOptions(VirtualRenderer.prototype, "renderer", {
     },
     fontSize:  {
         set: function(size) {
-            if (typeof size == "number")
+            if (typeof size === "number")
                 size = size + "px";
             this.container.style.fontSize = size;
             this.updateFontSize();
@@ -16720,7 +16730,15 @@ config.defineOptions(VirtualRenderer.prototype, "renderer", {
         set: function(name) {
             this.container.style.fontFamily = name;
             this.updateFontSize();
-        }
+        },
+        initialValue: 'monospace'
+    },
+    fontWeight: {
+        set: function(name) {
+            this.container.style.fontWeight = name;
+            this.updateFontSize();
+        },
+        initialValue: 'normal'
     },
     maxLines: {
         set: function(val) {
@@ -16741,7 +16759,7 @@ config.defineOptions(VirtualRenderer.prototype, "renderer", {
     scrollPastEnd: {
         set: function(val) {
             val = +val || 0;
-            if (this.$scrollPastEnd == val)
+            if (this.$scrollPastEnd === val)
                 return;
             this.$scrollPastEnd = val;
             this.$loop.schedule(this.CHANGE_SCROLL);
@@ -17250,10 +17268,10 @@ function onMouseDown(e) {
             var tmpSel = selection.toOrientedRange();
 
             if (oldRange && tmpSel.isEmpty() && isSamePoint(oldRange.cursor, tmpSel.cursor))
-                selection.substractPoint(tmpSel.cursor);
+                selection.subtractPoint(tmpSel.cursor);
             else {
                 if (shift) {
-                    selection.substractPoint(range.cursor);
+                    selection.subtractPoint(range.cursor);
                 } else if (range) {
                     editor.removeSelectionMarker(range);
                     selection.addRange(range);
@@ -17432,15 +17450,17 @@ var search = new Search();
 function find(session, needle, dir) {
     search.$options.wrap = true;
     search.$options.needle = needle;
-    search.$options.backwards = dir == -1;
+    search.$options.backwards = dir === -1;
     return search.find(session);
 }
+
 var EditSession = require("./edit_session").EditSession;
 (function() {
     this.getSelectionMarkers = function() {
         return this.$selectionMarkers;
     };
 }).call(EditSession.prototype);
+
 (function() {
     this.ranges = null;
     this.rangeList = null;
@@ -17452,7 +17472,7 @@ var EditSession = require("./edit_session").EditSession;
             var oldRange = this.toOrientedRange();
             this.rangeList.add(oldRange);
             this.rangeList.add(range);
-            if (this.rangeList.ranges.length != 2) {
+            if (this.rangeList.ranges.length !== 2) {
                 this.rangeList.removeAll();
                 return $blockChangeEvents || this.fromOrientedRange(range);
             }
@@ -17481,6 +17501,17 @@ var EditSession = require("./edit_session").EditSession;
         return $blockChangeEvents || this.fromOrientedRange(range);
     };
 
+    this.clearRange = function(range) {
+        this.subtractPoint(range.start);
+    };
+    
+    this.clearAllRanges = function() {
+        var removed = this.rangeList.removeAll();
+        if (removed.length)
+            this.$onRemoveRange(removed);
+    };
+    
+
     this.toSingleRange = function(range) {
         range = range || this.ranges[0];
         var removed = this.rangeList.removeAll();
@@ -17489,13 +17520,15 @@ var EditSession = require("./edit_session").EditSession;
 
         range && this.fromOrientedRange(range);
     };
-    this.substractPoint = function(pos) {
-        var removed = this.rangeList.substractPoint(pos);
+    
+    this.subtractPoint = function(pos) {
+        var removed = this.rangeList.subtractPoint(pos);
         if (removed) {
             this.$onRemoveRange(removed);
             return removed[0];
         }
     };
+    
     this.mergeOverlappingRanges = function() {
         var removed = this.rangeList.merge();
         if (removed.length)
@@ -17512,7 +17545,7 @@ var EditSession = require("./edit_session").EditSession;
 
     this.$onRemoveRange = function(removed) {
         this.rangeCount = this.rangeList.ranges.length;
-        if (this.rangeCount == 1 && this.inMultiSelectMode) {
+        if (this.rangeCount === 1 && this.inMultiSelectMode) {
             var lastRange = this.rangeList.ranges.pop();
             removed.push(lastRange);
             this.rangeCount = 0;
@@ -17702,7 +17735,7 @@ var Editor = require("./editor").Editor;
                 continue;
             this.session.removeMarker(range.marker);
             var index = markerList.indexOf(range);
-            if (index != -1)
+            if (index !== -1)
                 markerList.splice(index, 1);
         }
         this.session.selectionMarkerCount = markerList.length;
@@ -17917,7 +17950,7 @@ var Editor = require("./editor").Editor;
 
         this.selection.addRange(newRange);
         if (toRemove)
-            this.selection.substractPoint(toRemove);
+            this.selection.subtractPoint(toRemove);
     };
     this.transposeSelections = function(dir) {
         var session = this.session;
@@ -17979,7 +18012,7 @@ var Editor = require("./editor").Editor;
             this.renderer.scrollCursorIntoView(null, 0.5);
         }
         if (skip)
-            this.multiSelect.substractPoint(range.cursor);
+            this.multiSelect.subtractPoint(range.cursor);
     };
     this.alignCursors = function() {
         var session = this.session;
@@ -18019,7 +18052,7 @@ var Editor = require("./editor").Editor;
             this.selection.setRange(range);
         } else {
             sameRowRanges.forEach(function(r) {
-                sel.substractPoint(r.cursor);
+                sel.subtractPoint(r.cursor);
             });
 
             var maxCol = 0;
@@ -18407,10 +18440,11 @@ color:rgb(0, 22, 142);\
 color: rgb(255, 0, 0)\
 }\
 .ace-tm .ace_marker-layer .ace_selection {\
-background: rgb(181, 213, 255);\
+background-color: rgb(181, 213, 255); \
 }\
-.ace-tm.ace_multiselect .ace_selection.ace_start {\
+.ace-tm.ace_multiselect .ace_selection .ace_start {\
 box-shadow: 0 0 3px 0px white;\
+box-shadow: none;\
 }\
 .ace-tm .ace_marker-layer .ace_step {\
 background: rgb(252, 255, 0);\
@@ -19117,7 +19151,7 @@ exports.version = "1.2.6";
                     comment: 'ABCX annotation'
                 },
                 {
-                    token: ['attribute','information.variable'],
+                    token: ['attribute.attribute','information.variable'],
                     regex: '([\\s].*?[\\=])([^\\s\\\\]*)',
                     comment: 'ABCX attribute'
                 },
@@ -19127,7 +19161,7 @@ exports.version = "1.2.6";
                     comment: 'Notes'
                 },
                 {
-                    token: ['bass.constant', 'bellows.decoration.strong', 'buttons.constant', 'duration.constant.numeric'],
+                    token: ['bass.constant', 'bellows.constant.bellows', 'buttons.constant', 'duration.constant.numeric'],
                     regex: '([A-Ga-gzxZX>]*[♭♯]*[,\']*)([+-])([0-9abc>xz][\']*)([0-9]*[\.\/><0-9]*)',
                     comment: 'ABCX tablature elements'
                 },
@@ -19323,6 +19357,15 @@ exports.cssText = ".ace-abcx {\
 background-color: #FFFFFF;\
 color: black;\
 }\
+.ace-datadiv {\
+position: relative;\
+display: block;\
+overflow: auto;\
+top: 0;\
+left: 0;\
+height:100% !important; \
+width:100%;\
+}\
 .ace-abcx .ace_cursor {\
 color: black;\
 }\
@@ -19332,28 +19375,28 @@ font-weight:bold;\
 .ace-abcx .ace_italic {\
 font-style: italic;\
 }\
-.ace-abcx .ace_marker-layer .ace_selected-word {\
-border: 1px solid rgb(181, 213, 255);\
-}\
-.ace-abcx .ace_marker-layer .ace_selection {\
-background: rgb(181, 213, 255);\
-}\
 .ace-abcx .ace_invisible {\
 color: #ddd;\
 }\
 .ace-abcx .ace_marker-layer .ace_step {\
 background: rgb(255, 255, 0);\
 }\
-.ace-abcx .ace_active-line {\
-background: rgb(232, 242, 254);\
+.ace-abcx .ace_marker-layer .ace_selected-word {\
+border: none;\
 }\
-.ace-abcx .ace_gutter-active-line {\
-background-color : #DADADA;\
-color:white;\
+.ace-abcx .ace_marker-layer .ace_selection {\
+background-color: blue;\
+opacity:0.15;\
+}\
+.ace-abcx .ace_gutter-active-line,\
+.ace-abcx .ace_active-line {\
+background: blue;\
+opacity:0.05;\
 }\
 .ace-abcx .ace_gutter {\
-background: #ebebeb;\
-border-right: 1px solid rgb(159, 159, 159);\
+background: #EBEBEB;\
+background: #e9edf0;\
+border-right: 2px solid rgba(159, 159, 159, 0.3);\
 color: rgb(136, 136, 136);\
 }\
 .ace-abcx .ace_print-margin {\

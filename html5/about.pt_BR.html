@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html style="margin:0; padding:0; top:0; left:0;">
+    <head>
+        <meta charset="UTF-8">
+        <title>Sobre</title>
+        <style>
+            a {
+                color: #1dd2af;
+                color: blue;          
+                text-decoration: none;
+            }
+
+            a:hover, 
+            a:focus {
+                color: #1dd2af;
+                text-decoration: underline;
+            }            
+
+            .modalWindow {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                font-family: "Arial";
+                font-size:80%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background: rgba(0,0,0,0.2);
+                z-index: 99999;
+            }
+
+            .modalContent  { 
+                height: 100%;
+                text-align:justify;
+                text-justify:inter-word;
+            }
+
+            .modalContent h3 { 
+
+                position: relative;
+                float: left;
+                display: block;
+
+                margin-right: 1em;
+                line-height: 1em;
+
+                padding: 5px 10px;
+
+                font-size: 18px;
+                font-weight: bold;
+                text-align: left;
+                text-shadow: 2px 2px 2px rgba(255,255,255,0.5);
+                letter-spacing: 1px;
+
+                border-radius: 5px;
+                box-shadow: 2px 0 2px rgba(0,0,0,0.1), -2px 0 2px rgba(0,0,0,0.1);
+
+                background: #003050;          
+                background: -moz-linear-gradient(left, #003050 0%, black 100%);
+                background: -webkit-linear-gradient(left, #003050 0%, black 100%);
+                background: -o-linear-gradient(left, #003050 0%, black 100%);
+                background: -ms-linear-gradient(left, #003050 0%, black 100%);
+                background: linear-gradient(left, #003050 0%, black 100%);
+                color: orange;
+                color: #ff9922;
+                cursor:default;
+
+            }
+
+            .modalContent h3 span { 
+                color: #385c5b;
+                color: white;
+                font-size: 10px;
+                font-weight: bold;
+                text-align: left;
+                text-shadow: 1px 1px 1px rgba(255,255,255,0.3);
+
+            }
+            .modalContent h3 a { 
+                font-size: 13px;
+                font-weight: bold;
+                color: orange;          
+                text-decoration: none;
+                text-shadow: 2px 2px 2px rgba(255,255,255,0.5);
+
+            }
+            .modalContent h3 a:hover, 
+            .modalContent h3 a:focus {
+                color: orange;
+                text-decoration: underline;
+            }            
+
+            .modalContent p {
+                text-indent: 4em;
+            }
+
+            .modalWindow > div {
+                height: 100%;
+                width: 100%;
+                position: relative;
+                margin: 0;
+                background: #fff;
+            }
+            .modalWindow .modalContent { padding: 4px; }
+            .modalWindow .modalFooter  { padding: 4px; }
+
+            .modalFooter {
+                background: #F1F1F1;
+                border-top: 1px solid #999;
+            }
+
+            .modalFooter span {
+                line-height: 25px;
+            }
+
+            .modalFooter p {
+                color:#D4482D;
+                text-align:right;
+                margin:0;
+                padding: 5px;
+            }
+
+            strong, b {
+                font-weight: bold;
+            } 
+
+            .ok, .cancel {
+                background: #606061;
+                color: #FFFFFF;
+                line-height: 30px;
+                text-align: center;
+                text-decoration: none;
+                font-weight: bold;
+                -webkit-border-radius: 2px;
+                -moz-border-radius: 2px;
+                border-radius: 2px;
+                -moz-box-shadow: 1px 1px 3px #000;
+                -webkit-box-shadow: 1px 1px 3px #000;
+                box-shadow: 1px 1px 3px #000;
+            }
+
+            .ok, .cancel {
+                width:50px;
+                float:right;
+                margin-left:12px;
+            }
+
+            .ok:hover { background: #189CDA; }
+
+            .clear { float:none; clear: both; }
+        </style>        
+    </head>
+    <body style="position:absolute; margin:0; padding:0px; top:0px; left:0;">
+        <div id="modalAbout" class="modalWindow" style="margin:0; padding:0; top:0; left:0;">
+            <div>
+              <div class="modalContent">
+                <div id="clustrmaps-widget" style="float:right;   margin-left:1em;">
+                    <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?u=rUO7&d=1J7gP1r2nA3yuIH7qXcClQmW6EGCZo6pj85He9J5Yaw" async ></script>
+                </div>
+                  
+                <!--div id="fsfDiv" style="float:right;   margin-left:1em;">
+                    <a target="_blank" href="http://www.upgradefromwindows8.com"><img src="//static.fsf.org/fsforg/graphics/windows-infographic_share.png" height="200" width="200" alt="Close Windows, Open Doors"/></a>
+                </div-->
+                <h3>Diatonic-Map <i id="siteVerI">5.00</i><br/><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&#160;Vani</strong></a></span> </h3>
+                <p>Este projeto pretende ser um mapa de referência para acordeons diatônicos. 
+                   Com ele é possível configurar – e mostrar – o layout de qualquer gaita de botões, nos seus mais diversos modelos.
+                   Quero deixar aqui, meus especiais agradecimentos ao 
+                   <a target="_blank" href="mailto:prof.cezar.ferreira@gmail.com"><strong>Prof. Cezar Ferreira</strong></a> - <a href="https://www.facebook.com/groups/toquegaitaponto/" target="_blank">Sala da Gaita Ponto (Facebook)</a>, 
+                   que forneceu o material necessário para criação dos layouts e as essenciais informações sobre tablaturas para acordeons, 
+                   bem como, músicas e exercícios para praticar diretamente na gaita.</p>   
+                <p>Para transformar o projeto em uma ferramenta de aprendizagem, juntamos uma biblioteca  
+                   que permite editar partituras no formato ABC (<b>abcjs</b>) diretamente no browser. 
+                   O editor foi estendido para incluir uma ferramenta de transposição de tonalidades 
+                   e, principalmente, ampliamos a notação ABC (<i>non-standard</i>) para incluir 
+                   uma sintaxe para produção de tablaturas para acordeons,
+                   juntando o modelo ABC com os mapas de acordeons aqui apresentados.</p>   
+                <p>Por fim, através da implementação das bibliotecas de MIDI para browsers (<b>MIDI.js</b>), 
+                   tornou-se possível ouvir os sons produzidos pelo acordeon, na forma de canções e exercícios.
+                   Este recurso funciona inclusive em dispositivos móveis, tais como, celulares Android.</p>   
+                <p>O objetivo final é proporcionar uma experiência visual e interativa para aqueles que estão iniciando 
+                    seus estudos na "Gaita Ponto".</p>   
+                <h5>Ainda, meus sinceros agradecimentos aos autores destas bibliotecas:</h5>
+                <ul>
+                  <li><b><a href="https://github.com/leandron/accordion-map/" target="_blank">accordion-map</a> by Leandro Nunes:</b> "An interactive reference map for diatonic accordion chords".
+                  </li>
+                  <li><b><a href="https://github.com/paulrosen/abcjs/" target="_blank">abcjs</a> by Paul Rosen:</b> "Javascript for rendering ABC music notation".
+                  </li>
+                  <li><b><a href="https://github.com/mudcube/MIDI.js/" target="_blank">MIDI.js</a> by Michael Deal:</b> "Making life easy to create a MIDI-app on the web".
+                  </li>
+                  <li><b><a href="https://ace.c9.io/" target="_blank">ACE Editor</a> by ajax.org:</b> "Ace is an embeddable code editor written in JavaScript".
+                  </li>
+                  <li><b><a href="https://github.com/NC22/HTML5-Color-Picker" target="_blank">HTML5-Color-Picker</a> by Rubchuk Vladimir:</b> "A scaleable color picker wich attaches to the DOM elements".
+                  </li>
+                  <li><b><a href="https://github.com/robotnic/waterbug" target="_blank">Water Bug</a> by Bernhard Zwischenbrugger:</b> "A simple Javascript console for mobile devices".
+                  </li>
+                </ul>
+                <h5>Também fiz uso dos seguintes sites:</h5>
+                <ul>
+                  <li><b><a href="https://www.flaticon.com/" target="_blank">Flaticon - Free vector icons</a></b>.
+                  </li>
+                  <li><b><a href="http://fontello.com/" target="_blank">Fontello - Icon fonts generator</a></b>.
+                  </li>
+                  <li><b><a href="https://fonts.google.com/" target="_blank">Fonts Google - Great typography</a></b>.
+                  </li>
+                </ul>
+              </div>
+                <div class="modalFooter">
+                <span>Esta obra é distribuída sob uma Licença
+                <a rel="license" href="http://creativecommons.org/licenses/by/3.0/br/deed.pt_BR" target="_blank" title="Ver a Licença">Creative Commons Atribuição 3.0 Brasil</a>. 
+                <a href="release.pt_BR.html" target="_blank" title="Ver Notas de Lançamento" class="ok">Release</a></span>
+                <div class="clear"></div>
+              </div>
+            </div>
+        </div> <!-- /modalAbout -->
+        <script id="mainScript" type="text/javascript">
+            window.addEventListener('load', function () {
+                var e = document.getElementById('clustrmaps-widget-v2');
+                e.setAttribute('target','_blank');
+                e.setAttribute('href','http://www.clustrmaps.com/map/flvani.github.io');
+            }, false);
+        </script>
+    </body>
+</html>

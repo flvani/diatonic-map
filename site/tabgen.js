@@ -8,287 +8,255 @@
 if (!window.SITE)
     window.SITE = {};
 
-SITE.TabGen = function( interfaceParams ) {
+SITE.TabGen = function( mapa, interfaceParams ) {
 
     var that = this;
-
-    this.tab = { text:null, abc:null, title:null, div:null };
+    this.mapa = mapa;
+    this.accordion = mapa.accordion;
     
-    this.mapVisible = false;
+    var warnings_id = 'p2tWarningsDiv';
+
+    this.Div = new DRAGGABLE.ui.Window( 
+          interfaceParams.tabGenDiv
+        , null // ['help|Ajuda']
+        , {translate: false, statusbar: false, draggable: false, top: "3px", left: "1px", 
+            width: '100%', height: "100%", title: 'Extrair Tablatura'}
+        , {listener: this, method: 'p2tCallback'}
+    );
+    
+    this.Div.setVisible(true);
+    this.Div.dataDiv.style.overflow = 'hidden';
+    
+    this.controlDiv = document.createElement("DIV");
+    this.controlDiv.setAttribute("id", 'p2tcontrolDiv' );
+    this.controlDiv.setAttribute("class", 'controlDiv btn-group' );
+    this.Div.dataDiv.appendChild(this.controlDiv);
+    
+    this.controlDiv.innerHTML = document.getElementById(interfaceParams.controlDiv).innerHTML;
+    document.getElementById(interfaceParams.controlDiv).innerHTML = "";
+    
+    this.warningsDiv = document.createElement("DIV");
+    this.warningsDiv.setAttribute("id", warnings_id);
+    this.warningsDiv.setAttribute("class", "warningsDiv" );
+    this.Div.dataDiv.appendChild(this.warningsDiv);
+    
+    this.abcEditorDiv = document.createElement("DIV");
+    this.Div.dataDiv.appendChild(this.abcEditorDiv);
+
+    this.tabEditorDiv = document.createElement("DIV");
+    this.Div.dataDiv.appendChild(this.tabEditorDiv);
 
     this.tabParser = new ABCXJS.Part2Tab();
-    this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
-//    this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
     
-//    this.printButton = document.getElementById(interfaceParams.printBtn);
+    this.abcEditorWindow = new ABCXJS.edit.EditArea(
+        this.abcEditorDiv
+       ,{listener : this, method: 'abcEditorCallback' }
+       ,{   draggable:SITE.properties.tabGen.abcEditor.floating
+           ,toolbar: true, statusbar:true, translate:false
+           ,title: 'Partitura Original'
+           ,compileOnChange: false /*SITE.properties.options.autoRefresh*/
+        }
+    );
+    this.abcEditorWindow.setVisible(true);
+    
+    this.abcEditorWindow.container.setButtonVisible( 'CLOSE', false);
+    this.abcEditorWindow.container.setButtonVisible( 'DOWNLOAD', false);
+    this.abcEditorWindow.container.setButtonVisible( 'OCTAVEUP', false);
+    this.abcEditorWindow.container.setButtonVisible( 'OCTAVEDOWN', false);
+    this.abcEditorWindow.keySelector.setVisible(false);
+
+    this.tabEditorWindow = new ABCXJS.edit.EditArea(
+        this.tabEditorDiv
+       ,{listener : this, method: 'tabEditorCallback' }
+       ,{   draggable:SITE.properties.tabGen.tabEditor.floating
+           ,toolbar: true, statusbar:true, translate:false
+           ,title: 'Tablatura Extraída'
+           ,compileOnChange: false /*SITE.properties.options.autoRefresh*/
+        }
+    );
+    this.tabEditorWindow.setVisible(true);
+    
+    this.tabEditorWindow.container.setButtonVisible( 'CLOSE', false);
+    this.tabEditorWindow.container.setButtonVisible( 'DOWNLOAD', false);
+    this.tabEditorWindow.container.setButtonVisible( 'OCTAVEUP', false);
+    this.tabEditorWindow.container.setButtonVisible( 'OCTAVEDOWN', false);
+    this.tabEditorWindow.keySelector.setVisible(false);
+    
     this.saveButton = document.getElementById(interfaceParams.saveBtn);
     this.updateButton = document.getElementById(interfaceParams.updateBtn);
-
-    // player control
-//    this.playButton = document.getElementById(interfaceParams.playBtn);
-//    this.stopButton = document.getElementById(interfaceParams.stopBtn);
-//    this.currentPlayTimeLabel = document.getElementById(interfaceParams.currentPlayTimeLabel);
-    
-    this.ckShowWarns = document.getElementById(interfaceParams.ckShowWarns);
-    //this.ckShowABC = document.getElementById(interfaceParams.ckShowABC);
-    //this.ckConvertToClub = document.getElementById(interfaceParams.ckConvertToClub);
-    //this.convertToClub = document.getElementById('convertToClub');
-    
-    //this.ckConvertToClub.checked = toClub;
-    //this.convertToClub.style.display = toClub ? 'inline' : 'none';
-
-    this.ckShowWarns.addEventListener("click", function() {
-        var divWarn = document.getElementById("t2pWarningsDiv");
-        if( this.checked ) {
-            divWarn.style.display = 'inline';
-        } else {
-            divWarn.style.display = 'none';
-        }
-    }, false);
-
-//    this.ckShowABC.addEventListener("click", function() {
-//        var divABC = document.getElementById("t2pABCDiv");
-//        if( this.checked ) {
-//            divABC.style.display = 'inline';
-//        } else {
-//            divABC.style.display = 'none';
-//        }
-//    }, false);
-
-//    this.ckConvertToClub.addEventListener("click", function() {
-//        that.update();
-//    }, false);
-
-    this.textarea = document.getElementById(interfaceParams.textarea);
-
-//    this.printButton.addEventListener("click", function() {
-//        that.printPreview(that.tab.div.innerHTML, ["#divTitulo","#t2pDiv"]);
-//    }, false);
-
-//    this.saveButton.addEventListener("click", function() {
-//        that.salvaPartitura();
-//    }, false);
-    
-    this.showMapButton.addEventListener("click", function() {
-        that.showMap();
-    }, false);
+    this.openButton = document.getElementById(interfaceParams.openBtn);
     
     this.updateButton.addEventListener("click", function() {
-        that.update();
+        that.fireChanged();
     }, false);
     
-    this.playerCallBackOnScroll = function( player ) {
-        that.setScrolling(player);
-    };
+    this.saveButton.addEventListener("click", function() {
+        that.salvaTablatura();
+    }, false);
+    
+    this.openButton.addEventListener("click", function() {
+        var text = that.tabEditorWindow.getString();
+        that.setVisible(false);
+        SITE.SaveProperties();
+        if(text !== "" ) {
+            FILEMANAGER.saveLocal( 'ultimaTablaturaEditada', text );
+            that.mapa.menu.dispatchAction('menuRepertorio','TAB2PART');
+        }    
+    }, false);
+    
+};
 
-    this.playerCallBackOnPlay = function( player ) {
-        var strTime = player.getTime().cTime;
-        if(that.gotoMeasureButton)
-            that.gotoMeasureButton.value = player.currentMeasure;
-        if(that.currentPlayTimeLabel)
-            that.currentPlayTimeLabel.innerHTML = strTime;
-    };
-
-    this.playerCallBackOnEnd = function( player ) {
-        var warns = that.midiPlayer.getWarnings();
-        that.playButton.title = DR.getResource("playBtn");
-        that.playButton.innerHTML = '&#160;<i class="icon-play"></i>&#160;';
-        that.tab.abc.midi.printer.clearSelection();
-        that.accordion.clearKeyboard(true);
-        if(that.currentPlayTimeLabel)
-            that.currentPlayTimeLabel.innerHTML = "00:00.00";
-        if( warns ) {
-            var wd =  document.getElementById("t2pWarningsDiv");
-            var txt = "";
-            warns.forEach(function(msg){ txt += msg + '<br>'; });
-            wd.style.color = 'blue';
-            wd.innerHTML = '<hr>'+txt+'<hr>';
+SITE.TabGen.prototype.setup = function(abcText) {
+    
+    this.mapa.closeMapa();
+    
+    this.setVisible(true);
+    this.abcEditorWindow.setString(abcText);
+    
+    if(SITE.properties.tabGen.abcEditor.floating) {
+        if( SITE.properties.tabGen.abcEditor.maximized ) {
+            this.abcEditorWindow.container.dispatchAction('MAXIMIZE');
+        } else {
+            this.abcEditorWindow.container.dispatchAction('POPOUT');
         }
-    };
-
-//    this.playButton.addEventListener("click", function() {
-//        that.startPlay( 'normal' );
-//    }, false);
-//
-//    this.stopButton.addEventListener("click", function() {
-//        that.midiPlayer.stopPlay();
-//    }, false);
+    } else {
+        this.abcEditorWindow.container.dispatchAction('POPIN');
+    }
     
-
-    // inicio do setup do mapa    
-    this.midiParser = new ABCXJS.midi.Parse();
-    this.midiPlayer = new ABCXJS.midi.Player(this);
-    this.midiPlayer.defineCallbackOnPlay( that.playerCallBackOnPlay );
-    this.midiPlayer.defineCallbackOnEnd( that.playerCallBackOnEnd );
-    this.midiPlayer.defineCallbackOnScroll( that.playerCallBackOnScroll );
-
-    this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options );
+    this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
+    this.fireChanged();
     
-    this.editorWindow = interfaceParams.editorWindow;
-    this.keyboardWindow = interfaceParams.keyboardWindow;
+    if(SITE.properties.tabGen.tabEditor.floating) {
+        if( SITE.properties.tabGen.tabEditor.maximized ) {
+            this.tabEditorWindow.container.dispatchAction('MAXIMIZE');
+        } else {
+            this.tabEditorWindow.container.dispatchAction('POPOUT');
+        }
+    } else {
+        this.tabEditorWindow.container.dispatchAction('POPIN');
+    }
     
-    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
-    document.getElementById("t2pSpanAccordeon").innerHTML = ' (' + this.accordion.getTxtModel() + ')'; 
-    
-    this.textarea.value = document.getElementById("lixo").value;
-    
+    this.tabEditorWindow.restartUndoManager();
     this.resize();
-    this.update();
+};
+
+SITE.TabGen.prototype.setVisible = function(  visible ) {
+    this.Div.parent.style.display = visible?'block':'none';
+};
     
+SITE.TabGen.prototype.fireChanged = function() {
+    this.title = "";
+    var abcText = this.tabParser.parse(this.abcEditorWindow.getString(), this.accordion.loadedKeyboard );
+    this.title = this.tabParser.title;
+    this.printTablature(abcText);
 };
 
-SITE.TabGen.prototype.update = function() {
-    var abcText = this.tabParser.parse(this.textarea.value, this.accordion.getKeyboard() );
-    this.printABC( abcText );
-};
-
-SITE.TabGen.prototype.printABC = function(abcText) {
-    this.tab.text = abcText;
-    var divWarn = document.getElementById("t2pWarningsDiv");
-    var divABC = document.getElementById("t2pABCDiv");
-    
-    divABC.innerHTML ='<textarea class="sourceTextarea" style="height:90%;">' +  this.tab.text + '</textarea>'; // .replace(/\n/g,'\<br\>');
-   
-    var warns = this.tabParser.getWarnings();
-    if(warns) {
-        divWarn.innerHTML = warns;
-        divWarn.style.color = 'red';
-    } else {
-        divWarn.innerHTML = 'Tablatura extraída com sucesso!';
-        divWarn.style.color = 'green';
-    }
-};
-
-SITE.TabGen.prototype.parseABC = function(tab) {
-    var transposer = null;
-    var abcParser = new ABCXJS.parse.Parse( transposer, this.accordion );
-    
-    abcParser.parse(tab.text, this.parserparams );
-    tab.abc = abcParser.getTune();
-
-    if ( this.midiParser ) {
-        this.midiParser.parse( tab.abc, this.accordion.getKeyboard() );
-    }
-};        
-
-SITE.TabGen.prototype.resize = function( ) {
-    var t = document.getElementById( 't2pTextarea');
-    var m = document.getElementById( 't2pMenu');
-    var h = document.getElementById( 't2pHeader');
-    var o = document.getElementById( 't2pContentDiv');
-    var i = document.getElementById( 't2pStudioCanvasDiv');
-
-    t.style.width = parseInt(m.clientWidth) - 24 + "px";
-    i.style.height = (o.clientHeight - h.clientHeight - m.clientHeight - 10) + "px";
-};
-
-SITE.TabGen.prototype.hideMap = function() {
-    this.mapVisible = false;
-    this.accordion.render_keyboard_opts.show = this.mapVisible;
-    this.keyboardWindow.topDiv.style.display = 'none';
-    this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
-    document.getElementById('t2p_I_showMap').setAttribute('class', 'icon-folder-close' );
-};
-
-SITE.TabGen.prototype.showMap = function() {
-    this.mapVisible = ! this.mapVisible;
-    this.accordion.render_keyboard_opts.show = this.mapVisible;
-    if(this.mapVisible) {
-        this.keyboardWindow.topDiv.style.display = 'inline';
-        this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
-        document.getElementById('t2p_I_showMap').setAttribute('class', 'icon-folder-open' );
-    } else {
-        this.hideMap();
-    }
-};
-
-SITE.TabGen.prototype.keyboardCallback = function( e ) {
-    switch(e) {
-        case 'MOVE':
-            break;
-        case 'MINUS':
-            this.hideMap();
-            break;
-        case 'RETWEET':
-            this.accordion.rotateKeyboard(this.keyboardWindow.dataDiv);
-            break;
-        case 'ZOOM-IN':
-            this.accordion.scaleKeyboard(this.keyboardWindow.dataDiv);
-            break;
-        case 'GLOBE':
-            this.accordion.changeNotation();
-            break;
-        default:
-            alert(e);
-    }
-};
-
-SITE.TabGen.prototype.salvaPartitura = function() {
+SITE.TabGen.prototype.salvaTablatura = function() {
     if (FILEMANAGER.requiredFeaturesAvailable()) {
-        var name = this.tab.abc.metaText.title + ".abcx";
-        var conteudo = this.tab.text;
+        var name = this.title + ".tab";
+        var conteudo = this.tabEditorWindow.getString();
         FILEMANAGER.download(name, conteudo);
     } else {
         alert(DR.getResource("DR_err_saving"));
     }
 };
 
-SITE.TabGen.prototype.printPreview = function (html, divsToHide) {
-    var bg = document.body.style.backgroundColor;
-    var dv = document.getElementById('t2pPrintPreviewDiv');
+SITE.TabGen.prototype.printTablature = function(abcText) {
     
-    divsToHide.forEach( function( div ) {
-        $(div).hide();
-    });
-    $("#t2pPrintPreviewDiv").show();
+    this.tabEditorWindow.setString(abcText);
     
-    dv.innerHTML = html;
+    var warns = this.tabParser.getWarnings();
     
-    document.body.style.paddingTop = '0px';
-    document.body.style.backgroundColor = '#fff';
-    window.print();
-    document.body.style.backgroundColor = bg;
-    document.body.style.paddingTop = '50px';
-    
-    $("#t2pPrintPreviewDiv").hide();
-    divsToHide.forEach( function( div ) {
-        $(div).show();
-    });
-
-};
-
-SITE.TabGen.prototype.startPlay = function( type, value ) {
-    if( this.midiPlayer.playing) {
-        
-        this.ypos = 1000;
-        if (type === "normal" ) {
-            this.playButton.title = DR.getResource("playBtn");
-            this.playButton.innerHTML = '&#160;<i class="icon-play"></i>&#160;';
-            this.midiPlayer.pausePlay();
-        } else {
-            this.midiPlayer.pausePlay(true);
-        }    
-        
+    if(warns) {
+        this.warningsDiv.innerHTML = warns;
+        this.warningsDiv.style.color = 'red';
     } else {
-        this.accordion.clearKeyboard();
-        if(type==="normal") {
-            if( this.midiPlayer.startPlay(this.tab.abc.midi) ) {
-                this.playButton.title = DR.getResource("DR_pause");
-                this.playButton.innerHTML = '&#160;<i class="icon-pause"></i>&#160;';
-                this.ypos = 1000;
-            }
-        } else {
-            if( this.midiPlayer.startDidacticPlay(this.tab.abc.midi, type, value ) ) {
-                this.ypos = 1000;
-            }
-        }
+        this.warningsDiv.innerHTML = 'Tablatura extraída com sucesso!';
+        this.warningsDiv.style.color = 'green';
     }
 };
 
-SITE.TabGen.prototype.setScrolling = function(y, channel) {
-//    if( !this.tuneContainerDiv || channel > 0 ) return;
-//    if( y !== this.ypos ) {
-//        this.ypos = y;
-//        this.tuneContainerDiv.scrollTop = this.ypos - 40;    
-//    }
+SITE.TabGen.prototype.resize = function( ) {
+    // redimensiona a workspace
+    var winH = window.innerHeight
+                || document.documentElement.clientHeight
+                || document.body.clientHeight;
+
+    var winW = window.innerWidth
+            || document.documentElement.clientWidth
+            || document.body.clientWidth;
+
+    // -paddingTop 78
+    var h = (winH -78 - 10 ); 
+    var w = (winW - 8 ); 
+    
+    this.Div.topDiv.style.height = Math.max(h,200) +"px";
+    this.Div.topDiv.style.width = Math.max(w,400) +"px";
+};
+
+SITE.TabGen.prototype.updateSelection = function (force) {
+    return;
+    // não é possível, por hora, selecionar o elemento da partitura a partir da tablatura
+};
+
+SITE.TabGen.prototype.p2tCallback = function( e ) {
+    switch(e) {
+        case 'CLOSE':
+            this.setVisible(false);
+            SITE.SaveProperties();
+            this.mapa.openMapa();
+            break;
+    }
+};
+
+SITE.TabGen.prototype.tabEditorCallback = function (action) {
+    switch(action) {
+        case 'REFRESH': 
+           this.fireChanged();
+           break;
+        case 'MAXIMIZE': 
+            this.tabEditorWindow.maximizeWindow( true, SITE.properties.tabGen.tabEditor );
+            break;
+        case 'RESTORE': 
+            this.tabEditorWindow.maximizeWindow( false, SITE.properties.tabGen.tabEditor );
+            break;
+        case 'POPIN':
+            this.tabEditorWindow.dockWindow(true, SITE.properties.tabGen.tabEditor, 0, 0, "calc(100% - 5px)", "400px"  );
+            this.resize();
+            break;
+        case 'POPOUT':
+            this.tabEditorWindow.dockWindow(false, SITE.properties.tabGen.tabEditor );
+            this.resize();
+            break;
+        case 'RESIZE':
+        case 'MOVE':
+            this.tabEditorWindow.retrieveProps( SITE.properties.tabGen.tabEditor );
+            break;
+    }
+};
+
+SITE.TabGen.prototype.abcEditorCallback = function (action) {
+    switch(action) {
+        case 'REFRESH': 
+           this.fireChanged();
+           break;
+        case 'MAXIMIZE': 
+            this.abcEditorWindow.maximizeWindow( true, SITE.properties.tabGen.abcEditor );
+            break;
+        case 'RESTORE': 
+            this.abcEditorWindow.maximizeWindow( false, SITE.properties.tabGen.abcEditor );
+            break;
+        case 'POPIN':
+            this.abcEditorWindow.dockWindow(true, SITE.properties.tabGen.abcEditor, 0, 0, "calc(100% - 5px)", "400px"  );
+            this.resize();
+            break;
+        case 'POPOUT':
+            this.abcEditorWindow.dockWindow(false, SITE.properties.tabGen.abcEditor );
+            this.resize();
+            break;
+        case 'RESIZE':
+        case 'MOVE':
+            this.abcEditorWindow.retrieveProps( SITE.properties.tabGen.abcEditor );
+            break;
+    }
 };

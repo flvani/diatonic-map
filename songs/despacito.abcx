@@ -22,11 +22,11 @@ V:1 treble
 | c2 B2 :| A4 |
 V:2 bass
 |: A,,[A,CE] z [A,CE] | A,,[A,CE] z [A,CE] | F,,[F,A,C] z [F,A,C] | F,,[F,A,C] z [F,A,C] | C,,[C,E,G,] z [C,E,G,] |  C,,[C,E,G,] z [C,E,G,] | G,,[G,B,D] z [G,B,D] | E,,[G,B,D] z [G,B,D] :| 
-|: A,,[A,,C,E,] z [A,,C,E,] | A,,[A,,C,E,] z [A,,C,E,] | F,,[F,,A,,C,] z [F,,A,,C,] | F,,[F,,A,,C,] z [F,,A,,C,] | C,,[C,E,G,] z [C,E,G,] | C,,[C,E,G,] z [C,E,G,] | G,,[G,,B,,D,] z [G,,B,,D,] |1 E,,[G,,B,,D,] z [G,,B,,D,] :| 
-|:2 z4 | A,,[A,,C,E,] z [A,,C,E,] | A,,[A,,C,E,] z [A,,C,E,] | F,,[F,,A,,C,] z [F,,A,,C,] | F,,[F,,A,,C,] z [F,,A,,C,] | C,,[C,E,G,] z [C,E,G,] | C,,[C,E,G,] z [C,E,G,] | G,,[G,,B,,D,] z [G,,B,,D,] :| E,,[G,,B,,D,] z [G,,B,,D,] |
-|: A,,[A,,C,E,] z [A,,C,E,] | A,,[A,,C,E,] z [A,,C,E,] | F,,[F,,A,,C,] z [F,,A,,C,] | F,,[F,,A,,C,] z [F,,A,,C,] | G,,[C,E,G,] z [C,E,G,] | C,,[C,E,G,] z [G,,B,,D,] | G,,[G,,B,,D,] z [G,,B,,D,] |1 E,,[G,,B,,D,] z [G,,B,,D,] :|
-|2  G,, z z2 |: A,,[A,,C,E,] z [A,,C,E,] | A,,[A,,C,E,] z [A,,C,E,] | F,,[F,,A,,C,] z [F,,A,,C,] | F,,[F,,A,,C,] z [F,,A,,C,] | C,,[C,E,G,] z [C,E,G,] | C,,[C,E,G,] z [C,E,G,] | G,,[G,,B,,D,] z [G,,B,,D,] |
-| E,,[G,,B,,D,] z [G,,B,,D,] :| A,,4 | 
+|: A,,[A,CE] z [A,CE] | A,,[A,CE] z [A,CE] | F,,[F,A,C] z [F,A,C] | F,,[F,A,C] z [F,A,C] | C,,[C,E,G,] z [C,E,G,] | C,,[C,E,G,] z [C,E,G,] | G,,[G,B,D] z [G,B,D] |1 E,,[G,B,D] z [G,B,D] :| 
+|:2 z4 | A,,[A,CE] z [A,CE] | A,,[A,CE] z [A,CE] | F,,[F,A,C] z [F,A,C] | F,,[F,A,C] z [F,A,C] | C,,[C,E,G,] z [C,E,G,] | C,,[C,E,G,] z [C,E,G,] | G,,[G,B,D] z [G,B,D] :| E,,[G,B,D] z [G,B,D] |
+|: A,,[A,CE] z [A,CE] | A,,[A,CE] z [A,CE] | F,,[F,A,C] z [F,A,C] | F,,[F,A,C] z [F,A,C] | G,,[C,E,G,] z [C,E,G,] | C,,[C,E,G,] z [G,B,D] | G,,[G,B,D] z [G,B,D] |1 E,,[G,B,D] z [G,B,D] :|
+|2  G,, z z2 |: A,,[A,CE] z [A,CE] | A,,[A,CE] z [A,CE] | F,,[F,A,C] z [F,A,C] | F,,[F,A,C] z [F,A,C] | C,,[C,E,G,] z [C,E,G,] | C,,[C,E,G,] z [C,E,G,] | G,,[G,B,D] z [G,B,D] |
+| E,,[G,B,D] z [G,B,D] :| A,,4 | 
 V:3 accordionTab
 |: A-7 a-> z-z0.5 z-50.5 a-70.5 >-6'0.5 | (3 A-8 >-7'0.5 a->0.5 >-8 ) (3 z-6' z-70.5 a->0.5 >-5' ) | F-4' f->0.5 >-80.5 z-> f-7' | F-8 f-> z-z f-z | C+6' c+6 z+6' c+6 | C+6' c+6 z+6' c+80.5 >+70.5 | G+> g+> z+> g+> | E+> g+> z+z g+z :|
 |: A-7 a-> z-z.5 z-7.5 a-7.5 >-6'.5 | A-8.5 >-6'.5 a-8.5 >-6'.5 z-8 a-6' | F-7 f-> z->.5 z-7.5 f-7.5 >-6'.5 | F-8.5 >-6'.5 f-8.5 >-6'.5 z-8 f-7' | C+6 c+> z+>.5 z+6.5 c+6.5 >+6.5 | C+6'.5 >+6.5 c+6'.5 >+6.5 z+6' c+8.5 >+8.5 | G+> g+7 z+> g+> |1 E+z g+z z+z g+z :| 

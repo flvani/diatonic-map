@@ -1,11 +1,11 @@
 {
    "id":"GAITA_HOHNER_CORONA_II"
-  ,"menuOrder" : 40
+  ,"menuOrder" : 4
   ,"model":"Hohner Corona II"
   ,"tuning":["A","D","G"]
   ,"buttons":["31","8"]
   ,"pedal":[]
-  ,"image":"img/Hohner.Corona.gif"
+  ,"image":"images/Hohner.Corona II.png"
   ,"keyboard": 
     {
        "layout": [0.5, 0, 0.5]
@@ -20,7 +20,12 @@
        , "open": [["b2:m", "B2", "e2:m", "E2", "c2", "C2"], ["e2", "E2", "a2", "A2", "d2", "D2"]]
       }
     }
-  ,"songPathList":[]
+  ,"songPathList":[
+       "songs/despacito.corona.abcx"
+      ,"songs/xote.laranjeira.corona.abcx"
+  ]
   ,"practicePathList":[]
-  ,"chordPathList":[]
+  ,"chordPathList":[
+       "chords/acordes.corona.abcx"
+  ]
 }

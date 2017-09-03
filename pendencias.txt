@@ -1,29 +1,112 @@
-Mapa
-1) Associar videos com partituras
-2) Melhorar a apresentacao
-2) Traduzir FClef e GCLef
-3) Traduzir o menu tab2part
-4) Atualizar documentacao
+### TO DO ####################################################################################
 
-Studio
--- 1) Mudar em tempo real a sele��o de vozes em execucao
+-- tratar bug ao trocar o acordeon e a tab ativa não é a de musicas
 
-Gerador
--- 1) Verificar se o baixo existe para a dire��o do fole
--- 2) Mostrar teclado
--- 3) Salvar texto
--- 5) Mostrar ABC
--- 6) Resize de tela
--- 7) Implementar warnings
--- 8) Converter valores para hexa para incluir na tablatura
+- Atualizar as paginas de ajuda, mapa, estudio e tutorias
 
-4) Executar (verificar uma forma melhor de carregar o plugin)
-9) Criar conversor para club
+- melhorar a pagina de release
 
-ABCXJS  
+- Recolocar os scripts do GA
+- Usar as versões minificadas dos scripts
 
-1) MIDI.noteOff
-                if(  true /*self.playClef( elem.midipitch.clef.charAt(0) )*/ ) {
-                    delay = self.calcTempo( elem.delay );
-                    MIDI.noteOff(elem.midipitch.channel, elem.midipitch.midipitch, delay);
-                }
+### TO DO AFTER RELEASE 5 ####################################################################################
+
+- Tradução (após a release 5.0, provavelmente 5.1)
+- Eliminar esta variável assim que possível: var debug=false; 
+- Bug na sintaxe colorida da tablatura quando há acordes
+- Janela de midia: Preparar versao com abas para multiplos videos da mesma musica
+- Editor: Implementar funcao inativo para botões da toolbar, p. ex., quando não houver undo
+
+- Ajustar posicionamento das telas de alerta
+
+- Bug autorefresh quando se remove uma voz 
+    - at window.ABCXJS.data.Tune.checkJumpMarkers (abcxjs.js:485)
+    - Testar autorefresh
+
+- Tratar bug getBBox no Firefox (elemento não visivel) 
+    - isso vale para o chrome (não dá erro), mas nas outras abas não destaca os elementos adequadamente
+    - aparentemente resolvido - mostrando a aba antes de imprimir a partitura.
+
+- Condensar código de algumas rotinas do site (estudio.js, partgen,js), tais como:
+    - resize, posicionateclado e outras
+
+- Evitar que editarea chame updateselection se não existir no listener
+
+### DONE ####################################################################################
+
+- Pagina de créditos (about) e licenças e release
+    - Buscar a versão do site
+
+-- tratar bug quando o editor está maximizado (na abertura os botoes ficam invertidos)
+
+- Ao voltar do estudio redesenhar o teclado (não está destacando ao executar)
+- Fazer uma classe para Seletor de musicas (com registro do item selecionado)
+- Mudar a cor de menu selecionado
+- Atualizar as imagens das gaitas
+- Ajustar a impressao
+- Incluir carga de arquivo ABCX	na carga de mapa
+- Incluir opção para carregar repertorio adicionando à lista
+
+- Implementar a tela de ajustes
+     Incluir botões para 
+	Aplicar, 
+	Cancelar e 
+	Restaurar configurações Originais (Redefinir)
+
+- Controlar janelas ao entrar e sair do studio (isso tem a ver com janelas flutuantes que tem ou não pai)
+- Janelas podem ser flutuantes e ter pai
+- A editarea deve receber uma lista de opções, 
+- Fazer com que as propriedades do teclado sejam de posicionamento sejam do acordeon
+
+- Identificar o chaveamento entre abas e permitir alguns controles tais como abrir/fechar a janela de mídia.
+ - Fazer mais testes 
+
+- Janela de midia
+  -Incluir um botão para reabrir a janela de midia
+
+- Estudio
+    - Guardar Posição e tamanho dos itens de tela (e outras propriedades)
+    - Editor full screen
+    - Resize não acerta a largura do editor
+
+- Implementar no estudio
+ - Download 
+ - Atualizar (compilar)
+
+- Implementar na edit area
+ - reorganizar os botoes: gutter, save, undo, redo, refresh, search, tom, oitavas, realce, readonly 
+ - Procura e substituição
+ - Redo e Undo (all?)
+
+- Implementar o controle de preferencias
+- Remover seletores tv-m de tabbed view (agora uso javascript) para controlar a tab ativa
+- Avisar para não usar o browser Microsoft
+- Bug com undo manager: toda vez que usa setstring zera. isso acontece inclusive apos a atualização da partitura
+
+- Melhorar o estúdio, usando um único editor (em vez de um fixo e um movel)
+- Bug posiconamento da media ao redefinir
+
+- Persistir checkbox de tab2part
+
+- Refazer tab2part
+- Refazer part2tab
+
+- TabGen: Implementar salvar tablatura
+
+- Popout aumentar z-index, popin diminuir
+
+- Desabilitar menus acordeons e repertório ao chamar tab2part e part2tab
+
+- Testar o silenciamento
+
+- Melhorar a aplicação dos ajustes (p.ex., mostrar warnings deve ser verificado em todos os locais onde é usado)
+    - Testar a aplicação dos ajustes
+
+- Bugs Studio:
+  - Ao transpor oitava acima e abaixo, o editor acumula o texto abcx
+  - Falta resize do editor em algum ponto
+
+- Testar o resize de todas as telas
+  - Resize deve levar em conta a tela de warnings
+
+- Incluir acordeon Corona

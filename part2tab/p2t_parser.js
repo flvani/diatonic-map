@@ -118,6 +118,7 @@ ABCXJS.Part2Tab.prototype.parse = function (text, keyboard ) {
     this.partLines  = this.extractLines();
     this.keyboard  = keyboard;
     this.hasErrors = false;
+    this.title = undefined;
     
     while((!this.hasErrors) && this.currLine < this.partLines.length) {
         if( this.skipEmptyLines() ) {
@@ -150,6 +151,10 @@ ABCXJS.Part2Tab.prototype.parseLine = function () {
                  if( x !== null ) {
                     this.inTab = true;
                  }
+                 break;
+            case 'T:': 
+                if(!this.title)
+                    this.title = ABCXJS.parse.denormalizeAcc(header[0].trim().substr(2));
                  break;
             case 'K:': 
                 var k = ABCXJS.parse.denormalizeAcc(header[0].trim().substr(2));

@@ -10,16 +10,17 @@ if (!window.DIATONIC)
 if (!window.DIATONIC.map)
     window.DIATONIC.map = {};
 
-DIATONIC.map.accordionMaps = [];
-
-DIATONIC.map.key2number = 
-    {"C":0, "C♯":1, "D♭":1, "D":2, "D♯":3, "E♭":3, "E":4, 
-     "F":5 ,"F♯":6 ,"G♭":6, "G":7, "G♯":8 ,"A♭":8, "A":9, "A♯":10, "B♭":10, "B":11 };
-
-DIATONIC.map.number2key    = ["C", "C♯", "D", "E♭", "E", "F", "F♯", "G", "G♯", "A", "B♭", "B"];
-DIATONIC.map.number2key_br = ["Dó", "Dó♯", "Ré", "Mi♭", "Mi", "Fá", "Fá♯", "Sol", "Sol♯", "Lá", "Si♭", "Si"];
+DIATONIC.map.color = {};
+DIATONIC.map.color.fill = 'none';
+DIATONIC.map.color.background = 'none';
+DIATONIC.map.color.open = '#00ff00';
+DIATONIC.map.color.close = '#00b2ee';
 
 DIATONIC.map.loadAccordionMaps = function ( files, cb )  {
+    
+    if( ! DIATONIC.map.accordionMaps )
+        DIATONIC.map.accordionMaps = [];
+    
     var toLoad = 0;
     for( var f = 0; f <  files.length; f ++ ) {
         toLoad ++;
@@ -37,19 +38,19 @@ DIATONIC.map.loadAccordionMaps = function ( files, cb )  {
             })
             .always(function() {
                 toLoad --; 
-                if(toLoad === 0 ) {
-                    DIATONIC.map.accordionMaps.sort( function(a,b) { 
-                        return a.menuOrder > b.menuOrder;
-                    });
-                }
-                if( toLoad === 0 && cb ) {
-                    cb();
+                if( toLoad === 0 ) {
+                    DIATONIC.map.sortAccordions();
+                    cb && cb();
                 }
             });
     }
 };
 
-/* 
+DIATONIC.map.sortAccordions = function () {
+    DIATONIC.map.accordionMaps.sort( function(a,b) { 
+        return parseInt(a.menuOrder) > parseInt(b.menuOrder);
+    });
+};/* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -118,28 +119,13 @@ DIATONIC.map.AccordionMap.prototype.getPathToImage = function () {
     return this.image;
 };
 
-DIATONIC.map.AccordionMap.prototype.getChord = function (name) {
-    return this.chords.items[name];
-};
-DIATONIC.map.AccordionMap.prototype.setChord = function (name,content, addSort) {
-    this.chords.items[name] = content;
-    if(addSort) this.chords.sortedIndex.push( name );
+DIATONIC.map.AccordionMap.prototype.getAbcText = function (type, title) {
+    return this[type].items[title];
 };
 
-DIATONIC.map.AccordionMap.prototype.getSong = function (name) {
-    return this.songs.items[name];
-};
-DIATONIC.map.AccordionMap.prototype.setSong = function (name,content, addSort) {
+DIATONIC.map.AccordionMap.prototype.setSong = function (name, content, addSort) {
     this.songs.items[name] = content;
-    if(addSort) this.songs.sortedIndex.push( name );
-};
-
-DIATONIC.map.AccordionMap.prototype.getPractice = function (name) {
-    return this.practices.items[name];
-};
-DIATONIC.map.AccordionMap.prototype.setPractice = function (name,content, addSort) {
-    this.practices.items[name] = content;
-    if(addSort) this.practices.sortedIndex.push( name );
+    if( addSort ) this.songs.sortedIndex.push( name );
 };
 
 DIATONIC.map.AccordionMap.prototype.getFirstSong = function () {
@@ -156,6 +142,28 @@ DIATONIC.map.AccordionMap.prototype.getFirstChord = function () {
     var ret = this.chords.sortedIndex[0] || "";
     return ret;
 };
+
+
+//DIATONIC.map.AccordionMap.prototype.getChord = function (name) {
+//
+//DIATONIC.map.AccordionMap.prototype.getChord = function (name) {
+//    return this.chords.items[name];
+//};
+//DIATONIC.map.AccordionMap.prototype.setChord = function (name,content, addSort) {
+//    this.chords.items[name] = content;
+//    if(addSort) this.chords.sortedIndex.push( name );
+//};
+//
+//DIATONIC.map.AccordionMap.prototype.getSong = function (name) {
+//    return this.songs.items[name];
+//};
+//DIATONIC.map.AccordionMap.prototype.getPractice = function (name) {
+//    return this.practices.items[name];
+//};
+//DIATONIC.map.AccordionMap.prototype.setPractice = function (name,content, addSort) {
+//    this.practices.items[name] = content;
+//    if(addSort) this.practices.sortedIndex.push( name );
+//};
 
 DIATONIC.map.AccordionMap.prototype.loadABCX = function(pathList, cb ) {
     var toLoad = 0;
@@ -201,7 +209,8 @@ if (!window.DIATONIC)
 if (!window.DIATONIC.map)
     window.DIATONIC.map = {};
 
-DIATONIC.map.Keyboard = function ( keyMap, pedalInfo ) {
+DIATONIC.map.Keyboard = function ( keyMap, pedalInfo, options ) {
+    
     this.pedalInfo = pedalInfo;
     this.layout = keyMap.layout;
     this.keys = keyMap.keys;
@@ -245,7 +254,9 @@ DIATONIC.map.Keyboard.prototype.setup = function (keyMap) {
     this.width = (nIlheiras + nIlheirasBaixo + 1) * (this.size) +2;
     this.height = (maiorIlheira) * (this.size) +2;
     
-    var bassY = (maiorIlheira - (maiorIlheiraBaixo/2) ) / 2 * this.size;
+    var bassY = (maiorIlheiraBaixo === 4 ? 4 : 3 ) * this.size;
+    bassY += (maiorIlheira-11)/2*this.size; // move meio botão baixo nas gaitas com mais botões
+    
     var openRow, closeRow, bass, noteVal;
     
     for (var j = 0; j < this.keyMap.length; j++) {
@@ -273,7 +284,7 @@ DIATONIC.map.Keyboard.prototype.setup = function (keyMap) {
             this.limits.maxX = Math.max(this.limits.maxX, x );
             this.limits.maxY = Math.max(this.limits.maxY, y );
 
-            var btn = new DIATONIC.map.Button( x-this.radius, y-this.radius, { radius: this.radius, isPedal: this.isPedal(i,j) } );
+            var btn = new DIATONIC.map.Button( this, x-this.radius, y-this.radius, { radius: this.radius, isPedal: this.isPedal(i,j) } );
             
             btn.tabButton = (i + 1) + Array(j + 1).join("'");
             btn.openNote = this.parseNote(openRow[i], bass);
@@ -293,30 +304,24 @@ DIATONIC.map.Keyboard.prototype.setup = function (keyMap) {
     }
     // posiciona linha decorativa
     x = (nIlheiras+0.5) * (this.size);
-    y = bassY - 0.5 * this.size;
-    this.baseLine = {x: x, yi:y, yf:y + 5 * this.size};
+    y = bassY - (0.5*this.size);
+    this.baseLine = {x: x, yi:y, yf:y + ((maiorIlheiraBaixo+1) * this.size)};
     
     // adiciona o botão de legenda
     var raio=40;
-    this.legenda = new DIATONIC.map.Button( this.limits.maxX-(raio+this.radius), this.limits.minY+raio, { radius: raio, borderWidth: 2 } );
+    this.legenda = new DIATONIC.map.Button( this, this.limits.maxX-(raio+this.radius), this.limits.minY+raio, { radius: raio, borderWidth: 2 } );
 };
 
-DIATONIC.map.Keyboard.prototype.print = function (div, options ) {
+DIATONIC.map.Keyboard.prototype.print = function ( div, render_opts  ) {
     
     var sz;
-    options = options || {};
-    
-    options.fillColor = options.fillColor || 'none';
-    options.backgroundColor = options.backgroundColor || 'none';
-    options.openColor = options.openColor || '#00ff00';
-    options.closeColor = options.closeColor || '#00b2ee';
-    options.scale = options.scale || 1;
-    options.mirror = options.mirror || false;
-    options.transpose = options.transpose || false;
-    options.label = options.label|| false;
     
     var estilo = 
-'   .blegenda,\n\
+'   .keyboardPane {\n\
+        padding:4px;\n\
+        background-color:none;\n\
+    }\n\
+    .blegenda,\n\
     .button {\n\
         font-family: serif;\n\
         text-anchor: middle;\n\
@@ -328,34 +333,35 @@ DIATONIC.map.Keyboard.prototype.print = function (div, options ) {
         font-size: 13px;\n\
     }';
 
-    this.paper = new SVG.Printer( div ); 
+    var keyboardPane = document.createElement("div");
+    keyboardPane.setAttribute( "class", 'keyboardPane' );
+    div.innerHTML = "";
+    div.appendChild(keyboardPane);
     
-    this.paper.initDoc( 'keyb', 'Diatonic Map Keyboard', estilo, options );
+    this.paper = new SVG.Printer( keyboardPane ); 
+    this.paper.initDoc( 'keyb', 'Diatonic Map Keyboard', estilo, render_opts );
+    this.paper.initPage( render_opts.scale );
     
-    this.paper.initPage( options.scale );
+    var legenda_opts = ABCXJS.parse.clone( render_opts );
+    legenda_opts.kls = 'blegenda';
+    this.legenda.draw( 'l00', this.paper, this.limits, legenda_opts );
     
-    var legenda_opt = ABCXJS.parse.clone( options );
-    legenda_opt.kls = 'blegenda';
-    
-    this.legenda.draw('l00', this.paper, this.limits, legenda_opt );
-    
-    if(options.transpose) {
+    if(render_opts.transpose) {
         sz = {w:this.height, h:this.width};
-        var mirr = options.mirror ? this.baseLine.x : this.limits.maxX - (this.baseLine.x - this.limits.minX);
+        var mirr = render_opts.mirror ? this.baseLine.x : this.limits.maxX - (this.baseLine.x - this.limits.minX);
         for (var x = mirr-10; x <= mirr+10; x+=10) {
             this.drawLine(this.baseLine.yi, x, this.baseLine.yf, x);
         }
     } else {
         sz = {w:this.width, h:this.height};
-        var mirr = options.mirror ? this.limits.maxX - (this.baseLine.x - this.limits.minX) : this.baseLine.x;
+        var mirr = render_opts.mirror ? this.limits.maxX - (this.baseLine.x - this.limits.minX) : this.baseLine.x;
         for (var x = mirr-10; x <= mirr+10; x+=10) {
             this.drawLine(x, this.baseLine.yi, x, this.baseLine.yf);
         }
     }
  
-    var btn_opt = ABCXJS.parse.clone( options );
+    var btn_opt = ABCXJS.parse.clone( render_opts );
     btn_opt.kls = 'button';
-    btn_opt.openColor = btn_opt.closeColor = 'none';
      
     for (var j = 0; j < this.keyMap.length; j++) {
         for (var i = 0; i < this.keyMap[j].length; i++) {
@@ -367,10 +373,10 @@ DIATONIC.map.Keyboard.prototype.print = function (div, options ) {
     this.paper.endDoc();
 
     //binds SVG elements
-    this.legenda.setSVG(options.label, 'Abre', 'Fecha');
+    this.legenda.setSVG(render_opts.label, 'Abre', 'Fecha');
     for (var j = 0; j < this.keyMap.length; j++) {
         for (var i = 0; i < this.keyMap[j].length; i++) {
-            this.keyMap[j][i].setSVG(options.label); 
+            this.keyMap[j][i].setSVG(render_opts.label); 
         }
     }
 };
@@ -390,7 +396,7 @@ DIATONIC.map.Keyboard.prototype.getButtons = function (note) {
 
 DIATONIC.map.Keyboard.prototype.getNoteVal = function ( note ) {
     //noteVal will be a numeric product of the key + octave (to avoid #/b problem)
-    return DIATONIC.map.key2number[note.key.toUpperCase()] + (note.isBass?(note.isChord?-12:0):note.octave*12);
+    return ABCXJS.parse.key2number[note.key.toUpperCase()] + (note.isBass?(note.isChord?-12:0):note.octave*12);
 };
 
 DIATONIC.map.Keyboard.prototype.getLayout = function (r) {
@@ -410,11 +416,21 @@ DIATONIC.map.Keyboard.prototype.parseNote = function(txtNota, isBass) {
   nota.key        = parseInt(k) ? s[0].replace( k, '' ) : s[0];
   nota.octave     = parseInt(k) ? parseInt(k) : 4;
   nota.complement = s[1] ? s[1] : "";
-  nota.value      = DIATONIC.map.key2number[ nota.key.toUpperCase() ];
+  nota.value      = ABCXJS.parse.key2number[ nota.key.toUpperCase() ];
   nota.isChord    = ( nota.key === nota.key.toLowerCase() );
   nota.isBass     = isBass;
   nota.isMinor    = nota.complement.substr(0,2).indexOf( 'm' ) >= 0;
   nota.isSetima   = nota.complement.substr(0,2).indexOf( '7' ) >= 0;
+  
+//  if( nota.key.indexOf( '♯' ) >= 0 || nota.key.indexOf( '♭' ) >= 0 ) {
+//      if(nota.key.indexOf( '♯' ) >= 0) {
+//            window.ABCXJS.parse.number2key[nota.value] = window.ABCXJS.parse.number2keysharp[nota.value];
+//            window.ABCXJS.parse.number2key_br[nota.value] = window.ABCXJS.parse.number2keysharp_br[nota.value];
+//      } else {
+//            window.ABCXJS.parse.number2key[nota.value] = window.ABCXJS.parse.number2keyflat[nota.value];
+//            window.ABCXJS.parse.number2key_br[nota.value] = window.ABCXJS.parse.number2keyflat_br[nota.value];
+//      }
+//  }
   
   if (typeof (nota.value) === "undefined" ) {
       // para debug veja this.abctune.lines[this.line].staffs[this.staff].voices[this.voice][this.pos]
@@ -424,10 +440,10 @@ DIATONIC.map.Keyboard.prototype.parseNote = function(txtNota, isBass) {
   return nota;
 };
 
-DIATONIC.map.Keyboard.prototype.redraw = function(opts) {
+DIATONIC.map.Keyboard.prototype.redraw = function(render_opts) {
     for (var j = 0; j < this.keyMap.length; j++) {
         for (var i = 0; i < this.keyMap[j].length; i++) {
-            this.keyMap[j][i].setText( opts.label );
+            this.keyMap[j][i].setText( render_opts.label );
         }
     }
 };
@@ -460,10 +476,11 @@ if (!window.DIATONIC)
 if (!window.DIATONIC.map)
     window.DIATONIC.map = {};
 
-DIATONIC.map.Button = function( x, y, options ) {
+DIATONIC.map.Button = function( kb, x, y, options ) {
 
     var opt = options || {};
     
+    this.kb = kb;
     this.x = x;
     this.y = y;
     
@@ -475,8 +492,6 @@ DIATONIC.map.Button = function( x, y, options ) {
     
     this.radius = opt.radius;
     this.isPedal  = opt.isPedal || false;
-    this.openColor = opt.openColor || '#00ff00';
-    this.closeColor = opt.closeColor || '#00b2ee';
     this.borderWidth = opt.borderWidth || (this.isPedal?2:1);
     this.borderColor = opt.borderColor || (this.isPedal?'red':'black');
 
@@ -497,10 +512,13 @@ DIATONIC.map.Button.prototype.draw = function( id, printer, limits, options ) {
     }
     
     options = options || {};
+    options.radius = this.radius;
     options.borderColor = this.borderColor;
     options.borderWidth = this.borderWidth;
-    options.radius = this.radius;
-   
+    options.fillColor = (options.kls && options.kls === 'blegenda'? 'none' : DIATONIC.map.color.fill );
+    options.openColor = (options.kls && options.kls === 'blegenda'? DIATONIC.map.color.open : 'none' );
+    options.closeColor = (options.kls && options.kls === 'blegenda'? DIATONIC.map.color.close : 'none' );
+    
     this.SVG.gid = printer.printButton( id, currX, currY, options );
 
 };
@@ -523,7 +541,7 @@ DIATONIC.map.Button.prototype.setOpen = function(delay) {
         window.setTimeout(function(){that.setOpen();}, delay*1000 );
         return;
     } 
-    this.SVG.openArc.style.setProperty( 'fill', this.openColor );
+    this.SVG.openArc.style.setProperty( 'fill', DIATONIC.map.color.open );
 };
 
 DIATONIC.map.Button.prototype.setClose = function(delay) {
@@ -533,7 +551,7 @@ DIATONIC.map.Button.prototype.setClose = function(delay) {
         window.setTimeout(function(){that.setClose();}, delay*1000);
         return;
     } 
-    this.SVG.closeArc.style.setProperty( 'fill', this.closeColor );
+    this.SVG.closeArc.style.setProperty( 'fill', DIATONIC.map.color.close );
 };
 
 DIATONIC.map.Button.prototype.setSVG = function(showLabel, open, close ) {
@@ -554,15 +572,11 @@ DIATONIC.map.Button.prototype.setText = function( showLabel, open, close ) {
 };
 
 DIATONIC.map.Button.prototype.getLabel = function(nota, showLabel) {
-    var l = '';
-    if (showLabel) {
-        l= DIATONIC.map.number2key_br[nota.value];
-    } else {
-        l = DIATONIC.map.number2key[nota.value];
-    }
+    var l = nota.key;
     
-    if( showLabel )  {
+    if (showLabel) {
         l = l.toUpperCase() + '';
+        l = ABCXJS.parse.key2br[l].toUpperCase();
     }
     
     if ( nota.isChord ) {

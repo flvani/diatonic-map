@@ -73,7 +73,7 @@ FILEMANAGER.managedResources = {};
 FILEMANAGER.total = 0;
 FILEMANAGER.loaded = 0;
 FILEMANAGER.timeouts = 0;
-FILEMANAGER.timeoutInterval = 10;
+FILEMANAGER.timeoutInterval = 50;
 FILEMANAGER.maxTimeouts = 400;
 FILEMANAGER.errors = "";
 FILEMANAGER.success = "";
@@ -132,15 +132,13 @@ FILEMANAGER.waitResources = function (cb) {
         case -1: 
             cb.onProgress && cb.onProgress({perc:FILEMANAGER.getPercent()});
             window.setTimeout(function(){ FILEMANAGER.waitResources(cb); }, FILEMANAGER.timeoutInterval);
-            return;
+            break;
         case 1:
-            alert( '\nOPS!!! Tivemos problemas para carregar alguns recursos deste site.\n'
-                    +'\n\nPor favor, pressione F5 para recarregar esta página!\n' 
-                    +'\n\nSe o problema persistir, avise-nos pelo email:\nflavio.vani@gmail.com\n');
-            return;
+            cb.onLoad && cb.onLoad(false);
+            break;
         case 0:    
             cb.onProgress && cb.onProgress({perc:FILEMANAGER.getPercent(), timeouts:FILEMANAGER.timeouts, success: FILEMANAGER.success} );
-            cb.onLoad && cb.onLoad();
+            cb.onLoad && cb.onLoad(true);
     }
 };
 
@@ -225,4 +223,8 @@ FILEMANAGER.saveLocal = function(name, content) {
 
 FILEMANAGER.loadLocal = function(name) {
    return localStorage.getItem(name);
+};
+
+FILEMANAGER.removeLocal = function(name) {
+   return localStorage.removeItem(name);
 };

@@ -1,11 +1,11 @@
 {
-   "id":"GAITA_MINUANO_CF_TRANSPORTADA"
+   "id":"GAITA_MINUANO_BC_TRANSPORTADA"
   ,"menuOrder" : 2
   ,"model":"Minuano (transportada)"
   ,"tuning":["B","C"]
   ,"buttons":["21","8"]
   ,"pedal":[]
-  ,"image":"img/minuano.png"
+  ,"image":"images/Minuano.Transportada.png"
   ,"keyboard": 
     {
        "layout":[0,0.5]
