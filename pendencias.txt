@@ -1,14 +1,5 @@
 ### TO DO ####################################################################################
 
--- tratar bug ao trocar o acordeon e a tab ativa não é a de musicas
-
-- Atualizar as paginas de ajuda, mapa, estudio e tutorias
-
-- melhorar a pagina de release
-
-- Recolocar os scripts do GA
-- Usar as versões minificadas dos scripts
-
 ### TO DO AFTER RELEASE 5 ####################################################################################
 
 - Tradução (após a release 5.0, provavelmente 5.1)
@@ -16,6 +7,8 @@
 - Bug na sintaxe colorida da tablatura quando há acordes
 - Janela de midia: Preparar versao com abas para multiplos videos da mesma musica
 - Editor: Implementar funcao inativo para botões da toolbar, p. ex., quando não houver undo
+
+- Atualizar as paginas de ajuda, mapa, estudio e tutorias
 
 - Ajustar posicionamento das telas de alerta
 
@@ -110,3 +103,10 @@
   - Resize deve levar em conta a tela de warnings
 
 - Incluir acordeon Corona
+-- tratar bug ao trocar o acordeon e a tab ativa não é a de musicas
+
+- melhorar a pagina de release
+
+- Usar as versões minificadas dos scripts
+
+- Recolocar os scripts do GA
