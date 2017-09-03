@@ -7,10 +7,20 @@
 if (!window.SITE)
     window.SITE = {};
 
-SITE.getVersion = function(tag) {
+
+SITE.getDate = function (){
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    return yyyy*10000+mm*100+dd;
+};
+
+
+SITE.getVersion = function(tag, label) {
     var str = document.getElementById(tag).src;
     var res = str.match(/\_[0-9]*\.[0-9]*/g);
-    return res ? res[0].substr(1) : 'debug';
+    return res ? label+res[0].substr(1) : 'debug';
 };
 
 SITE.LoadProperties = function() {
@@ -166,14 +176,19 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
                 itens: [
                     'Mapas para acordeons|MAPS',
                     'Tablaturas para acordeons|TABS',
-                    'Tablaturas para gaita transportada <img src="images/novo.png">|TABSTRANSPORTADA',
+                    //'Tablaturas para gaita transportada <img src="images/novo.png">|TABSTRANSPORTADA',
+                    'Tablaturas para gaita transportada|TABSTRANSPORTADA',
                     'Símbolos de Repetição|JUMPS',
                     'Estúdio ABCX|ESTUDIO',
                     'Formato ABCX|ABCX',
-                    'Tutoriais|TUTORIAL',
+                    'Vídeo Tutoriais|TUTORIAL',
                     'Sobre|ABOUT'
                 ]}
         ]);
+        
+    this.menu.disableSubItem( 'menuInformacoes', 'ESTUDIO' );
+    this.menu.disableSubItem( 'menuInformacoes', 'ABCX' );
+    this.menu.disableSubItem( 'menuInformacoes', 'TUTORIAL' );
         
     this.accordionSelector = new ABCXJS.edit.AccordionSelector( 
             'menuGaitas', this.menu, 
@@ -425,7 +440,7 @@ SITE.Mapa.prototype.printPartiture = function (button, event) {
     event.preventDefault();
     button.blur();
     if(  currentABC.div.innerHTML )  {
-        ga('send', 'event', 'Mapa', 'print', currentABC.title);
+        ga('send', 'event', 'Mapa5', 'print', currentABC.title);
         this.printPreview(currentABC.div.innerHTML, ["#topBar","#mapaDiv"], currentABC.abc.formatting.landscape );
     }
 };
@@ -554,7 +569,7 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
     }
 
     if( tab.text ) {
-        ga('send', 'event', 'Mapa', 'tools', tab.title);
+        ga('send', 'event', 'Mapa5', 'tools', tab.title);
         var loader = this.startLoader( "OpenEstudio" );
         loader.start(  function() { 
             self.studio.setup( tab, self.accordion.getId() );
@@ -583,13 +598,13 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
         this.accordion.clearKeyboard();
         if(type==="normal") {
             if( this.midiPlayer.startPlay(currentABC.abc.midi) ) {
-                ga('send', 'event', 'Mapa', 'play', currentABC.title);
+                ga('send', 'event', 'Mapa5', 'play', currentABC.title);
                 this.playButton.title = DR.getResource("DR_pause");
                 this.playButton.innerHTML =  '<i class="ico-pause"></i>';
             }
         } else {
             if( this.midiPlayer.startDidacticPlay(currentABC.abc.midi, type, value ) ) {
-                ga('send', 'event', 'Mapa', 'didactic-play', currentABC.title);
+                ga('send', 'event', 'Mapa5', 'didactic-play', currentABC.title);
             }
         }
     }
@@ -792,7 +807,7 @@ SITE.Mapa.prototype.doCarregaRepertorioLocal = function(files) {
                 first = true;
             }
             
-            ga('send', 'event', 'Mapa', 'load', tunebook.tunes[t].title);
+            ga('send', 'event', 'Mapa5', 'load', tunebook.tunes[t].title);
         }    
     }
 
@@ -914,6 +929,9 @@ SITE.Mapa.prototype.renderTAB = function( tab ) {
 
 SITE.Mapa.prototype.setActiveTab = function(tab) {
     document.getElementById(tab).checked = true;
+    
+    if( this.activeTab ) this.activeTab.selector.style.display = 'none';
+
     switch(tab) {
         case 'songsTab':
             this.activeTab = this.renderedTune;

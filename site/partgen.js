@@ -589,13 +589,11 @@ SITE.PartGen.prototype.startPlay = function( type, value ) {
         this.editorWindow.setEditorHighLightStyle();
         if(type==="normal") {
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
-                //ga('send', 'event', 'Mapa', 'play', this.renderedTune.title);
                 this.playButton.title = DR.getResource("DR_pause");
                 this.playButton.innerHTML =  '<i class="ico-pause"></i>';
             }
         } else {
             if( this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value ) ) {
-                //ga('send', 'event', 'Mapa', 'didactic-play', this.renderedTune.title);
             }
         }
     }

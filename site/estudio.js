@@ -151,7 +151,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.printButton.addEventListener("click", function (evt) {
         evt.preventDefault();
         this.blur();
-        ga('send', 'event', 'Estúdio', 'print', that.renderedTune.title);
+        ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
         that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#studioDiv"], that.renderedTune.abc.formatting.landscape);
         return;
 
@@ -351,6 +351,7 @@ SITE.Estudio.prototype.setup = function( tab, accordionId) {
     
     if(SITE.properties.studio.editor.floating) {
         if( SITE.properties.studio.editor.maximized ) {
+            this.editorWindow.setFloating(true);
             this.editorWindow.container.dispatchAction('MAXIMIZE');
         } else {
             this.editorWindow.container.dispatchAction('POPOUT');
@@ -688,13 +689,13 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
         if(type==="normal") {
             this.midiPlayer.setPlayableClefs('TB');
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
-                ga('send', 'event', 'Estúdio', 'play', this.renderedTune.title);
+                ga('send', 'event', 'Mapa5', 'play', this.renderedTune.title);
                 this.playButton.title = DR.getResource("DR_pause");
                 this.playButton.innerHTML = '&#160;<i class="ico-pause"></i>&#160;';
             }
         } else {
             this.midiPlayer.setPlayableClefs( (SITE.properties.studio.trebleOn?"T":"")+(SITE.properties.studio.bassOn?"B":"") );
-            ga('send', 'event', 'Estúdio', 'didactic-play', this.renderedTune.title);
+            ga('send', 'event', 'Mapa5', 'didactic-play', this.renderedTune.title);
             this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value, valueF );
         }
     }

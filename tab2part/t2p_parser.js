@@ -249,7 +249,7 @@ ABCXJS.Tab2Part.prototype.addNotes = function(staffs) {
                     str = note.pitch;
                 }
                 this.addTabElem(str);
-                if( staffs[i].token.final ) {
+                if( staffs[i].token.afinal ) {
                     var bas = this.checkBass(note.pitch, opening);
                     if(!bas){
                         if( this.alertedBarNumber !== staffs[i].token.barNumber ) {
@@ -301,16 +301,16 @@ ABCXJS.Tab2Part.prototype.addNotes = function(staffs) {
                         }
                     }  
                     this.addTabElem(str);
-                    if(  (this.trebleStaffs.open && this.trebleStaffs.open.token.final) 
-                            || (this.trebleStaffs.close && this.trebleStaffs.close.token.final)){
+                    if(  (this.trebleStaffs.open && this.trebleStaffs.open.token.afinal) 
+                            || (this.trebleStaffs.close && this.trebleStaffs.close.token.afinal)){
                         this.addTrebleElem(staffs[i]);
                         if( this.trebleStaffs.open ) {
                             this.setStaffState(this.trebleStaffs.open);
-                            this.trebleStaffs.open.token.final = true;
+                            this.trebleStaffs.open.token.afinal = true;
                         }
                         if( this.trebleStaffs.close ) {
                             this.setStaffState(this.trebleStaffs.close);
-                            this.trebleStaffs.close.token.final = true;
+                            this.trebleStaffs.close.token.afinal = true;
                         }
 
                     }
@@ -357,7 +357,7 @@ ABCXJS.Tab2Part.prototype.addBassElem = function (idx, el, bas ) {
     if(typeof( el ) === 'string' ) {
         this.parsedLines[this.currStaff].basses[idx] += el;
     } else {
-        if( el.hasToken && el.token.final ) {
+        if( el.hasToken && el.token.afinal ) {
             var note = this.handleBassNote(el.token.str);
             var str;
             
@@ -667,7 +667,7 @@ ABCXJS.Tab2Part.prototype.read = function(staffs) {
 ABCXJS.Tab2Part.prototype.getToken = function(staff) {
     var syms = "():|[]/";
     var qtd = staff.linhas.length;
-    var final = false;
+    var afinal = false;
     var type = null;
     var lastChar = "";
     var tokens = [];
@@ -751,7 +751,7 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
             strToken += token;
         }
         if( this.barEnding || ll.pos >= this.tabLines[ll.l].length || this.spaces.indexOf( this.tabLines[ll.l].charAt(this.endColumn)) < 0 ) {
-            final = true;
+            afinal = true;
         }
     }
     staff.hasToken = strToken.trim().length !== 0;
@@ -785,7 +785,7 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
         dur = parseFloat(this.columnDuration);
     }
     
-    return { str: strToken, aStr: tokens, duration: dur, barNumber: this.currBar, type:type, final: final, added: false, lastChar: lastChar };
+    return { str: strToken, aStr: tokens, duration: dur, barNumber: this.currBar, type:type, afinal: afinal, added: false, lastChar: lastChar };
 };
 
 ABCXJS.Tab2Part.prototype.normalizeAcc = function(str) {
@@ -797,12 +797,12 @@ ABCXJS.Tab2Part.prototype.normalizeAcc = function(str) {
 };
 
 ABCXJS.Tab2Part.prototype.updateToken = function(staff) {
-    var final = false;
+    var afinal = false;
     var qtd = staff.linhas.length;
     for( var i = 0; i < qtd; i ++ ) {
         var ll = staff.linhas[i];
         if( this.barEnding || ll.pos >= this.tabLines[ll.l].length || this.spaces.indexOf( this.tabLines[ll.l].charAt(this.endColumn)) < 0 ) {
-            final = true;
+            afinal = true;
         }
     }    
     var dur = 1;
@@ -811,8 +811,8 @@ ABCXJS.Tab2Part.prototype.updateToken = function(staff) {
     }
     staff.token.duration += dur;
     
-    if( final ){
-        staff.token.final = true;
+    if( afinal ){
+        staff.token.afinal = true;
     }
 };
 

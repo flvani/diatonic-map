@@ -28,8 +28,8 @@ This is free software, do with if what you want.
                 debugDiv.style.fontSize="11px";
                 debugDiv.style.cursor="default";
                 debugDiv.style.backgroundColor="mintcream";
-                debugDiv.style.minHeight="50%";
-                debugDiv.style.maxHeight="50%";
+                debugDiv.style.minHeight="45%";
+                debugDiv.style.maxHeight="45%";
                 debugDiv.style.border = "1px solid rgba(0,0,0,0.5)";
                 debugDiv.style.boxShadow ='6px 6px 6px -3px rgba(0,0,0,0.7)';
 

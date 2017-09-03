@@ -7,144 +7,152 @@ and open the template in the editor.
 <html style="margin:0; padding:0; top:0; left:0;">
     <head>
         <meta charset="UTF-8">
+        <title>Sobre</title>
         <style>
-            .modalWindow {
-              width: 100%;
-              height: 100%;
-              position: relative;
-              font-family: "Arial";
-              font-size:80%;
-              top: 0;
-              right: 0;
-              bottom: 0;
-              left: 0;
-              background: rgba(0,0,0,0.2);
-              z-index: 99999;
+            a {
+                color: #1dd2af;
+                color: blue;          
+                text-decoration: none;
             }
-            
+
+            a:hover, 
+            a:focus {
+                color: #1dd2af;
+                text-decoration: underline;
+            }            
+
+            .modalWindow {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                font-family: "Arial";
+                font-size:80%;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background: rgba(0,0,0,0.2);
+                z-index: 99999;
+            }
+
             .modalContent  { 
-              height: 100%;
-              text-align:justify;
-              text-justify:inter-word;
+                height: 100%;
+                text-align:justify;
+                text-justify:inter-word;
             }
 
             .modalContent h3 { 
 
-              position: relative;
-              float: left;
-              display: block;
-            
-              background: #5ba4a4;
-              background: -moz-linear-gradient(top, #5ba4a4 0%, #4e8c8a 100%);
-              background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5ba4a4), color-stop(100%,#4e8c8a));
-              background: -webkit-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
-              background: -o-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
-              background: -ms-linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
-              background: linear-gradient(top, #5ba4a4 0%,#4e8c8a 100%);
-              margin-right: 1em;
-              line-height: 1em;
-              
-              padding: 5px 10px;
-              text-transform: uppercase;
-              color: #385c5b;
-              background: #5ba4a4;
-            
-              color: lightgreen;
-              font-size: 18px;
-              font-weight: bold;
-              text-align: left;
-              text-shadow: 1px 1px 1px rgba(255,255,255,0.3);
-              letter-spacing: 1px;
+                position: relative;
+                float: left;
+                display: block;
 
-              border-radius: 5px;
-              box-shadow: 2px 0 2px rgba(0,0,0,0.1), -2px 0 2px rgba(0,0,0,0.1);
+                margin-right: 1em;
+                line-height: 1em;
+
+                padding: 5px 10px;
+
+                font-size: 18px;
+                font-weight: bold;
+                text-align: left;
+                text-shadow: 2px 2px 2px rgba(255,255,255,0.5);
+                letter-spacing: 1px;
+
+                border-radius: 5px;
+                box-shadow: 2px 0 2px rgba(0,0,0,0.1), -2px 0 2px rgba(0,0,0,0.1);
+
+                background: #003050;          
+                background: -moz-linear-gradient(left, #003050 0%, black 100%);
+                background: -webkit-linear-gradient(left, #003050 0%, black 100%);
+                background: -o-linear-gradient(left, #003050 0%, black 100%);
+                background: -ms-linear-gradient(left, #003050 0%, black 100%);
+                background: linear-gradient(left, #003050 0%, black 100%);
+                color: orange;
+                color: #ff9922;
+                cursor:default;
 
             }
 
             .modalContent h3 span { 
-              color: #385c5b;
-              font-size: 10px;
-              font-weight: bold;
-              text-align: left;
-              text-shadow: 1px 1px 1px rgba(255,255,255,0.3);
+                color: #385c5b;
+                color: white;
+                font-size: 10px;
+                font-weight: bold;
+                text-align: left;
+                text-shadow: 1px 1px 1px rgba(255,255,255,0.3);
 
             }
+            .modalContent h3 a { 
+                font-size: 13px;
+                font-weight: bold;
+                color: orange;          
+                text-decoration: none;
+                text-shadow: 2px 2px 2px rgba(255,255,255,0.5);
+
+            }
+            .modalContent h3 a:hover, 
+            .modalContent h3 a:focus {
+                color: orange;
+                text-decoration: underline;
+            }            
 
             .modalContent p {
-              text-indent: 4em;
+                text-indent: 4em;
             }
 
             .modalWindow > div {
-              height: 100%;
-              width: 100%;
-              position: relative;
-              margin: 0;
-              /*
-              -webkit-border-radius: 5px;
-              -moz-border-radius: 5px;
-              border-radius: 5px;
-              -moz-box-shadow: 5px 10px 12px 5px #888;
-              -webkit-box-shadow: 5px 10px 12px 5px #888;
-              box-shadow: 5px 10px 12px 5px #888;
-              */
-              background: #fff;
+                height: 100%;
+                width: 100%;
+                position: relative;
+                margin: 0;
+                background: #fff;
             }
             .modalWindow .modalContent { padding: 4px; }
             .modalWindow .modalFooter  { padding: 4px; }
 
             .modalFooter {
-              background: #F1F1F1;
-              border-top: 1px solid #999;
+                background: #F1F1F1;
+                border-top: 1px solid #999;
             }
-            
+
             .modalFooter span {
                 line-height: 25px;
             }
-            
+
             .modalFooter p {
-              color:#D4482D;
-              text-align:right;
-              margin:0;
-              padding: 5px;
+                color:#D4482D;
+                text-align:right;
+                margin:0;
+                padding: 5px;
             }
-            
-            a {
-                color: #1dd2af;
-                text-decoration: none;
-            }
-            
-            .modalFooter a:hover, .modalFooter a:focus {
-                color: #1dd2af;
-                text-decoration: underline;
-            }            
-            
+
             strong, b {
                 font-weight: bold;
             } 
-            
+
             .ok, .cancel {
-              background: #606061;
-              color: #FFFFFF;
-              line-height: 30px;
-              text-align: center;
-              text-decoration: none;
-              font-weight: bold;
-              -webkit-border-radius: 2px;
-              -moz-border-radius: 2px;
-              border-radius: 2px;
-              -moz-box-shadow: 1px 1px 3px #000;
-              -webkit-box-shadow: 1px 1px 3px #000;
-              box-shadow: 1px 1px 3px #000;
+                background: #606061;
+                color: #FFFFFF;
+                line-height: 30px;
+                text-align: center;
+                text-decoration: none;
+                font-weight: bold;
+                -webkit-border-radius: 2px;
+                -moz-border-radius: 2px;
+                border-radius: 2px;
+                -moz-box-shadow: 1px 1px 3px #000;
+                -webkit-box-shadow: 1px 1px 3px #000;
+                box-shadow: 1px 1px 3px #000;
             }
-            
+
             .ok, .cancel {
-              width:50px;
-              float:right;
-              margin-left:12px;
+                width:50px;
+                float:right;
+                margin-left:12px;
             }
-            
+
             .ok:hover { background: #189CDA; }
-            
+
             .clear { float:none; clear: both; }
         </style>        
     </head>
@@ -159,11 +167,11 @@ and open the template in the editor.
                 <!--div id="fsfDiv" style="float:right;   margin-left:1em;">
                     <a target="_blank" href="http://www.upgradefromwindows8.com"><img src="//static.fsf.org/fsforg/graphics/windows-infographic_share.png" height="200" width="200" alt="Close Windows, Open Doors"/></a>
                 </div-->
-                <h3>Diatonic-Map <i id="siteVerI">v4.22</i><br/><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&#160;Vani</strong></a></span> </h3>
+                <h3>Diatonic-Map <i id="siteVerI">5.00</i><br/><span>Desenvolvido por <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&#160;Vani</strong></a></span> </h3>
                 <p>Este projeto pretende ser um mapa de referência para acordeons diatônicos. 
                    Com ele é possível configurar – e mostrar – o layout de qualquer gaita de botões, nos seus mais diversos modelos.
                    Quero deixar aqui, meus especiais agradecimentos ao 
-                   <a target="_blank" href="mailto:prof.cezar.ferreira@gmail.com"><strong>Prof. Cezar Ferreira</strong></a> - (<a href="http://www.youtube.com/watch?v=6_moobqpyyY" target="_blank">YouTube</a>), 
+                   <a target="_blank" href="mailto:prof.cezar.ferreira@gmail.com"><strong>Prof. Cezar Ferreira</strong></a> - <a href="https://www.facebook.com/groups/toquegaitaponto/" target="_blank">Sala da Gaita Ponto (Facebook)</a>, 
                    que forneceu o material necessário para criação dos layouts e as essenciais informações sobre tablaturas para acordeons, 
                    bem como, músicas e exercícios para praticar diretamente na gaita.</p>   
                 <p>Para transformar o projeto em uma ferramenta de aprendizagem, juntamos uma biblioteca  
@@ -179,13 +187,26 @@ and open the template in the editor.
                     seus estudos na "Gaita Ponto".</p>   
                 <h5>Ainda, meus sinceros agradecimentos aos autores destas bibliotecas:</h5>
                 <ul>
-                  <li><b><a href="https://github.com/leandron/accordion-map/" target="_blank">accordion-map</a> by Leandro Nunes: "An interactive reference map for diatonic accordion chords".</b> This is where all started.
+                  <li><b><a href="https://github.com/leandron/accordion-map/" target="_blank">accordion-map</a> by Leandro Nunes:</b> "An interactive reference map for diatonic accordion chords".
                   </li>
-                  <li><b><a href="https://github.com/paulrosen/abcjs/" target="_blank">abcjs</a> by Paul Rosen: "Javascript for rendering ABC music notation".</b> A really, really great idea and a powerful project.
+                  <li><b><a href="https://github.com/paulrosen/abcjs/" target="_blank">abcjs</a> by Paul Rosen:</b> "Javascript for rendering ABC music notation".
                   </li>
-                  <li><b><a href="https://github.com/mudcube/MIDI.js/" target="_blank">MIDI.js</a> by Michael Deal: "Making life easy to create a MIDI-app on the web".</b> Another great project.
+                  <li><b><a href="https://github.com/mudcube/MIDI.js/" target="_blank">MIDI.js</a> by Michael Deal:</b> "Making life easy to create a MIDI-app on the web".
                   </li>
-                  <li><b><a href="http://http://sourceforge.net/projects/editarea/" target="_blank">EditArea</a> by Christophe Dolivet: "A free javascript editor for source code".</b> Very useful for on-browser text edition.
+                  <li><b><a href="https://ace.c9.io/" target="_blank">ACE Editor</a> by ajax.org:</b> "Ace is an embeddable code editor written in JavaScript".
+                  </li>
+                  <li><b><a href="https://github.com/NC22/HTML5-Color-Picker" target="_blank">HTML5-Color-Picker</a> by Rubchuk Vladimir:</b> "A scaleable color picker wich attaches to the DOM elements".
+                  </li>
+                  <li><b><a href="https://github.com/robotnic/waterbug" target="_blank">Water Bug</a> by Bernhard Zwischenbrugger:</b> "A simple Javascript console for mobile devices".
+                  </li>
+                </ul>
+                <h5>Também fiz uso dos seguintes sites:</h5>
+                <ul>
+                  <li><b><a href="https://www.flaticon.com/" target="_blank">Flaticon - Free vector icons</a></b>.
+                  </li>
+                  <li><b><a href="http://fontello.com/" target="_blank">Fontello - Icon fonts generator</a></b>.
+                  </li>
+                  <li><b><a href="https://fonts.google.com/" target="_blank">Fonts Google - Great typography</a></b>.
                   </li>
                 </ul>
               </div>
@@ -197,5 +218,12 @@ and open the template in the editor.
               </div>
             </div>
         </div> <!-- /modalAbout -->
+        <script id="mainScript" type="text/javascript">
+            window.addEventListener('load', function () {
+                var e = document.getElementById('clustrmaps-widget-v2');
+                e.setAttribute('target','_blank');
+                e.setAttribute('href','http://www.clustrmaps.com/map/flvani.github.io');
+            }, false);
+        </script>
     </body>
 </html>

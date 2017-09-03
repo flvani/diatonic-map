@@ -1,11 +1,10 @@
 ### TO DO ####################################################################################
 
--- tratar bug quando o editor está maximizado (na abertura os botoes ficam invertidos)
+-- tratar bug ao trocar o acordeon e a tab ativa não é a de musicas
 
-- Pagina de créditos (about) e licenças e release
-    - Buscar a versão do site
+- Atualizar as paginas de ajuda, mapa, estudio e tutorias
 
-- Atualizar as paginas de ajuda
+- melhorar a pagina de release
 
 - Recolocar os scripts do GA
 - Usar as versões minificadas dos scripts
@@ -35,6 +34,10 @@
 
 ### DONE ####################################################################################
 
+- Pagina de créditos (about) e licenças e release
+    - Buscar a versão do site
+
+-- tratar bug quando o editor está maximizado (na abertura os botoes ficam invertidos)
 
 - Ao voltar do estudio redesenhar o teclado (não está destacando ao executar)
 - Fazer uma classe para Seletor de musicas (com registro do item selecionado)
