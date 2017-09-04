@@ -1,14 +1,20 @@
 ### TO DO ####################################################################################
 
+- Tradução (após a release 5.0, provavelmente 5.1)
+
+- Atualizar as paginas de ajuda, mapa, estudio e tutorias
+
+
+- Bug MIDI player no iPad Mini (não soa)
+- Modo read only no editor após player
+- Verificar resize de pargten e tabben
+
 ### TO DO AFTER RELEASE 5 ####################################################################################
 
-- Tradução (após a release 5.0, provavelmente 5.1)
 - Eliminar esta variável assim que possível: var debug=false; 
 - Bug na sintaxe colorida da tablatura quando há acordes
 - Janela de midia: Preparar versao com abas para multiplos videos da mesma musica
 - Editor: Implementar funcao inativo para botões da toolbar, p. ex., quando não houver undo
-
-- Atualizar as paginas de ajuda, mapa, estudio e tutorias
 
 - Ajustar posicionamento das telas de alerta
 

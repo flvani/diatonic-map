@@ -46,7 +46,7 @@ notação abc, tablatura " />
         
         <!-- Estilos para a página e popups -->
         
-        <link href="css/bootstrap.min.css" rel="stylesheet" />
+        <link href="site4.22/bootstrap.min.css" rel="stylesheet" />
         <link href="site4.22/site.css" rel="stylesheet"/>
         <link rel="icon" type="image/icon" href="http://flvani.github.io/diatonic-map/img/favicon6.ico"/>
         
@@ -76,8 +76,8 @@ notação abc, tablatura " />
                                             <li><a href="#" id="DR_original" onclick="reloadRepertoire();">Restaurar o original</a></li>
                                             <li><a href="#" id="DR_localLoad" onclick="document.getElementById('fileLoadRepertoire').click()">Carregar do drive local</a></li>
                                             <li style="display:inline;"><a href="#" id="DR_localSave" onclick="saveRepertoire();">Exportar para drive local</a></li>
-                                            <li style="display:inline;"><a href="part2tab.html" target="_blank" id="DR_tab2part" onclick="">Partitura --> Tablatura</a></li>
-                                            <li style="display:inline;"><a href="tab2part.html" target="_blank" id="DR_tab2part" onclick="">Tablatura --> Partitura</a></li>
+                                            <!--li style="display:inline;"><a href="part2tab.html" target="_blank" id="DR_tab2part" onclick="">Partitura -- Tablatura</a></li>
+                                            <li style="display:inline;"><a href="tab2part.html" target="_blank" id="DR_tab2part" onclick="">Tablatura -- Partitura</a></li -->
                                         </ul>
                                     </div>
                                   </td >
@@ -359,22 +359,24 @@ notação abc, tablatura " />
         </div> <!-- /studioDiv -->
         <div id="printPreviewDiv" class="printPreviewClass"></div>
         
-        <script type="text/javascript" src="proto_noconflict.js" ></script>
         <script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
-        <script type="text/javascript" src="javascripts/bootstrap-dropdown.js"></script>
-        <script type="text/javascript" src="javascripts/edit_area_full.js"></script>
+        
+        <script type="text/javascript" src="site4.22/proto_noconflict.js" ></script>
+        <script type="text/javascript" src="site4.22/bootstrap-dropdown.js"></script>
+        <script type="text/javascript" src="site4.22/edit_area_full.js"></script>
+        
         
         <!-- suporte a MIDI -->
-        <script type="text/javascript" src="MIDI.js/MIDI_3.00-min.js"></script>
+        <script type="text/javascript" src="site4.22/MIDI_3.00-min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_4.22-min.js"></script>
+        <script type="text/javascript" src="site4.22/filemanager_4.22-min.js"></script>
         
         <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_4.22-min.js" ></script>
+        <script id="mainABCX" type="text/javascript" src="site4.22/abcxjs_4.22-min.js" ></script>
         
         <!-- suporte mapas de acordeons -->
-        <script type="text/javascript" src="diatonic/diatonic_4.22-min.js"></script>
+        <script type="text/javascript" src="site4.22/diatonic_4.22-min.js"></script>
 
         <!-- site -->
         <script id="siteLib" type="text/javascript" src="site4.22/site.js"></script>

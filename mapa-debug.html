@@ -15,14 +15,11 @@ teste.
         <link rel="stylesheet" href="fontsIco/abcx.css" />
         <link rel="stylesheet" href="fontsGoogle/fonts.css" />
         
-        <link rel="stylesheet" href="css/styles4abcx_5.00-min.css" />
+        <link rel="stylesheet" href="css/styles4abcx.css" />
         
-        <link rel="stylesheet" href="site/site_5.00-min.css" />
-        
-        <!-- preciso dos estilos na hora de imprimir o help --> 
-        <!--link rel="stylesheet" href="css/help.css" />
+        <link rel="stylesheet" href="css/help.css" />
         <link rel="stylesheet" href="css/mapa.css" />
-        <link rel="stylesheet" href="css/studio.css"-->
+        <link rel="stylesheet" href="css/studio.css">
         
     </head>
     <body>
@@ -31,35 +28,33 @@ teste.
         <script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
         
         <!-- suporte a MIDI -->
-        <script type="text/javascript" src="jslib/MIDI_5.00-min.js"></script>
+        <script type="text/javascript" src="jslib/MIDI.js"></script>
         
         <!-- console personalizada para Javascript -->
         <script type="text/javascript" src="jslib/waterbug.js"></script> 
         
         <!-- Kelly color picker  -->
-        <script type="text/javascript" src="jslib/html5kellycolorpicker.min.js"></script>
+        <script type="text/javascript" src="jslib/html5kellycolorpicker.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_5.00-min.js"></script>
+        <script type="text/javascript" src="file/filemanager.js"></script>
         
         <!-- suporte mapas de acordeons -->
-        <script type="text/javascript" src="diatonic/diatonic_5.00-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic.js"></script>
         
         <!-- ACE Editor -->
-        <script type="text/javascript" src="ace4abcx/ace4abcx_5.00-min.js"></script>
+        <script type="text/javascript" src="ace4abcx/ace4abcx.js"></script>
        
         <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.00-min.js" ></script>
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs.js" ></script>
         
-        <script id="mainSITE" type="text/javascript" src="site/site_5.00-min.js"></script>
-        <!--script id="mainSITE" type="text/javascript" src="src/mapa.js"></script>
+        <script id="mainSITE" type="text/javascript" src="src/mapa.js"></script>
         <script type="text/javascript" src="src/estudio.js"></script>
         <script type="text/javascript" src="languages/language.js"></script>
+        <script type="text/javascript" src="src/partgen.js"></script>
+        <script type="text/javascript" src="src/tabgen.js"></script>
         <script type="text/javascript" src="src/t2p_parser.js"></script>
         <script type="text/javascript" src="src/p2t_parser.js"></script>
-        <script type="text/javascript" src="src/partgen.js"></script>
-        <script type="text/javascript" src="src/tabgen.js"></script-->
-        
 
         <div id="topBar" class="topBar gradiente" >
             <span id="DR_appName" class="topTitle">Mapa para Acordeons Diatônicos</span>
@@ -353,6 +348,11 @@ teste.
                 });
             }
             
+        
+            function ga(){
+                console.log('Funcao ga não definida.');
+            }
+            
             function createMap() {
                 
                 var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
@@ -387,12 +387,7 @@ teste.
                       , currentPlayTimeLabel: "currentPlayTimeLabel"
                     } 
                 );
-        
-                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
-                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
+                
                 ga('create', 'UA-62839199-1', 'auto');
                 ga('send', 'pageview');
                 
