@@ -21,18 +21,20 @@ This is free software, do with if what you want.
                 var vararray=[];                
                 var orientation=0;
                 var debugDiv=document.createElement("div");
-                debugDiv.style.position="absolute";
-                debugDiv.style.right="7px";
-                debugDiv.style.bottom="7px";
+                debugDiv.style.position="fixed";
+                debugDiv.style.right="10px";
+                debugDiv.style.bottom="10px";
                 debugDiv.style.fontFamily="dejavu sans mono, monospace";
                 debugDiv.style.fontSize="11px";
                 debugDiv.style.cursor="default";
                 debugDiv.style.backgroundColor="mintcream";
-                debugDiv.style.minHeight="45%";
+                debugDiv.style.minHeight="35%";
                 debugDiv.style.maxHeight="45%";
                 debugDiv.style.border = "1px solid rgba(0,0,0,0.5)";
                 debugDiv.style.boxShadow ='6px 6px 6px -3px rgba(0,0,0,0.7)';
 
+                debugDiv.style.overflow="auto";
+                
                 debugDiv.style.letterSpacing="0px";
                 debugDiv.style.zIndex="10000";
                 debugDiv.style.width="30%";
@@ -260,7 +262,7 @@ This is free software, do with if what you want.
 			return div;
 		}
                 function push(obj){
-			if(debugDiv.parentNode)return; //console is open, don't record events
+			//if(debugDiv.parentNode)return; //console is open, don't record events
                         vararray.push({type:"log",message:obj});
                 }       
                 return {

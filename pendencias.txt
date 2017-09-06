@@ -1,15 +1,24 @@
-### TO DO ####################################################################################
+### TO DO 5.1 ####################################################################################
 
 - Tradução (após a release 5.0, provavelmente 5.1)
+    - Telas de ajuda mostram titulos em duplicata
+    - Pensar melhor parte do titulo: titulo tradutivel ou não
+    - Traduzir selKey (seletor de tons no editor)
+    - Traduzir mensagens de alerta
+    - Traduzir mensagens de erro???
+    - Traduzir nota de lançamento?
+
+Incluir o campo SITE.properties.version.
+    Se não existir criar o campo, com versão 5.1
+        Nesta versão, tornar o som de gaita padrão
+        Esconder a janela da console de erros.
 
 - Atualizar as paginas de ajuda, mapa, estudio e tutorias
 
-
 - Bug MIDI player no iPad Mini (não soa)
-- Modo read only no editor após player
-- Verificar resize de pargten e tabben
+- Melhorar as acoes de callback READONLY e LIGHTON - considerar o estado o editor e não simplesmente inverter o icones
 
-### TO DO AFTER RELEASE 5 ####################################################################################
+### TO DO AFTER RELEASE 5.1 ####################################################################################
 
 - Eliminar esta variável assim que possível: var debug=false; 
 - Bug na sintaxe colorida da tablatura quando há acordes
@@ -116,3 +125,11 @@
 - Usar as versões minificadas dos scripts
 
 - Recolocar os scripts do GA
+- Bug na lista de musicas no Edge (não mostra o scroll)
+- Bug na ordenação dos acordeons
+- Modo read only no editor após player
+- Verificar resize de pargten e tabben
+
+- Tradução (após a release 5.0, provavelmente 5.1)
+    - Traduzir tela de preferencias
+    - Garantir parametro de tradutor para telas de alerta e outros sub-telas

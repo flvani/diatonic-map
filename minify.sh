@@ -8,7 +8,7 @@ die () {
 echo $1 | grep -E -q '^[1-9]\.[0-9]+$' || die "Version number argument required (x.y), $1 provided"
 echo "Concatenating all files..."
 
-cat languages/language.js src/mapa.js src/estudio.js src/partgen.js src/tabgen.js src/t2p_parser.js src/p2t_parser.js > tmp/site.js
+cat languages/language.js src/properties.js src/translate.js src/mapa.js src/estudio.js src/partgen.js src/tabgen.js src/t2p_parser.js src/p2t_parser.js > tmp/site.js
 
 cat css/help.css css/mapa.css css/studio.css > tmp/site.css
 

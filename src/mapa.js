@@ -7,133 +7,6 @@
 if (!window.SITE)
     window.SITE = {};
 
-
-SITE.getDate = function (){
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0!
-    var yyyy = today.getFullYear();
-    return yyyy*10000+mm*100+dd;
-};
-
-
-SITE.getVersion = function(tag, label) {
-    var str = document.getElementById(tag).src;
-    var res = str.match(/\_[0-9]*\.[0-9]*/g);
-    return res ? label+res[0].substr(1) : 'debug';
-};
-
-SITE.LoadProperties = function() {
-    
-    //FILEMANAGER.removeLocal('diatonic-map.site.properties' ); // usdo para forçar reset da propriedades
-    
-    SITE.properties = JSON.parse( FILEMANAGER.loadLocal('diatonic-map.site.properties' ) ); 
-    
-    if( ! SITE.properties ) {
-        SITE.ResetProperties();
-    }
-};
-
-SITE.SaveProperties = function() {
-    FILEMANAGER.saveLocal('diatonic-map.site.properties', JSON.stringify(SITE.properties));
-};
-
-SITE.ResetProperties = function() {
-    SITE.properties = {};
-    SITE.properties.colors = {
-         useTransparency: false
-        ,highLight: 'red'
-        ,fill: 'white'
-        ,background: 'none'
-        ,close: '#ff3a3a'
-        ,open: '#ffba3b'
-    };
-
-    SITE.properties.options = {
-         language: 'pt_BR'
-        ,showWarnings: true
-        ,showConsole: true
-        ,pianoSound: true
-        ,autoRefresh: false
-    };
-
-    SITE.properties.mediaDiv = {
-         visible: true
-        ,top: "100px"
-        ,left: "1200px"
-        ,width: 300
-        ,height: 300 * 0.55666667
-    };
-    SITE.properties.tabGen = {
-        abcEditor : {
-            floating: false
-            ,maximized: false
-            ,top: "70px"
-            ,left: "25px"
-            ,width: "940px"
-            ,height: "560px"
-        }
-        , tabEditor : {
-             floating: false
-            ,maximized: false
-            ,top: "140px"
-            ,left: "75px"
-            ,width: "940px"
-            ,height: "560px"
-        }
-    };
-
-    SITE.properties.partGen = {
-          showABCText:false
-        , convertFromClub:false
-        , convertToClub:false
-        , editor : {
-             visible: true
-            ,floating: false
-            ,maximized: false
-            ,top: "40px"
-            ,left: "50px"
-            ,width: "700px"
-            ,height: "480px"
-        }
-        , keyboard: {
-             visible: false
-            ,top: "65px"
-            ,left: "1200px"
-            ,scale: 1
-            ,mirror: true
-            ,transpose: false
-            ,label: false
-        }
-    };
-    SITE.properties.studio = {
-         mode: 'normal'
-        ,timerOn: false
-        ,trebleOn: true
-        ,bassOn: true
-        ,editor : {
-             visible: true
-            ,floating: false
-            ,maximized: false
-            ,top: "40px"
-            ,left: "50px"
-            ,width: "700px"
-            ,height: "480px"
-        }
-        , keyboard: {
-             visible: false
-            ,top: "65px"
-            ,left: "1200px"
-            ,scale: 1
-            ,mirror: true
-            ,transpose: false
-            ,label: false
-        }
-    };
-    
-    SITE.SaveProperties();
-};
-
 SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
 
     var that = this;
@@ -161,7 +34,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     
     this.menu = new DRAGGABLE.ui.DropdownMenu(
            interfaceParams.mapMenuDiv
-        ,  { listener: that, method:'menuCallback' }
+        ,  { listener: that, method:'menuCallback', translate: true }
         ,  [{title: 'Acordeons', ddmId: 'menuGaitas', itens: [] }
            ,{title: 'Repertório', ddmId: 'menuRepertorio',
                 itens: [
@@ -199,7 +72,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
                 'Carregar mapa do disco local|LOADMAP'
             ]
     );
-
+    
     // tab control
     var radios = document.getElementsByName( tabParams.tabRadioGroup);
     
@@ -272,7 +145,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
 
     this.playerCallBackOnEnd = function( player ) {
         var currentABC = that.getActiveTab();
-        that.playButton.title = DR.getResource("playBtn");
+        that.playButton.title = SITE.translator.getResource("playBtn");
         that.playButton.innerHTML = '<i class="ico-play"></i>';
         currentABC.abc.midi.printer.clearSelection();
         that.accordion.clearKeyboard(true);
@@ -294,7 +167,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.midiPlayer.defineCallbackOnEnd( that.playerCallBackOnEnd );
     this.midiPlayer.defineCallbackOnScroll( that.playerCallBackOnScroll );
 
-    DR.addAgent( this ); // register for translate
+    //DR.addAgent( this ); // register for translate
     this.defineInstrument();
     
     this.showAccordionName();
@@ -302,6 +175,8 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.accordionSelector.populate(false);
     this.accordion.printKeyboard( this.keyboardDiv );
     this.loadOriginalRepertoire();
+    
+    SITE.translator.translate();
     this.resize();
     
 };
@@ -318,6 +193,7 @@ SITE.Mapa.prototype.setup = function (tabParams) {
     this.showAccordionName();
     this.showAccordionImage();
     this.accordionSelector.populate(false);
+    SITE.translator.translate(this.menu.container);
     this.accordion.printKeyboard( this.keyboardDiv );
     this.loadOriginalRepertoire();
     this.resize();
@@ -407,7 +283,7 @@ SITE.Mapa.prototype.loadOriginalRepertoire = function () {
 
     var self = this;
     var loader = this.startLoader( "LoadRepertoire", this.tuneContainerDiv );
-    loader.start(  function() { self.doLoadOriginalRepertoire(loader); }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
+    loader.start(  function() { self.doLoadOriginalRepertoire(loader); }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
 };
     
 SITE.Mapa.prototype.doLoadOriginalRepertoire = function (loader) {
@@ -574,7 +450,7 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
         loader.start(  function() { 
             self.studio.setup( tab, self.accordion.getId() );
             loader.stop();
-        }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
+        }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
     }
 };
 
@@ -587,7 +463,7 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
     if( this.midiPlayer.playing) {
         
         if (type === "normal" ) {
-            this.playButton.title = DR.getResource("playBtn");
+            this.playButton.title = SITE.translator.getResource("playBtn");
             this.playButton.innerHTML = '<i class="ico-play"></i>';
             this.midiPlayer.pausePlay();
         } else {
@@ -599,7 +475,7 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
         if(type==="normal") {
             if( this.midiPlayer.startPlay(currentABC.abc.midi) ) {
                 ga('send', 'event', 'Mapa5', 'play', currentABC.title);
-                this.playButton.title = DR.getResource("DR_pause");
+                this.playButton.title = SITE.translator.getResource("pause");
                 this.playButton.innerHTML =  '<i class="ico-pause"></i>';
             }
         } else {
@@ -636,7 +512,7 @@ SITE.Mapa.prototype.exportaRepertorio = function() {
         }
         FILEMANAGER.download( name, conteudo );    
     } else {
-        alert( DR.getResource("DR_err_saving"));
+        alert( SITE.translator.getResource("err_saving") );
     }    
 };
 
@@ -675,7 +551,7 @@ SITE.Mapa.prototype.loadMap = function(evt) {
     FILEMANAGER.loadLocalFiles(evt, function() {
         var loader = that.startLoader( "LoadRepertoire", that.tuneContainerDiv  );
         loader.start(  function() { that.doLoadMap(FILEMANAGER.files, loader ); }
-                , '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
+                , '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
         evt.target.value = "";
     });
 };
@@ -850,7 +726,7 @@ SITE.Mapa.prototype.showABC = function(action) {
             self.showMedia( tab );
             self.tuneContainerDiv.scrollTop = 0;    
             loader.stop();
-        }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
+        }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
     } else {
         console.log( 'Song title not found!');
     }
@@ -880,7 +756,7 @@ SITE.Mapa.prototype.loadABCList = function(type) {
     tab.div.innerHTML = "";
     tab.menu = new DRAGGABLE.ui.DropdownMenu( 
         tab.selector
-        , {listener:this, method: 'showABC' }
+        , {listener:this, method: 'showABC', translate:false }
         , [{title: '...', ddmId: tab.ddmId, itens: []}]
     );
     
@@ -956,11 +832,11 @@ SITE.Mapa.prototype.setVisible = function ( visible ) {
 
 SITE.Mapa.prototype.showAccordionImage = function() {
   this.gaitaImagePlaceHolder.innerHTML = '<img src="'+this.accordion.loaded.image
-        +'" alt="'+this.accordion.getFullName() + ' ' + DR.getResource('DR_keys') + '" style="height:200px; width:200px;" />';
+        +'" alt="'+this.accordion.getFullName() + ' ' + SITE.translator.getResource('keys') + '" style="height:200px; width:200px;" />';
 };
 
 SITE.Mapa.prototype.showAccordionName = function() {
-  this.gaitaNamePlaceHolder.innerHTML = this.accordion.getFullName() + ' ' + DR.getResource('DR_keys');
+  this.gaitaNamePlaceHolder.innerHTML = this.accordion.getFullName() + ' ' + SITE.translator.getResource('keys');
 };
 
 SITE.Mapa.prototype.highlight = function(abcelem) {
@@ -1019,7 +895,7 @@ SITE.Mapa.prototype.showMedia = function(tab) {
         this.mediaWindow = new DRAGGABLE.ui.Window( 
               this.mapDiv
             , null
-            , {title: 'Videoaula', translate: false, statusbar: false
+            , {title: 'showMedia', translator: SITE.translator, statusbar: false
                 , top: SITE.properties.mediaDiv.top
                 , left: SITE.properties.mediaDiv.left
                 , zIndex: 1000} 
@@ -1129,7 +1005,7 @@ SITE.Mapa.prototype.showSettings = function() {
         this.settings.window = new DRAGGABLE.ui.Window( 
               null 
             , null
-            , {title: 'Preferências', translate: false, statusbar: false, top: "300px", left: x+"px", height:'400px',  width: width+'px', zIndex: 50} 
+            , {title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, top: "300px", left: x+"px", height:'400px',  width: width+'px', zIndex: 50} 
             , {listener: this, method: 'settingsCallback'}
         );
 
@@ -1143,31 +1019,34 @@ SITE.Mapa.prototype.showSettings = function() {
         <div class="menu-group">\
             <table>\
               <tr>\
-                <th colspan="2">Idioma:</th><th><div id="settingsLanguageMenu" class="topMenu"></div></th>\
+                <th colspan="2"><span data-translate="PrefsIdiom" >'+SITE.translator.getResource('PrefsIdiom')+'</span></th><th><div id="settingsLanguageMenu" class="topMenu"></div></th>\
               </tr>\
               <tr>\
-                <th colspan="2"><br>Cores:</th><td></td>\
+                <th colspan="2"><br><span data-translate="PrefsColor" >'+SITE.translator.getResource('PrefsColor')+'</span></th><td></td>\
               </tr>\
               <tr>\
-                <td style="width:15px;"></td><td>Cor de Realce</td><td><input id="corRealce" type="text" ><input id="chkTransparency" type="checkbox">&nbsp;Com transparência</td>\
+                <td style="width:15px;"></td><td data-translate="PrefsColorHighlight" >'
+                    +SITE.translator.getResource('PrefsColorHighlight')
+                        +'</td><td><input id="corRealce" type="text" ><input id="chkTransparency" type="checkbox">&nbsp;<span data-translate="PrefsColorTransparency" >'
+                            +SITE.translator.getResource('PrefsColorTransparency')+'</span></td>\
               </tr>\
               <tr>\
-                <td></td><td>Fole Fechando</td><td><input id="foleFechando" type="text" ></td>\
+                <td></td><td data-translate="PrefsColorClosingBellows" >'+SITE.translator.getResource('PrefsColorClosingBellows')+'</td><td><input id="foleFechando" type="text" ></td>\
               </tr>\
               <tr>\
-                <td></td><td>Fole Abrindo</td><td><input id="foleAbrindo" type="text" ></td>\
+                <td></td><td data-translate="PrefsColorOpeningBellows" >'+SITE.translator.getResource('PrefsColorOpeningBellows')+'</td><td><input id="foleAbrindo" type="text" ></td>\
               </tr>\
               <tr>\
-                <th colspan="2"><br>Propriedades:</th><td></td>\
+                <th colspan="2"><br><span data-translate="PrefsProps" >'+SITE.translator.getResource('PrefsProps')+'</span></th><td></td>\
               </tr>\
               <tr>\
-                <td> </td><td colspan="2"><input id="chkPiano" type="checkbox">&nbsp;Usar sons de Piano Acústico</td>\
+                <td> </td><td colspan="2"><input id="chkPiano" type="checkbox">&nbsp;<span data-translate="PrefsPropsCKPiano" >'+SITE.translator.getResource('PrefsPropsCKPiano')+'</span></td>\
               </tr>\
               <tr>\
-                <td> </td><td colspan="2"><input id="chkWarnings" type="checkbox">&nbsp;Mostrar avisos e erros de compilação</td>\
+                <td> </td><td colspan="2"><input id="chkWarnings" type="checkbox">&nbsp;<span data-translate="PrefsPropsCKShowWarnings" >'+SITE.translator.getResource('PrefsPropsCKShowWarnings')+'</span></td>\
               </tr>\
               <tr>\
-                <td> </td><td colspan="2"><input id="chkAutoRefresh" type="checkbox">&nbsp;Atualizar partitura automaticamente (experimental)</td>\
+                <td> </td><td colspan="2"><input id="chkAutoRefresh" type="checkbox">&nbsp;<span data-translate="PrefsPropsCKAutoRefresh" >'+SITE.translator.getResource('PrefsPropsCKAutoRefresh')+'</span></td>\
               </tr>\
             </table>\
         </div>\
@@ -1178,9 +1057,9 @@ SITE.Mapa.prototype.showSettings = function() {
         </div>';
         
         this.settings.window.addPushButtons([
-            'botao1|APPLY|Aplicar',
-            'botao2|RESET|Redefinir',
-            'botao3|CANCEL|Cancelar'
+            'botao1|apply',
+            'botao2|reset|PrefsReset',
+            'botao3|cancel'
         ]);
                 
 //        var selector = new ABCXJS.edit.AccordionSelector( 
@@ -1190,20 +1069,14 @@ SITE.Mapa.prototype.showSettings = function() {
         
         this.settings.menu = new DRAGGABLE.ui.DropdownMenu(
                'settingsLanguageMenu'
-            ,  { listener:this, method:'settingsCallback' }
-            ,  [{title: 'Idioma', ddmId: 'menuIdiomas',
-                    itens: [
-                        '<img src="images/pt_BR.png" alt="idiomas" />&#160;Português|pt_BR',
-                        '<img src="images/en_US.png" alt="idiomas" />&#160;English|en_US',
-                        '<img src="images/de_DE.png" alt="idiomas" />&#160;Deustch|de_DE' 
-                    ]}]
+            ,  { listener:this, method: 'settingsCallback', translate: false  }
+            ,  [ {title: 'Idioma', ddmId: 'menuIdiomas', itens: [] } ]
             );
     
-        this.picker = new DRAGGABLE.ui.ColorPicker(['corRealce', 'foleFechando', 'foleAbrindo']);
-        
-        this.settings.menu.setSubMenuTitle('menuIdiomas', this.settings.menu.selectItem('menuIdiomas', SITE.properties.options.language ) );
-        this.settings.menu.disableSubMenu('menuIdiomas');
-
+        this.picker = new DRAGGABLE.ui.ColorPicker(['corRealce', 'foleFechando', 'foleAbrindo'], {translator: SITE.translator});
+      
+        SITE.translator.menuPopulate(this.settings.menu, 'menuIdiomas');
+        this.settings.lang = SITE.properties.options.language;
 
         this.settings.useTransparency =  document.getElementById( 'chkTransparency');
         this.settings.corRealce = document.getElementById( 'corRealce');
@@ -1229,6 +1102,12 @@ SITE.Mapa.prototype.showSettings = function() {
 
 SITE.Mapa.prototype.settingsCallback = function (action, elem) {
     switch (action) {
+        case 'de_DE':
+        case 'en_US':
+        case 'pt_BR':
+            this.settings.lang = action;
+            this.settings.menu.setSubMenuTitle( 'menuIdiomas', this.settings.menu.selectItem( 'menuIdiomas', action ));
+            break;
         case 'MOVE':
             break;
         case 'CLOSE':
@@ -1237,7 +1116,6 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             this.settings.window.setVisible(false);
             break;
         case 'APPLY':
-            // SITE.properties.options.language = // recuperar o valor selecionado no menu 
             SITE.properties.colors.highLight = this.settings.corRealce.value;
             SITE.properties.colors.close = this.settings.closeColor.value;
             SITE.properties.colors.open = this.settings.openColor.value;
@@ -1250,13 +1128,17 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             this.picker.close();
             this.settings.window.setVisible(false);
             this.applySettings();
+            if(this.settings.lang !== SITE.properties.options.language) {
+                SITE.properties.options.language = this.settings.lang;
+                SITE.translator.translate();
+            }
             break;
         case 'RESET':
             this.alert = new DRAGGABLE.ui.Alert(
                     this.settings.window, action,
                     '<br>Você deseja redefinir todos os itens?',
                     '<br>Isto fará com que todos os itens retornem para suas configurações iniciais, ' +
-                    'isto inclui cores e posicionamento, entre outras coisas.');
+                    'isto inclui cores e posicionamento, entre outras coisas.', {translator: SITE.translator} );
             break;
         case 'RESET-YES':
             this.alert.close();
@@ -1264,6 +1146,7 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             this.settings.window.setVisible(false);
             SITE.ResetProperties();
             this.applySettings();
+            SITE.translator.translate();
             break;
         case 'RESET-NO':
         case 'RESET-CANCEL':
@@ -1360,28 +1243,28 @@ SITE.Mapa.prototype.silencia = function() {
 
 SITE.Mapa.prototype.translate = function() {
     
-  this.accordion.keyboard.legenda.setText( true, DR.getResource('DR_pull'), DR.getResource('DR_push') );
+  this.accordion.keyboard.legenda.setText( true, SITE.translator.getResource('pull'), SITE.translator.getResource('push') );
   this.showAccordionName();
   
-  document.title = DR.getResource("DR_title");  
+  document.title = SITE.translator.getResource("title");  
   
   DR.setDescription();
   
-  document.getElementById("toolsBtn").innerHTML = '<i class="ico-wrench"></i>&#160;'+DR.getResource("toolsBtn");
-  document.getElementById("printBtn2").innerHTML = '<i class="ico-print"></i>&#160;'+DR.getResource("printBtn");
-  document.getElementById("pdfBtn").innerHTML = '<i class="ico-print"></i>&#160;'+DR.getResource("pdfBtn");
-  document.getElementById("DR_message").alt = DR.getResource("DR_message");
+  document.getElementById("toolsBtn").innerHTML = '<i class="ico-wrench"></i>&#160;'+SITE.translator.getResource("toolsBtn");
+  document.getElementById("printBtn2").innerHTML = '<i class="ico-print"></i>&#160;'+SITE.translator.getResource("printBtn");
+  document.getElementById("pdfBtn").innerHTML = '<i class="ico-print"></i>&#160;'+SITE.translator.getResource("pdfBtn");
+  document.getElementById("message").alt = SITE.translator.getResource("message");
   
-  document.getElementById("octaveUpBtn").title = DR.getResource("DR_octave");
-  document.getElementById("octaveUpBtn").innerHTML = '<i class="ico-octave-up"></i>&#160;'+DR.getResource("DR_octave");
-  document.getElementById("octaveDwBtn").title = DR.getResource("DR_octave");
-  document.getElementById("octaveDwBtn").innerHTML = '<i class="ico--octave-down"></i>&#160;'+DR.getResource("DR_octave");
-  document.getElementById("printBtn").innerHTML = '<i class="ico-print"></i>&#160;'+DR.getResource("printBtn");
-  document.getElementById("saveBtn").innerHTML = '<i class="ico-download"></i>&#160;'+DR.getResource("saveBtn");
-  document.getElementById("forceRefresh").innerHTML = DR.getResource("forceRefresh");
-  document.getElementById("forceRefresh2").innerHTML = DR.getResource("forceRefresh");
-  document.getElementById("gotoMeasureBtn").value = DR.getResource("DR_goto");
-  document.getElementById("untilMeasureBtn").value = DR.getResource("DR_until");
+  document.getElementById("octaveUpBtn").title = SITE.translator.getResource("octave");
+  document.getElementById("octaveUpBtn").innerHTML = '<i class="ico-octave-up"></i>&#160;'+SITE.translator.getResource("octave");
+  document.getElementById("octaveDwBtn").title = SITE.translator.getResource("octave");
+  document.getElementById("octaveDwBtn").innerHTML = '<i class="ico--octave-down"></i>&#160;'+SITE.translator.getResource("octave");
+  document.getElementById("printBtn").innerHTML = '<i class="ico-print"></i>&#160;'+SITE.translator.getResource("printBtn");
+  document.getElementById("saveBtn").innerHTML = '<i class="ico-download"></i>&#160;'+SITE.translator.getResource("saveBtn");
+  document.getElementById("forceRefresh").innerHTML = SITE.translator.getResource("forceRefresh");
+  document.getElementById("forceRefresh2").innerHTML = SITE.translator.getResource("forceRefresh");
+  document.getElementById("gotoMeasureBtn").value = SITE.translator.getResource("goto");
+  document.getElementById("untilMeasureBtn").value = SITE.translator.getResource("until");
   
 };
 
@@ -1401,8 +1284,8 @@ SITE.Mapa.prototype.showHelp = function ( title, url, options ) {
     if( ! this.helpWindow ) {
         this.helpWindow = new DRAGGABLE.ui.Window(
             null
-          , ['PRINT|Imprimir']
-          , {title: '', translate: false, draggable: true, statusbar: false, top: "200px", left: x+"px", height:"auto", zIndex: 70}
+          , ['PRINT']
+          , {title: 'HelpTitle', translator: SITE.translator, draggable: true, statusbar: false, top: "200px", left: x+"px", height:"auto", zIndex: 70}
           , { listener: this, method:'helpCallback' }
         );
         this.helpWindow.dataDiv.style.height = "auto";
@@ -1446,7 +1329,7 @@ SITE.Mapa.prototype.showHelp = function ( title, url, options ) {
                 loader.stop();
             });
         }
-    }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
+    }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
 };
 
 SITE.Mapa.prototype.helpCallback = function ( action ) {

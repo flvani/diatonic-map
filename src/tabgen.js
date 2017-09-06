@@ -19,8 +19,8 @@ SITE.TabGen = function( mapa, interfaceParams ) {
     this.Div = new DRAGGABLE.ui.Window( 
           interfaceParams.tabGenDiv
         , null // ['help|Ajuda']
-        , {translate: false, statusbar: false, draggable: false, top: "3px", left: "1px", 
-            width: '100%', height: "100%", title: 'Extrair Tablatura'}
+        , {translator: SITE.translator,  statusbar: false, draggable: false, top: "3px", left: "1px", 
+            width: '100%', height: "100%", title: 'TabGenTitle'}
         , {listener: this, method: 'p2tCallback'}
     );
     
@@ -52,8 +52,8 @@ SITE.TabGen = function( mapa, interfaceParams ) {
         this.abcEditorDiv
        ,{listener : this, method: 'abcEditorCallback' }
        ,{   draggable:SITE.properties.tabGen.abcEditor.floating
-           ,toolbar: true, statusbar:true, translate:false
-           ,title: 'Partitura Original'
+           ,toolbar: true, statusbar:true, translator: SITE.translator
+           ,title: 'TabGenSourceEditorTitle'
            ,compileOnChange: false /*SITE.properties.options.autoRefresh*/
         }
     );
@@ -69,8 +69,8 @@ SITE.TabGen = function( mapa, interfaceParams ) {
         this.tabEditorDiv
        ,{listener : this, method: 'tabEditorCallback' }
        ,{   draggable:SITE.properties.tabGen.tabEditor.floating
-           ,toolbar: true, statusbar:true, translate:false
-           ,title: 'Tablatura Extraída'
+           ,toolbar: true, statusbar:true, translator: SITE.translator
+           ,title: 'TabGenTargetEditorTitle'
            ,compileOnChange: false /*SITE.properties.options.autoRefresh*/
         }
     );
@@ -157,7 +157,7 @@ SITE.TabGen.prototype.salvaTablatura = function() {
         var conteudo = this.tabEditorWindow.getString();
         FILEMANAGER.download(name, conteudo);
     } else {
-        alert(DR.getResource("DR_err_saving"));
+        alert(SITE.translator.getResource("err_saving"));
     }
 };
 

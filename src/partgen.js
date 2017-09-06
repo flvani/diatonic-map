@@ -16,8 +16,8 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     
     this.Div = new DRAGGABLE.ui.Window( 
           interfaceParams.partGenDiv
-        , ['help|Ajuda']
-        , {translate: false, statusbar: false, draggable: false, top: "3px", left: "1px", width: '100%', height: "100%", title: 'Gerador de Partituras'}
+        , ['help']
+        , {translator: SITE.translator, statusbar: false, draggable: false, top: "3px", left: "1px", width: '100%', height: "100%", title: 'PartGenTitle'}
         , {listener: this, method: 't2pCallback'}
     );
     
@@ -54,8 +54,8 @@ SITE.PartGen = function( mapa, interfaceParams ) {
         this.Div.dataDiv
        ,{listener : this, method: 'editorCallback' }
        ,{   draggable:SITE.properties.partGen.editor.floating
-           ,toolbar: true, statusbar:true, translate:false
-           ,title: 'Editor de Tablaturas'
+           ,toolbar: true, statusbar:true, translator: SITE.translator
+           ,title: 'ParGenEditorTitle'
            ,compileOnChange: false /*SITE.properties.options.autoRefresh*/
         }
     );
@@ -67,8 +67,8 @@ SITE.PartGen = function( mapa, interfaceParams ) {
 
     this.keyboardWindow = new DRAGGABLE.ui.Window( 
         this.Div.dataDiv
-       ,[ 'move|Mover', 'rotate|Rotacionar', 'zoom|Zoom', 'globe|Mudar Notação']
-       ,{title: '', translate: false, statusbar: false
+       ,[ 'move', 'rotate', 'zoom', 'globe']
+       ,{title: '', translator: SITE.translator, statusbar: false
             , top: SITE.properties.partGen.keyboard.top
             , left: SITE.properties.partGen.keyboard.left
             , zIndex: 100
@@ -199,7 +199,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
 
     this.playerCallBackOnEnd = function( player ) {
         var warns = that.midiPlayer.getWarnings();
-        that.playButton.title = DR.getResource("playBtn");
+        that.playButton.title = SITE.translator.getResource("playBtn");
         that.playButton.innerHTML = '&#160;<i class="ico-play"></i>&#160;';
         that.renderedTune.printer.clearSelection();
         that.accordion.clearKeyboard(true);
@@ -291,15 +291,19 @@ SITE.PartGen.prototype.resize = function( ) {
     this.Div.topDiv.style.height = Math.max(h,200) +"px";
     this.Div.topDiv.style.width = Math.max(w,400) +"px";
    
-    var e = 0;
+    var w = 0, e = 0;
     var c = this.controlDiv.clientHeight;
     var t = this.Div.dataDiv.clientHeight;
+    
+    if(! SITE.properties.showWarnings) {
+        w = this.warningsDiv.clientHeight;
+    }
     
     if(! SITE.properties.partGen.editor.floating) {
         e = this.editorWindow.container.topDiv.clientHeight+4;
     }
 
-    this.studioCanvasDiv.style.height = t-(e+c+6) +"px";
+    this.studioCanvasDiv.style.height = t-(w+e+c+6) +"px";
     
     this.posicionaTeclado();
 };
@@ -337,7 +341,7 @@ SITE.PartGen.prototype.closePartGen = function(save) {
             FILEMANAGER.saveLocal( 'ultimaTablaturaEditada', text );
         self.mapa.openMapa();
         loader.stop();
-    }, '<br/>&#160;&#160;&#160;'+DR.getResource('DR_wait')+'<br/><br/>' );
+    }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
 };
 
 
@@ -551,7 +555,7 @@ SITE.PartGen.prototype.salvaPartitura = function() {
         var conteudo = this.renderedTune.text;
         FILEMANAGER.download(name, conteudo);
     } else {
-        alert(DR.getResource("DR_err_saving"));
+        alert(SITE.translator.getResource("err_saving"));
     }
 };
 
@@ -561,7 +565,7 @@ SITE.PartGen.prototype.salvaTablatura = function() {
         var conteudo = this.editorWindow.getString();
         FILEMANAGER.download(name, conteudo);
     } else {
-        alert(DR.getResource("DR_err_saving"));
+        alert(SITE.translator.getResource("err_saving"));
     }
 };
 
@@ -573,7 +577,7 @@ SITE.PartGen.prototype.startPlay = function( type, value ) {
     if( this.midiPlayer.playing) {
         
         if (type === "normal" ) {
-            this.playButton.title = DR.getResource("playBtn");
+            this.playButton.title = SITE.translator.getResource("playBtn");
             this.playButton.innerHTML = '&#160;<i class="ico-play"></i>&#160;';
             this.midiPlayer.pausePlay();
         } else {
@@ -589,7 +593,7 @@ SITE.PartGen.prototype.startPlay = function( type, value ) {
         this.editorWindow.setEditorHighLightStyle();
         if(type==="normal") {
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
-                this.playButton.title = DR.getResource("DR_pause");
+                this.playButton.title = SITE.translator.getResource("pause");
                 this.playButton.innerHTML =  '<i class="ico-pause"></i>';
             }
         } else {

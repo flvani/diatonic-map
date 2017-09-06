@@ -7,10 +7,20 @@ teste.
 -->
 <html>
     <head>
-        <title>Mapa para Acordeons Diatônicos</title>
+        <title data-translate="appName" >Mapa para Acordeons Diatônicos</title>
         <meta charset="UTF-8" />
         <link rel="icon" type="image/icon" href="images/favicon.ico"/>
         <meta name="viewport" content="height=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0" />
+        
+        <meta name="robots" content="index,follow"/>
+        <meta name="revisit-after" content="7 days"/>
+        <meta name="description" data-translate="description" content="Um mapa de referência para a aprendizagem de acordeons diatônicos" />
+
+        <meta name="author" content="Flávio Luiz Vani"/>
+
+        <meta name="keywords" content="diatonic accordion, notation, learning, practice, repertoire, abc tunes, midi, tablature
+acordeon diatônico, gaita de oito baixos, gaita ponto, notação musical, aprendizagem, prática, repertorio, 
+notação abc, tablatura " />   
         
         <link rel="stylesheet" href="fontsIco/abcx.css" />
         <link rel="stylesheet" href="fontsGoogle/fonts.css" />
@@ -49,17 +59,18 @@ teste.
         <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs.js" ></script>
         
         <script id="mainSITE" type="text/javascript" src="src/mapa.js"></script>
+        <script type="text/javascript" src="src/properties.js"></script>
+        <script type="text/javascript" src="src/translate.js"></script>
         <script type="text/javascript" src="src/estudio.js"></script>
-        <script type="text/javascript" src="languages/language.js"></script>
         <script type="text/javascript" src="src/partgen.js"></script>
         <script type="text/javascript" src="src/tabgen.js"></script>
         <script type="text/javascript" src="src/t2p_parser.js"></script>
         <script type="text/javascript" src="src/p2t_parser.js"></script>
 
         <div id="topBar" class="topBar gradiente" >
-            <span id="DR_appName" class="topTitle">Mapa para Acordeons Diatônicos</span>
-            <a id="topSettings" class="topSettings" title="Ajustes"><i class="ico-cogs" ></i></a>
-            <a class="oldVersion" href="mapa-4.22.html" onclick="">Usar a versão anterior</a>
+            <span data-translate="appName" class="topTitle">Mapa para Acordeons Diatônicos</span>
+            <a id="topSettings" class="topSettings" ><i class="ico-cogs" title="Ajustes" data-translate="topSettings" ></i></a>
+            <a class="oldVersion" href="mapa-4.22.html" data-translate="oldVersion" onclick="" >Usar a versão anterior</a>
             <div class="dropdown-group">
                 <input id="fileLoadMap" type="file" accept="text/abc" multiple="multiple" style="display: none;"/>
                 <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" multiple="multiple" style="display: none;"/>
@@ -72,10 +83,10 @@ teste.
                 <label id="a_nome_gaita">...</label>
                 <div class="btn-group">
                     <button id="buttonChangeNotation" >
-                        <i class="ico-world-2"></i>&nbsp;<span id="DR_chlabel">Mudar a notação</span>
+                        <i class="ico-world-2"></i>&nbsp;<span data-translate="chLabel">Mudar a notação</span>
                     </button>
                     <button id="buttonShowMedia" style="display:none;" >
-                        <i class="ico-vplayer"></i>&nbsp;<span id="DR_showmedia">Videoaula</span>
+                        <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
                     </button>
                 </div>
                 <div class="tv-content-always">
@@ -89,26 +100,26 @@ teste.
 
             <div id="section2" class="tabs">
                 <input id="chordsTab" type="radio" name="tabControl" class="tab-selector-1" />
-                <label for="chordsTab" class="tab-label-1">Acordes</label>
+                <label for="chordsTab" class="tab-label-1" data-translate="tabChords" >Acordes</label>
 
                 <input id="practicesTab" type="radio" name="tabControl" class="tab-selector-2" />
-                <label for="practicesTab" class="tab-label-2">Exercícios</label>
+                <label for="practicesTab" class="tab-label-2" data-translate="tabPractices" >Exercícios</label>
 
                 <input id="songsTab" type="radio" name="tabControl" class="tab-selector-3" />
-                <label for="songsTab" class="tab-label-3">Músicas</label>
+                <label for="songsTab" class="tab-label-3" data-translate="tabTunes" >Músicas</label>
 
                 <div class="btn-group" >
                     <div id="menuChords" class="topMenu" style="display:none;"></div>
                     <div id="menuPractices" class="topMenu" style="display:none;"></div>
                     <div id="menuSongs" class="topMenu" style="display:none;"></div>
                     <button id="buttonTools">
-                        <i class="ico-wrench"></i>&#160;<span id="DR_tools">Ferramentas</span>
+                        <i class="ico-wrench"></i>&#160;<span data-translate="toolsBtn">Ferramentas</span>
                     </button>
-                    <button id="buttonPrinter" >
-                        <i class="ico-printer"></i>&#160;<span id="DR_print">Imprimir</span>
+                    <button id="buttonPrinter" data-translate="printPreviewTip" >
+                        <i class="ico-printer"></i>&#160;<span data-translate="printBtn">Imprimir</span>
                     </button>
-                    <button id="buttonPlay" ><i class="ico-play"></i></button>
-                    <button id="buttonStop" ><i class="ico-stop"></i></button>
+                    <button id="buttonPlay" data-translate="playBtn" ><i class="ico-play"></i></button>
+                    <button id="buttonStop" data-translate="stopBtn" ><i class="ico-stop"></i></button>
                     <label id="currentPlayTimeLabel" >00:00:00</label>
                 </div>
 
@@ -130,49 +141,49 @@ teste.
         <div id="tabGenDiv" class="studioDiv" ></div>
         <div id="studioControlDiv" style="display:none;">
             <div id="controlDiv1" class="btn-subgroup" >
-                <button id="showEditorBtn" title="Exibir/Ocultar Editor"><i id="I_showEditor" class="ico-folder"></i>&#160;<span id="DR_showEditor">Editor</span></button>
-                <button id="showMapBtn" title="Exibir/Ocultar Teclado"><i id="I_showMap" class="ico-folder"></i>&#160;<span id="DR_showMap">Teclado</span></button>
-                <button id="printBtn2" title="Imprimir" ><i class="ico-printer"></i>&#160;Imprimir</button>
-                <button id="saveBtn" title="Salvar Local" ><i class="ico-download"></i>&#160;Salvar Local</button>
-                <button id="forceRefresh" title="Atualizar" ><i class="ico-bolt"></i>&#160;Atualizar</button>
-                <button id="modeBtn" title="Modo normal/didático" ><i class="ico-listening" ></i></button>
-                <button id="timerBtn" title="Timer"><i class="ico-timer-00" ></i></button>
-                <button id="GClefBtn" title="Melodia"><i class="ico-clef-treble" ></i></button>
-                <button id="FClefBtn" title="Baixos"><i class="ico-clef-bass" ></i></button>
+                <button id="showEditorBtn" data-translate="showEditorTip"><i id="I_showEditor" class="ico-folder"></i>&#160;<span data-translate="showEditorBtn">Editor</span></button>
+                <button id="showMapBtn" data-translate="showMapTip"><i id="I_showMap" class="ico-folder"></i>&#160;<span data-translate="showMapBtn">Teclado</span></button>
+                <button id="printBtn2" data-translate="printPreviewTip"><i class="ico-printer"></i>&#160;<span data-translate="printBtn">Impimir</span></button>
+                <button id="saveBtn" data-translate="saveBtn"><i class="ico-download"></i>&#160;<span data-translate="saveBtn">Salvar Local</span></button>
+                <button id="forceRefresh" data-translate="forceRefreshBtn" ><i class="ico-bolt"></i>&#160<span data-translate="forceRefreshBtn">Atualizar</span></button>
+                <button id="modeBtn" data-translate="modeBtn" ><i class="ico-listening" ></i></button>
+                <button id="timerBtn" data-translate="timerBtn" ><i class="ico-timer-00" ></i></button>
+                <button id="GClefBtn" data-translate="GClefBtn" ><i class="ico-clef-treble" ></i></button>
+                <button id="FClefBtn" data-translate="FClefBtn" ><i class="ico-clef-bass" ></i></button>
             </div>
             <div id="divDidacticPlayControls"  class="btn-subgroup" style="display: none;" >
-                <input id="gotoMeasureBtn" type="text" title="Ir para o compasso" value="Ir para..."/>
+                <input id="gotoMeasureBtn" type="text" data-translate="gotoMeasure" value="Ir para..."/>
                 <b>..</b>
-                <input id="untilMeasureBtn" type="text" title="Executar até o compasso" value="até..."/>
-                <button id="stepBtn" title="Passo a passo">&#160;<i class="ico-play"></i>&#160;</button>
-                <button id="stepMeasureBtn" title="Executar compasso">&#160;<i class="ico-forward"></i>&#160;</button>
-                <button id="repeatBtn" title="Repetir">&#160;<i class="ico-repeat-cw"></i>&#160;</button>
-                <button id="clearBtn" title="Limpar">&#160;<i class="ico-stop"></i>&#160;</button>
-                <button id="tempoBtn" title="Andamento">&#160;&#160;1&#160;&#160;</button>
+                <input id="untilMeasureBtn" type="text" data-translate="untilMeasure" value="até..."/>
+                <button id="stepBtn" data-translate="stepBtn" >&#160;<i class="ico-play"></i>&#160;</button>
+                <button id="stepMeasureBtn" data-translate="stepMeasureBtn" >&#160;<i class="ico-forward"></i>&#160;</button>
+                <button id="repeatBtn" data-translate="repeatBtn" >&#160;<i class="ico-repeat-cw"></i>&#160;</button>
+                <button id="clearBtn" data-translate="clearBtn" >&#160;<i class="ico-stop"></i>&#160;</button>
+                <button id="tempoBtn" data-translate="tempoBtn" >&#160;&#160;1&#160;&#160;</button>
             </div>
             <div id="divNormalPlayControls" class="btn-subgroup" >
-                <button id="playBtn2" title="Executar">&#160;<i class="ico-play"></i>&#160;</button>
-                <button id="stopBtn2" title="Parar">&#160;<i class="ico-stop"></i>&#160;</button>
+                <button id="playBtn2" data-translate="playBtn" >&#160;<i class="ico-play"></i>&#160;</button>
+                <button id="stopBtn2" data-translate="stopBtn" >&#160;<i class="ico-stop"></i>&#160;</button>
             </div>
             <label id="currentPlayTimeLabel2" >00:00:00</label>
         </div>  <!-- controlDiv - este bloco é tratado internamente -->  
         <div id="t2pControlDiv-raw" style="display:none;">
             <div id="t2pControlDiv1" class="btn-subgroup" >
-                <button id="t2pShowEditorBtn" title="Exibir/Ocultar Editor"><i id="t2pI_showEditor" class="ico-folder"></i>&#160;<span id="t2pDR_showEditor">Editor</span></button>
-                <button id="t2pShowMapBtn" title="Exibir/Ocultar Teclado"><i id="t2pI_showMap" class="ico-folder"></i>&#160;<span id="t2pDR_showMap">Teclado</span></button>
-                <button id="t2pPrintBtn" title="Imprimir" ><i class="ico-printer"></i>&#160;Imprimir</button>
-                <button id="t2pSaveBtn" title="Salvar Local" ><i class="ico-download"></i>&#160;Salvar Local</button>
-                <button id="t2pForceRefresh" title="Atualizar" ><i class="ico-bolt"></i>&#160;Atualizar</button>
+                <button id="t2pShowEditorBtn" data-translate="showEditorTip"><i id="t2pI_showEditor" class="ico-folder"></i>&#160;<span data-translate="showEditorBtn">Editor</span></button>
+                <button id="t2pShowMapBtn" data-translate="showMapTip"><i id="t2pI_showMap" class="ico-folder"></i>&#160;<span data-translate="showMapBtn">Teclado</span></button>
+                <button id="t2pPrintBtn" data-translate="printPreviewTip"><i class="ico-printer"></i>&#160;<span data-translate="printBtn">Impimir</span></button>
+                <button id="t2pSaveBtn" data-translate="saveBtn"><i class="ico-download"></i>&#160;<span data-translate="saveBtn">Salvar Local</span></button>
+                <button id="t2pForceRefresh" data-translate="forceRefreshBtn" ><i class="ico-bolt"></i>&#160<span data-translate="forceRefreshBtn">Atualizar</span></button>
             </div>
             <div id="t2pDivNormalPlayControls" class="btn-subgroup" >
-                <button id="t2pPlayBtn" class="btn" title="Executar" onclick="">&nbsp;<i class="ico-play"></i>&nbsp;</button>
-                <button id="t2pStopBtn" class="btn" title="Parar" onclick="">&nbsp;<i class="ico-stop"></i>&nbsp;</button>
+                <button id="t2pPlayBtn" data-translate="playBtn" onclick="">&nbsp;<i class="ico-play"></i>&nbsp;</button>
+                <button id="t2pStopBtn" data-translate="stopBtn" onclick="">&nbsp;<i class="ico-stop"></i>&nbsp;</button>
                 <label id="t2pCurrentPlayTimeLabel" >00:00:00</label>
             </div>
             <div id="t2pDivChecks" class="btn-subgroup" >
-                <input type="checkbox" id="ckShowABC" checked >&nbsp;<span>Mostrar o texto ABCX</span><br>
-                <span id="convertToClub" style="display: none;"><input type="checkbox" id="ckConvertToClub">&nbsp;<span>Converter para Club IIIM (br)</span></span>
-                <span id="convertFromClub" style="display: none;"><input type="checkbox" id="ckConvertFromClub">&nbsp;<span>Converter de Club IIIM (br)</span></span>
+                <input type="checkbox" id="ckShowABC" checked >&nbsp;<span data-translate="chkShowABCXText" >Mostrar o texto ABCX</span><br>
+                <span id="convertToClub" style="display: none;"><input type="checkbox" id="ckConvertToClub">&nbsp;<span data-translate="chkConvertToClub">Converter para Club IIIM (br)</span></span>
+                <span id="convertFromClub" style="display: none;"><input type="checkbox" id="ckConvertFromClub">&nbsp;<span data-translate="chkConvertToClub">Converter de Club IIIM (br)</span></span>
             </div>
         </div> <!-- t2pcontrolDiv - este bloco é tratado internamente -->     
         <div id="p2tControlDiv-raw" style="display:none;">
@@ -203,7 +214,7 @@ teste.
                    (document.readyState !== "loading" && !document.documentElement.doScroll)) {
               initApp();
             } else {
-               document.addEventListener("DOMContentLoaded", initApp );
+               document.addEventListener("DOMContentLoaded", preLoad );
             }
 
             window.onblur = function() {
@@ -221,9 +232,19 @@ teste.
                 myMap.resizeActiveWindow();
             }, false);
             
-            function initApp() {
+            function preLoad() {
                 
                 SITE.LoadProperties();
+                
+                SITE.translator = new SITE.Translator( {
+                     languages: [ "languages/en_US.lang", "languages/de_DE.lang" ]
+                    ,callback: initApp
+                });
+            }
+            
+            function initApp() {
+                
+                SITE.translator.translate();
                 
                 if( ABCXJS.misc.isIE() ){
                     $('#mapaDiv').hide();
@@ -236,58 +257,6 @@ teste.
                     return;
                 }
         
-                DR.initializeTranslator([
-                    'DR_appName'
-                   ,'DR_about'
-                   ,'DR_layout'
-                   ,'DR_espelho'
-                   ,'DR_horizontal'
-                   ,'DR_showText'
-                   ,'DR_showEditor'
-                   ,'DR_showMap'
-                   ,'DR_accordions'
-                   ,'DR_repertoire'
-                   ,'DR_chlabel'
-                   ,'DR_info'
-                   ,'DR_message'
-                   ,'DR_original'
-                   ,'DR_localLoad'
-                   ,'DR_localSave'
-                   ,'DR_accordion_maps'
-                   ,'DR_tablature' 
-                   ,'DR_abc_format'
-                   ,"DR_repeatsyms" 
-                   ,'DR_abc_editor'
-                   ,'tabTunes'
-                   ,'chordsTab'
-                   ,'tabPractices'
-                   ,'showTextBtn'
-                   ,'showEditorBtn'
-                   ,'showMapBtn' 
-                   ,'modeBtn'
-                   ,'timerBtn'
-                   ,'playBtn'
-                   ,'playBtn2'
-                   ,'stopBtn'
-                   ,'stopBtn2'
-                   ,'tempoBtn'
-                   ,'stepBtn'
-                   ,'stepMeasureBtn'
-                   ,'repeatBtn'
-                   ,'clearBtn'
-                   ,'gotoMeasureBtn'
-                   ,'untilMeasureBtn'
-                   ,'toolsBtn'
-                   ,'pdfBtn'
-                   ,'printBtn'
-                   ,'printBtn2'
-                   ,'saveBtn'
-                   ,'forceRefresh'
-                   ,'DR_refresh'
-                   ,'spanTitleStudio'
-                   ,'dRESTOREButtonA'
-                ]);
-                
                 console.log( 
                       '\nChrome: ' + ABCXJS.misc.isChrome() 
                     + '\nCromium: ' + ABCXJS.misc.isChromium() 
