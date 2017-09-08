@@ -246,28 +246,28 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             this.openTab2Part();
             break;
         case 'JUMPS':
-            this.showHelp('Ajuda - Símbolos de Repetição', '/diatonic-map/html5/sinaisRepeticao.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'JUMPS', '/diatonic-map/html5/sinaisRepeticao.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'ABCX':
-            this.showHelp('Ajuda - Formato ABCX', '/diatonic-map/html5/formatoABCX.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'ABCX', '/diatonic-map/html5/formatoABCX.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'ESTUDIO':
-            this.showHelp('Ajuda - Estúdio ABCX', '/diatonic-map/html5/estudioABCX.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'ESTUDIO', '/diatonic-map/html5/estudioABCX.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TABS':
-            this.showHelp('Ajuda - Tablaturas para Acordeons', '/diatonic-map/html5/tablatura.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'TABS', '/diatonic-map/html5/tablatura.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TABSTRANSPORTADA':
-            this.showHelp('Ajuda - Tablaturas para Transportada', '/diatonic-map/html5/tablaturaTransportada.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'TABSTRANSPORTADA', '/diatonic-map/html5/tablaturaTransportada.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'MAPS':
-            this.showHelp('Ajuda - Mapas para Acordeons', '/diatonic-map/html5/mapas.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'MAPS', '/diatonic-map/html5/mapas.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TUTORIAL':
-            this.showHelp('Ajuda - Tutoriais', '/diatonic-map/html5/tutoriais.pt_BR.html', { width: '1024', height: '600', print:false } );
+            this.showHelp('HelpTitle', 'TUTORIAL', '/diatonic-map/html5/tutoriais.pt_BR.html', { width: '1024', height: '600', print:false } );
             break;
         case 'ABOUT':
-            this.showHelp('Sobre...', '/diatonic-map/html5/about.pt_BR.html', { width: '800', print:false } );
+            this.showHelp('AboutTitle', '', '/diatonic-map/html5/about.pt_BR.html', { width: '800', print:false } );
             break;
         case 'GAITA_MINUANO_GC':
         case 'GAITA_MINUANO_BC_TRANSPORTADA':
@@ -1286,7 +1286,7 @@ SITE.Mapa.prototype.translate = function() {
   
 };
 
-SITE.Mapa.prototype.showHelp = function ( title, url, options ) {
+SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
     var that = this;
     options = options || {};
     options.width = typeof options.width === 'undefined'? '800' : options.width;
@@ -1303,14 +1303,15 @@ SITE.Mapa.prototype.showHelp = function ( title, url, options ) {
         this.helpWindow = new DRAGGABLE.ui.Window(
             null
           , ['print|printBtn']
-          , {title: 'HelpTitle', translator: SITE.translator, draggable: true, statusbar: false, top: "200px", left: x+"px", height:"auto", zIndex: 70}
+          , {title: '', translator: SITE.translator, draggable: true, statusbar: false, top: "200px", left: x+"px", height:"auto", zIndex: 70}
           , { listener: this, method:'helpCallback' }
         );
         this.helpWindow.dataDiv.style.height = "auto";
         this.helpWindow.dataDiv.className+=" customScrollBar";
     }
 
-    this.helpWindow.setTitle(title);
+    this.helpWindow.setTitle(title, SITE.translator);
+    this.helpWindow.setSubTitle(subTitle, SITE.translator);
     this.helpWindow.setButtonVisible('PRINT', options.print );
     
     this.helpWindow.dataDiv.innerHTML = '<object data="'+url+'" type="text/html" ></object>';

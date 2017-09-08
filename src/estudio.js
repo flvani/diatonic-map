@@ -338,12 +338,12 @@ SITE.Estudio.prototype.setup = function( tab, accordionId) {
     this.setVisible(true);
     this.setString(tab.text);
     this.fireChanged(0, {force:true} );
-    this.Div.setTitle( '-&#160;' + this.accordion.getTxtModel() );
+    this.Div.setSubTitle( this.accordion.getTxtModel() );
     this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
     
     this.showEditor(SITE.properties.studio.editor.visible);
     
-    this.editorWindow.container.setTitle('-&#160;' + tab.title);
+    this.editorWindow.container.setSubTitle( tab.title );
     this.editorWindow.restartUndoManager();
     
     if(SITE.properties.studio.editor.floating) {
@@ -358,7 +358,7 @@ SITE.Estudio.prototype.setup = function( tab, accordionId) {
     }
 
     this.showKeyboard(SITE.properties.studio.keyboard.visible);
-    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
+    this.keyboardWindow.setSubTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
     
     SITE.translator.translate( this.Div.topDiv );
 };

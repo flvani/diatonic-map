@@ -253,7 +253,7 @@ SITE.PartGen.prototype.setup = function(options) {
     this.fireChanged();
     this.editorWindow.restartUndoManager();
     
-    this.Div.setTitle( '-&#160;' + this.accordion.getTxtModel() );
+    this.Div.setSubTitle( this.accordion.getTxtModel() );
     
     this.showEditor(SITE.properties.partGen.editor.visible);
 
@@ -440,7 +440,7 @@ SITE.PartGen.prototype.fireChanged = function() {
         this.printABC();
         
     } else {
-        this.editorWindow.container.setTitle("" );
+        this.editorWindow.container.setTitle( "" );
         this.warningsDiv.innerHTML = "";
         this.abcDiv.innerHTML = "";
         this.renderedTune.div.innerHTML = "";
@@ -479,9 +479,9 @@ SITE.PartGen.prototype.parseABC = function() {
     this.renderedTune.title = this.renderedTune.abc.metaText.title ;
     
     if(this.renderedTune.title)
-        this.editorWindow.container.setTitle('-&#160;' + this.renderedTune.abc.metaText.title );
+        this.editorWindow.container.setTitle('- ' + this.renderedTune.abc.metaText.title );
     else
-        this.editorWindow.container.setTitle("" );
+        this.editorWindow.container.setTitle( "" );
 
     if ( this.midiParser ) {
         this.midiParser.parse( this.renderedTune.abc, this.accordion.loadedKeyboard );

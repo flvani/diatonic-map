@@ -88,6 +88,7 @@
        ,"PrefsApply" : "Apply"
        ,"PrefsReset" : "Reset"
        ,"PrefsCancel" : "Cancel"
+       ,"AboutTitle" : "About..."
        ,"HelpTitle" : "Help"
        ,"EstudioTitle" : "ABCX Studio"
        ,"EstudioEditorTitle" : "Editor"
