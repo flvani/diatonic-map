@@ -23,11 +23,11 @@ SITE.getVersion = function(tag, label) {
 
 SITE.LoadProperties = function() {
     
-    //FILEMANAGER.removeLocal('diatonic-map.site.properties' ); // usdo para forçar reset da propriedades
-    
     SITE.properties = JSON.parse( FILEMANAGER.loadLocal('diatonic-map.site.properties' ) ); 
     
-    if( ! SITE.properties ) {
+    //FILEMANAGER.removeLocal('diatonic-map.site.properties' ); // usdo para forçar reset da propriedades
+    
+    if( ! SITE.properties || ! SITE.properties.version || parseFloat( SITE.properties.version ) < 5.1 ) {
         SITE.ResetProperties();
     }
 };
@@ -37,9 +37,15 @@ SITE.SaveProperties = function() {
 };
 
 SITE.ResetProperties = function() {
+    
+    var language = window.navigator.userLanguage || window.navigator.language;
+    
     SITE.properties = {};
+    
+    SITE.properties.version = '5.10';
+    
     SITE.properties.colors = {
-         useTransparency: false
+         useTransparency: true
         ,highLight: 'red'
         ,fill: 'white'
         ,background: 'none'
@@ -48,10 +54,10 @@ SITE.ResetProperties = function() {
     };
 
     SITE.properties.options = {
-         language: 'pt_BR'
-        ,showWarnings: true
-        ,showConsole: true
-        ,pianoSound: true
+        language: ( language.substr(0,2) === 'pt' ) ? 'pt_BR' : 'en_US'
+        ,showWarnings: false
+        ,showConsole: false
+        ,pianoSound: false
         ,autoRefresh: false
     };
 

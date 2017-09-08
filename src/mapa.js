@@ -390,7 +390,16 @@ SITE.Mapa.prototype.openTab2Part = function () {
                ,accordion_options: {
                      id: this.accordion.getId()
                     ,accordionMaps: DIATONIC.map.accordionMaps
-                    ,render_keyboard_opts:{transpose:false, mirror: false, scale:0.8, draggable:true, show:false, label:false}}
+                    ,translator: SITE.translator 
+                    ,render_keyboard_opts:{
+                         transpose:false
+                        ,mirror: false
+                        ,scale:0.8
+                        ,draggable:true
+                        ,show:false
+                        ,label:false
+                    }
+                }
             });
     } 
     this.tab2part.setup({accordionId: this.accordion.getId()});
@@ -422,7 +431,16 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
                ,accordion_options: {
                      id: this.accordion.getId()
                     ,accordionMaps: DIATONIC.map.accordionMaps
-                    ,render_keyboard_opts:{transpose:false, mirror:false, scale:0.8, draggable:true, show:false, label:false}}
+                    ,translator: SITE.translator 
+                    ,render_keyboard_opts:{
+                         transpose:false
+                        ,mirror:false
+                        ,scale:0.8
+                        ,draggable:true
+                        ,show:false
+                        ,label:false
+                    }
+                }
                ,onchange: function( studio ) { studio.onChange(); }
           } 
           , {   // playerParams
@@ -1124,7 +1142,6 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             SITE.properties.options.pianoSound = this.settings.pianoSound.checked;
             SITE.properties.colors.useTransparency = this.settings.useTransparency.checked;
 
-            SITE.SaveProperties();
             this.picker.close();
             this.settings.window.setVisible(false);
             this.applySettings();
@@ -1132,13 +1149,14 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
                 SITE.properties.options.language = this.settings.lang;
                 SITE.translator.translate();
             }
+            SITE.SaveProperties();
             break;
         case 'RESET':
             this.alert = new DRAGGABLE.ui.Alert(
                     this.settings.window, action,
-                    '<br>Você deseja redefinir todos os itens?',
-                    '<br>Isto fará com que todos os itens retornem para suas configurações iniciais, ' +
-                    'isto inclui cores e posicionamento, entre outras coisas.', {translator: SITE.translator} );
+                    '<br>'+SITE.translator.getResource('resetMsgTitle'),
+                    '<br>'+SITE.translator.getResource('resetMsgDescription'),
+                    {translator: SITE.translator} );
             break;
         case 'RESET-YES':
             this.alert.close();
@@ -1284,7 +1302,7 @@ SITE.Mapa.prototype.showHelp = function ( title, url, options ) {
     if( ! this.helpWindow ) {
         this.helpWindow = new DRAGGABLE.ui.Window(
             null
-          , ['PRINT']
+          , ['print|printBtn']
           , {title: 'HelpTitle', translator: SITE.translator, draggable: true, statusbar: false, top: "200px", left: x+"px", height:"auto", zIndex: 70}
           , { listener: this, method:'helpCallback' }
         );

@@ -48,7 +48,7 @@ SITE.Translator.prototype.translate = function(container) {
     
     this.currentLanguage = this.getLanguage(SITE.properties.options.language);
     
-    for( var item of translablesArray ){
+    for( var item of translablesArray ) {
         var vlr = this.currentLanguage.resources[item.getAttribute("data-translate")];
         if( vlr ) {
             switch( item.nodeName ) {

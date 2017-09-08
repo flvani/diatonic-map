@@ -3,17 +3,18 @@
 - Tradução (após a release 5.0, provavelmente 5.1)
     - Telas de ajuda mostram titulos em duplicata
     - Pensar melhor parte do titulo: titulo tradutivel ou não
-    - Traduzir selKey (seletor de tons no editor)
-    - Traduzir mensagens de alerta
     - Traduzir mensagens de erro???
-    - Traduzir nota de lançamento?
 
 Incluir o campo SITE.properties.version.
     Se não existir criar o campo, com versão 5.1
         Nesta versão, tornar o som de gaita padrão
         Esconder a janela da console de erros.
+        Não mostrar erros de compilação.
+        Se a linguagem do browser não for pt-BR, inicializar em inglês
 
 - Atualizar as paginas de ajuda, mapa, estudio e tutorias
+
+- Criar opções para carregar somente a linguagem corrente e somente o instrumento corrente
 
 - Bug MIDI player no iPad Mini (não soa)
 - Melhorar as acoes de callback READONLY e LIGHTON - considerar o estado o editor e não simplesmente inverter o icones
@@ -133,3 +134,7 @@ Incluir o campo SITE.properties.version.
 - Tradução (após a release 5.0, provavelmente 5.1)
     - Traduzir tela de preferencias
     - Garantir parametro de tradutor para telas de alerta e outros sub-telas
+    - Teclado as vezes não traduz a legenda
+    - Traduzir mensagens de alerta
+    - Traduzir selKey (seletor de tons no editor)
+    - Traduzir nota de lançamento?
