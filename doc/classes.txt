@@ -2,7 +2,7 @@ Proposta:
   HTML principal
     mapa.js
         3 abas ( musicas, exercicios e acordes ), 
-        1 acordeon (teclado, imagem )
+        1 acordeão (teclado, imagem )
         1 player (midi player e midi parser)
         conhece o estúdio.
         midiPlayer = new ABCXJS.midi.Player

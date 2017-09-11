@@ -35,7 +35,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.menu = new DRAGGABLE.ui.DropdownMenu(
            interfaceParams.mapMenuDiv
         ,  { listener: that, method:'menuCallback', translate: true }
-        ,  [{title: 'Acordeons', ddmId: 'menuGaitas', itens: [] }
+        ,  [{title: 'Acordeões', ddmId: 'menuGaitas', itens: [] }
            ,{title: 'Repertório', ddmId: 'menuRepertorio',
                 itens: [
                     'Restaurar o original|RESTOREREPERTOIRE',
@@ -47,8 +47,8 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
                 ]}
            ,{title: 'Informações', ddmId: 'menuInformacoes',
                 itens: [
-                    'Mapas para acordeons|MAPS',
-                    'Tablaturas para acordeons|TABS',
+                    'Mapas para acordeões|MAPS',
+                    'Tablaturas para acordeões|TABS',
                     //'Tablaturas para gaita transportada <img src="images/novo.png">|TABSTRANSPORTADA',
                     'Tablaturas para gaita transportada|TABSTRANSPORTADA',
                     'Símbolos de Repetição|JUMPS',
@@ -198,7 +198,7 @@ SITE.Mapa.prototype.setup = function (tabParams) {
     this.loadOriginalRepertoire();
     this.resize();
     
-    if (!this.accordion.loaded.localResource) { // não salva informação para acordeon local
+    if (!this.accordion.loaded.localResource) { // não salva informação para acordeão local
         FILEMANAGER.saveLocal('property.accordion', this.accordion.getId());
     }
 };
@@ -659,7 +659,7 @@ SITE.Mapa.prototype.restauraRepertorio = function() {
     var accordion = that.accordion.loaded;
     
     if( accordion.localResource ) {
-        // não é possível restaurar repertório para acordeon local;
+        // não é possível restaurar repertório para acordeão local;
         return;
     }
     
@@ -1030,7 +1030,7 @@ SITE.Mapa.prototype.showSettings = function() {
         this.settings.window.topDiv.style.zIndex = 101;
 
 //              <tr>\
-//                <th colspan="2">Acordeon:</th><td><div id="settingsAcordeonsMenu" class="topMenu"></div></td>\
+//                <th colspan="2">Acordeão:</th><td><div id="settingsAcordeonsMenu" class="topMenu"></div></td>\
 //              </tr>\
 
         this.settings.window.dataDiv.innerHTML= '\

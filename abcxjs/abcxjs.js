@@ -3282,7 +3282,7 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                         strTune += this.accordion.getTabLines();
                         
                     } else {
-                        addWarning("Impossível inferir a tablatura: acordeon não definido!");
+                        addWarning("Impossível inferir a tablatura: acordeão não definido!");
                     }
                 } else {
                     // como parse da tablatura foi feito, incluir possiveis warnings
@@ -9571,7 +9571,7 @@ ABCXJS.write.sprintf = function() {
   return o.join('');
 };
 /* abc_selectors.js
-   Implenta alguns objetos para controle de tela, tais como o um seletor de acordeons e um seletor de tonalidades
+   Implenta alguns objetos para controle de tela, tais como o um seletor de acordeões e um seletor de tonalidades
  */
 
 if (!window.ABCXJS)
@@ -9591,11 +9591,11 @@ ABCXJS.edit.AccordionSelector = function (id, divId, callBack, extraItems ) {
         this.menu = new DRAGGABLE.ui.DropdownMenu(
                divId
             ,  callBack
-            ,  [{title: 'Acordeons', ddmId: this.ddmId, itens: []}]
+            ,  [{title: 'Acordeões', ddmId: this.ddmId, itens: []}]
         );
     }
     
-    // tratar os casos os o listener não possui um acordeon definido
+    // tratar os casos os o listener não possui um acordeão definido
     if (callBack && callBack.listener && callBack.listener.accordion) {
         this.accordion = callBack.listener.accordion;
     }

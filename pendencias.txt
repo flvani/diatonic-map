@@ -1,25 +1,20 @@
-### TO DO 5.1 ####################################################################################
+### TO DO RELEASE 5.1 ####################################################################################
 
-- Tradução (após a release 5.0, provavelmente 5.1)
-    - Telas de ajuda mostram titulos em duplicata
-    - Pensar melhor parte do titulo: titulo tradutivel ou não
-    - Traduzir mensagens de erro???
+- Bug do editor ao fazer replace all
+- Bugs no editor de tablaruas (modo readonly???)
+- Bug resize da janela com editor maximizado
 
-Incluir o campo SITE.properties.version.
-    Se não existir criar o campo, com versão 5.1
-        Nesta versão, tornar o som de gaita padrão
-        Esconder a janela da console de erros.
-        Não mostrar erros de compilação.
-        Se a linguagem do browser não for pt-BR, inicializar em inglês
 
-- Atualizar as paginas de ajuda, mapa, estudio e tutorias
+- Atualizar as paginas de ajuda, mapa, estudio e tutoriais
 
 - Criar opções para carregar somente a linguagem corrente e somente o instrumento corrente
 
-- Bug MIDI player no iPad Mini (não soa)
-- Melhorar as acoes de callback READONLY e LIGHTON - considerar o estado o editor e não simplesmente inverter o icones
+### TO DO NEXT RELEASE ####################################################################################
 
-### TO DO AFTER RELEASE 5.1 ####################################################################################
+- Bug MIDI player no iPad Mini (não soa)
+
+- Tradução (após a release 5.0, provavelmente 5.1)
+    - Traduzir mensagens de erro???
 
 - Eliminar esta variável assim que possível: var debug=false; 
 - Bug na sintaxe colorida da tablatura quando há acordes
@@ -65,7 +60,7 @@ Incluir o campo SITE.properties.version.
 - Controlar janelas ao entrar e sair do studio (isso tem a ver com janelas flutuantes que tem ou não pai)
 - Janelas podem ser flutuantes e ter pai
 - A editarea deve receber uma lista de opções, 
-- Fazer com que as propriedades do teclado sejam de posicionamento sejam do acordeon
+- Fazer com que as propriedades do teclado sejam de posicionamento sejam do acordeão
 
 - Identificar o chaveamento entre abas e permitir alguns controles tais como abrir/fechar a janela de mídia.
  - Fazer mais testes 
@@ -104,7 +99,7 @@ Incluir o campo SITE.properties.version.
 
 - Popout aumentar z-index, popin diminuir
 
-- Desabilitar menus acordeons e repertório ao chamar tab2part e part2tab
+- Desabilitar menus acordeões e repertório ao chamar tab2part e part2tab
 
 - Testar o silenciamento
 
@@ -118,8 +113,8 @@ Incluir o campo SITE.properties.version.
 - Testar o resize de todas as telas
   - Resize deve levar em conta a tela de warnings
 
-- Incluir acordeon Corona
--- tratar bug ao trocar o acordeon e a tab ativa não é a de musicas
+- Incluir acordeão Corona
+-- tratar bug ao trocar o acordeão e a tab ativa não é a de musicas
 
 - melhorar a pagina de release
 
@@ -127,9 +122,11 @@ Incluir o campo SITE.properties.version.
 
 - Recolocar os scripts do GA
 - Bug na lista de musicas no Edge (não mostra o scroll)
-- Bug na ordenação dos acordeons
-- Modo read only no editor após player
+- Bug na ordenação dos acordeões
+
 - Verificar resize de pargten e tabben
+
+DONE 5.1
 
 - Tradução (após a release 5.0, provavelmente 5.1)
     - Traduzir tela de preferencias
@@ -138,3 +135,15 @@ Incluir o campo SITE.properties.version.
     - Traduzir mensagens de alerta
     - Traduzir selKey (seletor de tons no editor)
     - Traduzir nota de lançamento?
+    - Telas de ajuda mostram titulos em duplicata
+    - Pensar melhor parte do titulo: titulo tradutivel ou não
+
+- Melhorar as acoes de callback READONLY e LIGHTON - considerar o estado o editor e não simplesmente inverter o icones
+- Modo read only no editor após player
+
+Incluir o campo SITE.properties.version.
+    Se não existir criar o campo, com versão 5.1
+        Nesta versão, tornar o som de gaita padrão
+        Esconder a janela da console de erros.
+        Não mostrar erros de compilação.
+        Se a linguagem do browser não for pt-BR, inicializar em inglês

@@ -622,7 +622,7 @@ SITE.Mapa.prototype.setup = function (tabParams) {
         return;
     }
 
-    if (!gaita.localResource) { // não salva informação para acordeon local
+    if (!gaita.localResource) { // não salva informação para acordeão local
         FILEMANAGER.saveLocal('property.accordion', gaita.getId());
     }
 

@@ -419,7 +419,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.menu = new DRAGGABLE.ui.DropdownMenu(
            interfaceParams.mapMenuDiv
         ,  { listener: that, method:'menuCallback' }
-        ,  [{title: 'Acordeons', ddmId: 'menuGaitas', itens: [] }
+        ,  [{title: 'Acordeões', ddmId: 'menuGaitas', itens: [] }
            ,{title: 'Repertório', ddmId: 'menuRepertorio',
                 itens: [
                     'Restaurar o original|RESTOREREPERTOIRE',
@@ -431,8 +431,8 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
                 ]}
            ,{title: 'Informações', ddmId: 'menuInformacoes',
                 itens: [
-                    'Mapas para acordeons|MAPS',
-                    'Tablaturas para acordeons|TABS',
+                    'Mapas para acordeões|MAPS',
+                    'Tablaturas para acordeões|TABS',
                     //'Tablaturas para gaita transportada <img src="images/novo.png">|TABSTRANSPORTADA',
                     'Tablaturas para gaita transportada|TABSTRANSPORTADA',
                     'Símbolos de Repetição|JUMPS',
@@ -579,7 +579,7 @@ SITE.Mapa.prototype.setup = function (tabParams) {
     this.loadOriginalRepertoire();
     this.resize();
     
-    if (!this.accordion.loaded.localResource) { // não salva informação para acordeon local
+    if (!this.accordion.loaded.localResource) { // não salva informação para acordeão local
         FILEMANAGER.saveLocal('property.accordion', this.accordion.getId());
     }
 };
@@ -636,13 +636,13 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             this.showHelp('Ajuda - Estúdio ABCX', '/diatonic-map/html5/estudioABCX.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TABS':
-            this.showHelp('Ajuda - Tablaturas para Acordeons', '/diatonic-map/html5/tablatura.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('Ajuda - Tablaturas para Acordeões', '/diatonic-map/html5/tablatura.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TABSTRANSPORTADA':
             this.showHelp('Ajuda - Tablaturas para Transportada', '/diatonic-map/html5/tablaturaTransportada.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'MAPS':
-            this.showHelp('Ajuda - Mapas para Acordeons', '/diatonic-map/html5/mapas.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('Ajuda - Mapas para Acordeões', '/diatonic-map/html5/mapas.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TUTORIAL':
             this.showHelp('Ajuda - Tutoriais', '/diatonic-map/html5/tutoriais.pt_BR.html', { width: '1024', height: '600', print:false } );
@@ -1022,7 +1022,7 @@ SITE.Mapa.prototype.restauraRepertorio = function() {
     var accordion = that.accordion.loaded;
     
     if( accordion.localResource ) {
-        // não é possível restaurar repertório para acordeon local;
+        // não é possível restaurar repertório para acordeão local;
         return;
     }
     
@@ -1393,7 +1393,7 @@ SITE.Mapa.prototype.showSettings = function() {
         this.settings.window.topDiv.style.zIndex = 101;
 
 //              <tr>\
-//                <th colspan="2">Acordeon:</th><td><div id="settingsAcordeonsMenu" class="topMenu"></div></td>\
+//                <th colspan="2">Acordeão:</th><td><div id="settingsAcordeonsMenu" class="topMenu"></div></td>\
 //              </tr>\
 
         this.settings.window.dataDiv.innerHTML= '\
