@@ -5,7 +5,7 @@
 @IF [%1]==[] echo Informe o numero da versao. Formato x.xx
 @IF [%1]==[] goto :fim
 
-copy /b/y languages\language.js+src\properties.js+src\translate.js+src\mapa.js+src\estudio.js tmp\site-part.js
+copy /b/y src\properties.js+src\translate.js+src\mapa.js+src\estudio.js tmp\site-part.js
 copy /b/y tmp\site-part.js+src\partgen.js+src\tabgen.js+src\t2p_parser.js+src\p2t_parser.js tmp\site.js
 
 copy /b/y css\help.css+css\mapa.css+css\studio.css tmp\site.css

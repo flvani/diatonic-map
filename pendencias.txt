@@ -4,7 +4,6 @@
 - Bugs no editor de tablaruas (modo readonly???)
 - Bug resize da janela com editor maximizado
 
-
 - Atualizar as paginas de ajuda, mapa, estudio e tutoriais
 
 - Criar opções para carregar somente a linguagem corrente e somente o instrumento corrente

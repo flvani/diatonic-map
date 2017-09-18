@@ -7,6 +7,14 @@
 if (!window.SITE)
     window.SITE = {};
 
+SITE.ga = function ( p1, p2, p3, p4, p5  ){
+    if( ga && SITE.getVersion('mainSITE', '' ) !== 'debug' ) {
+        ga( p1, p2, p3, p4, p5 );
+    } else {
+        console.log('Funcao ga não definida.');
+    }
+};
+
 SITE.getDate = function (){
     var today = new Date();
     var dd = today.getDate();
@@ -23,12 +31,23 @@ SITE.getVersion = function(tag, label) {
 
 SITE.LoadProperties = function() {
     
-    SITE.properties = JSON.parse( FILEMANAGER.loadLocal('diatonic-map.site.properties' ) ); 
-    
     //FILEMANAGER.removeLocal('diatonic-map.site.properties' ); // usdo para forçar reset da propriedades
     
-    if( ! SITE.properties || ! SITE.properties.version || parseFloat( SITE.properties.version ) < 5.1 ) {
+    SITE.properties = JSON.parse( FILEMANAGER.loadLocal('diatonic-map.site.properties' ) ); 
+    
+    var ver = SITE.getVersion('mainSITE', '' );
+    
+    if( ! SITE.properties )
         SITE.ResetProperties();
+    else if( ver !== 'debug' && ( ! SITE.properties.version || parseFloat( SITE.properties.version ) < parseFloat( ver ) )  ){
+        SITE.properties.version = ver;
+        if(SITE.properties.version === '5.06') {
+            SITE.properties.options.language = 'pt_BR' ;
+            SITE.properties.options.showWarnings = false;
+            SITE.properties.options.showConsole = false;
+            SITE.properties.options.pianoSound = false;
+        }
+        SITE.SaveProperties();
     }
 };
 
@@ -42,7 +61,7 @@ SITE.ResetProperties = function() {
     
     SITE.properties = {};
     
-    SITE.properties.version = '5.10';
+    SITE.properties.version = SITE.getVersion('mainSITE', '' );
     
     SITE.properties.colors = {
          useTransparency: true
@@ -54,7 +73,7 @@ SITE.ResetProperties = function() {
     };
 
     SITE.properties.options = {
-        language: ( language.substr(0,2) === 'pt' ) ? 'pt_BR' : 'en_US'
+         language: 'pt_BR'
         ,showWarnings: false
         ,showConsole: false
         ,pianoSound: false

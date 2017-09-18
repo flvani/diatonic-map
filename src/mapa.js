@@ -316,7 +316,7 @@ SITE.Mapa.prototype.printPartiture = function (button, event) {
     event.preventDefault();
     button.blur();
     if(  currentABC.div.innerHTML )  {
-        ga('send', 'event', 'Mapa5', 'print', currentABC.title);
+        SITE.ga('send', 'event', 'Mapa5', 'print', currentABC.title);
         this.printPreview(currentABC.div.innerHTML, ["#topBar","#mapaDiv"], currentABC.abc.formatting.landscape );
     }
 };
@@ -463,7 +463,7 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
     }
 
     if( tab.text ) {
-        ga('send', 'event', 'Mapa5', 'tools', tab.title);
+        SITE.ga('send', 'event', 'Mapa5', 'tools', tab.title);
         var loader = this.startLoader( "OpenEstudio" );
         loader.start(  function() { 
             self.studio.setup( tab, self.accordion.getId() );
@@ -492,13 +492,13 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
         this.accordion.clearKeyboard();
         if(type==="normal") {
             if( this.midiPlayer.startPlay(currentABC.abc.midi) ) {
-                ga('send', 'event', 'Mapa5', 'play', currentABC.title);
+                SITE.ga('send', 'event', 'Mapa5', 'play', currentABC.title);
                 this.playButton.title = SITE.translator.getResource("pause");
                 this.playButton.innerHTML =  '<i class="ico-pause"></i>';
             }
         } else {
             if( this.midiPlayer.startDidacticPlay(currentABC.abc.midi, type, value ) ) {
-                ga('send', 'event', 'Mapa5', 'didactic-play', currentABC.title);
+                SITE.ga('send', 'event', 'Mapa5', 'didactic-play', currentABC.title);
             }
         }
     }
@@ -701,7 +701,7 @@ SITE.Mapa.prototype.doCarregaRepertorioLocal = function(files) {
                 first = true;
             }
             
-            ga('send', 'event', 'Mapa5', 'load', tunebook.tunes[t].title);
+            SITE.ga('send', 'event', 'Mapa5', 'load', tunebook.tunes[t].title);
         }    
     }
 
