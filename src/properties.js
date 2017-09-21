@@ -29,25 +29,65 @@ SITE.getVersion = function(tag, label) {
     return res ? label+res[0].substr(1) : 'debug';
 };
 
+SITE.getLanguage = function ( ) {
+    var language = window.navigator.userLanguage || window.navigator.language; 
+    
+    if( language.indexOf( '-' ) >= 0 ) {
+        language = language.replace('-', '_' );
+        for( var id in SITE.properties.known_languages ) {
+            if( id === language ) {
+                return id;
+            }
+        }
+    } else {
+        for( var id in SITE.properties.known_languages ) {
+            if( id.substr(0,2) === language ) {
+                return id;
+            }
+        }
+    }
+    return 'en_US';
+};
+
 SITE.LoadProperties = function() {
     
-    //FILEMANAGER.removeLocal('diatonic-map.site.properties' ); // usdo para forçar reset da propriedades
+    // FILEMANAGER.removeLocal('diatonic-map.site.properties' ); // usdo para forçar reset da propriedades
     
     SITE.properties = JSON.parse( FILEMANAGER.loadLocal('diatonic-map.site.properties' ) ); 
     
     var ver = SITE.getVersion('mainSITE', '' );
     
-    if( ! SITE.properties )
+    if( ! SITE.properties ) {
+        
         SITE.ResetProperties();
-    else if( ver !== 'debug' && ( ! SITE.properties.version || parseFloat( SITE.properties.version ) < parseFloat( ver ) )  ){
+        
+    } else if( ver !== 'debug' && ( ! SITE.properties.version || SITE.properties.version === 'debug' || parseFloat( SITE.properties.version ) < parseFloat( ver ) )  ){
+        
         SITE.properties.version = ver;
-        if(SITE.properties.version === '5.06') {
-            SITE.properties.options.language = 'pt_BR' ;
+        
+        if(SITE.properties.version === '5.07' ) {
+            
+            SITE.properties.known_languages = {
+                 de_DE: { file: 'languages/de_DE.lang', image: "images/de_DE.png", name: 'Deustch' } 
+                ,en_US: { file: 'languages/en_US.lang', image: "images/en_US.png", name: 'US English' } 
+                ,es_ES: { file: 'languages/es_ES.lang', image: "images/es_ES.png", name: 'Español' } 
+                ,fr_FR: { file: 'languages/fr_FR.lang', image: "images/fr_FR.png", name: 'Français' } 
+                ,it_IT: { file: 'languages/it_IT.lang', image: "images/it_IT.png", name: 'Italiano' } 
+                ,pt_BR: { file: 'languages/pt_BR.lang', image: "images/pt_BR.png", name: 'Português do Brasil' } 
+            };
+            
+            SITE.properties.options.language = SITE.getLanguage() ;
+            SITE.properties.colors.highLight = '#ff0000';
             SITE.properties.options.showWarnings = false;
             SITE.properties.options.showConsole = false;
             SITE.properties.options.pianoSound = false;
         }
+        
         SITE.SaveProperties();
+    }
+    if( ver === 'debug' ) {
+        SITE.properties.options.showConsole = true;
+        SITE.properties.options.language = SITE.getLanguage();
     }
 };
 
@@ -57,15 +97,22 @@ SITE.SaveProperties = function() {
 
 SITE.ResetProperties = function() {
     
-    var language = window.navigator.userLanguage || window.navigator.language;
-    
     SITE.properties = {};
     
-    SITE.properties.version = SITE.getVersion('mainSITE', '' );
+    SITE.properties.known_languages = {
+         de_DE: { file: 'languages/de_DE.lang', image: "images/de_DE.png", name: 'Deustch' } 
+        ,en_US: { file: 'languages/en_US.lang', image: "images/en_US.png", name: 'US English' } 
+        ,es_ES: { file: 'languages/es_ES.lang', image: "images/es_ES.png", name: 'Español' } 
+        ,fr_FR: { file: 'languages/fr_FR.lang', image: "images/fr_FR.png", name: 'Français' } 
+        ,it_IT: { file: 'languages/it_IT.lang', image: "images/it_IT.png", name: 'Italiano' } 
+        ,pt_BR: { file: 'languages/pt_BR.lang', image: "images/pt_BR.png", name: 'Português do Brasil' } 
+    };
+    
+    SITE.properties.version = SITE.getVersion( 'mainSITE', '' );
     
     SITE.properties.colors = {
          useTransparency: true
-        ,highLight: 'red'
+        ,highLight: '#ff0000'
         ,fill: 'white'
         ,background: 'none'
         ,close: '#ff3a3a'
@@ -73,7 +120,7 @@ SITE.ResetProperties = function() {
     };
 
     SITE.properties.options = {
-         language: 'pt_BR'
+         language: SITE.getLanguage()
         ,showWarnings: false
         ,showConsole: false
         ,pianoSound: false

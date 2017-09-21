@@ -55,7 +55,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
        ,{listener : this, method: 'editorCallback' }
        ,{   draggable:SITE.properties.partGen.editor.floating
            ,toolbar: true, statusbar:true, translator: SITE.translator
-           ,title: 'ParGenEditorTitle'
+           ,title: 'PartGenEditorTitle'
            ,compileOnChange: false /*SITE.properties.options.autoRefresh*/
         }
     );
@@ -253,7 +253,7 @@ SITE.PartGen.prototype.setup = function(options) {
     this.fireChanged();
     this.editorWindow.restartUndoManager();
     
-    this.Div.setSubTitle( this.accordion.getTxtModel() );
+    this.Div.setSubTitle( '- ' + this.accordion.getTxtModel() );
     
     this.showEditor(SITE.properties.partGen.editor.visible);
 
@@ -415,7 +415,7 @@ SITE.PartGen.prototype.t2pCallback = function( e ) {
             this.closePartGen(true);
             break;
         case 'HELP':
-            this.mapa.showHelp('Ajuda - Gerador de partituras', '/diatonic-map/html5/geradorPartitura.pt_BR.html', { width: '1024', height: '600' } );
+            this.mapa.showHelp('HelpTitle', 'PartGenTitle', '/diatonic-map/html5/geradorPartitura.pt_BR.html', { width: '1024', height: '600' } );
     }
 };
 
@@ -440,7 +440,7 @@ SITE.PartGen.prototype.fireChanged = function() {
         this.printABC();
         
     } else {
-        this.editorWindow.container.setTitle( "" );
+        this.editorWindow.container.setSubTitle( "" );
         this.warningsDiv.innerHTML = "";
         this.abcDiv.innerHTML = "";
         this.renderedTune.div.innerHTML = "";
@@ -479,9 +479,9 @@ SITE.PartGen.prototype.parseABC = function() {
     this.renderedTune.title = this.renderedTune.abc.metaText.title ;
     
     if(this.renderedTune.title)
-        this.editorWindow.container.setTitle('- ' + this.renderedTune.abc.metaText.title );
+        this.editorWindow.container.setSubTitle('- ' + this.renderedTune.abc.metaText.title );
     else
-        this.editorWindow.container.setTitle( "" );
+        this.editorWindow.container.setSubTitle( "" );
 
     if ( this.midiParser ) {
         this.midiParser.parse( this.renderedTune.abc, this.accordion.loadedKeyboard );

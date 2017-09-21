@@ -183,7 +183,7 @@ notação abc, tablatura " />
             <div id="t2pDivChecks" class="btn-subgroup" >
                 <input type="checkbox" id="ckShowABC" checked >&nbsp;<span data-translate="chkShowABCXText" >Mostrar o texto ABCX</span><br>
                 <span id="convertToClub" style="display: none;"><input type="checkbox" id="ckConvertToClub">&nbsp;<span data-translate="chkConvertToClub">Converter para Club IIIM (br)</span></span>
-                <span id="convertFromClub" style="display: none;"><input type="checkbox" id="ckConvertFromClub">&nbsp;<span data-translate="chkConvertToClub">Converter de Club IIIM (br)</span></span>
+                <span id="convertFromClub" style="display: none;"><input type="checkbox" id="ckConvertFromClub">&nbsp;<span data-translate="chkConvertFromClub">Converter de Club IIIM (br)</span></span>
             </div>
         </div> <!-- t2pcontrolDiv - este bloco é tratado internamente -->     
         <div id="p2tControlDiv-raw" style="display:none;">
@@ -233,13 +233,9 @@ notação abc, tablatura " />
             }, false);
             
             function preLoad() {
-                
                 SITE.LoadProperties();
-                
-                SITE.translator = new SITE.Translator( {
-                     languages: [ "languages/en_US.lang", "languages/de_DE.lang" ]
-                    ,callback: initApp
-                });
+                SITE.translator = new SITE.Translator( { language: SITE.properties.options.language, callback: initApp } );
+                //SITE.translator = new SITE.Translator( { language: 'fr_FR', callback: initApp } );
             }
             
             function initApp() {
@@ -251,7 +247,8 @@ notação abc, tablatura " />
                     new DRAGGABLE.ui.Alert( 
                          null, null
                         ,'<br>'+SITE.translator.getResource('IEMsgTitle')
-                        ,SITE.translator.getResource('IEMsgDescription') 
+                        ,SITE.translator.getResource('IEMsgDescription')
+                            + "<ul><li>Chrome (chromium)</li><li>Firefox</li><li>Safari</li><li>MS-Edge</li></ul>"
                         ,{ translator: SITE.translator }
                     );    
                     return;

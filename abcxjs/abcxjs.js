@@ -3282,7 +3282,7 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                         strTune += this.accordion.getTabLines();
                         
                     } else {
-                        addWarning("Impossível inferir a tablatura: acordeão não definido!");
+                        addWarning("Impossível inferir a tablatura: acordeon não definido!");
                     }
                 } else {
                     // como parse da tablatura foi feito, incluir possiveis warnings
@@ -9571,7 +9571,7 @@ ABCXJS.write.sprintf = function() {
   return o.join('');
 };
 /* abc_selectors.js
-   Implenta alguns objetos para controle de tela, tais como o um seletor de acordeões e um seletor de tonalidades
+   Implenta alguns objetos para controle de tela, tais como o um seletor de acordeons e um seletor de tonalidades
  */
 
 if (!window.ABCXJS)
@@ -9591,11 +9591,11 @@ ABCXJS.edit.AccordionSelector = function (id, divId, callBack, extraItems ) {
         this.menu = new DRAGGABLE.ui.DropdownMenu(
                divId
             ,  callBack
-            ,  [{title: 'Acordeões', ddmId: this.ddmId, itens: []}]
+            ,  [{title: 'Acordeons', ddmId: this.ddmId, itens: []}]
         );
     }
     
-    // tratar os casos os o listener não possui um acordeão definido
+    // tratar os casos os o listener não possui um acordeon definido
     if (callBack && callBack.listener && callBack.listener.accordion) {
         this.accordion = callBack.listener.accordion;
     }
@@ -9682,7 +9682,7 @@ ABCXJS.edit.KeySelector.prototype.populate = function(offSet) {
 // the same interface is used, ABCXJS.Editor can use a different type of object.
 //
 // EditArea:
-// - constructor(editor_id, listener)
+// - constructor(editor_id, listener)REA
 //		This contains the id of a textarea control that will be used.
 // - addChangeListener(listener)
 //		A callback class that contains the entry point fireChanged()
@@ -9925,12 +9925,12 @@ ABCXJS.edit.EditArea.prototype.setReadOnly = function (readOnly) {
     }
     
     this.aceEditor.setOptions({
-        readOnly: readOnly,
-        highlightActiveLine: !readOnly,
-        highlightGutterLine: !readOnly
+        readOnly: this.readOnly,
+        highlightActiveLine: !this.readOnly,
+        highlightGutterLine: !this.readOnly
     });
     
-    this.aceEditor.textInput.getElement().disabled=readOnly;  
+    this.aceEditor.textInput.getElement().disabled=this.readOnly;  
 };
 
 ABCXJS.edit.EditArea.prototype.setSyntaxHighLight = function (visible) {
@@ -11726,7 +11726,7 @@ DRAGGABLE.ui.Window.prototype.setSubTitle = function( title, translator ) {
         this.subTitleSpan.setAttribute('data-translate', title);
     } else {
         this.subTitleSpan.removeAttribute('data-translate');
-        translated_title = (title? '- '+title : translated_title);
+        translated_title = (title? title : translated_title);
     }
     this.subTitleSpan.innerHTML = translated_title;
 };

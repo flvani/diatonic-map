@@ -1122,6 +1122,9 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
     switch (action) {
         case 'de_DE':
         case 'en_US':
+        case 'es_ES':
+        case 'fr_FR':
+        case 'it_IT':
         case 'pt_BR':
             this.settings.lang = action;
             this.settings.menu.setSubMenuTitle( 'menuIdiomas', this.settings.menu.selectItem( 'menuIdiomas', action ));
@@ -1175,7 +1178,10 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
 
 SITE.Mapa.prototype.applySettings = function() {
 
-    //implementar a tradução
+    if( this.settings.lang !== SITE.properties.options.language ) {
+        SITE.properties.options.language = this.settings.lang;
+        SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
+    }
     
     this.defineInstrument();
     this.showMedia(this.getActiveTab());

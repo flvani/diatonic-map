@@ -11,45 +11,90 @@ if (!window.SITE.lang)
     window.SITE.lang = {};
 
 SITE.Translator = function(options) {
+    
     options = options || {};
     
-    if( ! options.languages ||  ! Array.isArray(options.languages) ) {
-        options.languages  = [];
+    if( ! options.language ) {
+        options.language  = 'pt_BR';
     }
-    options.languages.push('languages/pt_BR.lang');
     
-    this.languages = [];
-    this.loadLanguages(options.languages, options.callback);
+    this.language = null;
+    this.loadLanguage(options.language, options.callback);
     
 };
 
-SITE.Translator.prototype.getLanguage = function(id) {
+SITE.Translator.prototype.loadLanguage = function(lang, callback) {
+    var toLoad = 1;
+    var that = this;
+    FILEMANAGER.register('LANG');
+    if( ! SITE.properties.known_languages[lang] ) {
+        that.log( "Unknown language: "+ lang +". Loading English..." );
+        lang='en_US';
+        SITE.properties.options.language = lang;
+        SITE.SaveProperties();
+    }
+    var arq = SITE.properties.known_languages[lang].file;
     
-    for( var r = 0; r < this.languages.length; r ++ ) {
-        if( this.languages[r].id === id)
-            return this.languages[r];
+    $.getJSON( arq, {  format: "json"  })
+        .done(function( data ) {
+            FILEMANAGER.deregister('LANG', true);
+            that.language = data;
+            //that.log( data.langName + ": ok..");
+         })
+        .fail(function( data, textStatus, error ) {
+            FILEMANAGER.deregister('LANG', false);
+            that.log( "Failed to load language "+ lang +":\nLoading: " + data.responseText.substr(1,40) + '...\nError:\n ' + textStatus + ", " + error +'.' );
+        })
+        .always(function() {
+            toLoad --;
+            if( toLoad === 0 ) {
+                callback && callback();
+            }
+        });
+};
+
+
+SITE.Translator.prototype.menuPopulate = function(menu, ddmId ) {
+    var m, toSel;
+
+    menu.emptySubMenu( ddmId );    
+    
+    for( var id in SITE.properties.known_languages ) {
+        var tt = '<img src="'+ SITE.properties.known_languages[id].image +'" />&#160;' + SITE.properties.known_languages[id].name;
+        m = menu.addItemSubMenu( ddmId, tt + '|' + id );
+        
+        if( this.language && this.language.id===id) {
+            toSel = m;
+        }
     }
     
-    return null;
+    if( toSel )
+        menu.setSubMenuTitle( ddmId, menu.selectItem( ddmId, toSel ));
+    
 };
+
+
 
 SITE.Translator.prototype.getResource = function(id) {
-    var res = this.currentLanguage.resources[id];
-    (!res) && this.log( 'Missing translation for "' + id + '" in "' + this.currentLanguage.langName + '".' );
+    if(!this.language) return null;
+    var res = this.language.resources[id];
+    (!res) && this.log( 'Missing translation for "' + id + '" in "' + this.language.langName + '".' );
     return res;
 };
 
 SITE.Translator.prototype.translate = function(container) {
+    
+    if(!this.language) return;
     
     container = container || document;
     
     var translables = container.querySelectorAll('[data-translate]');
     var translablesArray = Array.prototype.slice.apply(translables);
     
-    this.currentLanguage = this.getLanguage(SITE.properties.options.language);
-    
-    for( var item of translablesArray ) {
-        var vlr = this.currentLanguage.resources[item.getAttribute("data-translate")];
+//    for( var item of translablesArray ) {
+    for( var i=0; i < translablesArray.length; i ++ ) {
+        var item = translablesArray[i];
+        var vlr = this.language.resources[item.getAttribute("data-translate")];
         if( vlr ) {
             switch( item.nodeName ) {
                 case 'INPUT':
@@ -66,67 +111,19 @@ SITE.Translator.prototype.translate = function(container) {
                     item.innerHTML = vlr;
             }
         } else {
-            this.log( 'Missing translatation for "' +item.getAttribute("data-translate") + '" in "' + this.currentLanguage.langName + '".' );
+            this.log( 'Missing translatation for "' +item.getAttribute("data-translate") + '" in "' + this.language.langName + '".' );
         }
     }
 };    
 
-SITE.Translator.prototype.loadLanguages = function(files, callback) {
-    var toLoad = 0;
-    var that = this;
-    for( var f = 0; f <  files.length; f ++) {
-        toLoad ++;
-        FILEMANAGER.register('LANG');
-        var arq = files[f];
-        $.getJSON( arq, {  format: "json"  })
-            .done(function( data ) {
-                FILEMANAGER.deregister('LANG', true);
-                that.languages.push(data);
-                //that.log( data.langName + ": ok..");
-             })
-            .fail(function( data, textStatus, error ) {
-                FILEMANAGER.deregister('LANG', false);
-                that.log( "Language Load Failed:\nLoading: " + data.responseText.substr(1,40) + '...\nError:\n ' + textStatus + ", " + error +'.' );
-            })
-            .always(function() {
-                toLoad --;
-                if( toLoad === 0 ) {
-                    that.currentLanguage = that.getLanguage(SITE.properties.options.language);
-                    that.sortLanguaes();
-                    callback && callback();
-                }
-            });
-    }
-};
-
-SITE.Translator.prototype.sortLanguaes = function () {
+SITE.Translator.prototype.sortLanguages = function () {
     this.languages.sort( function(a,b) { 
         return parseInt(a.menuOrder) - parseInt(b.menuOrder);
     });
 };
 
-SITE.Translator.prototype.menuPopulate = function(menu, ddmId ) {
-    var m, toSel;
-
-    menu.emptySubMenu( ddmId );    
-    
-    for( var r = 0; r < this.languages.length; r ++ ) {
-        var id = this.languages[r].id;
-        var tt = '<img src="images/'+ id +'.png" />&#160;' + this.languages[r].langName;
-        m = menu.addItemSubMenu( ddmId, tt + '|' + id );
-        
-        if( id === this.currentLanguage.id) {
-            toSel = m;
-        }
-    }
-    
-    if( toSel )
-        menu.setSubMenuTitle( ddmId, menu.selectItem( ddmId, toSel ));
-    
-};
-
 SITE.Translator.prototype.log = function(msg) {
     if( msg.substr( 27, 6 ) === 'GAITA_' ) return;
     waterbug.log( msg );
-    waterbug.show();
+    (SITE.properties.options.showConsole) && waterbug.show();
 };

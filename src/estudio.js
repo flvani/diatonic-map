@@ -338,12 +338,12 @@ SITE.Estudio.prototype.setup = function( tab, accordionId) {
     this.setVisible(true);
     this.setString(tab.text);
     this.fireChanged(0, {force:true} );
-    this.Div.setSubTitle( this.accordion.getTxtModel() );
+    this.Div.setSubTitle( '- ' + this.accordion.getTxtModel() );
     this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
     
     this.showEditor(SITE.properties.studio.editor.visible);
     
-    this.editorWindow.container.setSubTitle( tab.title );
+    this.editorWindow.container.setSubTitle( '- ' + tab.title );
     this.editorWindow.restartUndoManager();
     
     if(SITE.properties.studio.editor.floating) {
