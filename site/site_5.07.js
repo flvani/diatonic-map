@@ -1482,11 +1482,6 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             this.picker.close();
             this.settings.window.setVisible(false);
             this.applySettings();
-            if(this.settings.lang !== SITE.properties.options.language) {
-                SITE.properties.options.language = this.settings.lang;
-                SITE.ga('send', 'event', 'Configuration', 'changeLang', SITE.properties.options.language);
-                SITE.translator.translate();
-            }
             SITE.SaveProperties();
             break;
         case 'RESET':
@@ -1501,9 +1496,8 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             this.picker.close();
             this.settings.window.setVisible(false);
             SITE.ResetProperties();
+            SITE.ga('send', 'event', 'Configuration', 'reset', SITE.properties.version );
             this.applySettings();
-                SITE.ga('send', 'event', 'Configuration', 'reset', SITE.properties.options.language );
-            SITE.translator.translate();
             break;
         case 'RESET-NO':
         case 'RESET-CANCEL':
@@ -1516,6 +1510,7 @@ SITE.Mapa.prototype.applySettings = function() {
 
     if( this.settings.lang !== SITE.properties.options.language ) {
         SITE.properties.options.language = this.settings.lang;
+        SITE.ga('send', 'event', 'Configuration', 'changeLang', SITE.properties.options.language);
         SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
     }
     
