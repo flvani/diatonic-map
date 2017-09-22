@@ -1150,6 +1150,7 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             this.applySettings();
             if(this.settings.lang !== SITE.properties.options.language) {
                 SITE.properties.options.language = this.settings.lang;
+                SITE.ga('send', 'event', 'Configuration', 'changeLang', SITE.properties.options.language);
                 SITE.translator.translate();
             }
             SITE.SaveProperties();

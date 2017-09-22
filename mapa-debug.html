@@ -235,7 +235,6 @@ notação abc, tablatura " />
             function preLoad() {
                 SITE.LoadProperties();
                 SITE.translator = new SITE.Translator( { language: SITE.properties.options.language, callback: initApp } );
-                //SITE.translator = new SITE.Translator( { language: 'fr_FR', callback: initApp } );
             }
             
             function initApp() {
@@ -368,6 +367,7 @@ notação abc, tablatura " />
 
                 SITE.ga('create', 'UA-62839199-1', 'auto');
                 SITE.ga('send', 'pageview');
+                SITE.ga('send', 'event', 'Configuration', 'language', SITE.properties.options.language);
                 
                 if( SITE.getDate() <= 20170909 ) {
                     $('#tipsDiv').fadeIn('slow');

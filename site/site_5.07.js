@@ -51,7 +51,7 @@ SITE.getLanguage = function ( ) {
 
 SITE.LoadProperties = function() {
     
-    // FILEMANAGER.removeLocal('diatonic-map.site.properties' ); // usdo para forçar reset da propriedades
+    //FILEMANAGER.removeLocal('diatonic-map.site.properties' ); // usdo para forçar reset da propriedades
     
     SITE.properties = JSON.parse( FILEMANAGER.loadLocal('diatonic-map.site.properties' ) ); 
     
@@ -1484,6 +1484,7 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             this.applySettings();
             if(this.settings.lang !== SITE.properties.options.language) {
                 SITE.properties.options.language = this.settings.lang;
+                SITE.ga('send', 'event', 'Configuration', 'changeLang', SITE.properties.options.language);
                 SITE.translator.translate();
             }
             SITE.SaveProperties();
@@ -2630,7 +2631,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     this.midiPlayer = new ABCXJS.midi.Player(this);
     
     var toClub = (interfaceParams.accordion_options.id === 'GAITA_HOHNER_CLUB_IIIM_BR' );
-    var fromClub = (interfaceParams.accordion_options.id !== 'GAITA_HOHNER_CLUB_IIIM_BR' );
+    var fromClub = (interfaceParams.accordion_options.id === 'GAITA_MINUANO_GC' );
     
     var canvas_id = 't2pCanvasDiv';
     var warnings_id = 't2pWarningsDiv';
@@ -2712,10 +2713,12 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     this.ckConvertFromClub = document.getElementById(interfaceParams.ckConvertFromClub);
     this.convertFromClub = document.getElementById('convertFromClub');
         
-    this.ckConvertToClub.checked = SITE.properties.partGen.convertToClub;
+    //this.ckConvertToClub.checked = SITE.properties.partGen.convertToClub;
+    this.ckConvertToClub.checked = false;
     this.convertToClub.style.display = toClub ? 'inline' : 'none';
 
-    this.ckConvertFromClub.checked = SITE.properties.partGen.convertFromClub;
+    //this.ckConvertFromClub.checked = SITE.properties.partGen.convertFromClub;
+    this.ckConvertFromClub.checked = false;
     this.convertFromClub.style.display = fromClub ? 'inline' : 'none';
     
     this.studioCanvasDiv = document.createElement("DIV");
@@ -2840,6 +2843,12 @@ SITE.PartGen.prototype.setup = function(options) {
     this.mapa.closeMapa();
     
     this.accordion.loadById(options.accordionId);
+    
+    var toClub = (options.accordionId === 'GAITA_HOHNER_CLUB_IIIM_BR' );
+    var fromClub = (options.accordionId === 'GAITA_MINUANO_GC' );
+    
+    this.convertToClub.style.display = toClub ? 'inline' : 'none';
+    this.convertFromClub.style.display = fromClub ? 'inline' : 'none';
     
     this.setVisible(true);
     if( this.editorWindow.getString() === "" ) {
