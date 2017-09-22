@@ -87,7 +87,7 @@ SITE.LoadProperties = function() {
     }
     if( ver === 'debug' ) {
         SITE.properties.options.showConsole = true;
-        SITE.properties.options.language = SITE.getLanguage();
+        //SITE.properties.options.language = SITE.getLanguage();
     }
 };
 
