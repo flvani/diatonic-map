@@ -1168,6 +1168,7 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             this.settings.window.setVisible(false);
             SITE.ResetProperties();
             this.applySettings();
+                SITE.ga('send', 'event', 'Configuration', 'reset', SITE.properties.options.language );
             SITE.translator.translate();
             break;
         case 'RESET-NO':
