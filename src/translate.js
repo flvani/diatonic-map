@@ -27,6 +27,11 @@ SITE.Translator.prototype.loadLanguage = function(lang, callback) {
     var toLoad = 1;
     var that = this;
     FILEMANAGER.register('LANG');
+    
+    if( ! SITE.properties.known_languages ) {
+        SITE.ResetProperties();
+    }
+    
     if( ! SITE.properties.known_languages[lang] ) {
         that.log( "Unknown language: "+ lang +". Loading English..." );
         lang='en_US';
