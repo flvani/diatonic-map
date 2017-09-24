@@ -854,7 +854,7 @@ SITE.Mapa.prototype.showAccordionImage = function() {
 };
 
 SITE.Mapa.prototype.showAccordionName = function() {
-  this.gaitaNamePlaceHolder.innerHTML = this.accordion.getFullName() + ' ' + SITE.translator.getResource('keys');
+  this.gaitaNamePlaceHolder.innerHTML = this.accordion.getFullName() + ' <span data-translate="keys">' + SITE.translator.getResource('keys') + '</span>';
 };
 
 SITE.Mapa.prototype.highlight = function(abcelem) {

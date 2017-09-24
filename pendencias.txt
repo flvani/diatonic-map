@@ -1,19 +1,17 @@
 ### TO DO RELEASE 5.1 ####################################################################################
 
-- Bug do editor ao fazer replace all
-- Bugs no editor de tablaruas (modo readonly???)
-- Bug resize da janela com editor maximizado
+- Tradução 
+    - Traduzir mensagens de erro???
+    - revisão das traduções
 
-- Atualizar as paginas de ajuda, mapa, estudio e tutoriais
+- Atualizar as paginas de ajuda:
+        - mapa, estudio, formato e tutoriais
 
-- Criar opções para carregar somente a linguagem corrente e somente o instrumento corrente
 
 ### TO DO NEXT RELEASE ####################################################################################
 
 - Bug MIDI player no iPad Mini (não soa)
 
-- Tradução (após a release 5.0, provavelmente 5.1)
-    - Traduzir mensagens de erro???
 
 - Eliminar esta variável assim que possível: var debug=false; 
 - Bug na sintaxe colorida da tablatura quando há acordes
@@ -37,112 +35,10 @@
 
 ### DONE ####################################################################################
 
-- Pagina de créditos (about) e licenças e release
-    - Buscar a versão do site
+- Bug resize da janela com editor maximizado
 
--- tratar bug quando o editor está maximizado (na abertura os botoes ficam invertidos)
+Editarea
+ - Bug do editor ao fazer replace all
+ - Melhorias no dialogo de localizar e substitur
+ - Melhorias no editor de tablaturas: show hidden chars e não usa mais soft-tabs
 
-- Ao voltar do estudio redesenhar o teclado (não está destacando ao executar)
-- Fazer uma classe para Seletor de musicas (com registro do item selecionado)
-- Mudar a cor de menu selecionado
-- Atualizar as imagens das gaitas
-- Ajustar a impressao
-- Incluir carga de arquivo ABCX	na carga de mapa
-- Incluir opção para carregar repertorio adicionando à lista
-
-- Implementar a tela de ajustes
-     Incluir botões para 
-	Aplicar, 
-	Cancelar e 
-	Restaurar configurações Originais (Redefinir)
-
-- Controlar janelas ao entrar e sair do studio (isso tem a ver com janelas flutuantes que tem ou não pai)
-- Janelas podem ser flutuantes e ter pai
-- A editarea deve receber uma lista de opções, 
-- Fazer com que as propriedades do teclado sejam de posicionamento sejam do acordeão
-
-- Identificar o chaveamento entre abas e permitir alguns controles tais como abrir/fechar a janela de mídia.
- - Fazer mais testes 
-
-- Janela de midia
-  -Incluir um botão para reabrir a janela de midia
-
-- Estudio
-    - Guardar Posição e tamanho dos itens de tela (e outras propriedades)
-    - Editor full screen
-    - Resize não acerta a largura do editor
-
-- Implementar no estudio
- - Download 
- - Atualizar (compilar)
-
-- Implementar na edit area
- - reorganizar os botoes: gutter, save, undo, redo, refresh, search, tom, oitavas, realce, readonly 
- - Procura e substituição
- - Redo e Undo (all?)
-
-- Implementar o controle de preferencias
-- Remover seletores tv-m de tabbed view (agora uso javascript) para controlar a tab ativa
-- Avisar para não usar o browser Microsoft
-- Bug com undo manager: toda vez que usa setstring zera. isso acontece inclusive apos a atualização da partitura
-
-- Melhorar o estúdio, usando um único editor (em vez de um fixo e um movel)
-- Bug posiconamento da media ao redefinir
-
-- Persistir checkbox de tab2part
-
-- Refazer tab2part
-- Refazer part2tab
-
-- TabGen: Implementar salvar tablatura
-
-- Popout aumentar z-index, popin diminuir
-
-- Desabilitar menus acordeões e repertório ao chamar tab2part e part2tab
-
-- Testar o silenciamento
-
-- Melhorar a aplicação dos ajustes (p.ex., mostrar warnings deve ser verificado em todos os locais onde é usado)
-    - Testar a aplicação dos ajustes
-
-- Bugs Studio:
-  - Ao transpor oitava acima e abaixo, o editor acumula o texto abcx
-  - Falta resize do editor em algum ponto
-
-- Testar o resize de todas as telas
-  - Resize deve levar em conta a tela de warnings
-
-- Incluir acordeão Corona
--- tratar bug ao trocar o acordeão e a tab ativa não é a de musicas
-
-- melhorar a pagina de release
-
-- Usar as versões minificadas dos scripts
-
-- Recolocar os scripts do GA
-- Bug na lista de musicas no Edge (não mostra o scroll)
-- Bug na ordenação dos acordeões
-
-- Verificar resize de pargten e tabben
-
-DONE 5.1
-
-- Tradução (após a release 5.0, provavelmente 5.1)
-    - Traduzir tela de preferencias
-    - Garantir parametro de tradutor para telas de alerta e outros sub-telas
-    - Teclado as vezes não traduz a legenda
-    - Traduzir mensagens de alerta
-    - Traduzir selKey (seletor de tons no editor)
-    - Traduzir nota de lançamento?
-    - Telas de ajuda mostram titulos em duplicata
-    - Pensar melhor parte do titulo: titulo tradutivel ou não
-
-- Melhorar as acoes de callback READONLY e LIGHTON - considerar o estado o editor e não simplesmente inverter o icones
-- Modo read only no editor após player
-
-Incluir o campo SITE.properties.version.
-    Se não existir criar o campo, com versão 5.1
-        Nesta versão, tornar o som de gaita padrão
-        Esconder a janela da console de erros.
-        Não mostrar erros de compilação.
-        Se a linguagem do browser não for pt-BR, inicializar em inglês

@@ -7,14 +7,6 @@
 if (!window.SITE)
     window.SITE = {};
 
-SITE.ga = function ( p1, p2, p3, p4, p5  ){
-    if( ga && SITE.getVersion('mainSITE', '' ) !== 'debug' ) {
-        ga( p1, p2, p3, p4, p5 );
-    } else {
-        console.log('Funcao ga não definida.');
-    }
-};
-
 SITE.getDate = function (){
     var today = new Date();
     var dd = today.getDate();
@@ -23,9 +15,18 @@ SITE.getDate = function (){
     return yyyy*10000+mm*100+dd;
 };
 
+SITE.ga = function ( p1, p2, p3, p4, p5  ){
+    if( ga && SITE.getVersion('mainSITE', '' ) !== 'debug' &&  ga && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) {
+        ga( p1, p2, p3, p4, p5 );
+    } else {
+        console.log('Funcao ga não definida.');
+    }
+};
+
 SITE.getVersion = function(tag, label) {
-    var str = document.getElementById(tag).src;
-    var res = str.match(/\_[0-9]*\.[0-9]*/g);
+    var el = document.getElementById(tag);
+    if(!el) return 'unknown';
+    var res = el.src.match(/\_[0-9]*\.[0-9]*/g);
     return res ? label+res[0].substr(1) : 'debug';
 };
 
@@ -233,7 +234,7 @@ SITE.Translator.prototype.loadLanguage = function(lang, callback) {
     var that = this;
     FILEMANAGER.register('LANG');
     
-    if( ! SITE.properties.known_languages ) {
+    if( ! SITE.properties || ! SITE.properties.known_languages ) {
         SITE.ResetProperties();
     }
     
@@ -1193,7 +1194,7 @@ SITE.Mapa.prototype.showAccordionImage = function() {
 };
 
 SITE.Mapa.prototype.showAccordionName = function() {
-  this.gaitaNamePlaceHolder.innerHTML = this.accordion.getFullName() + ' ' + SITE.translator.getResource('keys');
+  this.gaitaNamePlaceHolder.innerHTML = this.accordion.getFullName() + ' <span data-translate="keys">' + SITE.translator.getResource('keys') + '</span>';
 };
 
 SITE.Mapa.prototype.highlight = function(abcelem) {
@@ -2698,6 +2699,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     this.editorWindow.container.setButtonVisible( 'OCTAVEUP', false);
     this.editorWindow.container.setButtonVisible( 'OCTAVEDOWN', false);
     this.editorWindow.keySelector.setVisible(false);
+    this.editorWindow.showHiddenChars(true);
 
     this.keyboardWindow = new DRAGGABLE.ui.Window( 
         this.Div.dataDiv

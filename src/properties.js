@@ -7,14 +7,6 @@
 if (!window.SITE)
     window.SITE = {};
 
-SITE.ga = function ( p1, p2, p3, p4, p5  ){
-    if( ga && SITE.getVersion('mainSITE', '' ) !== 'debug' ) {
-        ga( p1, p2, p3, p4, p5 );
-    } else {
-        console.log('Funcao ga não definida.');
-    }
-};
-
 SITE.getDate = function (){
     var today = new Date();
     var dd = today.getDate();
@@ -23,9 +15,18 @@ SITE.getDate = function (){
     return yyyy*10000+mm*100+dd;
 };
 
+SITE.ga = function ( p1, p2, p3, p4, p5  ){
+    if( ga && SITE.getVersion('mainSITE', '' ) !== 'debug' &&  ga && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) {
+        ga( p1, p2, p3, p4, p5 );
+    } else {
+        console.log('Funcao ga não definida.');
+    }
+};
+
 SITE.getVersion = function(tag, label) {
-    var str = document.getElementById(tag).src;
-    var res = str.match(/\_[0-9]*\.[0-9]*/g);
+    var el = document.getElementById(tag);
+    if(!el) return 'unknown';
+    var res = el.src.match(/\_[0-9]*\.[0-9]*/g);
     return res ? label+res[0].substr(1) : 'debug';
 };
 

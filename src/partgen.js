@@ -64,6 +64,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     this.editorWindow.container.setButtonVisible( 'OCTAVEUP', false);
     this.editorWindow.container.setButtonVisible( 'OCTAVEDOWN', false);
     this.editorWindow.keySelector.setVisible(false);
+    this.editorWindow.showHiddenChars(true);
 
     this.keyboardWindow = new DRAGGABLE.ui.Window( 
         this.Div.dataDiv

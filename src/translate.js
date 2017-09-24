@@ -28,7 +28,7 @@ SITE.Translator.prototype.loadLanguage = function(lang, callback) {
     var that = this;
     FILEMANAGER.register('LANG');
     
-    if( ! SITE.properties.known_languages ) {
+    if( ! SITE.properties || ! SITE.properties.known_languages ) {
         SITE.ResetProperties();
     }
     
