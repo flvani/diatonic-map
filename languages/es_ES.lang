@@ -52,6 +52,7 @@
         ,"ABOUT": "Acerca"
         ,"chLabel": "Cambiar la notación"
         ,"wait": "Espere..."
+        ,"loading": "Carregando..."
         ,"chkShowABCXText": "Mostrar el texto ABCX"
         ,"chkConvertFromClub": "Convertir de CLUB IIIM"
         ,"chkConvertToClub": "Convertir a CLUB IIIM"

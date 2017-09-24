@@ -268,7 +268,7 @@ notação abc, tablatura " />
                     //, container: document.getElementById('mapaDiv')
                     , cor1:SITE.properties.colors.close, cor2: SITE.properties.colors.open});
                 
-                MIDI.widget.setFormat( 'Carregando...');
+                MIDI.widget.setFormat( SITE.translator.getResource('loading'));
 
                 DIATONIC.map.loadAccordionMaps(
                     [
@@ -305,9 +305,11 @@ notação abc, tablatura " />
                     return;
                 }
                 
+                var instrument = SITE.properties.options.pianoSound ?  "acoustic_grand_piano" : "accordion" ;
+                
                 MIDI.loadPlugin({
                      soundfontUrl: "./soundfont/"
-                    ,instruments: [ "accordion", "acoustic_grand_piano" ]
+                    ,instruments: instrument
                     ,onprogress: function( total, done, currentPercent ) {
                         var percent = ((done*100)+currentPercent)*85/(total*100);
                         MIDI.widget.setValue(15+Math.round(percent));

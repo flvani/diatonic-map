@@ -156,6 +156,7 @@ var canPlayThrough = function (src) {
 		pending --;
 	}, false);
 	audio.addEventListener("canplaythrough", function() {
+                body.removeChild(audio);
 		supports[mime] = true;
 		pending --;
 	}, false);
@@ -177,15 +178,17 @@ MIDI.audioDetect = function(callback) {
 	vorbis = (vorbis === "probably" || vorbis === "maybe");
 	var mpeg = audio.canPlayType('audio/mpeg');
 	mpeg = (mpeg === "probably" || mpeg === "maybe");
+        
 	// maybe nothing is supported
 	if (!vorbis && !mpeg) {
-            
-		callback(supports);
-		return;
+            callback(supports);
+            return;
 	}
+        
 	// or maybe something is supported
-	if (vorbis) canPlayThrough("audio/ogg;base64,T2dnUwACAAAAAAAAAADqnjMlAAAAAOyyzPIBHgF2b3JiaXMAAAAAAUAfAABAHwAAQB8AAEAfAACZAU9nZ1MAAAAAAAAAAAAA6p4zJQEAAAANJGeqCj3//////////5ADdm9yYmlzLQAAAFhpcGguT3JnIGxpYlZvcmJpcyBJIDIwMTAxMTAxIChTY2hhdWZlbnVnZ2V0KQAAAAABBXZvcmJpcw9CQ1YBAAABAAxSFCElGVNKYwiVUlIpBR1jUFtHHWPUOUYhZBBTiEkZpXtPKpVYSsgRUlgpRR1TTFNJlVKWKUUdYxRTSCFT1jFloXMUS4ZJCSVsTa50FkvomWOWMUYdY85aSp1j1jFFHWNSUkmhcxg6ZiVkFDpGxehifDA6laJCKL7H3lLpLYWKW4q91xpT6y2EGEtpwQhhc+211dxKasUYY4wxxsXiUyiC0JBVAAABAABABAFCQ1YBAAoAAMJQDEVRgNCQVQBABgCAABRFcRTHcRxHkiTLAkJDVgEAQAAAAgAAKI7hKJIjSZJkWZZlWZameZaouaov+64u667t6roOhIasBACAAAAYRqF1TCqDEEPKQ4QUY9AzoxBDDEzGHGNONKQMMogzxZAyiFssLqgQBKEhKwKAKAAAwBjEGGIMOeekZFIi55iUTkoDnaPUUcoolRRLjBmlEluJMYLOUeooZZRCjKXFjFKJscRUAABAgAMAQICFUGjIigAgCgCAMAYphZRCjCnmFHOIMeUcgwwxxiBkzinoGJNOSuWck85JiRhjzjEHlXNOSuekctBJyaQTAAAQ4AAAEGAhFBqyIgCIEwAwSJKmWZomipamiaJniqrqiaKqWp5nmp5pqqpnmqpqqqrrmqrqypbnmaZnmqrqmaaqiqbquqaquq6nqrZsuqoum65q267s+rZru77uqapsm6or66bqyrrqyrbuurbtS56nqqKquq5nqq6ruq5uq65r25pqyq6purJtuq4tu7Js664s67pmqq5suqotm64s667s2rYqy7ovuq5uq7Ks+6os+75s67ru2rrwi65r66os674qy74x27bwy7ouHJMnqqqnqq7rmarrqq5r26rr2rqmmq5suq4tm6or26os67Yry7aumaosm64r26bryrIqy77vyrJui67r66Ys67oqy8Lu6roxzLat+6Lr6roqy7qvyrKuu7ru+7JuC7umqrpuyrKvm7Ks+7auC8us27oxuq7vq7It/KosC7+u+8Iy6z5jdF1fV21ZGFbZ9n3d95Vj1nVhWW1b+V1bZ7y+bgy7bvzKrQvLstq2scy6rSyvrxvDLux8W/iVmqratum6um7Ksq/Lui60dd1XRtf1fdW2fV+VZd+3hV9pG8OwjK6r+6os68Jry8ov67qw7MIvLKttK7+r68ow27qw3L6wLL/uC8uq277v6rrStXVluX2fsSu38QsAABhwAAAIMKEMFBqyIgCIEwBAEHIOKQahYgpCCKGkEEIqFWNSMuakZM5JKaWUFEpJrWJMSuaclMwxKaGUlkopqYRSWiqlxBRKaS2l1mJKqcVQSmulpNZKSa2llGJMrcUYMSYlc05K5pyUklJrJZXWMucoZQ5K6iCklEoqraTUYuacpA46Kx2E1EoqMZWUYgupxFZKaq2kFGMrMdXUWo4hpRhLSrGVlFptMdXWWqs1YkxK5pyUzDkqJaXWSiqtZc5J6iC01DkoqaTUYiopxco5SR2ElDLIqJSUWiupxBJSia20FGMpqcXUYq4pxRZDSS2WlFosqcTWYoy1tVRTJ6XFklKMJZUYW6y5ttZqDKXEVkqLsaSUW2sx1xZjjqGkFksrsZWUWmy15dhayzW1VGNKrdYWY40x5ZRrrT2n1mJNMdXaWqy51ZZbzLXnTkprpZQWS0oxttZijTHmHEppraQUWykpxtZara3FXEMpsZXSWiypxNhirLXFVmNqrcYWW62ltVprrb3GVlsurdXcYqw9tZRrrLXmWFNtBQAADDgAAASYUAYKDVkJAEQBAADGMMYYhEYpx5yT0ijlnHNSKucghJBS5hyEEFLKnINQSkuZcxBKSSmUklJqrYVSUmqttQIAAAocAAACbNCUWByg0JCVAEAqAIDBcTRNFFXVdX1fsSxRVFXXlW3jVyxNFFVVdm1b+DVRVFXXtW3bFn5NFFVVdmXZtoWiqrqybduybgvDqKqua9uybeuorqvbuq3bui9UXVmWbVu3dR3XtnXd9nVd+Bmzbeu2buu+8CMMR9/4IeTj+3RCCAAAT3AAACqwYXWEk6KxwEJDVgIAGQAAgDFKGYUYM0gxphhjTDHGmAAAgAEHAIAAE8pAoSErAoAoAADAOeecc84555xzzjnnnHPOOeecc44xxhhjjDHGGGOMMcYYY4wxxhhjjDHGGGOMMcYYY0wAwE6EA8BOhIVQaMhKACAcAABACCEpKaWUUkoRU85BSSmllFKqFIOMSkoppZRSpBR1lFJKKaWUIqWgpJJSSimllElJKaWUUkoppYw6SimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaVUSimllFJKKaWUUkoppRQAYPLgAACVYOMMK0lnhaPBhYasBAByAwAAhRiDEEJpraRUUkolVc5BKCWUlEpKKZWUUqqYgxBKKqmlklJKKbXSQSihlFBKKSWUUkooJYQQSgmhlFRCK6mEUkoHoYQSQimhhFRKKSWUzkEoIYUOQkmllNRCSB10VFIpIZVSSiklpZQ6CKGUklJLLZVSWkqpdBJSKamV1FJqqbWSUgmhpFZKSSWl0lpJJbUSSkklpZRSSymFVFJJJYSSUioltZZaSqm11lJIqZWUUkqppdRSSiWlkEpKqZSSUmollZRSaiGVlEpJKaTUSimlpFRCSamlUlpKLbWUSkmptFRSSaWUlEpJKaVSSksppRJKSqmllFpJKYWSUkoplZJSSyW1VEoKJaWUUkmptJRSSymVklIBAEAHDgAAAUZUWoidZlx5BI4oZJiAAgAAQABAgAkgMEBQMApBgDACAQAAAADAAAAfAABHARAR0ZzBAUKCwgJDg8MDAAAAAAAAAAAAAACAT2dnUwAEAAAAAAAAAADqnjMlAgAAADzQPmcBAQA=");
-	if (mpeg) canPlayThrough("audio/mp3;base64,/+MYxAAAAANIAUAAAASEEB/jwOFM/0MM/90b/+RhST//w4NFwOjf///PZu////9lns5GFDv//l9GlUIEEIAAAgIg8Ir/JGq3/+MYxDsLIj5QMYcoAP0dv9HIjUcH//yYSg+CIbkGP//8w0bLVjUP///3Z0x5QCAv/yLjwtGKTEFNRTMuOTeqqqqqqqqqqqqq/+MYxEkNmdJkUYc4AKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+	if (vorbis) canPlayThrough( "audio/ogg;base64,T2dnUwACAAAAAAAAAADqnjMlAAAAAOyyzPIBHgF2b3JiaXMAAAAAAUAfAABAHwAAQB8AAEAfAACZAU9nZ1MAAAAAAAAAAAAA6p4zJQEAAAANJGeqCj3//////////5ADdm9yYmlzLQAAAFhpcGguT3JnIGxpYlZvcmJpcyBJIDIwMTAxMTAxIChTY2hhdWZlbnVnZ2V0KQAAAAABBXZvcmJpcw9CQ1YBAAABAAxSFCElGVNKYwiVUlIpBR1jUFtHHWPUOUYhZBBTiEkZpXtPKpVYSsgRUlgpRR1TTFNJlVKWKUUdYxRTSCFT1jFloXMUS4ZJCSVsTa50FkvomWOWMUYdY85aSp1j1jFFHWNSUkmhcxg6ZiVkFDpGxehifDA6laJCKL7H3lLpLYWKW4q91xpT6y2EGEtpwQhhc+211dxKasUYY4wxxsXiUyiC0JBVAAABAABABAFCQ1YBAAoAAMJQDEVRgNCQVQBABgCAABRFcRTHcRxHkiTLAkJDVgEAQAAAAgAAKI7hKJIjSZJkWZZlWZameZaouaov+64u667t6roOhIasBACAAAAYRqF1TCqDEEPKQ4QUY9AzoxBDDEzGHGNONKQMMogzxZAyiFssLqgQBKEhKwKAKAAAwBjEGGIMOeekZFIi55iUTkoDnaPUUcoolRRLjBmlEluJMYLOUeooZZRCjKXFjFKJscRUAABAgAMAQICFUGjIigAgCgCAMAYphZRCjCnmFHOIMeUcgwwxxiBkzinoGJNOSuWck85JiRhjzjEHlXNOSuekctBJyaQTAAAQ4AAAEGAhFBqyIgCIEwAwSJKmWZomipamiaJniqrqiaKqWp5nmp5pqqpnmqpqqqrrmqrqypbnmaZnmqrqmaaqiqbquqaquq6nqrZsuqoum65q267s+rZru77uqapsm6or66bqyrrqyrbuurbtS56nqqKquq5nqq6ruq5uq65r25pqyq6purJtuq4tu7Js664s67pmqq5suqotm64s667s2rYqy7ovuq5uq7Ks+6os+75s67ru2rrwi65r66os674qy74x27bwy7ouHJMnqqqnqq7rmarrqq5r26rr2rqmmq5suq4tm6or26os67Yry7aumaosm64r26bryrIqy77vyrJui67r66Ys67oqy8Lu6roxzLat+6Lr6roqy7qvyrKuu7ru+7JuC7umqrpuyrKvm7Ks+7auC8us27oxuq7vq7It/KosC7+u+8Iy6z5jdF1fV21ZGFbZ9n3d95Vj1nVhWW1b+V1bZ7y+bgy7bvzKrQvLstq2scy6rSyvrxvDLux8W/iVmqratum6um7Ksq/Lui60dd1XRtf1fdW2fV+VZd+3hV9pG8OwjK6r+6os68Jry8ov67qw7MIvLKttK7+r68ow27qw3L6wLL/uC8uq277v6rrStXVluX2fsSu38QsAABhwAAAIMKEMFBqyIgCIEwBAEHIOKQahYgpCCKGkEEIqFWNSMuakZM5JKaWUFEpJrWJMSuaclMwxKaGUlkopqYRSWiqlxBRKaS2l1mJKqcVQSmulpNZKSa2llGJMrcUYMSYlc05K5pyUklJrJZXWMucoZQ5K6iCklEoqraTUYuacpA46Kx2E1EoqMZWUYgupxFZKaq2kFGMrMdXUWo4hpRhLSrGVlFptMdXWWqs1YkxK5pyUzDkqJaXWSiqtZc5J6iC01DkoqaTUYiopxco5SR2ElDLIqJSUWiupxBJSia20FGMpqcXUYq4pxRZDSS2WlFosqcTWYoy1tVRTJ6XFklKMJZUYW6y5ttZqDKXEVkqLsaSUW2sx1xZjjqGkFksrsZWUWmy15dhayzW1VGNKrdYWY40x5ZRrrT2n1mJNMdXaWqy51ZZbzLXnTkprpZQWS0oxttZijTHmHEppraQUWykpxtZara3FXEMpsZXSWiypxNhirLXFVmNqrcYWW62ltVprrb3GVlsurdXcYqw9tZRrrLXmWFNtBQAADDgAAASYUAYKDVkJAEQBAADGMMYYhEYpx5yT0ijlnHNSKucghJBS5hyEEFLKnINQSkuZcxBKSSmUklJqrYVSUmqttQIAAAocAAACbNCUWByg0JCVAEAqAIDBcTRNFFXVdX1fsSxRVFXXlW3jVyxNFFVVdm1b+DVRVFXXtW3bFn5NFFVVdmXZtoWiqrqybduybgvDqKqua9uybeuorqvbuq3bui9UXVmWbVu3dR3XtnXd9nVd+Bmzbeu2buu+8CMMR9/4IeTj+3RCCAAAT3AAACqwYXWEk6KxwEJDVgIAGQAAgDFKGYUYM0gxphhjTDHGmAAAgAEHAIAAE8pAoSErAoAoAADAOeecc84555xzzjnnnHPOOeecc44xxhhjjDHGGGOMMcYYY4wxxhhjjDHGGGOMMcYYY0wAwE6EA8BOhIVQaMhKACAcAABACCEpKaWUUkoRU85BSSmllFKqFIOMSkoppZRSpBR1lFJKKaWUIqWgpJJSSimllElJKaWUUkoppYw6SimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaWUUkoppZRSSimllFJKKaVUSimllFJKKaWUUkoppRQAYPLgAACVYOMMK0lnhaPBhYasBAByAwAAhRiDEEJpraRUUkolVc5BKCWUlEpKKZWUUqqYgxBKKqmlklJKKbXSQSihlFBKKSWUUkooJYQQSgmhlFRCK6mEUkoHoYQSQimhhFRKKSWUzkEoIYUOQkmllNRCSB10VFIpIZVSSiklpZQ6CKGUklJLLZVSWkqpdBJSKamV1FJqqbWSUgmhpFZKSSWl0lpJJbUSSkklpZRSSymFVFJJJYSSUioltZZaSqm11lJIqZWUUkqppdRSSiWlkEpKqZSSUmollZRSaiGVlEpJKaTUSimlpFRCSamlUlpKLbWUSkmptFRSSaWUlEpJKaVSSksppRJKSqmllFpJKYWSUkoplZJSSyW1VEoKJaWUUkmptJRSSymVklIBAEAHDgAAAUZUWoidZlx5BI4oZJiAAgAAQABAgAkgMEBQMApBgDACAQAAAADAAAAfAABHARAR0ZzBAUKCwgJDg8MDAAAAAAAAAAAAAACAT2dnUwAEAAAAAAAAAADqnjMlAgAAADzQPmcBAQA=");
+	if (mpeg) canPlayThrough( "audio/mp3;base64,/+MYxAAAAANIAUAAAASEEB/jwOFM/0MM/90b/+RhST//w4NFwOjf///PZu////9lns5GFDv//l9GlUIEEIAAAgIg8Ir/JGq3/+MYxDsLIj5QMYcoAP0dv9HIjUcH//yYSg+CIbkGP//8w0bLVjUP///3Z0x5QCAv/yLjwtGKTEFNRTMuOTeqqqqqqqqqqqqq/+MYxEkNmdJkUYc4AKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq");
+        
  	// lets find out!
 	var time = (new Date()).getTime(); 
 	var interval = window.setInterval(function() {
@@ -334,9 +337,10 @@ connect.audiotag = function(filetype, instruments, conf) {
 		getNext: function(instrumentId) {
                             DOMLoader.sendRequest({
 				url: MIDI.soundfontUrl + instrumentId + "-" + filetype + ".js",
+                                instrument: instrumentId,
 				onprogress: defaultOnProgress,
-				onload: function (response) {
-					addSoundfont(response.responseText);
+				onload: function (response, instrument) {
+					addSoundfont(response.responseText, instrument);
                                         onload();
 					queue.getNext();
 				}
@@ -359,9 +363,10 @@ connect.webaudio = function(filetype, instruments, conf) {
 		getNext: function(instrumentId) {
 			DOMLoader.sendRequest({
 				url: MIDI.soundfontUrl + instrumentId + "-" + filetype + ".js",
+                                instrument: instrumentId,
 				onprogress: defaultOnProgress,
-				onload: function(response) {
-					addSoundfont(response.responseText);
+				onload: function(response, instrument) {
+					addSoundfont(response.responseText, instrument );
                                         onload();
 					queue.getNext();
 				}
@@ -382,12 +387,16 @@ var apis = {
 	"flash": true
 };
 
-var addSoundfont = function(text) {
+var addSoundfont = function(text, instrument) {
+    if(!MIDI.Soundfont[instrument]) {
 	var script = document.createElement("script");
 	script.language = "javascript";
 	script.type = "text/javascript";
 	script.text = text;
 	document.body.appendChild(script);
+    } else {
+        MIDI.Soundfont[instrument].alreadyLoaded = true;
+    }
 };
 
 
@@ -737,9 +746,13 @@ if (window.AudioContext || window.webkitAudioContext) (function () {
         };
         for (var instrument in MIDI.Soundfont) {
             pending[instrument] = { pend: 0, done: 0};
-            for (var i = 0; i < urlList.length; i++) {
-                pending[instrument].pend ++;
-                audioLoader(instrument, urlList, i, bufferList, oncomplete, pending);
+            if( ! MIDI.Soundfont[instrument].alreadyLoaded ) {
+                for (var i = 0; i < urlList.length; i++) {
+                    pending[instrument].pend ++;
+                    audioLoader(instrument, urlList, i, bufferList, oncomplete, pending);
+                }
+            } else {
+                oncomplete(instrument);
             }
         }
     };
@@ -1117,11 +1130,11 @@ if (typeof (XMLHttpRequest) === "undefined") {
 	(function () { // find equivalent for IE
 		var factories = [
 		function () {
-			return new ActiveXObject("Msxml2.XMLHTTP")
+			return new ActiveXObject("Msxml2.XMLHTTP");
 		}, function () {
-			return new ActiveXObject("Msxml3.XMLHTTP")
+			return new ActiveXObject("Msxml3.XMLHTTP");
 		}, function () {
-			return new ActiveXObject("Microsoft.XMLHTTP")
+			return new ActiveXObject("Microsoft.XMLHTTP");
 		}];
 		for (var i = 0; i < factories.length; i++) {
 			try {
@@ -1192,7 +1205,7 @@ if (typeof ((new XMLHttpRequest()).responseText) === "undefined") {
 		req.setRequestHeader("Accept-Charset", "x-user-defined");
 		req.send(null);
 		return req;
-	}
+	};
 } else {
 	DOMLoader.sendRequest = function(conf) {
 		var req = new XMLHttpRequest();
@@ -1204,12 +1217,12 @@ if (typeof ((new XMLHttpRequest()).responseText) === "undefined") {
 		if (conf.onprogress) req.onprogress = conf.onprogress;
 		req.onreadystatechange = function (event) {
 			if (req.readyState === 4) {
-				if (req.status !== 200 && req.status != 304) {
+				if (req.status !== 200 && req.status !== 304) {
 					if (conf.onerror) conf.onerror(event, false);
 					return;
 				}
 				if (conf.onload) {
-					conf.onload(req);
+					conf.onload(req, conf.instrument);
 				}
 			}
 		};
@@ -1872,10 +1885,10 @@ root.ui.Timer = function(opts) {
 		var outerRadius = size / 2.0 + (pulse % 20);
 		var innerRadius = size / 2.0 * 0.61 + (pulse % 20);
 		///
-		ctx.clearRect(0, 0, canvas.width, canvas.height)
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
 		ctx.save();
 		///
-		ctx.beginPath()
+		ctx.beginPath();
 		ctx.arc(outerRadius, outerRadius, outerRadius, startAngle, endAngle, false);
 		ctx.arc(outerRadius, outerRadius, innerRadius, endAngle, startAngle, true);
 		ctx.globalAlpha = 0.25;
@@ -1883,7 +1896,7 @@ root.ui.Timer = function(opts) {
 		///
 		startAngle += 360 * DEG_RAD;
 		///
-		ctx.beginPath()
+		ctx.beginPath();
 		ctx.arc(outerRadius, outerRadius, outerRadius, startAngle, endAngle, false);
 		ctx.arc(outerRadius, outerRadius, innerRadius, endAngle, startAngle, true);
 		ctx.globalAlpha = 1.0;
@@ -1907,23 +1920,27 @@ root.ui.Timer = function(opts) {
                     requestId = requestAnimationFrame(render);
 		}
 	};
-	///
+        
 	setParams(opts);
-	///
+        
 	var canvas = document.createElement('canvas');
 	var ctx = canvas.getContext('2d');
 	canvas.width = size;
 	canvas.height = size;
-	///
-	var parent = document.createElement('div');
-	parent.style.display = 'none';
-	parent.className = 'sk-timer';
-	parent.appendChild(canvas);
-	///
-	container.appendChild(parent);
-	///
+        
+        var parent = document.getElementById('sk-timer');
+        
+        if( ! parent ) {
+            parent = document.createElement('div');
+            parent.style.display = 'none';
+            parent.id = 'sk-timer'
+            parent.className = 'sk-timer';
+            parent.appendChild(canvas);
+            container.appendChild(parent);
+        }
+        
 	if (opts.onstart) {
-		setTimeout(opts.onstart, 250);
+            setTimeout(opts.onstart, 250);
 	}
 
 	/* Public 

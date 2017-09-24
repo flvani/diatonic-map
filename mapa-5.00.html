@@ -27,7 +27,7 @@ notação abc, tablatura " />
         
         <link rel="stylesheet" href="css/styles4abcx_5.07-min.css" />
         
-        <link rel="stylesheet" href="site/site_5.07-min.css" />
+        <link rel="stylesheet" href="site/site_5.08-min.css" />
         
         
     </head>
@@ -37,7 +37,7 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
         
         <!-- suporte a MIDI -->
-        <script type="text/javascript" src="jslib/MIDI_5.00-min.js"></script>
+        <script type="text/javascript" src="jslib/MIDI_5.10-min.js"></script>
         
         <!-- console personalizada para Javascript -->
         <script type="text/javascript" src="jslib/waterbug.js"></script> 
@@ -57,7 +57,7 @@ notação abc, tablatura " />
         <!-- suporte a arquivos ABC -->
         <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.07-min.js" ></script>
         
-        <script id="mainSITE" type="text/javascript" src="site/site_5.07.js"></script>
+        <script id="mainSITE" type="text/javascript" src="site/site_5.08.js"></script>
 
         <div id="topBar" class="topBar gradiente" >
             <span data-translate="appName" class="topTitle">Mapa para Acordeões Diatônicos</span>
@@ -262,7 +262,7 @@ notação abc, tablatura " />
                     //, container: document.getElementById('mapaDiv')
                     , cor1:SITE.properties.colors.close, cor2: SITE.properties.colors.open});
                 
-                MIDI.widget.setFormat( 'Carregando...');
+                MIDI.widget.setFormat( SITE.translator.getResource('loading'));
 
                 DIATONIC.map.loadAccordionMaps(
                     [
@@ -299,9 +299,11 @@ notação abc, tablatura " />
                     return;
                 }
                 
+                var instrument = SITE.properties.options.pianoSound ?  "acoustic_grand_piano" : "accordion" ;
+                
                 MIDI.loadPlugin({
                      soundfontUrl: "./soundfont/"
-                    ,instruments: [ "accordion", "acoustic_grand_piano" ]
+                    ,instruments: instrument
                     ,onprogress: function( total, done, currentPercent ) {
                         var percent = ((done*100)+currentPercent)*85/(total*100);
                         MIDI.widget.setValue(15+Math.round(percent));

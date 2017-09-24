@@ -168,7 +168,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.midiPlayer.defineCallbackOnScroll( that.playerCallBackOnScroll );
 
     //DR.addAgent( this ); // register for translate
-    this.defineInstrument();
+    this.defineInstrument(true);
     
     this.showAccordionName();
     this.showAccordionImage();
@@ -994,17 +994,43 @@ SITE.Mapa.prototype.startLoader = function(id, container, start, stop) {
     return loader;
 };
 
-SITE.Mapa.prototype.defineInstrument = function() {
+SITE.Mapa.prototype.defineInstrument = function(onlySet) {
     
-    var instrument = SITE.properties.options.pianoSound? 0: 21; // accordion
+    var instrument = SITE.properties.options.pianoSound ?  "acoustic_grand_piano" : "accordion" ;
     
-    MIDI.programChange( 0, instrument );
-    MIDI.programChange( 1, instrument );
-    MIDI.programChange( 2, instrument );
-    MIDI.programChange( 3, instrument );
-    MIDI.programChange( 4, instrument );
-    MIDI.programChange( 5, instrument );
+    var setInstrument = function () {
+        var instrumentId = SITE.properties.options.pianoSound? 0: 21; // accordion
+        MIDI.programChange( 0, instrumentId );
+        MIDI.programChange( 1, instrumentId );
+        MIDI.programChange( 2, instrumentId );
+        MIDI.programChange( 3, instrumentId );
+        MIDI.programChange( 4, instrumentId );
+        MIDI.programChange( 5, instrumentId );
+    };
     
+    if( onlySet ) {
+        setInstrument();
+        return;
+    }
+    
+    MIDI.widget = new sketch.ui.Timer({
+        size:180
+        //, container: document.getElementById('mapaDiv')
+        , cor1:SITE.properties.colors.close, cor2: SITE.properties.colors.open});
+    
+    MIDI.widget.setFormat( SITE.translator.getResource('loading'));
+
+    MIDI.loadPlugin({
+         soundfontUrl: "./soundfont/"
+        ,instruments: instrument
+        ,onprogress: function( total, done, currentPercent ) {
+            var percent = ((done*100)+currentPercent)/(total);
+            MIDI.widget.setValue(Math.round(percent));
+        }
+        ,callback: function() {
+            setInstrument();
+        }
+    });
 };
 
 SITE.Mapa.prototype.showSettings = function() {
@@ -1142,7 +1168,6 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             SITE.properties.colors.open = this.settings.openColor.value;
             SITE.properties.options.showWarnings = this.settings.showWarnings.checked;
             SITE.properties.options.autoRefresh = this.settings.autoRefresh.checked;
-            SITE.properties.options.pianoSound = this.settings.pianoSound.checked;
             SITE.properties.colors.useTransparency = this.settings.useTransparency.checked;
 
             this.picker.close();
@@ -1180,7 +1205,12 @@ SITE.Mapa.prototype.applySettings = function() {
         SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
     }
     
-    this.defineInstrument();
+    if( this.settings.pianoSound.checked  !== SITE.properties.options.pianoSound ) {
+        SITE.properties.options.pianoSound = this.settings.pianoSound.checked;
+        SITE.ga('send', 'event', 'Configuration', 'changeInstrument', SITE.properties.options.pianoSound?'piano':'accordion');
+        this.defineInstrument();
+    }
+    
     this.showMedia(this.getActiveTab());
 
     if (this.studio) {
