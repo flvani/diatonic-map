@@ -778,15 +778,23 @@ SITE.Mapa.prototype.loadABCList = function(type) {
         , [{title: '...', ddmId: tab.ddmId, itens: []}]
     );
     
+    var achou = false;
     for( var i = 0; i < items.length; i++) {
         
         var title = items[i];
         var m = tab.menu.addItemSubMenu( tab.ddmId, title +'|'+type+'-'+i);
         if(title === tab.title ) {
+            achou = true;
             tab.menu.setSubMenuTitle( tab.ddmId, title );
             tab.menu.selectItem(tab.ddmId, m);
             tab.text = this.accordion.loaded.getAbcText(type, title);
         }    
+    }
+    if( !achou && items.length > 0 ) {
+        var title = items[0];
+        tab.menu.setSubMenuTitle( tab.ddmId, title );
+        tab.menu.selectItem(tab.ddmId, type+'-0');
+        tab.text = this.accordion.loaded.getAbcText(type, title);
     }
     
     this.setActiveTab(type+'Tab');
