@@ -1406,31 +1406,31 @@ SITE.Mapa.prototype.helpCallback = function ( action ) {
 // Esta rotina foi criada como forma de verificar todos warnings de compilacao do repertório
 SITE.Mapa.prototype.debugRepertorio = function( ) {
     
-    var warnings = [];
-
     for (var title in this.accordion.loaded.songs.items ) {
 
-        warnings.push( title );
-        var l = warnings.length;
-
+        waterbug.log(title);
+        
         this.abcParser.parse( this.accordion.loaded.songs.items[title] );
 
         var w = this.abcParser.getWarnings() || [];
+        var l = w.length;
+        
         for (var j=0; j<w.length; j++) {
-            warnings.push( '\n\t' + w[j] );
+            waterbug.logError( '   ' + w[j]);
         }
 
         if ( this.midiParser ) {
             this.midiParser.parse( this.abcParser.getTune(), this.accordion.loadedKeyboard );
-            var w= this.midiParser.getWarnings();
+            var w = this.midiParser.getWarnings();
+            l += w.length;
             for (var j=0; j<w.length; j++) {
-                warnings.push('\n\t' + w[j]);
+                waterbug.logError( '   ' + w[j]);
             }
         }
-
-        warnings.push(l === warnings.length?'\ --> OK\n' : '\n' );
-    }
-
-    console.log(warnings.join(''));
         
+        waterbug.log(l > 0 ? '': '--> OK' );
+        waterbug.log( '' );
+    }
+    
+    waterbug.show();    
 };        

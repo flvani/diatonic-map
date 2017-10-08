@@ -12,8 +12,8 @@ L:1/16
 Q:78
 M:2/4
 K:G
-V:0 treble stem=up
-V:1 treble
+V:0 treble
+V:1 treble stem=down
 V:2 bass
 [V:0]|x8[|!segno!x8|x8|x8|x8|x8|x8| %1
 [V:1]|[dBG]4 zdBG [| GeGd GeGd | FcFc FfFe | FcFc FfFe | GeGd GbGg | GeGd GeGd | FdFc FfFe | 

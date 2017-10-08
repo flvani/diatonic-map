@@ -84,8 +84,18 @@ This is free software, do with if what you want.
 						}
 						debugDiv.appendChild(div);
 						break;
-					case "error":
+					case "logError":
+						for(var j=0;j<vararray[i].message.length;j++){
+							var item=formatValue(vararray[i].message[j]);
+							item.style.verticalAlign="top";
+							item.style.padding="2px";
+							item.style.color="red";
 						
+							div.appendChild(item);
+						}
+						debugDiv.appendChild(div);
+						break;
+					case "error":
 						addSpan(div,vararray[i].message.message,"red");
 						addSpan(div," "+vararray[i].message.filename+"  line: "+vararray[i].message.lineno,"gray");
 						debugDiv.appendChild(div);
@@ -153,13 +163,13 @@ This is free software, do with if what you want.
 		}
 		function showTheHTML(value){
 			var div=document.createElement("div");
-			if(value.nodeType==3){  //textnode
+			if(value.nodeType===3){  //textnode
 				var div=document.createElement("span");
 				addSpan(div,value.nodeValue);
 				return div;
 			}
 			var div=document.createElement("div");
-			if(value.nodeType==1){  //element
+			if(value.nodeType===1){  //element
 				addSpan(div,"<");
 				addSpan(div,value.tagName.toLowerCase(),"purple");
 				for(var i=0;i<value.attributes.length;i++){
@@ -261,13 +271,16 @@ This is free software, do with if what you want.
 			div.style.marginLeft="14px";
 			return div;
 		}
-                function push(obj){
+                function push(type, obj){
 			//if(debugDiv.parentNode)return; //console is open, don't record events
-                        vararray.push({type:"log",message:obj});
+                        vararray.push({type:type,message:obj});
                 }       
                 return {
-                        log:function(name,value){
-                                push(arguments);
+                        log:function(name, value ){
+                                push("log", arguments);
+                        },
+                        logError:function(name, value ){
+                                push("logError", arguments);
                         },
 			show:function(){
 				showValues();

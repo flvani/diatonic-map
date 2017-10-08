@@ -177,7 +177,7 @@ window.ABCXJS.data.Tune = function() {
     //		lyric: array of { syllable: xxx, divider: one of " -_" }
     //		startTie = true|undefined
     //		endTie = true|undefined
-    //		startTriplet = num <- that is the number to print
+    //		startTriplet = {num <- the number to print, notes <- total elements} 
     //		endTriplet = true|undefined (the last note of the triplet)
     // TODO: actually, decoration should be an array.
     //		decoration: upbow, downbow, accent
@@ -872,12 +872,15 @@ window.ABCXJS.data.Tune = function() {
 
         // If this is the first item in this staff, then we might have to initialize the staff, first.
         if (this.lines[this.lineNum].staffs.length <= this.staffNum) {
+            waterbug.log( 'o que é isso?');
+            waterbug.show();
             this.lines[this.lineNum].staffs[this.staffNum] = {};
             this.lines[this.lineNum].staffs[this.staffNum].clef = window.ABCXJS.parse.clone(this.lines[this.lineNum].staffs[0].clef);
             this.lines[this.lineNum].staffs[this.staffNum].key = window.ABCXJS.parse.clone(this.lines[this.lineNum].staffs[0].key);
             this.lines[this.lineNum].staffs[this.staffNum].meter = window.ABCXJS.parse.clone(this.lines[this.lineNum].staffs[0].meter);
             this.lines[this.lineNum].staffs[this.staffNum].workingClef = window.ABCXJS.parse.clone(this.lines[this.lineNum].staffs[0].workingClef);
-            this.lines[this.lineNum].staffs[this.staffNum].voices = [[]];
+            this.lines[this.lineNum].staffs[this.staffNum].voices = [];
+            this.lines[this.lineNum].staffs[this.staffNum].stem = [];
         }
 
         // These elements should not be added twice, so if the element exists on this line without a note or bar before it, just replace the staff version.
@@ -957,43 +960,38 @@ window.ABCXJS.data.Tune = function() {
     };
 
     this.startNewLine = function(params) {
-        // If the pointed to line doesn't exist, just create that. If the line does exist, but doesn't have any music on it, just use it.
-        // If it does exist and has music, then increment the line number. If the new element doesn't exist, create it.
+        // If the pointed to line doesn't exist, just create that. 
+        // If the line does exist, but doesn't have any music on it, just use it.
+        // If it does exist and has music, then increment the line number. 
+        // If the new element doesn't exist, create it.
         var This = this;
         this.closeLine();	// Close the previous line.
         var createVoice = function(params) {
             This.lines[This.lineNum].staffs[This.staffNum].voices[This.voiceNum] = [];
             if (This.isFirstLine(This.lineNum)) {
+                
+                if (params.stem) 
+                    This.lines[This.lineNum].staffs[This.staffNum].stem[This.voiceNum] = params.stem;
+                
                 if (params.name) {
                     if (!This.lines[This.lineNum].staffs[This.staffNum].title)
                         This.lines[This.lineNum].staffs[This.staffNum].title = [];
                     This.lines[This.lineNum].staffs[This.staffNum].title[This.voiceNum] = params.name;
                 }
             } else {
+                
+                This.lines[This.lineNum].staffs[This.staffNum].stem[This.voiceNum] = This.lines[0].staffs[This.staffNum].stem[This.voiceNum];
+                
                 if (params.subname) {
                     if (!This.lines[This.lineNum].staffs[This.staffNum].title)
                         This.lines[This.lineNum].staffs[This.staffNum].title = [];
                     This.lines[This.lineNum].staffs[This.staffNum].title[This.voiceNum] = params.subname;
                 }
             }
+            
             if (params.style)
                 This.appendElement('style', null, null, null, {head: params.style});
-            if (params.stem)
-                This.appendElement('stem', null, null, null, {direction: params.stem});
-            else if (This.voiceNum > 0) {
-                if (This.lines[This.lineNum].staffs[This.staffNum].voices[0] !== undefined) {
-                    var found = false;
-                    for (var i = 0; i < This.lines[This.lineNum].staffs[This.staffNum].voices[0].length; i++) {
-                        if (This.lines[This.lineNum].staffs[This.staffNum].voices[0].el_type === 'stem')
-                            found = true;
-                    }
-                    if (!found) {
-                        var stem = {el_type: 'stem', direction: 'up'};
-                        This.lines[This.lineNum].staffs[This.staffNum].voices[0].splice(0, 0, stem);
-                    }
-                }
-                This.appendElement('stem', null, null, null, {direction: 'down'});
-            }
+            
             if (params.scale)
                 This.appendElement('scale', null, null, null, {size: params.scale});
         };
@@ -1001,7 +999,7 @@ window.ABCXJS.data.Tune = function() {
             if (params.transpose)
                 params.clef.transpose = params.transpose;
             This.lines[This.lineNum].staffs[This.staffNum] =
-                    {voices: [], clef: params.clef, key: params.key, workingClef: params.clef, subtitle: params.subtitle, lyricsRows: 0};
+                    {voices: [], stem: [], clef: params.clef, key: params.key, workingClef: params.clef, subtitle: params.subtitle, lyricsRows: 0};
             if (params.vocalfont)
                 This.lines[This.lineNum].staffs[This.staffNum].vocalfont = params.vocalfont;
             if (params.bracket)
@@ -1754,8 +1752,8 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                 chord[2] = null;
                 chord[3] = {x: x.value, y: y.value};
             } else {
-                chord[1] = chord[1].replace(/([ABCDEFG])b/g, "$1♭");
-                chord[1] = chord[1].replace(/([ABCDEFG])#/g, "$1♯");
+                chord[1] = chord[1].replace(/([ABCDEFG])b/g, "$1?");
+                chord[1] = chord[1].replace(/([ABCDEFG])#/g, "$1?");
                 chord[2] = 'default';
             }
             return chord;
@@ -2500,6 +2498,26 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                 multilineVars.barNumOnNextNoteVisible = true;
         }
     }
+    
+    var handleTriplet = function ( el, parsingTriplet ) {
+        var m = 0;
+        
+        if( el.pitches ) {
+            for(var ii=0; ii < el.pitches.length; ++ii ) m += el.pitches[ii].pitch;
+            parsingTriplet.triplet.avgPitch += (m/el.pitches.length);
+        } else {
+            parsingTriplet.triplet.avgPitch += 6.0;
+        }
+        
+        parsingTriplet.notesLeft--;
+        
+        if (parsingTriplet.notesLeft === 0) {
+            el.endTriplet = true;
+            parsingTriplet.triplet.avgPitch = (parsingTriplet.triplet.avgPitch/parsingTriplet.triplet.notes);
+            parsingTriplet.triplet = false;
+        }
+    };
+    
 
     var letter_to_grace = function(line, i) {
         // Grace notes are an array of: startslur, note, endslur, space; where note is accidental, pitch, duration
@@ -2682,10 +2700,12 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
         multilineVars.barAccidentals = [];
         
         header.resolveTempo();
-        //multilineVars.havent_set_length = false;	// To late to set this now.
+        
         multilineVars.is_in_header = false;	// We should have gotten a key header by now, but just in case, this is definitely out of the header.
+
         var i = 0;
         var startOfLine = multilineVars.iChar;
+        
         // see if there is nothing but a comment on this line. If so, just ignore it. A full line comment is optional white space followed by %
         while (tokenizer.isWhiteSpace(line.charAt(i)) && i < line.length)
             i++;
@@ -2694,18 +2714,11 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
 
         // Start with the standard staff, clef and key symbols on each line
         var delayStartNewLine = multilineVars.start_new_line;
-//			if (multilineVars.start_new_line) {
-//				startNewLine();
-//			}
-        if (multilineVars.continueall === undefined)
-            multilineVars.start_new_line = true;
-        else
-            multilineVars.start_new_line = false;
-        var tripletNotesLeft = 0;
-        //var tripletMultiplier = 0;
-//		var inTie = false;
-//		var inTieChord = {};
-
+        
+        multilineVars.start_new_line = (multilineVars.continueall === undefined);
+        
+        var parsingTriplet = { notesLeft:0, triplet: false };
+        
         // See if the line starts with a header field
         var retHeader = header.letter_to_body_header(line, i);
         if (retHeader[0] > 0) {
@@ -2723,22 +2736,20 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
             var retInlineHeader = header.letter_to_inline_header(line, i);
             if (retInlineHeader[0] > 0) {
                 i += retInlineHeader[0];
-                // TODO-PER: Handle inline headers
-                //multilineVars.start_new_line = false;
             } else {
                 // Wait until here to actually start the line because we know we're past the inline statements.
                 if (delayStartNewLine) {
                     startNewLine();
                     delayStartNewLine = false;
                 }
-//					var el = { };
 
                 // We need to decide if the following characters are a bar-marking or a note-group.
                 // Unfortunately, that is ambiguous. Both can contain chord symbols and decorations.
                 // If there is a grace note either before or after the chord symbols and decorations, then it is definitely a note-group.
                 // If there is a bar marker, it is definitely a bar-marking.
                 // If there is either a core-note or chord, it is definitely a note-group.
-                // So, loop while we find grace-notes, chords-symbols, or decorations. [It is an error to have more than one grace-note group in a row; the others can be multiple]
+                // So, loop while we find grace-notes, chords-symbols, or decorations. 
+                // [It is an error to have more than one grace-note group in a row; the others can be multiple]
                 // Then, if there is a grace-note, we know where to go.
                 // Else see if we have a chord, core-note, slur, triplet, or bar.
 
@@ -2886,11 +2897,12 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                         if (ret.startSlur !== undefined) 
                             el.startSlur = ret.startSlur;
                         if (ret.triplet !== undefined) {
-                            if (tripletNotesLeft > 0)
+                            if (parsingTriplet.notesLeft > 0)
                                 warn("Can't nest triplets", line, i);
                             else {
-                                el.startTriplet = ret.triplet;
-                                tripletNotesLeft = ret.num_notes === undefined ? ret.triplet : ret.num_notes;
+                                parsingTriplet.notesLeft = ret.num_notes === undefined ? ret.triplet : ret.num_notes;
+                                parsingTriplet.triplet = {num: ret.triplet, notes: parsingTriplet.notesLeft, avgPitch: 0};
+                                el.startTriplet = parsingTriplet.triplet;
                             }
                         }
                         i += ret.consumed;
@@ -2953,11 +2965,8 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                                         multilineVars.staves[multilineVars.currentVoice.staffNum].inTie[multilineVars.currentVoice.index] = false;
                                     }
 
-                                    if (tripletNotesLeft > 0) {
-                                        tripletNotesLeft--;
-                                        if (tripletNotesLeft === 0) {
-                                            el.endTriplet = true;
-                                        }
+                                    if (parsingTriplet.notesLeft > 0) {
+                                        handleTriplet( el, parsingTriplet );
                                     }
 
                                     var postChordDone = false;
@@ -3096,13 +3105,10 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                             }    
                             i = core.endChar;
 
-                            if (tripletNotesLeft > 0) {
-                                tripletNotesLeft--;
-                                if (tripletNotesLeft === 0) {
-                                    el.endTriplet = true;
-                                }
+                            if (parsingTriplet.notesLeft > 0) {
+                                handleTriplet( el, parsingTriplet );
                             }
-
+                            
                             if (core.end_beam)
                                 addEndBeam(el);
 
@@ -4032,11 +4038,11 @@ window.ABCXJS.parse.ParseHeader = function(tokenizer, warn, multilineVars, tune,
 	};
 
 	this.resolveTempo = function() {
-		if (multilineVars.tempo) {	// If there's a tempo waiting to be resolved
-			this.calcTempo(multilineVars.tempo);
-			tune.metaText.tempo = multilineVars.tempo;
-			delete multilineVars.tempo;
-		}
+            if (multilineVars.tempo) {	// If there's a tempo waiting to be resolved
+                this.calcTempo(multilineVars.tempo);
+                tune.metaText.tempo = multilineVars.tempo;
+                delete multilineVars.tempo;
+            }
 	};
 
 	this.addUserDefinition = function(line, start, end) {
@@ -6852,7 +6858,7 @@ ABCXJS.write.StaffGroupElement.prototype.layout = function(spacing, printer, deb
     var voiceheaderw = 0;
     for (var i = 0; i < this.voices.length; i++) {
         if (this.voices[i].header) {
-            //fixme: obter a largura real do texto - text.getBBox().width
+            //FLAVIO fixme: obter a largura real do texto - text.getBBox().width
             voiceheaderw = Math.max(voiceheaderw, this.voices[i].header.length *5+10);
         }
     }
@@ -6861,7 +6867,7 @@ ABCXJS.write.StaffGroupElement.prototype.layout = function(spacing, printer, deb
 
     var currentduration = 0;
     if (debug)
-        console.log("init layout");
+        waterbug.log("init layout");
     for (i = 0; i < this.voices.length; i++) {
         this.voices[i].beginLayout(x);
         for (b = 0; b < this.voices[i].beams.length; b++) {
@@ -6873,15 +6879,22 @@ ABCXJS.write.StaffGroupElement.prototype.layout = function(spacing, printer, deb
         }
     }
 
+    var c = 0;
     while (!this.finished()) {
+        
+        if( c++ > 1000 ) {
+            alert( 'não termina!' );
+        }
+        
         // find first duration level to be laid out among candidates across voices
+
         currentduration = null; // candidate smallest duration level
         for (i = 0; i < this.voices.length; i++) {
             if (!this.voices[i].layoutEnded() && (!currentduration || this.voices[i].getDurationIndex() < currentduration))
                 currentduration = this.voices[i].getDurationIndex();
         }
         if (debug)
-            console.log("currentduration: ", currentduration);
+            waterbug.log("currentduration: ", currentduration);
 
 
         // isolate voices at current duration level
@@ -6890,11 +6903,11 @@ ABCXJS.write.StaffGroupElement.prototype.layout = function(spacing, printer, deb
         for (i = 0; i < this.voices.length; i++) {
             if (this.voices[i].getDurationIndex() !== currentduration) {
                 othervoices.push(this.voices[i]);
-                //console.log("out: voice ",i);
+                //waterbug.log("out: voice ",i);
             } else {
                 currentvoices.push(this.voices[i]);
                 if (debug)
-                    console.log("in: voice ", i);
+                    waterbug.log("in: voice ", i);
             }
         }
 
@@ -7106,6 +7119,7 @@ ABCXJS.write.VoiceElement = function(voicenumber, staffnumber, abcstaff) {
     this.voicenumber = voicenumber; //number of the voice on a given stave (not staffgroup)
     this.staffnumber = staffnumber; // number of the staff in the staffgroup
     this.voicetotal = abcstaff.voices.length;
+    this.stem = abcstaff.stem[voicenumber];
     this.stave = {
         y: 0
        ,top: 0
@@ -7594,47 +7608,71 @@ ABCXJS.write.CrescendoElem.prototype.draw = function(printer, linestartx, lineen
     }
 };
 
-ABCXJS.write.TripletElem = function(number, anchor1, anchor2, above) {
+ABCXJS.write.TripletElem = function(tripletInfo, anchor1, anchor2, stemDir ) {
     this.anchor1 = anchor1; // must have a .x and a .parent property or be null (means starts at the "beginning" of the line - after keysig)
     this.anchor2 = anchor2; // must have a .x property or be null (means ends at the end of the line)
-    this.above = above;
-    this.number = number;
+    this.forceUp = stemDir==='up';
+    this.forceDown = stemDir==='down';
+    this.number = tripletInfo.num;
+    this.qtd_notes = tripletInfo.notes;
+    this.avgPitch = tripletInfo.avgPitch;
+    this.minPitch = 100;
+    this.maxPitch = -100;
+    this.asc = ! ( (this.forceUp || this.avgPitch <= 6 ) && (!this.forceDown) ); // hardcoded 6 is B
+    this.multiplier = tripletInfo.num === 2 ? 1.5 : (tripletInfo.num-1)/tripletInfo.num;
+    
 };
 
 ABCXJS.write.TripletElem.prototype.draw = function(printer, linestartx, lineendx, staveInfo) {
-    // TODO end and beginning of line
+    
     if (this.anchor1 && this.anchor2) {
-        var ypos = this.above ? 16 : -1;	// PER: Just bumped this up from 14 to make (3z2B2B2 (3B2B2z2 succeed. There's probably a better way.
+
+        var maxslant = (this.qtd_notes? this.qtd_notes: this.number) / 2;
+        var slant = this.anchor1.parent.abcelem.averagepitch - this.anchor2.parent.abcelem.averagepitch;
+        var isFlat = true;
+        
+        if (isFlat ) {
+            slant = 0;
+        } else  {
+            slant = Math.min(slant,maxslant);
+            slant = Math.max(slant,-maxslant);
+        }
+
+        var ypos = Math.max( this.forceUp ? this.maxPitch+9 : (this.maxPitch >= 10 ? this.maxPitch + 3 : 13), 13) ;
+        var starty = printer.calcY(ypos + Math.floor(slant / 2));
+        var endy = printer.calcY(ypos + Math.floor(-slant / 2));
 
         if (this.anchor1.parent.beam &&
                 this.anchor1.parent.beam === this.anchor2.parent.beam) {
             var beam = this.anchor1.parent.beam;
-            this.above = beam.asc;
+            this.asc = beam.asc;
             ypos = beam.pos;
         } else {
             var y = printer.calcY(ypos);
-            var linestartx = this.anchor1.x;
+            var linestartx = this.anchor1.x -2;
             var lineendx = this.anchor2.x + this.anchor2.w;
-            printer.paper.printLine(linestartx, y, linestartx, y + 5);
-            printer.paper.printLine(lineendx, y, lineendx, y + 5);
-            printer.paper.printLine(linestartx, y, (linestartx + lineendx) / 2 - 5, y);
-            printer.paper.printLine((linestartx + lineendx) / 2 + 5, y, lineendx, y);
-        }
-        var xsum = this.anchor1.x + this.anchor2.x;
-        var ydelta = 0;
-        if (beam) {
-            if (this.above) {
-                xsum += (this.anchor2.w + this.anchor1.w);
-                ydelta = 2;// 4;
-            } else {
-                ydelta = -2; //-4;
-            }
-        } else {
-            xsum += this.anchor2.w;
-        }
+            
+            //printer.paper.printLine(linestartx, starty+ (!this.asc? 0 : -5), linestartx, starty + (!this.asc? 5 : 0) );
+            //printer.paper.printLine(lineendx, endy+ (!this.asc? 0 : -5), lineendx, endy + (!this.asc? 5 : 0));
 
-        printer.printText(xsum / 2, ypos + ydelta, this.number, 'abc_ending', "middle");
+            printer.paper.printLine(linestartx, starty+ (true? 0 : -5), linestartx, starty + (true? 5 : 0) );
+            printer.paper.printLine(lineendx, endy+ (true? 0 : -5), lineendx, endy + (true? 5 : 0));
+            
+            
+            //printer.paper.printLine(linestartx, y, (linestartx + lineendx) / 2 - 5, y);
+            //printer.paper.printLine((linestartx + lineendx) / 2 + 5, y, lineendx, y);
+            
+            printer.paper.printBeam( linestartx, starty, (linestartx + lineendx) / 2 - 5, y, (linestartx + lineendx) / 2 - 5, y+1, linestartx, starty+1 );
+            printer.paper.printBeam( (linestartx + lineendx) / 2 + 5, y, lineendx, endy, lineendx, endy+1, (linestartx + lineendx) / 2 + 5, y+1 );
+        }
+        
+        var ydelta = ypos + (beam ? ( this.asc ? 2 : -3.5 ) : -1 );
+        var xdelta = ( this.anchor1.x + this.anchor2.x + this.anchor1.w + (beam && this.asc ? this.anchor2.w : 0 ) - 2 ) / 2;
+        
+        printer.printText( xdelta, ydelta, this.number, 'abc_ending', "middle");
 
+    } else {
+        waterbug.log( 'Incomplete triplet' );
     }
 };
 
@@ -7695,38 +7733,43 @@ ABCXJS.write.BeamElem.prototype.draw = function(printer) {
     var barpos = (this.isgrace) ? 5 : 7;
     this.calcDir();
 
-    var barminpos = this.asc ? 5 : 8;	//PER: I just bumped up the minimum height for notes with descending stems to clear a rest in the middle of them.
+    //PER: I just bumped up the minimum height for notes with descending stems to clear a rest in the middle of them.
+    var barminpos = this.asc ? 5 : 8;	
+    
     this.pos = Math.round(this.asc ? Math.max(average + barpos, this.max + barminpos) : Math.min(average - barpos, this.min - barminpos));
-    var slant = this.elems[0].abcelem.averagepitch - this.elems[this.elems.length - 1].abcelem.averagepitch;
-    if (this.isflat)
-        slant = 0;
+    
     var maxslant = this.elems.length / 2;
+    var slant = this.elems[0].abcelem.averagepitch - this.elems[this.elems.length - 1].abcelem.averagepitch;
+    
+    if (this.isflat ) {
+        slant = 0;
+    } else  {
+        slant = Math.min(slant,maxslant);
+        slant = Math.max(slant,-maxslant);
+    }
 
-    if (slant > maxslant)
-        slant = maxslant;
-    if (slant < -maxslant)
-        slant = -maxslant;
     this.starty = printer.calcY(this.pos + Math.floor(slant / 2));
     this.endy = printer.calcY(this.pos + Math.floor(-slant / 2));
-
    
     var starthead = this.elems[0].heads[(this.asc) ? 0 : this.elems[0].heads.length - 1];
     var endhead = this.elems[this.elems.length - 1].heads[(this.asc) ? 0 : this.elems[this.elems.length - 1].heads.length - 1];
     this.startx = this.elems[0].x;
+    
     if (this.asc)
         this.startx += starthead.w - 0.6;
+    
     this.endx = this.elems[this.elems.length - 1].x;
+    
     if (this.asc)
         this.endx += endhead.w;
 
     // PER: if the notes are too high or too low, make the beam go down to the middle
-    if (this.asc && this.pos < 6) {
-        this.starty = printer.calcY(6);
-        this.endy = printer.calcY(6);
-    } else if (!this.asc && this.pos > 6) {
-        this.starty = printer.calcY(6);
-        this.endy = printer.calcY(6);
+    if ( (this.asc && this.pos < 6) || (!this.asc && this.pos > 6) ){
+        this.pos = 6;
+        this.starty = printer.calcY(this.pos);
+        this.endy = printer.calcY(this.pos);
     }
+    
     printer.paper.printBeam(
         this.startx, this.starty
        ,this.startx, (this.starty + this.dy) 
@@ -7965,7 +8008,7 @@ ABCXJS.write.Layout.prototype.layoutStaffGroup = function() {
 
 ABCXJS.write.Layout.prototype.printABCVoice = function() {
   this.popCrossLineElems();
-  this.stemdir = (this.isBagpipes)?"down":null;
+  this.stemdir = (this.isBagpipes)? "down" : this.voice.stem;
   if (this.partstartelem) {
     this.partstartelem = new ABCXJS.write.EndingElem("", null, null);
     this.voice.addOther(this.partstartelem);
@@ -8015,9 +8058,10 @@ ABCXJS.write.Layout.prototype.printABCElement = function() {
     elemset[0] = this.printKeySignature(elem);
     if (this.voice.duplicate) elemset[0].invisible = true;
     break;
-  case "stem":
-    this.stemdir=elem.direction;
-    break;
+//  case "stem":
+//    alert( 'não deveria passar aqui') ;
+//    //this.stemdir=elem.direction;
+//    break;
   case "part":
     var abselem = new ABCXJS.write.AbsoluteElement(elem,0,0);
     abselem.addChild(new ABCXJS.write.RelativeElement(elem.title, 0, 0, 18.5, {type:"part" })); 
@@ -8036,6 +8080,7 @@ ABCXJS.write.Layout.prototype.printBeam = function() {
     var abselemset = [];
 
     if (this.getElem().startBeam && !this.getElem().endBeam) {
+        
         var beamelem = new ABCXJS.write.BeamElem(this.stemdir);
         // PER: need two passes: the first one decides if the stems are up or down.
         // TODO-PER: This could be more efficient.
@@ -8088,10 +8133,13 @@ ABCXJS.write.Layout.prototype.printNote = function(elem, nostem, dontDraw) { //s
     var width, p1, p2, dx;
 
     var duration = ABCXJS.write.getDuration(elem);
+    
+    //PER: zero duration will draw a quarter note head.
     if (duration === 0) {
         duration = 0.25;
         nostem = true;
-    }   //PER: zero duration will draw a quarter note head.
+    }   
+    
     var durlog = Math.floor(Math.log(duration) / Math.log(2));  //TODO use getDurlog
     var dot = 0;
 
@@ -8099,10 +8147,14 @@ ABCXJS.write.Layout.prototype.printNote = function(elem, nostem, dontDraw) { //s
         ;
 
     if (elem.startTriplet) {
-        if (elem.startTriplet === 2)
-            this.tripletmultiplier = 3/2;
-        else
-            this.tripletmultiplier=(elem.startTriplet-1)/elem.startTriplet;
+        
+        if( ! this.stemdir ) {
+            this.clearStem = true;
+            this.stemdir = elem.startTriplet.avgPitch < 6? 'up' : 'down';
+        }
+            
+        this.triplet = new ABCXJS.write.TripletElem( elem.startTriplet, null, null, this.stemdir ); 
+        this.tripletmultiplier = this.triplet.multiplier;
     }
 
     var abselem = new ABCXJS.write.AbsoluteElement(elem, duration * this.tripletmultiplier, 1);
@@ -8173,16 +8225,14 @@ ABCXJS.write.Layout.prototype.printNote = function(elem, nostem, dontDraw) { //s
 
         for (p = 0; p < elem.pitches.length; p++) {
 
-            if (/*!nostem flavio*/ 1 ) { // vou retirar apenas flags
-                if (/*flavio*/ nostem || (dir === "down" && p !== 0) || (dir === "up" && p !== pp - 1)) { // not the stemmed elem of the chord
-                    flag = null;
-                } else {
-                    flag = ABCXJS.write.chartable[(dir === "down") ? "dflags" : "uflags"][-durlog];
-                }
-                c = ABCXJS.write.chartable.note[-durlog];
+            // vou retirar apenas flags
+            if (/*flavio*/ nostem || (dir === "down" && p !== 0) || (dir === "up" && p !== pp - 1)) { // not the stemmed elem of the chord
+                flag = null;
             } else {
-                c = "noteheads.quarter";
+                flag = ABCXJS.write.chartable[(dir === "down") ? "dflags" : "uflags"][-durlog];
             }
+            
+            c = ABCXJS.write.chartable.note[-durlog];
 
             // The highest position for the sake of placing slurs is itself if the slur is internal. It is the highest position possible if the slur is for the whole chord.
             // If the note is the only one in the chord, then any slur it has counts as if it were on the whole chord.
@@ -8269,7 +8319,6 @@ ABCXJS.write.Layout.prototype.printNote = function(elem, nostem, dontDraw) { //s
         }
 
         for (i = 0; i < elem.gracenotes.length; i++) {
-            //fixme: corrigir escala para gracenotes
             var gracepitch = elem.gracenotes[i].verticalPos;
 
             flag = (gracebeam) ? null : 'grace'+ABCXJS.write.chartable.uflags[(this.isBagpipes) ? 5 : 3];
@@ -8366,17 +8415,29 @@ ABCXJS.write.Layout.prototype.printNote = function(elem, nostem, dontDraw) { //s
         }
     }
 
-
-    if (elem.startTriplet) {
-        this.triplet = new ABCXJS.write.TripletElem(elem.startTriplet, notehead, null, true); // above is opposite from case of slurs
-        if (!dontDraw)
+    /* flavio - handle triplets only when drawing - else no notehead */
+    if( !dontDraw ) {
+        
+        if( elem.startTriplet ) {
+            this.triplet.anchor1 = notehead;
             this.voice.addOther(this.triplet);
-    }
-
-    if (elem.endTriplet && this.triplet) {
-        this.triplet.anchor2 = notehead;
-        this.triplet = null;
-        this.tripletmultiplier = 1;
+        } 
+        
+        // procura nas notas minimas e máximas do triplet
+        if ( this.triplet ) {
+            this.triplet.minPitch = Math.min( this.triplet.minPitch, notehead.parent.abcelem.minpitch );
+            this.triplet.maxPitch = Math.max( this.triplet.maxPitch, notehead.parent.abcelem.maxpitch );
+        }
+        
+        if ( this.triplet && elem.endTriplet ) {
+            this.triplet.anchor2 = notehead;
+            this.triplet = null;
+            this.tripletmultiplier = 1;
+            if( this.clearStem ) {
+                this.stemdir = null;
+                delete this.clearStem;
+            }
+        }
     }
 
     return abselem;
@@ -10899,7 +10960,7 @@ ABCXJS.midi.Parse.prototype.handleButtons = function(pitches, buttons ) {
     var self = this;
     buttons.forEach( function( item ) {
         if(!item.button.button) {
-            //console.log( 'ABCXJS.midi.Parse.prototype.handleButtons: botão não encontrado.');
+            //waterbug.log( 'ABCXJS.midi.Parse.prototype.handleButtons: botão não encontrado.');
             return;
         }
         if( item.button.closing )  {
@@ -10959,7 +11020,7 @@ ABCXJS.midi.Parse.prototype.handleButtons = function(pitches, buttons ) {
 ABCXJS.midi.Parse.prototype.writeNote = function(elem) {
     
     if (elem.startTriplet) {
-        this.multiplier = (elem.startTriplet === 2) ? 3 / 2 : (elem.startTriplet - 1) / elem.startTriplet;
+        this.multiplier = (elem.startTriplet.num === 2) ? 3 / 2 : (elem.startTriplet.num - 1) / elem.startTriplet.num;
     }
 
     var mididuration = this.checkMinNote(elem.duration * this.wholeNote * this.multiplier);
@@ -11095,7 +11156,7 @@ ABCXJS.midi.Parse.prototype.checkMinNote = function(dur) {
 ABCXJS.midi.Parse.prototype.selectButtons = function(elem) {
     
     if (elem.startTriplet) {
-        this.multiplier = (elem.startTriplet === 2) ? 3 / 2 : (elem.startTriplet - 1) / elem.startTriplet;
+        this.multiplier = (elem.startTriplet.num === 2) ? 3 / 2 : (elem.startTriplet.num - 1) / elem.startTriplet.num;
     }
     
     var mididuration = elem.duration * this.wholeNote * this.multiplier;
@@ -11781,7 +11842,7 @@ ABCXJS.midi.Player.prototype.startDidacticPlay = function(what, type, value, val
                     return (that.initMeasure <= that.currentMeasure) && (that.currentMeasure <= that.endMeasure);
                 };
             } else {
-               console.log('goto-measure or repeat-measure:  measure \''+value+'\' not found!');
+               waterbug.log('goto-measure or repeat-measure:  measure \''+value+'\' not found!');
                this.pausePlay(true);
                return;
             }   
@@ -11796,7 +11857,7 @@ ABCXJS.midi.Player.prototype.startDidacticPlay = function(what, type, value, val
                     return that.initMeasure === that.currentMeasure;
                 };
             } else {
-               console.log('play-measure: measure \''+value+'\' not found!');
+               waterbug.log('play-measure: measure \''+value+'\' not found!');
                this.pausePlay(true);
                return false;
             }   
@@ -12555,7 +12616,7 @@ DRAGGABLE.ui.DropdownMenu = function (topDiv, options, menu) {
     this.translate = opts.translate || false;
     
     if (!this.container) {
-        console.log('Elemento ' + topDiv + ' não existe!');
+        waterbug.log('Elemento ' + topDiv + ' não existe!');
         return;
     } else {
         this.container.innerHTML = "";
@@ -12622,7 +12683,7 @@ DRAGGABLE.ui.DropdownMenu.prototype.setVisible = function (visible) {
 
 DRAGGABLE.ui.DropdownMenu.prototype.getSubMenu = function (ddm) {
     if( ! this.headers[ddm] ) {
-        console.log( 'Menu não encontrado!' );
+        waterbug.log( 'Menu não encontrado!' );
         return false;
     }
     return this.headers[ddm];
@@ -12722,7 +12783,7 @@ DRAGGABLE.ui.DropdownMenu.prototype.selectItem = function (ddm, item) {
 DRAGGABLE.ui.DropdownMenu.prototype.setSubMenuTitle = function (ddm, newTitle) {
     
     if( ! this.headers[ddm] ) {
-        console.log( 'Menu não encontrado!' );
+        waterbug.log( 'Menu não encontrado!' );
         return;
     }
     
@@ -12732,7 +12793,7 @@ DRAGGABLE.ui.DropdownMenu.prototype.setSubMenuTitle = function (ddm, newTitle) {
     } 
     
     if( ! title ) {
-        console.log( 'Título não encontrado!' );
+        waterbug.log( 'Título não encontrado!' );
         return false;
     }
         
@@ -12746,7 +12807,7 @@ DRAGGABLE.ui.DropdownMenu.prototype.addItemSubMenu = function (ddm, newItem, pos
     var tags = newItem.split('|'); 
     
     if( ! self.headers[ddm] ) {
-        console.log( 'Menu não encontrado!' );
+        waterbug.log( 'Menu não encontrado!' );
         return;
     }
     
@@ -13178,7 +13239,7 @@ ABCXJS.tablature.Accordion.prototype.loadById = function (id) {
         if (this.accordions[g].id === id) {
             return this.load(g);
         }
-        console.log( 'Accordion not found. Loading the first one.');
+        waterbug.log( 'Accordion not found. Loading the first one.');
         return this.load(0);
 };
 
@@ -13629,8 +13690,11 @@ ABCXJS.tablature.Parse.prototype.getColumn = function() {
     token.bassNote = [];
     
     if(this.line.charAt(this.i) === "(") {
-        token.startTriplet = this.getTripletDef();
-        this.triplet = true;
+        var t = this.getTripletDef();
+        if( t ) {
+            token.startTriplet = t;
+            this.triplet = true;
+        }
     }
     
     while (this.belSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
@@ -13672,22 +13736,45 @@ ABCXJS.tablature.Parse.prototype.checkBassButton = function( bellows, b ) {
 
 
 ABCXJS.tablature.Parse.prototype.getTripletDef = function() {
-    this.i++;
-    this.parseMultiCharToken( ' \t' );
-    var t =  this.line.charAt(this.i); //espero um único número como indicador de triplet
-    this.i++;
-    this.parseMultiCharToken( ' \t' );
-    return t;    
+    
+    var i = ++this.i;
+    
+    while ( this.i < this.line.length && this.bassNoteSyms.indexOf(this.line.charAt(this.i)) < 0 ) {
+      this.i++;
+    }
+    
+    if( this.i >= this.line.length ) {
+        this.warn( "Triplet definition not found at " + this.line.substr(i) );
+        return null;
+    }
+    
+    var t =  this.line.substr(i, this.i-i).trim();
+    
+    //validate the triplet expression
+    var e = /\[([0-9])(:{1,2}([0-9]){0,1})*\]/;
+    var r = ('['+t+']').match(e);
+    
+    if( ! r[1] ) {
+        this.warn( "Inválide triplet definition at " + this.line.substr(i) );
+        return null;
+    }
+    
+    return { num: r[1], notes: r[3] ? r[3] : r[1] };
+    
 };
 
 ABCXJS.tablature.Parse.prototype.isTripletEnd = function() {
     this.parseMultiCharToken( ' \t' );
     if( this.line.charAt(this.i) === ')' ) {
         this.i++;
-        this.triplet = false;
-        return true;
-    } 
-    
+        if( this.triplet ) {
+            this.triplet = false;
+            return true;
+        } else {
+            this.warn( "Found triplet end with no beginning." + this.line.substr(this.i-1) );
+            return false;
+        }
+    }
     return false;
 };
 
@@ -14014,7 +14101,7 @@ ABCXJS.tablature.Infer.prototype.read = function(p_source, item) {
         if( source.wi.startTriplet){
             source.triplet = true;
             this.startTriplet = source.wi.startTriplet;
-            this.multiplier = this.startTriplet===2?1.5:(this.startTriplet-1)/this.startTriplet;
+            this.multiplier = this.startTriplet.num===2?1.5:(this.startTriplet.num-1)/this.startTriplet.num;
         }
         
         this.checkTies(source);
@@ -14087,7 +14174,7 @@ ABCXJS.tablature.Infer.prototype.extraiIntervalo = function(voices) {
     
     for( var i = 0; i < voices.length; i ++ ) {
         var elem = voices[i];
-        if( elem.wi.endTriplet){
+        if( elem.wi.endTriplet && voices[i].wi.duration <= 0.0001 ){
             this.endTriplet = true;
             elem.triplet = false;
             this.multiplier = 1;
@@ -14176,7 +14263,7 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token, line ) {
     if( this.startTriplet ) {
         child.startTriplet = this.startTriplet;
         this.startTriplet = false;
-        this.registerLine( '(' + child.startTriplet + ' ' );
+        this.registerLine( '(' + child.startTriplet.num + '::' + child.startTriplet.notes + ' ' );
     }
     
     if( this.endTriplet ) {
@@ -14505,13 +14592,9 @@ ABCXJS.tablature.Layout.prototype.printTABElement = function() {
 ABCXJS.tablature.Layout.prototype.printTabNote = function(elem) {
     var p, pp;
     
-    if (elem.startTriplet) {
-        if (elem.startTriplet === 2)
-            this.tripletmultiplier = 3/2;
-        else
-            this.tripletmultiplier=(elem.startTriplet-1)/elem.startTriplet;
+    if (elem.startTriplet)  {
+        this.tripletmultiplier = elem.startTriplet.num === 2 ? 1.5 : (elem.startTriplet.num-1)/elem.startTriplet.num;
     }
-    
     
     var duration = ABCXJS.write.getDuration(elem);
     if (duration === 0) {
