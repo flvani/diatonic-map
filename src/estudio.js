@@ -194,6 +194,8 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         evt.preventDefault();
         this.blur();
         that.blockEdition(false);
+        if(that.currentPlayTimeLabel)
+           that.currentPlayTimeLabel.innerHTML = "00:00.00";
         that.midiPlayer.stopPlay();
     }, false);
 
@@ -250,14 +252,14 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     }, false);
 
     this.gotoMeasureButton.addEventListener("focus", function (evt) {
-        if (this.value === SITE.translator.getResource("gotoMeasureVal")) {
+        if (this.value === SITE.translator.getResource("gotoMeasure").val) {
             this.value = "";
         }
     }, false);
 
     this.gotoMeasureButton.addEventListener("blur", function (evt) {
         if (this.value === "") {
-            this.value = SITE.translator.getResource("gotoMeasureVal");
+            this.value = SITE.translator.getResource("gotoMeasure").val;
         }
     }, false);
     
@@ -268,14 +270,14 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     }, false);
 
     this.untilMeasureButton.addEventListener("focus", function (evt) {
-        if (this.value === SITE.translator.getResource("untilMeasureVal")) {
+        if (this.value === SITE.translator.getResource("untilMeasure").val) {
             this.value = "";
         }
     }, false);
 
     this.untilMeasureButton.addEventListener("blur", function (evt) {
         if (this.value === "") {
-            this.value = SITE.translator.getResource("untilMeasureVal");
+            this.value = SITE.translator.getResource("untilMeasure").val;
         }
     }, false);
     
@@ -299,8 +301,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         that.playButton.innerHTML = '&#160;<i class="ico-play"></i>&#160;';
         that.renderedTune.printer.clearSelection();
         that.accordion.clearKeyboard(true);
-        if(that.currentPlayTimeLabel)
-            that.currentPlayTimeLabel.innerHTML = "00:00.00";
+        that.blockEdition(false);
         if( warns ) {
             var wd =  document.getElementById("warningsDiv");
             var txt = "";
@@ -612,12 +613,14 @@ SITE.Estudio.prototype.blockEdition = function( block ) {
         this.editorWindow.setEditorHighLightStyle();
     } else {
         this.editorWindow.clearEditorHighLightStyle();
+        this.editorWindow.aceEditor.focus();
     }
 };
 
 SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
     this.ypos = this.studioCanvasDiv.scrollTop;
     this.lastStaffGroup = -1;
+    var that = this;
     
     if( this.midiPlayer.playing) {
         
@@ -632,9 +635,12 @@ SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
         
     } else {
         this.accordion.clearKeyboard();
-        this.blockEdition(true);
-        this.StartPlayWithTimer(this.renderedTune.abc.midi, type, value, valueF, SITE.properties.studio.timerOn ? 10 : 0 );
+        if (type === "normal" ) {
+            this.blockEdition(true);
+        }
         
+        // esse timeout é só para garantir o tempo para iniciar o play
+        window.setTimeout(function(){that.StartPlayWithTimer(that.renderedTune.abc.midi, type, value, valueF, SITE.properties.studio.timerOn ? 10 : 0); }, 0 );
     }
 };
 
@@ -732,11 +738,15 @@ SITE.Estudio.prototype.parseABC = function (transpose, force) {
 
     if (!this.abcParser)
         this.abcParser = new ABCXJS.parse.Parse(this.transposer, this.accordion);
+    try {
+        this.abcParser.parse(text, this.parserparams);
 
-    this.abcParser.parse(text, this.parserparams);
-
-    this.renderedTune.abc = this.abcParser.getTune();
-    this.renderedTune.text = this.initialText = this.abcParser.getStrTune();
+        this.renderedTune.abc = this.abcParser.getTune();
+        this.renderedTune.text = this.initialText = this.abcParser.getStrTune();
+    } catch(e) {
+        waterbug.log( 'Could not parse ABC.' );
+        waterbug.show();
+    }
 
     // transposição e geracao de tablatura podem ter alterado o texto ABC
     if (text !== this.initialText)
@@ -771,6 +781,8 @@ SITE.Estudio.prototype.onChange = function() {
 SITE.Estudio.prototype.fireChanged = function (transpose, _opts) {
     
     if( this.changing ) return;
+    
+    this.lastYpos = this.studioCanvasDiv.scrollTop || 0;               
     
     this.changing = true;
     var opts = _opts || {};
@@ -830,10 +842,10 @@ SITE.Estudio.prototype.onModelChanged = function(loader) {
 };
 
 SITE.Estudio.prototype.highlight = function(abcelem) {
-    if(SITE.properties.studio.editor.visible) {
-        this.editorWindow.setSelection(abcelem);
-    }    
     if(SITE.properties.studio.keyboard.visible && !this.midiPlayer.playing) {
+        if(SITE.properties.studio.editor.visible) {
+            this.editorWindow.setSelection(abcelem);
+        }    
         this.accordion.clearKeyboard(true);
         this.midiParser.setSelection(abcelem);
     }    

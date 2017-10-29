@@ -10517,6 +10517,8 @@ ABCXJS.edit.EditArea.prototype.editareaCallback = function ( action, elem, searc
         default:
             this.parentCallback.listener[this.parentCallback.method](action, elem);
     }
+    this.aceEditor.focus();
+
 };
 
 // Este css é usado apenas quando o playback da partitura está funcionando
@@ -11770,12 +11772,17 @@ ABCXJS.midi.Player.prototype.startPlay = function(what) {
 
     if(this.playing || !what ) return false;
     
+    //flavio - pq no IOS tenho que tocar uma nota antes de qualquer pausa
     if(this.currentTime === 0 ) {
-        //flavio - pq no IOS tenho que tocar uma nota antes de qualquer pausa
-        MIDI.noteOn(0, 20, 0, 0);
-        MIDI.noteOff(0, 20, 0.01);
+        MIDI.stopAllNotes();
+        MIDI.noteOn(0, 40, 1, 0);
+        MIDI.noteOff(0, 40, 0.01);
+        MIDI.noteOn(1, 40, 1, 0);
+        MIDI.noteOff(1, 40, 0.01);
+        MIDI.noteOn(2, 40, 1, 0);
+        MIDI.noteOff(2, 40, 0.01);
     }
-   
+    
     this.playlist = what.playlist;
     this.tempo    = what.tempo;
     this.printer  = what.printer;

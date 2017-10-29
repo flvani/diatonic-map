@@ -149,17 +149,19 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         that.playButton.innerHTML = '<i class="ico-play"></i>';
         currentABC.abc.midi.printer.clearSelection();
         that.accordion.clearKeyboard(true);
-        if(that.currentPlayTimeLabel)
-            that.currentPlayTimeLabel.innerHTML = "00:00.00";
     };
 
     this.playButton.addEventListener("click", function(evt) {
        evt.preventDefault();
-       that.startPlay( 'normal' );
+       //timeout para garantir o inicio da execucao
+       window.setTimeout(function(){ that.startPlay( 'normal' );}, 0 );
+       
     }, false);
 
     this.stopButton.addEventListener("click", function(evt) {
         evt.preventDefault();
+        if(that.currentPlayTimeLabel)
+            that.currentPlayTimeLabel.innerHTML = "00:00.00";
         that.midiPlayer.stopPlay();
     }, false);
     
@@ -716,7 +718,10 @@ SITE.Mapa.prototype.showTab = function(tabString) {
     
     var tab = this.getActiveTab();
     
-    if( tab ) tab.selector.style.display = 'none';
+    if( tab ) {
+        tab.selector.style.display = 'none';
+        this.silencia(true);
+    }
     
     tab = this.setActiveTab(tabString);
     
@@ -1284,18 +1289,28 @@ SITE.Mapa.prototype.resizeActiveWindow = function() {
     }    
 };
 
-SITE.Mapa.prototype.silencia = function() {
+SITE.Mapa.prototype.silencia = function(force) {
     if(this.studio && window.getComputedStyle(this.studio.Div.parent).display !== 'none') {
         if( this.studio.midiPlayer.playing) {
-            this.studio.startPlay('normal'); // pause
+            if(force )
+                this.studio.midiPlayer.stopPlay();
+            else
+                this.studio.startPlay('normal'); // pause
+            
         }
     } else if(this.tab2part && window.getComputedStyle(this.tab2part.Div.parent).display !== 'none') {      
         if( this.tab2part.midiPlayer.playing) {
-            this.tab2part.startPlay('normal'); // pause
+            if(force )
+                this.tab2part.midiPlayer.stopPlay();
+            else
+                this.tab2part.startPlay('normal'); // pause
         }
     } else {
         if( this.midiPlayer.playing) {
-            this.startPlay('normal'); // pause
+            if(force )
+                this.midiPlayer.stopPlay();
+            else
+                this.startPlay('normal'); // pause
         }
     }
 };

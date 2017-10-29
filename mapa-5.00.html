@@ -25,9 +25,9 @@ notação abc, tablatura " />
         <link rel="stylesheet" href="fontsIco/abcx.css" />
         <link rel="stylesheet" href="fontsGoogle/fonts.css" />
         
-        <link rel="stylesheet" href="css/styles4abcx_5.09-min.css" />
+        <link rel="stylesheet" href="css/styles4abcx_5.10-min.css" />
         
-        <link rel="stylesheet" href="site/site_5.09-min.css" />
+        <link rel="stylesheet" href="site/site_5.10-min.css" />
         
         
     </head>
@@ -36,7 +36,8 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jslib/proto_noconflict.js" ></script>
         <script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
         
-        <!-- suporte a MIDI -->
+        <!-- suporte a MIDI >
+        <script type="text/javascript" src="jslib/MIDI.js"></script-->
         <script type="text/javascript" src="jslib/MIDI_5.10-min.js"></script>
         
         <!-- console personalizada para Javascript -->
@@ -46,23 +47,23 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jslib/html5kellycolorpicker.min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_5.09-min.js"></script>
+        <script type="text/javascript" src="file/filemanager_5.10-min.js"></script>
         
         <!-- suporte mapas de acordeões -->
-        <script type="text/javascript" src="diatonic/diatonic_5.09-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic_5.10-min.js"></script>
         
         <!-- ACE Editor -->
-        <script type="text/javascript" src="ace4abcx/ace4abcx_5.09-min.js"></script>
+        <script type="text/javascript" src="ace4abcx/ace4abcx_5.10-min.js"></script>
        
         <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.09-min.js" ></script>
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.10-min.js" ></script>
         
-        <script id="mainSITE" type="text/javascript" src="site/site_5.09.js"></script>
+        <script id="mainSITE" type="text/javascript" src="site/site_5.10.js"></script>
 
         <div id="topBar" class="topBar gradiente" >
             <span data-translate="appName" class="topTitle">Mapa para Acordeões Diatônicos</span>
             <a id="topSettings" class="topSettings" ><i class="ico-cogs" title="Ajustes" data-translate="topSettings" ></i></a>
-            <a class="oldVersion" href="mapa-4.22.html" data-translate="oldVersion" onclick="" >Usar a versão anterior</a>
+            <!--a class="oldVersion" href="mapa-4.22.html" data-translate="oldVersion" onclick="" >Usar a versão anterior</a-->
             <div class="dropdown-group">
                 <input id="fileLoadMap" type="file" accept="text/abc" multiple="multiple" style="display: none;"/>
                 <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" multiple="multiple" style="display: none;"/>
@@ -202,13 +203,6 @@ notação abc, tablatura " />
             
             var myMap;
 
-            if( document.readyState === "complete" ||
-                   (document.readyState !== "loading" && !document.documentElement.doScroll)) {
-              initApp();
-            } else {
-               document.addEventListener("DOMContentLoaded", preLoad );
-            }
-
             window.onblur = function() {
                 if( !myMap ) return;
                 myMap.silencia();
@@ -224,7 +218,7 @@ notação abc, tablatura " />
                 myMap.resizeActiveWindow();
             }, false);
             
-            function preLoad() {
+            window.onload = function () {
                 
                 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                 (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
@@ -234,7 +228,7 @@ notação abc, tablatura " />
                 SITE.LoadProperties();
                 SITE.translator = new SITE.Translator( { language: SITE.properties.options.language, callback: initApp } );
                 
-            }
+            };
             
             function initApp() {
                 
@@ -300,7 +294,7 @@ notação abc, tablatura " />
                         null, null, 
                         '<br>'+SITE.translator.getResource('ErrLoadingTitle'),
                         '<br>'+SITE.translator.getResource('ErrLoadingDescription1')+
-                        ' <b><a href="mapa-4.22.html" onclick="">v4.22</a></b><br>' +
+                        ' <b><a href="mapa-4.22.old.html" onclick="">v4.22</a></b><br>' +
                         SITE.translator.getResource('ErrLoadingDescription2')+
                         ' <b><a href="mailto:flavio.vani@gmail.com">flavio.vani@gmail.com</a></b>'
                         , {y:83, translator: SITE.translator }

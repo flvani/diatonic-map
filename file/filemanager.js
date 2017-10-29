@@ -206,25 +206,29 @@ FILEMANAGER.requiredFeaturesAvailable = function() {
     }
 };
 
-FILEMANAGER.html5StorageSupport = function() {
-    try
-    {
+FILEMANAGER.html5StorageSupport = function () {
+    try {
         return 'localStorage' in window && window['localStorage'] !== null;
-    }
-    catch (e)
-    {
+    } catch (e) {
+        waterbug.log('html5 storage not supported.');
         return false;
     }
 };
 
-FILEMANAGER.saveLocal = function(name, content) {
-   localStorage.setItem( name, content );
+FILEMANAGER.saveLocal = function (name, content) {
+    if (FILEMANAGER.html5StorageSupport()) {
+        localStorage.setItem(name, content);
+    }
 };
 
-FILEMANAGER.loadLocal = function(name) {
-   return localStorage.getItem(name);
+FILEMANAGER.loadLocal = function (name) {
+    if (FILEMANAGER.html5StorageSupport()) {
+        return localStorage.getItem(name);
+    }
 };
 
-FILEMANAGER.removeLocal = function(name) {
-   return localStorage.removeItem(name);
+FILEMANAGER.removeLocal = function (name) {
+    if (FILEMANAGER.html5StorageSupport()) {
+        return localStorage.removeItem(name);
+    }
 };

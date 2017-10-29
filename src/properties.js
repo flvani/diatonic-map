@@ -54,7 +54,14 @@ SITE.LoadProperties = function() {
     
     //FILEMANAGER.removeLocal('diatonic-map.site.properties' ); // usdo para forçar reset da propriedades
     
-    SITE.properties = JSON.parse( FILEMANAGER.loadLocal('diatonic-map.site.properties' ) ); 
+    try{
+        SITE.properties = JSON.parse( FILEMANAGER.loadLocal('diatonic-map.site.properties' ) ); 
+    } catch(e) {
+        waterbug.log( 'Could not load the properties.');
+        waterbug.show( 'Could not save the properties');
+        SITE.ga('create', 'UA-62839199-1', 'auto');
+        SITE.ga('send', 'event', 'Error', 'html5storage', 'loadingLocal' );
+    }
     
     var ver = SITE.getVersion('mainSITE', '' );
     
@@ -62,29 +69,32 @@ SITE.LoadProperties = function() {
         
         SITE.ResetProperties();
         
-    } else if( ver !== 'debug' && ( ! SITE.properties.version || SITE.properties.version === 'debug' || parseFloat( SITE.properties.version ) < parseFloat( ver ) )  ){
+    } else {
         
-        SITE.properties.version = ver;
+        if( ver !== 'debug' && ( ! SITE.properties.version || SITE.properties.version === 'debug' || parseFloat( SITE.properties.version ) < parseFloat( ver ) )  ) {
         
-        if(SITE.properties.version === '5.07' ) {
-            
-            SITE.properties.known_languages = {
-                 de_DE: { file: 'languages/de_DE.lang', image: "images/de_DE.png", name: 'Deustch' } 
-                ,en_US: { file: 'languages/en_US.lang', image: "images/en_US.png", name: 'US English' } 
-                ,es_ES: { file: 'languages/es_ES.lang', image: "images/es_ES.png", name: 'Español' } 
-                ,fr_FR: { file: 'languages/fr_FR.lang', image: "images/fr_FR.png", name: 'Français' } 
-                ,it_IT: { file: 'languages/it_IT.lang', image: "images/it_IT.png", name: 'Italiano' } 
-                ,pt_BR: { file: 'languages/pt_BR.lang', image: "images/pt_BR.png", name: 'Português do Brasil' } 
-            };
-            
-            SITE.properties.options.language = SITE.getLanguage() ;
-            SITE.properties.colors.highLight = '#ff0000';
-            SITE.properties.options.showWarnings = false;
-            SITE.properties.options.showConsole = false;
-            SITE.properties.options.pianoSound = false;
+            SITE.properties.version = ver;
+
+            if(SITE.properties.version === '5.07' ) {
+
+                SITE.properties.known_languages = {
+                     de_DE: { file: 'languages/de_DE.lang', image: "images/de_DE.png", name: 'Deustch' } 
+                    ,en_US: { file: 'languages/en_US.lang', image: "images/en_US.png", name: 'US English' } 
+                    ,es_ES: { file: 'languages/es_ES.lang', image: "images/es_ES.png", name: 'Español' } 
+                    ,fr_FR: { file: 'languages/fr_FR.lang', image: "images/fr_FR.png", name: 'Français' } 
+                    ,it_IT: { file: 'languages/it_IT.lang', image: "images/it_IT.png", name: 'Italiano' } 
+                    ,pt_BR: { file: 'languages/pt_BR.lang', image: "images/pt_BR.png", name: 'Português do Brasil' } 
+                };
+
+                SITE.properties.options.language = SITE.getLanguage() ;
+                SITE.properties.colors.highLight = '#ff0000';
+                SITE.properties.options.showWarnings = false;
+                SITE.properties.options.showConsole = false;
+                SITE.properties.options.pianoSound = false;
+            }
+
+            SITE.SaveProperties();
         }
-        
-        SITE.SaveProperties();
     }
     if( ver === 'debug' ) {
         SITE.properties.options.showConsole = true;
@@ -93,7 +103,14 @@ SITE.LoadProperties = function() {
 };
 
 SITE.SaveProperties = function() {
-    FILEMANAGER.saveLocal('diatonic-map.site.properties', JSON.stringify(SITE.properties));
+    try{
+        FILEMANAGER.saveLocal('diatonic-map.site.properties', JSON.stringify(SITE.properties));
+    } catch(e) {
+        waterbug.log( 'Could not save the properties');
+        waterbug.show( 'Could not save the properties');
+        SITE.ga('create', 'UA-62839199-1', 'auto');
+        SITE.ga('send', 'event', 'Error', 'html5storage', 'savingLocal' );
+    }
 };
 
 SITE.ResetProperties = function() {
@@ -177,6 +194,7 @@ SITE.ResetProperties = function() {
             ,label: false
         }
     };
+    
     SITE.properties.studio = {
          mode: 'normal'
         ,timerOn: false
@@ -203,4 +221,5 @@ SITE.ResetProperties = function() {
     };
     
     SITE.SaveProperties();
+    
 };

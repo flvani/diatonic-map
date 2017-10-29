@@ -206,8 +206,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
         that.playButton.innerHTML = '&#160;<i class="ico-play"></i>&#160;';
         that.renderedTune.printer.clearSelection();
         that.accordion.clearKeyboard(true);
-        if(that.currentPlayTimeLabel)
-            that.currentPlayTimeLabel.innerHTML = "00:00.00";
+        that.blockEdition(false);
         if( warns ) {
             var txt = "";
             warns.forEach(function(msg){ txt += msg + '<br>'; });
@@ -217,15 +216,16 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     };
 
     this.playButton.addEventListener("click", function() {
-        that.startPlay( 'normal' );
+       window.setTimeout(function(){ that.startPlay( 'normal' );}, 0 );
     }, false);
 
     this.stopButton.addEventListener("click", function(evt) {
         evt.preventDefault();
         this.blur();
+        that.blockEdition(false);
+        if(that.currentPlayTimeLabel)
+            that.currentPlayTimeLabel.innerHTML = "00:00.00";
         that.midiPlayer.stopPlay();
-        that.editorWindow.setReadOnly(false);
-        that.editorWindow.clearEditorHighLightStyle();
     }, false);
     
 
@@ -579,6 +579,17 @@ SITE.PartGen.prototype.salvaTablatura = function() {
 };
 
 
+SITE.PartGen.prototype.blockEdition = function( block ) {
+    this.editorWindow.setReadOnly(!block);
+    this.editorWindow.container.dispatchAction('READONLY');
+    if( block ) {
+        this.editorWindow.setEditorHighLightStyle();
+    } else {
+        this.editorWindow.clearEditorHighLightStyle();
+        this.editorWindow.aceEditor.focus();
+    }
+};
+
 SITE.PartGen.prototype.startPlay = function( type, value ) {
     this.ypos = this.studioCanvasDiv.scrollTop;
     this.lastStaffGroup = -1;
@@ -592,15 +603,13 @@ SITE.PartGen.prototype.startPlay = function( type, value ) {
         } else {
             this.midiPlayer.pausePlay(true);
         }    
-        this.editorWindow.setReadOnly(false);
-        this.editorWindow.clearEditorHighLightStyle();
+        this.blockEdition(false);
         
     } else {
         
         this.accordion.clearKeyboard();
-        this.editorWindow.setReadOnly(true);
-        this.editorWindow.setEditorHighLightStyle();
         if(type==="normal") {
+            this.blockEdition(true);
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
                 this.playButton.title = SITE.translator.getResource("pause");
                 this.playButton.innerHTML =  '<i class="ico-pause"></i>';
