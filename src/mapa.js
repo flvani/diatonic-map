@@ -745,6 +745,7 @@ SITE.Mapa.prototype.showABC = function(action) {
             FILEMANAGER.saveLocal( 'property.'+this.accordion.getId()+'.'+type+'.title', tab.title );
         var loader = this.startLoader( "TABLoader" + type, this.tuneContainerDiv );
         loader.start(  function() { 
+            self.midiPlayer.stopPlay();
             self.renderTAB( tab );
             self.showMedia( tab );
             self.tuneContainerDiv.scrollTop = 0;    

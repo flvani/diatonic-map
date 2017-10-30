@@ -19,7 +19,6 @@ This is free software, do with if what you want.
 (function() {
         var waterbug=(function (){
                 var vararray=[];                
-                var orientation=0;
                 var debugDiv=document.createElement("div");
                 debugDiv.style.position="fixed";
                 debugDiv.style.right="10px";
@@ -40,25 +39,8 @@ This is free software, do with if what you want.
                 debugDiv.style.width="30%";
 
 //              debugDiv.style.display="none";
-                var supportsOrientationChange = "onorientationchange" in window,
-                orientationEvent = supportsOrientationChange ? "orientationchange" : "resize";
+                var supportsOrientationChange = "onorientationchange" in window;
 
-//                window.addEventListener(orientationEvent, function() {
-//                        if(window.orientation!=orientation && window.orientation==-90){
-//				
-//				window.scrollTo(1,1);	
-//                                showValues();
-//                        }else{
-//                                if(window.orientation!=-90){
-//					if(debugDiv.parentNode){
-//						document.body.removeChild(debugDiv); 
-//					}
-//                                }
-//                        }
-//                        horientation=window.orientation;
-//                },false);
-
-		//window.onerror=function(msg, url, linenumber){
                 window.addEventListener("error", function(error) {
 //			alert('Error message: '+error.message+'nURL: '+error.filename+'nLine Number: '+error.lineno)
                         vararray.push({type:"error",message:error});
@@ -113,12 +95,16 @@ This is free software, do with if what you want.
 			evalInput.setAttribute( "autocapitalize" , "none");	
 			evalInput.style.borderBottom="1px solid #eeeeee";
 			evalInput.addEventListener("keyup",function(evt){
-				if(evt.keyCode==13){
+				if(evt.keyCode===13){
+                                        if(this.value === 'close'){
+                                            debugDiv.style.display="none";
+                                            return;
+                                        }
 					try{
-						var obj=eval(this.value);
-						vararray.push({type:"log",message:[obj]});
+                                            var obj=eval(this.value);
+                                            vararray.push({type:"log",message:[obj]});
 					}catch(e){
-						vararray.push({type:"error",message:[e]});
+                                            vararray.push({type:"error",message:[e]});
 					}
 					showValues();
 				}
@@ -259,7 +245,7 @@ This is free software, do with if what you want.
 				nameSpan.appendChild(document.createTextNode(i+":"));
 				nameSpan.style.color="purple";
 				nameValueDiv.appendChild(nameSpan);
-				if(i!="opener"){  //error prevent
+				if(i!=="opener"){  //error prevent
 					nameValueDiv.appendChild(formatValue(value[i]));
 				}
 				nameValueDiv.style.verticalAlign="top";

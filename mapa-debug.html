@@ -238,8 +238,9 @@ notação abc, tablatura " />
             
             function initApp() {
                 
-                waterbug.log( 'initApp');
-                waterbug.show();
+                //waterbug.log( 'initApp');
+                //waterbug.show();
+                
                 SITE.translator.translate();
                 
                 if( ABCXJS.misc.isIE() ){
@@ -294,8 +295,8 @@ notação abc, tablatura " />
             }
             
             function loadMIDI(success) {
-                waterbug.log( 'loadMIDI');
-                waterbug.show();
+                //waterbug.log( 'loadMIDI');
+                //waterbug.show();
                 if(!success) {
                     MIDI.widget.hide();
                     SITE.ga('create', 'UA-62839199-1', 'auto');
@@ -327,8 +328,8 @@ notação abc, tablatura " />
             
             function createMap() {
                 
-                waterbug.log( 'createMap');
-                waterbug.show();
+                //waterbug.log( 'createMap');
+                //waterbug.show();
                 
                 var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
 
