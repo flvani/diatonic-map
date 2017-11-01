@@ -100,8 +100,6 @@ SITE.LoadProperties = function() {
         SITE.properties.options.showConsole = true;
         //SITE.properties.options.language = SITE.getLanguage();
     }
-    var l  = SITE.getLanguage() ;
-    
 };
 
 SITE.SaveProperties = function() {
