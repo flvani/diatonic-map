@@ -36,15 +36,15 @@ SITE.getLanguage = function ( ) {
     if( language.indexOf( '-' ) >= 0 ) {
         language = language.replace('-', '_' );
         for( var id in SITE.properties.known_languages ) {
-            if( id === language ) {
+            if( id.toLowerCase() === language.toLocaleLowerCase() ) {
                 return id;
             }
         }
-    } else {
-        for( var id in SITE.properties.known_languages ) {
-            if( id.substr(0,2) === language ) {
-                return id;
-            }
+    } 
+    // não encontrou a linguagem exata, então tenta apenas pelo prefixo.
+    for( var id in SITE.properties.known_languages ) {
+        if( id.substr(0,2) === language.substr(0,2) ) {
+            return id;
         }
     }
     return 'en_US';
@@ -100,6 +100,8 @@ SITE.LoadProperties = function() {
         SITE.properties.options.showConsole = true;
         //SITE.properties.options.language = SITE.getLanguage();
     }
+    var l  = SITE.getLanguage() ;
+    
 };
 
 SITE.SaveProperties = function() {
