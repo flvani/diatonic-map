@@ -43,7 +43,7 @@ body {
     position:absolute; 
     top:10px; 
     right:20px; 
-    font-size: 45px;
+    font-size: 50px;
     color: #dab390;
 }    
 
@@ -184,7 +184,7 @@ body {
     background-color: lavenderblush;
 }
 
-.dropdown-menu li:hover {
+.dropdown-menu .hover {
     background-color: #ff3a3a;
     background-color: #D4482D;
 }

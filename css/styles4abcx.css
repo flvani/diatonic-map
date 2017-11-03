@@ -201,7 +201,6 @@ and open the template in the editor.
     margin-top: 1px;
     margin-left: 8px;
     min-width: fit-content;
-    overflow-y: hidden;
     -moz-transition: max-height 0.5s ease-out;
     -o-transition: max-height 0.5s ease-out;
     -webkit-transition: max-height 0.5s ease-out;
@@ -220,9 +219,9 @@ and open the template in the editor.
     color: orange;
     color: #dab390;
     background: #2c3e50;
+    overflow-y: hidden;
     /*text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.3);*/
 }
-      
 
 .dropdown-menu ul {
     list-style: none;
@@ -241,12 +240,11 @@ and open the template in the editor.
     line-height: 16px;
 }
 
-.dropdown-menu li:hover {
+.dropdown-menu .hover {
     background: #f6f6f6;
     background: lightblue;
     background: lavender;
 }
-
 
 .dropdown-menu .selected {
     background:  lavender !important;
@@ -276,7 +274,6 @@ and open the template in the editor.
 
 .dropdown > input[type="checkbox"]:checked ~ [data-toggle="toggle-menu"] {
     max-height: 250px;
-    overflow-y: hidden;
     display:  block;
     top:100%;
     left: 6px;
