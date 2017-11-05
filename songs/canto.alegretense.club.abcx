@@ -1,9 +1,10 @@
-X:2030
+X:2023
 %%barnumbers 0
 %%papersize A4
 %%pagenumbering
 T:Canto Alegretense (club)
 C:Antônio Augusto Fagundes
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
 Z:Flávio Vani
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 F:https://www.youtube-nocookie.com/embed/N0P94PhkGgw
@@ -12,40 +13,40 @@ L:1/8
 Q:120
 K:F
 V:1 treble
-| z2 z F F F |: F2 A A2 A | A2 A G2 G | F2 E4 | 
+| [P:Parte I] z2 z FFF |: "F" F2 A A2 A | A2 A G2 G | "C" F2 E4 | 
 w:Não me per-gun-tes on-de fi-ca o-Ale-gre-te
 w:~ ~ ~ che-ga de Ro-sá-rio ao fim da tarde
-| z z G2 G2 | G2 B B2 A | A2 G G2 A | A6 | 
+| z2 G2 G2 | G2 B B2 A | A2 G G2 A | "F" A6 | 
 w:Se-gue~o ru-mo do teu pró-prio co-ra-ção
 w: Ou quem vem de Uru-guai-a-na de ma-nhã
-| z z A2 A2 | B2 B B2 c | d2 d c2 c | A6 | 
+| z2 A2 A2 | "B♭" B2 B B2 c | d2 d c2 c | "F" A6 | 
 w:Cru-za-rás pe-la es-tra-da algum gi-nete
 w:Tem o Sol co-mo uma brasa que ainda ar-de
-| z z B2 A2 | G2 [ce] [ce]2 [Bd] | [Bd]2 [Ac] [Ac]2 [GB] | [FA]6 |1 z z F2 F2 :| 
+| "Dm" z2 B2 A2 | "C" G2 [ce] [ce]2 [Bd] | [Bd]2 [Ac] [Ac]2 [GB] | "F" [FA]6 |1 z2 F2 F2 :| 
 w:E~ou-vi-rás to-que de gai-ta e~de vio-lão. Pra quem  
 w:Mer-gu-lha-da no rio I-bi-ra-pui-tã ~ ~
-|:2 z z c2 c2 | [Be]2 [Bd] [Be]2 [Bd] | [Be]2 [Bd] [Bd]2 [Ac] | [Ac]6 | 
+|:2 [P:Refrão] +segno+ z z c2 c2 | "C" [Be]2 [Bd] [Be]2 [Bd] | [Be]2 [Bd] [Bd]2 [Ac] | "F" [Ac]6 | 
 w:Ou-ve o~can-to gau-ches-co~e bra-si-lei-ro
-| z z c2 c2 | [Be]2 [Bd] [Be]2 [Bd] | [Be]2 [Bd] [Bd]2 [Ac] | [Ac]6 | 
+| z2 c2 c2 | "C" [Be]2 [Bd] [Be]2 [Bd] | [Be]2 [Bd] [Bd]2 [Ac] | "F" [Ac]6 | 
 w:Des-ta ter-ra que eu amei des-de gu-ri
-| z z c2 c2 | B2 B B2 c | d2 d c2 c | A6 | 
+| z2 c2 c2 | "B♭" B2 B B2 c | d2 d c2 c | "F" A6 | 
 w:Flor de tu-na, ca-moa-tin de mel cam-peiro
-| z z B2 A2 | G2 [ce] [ce]2 [Bd] | [Bd]2 [Ac] [Ac]2 [GB] | [FA]6 :| 
+| "Dm" z2 B2 A2 | "C" G2 [ce] [ce]2 [Bd] | [Bd]2 [Ac] [Ac]2 [GB] | "F" [FA]6 +fine+ :| 
 w:Pe-dra mou-ra das que-bra-das do Inhan-duy
-|: z z F2 F2 | F2 A A2 A | A2 A G2 G | F2 E4 | 
+|: "F" z2 F2 F2 | F2 A A2 A | A2 A G2 G | "C" F2 E4 | 
 w:E na hora der-ra-dei-ra que eu me-re-ça
 w:E nos olhos vou le-var o en-can-ta-men-to
-| z z G2 G2 | G2 B B2 A | A2 G G2 A | A6 | 
+| z2 G2 G2 | G2 B B2 A | A2 G G2 A | "F" A6 | 
 w:Ver o Sol A-le-gre-tense en-tar-de-cer
 w:Des-ta ter-ra que eu amei com de-vo-ção
-| z z A2 A2 | B2 B B2 c | d2 d c2 c | A6 | 
+| z2 A2 A2 | "B♭" B2 B B2 c | d2 d c2 c | "F" A6 | 
 w:Co-mo~os po-tros vou vi-rar mi-nha ca-beça
 w:Ca-da verso que eu~com-po-nho é~um pa-ga-mento
-| z z B2 A2 | G2 [ce] [ce]2 [Bd] | [Bd]2 [Ac] [Ac]2 [GB] | [FA]6 :| 
+| "Dm" z2 B2 A2 | "C" G2 [ce] [ce]2 [Bd] | [Bd]2 [Ac] [Ac]2 [GB] | "F" [FA]6 +dsalfine+ :| 
 w:Pa-ra~o pa-go no mo-men-to de mor-rer
 w:De uma dí-vi-da de amor e gra-ti-dão
 V:2 bass
-| z2 z z z z |: F,, [F,,A,,C,] F,, [F,,A,,C,] F,, z | F,, [F,,A,,C,] F,, [F,,A,,C,] F,, z | C,, [C,E,G,] C,, [C,E,G,] C,, z | 
+| z2 z4 |: F,, [F,,A,,C,] F,, [F,,A,,C,] F,, z | F,, [F,,A,,C,] F,, [F,,A,,C,] F,, z | C,, [C,E,G,] C,, [C,E,G,] C,, z | 
 | C,, [C,E,G,] C,, [C,E,G,] C,, z | C,, [C,E,G,] C,, [C,E,G,] C,, z | C,, [C,E,G,] C,, [C,E,G,] C,, z | F,, [F,,A,,C,] F,, [F,,A,,C,] F,, z | 
 | F,, [F,,A,,C,] F,, [F,,A,,C,] F,, z | B,, [B,,D,F,] B,, [B,,D,F,] B,, z | B,, [B,,D,F,] B,, [B,,D,F,] B,, z | F,, [F,,A,,C,] F,, [F,,A,,C,] F,, z | 
 | D,, [D,F,A,] D,, [D,F,A,] D,, z | C,, [C,E,G,] C,, [C,E,G,] C,, z | C,, [C,E,G,] C,, [C,E,G,] C,, z | F,, [F,,A,,C,] F,, [F,,A,,C,] F,, z |1 F,, [F,,A,,C,] F,, [F,,A,,C,] F,, z :| 
@@ -69,4 +70,4 @@ V:3 accordionTab
 |: F+z f+z F+4' f+> F+4' z+> | F+4' f+> F+5' f+5' F+> z+5' | F+5' f+> F+5' f+6 F+> z+6 | C-5 c-> C-3' c-> C-> z-> | 
 | C-z c-z C-4' c-> C-4' z-> | C-4' c-> C-5' c-5' C-> z-6 | C-6 c-> C-4' c-4' C-> z+5' | F+5' f+> F+> f+> F+> z+> | 
 | F+z f+z F+5' f+> F+5' z+> | B♭-5' b♭-> B♭-5' b♭-5' B♭-> z-6' | B♭-8 b♭-> B♭-8 b♭-6' B♭-> z-6' | F+5' f+> F+> f+> F+> z+> | 
-| D-z d-z D-5' d-> D-6 z-> | C-4' c-> C-[6'7'] c-[6'7'] C-[>>] z-[5'8] | C-[5'8] c-[>>] C-[66'] c-[66'] C-[>>] z-[4'5'] | F+[4'5'] f+[>>] F+[>>] f+[>>] F+[>>] z+[>>] :| 
+| D-z d-z D-5' d-> D-6 z-> | C-4' c-> C-[6'7'] c-[6'7'] C-[>>] z-[5'8] | C-[5'8] c-[>>] C-[66'] c-[66'] C-[>>] z-[4'5'] | F+[4'5'] f+[>>] F+[>>] f+[>>] F+[>>] z+[>>] :|

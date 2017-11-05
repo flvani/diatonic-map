@@ -1,0 +1,28 @@
+X:2025
+%%barnumbers 1
+%%papersize A4
+%%tabinferenceopts -2
+T:The sound of silence v2 (club)
+C:Simon & Garfunkel
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+L:1/8
+Q:1/4=90
+M:4/4
+K:F
+V:1 treble
+|  DAEA DAEA | DAEA DAEA | zA[Ad][Ad] ffaf |: g8 |
+| z c cc eege | f8 | z2 dd ffac' | d'2 d'c'- c'4 |
+| z2 ff aac'c' | d'2 d'c'- c'4 | z2 ff d' d'3 | z2 d'e' f' f'3 |
+| e'd'2 c'- c'4 | z2 d'c' a4- | a4 z f ff | [ec']6 ze | f d-d4 z2 |1 z2 dd ffaf :|2 z8 |
+V:2 bass
+| z8 | z8 | D,,2 [D,F,A,]2 D,,2 [D,F,A,]2  |: C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 | 
+| C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 | D,,2 [D,F,A,]2 D,,2 [D,F,A,]2 |  D,,2 [D,F,A,]2 D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 D,,2 [D,F,A,]2 |
+%| C,A,G,A, F,,A,G,A, | B,,DCD F,,A,G,A, | C,A,G,A, B,,DCD  | F,DCD B,,DCF  |
+|D,,2 [D,F,A,]2 D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 D,,2 [D,F,A,]2 | x8 | x8 |
+| F,DB,,D F,,A,G,A, | C,A,G,A, F,,A,G,A, | D,,F,E,F, F,,A,G,A, | C,,E,D,E, C,,E, C2 | D,,F,E,F, D,A,G,A, |1  F,,A,E,A, D,,A,F,D, :|2 z8 |
+V:3 accordionTab
+| z-4 z-6 z-3' z-6 z-4 z-6 z-3' z-6 | z-4 z-6 z-3' z-6 z-4 z-6 z-3' z-6 | D-z >-6 d-[68] >-[68] D-9 >-9 d-a >-9 |: C+92 c+>2 C+>2 c+>2 |
+| C+z >+6' c+6' >+6' C+8 >+8 c+9 >+8 | D-92 d->2 D->2 d->2 | D-z2 d-8 >-8 D-9 >-9 d-a >-a' | D-c2 d-c >-a' D->2 d->2 |
+| D-z2 d-9 >-9 D-a >-a d-a' >-a' | D-c2 d-c >-a' D->2 d->2 | +z2 +7' +7' -c -c3 | -z2 -c -b' +a' +a'3 |
+| F+b D-c B♭-> D-a' F-> A-> G-> A-> | C-z A+z G-c A+a F+8' A+> G+> A+> | D+> F+> x+> F+> F+z A+7' G-9 A+7' | C+[89'] x+[>>] D+[>>] x+[>>] C+[>>] x+[>>] C+z >+8 | D-9 F+5'' x+> F+> D+> A+> G-z A+z |1 F+z A+z x+5'' A+5'' D-9 A+7' F+8' D-9 :|2 z-z8 |
