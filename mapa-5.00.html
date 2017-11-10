@@ -131,6 +131,7 @@ notação abc, tablatura " />
         </div> <!-- mapaDiv -->
         <div id="studioDiv" class="studioDiv" ></div>
         <div id="partGenDiv" class="studioDiv" ></div>
+        <div id="partEditDiv" class="studioDiv" ></div>        
         <div id="tabGenDiv" class="studioDiv" ></div>
         <div id="studioControlDiv" style="display:none;">
             <div id="controlDiv1" class="btn-subgroup" >
@@ -160,6 +161,20 @@ notação abc, tablatura " />
             </div>
             <label id="currentPlayTimeLabel2" >00:00:00</label>
         </div>  <!-- controlDiv - este bloco é tratado internamente -->  
+        <div id="a2pControlDiv-raw" style="display:none;">
+            <div id="a2pControlDiv1" class="btn-subgroup" >
+                <button id="a2pShowEditorBtn" data-translate="showEditorTip"><i id="a2pI_showEditor" class="ico-folder"></i>&#160;<span data-translate="showEditorBtn">Editor</span></button>
+                <button id="a2pShowMapBtn" data-translate="showMapTip"><i id="a2pI_showMap" class="ico-folder"></i>&#160;<span data-translate="showMapBtn">Teclado</span></button>
+                <button id="a2pPrintBtn" data-translate="printPreviewTip"><i class="ico-printer"></i>&#160;<span data-translate="printBtn">Impimir</span></button>
+                <button id="a2pSaveBtn" data-translate="saveTip"><i class="ico-download"></i>&#160;<span data-translate="saveBtn">Salvar Local</span></button>
+                <button id="a2pForceRefresh" data-translate="forceRefreshBtn" ><i class="ico-bolt"></i>&#160<span data-translate="forceRefreshBtn">Atualizar</span></button>
+            </div>
+            <div id="a2pDivNormalPlayControls" class="btn-subgroup" >
+                <button id="a2pPlayBtn" data-translate="playBtn" onclick="">&nbsp;<i class="ico-play"></i>&nbsp;</button>
+                <button id="a2pStopBtn" data-translate="stopBtn" onclick="">&nbsp;<i class="ico-stop"></i>&nbsp;</button>
+                <label id="a2pCurrentPlayTimeLabel" style="width: 90px;" >00:00:00</label>
+            </div>
+        </div> <!-- a2pcontrolDiv - este bloco é tratado internamente -->     
         <div id="t2pControlDiv-raw" style="display:none;">
             <div id="t2pControlDiv1" class="btn-subgroup" >
                 <button id="t2pShowEditorBtn" data-translate="showEditorTip"><i id="t2pI_showEditor" class="ico-folder"></i>&#160;<span data-translate="showEditorBtn">Editor</span></button>
@@ -171,7 +186,7 @@ notação abc, tablatura " />
             <div id="t2pDivNormalPlayControls" class="btn-subgroup" >
                 <button id="t2pPlayBtn" data-translate="playBtn" onclick="">&nbsp;<i class="ico-play"></i>&nbsp;</button>
                 <button id="t2pStopBtn" data-translate="stopBtn" onclick="">&nbsp;<i class="ico-stop"></i>&nbsp;</button>
-                <label id="t2pCurrentPlayTimeLabel" >00:00:00</label>
+                <label id="t2pCurrentPlayTimeLabel" style="width: 90px;" >00:00:00</label>
             </div>
             <div id="t2pDivChecks" class="btn-subgroup" >
                 <input type="checkbox" id="ckShowABC" checked >&nbsp;<span data-translate="chkShowABCXText" >Mostrar o texto ABCX</span><br>

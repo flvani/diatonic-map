@@ -18,7 +18,7 @@ ABCXJS.Tab2PartLine = function () {
     this.tablature = "";
 };
 
-ABCXJS.Tab2Part = function (toClub, fromClub) {
+ABCXJS.Tab2Part = function (toClub, fromClub ) {
     
     this.toClub = toClub || false;
     this.fromClub = fromClub || false;
@@ -125,10 +125,10 @@ ABCXJS.Tab2Part.prototype.extractLines = function () {
 
 ABCXJS.Tab2Part.prototype.parseLine = function () {
     //var header = lines[l].match(/^([CKLMT]\:*[^\r\n\t]*)/g); - assim não remove comentarios
-    var header = this.tabLines[this.currLine].match(/^([CKLMTQ]\:*[^\r\n\t\%]*)/g);
+    var header = this.tabLines[this.currLine].match(/^([ACFKLMNTQZ]\:*[^\r\n\t\%]*)/g);
     
     if( header ) {
-        var key = this.tabLines[this.currLine].match(/^([CKLMTQ]\:)/g);
+        var key = this.tabLines[this.currLine].match(/^([ACFKLMNTQZ]\:)/g);
         switch( key[0] ) {
             case 'K:': 
                 var k = ABCXJS.parse.denormalizeAcc(header[0].trim().substr(2));
@@ -420,7 +420,7 @@ ABCXJS.Tab2Part.prototype.getChord = function ( pitch, isMinor ) {
     
     var n2 = base + (isMinor?3:4);
     var n3 = base + 7;
-    var oct = this.bassOctave + (base > 4 ? 0 : 1);
+    var oct = this.bassOctave + 1; // flavio (base > 4 ? 0 : 1);
     
     return '[' + this.getTabNote( ABCXJS.parse.number2keysharp[base%12], oct, true ) 
                    + this.getTabNote( ABCXJS.parse.number2keysharp[n2%12], oct+Math.trunc(n2/12), true ) 

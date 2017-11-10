@@ -1,0 +1,18 @@
+%%barnumbers 1
+%%papersize A4
+T:Peixe Vivo
+C:Tradicional
+C:(arr. Outubrino D. Moraes)
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:http://www.superpartituras.com/Content/demonstracoes/peixe-vivo-v-4.jpg
+M:2/4
+L:1/8
+Q:90
+K:G
+V:1 treble
+| z2 Bd |: dc ce | ed Bd | dc Ac | cB Bd | 
+V:2 bass
+| z4 |: D,,1.5[D,F,A,]0.5 D,,D,, | G,,1.5[G,B,D]0.5 G,,G,, | D,,1.5[D,F,A,]0.5 D,,D,, | G,,1.5[G,B,D]0.5 G,,G,, | 
+V:3 accordionTab
+| z+z2 z-6' z-7' |: D-7' >-8.5 d->.5 D-8 D-9 | G+7' >+8.5 g+>.5 G+7 G+8 | D-7' >-8.5 d->.5 D-7 D-8 | G+6' >+7.5 g+>.5 G+7 G+8 | 

@@ -6,6 +6,7 @@
     {
          "appName": "Map for Diatonic Accordions"
         ,"TAB2PART": "Tablature > Partiture"
+        ,"ABC2PART": "ABC > Partiture"
         ,"JUMPS": "Jumps & Breaks (in Portuguese)"
         ,"Push": "Push"
         ,"Pull": "Pull"
@@ -96,6 +97,8 @@
         ,"EstudioEditorTitle": "Editor"
         ,"PartGenTitle": "Partiture Generator"
         ,"PartGenEditorTitle": "Tablature Editor"
+        ,"PartEditTitle": "Partiture Editor"
+        ,"PartEditEditorTitle": "ABC Editor"
         ,"TabGenTitle": "Tablature Extractor"
         ,"TabGenRefreshTip": "Extract the tablature"
         ,"TabGenRefreshBtn": "Extract"

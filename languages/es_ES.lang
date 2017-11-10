@@ -6,6 +6,7 @@
     {
          "appName": "Mapa para Acordeones Diatónicos"
         ,"TAB2PART": "Tablatura > Partitura"
+        ,"ABC2PART": "ABC > Partitura"
         ,"JUMPS": "Signos de repetición (en portugués)"
         ,"Push": "Cerrar"
         ,"Pull": "Abrir"
@@ -96,6 +97,8 @@
         ,"EstudioEditorTitle": "Editor"
         ,"PartGenTitle": "Generador de Partituras"
         ,"PartGenEditorTitle": "Editor de Tablaturas"
+        ,"PartEditTitle": "Editor de Partitura"
+        ,"PartEditEditorTitle": "Editor ABC"
         ,"TabGenTitle": "Extractor de tablaturas"
         ,"TabGenRefreshTip": "Extraer la tablatura"
         ,"TabGenRefreshBtn": "Extracción"

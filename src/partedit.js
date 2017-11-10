@@ -4,21 +4,22 @@
  * and open the template in the editor.
  */
 
-
 if (!window.SITE)
     window.SITE = {};
 
-SITE.PartGen = function( mapa, interfaceParams ) {
+SITE.PartEdit = function( mapa, interfaceParams ) {
     
     this.mapa = mapa;
     
     var that = this;
     
+    this.transposer = new ABCXJS.parse.Transposer(0);
+    
     this.Div = new DRAGGABLE.ui.Window( 
-          interfaceParams.partGenDiv
+          interfaceParams.partEditDiv
         , ['help']
-        , {translator: SITE.translator, statusbar: false, draggable: false, top: "3px", left: "1px", width: '100%', height: "100%", title: 'PartGenTitle'}
-        , {listener: this, method: 't2pCallback'}
+        , {translator: SITE.translator, statusbar: false, draggable: false, top: "3px", left: "1px", width: '100%', height: "100%", title: 'PartEditTitle'}
+        , {listener: this, method: 'a2pCallback'}
     );
     
     this.Div.setVisible(true);
@@ -29,16 +30,11 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     this.midiParser = new ABCXJS.midi.Parse();
     this.midiPlayer = new ABCXJS.midi.Player(this);
     
-    var toClub = (interfaceParams.accordion_options.id === 'GAITA_HOHNER_CLUB_IIIM_BR' );
-    var fromClub = (interfaceParams.accordion_options.id === 'GAITA_MINUANO_GC' );
-    
-    var canvas_id = 't2pCanvasDiv';
-    var warnings_id = 't2pWarningsDiv';
+    var canvas_id = 'a2pCanvasDiv';
+    var warnings_id = 'a2pWarningsDiv';
 
     this.renderedTune = {text:undefined, abc:undefined, title:undefined
                          ,tab: undefined, div: undefined ,selector: undefined };
-    
-    this.tabParser = new ABCXJS.Tab2Part(toClub, fromClub, this);
     
     if (interfaceParams.generate_tablature) {
         if (interfaceParams.generate_tablature === 'accordion') {
@@ -57,17 +53,12 @@ SITE.PartGen = function( mapa, interfaceParams ) {
        ,{listener : this, method: 'editorCallback' }
        ,{   draggable:SITE.properties.partGen.editor.floating
            ,toolbar: true, statusbar:true, translator: SITE.translator
-           ,title: 'PartGenEditorTitle'
+           ,title: 'PartEditEditorTitle'
            ,compileOnChange: false /*SITE.properties.options.autoRefresh*/
         }
     );
     this.editorWindow.setVisible(false);
     
-    this.editorWindow.container.setButtonVisible( 'OCTAVEUP', false);
-    this.editorWindow.container.setButtonVisible( 'OCTAVEDOWN', false);
-    this.editorWindow.keySelector.setVisible(false);
-    this.editorWindow.showHiddenChars(true);
-
     this.keyboardWindow = new DRAGGABLE.ui.Window( 
         this.Div.dataDiv
        ,[ 'move', 'rotate', 'zoom', 'globe']
@@ -89,7 +80,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     });
     
     this.controlDiv = document.createElement("DIV");
-    this.controlDiv.setAttribute("id", 't2pcontrolDiv' );
+    this.controlDiv.setAttribute("id", 'a2pcontrolDiv' );
     this.controlDiv.setAttribute("class", 'controlDiv btn-group' );
     this.Div.dataDiv.appendChild(this.controlDiv);
     
@@ -101,35 +92,14 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     this.warningsDiv.setAttribute("class", "warningsDiv" );
     this.Div.dataDiv.appendChild(this.warningsDiv);
 
-    this.abcDiv = document.createElement("DIV");
-    this.abcDiv.style.display = SITE.properties.partGen.showABCText ? '' : 'none';
-
-    this.ckShowABC = document.getElementById(interfaceParams.ckShowABC);
-    this.ckShowABC.checked = SITE.properties.partGen.showABCText;
-    
-    this.ckConvertToClub = document.getElementById(interfaceParams.ckConvertToClub);
-    this.convertToClub = document.getElementById('convertToClub');
-
-    this.ckConvertFromClub = document.getElementById(interfaceParams.ckConvertFromClub);
-    this.convertFromClub = document.getElementById('convertFromClub');
-        
-    //this.ckConvertToClub.checked = SITE.properties.partGen.convertToClub;
-    this.ckConvertToClub.checked = false;
-    this.convertToClub.style.display = toClub ? 'inline' : 'none';
-
-    //this.ckConvertFromClub.checked = SITE.properties.partGen.convertFromClub;
-    this.ckConvertFromClub.checked = false;
-    this.convertFromClub.style.display = fromClub ? 'inline' : 'none';
-    
     this.studioCanvasDiv = document.createElement("DIV");
-    this.studioCanvasDiv.setAttribute("id", 't2pStudioCanvasDiv' );
+    this.studioCanvasDiv.setAttribute("id", 'a2pStudioCanvasDiv' );
     this.studioCanvasDiv.setAttribute("class", "studioCanvasDiv customScrollBar" );
    
     this.canvasDiv = document.createElement("DIV");
     this.canvasDiv.setAttribute("id", canvas_id);
     this.canvasDiv.setAttribute("class", "canvasDiv" );
     
-    this.studioCanvasDiv.appendChild(this.abcDiv);
     this.studioCanvasDiv.appendChild(this.canvasDiv);
     
     this.renderedTune.div = this.canvasDiv;
@@ -164,25 +134,10 @@ SITE.PartGen = function( mapa, interfaceParams ) {
         that.fireChanged();
     }, false);
 
-    this.ckConvertToClub.addEventListener("click", function() {
-        SITE.properties.partGen.convertToClub = !!this.checked;
-        that.fireChanged();
-    }, false);
-
-    this.ckConvertFromClub.addEventListener("click", function() {
-        SITE.properties.partGen.convertFromClub = !!this.checked;
-        that.fireChanged();
-    }, false);
-
-    this.ckShowABC.addEventListener("click", function() {
-        SITE.properties.partGen.showABCText = !!this.checked;
-        that.abcDiv.style.display = this.checked ? '' : 'none';
-    }, false);
-
     this.printButton.addEventListener("click", function(evt) {
         evt.preventDefault();
         this.blur();
-        that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#mapaDiv","#partGenDiv"], that.renderedTune.abc.formatting.landscape);
+        that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#mapaDiv","#partEditDiv"], that.renderedTune.abc.formatting.landscape);
     }, false);
 
     this.saveButton.addEventListener("click", function() {
@@ -238,21 +193,15 @@ SITE.PartGen = function( mapa, interfaceParams ) {
 };
 
 
-SITE.PartGen.prototype.setup = function(options) {
+SITE.PartEdit.prototype.setup = function(options) {
     
     this.mapa.closeMapa();
     
     this.accordion.loadById(options.accordionId);
     
-    var toClub = (options.accordionId === 'GAITA_HOHNER_CLUB_IIIM_BR' );
-    var fromClub = (options.accordionId === 'GAITA_MINUANO_GC' );
-    
-    this.convertToClub.style.display = toClub ? 'inline' : 'none';
-    this.convertFromClub.style.display = fromClub ? 'inline' : 'none';
-    
     this.setVisible(true);
     if( this.editorWindow.getString() === "" ) {
-        var text = FILEMANAGER.loadLocal("ultimaTablaturaEditada");
+        var text = FILEMANAGER.loadLocal("ultimaPartituraEditada");
         if( ! text ) {
             text = this.getDemoText();
         }
@@ -285,7 +234,7 @@ SITE.PartGen.prototype.setup = function(options) {
     
 };
 
-SITE.PartGen.prototype.resize = function( ) {
+SITE.PartEdit.prototype.resize = function( ) {
     // redimensiona a workspace
     var winH = window.innerHeight
                 || document.documentElement.clientHeight
@@ -319,7 +268,7 @@ SITE.PartGen.prototype.resize = function( ) {
     this.posicionaTeclado();
 };
 
-SITE.PartGen.prototype.posicionaTeclado = function() {
+SITE.PartEdit.prototype.posicionaTeclado = function() {
     
     if( ! SITE.properties.studio.keyboard.visible ) return;
     
@@ -338,9 +287,9 @@ SITE.PartGen.prototype.posicionaTeclado = function() {
 };
 
 
-SITE.PartGen.prototype.closePartGen = function(save) {
+SITE.PartEdit.prototype.closePartEdit = function(save) {
     var self = this;
-    var loader = this.mapa.startLoader( "ClosePartGen" );
+    var loader = this.mapa.startLoader( "ClosePartEdit" );
     
     loader.start(  function() { 
         var text = self.editorWindow.getString();
@@ -349,14 +298,14 @@ SITE.PartGen.prototype.closePartGen = function(save) {
         self.midiPlayer.stopPlay();
         (save) && SITE.SaveProperties();
         if(text !== "" ) 
-            FILEMANAGER.saveLocal( 'ultimaTablaturaEditada', text );
+            FILEMANAGER.saveLocal( 'ultimaPartituraEditada', text );
         self.mapa.openMapa();
         loader.stop();
     }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
 };
 
 
-SITE.PartGen.prototype.showEditor = function(show) {
+SITE.PartEdit.prototype.showEditor = function(show) {
     SITE.properties.partGen.editor.visible = 
             (typeof show === 'undefined'? ! SITE.properties.partGen.editor.visible : show );
     
@@ -370,7 +319,7 @@ SITE.PartGen.prototype.showEditor = function(show) {
     this.resize();
 };
 
-SITE.PartGen.prototype.showKeyboard = function(show) {
+SITE.PartEdit.prototype.showKeyboard = function(show) {
     SITE.properties.partGen.keyboard.visible = 
             (typeof show === 'undefined'? ! SITE.properties.partGen.keyboard.visible : show );
     
@@ -388,13 +337,27 @@ SITE.PartGen.prototype.showKeyboard = function(show) {
     }
 };
 
-SITE.PartGen.prototype.editorCallback = function (action, elem) {
+SITE.PartEdit.prototype.editorCallback = function (action, elem) {
     switch(action) {
+        case '0': 
+            break;
+        case  '1':  case  '2':  case  '3':  case   '4': case   '5': case '6': 
+        case  '7':  case  '8':  case  '9':  case  '10': case  '11': 
+        case '-1':  case '-2':  case '-3':  case  '-4': case  '-5': case '-6': 
+        case '-7':  case '-8':  case '-9':  case '-10': case '-11': 
+            this.fireChanged( parseInt(action), {force:true} );
+           break;
+        case 'OCTAVEUP': 
+           this.fireChanged(12, {force:true} );
+           break;
+        case 'OCTAVEDOWN': 
+           this.fireChanged(-12, {force:true} );
+           break;
         case 'REFRESH': 
            this.fireChanged();
            break;
         case 'DOWNLOAD': 
-           this.salvaTablatura();
+            this.salvaPartitura();
            break;
         case 'MAXIMIZE': 
             this.editorWindow.maximizeWindow( true, SITE.properties.partGen.editor );
@@ -420,76 +383,70 @@ SITE.PartGen.prototype.editorCallback = function (action, elem) {
     }
 };
 
-SITE.PartGen.prototype.t2pCallback = function( e ) {
+SITE.PartEdit.prototype.a2pCallback = function( e ) {
     switch(e) {
         case 'CLOSE':
-            this.closePartGen(true);
+            this.closePartEdit(true);
             break;
         case 'HELP':
-            this.mapa.showHelp('HelpTitle', 'PartGenTitle', '/diatonic-map/html5/geradorPartitura.pt_BR.html', { width: '1024', height: '600' } );
+            //this.mapa.showHelp('HelpTitle', 'PartEditTitle', '/diatonic-map/html5/geradorPartitura.pt_BR.html', { width: '1024', height: '600' } );
+            alert( 'Not implemented yet!' );
     }
 };
 
-SITE.PartGen.prototype.setVisible = function(  visible ) {
+SITE.PartEdit.prototype.setVisible = function(  visible ) {
     this.Div.parent.style.display = visible?'block':'none';
 };
 
-SITE.PartGen.prototype.fireChanged = function() {
+SITE.PartEdit.prototype.fireChanged = function(transpose) {
     
     var text = this.editorWindow.getString();
     
     if(text !== "" ) {
     
-        FILEMANAGER.saveLocal( 'ultimaTablaturaEditada', text );
+        FILEMANAGER.saveLocal( 'ultimaPartituraEditada', text );
 
-        this.renderedTune.text = this.tabParser.parse(
-            text
-           ,this.accordion.loadedKeyboard
-           ,this.ckConvertToClub.checked
-           ,this.ckConvertFromClub.checked );
-
+        this.parseABC(text, transpose);
+        
         this.printABC();
         
     } else {
         this.editorWindow.container.setSubTitle( "" );
         this.warningsDiv.innerHTML = "";
-        this.abcDiv.innerHTML = "";
         this.renderedTune.div.innerHTML = "";
     }   
 };
 
-SITE.PartGen.prototype.printABC = function() {
+SITE.PartEdit.prototype.parseABC = function(text, transpose) {
     
-    this.abcDiv.innerHTML = this.renderedTune.text.replace(/\n/g,'\<br\>');
-   
-    var warns = this.tabParser.getWarnings();
+    transpose = transpose || 0;
     
-    if(warns) {
-        this.warningsDiv.innerHTML = warns;
-        this.warningsDiv.style.color = 'red';
-    } else {
-        this.warningsDiv.innerHTML = 'Partitura gerada com sucesso!';
-        this.warningsDiv.style.color = 'green';
-    }
+    if (this.transposer)
+        this.transposer.reset(transpose);
+    else
+        this.transposer = new ABCXJS.parse.Transposer(transpose);
     
-    this.parseABC();
-    
-    this.renderedTune.printer = new ABCXJS.write.Printer( new SVG.Printer( this.renderedTune.div) );
-    
-    this.renderedTune.printer.printABC(this.renderedTune.abc);
-    
-    this.media.show(this.renderedTune);
-    
-};
+    var abcParser = new ABCXJS.parse.Parse( this.transposer, this.accordion );
 
-SITE.PartGen.prototype.parseABC = function() {
-    var transposer = null;
-    var abcParser = new ABCXJS.parse.Parse( transposer, this.accordion );
-    
-    abcParser.parse(this.renderedTune.text, this.parserparams );
-    this.renderedTune.abc = abcParser.getTune();
-    
-    this.renderedTune.title = this.renderedTune.abc.metaText.title ;
+    try {
+        abcParser.parse(text, this.parserparams );
+        this.renderedTune.text =  abcParser.getStrTune();
+        
+        if( this.renderedTune.text !== text ) {
+            this.editorWindow.setString(this.renderedTune.text);
+            //FILEMANAGER.saveLocal( 'ultimaPartituraEditada', this.renderedTune.text );
+        }
+            
+        this.renderedTune.abc = abcParser.getTune();
+        this.renderedTune.title = this.renderedTune.abc.metaText.title ;
+        
+        if (this.transposer && this.editorWindow.keySelector) {
+            this.editorWindow.keySelector.populate(this.transposer.keyToNumber(this.transposer.getKeyVoice(0)));
+        }
+    } catch(e) {
+        waterbug.log( 'Could not parse ABC.' );
+        waterbug.show();
+    }
     
     if(this.renderedTune.title)
         this.editorWindow.container.setSubTitle('- ' + this.renderedTune.abc.metaText.title );
@@ -501,7 +458,31 @@ SITE.PartGen.prototype.parseABC = function() {
     }
 };        
 
-SITE.PartGen.prototype.highlight = function(abcelem) {
+SITE.PartEdit.prototype.printABC = function() {
+    
+//    this.abcDiv.innerHTML = this.renderedTune.text.replace(/\n/g,'\<br\>');
+//   
+//    var warns = this.abcParser.getWarnings();
+//    
+//    if(warns) {
+//        this.warningsDiv.innerHTML = warns;
+//        this.warningsDiv.style.color = 'red';
+//    } else {
+//        this.warningsDiv.innerHTML = 'Partitura gerada com sucesso!';
+//        this.warningsDiv.style.color = 'green';
+//    }
+//    
+//    this.parseABC();
+    
+    this.renderedTune.printer = new ABCXJS.write.Printer( new SVG.Printer( this.renderedTune.div) );
+    
+    this.renderedTune.printer.printABC(this.renderedTune.abc);
+    
+    this.media.show(this.renderedTune);
+    
+};
+
+SITE.PartEdit.prototype.highlight = function(abcelem) {
     if(SITE.properties.partGen.editor.visible) {
         this.editorWindow.setSelection(abcelem);
     }    
@@ -512,13 +493,13 @@ SITE.PartGen.prototype.highlight = function(abcelem) {
 };
 
 // limpa apenas a janela de texto. Os demais elementos são controlados por tempo 
-SITE.PartGen.prototype.unhighlight = function(abcelem) {
+SITE.PartEdit.prototype.unhighlight = function(abcelem) {
     if(SITE.properties.partGen.editor.visible) {
         this.editorWindow.clearSelection(abcelem);
     }    
 };
 
-SITE.PartGen.prototype.updateSelection = function (force) {
+SITE.PartEdit.prototype.updateSelection = function (force) {
     return;
     // não é possível, por hora, selecionar o elemento da partitura a partir da tablatura
     var that = this;
@@ -536,7 +517,7 @@ SITE.PartGen.prototype.updateSelection = function (force) {
     }
 };
 
-SITE.PartGen.prototype.keyboardCallback = function( e ) {
+SITE.PartEdit.prototype.keyboardCallback = function( e ) {
     switch(e) {
         case 'MOVE':
             var k = this.keyboardWindow.topDiv.style;
@@ -562,7 +543,7 @@ SITE.PartGen.prototype.keyboardCallback = function( e ) {
     }
 };
 
-SITE.PartGen.prototype.salvaPartitura = function() {
+SITE.PartEdit.prototype.salvaPartitura = function() {
     if (FILEMANAGER.requiredFeaturesAvailable()) {
         var name = this.renderedTune.abc.metaText.title + ".abcx";
         var conteudo = this.renderedTune.text;
@@ -572,18 +553,7 @@ SITE.PartGen.prototype.salvaPartitura = function() {
     }
 };
 
-SITE.PartGen.prototype.salvaTablatura = function() {
-    if (FILEMANAGER.requiredFeaturesAvailable()) {
-        var name = this.renderedTune.abc.metaText.title + ".tab";
-        var conteudo = this.editorWindow.getString();
-        FILEMANAGER.download(name, conteudo);
-    } else {
-        alert(SITE.translator.getResource("err_saving"));
-    }
-};
-
-
-SITE.PartGen.prototype.blockEdition = function( block ) {
+SITE.PartEdit.prototype.blockEdition = function( block ) {
     this.editorWindow.setReadOnly(!block);
     this.editorWindow.container.dispatchAction('READONLY');
     if( block ) {
@@ -594,7 +564,7 @@ SITE.PartGen.prototype.blockEdition = function( block ) {
     }
 };
 
-SITE.PartGen.prototype.startPlay = function( type, value ) {
+SITE.PartEdit.prototype.startPlay = function( type, value ) {
     this.ypos = this.studioCanvasDiv.scrollTop;
     this.lastStaffGroup = -1;
     
@@ -625,7 +595,7 @@ SITE.PartGen.prototype.startPlay = function( type, value ) {
     }
 };
 
-SITE.PartGen.prototype.setScrolling = function(player) {
+SITE.PartEdit.prototype.setScrolling = function(player) {
     if( !this.studioCanvasDiv || player.currAbsElem.staffGroup === this.lastStaffGroup ) return;
     
     this.lastStaffGroup = player.currAbsElem.staffGroup;
@@ -643,23 +613,20 @@ SITE.PartGen.prototype.setScrolling = function(player) {
 
 };
 
-SITE.PartGen.prototype.getDemoText = function() {
-    return "\
-T:Hino do Grêmio\n\
-C:Lupicínio Rodrigues\n\
-C:(adapt. Cezar Ferreira)\n\
-L:1/8\n\
-Q:140\n\
-M:4/4\n\
-K:C\n\
-|: C c       C  c       | G  g  G g | C c       C  c       | G  g G g       |\n\
-|: 9 7'  8   6' 8   7'  |           | 9 7'  8   6' 8   7'  |                |\n\
-|:                      | 7' 5'   z |                      | 7'   z 9   8'  |\n\
-+  2 1.5 0.5 2  1.5 0.5   2  2  2 2   2 1.5 0.5 2  1.5 0.5   2  2 2 1.5 0.5\n\
-\n\
-| C  z   z   A  z   z   | F   f  F f       | C  g       G  g       | C  c C c :|\n\
-| 8'                    |                  | 8'                    | 6'     z :|\n\
-|    10  9'  11 9'  11  | 10' 11 z 9   8'  |    11  9'  7' 8'  9   |          :|\n\
-+ 2  1.5 0.5 2  1.5 0.5   2   2  2 1.5 0.5   2  1.5 0.5 2  1.5 0.5   2  2 2 2\n";
+SITE.PartEdit.prototype.getDemoText = function() {
+    return '\
+X: 1\n\
+T:Oh! Susannah\n\
+F:http://flvani.github.io/diatonic-map/img/susannah.tablatura.png\n\
+M:2/4\n\
+L:1/4\n\
+Q:100\n\
+K:G\n\
+V:melodia treble\n\
+|"C"c c|e/2e/2 -e/2e/2|"G"d/2d/2 B/2G/2|"D7"A3/2G/4A/4|\\\n\
+"G"B/2d/2 d3/4e/4|d/2B/2 G/2A/2|"G"B/2B/2 "D7"A/2A/2|"G"G2 |\n\
+V:baixos bass\n\
+| C, [C,E,G,] | C, z | G,, z | D, z | G,, z | G,, z | D, [D,^F,A,] | G,, z |\n\
+V:tablatura accordionTab';
     
 };

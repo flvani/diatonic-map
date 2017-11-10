@@ -43,7 +43,8 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
                     'Exportar para drive local|EXPORTREPERTOIRE',
                     '---',
                     'Extrair tablatura|PART2TAB',
-                    'Tablatura&nbsp;&nbsp;<i class="ico-open-right"></i> Partitura|TAB2PART'
+                    'Tablatura&nbsp;&nbsp;<i class="ico-open-right"></i> Partitura|TAB2PART',
+                    'ABC&nbsp;&nbsp;<i class="ico-open-right"></i> Partitura|ABC2PART'
                 ]}
            ,{title: 'Informações', ddmId: 'menuInformacoes',
                 itens: [
@@ -100,7 +101,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.currentPlayTimeLabel = document.getElementById(playerParams.currentPlayTimeLabel);
     
     // screen control
-    this.showMediaButton = document.getElementById(interfaceParams.btShowMedia);
+    this.media = new SITE.Media( this.mapDiv, interfaceParams.btShowMedia, { resize: false, useSiteProperties: true} ); 
     this.buttonChangeNotation = document.getElementById(interfaceParams.btChangeNotation);
     this.printButton = document.getElementById(interfaceParams.printBtn);
     this.toolsButton = document.getElementById(interfaceParams.toolsBtn);
@@ -121,10 +122,6 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         that.showSettings();
     }, false );
     
-    this.showMediaButton.addEventListener('click', function () { 
-        that.mediaCallback('OPEN');
-    }, false );
-
     this.buttonChangeNotation.addEventListener("click", function(evt) {
         evt.preventDefault();
         this.blur();
@@ -220,7 +217,7 @@ SITE.Mapa.prototype.resize = function() {
     
     this.tuneContainerDiv.style.height = Math.max(h,200) +"px";
     
-    this.posicionaMidia();
+    this.media.posiciona();
 
 };
 
@@ -246,6 +243,9 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             break;
         case 'TAB2PART':
             this.openTab2Part();
+            break;
+        case 'ABC2PART':
+            this.openABC2Part();
             break;
         case 'JUMPS':
             this.showHelp('HelpTitle', 'JUMPS', '/diatonic-map/html5/sinaisRepeticao.pt_BR.html', { width: '1024', height: '600' } );
@@ -346,7 +346,7 @@ SITE.Mapa.prototype.openMapa = function (newABCText) {
 };
 
 SITE.Mapa.prototype.closeMapa = function () {
-    this.pauseMedia();
+    this.media.pause();
     this.midiPlayer.stopPlay();
     this.setVisible(false);
     
@@ -368,6 +368,40 @@ SITE.Mapa.prototype.openPart2Tab = function () {
         );
     }
     this.part2tab.setup(this.activeTab.text);
+};
+
+SITE.Mapa.prototype.openABC2Part = function () {
+    if( ! this.ABC2part ) {
+        this.ABC2part = new SITE.PartEdit(
+            this
+            ,{   // interfaceParams
+                partEditDiv: 'partEditDiv'
+               ,controlDiv: 'a2pControlDiv-raw' 
+               ,showMapBtn: 'a2pShowMapBtn'
+               ,showEditorBtn: 'a2pShowEditorBtn'
+               ,printBtn:'a2pPrintBtn'
+               ,saveBtn:'a2pSaveBtn'
+               ,updateBtn:'a2pForceRefresh'
+               ,playBtn: "a2pPlayBtn"
+               ,stopBtn: "a2pStopBtn"
+               ,currentPlayTimeLabel: "a2pCurrentPlayTimeLabel"
+               ,generate_tablature: 'accordion'
+               ,accordion_options: {
+                     id: this.accordion.getId()
+                    ,accordionMaps: DIATONIC.map.accordionMaps
+                    ,translator: SITE.translator 
+                    ,render_keyboard_opts:{
+                         transpose:false
+                        ,mirror: false
+                        ,scale:0.8
+                        ,draggable:true
+                        ,show:false
+                        ,label:false
+                    }
+                }
+            });
+    } 
+    this.ABC2part.setup({accordionId: this.accordion.getId()});
 };
 
 SITE.Mapa.prototype.openTab2Part = function () {
@@ -727,7 +761,7 @@ SITE.Mapa.prototype.showTab = function(tabString) {
     
     tab.selector.style.display = 'block';
     
-    this.showMedia(tab);
+    this.media.show(tab);
 };
 
 SITE.Mapa.prototype.showABC = function(action) {
@@ -747,7 +781,7 @@ SITE.Mapa.prototype.showABC = function(action) {
         loader.start(  function() { 
             self.midiPlayer.stopPlay();
             self.renderTAB( tab );
-            self.showMedia( tab );
+            self.media.show( tab );
             self.tuneContainerDiv.scrollTop = 0;    
             loader.stop();
         }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
@@ -881,115 +915,6 @@ SITE.Mapa.prototype.highlight = function(abcelem) {
 //// neste caso não precisa fazer nada pq o texto abcx está escondido
 //SITE.Mapa.prototype.unhighlight = function(abcelem) {
 //};
-
-SITE.Mapa.prototype.mediaCallback = function( e ) {
-    switch(e) {
-        case 'MOVE':
-            var m = this.mediaWindow.topDiv;
-            SITE.properties.mediaDiv.top = m.style.top;
-            SITE.properties.mediaDiv.left = m.style.left;
-            SITE.SaveProperties();
-            break;
-        case 'OPEN':
-            SITE.properties.mediaDiv.visible = true;
-            SITE.SaveProperties();
-            this.mediaWindow.setVisible(true);
-            this.showMediaButton.style.display = 'none';
-            break;
-        case 'CLOSE':
-            this.pauseMedia();
-            SITE.properties.mediaDiv.visible = false;
-            SITE.SaveProperties();
-            this.mediaWindow.setVisible(false);
-            this.showMediaButton.style.display = 'inline';
-            break;
-    }
-    return false;
-};
-
-SITE.Mapa.prototype.pauseMedia = function() {
-    if(!this.mediaWindow) return;
-    var iframe = this.mediaWindow.dataDiv.getElementsByTagName("iframe")[0];
-    if(!iframe) return;
-    iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo", "args":""}', '*');            
-    //iframe.postMessage('{"event":"command","func":"playVideo", "args":""}', '*');            
-};
-
-SITE.Mapa.prototype.showMedia = function(tab) {
-    
-    var url;
-    
-    if(tab.abc && tab.abc.metaText.url ) {
-        url = tab.abc.metaText.url;
-    } 
-    
-    if( ! this.mediaWindow ) {
-        this.mediaWindow = new DRAGGABLE.ui.Window( 
-              this.mapDiv
-            , null
-            , {title: 'showMedia', translator: SITE.translator, statusbar: false
-                , top: SITE.properties.mediaDiv.top
-                , left: SITE.properties.mediaDiv.left
-                , zIndex: 1000} 
-            , {listener: this, method: 'mediaCallback'}
-        );
-    }
-    
-    if(url) {
-        if( window.innerWidth > 1500 )  {
-            SITE.properties.mediaDiv.width = 600;
-            SITE.properties.mediaDiv.height = SITE.properties.mediaDiv.width * 0.55666667;
-        }
-        var embbed = '<iframe width="'
-                +SITE.properties.mediaDiv.width+'" height="'
-                +SITE.properties.mediaDiv.height+'" src="'
-                +url+'?rel=0&amp;showinfo=0&amp;enablejsapi=1" frameborder="0" allowfullscreen="allowfullscreen"></iframe>';
-        
-        this.mediaWindow.dataDiv.innerHTML = embbed;
-        this.mediaWindow.dataDiv.style.width = SITE.properties.mediaDiv.width + 'px'; 
-        this.mediaWindow.dataDiv.style.height = SITE.properties.mediaDiv.height + 'px';
-        this.mediaWindow.dataDiv.style.overflow = 'hidden';
-        
-        this.showMediaButton.style.display = SITE.properties.mediaDiv.visible? 'none' : 'inline';
-        this.mediaWindow.setVisible( SITE.properties.mediaDiv.visible );
-        
-        if( SITE.properties.mediaDiv.visible ) {
-            this.posicionaMidia();
-        } else {
-            this.pauseMedia();
-        }
-    } else {
-        this.pauseMedia();
-        this.mediaWindow.setVisible(false);
-        this.showMediaButton.style.display = 'none';
-    }
-};
-
-// posiciona a janela de mídia, se disponível
-SITE.Mapa.prototype.posicionaMidia = function () {
-
-    if( ! SITE.properties.mediaDiv.visible 
-            || ! this.mediaWindow 
-                || this.mediaWindow.topDiv.style.display === 'none') 
-                        return;
-    
-    var w = window.innerWidth;
-    
-    var k = this.mediaWindow.topDiv;
-    var x = parseInt(k.style.left.replace('px', ''));
-    var xi = x;
-    
-    if( x + k.offsetWidth > w ) {
-        x = (w - (k.offsetWidth + 50));
-    }
-    
-    if(x < 0) x = 10;
-    
-    if( x !== xi ) {
-        SITE.properties.mediaDiv.left = k.style.left = x+"px";
-        SITE.SaveProperties();
-    }
-};
 
 SITE.Mapa.prototype.startLoader = function(id, container, start, stop) {
 
@@ -1225,7 +1150,7 @@ SITE.Mapa.prototype.applySettings = function() {
         this.defineInstrument();
     }
     
-    this.showMedia(this.getActiveTab());
+    this.media.show(this.getActiveTab());
 
     if (this.studio) {
         this.studio.setAutoRefresh(SITE.properties.options.autoRefresh);
