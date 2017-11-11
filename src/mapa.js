@@ -1208,6 +1208,8 @@ SITE.Mapa.prototype.resizeActiveWindow = function() {
        this.studio.resize();
     } else if(this.tab2part && window.getComputedStyle(this.tab2part.Div.parent).display !== 'none') {      
        this.tab2part.resize();
+    } else if(this.ABC2part && window.getComputedStyle(this.ABC2part.Div.parent).display !== 'none') {      
+       this.ABC2part.resize();
     } else if(this.part2tab && window.getComputedStyle(this.part2tab.Div.parent).display !== 'none') {      
        this.part2tab.resize();
     } else {    

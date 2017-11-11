@@ -13,8 +13,6 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
     
     var that = this;
     
-    this.transposer = new ABCXJS.parse.Transposer(0);
-    
     this.Div = new DRAGGABLE.ui.Window( 
           interfaceParams.partEditDiv
         , ['help']
@@ -421,33 +419,32 @@ SITE.PartEdit.prototype.parseABC = function(text, transpose) {
     
     transpose = transpose || 0;
     
-    if (this.transposer)
-        this.transposer.reset(transpose);
-    else
-        this.transposer = new ABCXJS.parse.Transposer(transpose);
+    var transposer = new ABCXJS.parse.Transposer(transpose);
     
-    var abcParser = new ABCXJS.parse.Parse( this.transposer, this.accordion );
+    var abcParser = new ABCXJS.parse.Parse( transposer, this.accordion );
 
     try {
         abcParser.parse(text, this.parserparams );
-        this.renderedTune.text =  abcParser.getStrTune();
+        this.renderedTune.text = abcParser.getStrTune();
         
         if( this.renderedTune.text !== text ) {
             this.editorWindow.setString(this.renderedTune.text);
             //FILEMANAGER.saveLocal( 'ultimaPartituraEditada', this.renderedTune.text );
         }
-            
-        this.renderedTune.abc = abcParser.getTune();
-        this.renderedTune.title = this.renderedTune.abc.metaText.title ;
-        
-        if (this.transposer && this.editorWindow.keySelector) {
-            this.editorWindow.keySelector.populate(this.transposer.keyToNumber(this.transposer.getKeyVoice(0)));
-        }
     } catch(e) {
         waterbug.log( 'Could not parse ABC.' );
         waterbug.show();
     }
-    
+            
+    this.renderedTune.abc = abcParser.getTune();
+    this.renderedTune.title = this.renderedTune.abc.metaText.title ;
+
+    if (this.editorWindow.keySelector) {
+        this.editorWindow.keySelector.populate(transposer.keyToNumber(transposer.getKeyVoice(0)));
+    }
+
+    var warnings = abcParser.getWarnings() || [];
+
     if(this.renderedTune.title)
         this.editorWindow.container.setSubTitle('- ' + this.renderedTune.abc.metaText.title );
     else
@@ -455,7 +452,18 @@ SITE.PartEdit.prototype.parseABC = function(text, transpose) {
 
     if ( this.midiParser ) {
         this.midiParser.parse( this.renderedTune.abc, this.accordion.loadedKeyboard );
+        warnings = warnings.concat(this.midiParser.getWarnings() );
     }
+    
+    if(warnings.length>0) {
+        this.warningsDiv.innerHTML = warnings.join('<br>');
+        this.warningsDiv.style.color = 'red';
+    } else {
+        this.warningsDiv.innerHTML = 'Partitura gerada com sucesso!';
+        this.warningsDiv.style.color = 'green';
+    }
+    
+    
 };        
 
 SITE.PartEdit.prototype.printABC = function() {
@@ -474,16 +482,20 @@ SITE.PartEdit.prototype.printABC = function() {
 //    
 //    this.parseABC();
     
-    this.renderedTune.printer = new ABCXJS.write.Printer( new SVG.Printer( this.renderedTune.div) );
+    this.renderedTune.div.innerHTML = "";
+    
+    this.renderedTune.printer = new ABCXJS.write.Printer( new SVG.Printer( this.renderedTune.div ) );
     
     this.renderedTune.printer.printABC(this.renderedTune.abc);
+    
+    this.renderedTune.printer.addSelectListener(this);
     
     this.media.show(this.renderedTune);
     
 };
 
 SITE.PartEdit.prototype.highlight = function(abcelem) {
-    if(SITE.properties.partGen.editor.visible) {
+    if(SITE.properties.partGen.editor.visible && !this.midiPlayer.playing) {
         this.editorWindow.setSelection(abcelem);
     }    
     if(SITE.properties.partGen.keyboard.visible && !this.midiPlayer.playing) {
@@ -586,7 +598,7 @@ SITE.PartEdit.prototype.startPlay = function( type, value ) {
             this.blockEdition(true);
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
                 this.playButton.title = SITE.translator.getResource("pause");
-                this.playButton.innerHTML =  '<i class="ico-pause"></i>';
+                this.playButton.innerHTML = '&#160;<i class="ico-pause"></i>&#160;';
             }
         } else {
             if( this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value ) ) {

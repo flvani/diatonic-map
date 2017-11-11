@@ -477,6 +477,7 @@ SITE.PartGen.prototype.printABC = function() {
     this.renderedTune.printer = new ABCXJS.write.Printer( new SVG.Printer( this.renderedTune.div) );
     
     this.renderedTune.printer.printABC(this.renderedTune.abc);
+    this.renderedTune.printer.addSelectListener(this);
     
     this.media.show(this.renderedTune);
     
@@ -502,9 +503,10 @@ SITE.PartGen.prototype.parseABC = function() {
 };        
 
 SITE.PartGen.prototype.highlight = function(abcelem) {
-    if(SITE.properties.partGen.editor.visible) {
-        this.editorWindow.setSelection(abcelem);
-    }    
+    // não é possível, por hora, selecionar o elemento da tablatura a partir da partitura
+    //if(SITE.properties.partGen.editor.visible) {
+    //    this.editorWindow.setSelection(abcelem);
+    //}    
     if(SITE.properties.partGen.keyboard.visible && !this.midiPlayer.playing) {
         this.accordion.clearKeyboard(true);
         this.midiParser.setSelection(abcelem);
@@ -616,7 +618,7 @@ SITE.PartGen.prototype.startPlay = function( type, value ) {
             this.blockEdition(true);
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
                 this.playButton.title = SITE.translator.getResource("pause");
-                this.playButton.innerHTML =  '<i class="ico-pause"></i>';
+                this.playButton.innerHTML =  '&#160;<i class="ico-pause"></i>&#160;';
             }
         } else {
             if( this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value ) ) {
