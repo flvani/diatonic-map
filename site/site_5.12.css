@@ -1,0 +1,518 @@
+@media all {
+    .page-break	{ display: none; }
+    .info   	{ display: none; }
+}
+
+@media print {
+    .page-break	{ display: block; page-break-before: always; }
+    .info   	{ display: block; }
+}
+
+body {
+  background: #fff;
+
+}
+
+.tabCifra {
+    border-collapse: collapse;
+    border: 1px solid black;
+    width: 70%;
+    margin: auto;
+}
+
+.tabCifra th, .tabCifra td {
+    border: 1px solid black;
+    width:80px;
+    text-align: center;
+}
+
+.tabCifra th {
+    font-weight: bold;
+}
+
+.btn {
+  border: 1px outset buttonface;
+  color: buttontext;
+  background-color: buttonface;
+  height: 26px;
+  padding: 1px 6px;
+  margin-top: 0px;
+  margin-left: 5px;
+}
+
+.btn:hover { color: #000; }
+.btn:focus{ color: #000; }
+
+.helpTit {
+    font-size: 28px;
+    line-height: 45px;
+    margin-top: 5px;
+    margin-left: 15px;
+    position: relative;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 2px 2px 2px rgba(255,255,255,0.7);
+}    
+
+.helpHeader {
+    background-color: #5ba4a4; 
+    width:100%; 
+    top: 0px; 
+    left: 0px;
+    padding: 0px;
+    position: fixed; 
+    z-index: 1000;
+    min-height: 50px;
+}
+ 
+.helpContent {
+    margin: 10px;
+    padding: 4px;
+    position: relative;
+    float:bottom;
+    top: 50px;
+    left: 0px;
+    right:0; 
+    border: #C0C0C0; 
+    border-style: double; 
+    border-width: 2px; 
+   font-family: sans-serif;
+}
+
+.helpContent h1 {
+  text-align: center;
+  display: block;
+  font-size: 2em;
+  -webkit-margin-before: 0.67em;
+  -webkit-margin-after: 0.67em;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  font-weight: bold;    
+  margin-bottom: 5px;
+}    
+
+
+.helpContent h2 {
+  font-size: 1.5em;
+  text-indent: 50px;
+}    
+    
+.helpContent h3 {
+  text-indent: 50px;
+}    
+.helpContent h4 {
+  text-indent: 50px;
+}    
+.helpContent h5 {
+  text-align:  center;
+  font-family: "Arial";
+  font-size: 1.2em;
+  font-style: italic;
+  margin:0;
+}    
+
+.helpContent p {
+  text-indent: 50px;
+  text-align: justify;
+  
+}
+
+.helpContent pre {
+  margin-left: 50px;
+}
+
+.helpContent li {
+  margin-left: 50px;
+  font-style: italic;
+}
+
+.legenda {
+  text-align:  left;
+  font-style: italic;
+  text-align: center;
+  font-size: 12px;
+}
+
+pre {
+  font-size: 13px;
+}
+
+/*
+
+.helpContainer {
+    margin: 10px;
+    position: fixed;
+    top: 50px;
+    width: 1024px; 
+    height: 100%;
+    border: #C0C0C0; 
+    border-style: double; 
+    border-width: 2px; 
+}
+
+.helpFrame {
+    position: fixed;
+    top: 50px;
+    margin: 10px;
+    padding:8px;
+    width: 98%; 
+   font-family: sans-serif;
+    //font-size: 18px;
+}*/
+
+.customScrollBar::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+ 
+.customScrollBar::-webkit-scrollbar-track {
+    -moz-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+.customScrollBar::-webkit-scrollbar-thumb {
+  background-color: rgba(255,0,0,0.8);
+  background-color: rgba(255, 153, 34, 0.8);
+  outline: 1px solid slategrey;
+} 
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 09/05/2017, 16:58:41 atualizado
+    Author     : Flávio Vani 
+*/
+
+html {
+    height: calc( 100% - 75px);
+}
+
+body {
+    font-family: 'Arial';
+    font-size: 16px;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    padding-top: 75px;  
+    
+    overflow: auto;
+    
+    /* inicio - evita que textos fiquem selecionáveis */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    /* fim - evita que textos fiquem selecionáveis */
+    /*
+    background:url("../images/background.fole.png");
+    background-repeat: repeat;
+    background-size:  100%, 100%;
+    background-origin: content-box;
+    background-color: #ededed;
+    */
+    background-color: white;
+}
+    
+.topSettings {
+    position:absolute; 
+    top:10px; 
+    right:20px; 
+    font-size: 50px;
+    color: #dab390;
+}    
+
+.oldVersion {
+    position:absolute; 
+    top:60px; 
+    right:10px; 
+    font-size: 14px;
+    color: #dab390;
+    text-decoration: none;
+}    
+
+
+.oldVersion:hover,
+.topSettings:hover {
+    color:#ff9922;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    cursor:pointer;
+}    
+
+.topBar {
+    z-index: 100;
+    position: fixed;
+    display: block;
+    top: 0; 
+    left: 0;
+    min-height: 70px;
+    min-width: 640px;
+    width: 100%;
+
+    padding: 0;
+    padding-top: 4px;
+    padding-left: 5px;
+    box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
+    -webkit-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
+    -moz-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
+    -ms-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
+    -o-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
+    
+}
+
+.gradiente {
+    background: -moz-linear-gradient(left, #003050 0%, black 100%);
+    background: -webkit-linear-gradient(left, #003050 0%, black 100%);
+    background: -o-linear-gradient(left, #003050 0%, black 100%);
+    background: -ms-linear-gradient(left, #003050 0%, black 100%);
+    background: linear-gradient(left, #003050 0%, black 100%);
+    color: orange;
+    color: #ff9922;
+    cursor:default;
+}
+
+.topTitle {
+    position: relative;
+    float: left;
+    width: 100%;
+    font-family: 'titleFont';
+    font-weight: normal;
+    font-size: 28px;
+    text-align: left;
+    line-height: 34px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-top: 4px;
+    margin-bottom: 4px;
+    color: orange;
+    color: #ff9922;
+
+}
+
+.topMenu {
+    position: relative;
+    float: left;
+    display: anything;
+    border: none;
+    background: none;
+    margin-top: 0px;
+}
+
+.mapaDiv {
+    position:absolute;
+    display: block;
+    top: 75px;
+    width: auto;
+    height: auto;
+    z-index: 50;
+    margin-left: 2px;
+}
+
+.keyboardContainerStyle {
+    position: relative; 
+    top: 0; 
+    left: 0; 
+    padding-right: 130px; 
+    padding-bottom: 10px; 
+    min-height: 180px; 
+    height: auto; 
+    width: auto;
+}
+
+.accordionImageStyle {
+    position: absolute; 
+    top: 0; 
+    right: 0; 
+    margin-right: 15px;
+}
+
+.abcxVersionStyle {
+    position: absolute; 
+    bottom: 2px; 
+    right: 5px;
+    color: rgba(0,0,0,0.8); 
+    font-family: 'abcFont'; 
+    font-size:12px; 
+}
+
+.menu-group {
+    margin:20px;
+}
+
+
+.btn-group b,
+.btn-group label,
+.btn-group button,
+.btn-group input[type="text"] {
+    color: black;
+    border-color: lightgray;
+    color: red;
+    border-color: lightpink;
+}
+
+
+.btn-group input[type="text"] {
+    margin-top:0px;
+    font-family: "menuFont";
+}
+
+.btn-group button:hover {
+    background-color: lavenderblush;
+}
+
+.dropdown-menu .hover {
+    background-color: #ff3a3a;
+    background-color: #D4482D;
+}
+
+.dButton > a { color: #dab390; text-decoration: none }
+.dButton > a { color: white; text-decoration: none }
+
+
+.dropdown-menu .selected {
+    background:  #6E2518 !important;
+}
+ 
+
+.tips {
+   z-index: 1000;
+   position: absolute;
+   display: none;
+   right: 0px;
+   bottom: 0px;
+   min-height: 20px;
+   min-width: 400px;
+   margin:5px;
+   padding:15px;
+   border-radius: 5px;
+   border: 1px solid red;
+   background-color: rgba(255,0,0,0.5 );
+   color: white;
+   font-family: abcFont;
+   font-size: 20px;
+}
+
+.tips a,
+.tips a:hover {
+    color: white;
+    text-decoration: none; 
+}
+
+.tips a:hover {
+    font-weight: bold;
+}
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 07/04/2015, 19:06:40
+*/
+
+.printPreviewClass {
+    position:absolute;
+    display:none;
+    top:0;
+    left:0;
+    margin: 0;
+    padding: 0;
+    width:100%; 
+    height: 100%; 
+    background-color: #fff;
+    z-index: 1000;
+}
+
+.studioDiv {
+    position: absolute;
+    display:none;
+    left: 0;
+    top: 78px;
+    width: 100%;
+    height: auto;
+    z-index: 50;
+}
+
+.controlDiv {
+    clear:both;
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    padding: 3px;
+    /* font-size: 15px; */
+    width: inherit;
+    height: auto;
+    background-color: #dadada;
+    background-color: #e9edf0;
+    border-bottom: 1px solid rgba(255, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 153, 34, 0.2);
+/*
+    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
+    -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
+    -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
+    -ms-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
+    -o-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
+    */
+}
+
+.warningsDiv {
+    clear:both;
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    padding: 3px;
+    padding-left: 13px;
+    /* font-size: 15px; */
+    width: inherit;
+    height: auto;
+    background-color: #dadada;
+    background-color: #e9edf0;
+    border-bottom: 1px solid rgba(255, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 153, 34, 0.2);
+}
+
+.studioCanvasDiv {
+    clear:both;
+    position: relative;
+    display: block;
+    margin: 0px;
+    /*
+    margin-top: 6px;
+    margin-left: 4px;
+    */
+    width: auto;
+    height: auto;
+    overflow-y: auto;
+    background-color: #e9edf0;
+}
+
+
+.canvasDiv {
+    clear:both;
+    position: relative;
+    display: inline-block;
+    padding: 3px;
+    margin: 4px;
+    border: 1px solid rgba(159,159,159,0.2);
+    background-color: #f1f1dd; 
+    background-color: honeydew; 
+    background-color: ivory; 
+    background-color: aliceblue; 
+    background-color: azure; 
+    background-color: mintcream; 
+    width: auto;
+    height: auto;
+    min-width: 1024px; 
+    box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
+    -webkit-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
+    -moz-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
+    -ms-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
+    -o-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
+}
+
+.btn-subgroup {
+    display: inline-block;
+    float:left;
+}
