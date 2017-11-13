@@ -1,0 +1,28 @@
+%%barnumbers 0
+%%papersize A4
+%%barsperstaff 6
+T:Chorando se foi (completa)
+T:Llorando se fue
+C:Versão Márcia Ferreira & José Ari
+C:Ulisses & Gonzalo Hermosa
+A:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+%F:https://www.youtube-nocookie.com/embed/ZBDMy--WY3A
+F:https://www.youtube-nocookie.com/embed/52wVqqlXBmg
+L:1/8
+Q:110
+M:2/4
+K:Am
+V:1 treble
+|: e3 d | cB A z | Ac BA | GA GD | E4- | E3 z :| 
+|: E/2[CA] [CA]/2[CA] z | E/2[CA] [CA]/2[CA] z | G/2[Ec] [Ec]/2[Ec] z | G/2[Ec] [Ec]/2[Ec] z :| 
+|: dd dc | F2 FA | e2 dc | F2 Fc | B2 AG | G2 AG | A4- | A z3 :| 
+V:2 bass
+|: A,,[A,CE] z [A,CE] | A,,[A,CE] z [A,CE] | F,,[F,A,C] z [F,A,C] | G,,[G,B,D] z [G,B,D] | C,,[C,E,G,] z [C,E,G,] | C,,[C,E,G,] z [C,E,G,] :| 
+|: A,,[A,CE] z [A,CE] | A,,[A,CE] z [A,CE] | C,,[C,E,G,] z [C,E,G,] | C,,[C,E,G,] z [C,E,G,] :| 
+|: D,,[F,A,C] z [F,A,C] | D,,[F,A,C] z [F,A,C] | D,,[F,A,C] z [F,A,C] | D,,[F,A,C] z [F,A,C] | G,,[G,B,D] z [G,B,D] | G,,[G,B,D] z [G,B,D] | A,,[A,CE] z [A,CE] | A,,[E,^G,B,] z [E,^G,B,] :| 
+V:3 accordionTab
+|: A-9 a-> z-> a-7' | A-8 a-6' z-7 a-z | F-7 f-8 z-6' f-7 | G-5' g-7 z-5' g-3' | C+4' c+> z+> c+> | C+> c+> z+> c+z :| 
+|: A-50.5 >-[47]0.5 a-[>>]0.5 >-[47]0.5 z-[47] a-z | A-50.5 >-[47]0.5 a-[>>]0.5 >-[47]0.5 z-[47] a-z | C+60.5 >+[4'6']0.5 c+[>>]0.5 >+[4'6']0.5 z+[4'6'] c+z | C+60.5 >+[4'6']0.5 c+[>>]0.5 >+[4'6']0.5 z+[4'6'] c+z :| 
+|: D-7' f-7' z-7' f-8 | D-4' f-> z-4' f-7 | D-9 f-> z-7' f-8 | D-4' f-> z-4' f-8 | G-6' g-> z-7 g-5' | G-5' g-> z-7 g-5' | A-7 a-> z-> a-> | A-> e+z z+z e+z :|
