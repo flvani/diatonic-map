@@ -434,14 +434,15 @@ SITE.Media = function( parent, btShowMedia, opts ) {
 SITE.Media.prototype.callback = function( e ) {
     switch(e) {
         case 'RESIZE':
+            var d = this.mediaWindow.menuDiv.clientHeight + (this.mediaWindow.bottomBar? this.mediaWindow.bottomBar.clientHeight : 0 );
             this.mediaWindow.dataDiv.style.width = this.mediaWindow.topDiv.clientWidth + 'px';
-            this.mediaWindow.dataDiv.style.height = (this.mediaWindow.topDiv.clientHeight - this.mediaWindow.menuDiv.clientHeight ) + 'px';
+            this.mediaWindow.dataDiv.style.height = (this.mediaWindow.topDiv.clientHeight - d ) + 'px';
             
             if(this.youTubeURL) {
                 var h = (this.mediaWindow.topDiv.clientWidth*this.proportion);
                 this.embed.style.height = h + 'px';
                 this.mediaWindow.dataDiv.style.height =  h + 'px';
-                this.mediaWindow.topDiv.style.height = (h + this.mediaWindow.menuDiv.clientHeight ) + 'px';
+                this.mediaWindow.topDiv.style.height = (h + d ) + 'px';
             }
             break;
         case 'MOVE':
@@ -509,6 +510,7 @@ SITE.Media.prototype.show = function(tab) {
             contentPane.style.height = SITE.properties.mediaDiv.height + 'px';
 
             this.youTubeURL = (url.match(/www.youtube-nocookie.com/g)!== null);
+            
             if( this.youTubeURL ) {
                 embed = '<iframe id="e'+ this.mediaWindow.id +
                             '" src="'+url+'?rel=0&amp;showinfo=0&amp;enablejsapi=1" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>';
@@ -530,10 +532,14 @@ SITE.Media.prototype.show = function(tab) {
             
             this.mediaWindow.setVisible( !this.useSiteProperties || SITE.properties.mediaDiv.visible );
             
-            
         }
         
         if( !this.useSiteProperties || SITE.properties.mediaDiv.visible ) {
+            // ajusta o altura quando a janela está visisivel
+            this.mediaWindow.topDiv.style.height = SITE.properties.mediaDiv.height 
+                                                + this.mediaWindow.menuDiv.clientHeight
+                                                + (this.mediaWindow.bottomBar? this.mediaWindow.bottomBar.clientHeight : 0 ) + 'px';
+                                        
             this.posiciona();
         } else {
             this.pause();
