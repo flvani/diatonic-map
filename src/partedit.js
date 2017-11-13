@@ -23,8 +23,6 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
     this.Div.setVisible(true);
     this.Div.dataDiv.style.overflow = 'hidden';
     
-    this.media = new SITE.Media( this.Div.dataDiv, null, { resize: true} ); 
-    
     this.midiParser = new ABCXJS.midi.Parse();
     this.midiPlayer = new ABCXJS.midi.Player(this);
     
@@ -57,6 +55,16 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
     );
     this.editorWindow.setVisible(false);
     
+    this.controlDiv = document.createElement("DIV");
+    this.controlDiv.setAttribute("id", 'a2pcontrolDiv' );
+    this.controlDiv.setAttribute("class", 'controlDiv btn-group' );
+    this.Div.dataDiv.appendChild(this.controlDiv);
+    
+    this.controlDiv.innerHTML = document.getElementById(interfaceParams.controlDiv).innerHTML;
+    document.getElementById(interfaceParams.controlDiv).innerHTML = "";
+    
+    this.media = new SITE.Media( this.Div.dataDiv, interfaceParams.btShowMedia, { resize: true} ); 
+    
     this.keyboardWindow = new DRAGGABLE.ui.Window( 
         this.Div.dataDiv
        ,[ 'move', 'rotate', 'zoom', 'globe']
@@ -75,14 +83,6 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
        ,scale: SITE.properties.partGen.keyboard.scale
        ,label: SITE.properties.partGen.keyboard.label
     });
-    
-    this.controlDiv = document.createElement("DIV");
-    this.controlDiv.setAttribute("id", 'a2pcontrolDiv' );
-    this.controlDiv.setAttribute("class", 'controlDiv btn-group' );
-    this.Div.dataDiv.appendChild(this.controlDiv);
-    
-    this.controlDiv.innerHTML = document.getElementById(interfaceParams.controlDiv).innerHTML;
-    document.getElementById(interfaceParams.controlDiv).innerHTML = "";
     
     this.warningsDiv = document.createElement("DIV");
     this.warningsDiv.setAttribute("id", warnings_id);

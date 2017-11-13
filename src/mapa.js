@@ -384,6 +384,7 @@ SITE.Mapa.prototype.openABC2Part = function () {
                ,updateBtn:'a2pForceRefresh'
                ,playBtn: "a2pPlayBtn"
                ,stopBtn: "a2pStopBtn"
+               ,btShowMedia: 'a2pbuttonShowMedia'
                ,currentPlayTimeLabel: "a2pCurrentPlayTimeLabel"
                ,generate_tablature: 'accordion'
                ,accordion_options: {
@@ -419,6 +420,7 @@ SITE.Mapa.prototype.openTab2Part = function () {
                ,playBtn: "t2pPlayBtn"
                ,stopBtn: "t2pStopBtn"
                ,currentPlayTimeLabel: "t2pCurrentPlayTimeLabel"
+               ,btShowMedia: 't2pbuttonShowMedia'
                ,ckShowABC:'ckShowABC'
                ,ckConvertToClub:'ckConvertToClub'
                ,ckConvertFromClub:'ckConvertFromClub'

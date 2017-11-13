@@ -169,7 +169,7 @@ SITE.Media.prototype.show = function(tab) {
             
             
             if(this.showMediaButton)
-                this.showMediaButton.style.display = SITE.properties.mediaDiv.visible? 'none' : 'inline';
+                this.showMediaButton.style.display = (!this.useSiteProperties || SITE.properties.mediaDiv.visible )? 'none' : 'inline';
             
             this.mediaWindow.setVisible( !this.useSiteProperties || SITE.properties.mediaDiv.visible );
             

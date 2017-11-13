@@ -24,8 +24,6 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     this.Div.setVisible(true);
     this.Div.dataDiv.style.overflow = 'hidden';
     
-    this.media = new SITE.Media( this.Div.dataDiv, null, { resize: true} ); 
-    
     this.midiParser = new ABCXJS.midi.Parse();
     this.midiPlayer = new ABCXJS.midi.Player(this);
     
@@ -67,6 +65,16 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     this.editorWindow.container.setButtonVisible( 'OCTAVEDOWN', false);
     this.editorWindow.keySelector.setVisible(false);
     this.editorWindow.showHiddenChars(true);
+    
+    this.controlDiv = document.createElement("DIV");
+    this.controlDiv.setAttribute("id", 't2pcontrolDiv' );
+    this.controlDiv.setAttribute("class", 'controlDiv btn-group' );
+    this.Div.dataDiv.appendChild(this.controlDiv);
+    
+    this.controlDiv.innerHTML = document.getElementById(interfaceParams.controlDiv).innerHTML;
+    document.getElementById(interfaceParams.controlDiv).innerHTML = "";
+
+    this.media = new SITE.Media( this.Div.dataDiv,  interfaceParams.btShowMedia, { resize: true} ); 
 
     this.keyboardWindow = new DRAGGABLE.ui.Window( 
         this.Div.dataDiv
@@ -86,14 +94,6 @@ SITE.PartGen = function( mapa, interfaceParams ) {
        ,scale: SITE.properties.partGen.keyboard.scale
        ,label: SITE.properties.partGen.keyboard.label
     });
-    
-    this.controlDiv = document.createElement("DIV");
-    this.controlDiv.setAttribute("id", 't2pcontrolDiv' );
-    this.controlDiv.setAttribute("class", 'controlDiv btn-group' );
-    this.Div.dataDiv.appendChild(this.controlDiv);
-    
-    this.controlDiv.innerHTML = document.getElementById(interfaceParams.controlDiv).innerHTML;
-    document.getElementById(interfaceParams.controlDiv).innerHTML = "";
     
     this.warningsDiv = document.createElement("DIV");
     this.warningsDiv.setAttribute("id", warnings_id);
