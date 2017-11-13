@@ -63,7 +63,6 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
        ,{title: '', translator: SITE.translator, statusbar: false
             , top: SITE.properties.partGen.keyboard.top
             , left: SITE.properties.partGen.keyboard.left
-            , zIndex: 100
        } 
       ,{listener: this, method: 'keyboardCallback'}
     );

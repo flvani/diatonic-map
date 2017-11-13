@@ -491,13 +491,19 @@ and open the template in the editor.
     background: #F1F1F1;
     pointer-events: auto;
     overflow: hidden;
-    
+    outline: none;
+
     box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -webkit-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -moz-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -ms-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -o-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
 }
+
+.draggableWindow:focus {
+    outline: 0px solid transparent;
+}
+
 .noShadow {
     box-shadow: none;
     -webkit-box-shadow: none;

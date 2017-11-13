@@ -58,7 +58,6 @@ SITE.TabGen = function( mapa, interfaceParams ) {
         }
     );
     this.abcEditorWindow.setVisible(true);
-    
     this.abcEditorWindow.container.setButtonVisible( 'CLOSE', false);
     this.abcEditorWindow.container.setButtonVisible( 'DOWNLOAD', false);
     this.abcEditorWindow.container.setButtonVisible( 'OCTAVEUP', false);
@@ -75,11 +74,11 @@ SITE.TabGen = function( mapa, interfaceParams ) {
         }
     );
     this.tabEditorWindow.setVisible(true);
-    
     this.tabEditorWindow.container.setButtonVisible( 'CLOSE', false);
     this.tabEditorWindow.container.setButtonVisible( 'DOWNLOAD', false);
     this.tabEditorWindow.container.setButtonVisible( 'OCTAVEUP', false);
     this.tabEditorWindow.container.setButtonVisible( 'OCTAVEDOWN', false);
+    this.tabEditorWindow.container.setButtonVisible( 'REFRESH', false);
     this.tabEditorWindow.keySelector.setVisible(false);
     
     this.saveButton = document.getElementById(interfaceParams.saveBtn);
@@ -112,6 +111,7 @@ SITE.TabGen.prototype.setup = function(abcText) {
     
     this.setVisible(true);
     this.abcEditorWindow.setString(abcText);
+        this.abcEditorWindow.container.dispatchAction('READONLY');
     
     if(SITE.properties.tabGen.abcEditor.floating) {
         if( SITE.properties.tabGen.abcEditor.maximized ) {

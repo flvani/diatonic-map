@@ -58,7 +58,6 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
        ,{title: '', translator: SITE.translator, statusbar: false
             , top: SITE.properties.studio.keyboard.top
             , left: SITE.properties.studio.keyboard.left
-            , zIndex: 100
        } 
       ,{listener: this, method: 'keyboardCallback'}
     );

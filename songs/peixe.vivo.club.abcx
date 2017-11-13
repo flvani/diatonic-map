@@ -1,0 +1,23 @@
+X:2025
+%%barnumbers 1
+%%papersize A4
+T:Peixe Vivo (club)
+C:Tradicional
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:2/4
+L:1/8
+Q:90
+K:F
+V:1 treble
+| z2 Ac |: +segno+ cB Bd | dc Ac | cB GB |1 BA Ac :|
+|2 BA  z F/2F/2 | d3/2e/2 f3/2e/2 | dc z F/2F/2 |  d3/2e/2 f3/2e/2 | dc Ac |
+|: cB  Bd | dc Ac | cB GB |1 BA Ac :|2 BA Ac +D.S.+ |
+V:2 bass
+| z4 |: C,,1.5[C,E,G,]0.5 C,,[C,E,G,] | F,,1.5[F,A,C]0.5 F,,[F,A,C] | C,,1.5[C,E,G,]0.5 C,,[C,E,G,] |1 F,,1.5[F,A,C]0.5 F,,[F,A,C] :|
+|2 F,,1.5[F,A,C]0.5 F,,[F,A,C] | B,,1.5[B,DF]0.5 B,,[B,DF] | F,,1.5[F,A,C]0.5 F,,[F,A,C] | B,,1.5[B,DF]0.5 B,,[B,DF] | F,,1.5[F,A,C]0.5 F,,[F,A,C] |
+|: C,,1.5[C,E,G,]0.5 C,,[C,E,G,] | F,,1.5[F,A,C]0.5 F,,[F,A,C] | C,,1.5[C,E,G,]0.5 C,,[C,E,G,] |1 F,,1.5[F,A,C]0.5 F,,[F,A,C] :|2  F,,1.5[F,A,C]0.5 F,,[F,A,C] |
+V:3 accordionTab
+| z+z2 z+5' z+6' |: C-6' >-5'0.5 c->0.5 C-5' c-8 | F+5'' >+6'0.5 f+>0.5 F+5' f+6' | C-6' >-5'0.5 c->0.5 C-4' c-5' |1 F+2'' >+5'0.5 f+>0.5 F+5' f+6' :|
+|2 F+2'' >+5'0.5 f+>0.5 F+z f+4'0.5 >+4'0.5 | B♭-81.5 b♭-7'0.5 B♭-9 b♭->0.5 >-7'0.5 | F+5'' >+6'0.5 f+>0.5 F+z f+4'0.5 >+4'0.5 | B♭-81.5 b♭-7'0.5 B♭-9 b♭->0.5 >-7'0.5 | F+5'' >+6'0.5 f+>0.5 F+5' f+6' |
+|: C-6' >-5'0.5 c->0.5 C-5' c-8 | F+5'' >+6'0.5 f+>0.5 F+5' f+6' | C-6' >-5'0.5 c->0.5 C+6 c-5' |1 F+2'' >+5'0.5 f+>0.5 F+5' f+6' :|2 F+2'' >+5'0.5 f+>0.5 F+5' f+6' |

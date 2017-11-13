@@ -31,9 +31,44 @@ SITE.Media = function( parent, btShowMedia, opts ) {
               , statusbar: options.resize || false
               , top: SITE.properties.mediaDiv.top
               , left: SITE.properties.mediaDiv.left
-              , zIndex: 1000} 
+              , zIndex: options.zIndex } 
           , {listener: this, method: 'callback'}
     );
+    
+    /* EMBRIAO DO QUE SERÁ MEDIA COM MULTIPLAS ABAS */
+    
+    
+//    var a = document.createElement('div');
+//    a.style.cssText = 'position:absolute; left:0; top:100%;';
+//    a.className='tabs';
+//    this.mediaWindow.topDiv.appendChild(a);
+//    this.mediaWindow.topDiv.style.overflow = 'visible';
+//
+//    this.mediaWindow.dataDiv.innerHTML = '\n\
+//        <div id="c" class="tv-content customScrollBar">\n\
+//            <div class="tv-content-1">\n\
+//                <div id="c1" ></div>\n\
+//            </div>\n\
+//            <div class="tv-content-2" >\n\
+//                <div id="c2" ></div>\n\
+//            </div>\n\
+//            <div class="tv-content-3">\n\
+//                <div id="c3"></div>\n\
+//            </div>\n\
+//        </div>\n\
+//';
+//    a.innerHTML = '\n\
+//        <input id="t1" type="radio" name="mediaControl" class="tab-selector-1" />\n\
+//        <label for="t1" class="tab-label-1" >V1</label>\n\
+//\n\
+//        <input id="t2" type="radio" name="mediaControl" class="tab-selector-2" />\n\
+//        <label for="t2" class="tab-label-2" >V2</label>\n\
+//\n\
+//        <input id="t3" type="radio" name="mediaControl" class="tab-selector-3" />\n\
+//        <label for="t3" class="tab-label-3" >v3</label>\n\
+//';
+//    
+//    this.mediaWindow.c1 = document.getElementById( 'c1');
     
 };
 
@@ -94,6 +129,9 @@ SITE.Media.prototype.show = function(tab) {
     
     var url, embed;
     
+    var contentPane = this.mediaWindow.dataDiv;
+    //var contentPane = this.mediaWindow.c1;
+    
     if(tab.abc && tab.abc.metaText.url ) {
         url = tab.abc.metaText.url;
     } 
@@ -108,20 +146,20 @@ SITE.Media.prototype.show = function(tab) {
                 SITE.properties.mediaDiv.height = SITE.properties.mediaDiv.width * this.proportion;
             }
             
-            this.mediaWindow.dataDiv.style.width = SITE.properties.mediaDiv.width + 'px'; 
-            this.mediaWindow.dataDiv.style.height = SITE.properties.mediaDiv.height + 'px';
+            contentPane.style.width = SITE.properties.mediaDiv.width + 'px'; 
+            contentPane.style.height = SITE.properties.mediaDiv.height + 'px';
 
             this.youTubeURL = (url.match(/www.youtube-nocookie.com/g)!== null);
             if( this.youTubeURL ) {
                 embed = '<iframe id="e'+ this.mediaWindow.id +
                             '" src="'+url+'?rel=0&amp;showinfo=0&amp;enablejsapi=1" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>';
-                this.mediaWindow.dataDiv.style.overflow = 'hidden';
+                contentPane.style.overflow = 'hidden';
             } else {
                 embed = '<embed id="e'+ this.mediaWindow.id +'" src="'+url+'" "></embed>';
-                this.mediaWindow.dataDiv.style.overflow = 'auto';
+                contentPane.style.overflow = 'auto';
             } 
             
-            this.mediaWindow.dataDiv.innerHTML = embed;
+            contentPane.innerHTML = embed;
             this.embed = document.getElementById('e' + this.mediaWindow.id);
             
             this.embed.style.width = '100%';
@@ -132,6 +170,8 @@ SITE.Media.prototype.show = function(tab) {
                 this.showMediaButton.style.display = SITE.properties.mediaDiv.visible? 'none' : 'inline';
             
             this.mediaWindow.setVisible( !this.useSiteProperties || SITE.properties.mediaDiv.visible );
+            
+            
         }
         
         if( !this.useSiteProperties || SITE.properties.mediaDiv.visible ) {

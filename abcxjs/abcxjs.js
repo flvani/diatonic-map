@@ -10288,6 +10288,8 @@ if (!ABCXJS.edit)
 
 ABCXJS.edit.EditArea = function (editor_id, callback, options ) {
     
+    var self = this;
+    
     options = options? options : {};
     
     this.parentCallback = callback;
@@ -10361,6 +10363,16 @@ ABCXJS.edit.EditArea = function (editor_id, callback, options ) {
     this.restartUndoManager();
     this.createStyleSheet();
     
+    this.aceEditor.on("focus", function() { 
+        self.aceEditor.focus(); 
+        self.container.focus(); 
+    });
+    
+    this.aceEditor.on("blur", function() { 
+        self.aceEditor.blur(); 
+        self.container.blur(); 
+    });
+
     if(callback.listener)
         this.addChangeListener(callback.listener);
 };
@@ -10597,7 +10609,7 @@ ABCXJS.edit.EditArea.prototype.setToolBarVisible = function (visible) {
 };
 
 ABCXJS.edit.EditArea.prototype.setVisible = function (visible) {
-    this.container.topDiv.style.display = visible ? 'block' : 'none';
+    this.container.setVisible(visible);
 };
 
 ABCXJS.edit.EditArea.prototype.resize = function () {
@@ -12271,9 +12283,37 @@ DRAGGABLE.ui.Window = function( parent, aButtons, options, callback, aToolBarBut
         self.topDiv.style.display='none';
     };
     
+    this.focus = function(e) {
+        if(self.draggable)
+            self.topDiv.style.zIndex = self.zIndex+1000;
+        //waterbug.log(self.topDiv.id + ' ' + self.topDiv.style.zIndex);
+        //waterbug.show();
+    };
+    
+    this.blur = function(e) {
+        self.topDiv.style.zIndex = self.zIndex;
+        //waterbug.log(self.topDiv.id + ' ' + self.topDiv.style.zIndex);
+        //waterbug.show();
+    };
+    
     this.addButtons( this.id, aButtons );
     this.addToolButtons( this.id, aToolBarButtons );
     this.addTitle( this.id, this.title );
+    
+    this.topDiv.tabIndex = this.id;
+
+
+    this.topDiv.addEventListener( 'focus', function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        self.focus();
+    }, false );
+    
+    this.topDiv.addEventListener( 'blur', function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+        self.blur();
+    }, false );
     
 };
 
@@ -12295,6 +12335,8 @@ DRAGGABLE.ui.Window.prototype.setSize = function( width, height ) {
 
 DRAGGABLE.ui.Window.prototype.setVisible = function( visible ) {
     this.topDiv.style.display=(visible? 'block':'none');
+    (visible) && this.focus();
+
 };
 
 DRAGGABLE.ui.Window.prototype.setToolBarVisible = function (visible) {
@@ -12325,7 +12367,7 @@ DRAGGABLE.ui.Window.prototype.setButtonVisible = function( action, visible ) {
 DRAGGABLE.ui.Window.prototype.setFloating = function (floating) {
     this.draggable = floating;
     
-    this.topDiv.style.zIndex = this.draggable? this.zIndex+1: this.zIndex;
+    //this.topDiv.style.zIndex = this.draggable? this.zIndex+1: this.zIndex;
 
     if( this.draggable ) {
         this.topDiv.className = "draggableWindow";
@@ -12334,10 +12376,12 @@ DRAGGABLE.ui.Window.prototype.setFloating = function (floating) {
         }
         this.minTop = 1; // ver isso
         this.minLeft = 1; // ver isso
+        this.focus();
     } else {
         this.topDiv.className = "draggableWindow noShadow";
         this.topDiv.style.position = "relative";
         this.topDiv.style.margin = "1px";
+        this.blur();
     }
 };
 
