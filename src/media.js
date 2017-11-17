@@ -8,6 +8,7 @@ if (!window.SITE)
     window.SITE = {};
 
 SITE.Media = function( parent, btShowMedia, opts ) {
+    var that = this;
     var options = opts || {};
     
     this.Div = parent || null;
