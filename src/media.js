@@ -8,9 +8,7 @@ if (!window.SITE)
     window.SITE = {};
 
 SITE.Media = function( parent, btShowMedia, opts ) {
-    var that = this;
     var options = opts || {};
-    
     
     this.Div = parent || null;
     this.proportion = 0.55666667;
@@ -34,41 +32,6 @@ SITE.Media = function( parent, btShowMedia, opts ) {
               , zIndex: options.zIndex } 
           , {listener: this, method: 'callback'}
     );
-    
-    /* EMBRIAO DO QUE SERÁ MEDIA COM MULTIPLAS ABAS */
-    
-    
-//    var a = document.createElement('div');
-//    a.style.cssText = 'position:absolute; left:0; top:100%;';
-//    a.className='tabs';
-//    this.mediaWindow.topDiv.appendChild(a);
-//    this.mediaWindow.topDiv.style.overflow = 'visible';
-//
-//    this.mediaWindow.dataDiv.innerHTML = '\n\
-//        <div id="c" class="tv-content customScrollBar">\n\
-//            <div class="tv-content-1">\n\
-//                <div id="c1" ></div>\n\
-//            </div>\n\
-//            <div class="tv-content-2" >\n\
-//                <div id="c2" ></div>\n\
-//            </div>\n\
-//            <div class="tv-content-3">\n\
-//                <div id="c3"></div>\n\
-//            </div>\n\
-//        </div>\n\
-//';
-//    a.innerHTML = '\n\
-//        <input id="t1" type="radio" name="mediaControl" class="tab-selector-1" />\n\
-//        <label for="t1" class="tab-label-1" >V1</label>\n\
-//\n\
-//        <input id="t2" type="radio" name="mediaControl" class="tab-selector-2" />\n\
-//        <label for="t2" class="tab-label-2" >V2</label>\n\
-//\n\
-//        <input id="t3" type="radio" name="mediaControl" class="tab-selector-3" />\n\
-//        <label for="t3" class="tab-label-3" >v3</label>\n\
-//';
-//    
-//    this.mediaWindow.c1 = document.getElementById( 'c1');
     
 };
 
@@ -119,8 +82,8 @@ SITE.Media.prototype.callback = function( e ) {
 };
 
 SITE.Media.prototype.pause = function() {
-    if(!this.mediaWindow) return;
-    var iframe = this.mediaWindow.dataDiv.getElementsByTagName("iframe")[0];
+    if(!this.mediaWindow || !this.currTab ) return;
+    var iframe = this.currTab.getElementsByTagName("iframe")[0];
     if(!iframe) return;
     iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo", "args":""}', '*');            
     //iframe.postMessage('{"event":"command","func":"playVideo", "args":""}', '*');            
@@ -128,20 +91,21 @@ SITE.Media.prototype.pause = function() {
 
 SITE.Media.prototype.show = function(tab) {
     
-    var url, embed;
+    var that = this;
     
+    var url, embed;
+   
     var contentPane = this.mediaWindow.dataDiv;
-    //var contentPane = this.mediaWindow.c1;
     
     if(tab.abc && tab.abc.metaText.url ) {
         url = tab.abc.metaText.url;
     } 
     
     if(url) {
-        
+    
         if( url  !== this.url ) {
             this.url = url;
-        
+            
             if( window.innerWidth > 1500 )  {
                 SITE.properties.mediaDiv.width = 600;
                 SITE.properties.mediaDiv.height = SITE.properties.mediaDiv.width * this.proportion;
@@ -149,30 +113,88 @@ SITE.Media.prototype.show = function(tab) {
             
             contentPane.style.width = SITE.properties.mediaDiv.width + 'px'; 
             contentPane.style.height = SITE.properties.mediaDiv.height + 'px';
-
-            this.youTubeURL = (url.match(/www.youtube-nocookie.com/g)!== null);
             
-            if( this.youTubeURL ) {
-                embed = '<iframe id="e'+ this.mediaWindow.id +
-                            '" src="'+url+'?rel=0&amp;showinfo=0&amp;enablejsapi=1" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>';
-                contentPane.style.overflow = 'hidden';
+            if( ! this.tabDiv ) {
+                this.tabDiv = document.createElement('div');
+                this.tabDiv.className='media-tabs';
+                this.mediaWindow.topDiv.appendChild(this.tabDiv);
+                this.mediaWindow.topDiv.style.overflow = 'visible';
             } else {
-                embed = '<embed id="e'+ this.mediaWindow.id +'" src="'+url+'" "></embed>';
-                contentPane.style.overflow = 'auto';
-            } 
+                this.tabDiv.innerHTML = "";
+                this.mediaWindow.dataDiv.innerHTML = "";
+            }
+        
+            var aUrl = url.split('\n');
             
-            contentPane.innerHTML = embed;
-            this.embed = document.getElementById('e' + this.mediaWindow.id);
+            this.tabs = {};
+            this.currTab = null;
             
-            this.embed.style.width = '100%';
-            this.embed.style.height = this.youTubeURL? SITE.properties.mediaDiv.height + 'px' : 'auto';
-            
+            for( var r = 0; r < aUrl.length; r ++ ) {
+                var mId = (this.mediaWindow.id*10 + r);
+                
+                this.youTubeURL = (aUrl[r].match(/www.youtube-nocookie.com/g)!== null);
+                
+                var dv = document.createElement('div');
+                dv.className='media-content';
+                contentPane.appendChild(dv);
+                
+                if( this.youTubeURL ) {
+                    embed = '<iframe id="e'+ mId +
+                                '" src="'+aUrl[r]+'?rel=0&amp;showinfo=0&amp;enablejsapi=1" frameborder="0" allowfullscreen="allowfullscreen" ></iframe>';
+                    contentPane.style.overflow = 'hidden';
+                } else {
+                    embed = '<embed id="e'+ mId +'" src="'+aUrl[r]+'" "></embed>';
+                    contentPane.style.overflow = 'auto';
+                } 
+
+                dv.innerHTML = embed;
+                this.embed = document.getElementById( 'e' + mId );
+
+                this.embed.style.width = '100%';
+                this.embed.style.height = this.youTubeURL? SITE.properties.mediaDiv.height + 'px' : 'auto';
+                
+                this.tabs['w'+mId] = dv;
+                var el = document.createElement('input');
+                el.id = 'w'+mId;
+                el.type = 'radio';
+                el.name = 'mediaControl';
+                el.className  = 'tab-selector-' + r;
+                this.tabDiv.appendChild(el);
+                var el = document.createElement('label');
+                el.htmlFor = 'w'+mId;
+                el.className  = 'media-tab-label-' + r;
+                el.innerHTML = 'v'+(r+1);
+                this.tabDiv.appendChild(el);
+            }
             
             if(this.showMediaButton)
                 this.showMediaButton.style.display = (!this.useSiteProperties || SITE.properties.mediaDiv.visible )? 'none' : 'inline';
             
-            this.mediaWindow.setVisible( !this.useSiteProperties || SITE.properties.mediaDiv.visible );
+            // tab control
+            var radios = document.getElementsByName( 'mediaControl' );
             
+            this.showTab = function( id ) {
+                this.pause();
+                for( var m in this.tabs ) {
+                    this.tabs[m].className = 'media-content';
+                    if(!id) { // mostra o primeiro
+                        id = m;
+                        document.getElementById(id).checked = true;
+                    } 
+                }
+                this.tabs[id].className = 'media-visible';
+                this.currTab = this.tabs[id];
+            };
+
+            for( var r=0; r < radios.length; r ++ ) {
+               radios[r].addEventListener('change', function() { 
+                  that.showTab( this.id ); 
+               });
+            }
+
+            //this.mediaWindow.c1 = document.getElementById( 'w'+this.mediaWindow.id+'c1');
+            this.mediaWindow.setVisible( !this.useSiteProperties || SITE.properties.mediaDiv.visible );
+            that.showTab(); // mostra a primeira aba
         }
         
         if( !this.useSiteProperties || SITE.properties.mediaDiv.visible ) {

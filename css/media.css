@@ -1,0 +1,145 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 16/11/2017, 19:27:25
+    Author     : P_7236
+*/
+
+.media-tabs {
+    clear: both;
+    position: absolute;
+    display: block;
+    float:  left;
+    margin: 0;
+    left:0;
+    top: calc(100% + 1px);
+    width: fit-content;
+    border: none;
+    z-index: 10;
+}
+
+.media-tabs input[type="radio"] {
+    position: absolute;
+    display: inline;
+    z-index: 0;
+    width: 0;
+    height: 0;
+    left: 0px;
+    top: 0px;
+    opacity: 0;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: alpha(opacity=0);
+    
+}
+
+.media-tabs > label {
+    
+    background: #ccc;
+    background: -webkit-linear-gradient(bottom,  #646464  0%, white 100%);
+    background: -moz-linear-gradient(bottom,  #646464  0%, white 100%);
+    background: -ms-linear-gradient(bottom,  #646464  0%, white 100%);
+    background: -o-linear-gradient(bottom,  #646464  0%, white 100%);
+    background: linear-gradient(bottom,  #646464  0%, white 100%);
+
+    font-family: 'subMenuFont';
+    font-size: 13px;
+    line-height: 22px;
+    height: 22px;
+    position: relative;
+    padding: 0 4px;
+    float: left;
+    display: block;
+    min-width: 2em;
+    width: auto;
+    color: #385c5b;
+    color: #dab390;
+    color: #777;
+    letter-spacing: 1px;
+    font-weight: bold;
+    text-align: center;
+    bottom: 0px;
+    
+    opacity: 1;
+    
+    border-radius: 0 0 3px 3px;
+    box-shadow: 2px 2px 3px rgba(0,0,0,0.3), 0px 0px 2px rgba(0,0,0,0.3);
+    
+}
+
+.media-tabs input:hover + label {
+    background: #003050;
+    background: -webkit-linear-gradient(bottom, #ccc 0%, white 50%);
+    cursor: pointer;
+}
+
+.media-tab-label-0 { z-index: 0; }
+.media-tab-label-1 { z-index: 1; }
+.media-tab-label-2 { z-index: 2; }
+.media-tab-label-3 { z-index: 3; }
+.media-tab-label-4 { z-index: 4; }
+.media-tab-label-5 { z-index: 5; }
+.media-tab-label-6 { z-index: 6; }
+.media-tab-label-7 { z-index: 7; }
+.media-tab-label-8 { z-index: 8; }
+.media-tab-label-9 { z-index: 9; }
+
+.media-tabs input:checked + label {
+    /*opc 2*/
+    color: #ff9922;
+    color: orange;
+    text-shadow: 1px 1px 1px #385c5b, 1px -1px 1px white;
+    
+    /*opc 1*/
+    color: red;
+    text-shadow: 1px 1px 1px #ff9922, 1px -1px 1px white;
+    
+    background: #003050;
+    background: -webkit-linear-gradient(bottom, #003050 0%, #e9edf0 70%);
+    background: -moz-linear-gradient(bottom, #003050 0%, #e9edf0 70%);
+    background: -ms-linear-gradient(bottom, #003050 0%, #e9edf0 70%);
+    background: -o-linear-gradient(bottom, #003050 0%, #e9edf0 70%);
+    background: linear-gradient(bottom, #003050 0%, #e9edf0 70%);
+    
+    z-index: 10;
+    
+    -webkit-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.7);
+    -moz-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.7);
+    -ms-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.7);
+    -o-box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.7);
+    box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.7);
+}
+
+.media-content {
+    clear: both;
+    float: left;
+    background: #e9edf0;
+    position: relative;
+    /*min-width: 756px;
+    min-height: 304px;*/
+    z-index: 10;
+    opacity: 0;
+    display:none;
+    
+    -webkit-box-shadow: 5px 5px 5px -3px rgba(0,0,0,0.7);
+    -moz-box-shadow: 5px 5px 5px -3px rgba(0,0,0,0.7);
+    -ms-box-shadow: 5px 5px 5px -3px rgba(0,0,0,0.7);
+    -o-box-shadow: 5px 5px 5px -3px rgba(0,0,0,0.7);
+    box-shadow: 5px 5px 5px -3px rgba(0,0,0,0.7);
+    width: inherit;
+    height: inherit;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.media-visible {
+    opacity: 1;
+    display:block;
+    z-index: 100;
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: alpha(opacity=100);
+    width: auto;
+    height: auto;
+}

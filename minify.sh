@@ -10,7 +10,7 @@ echo "Concatenating all files..."
 
 cat src/properties.js src/translate.js src/media.js src/mapa.js src/estudio.js src/partgen.js src/partedit.js src/tabgen.js src/t2p_parser.js src/p2t_parser.js > tmp/site.js
 
-cat css/help.css css/mapa.css css/studio.css > tmp/site.css
+cat css/help.css css/media.css css/mapa.css css/studio.css > tmp/site.css
 
 cp tmp/site.css site/site_$1.css
 cp tmp/site.js  site/site_$1.js
