@@ -45,7 +45,7 @@ SITE.Media.prototype.callback = function( e ) {
             
             if(this.youTubeURL) {
                 var h = (this.mediaWindow.topDiv.clientWidth*this.proportion);
-                this.embed.style.height = h + 'px';
+                //this.embed.style.height = h + 'px';
                 this.mediaWindow.dataDiv.style.height =  h + 'px';
                 this.mediaWindow.topDiv.style.height = (h + d ) + 'px';
             }
@@ -152,7 +152,8 @@ SITE.Media.prototype.show = function(tab) {
                 this.embed = document.getElementById( 'e' + mId );
 
                 this.embed.style.width = '100%';
-                this.embed.style.height = this.youTubeURL? SITE.properties.mediaDiv.height + 'px' : 'auto';
+                this.embed.style.height = this.youTubeURL? '100%' : 'auto';
+                //this.embed.style.height = this.youTubeURL? SITE.properties.mediaDiv.height + 'px' : 'auto';
                 
                 this.tabs['w'+mId] = dv;
                 var el = document.createElement('input');
