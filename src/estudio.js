@@ -358,7 +358,7 @@ SITE.Estudio.prototype.setup = function( tab, accordionId) {
     }
 
     this.showKeyboard(SITE.properties.studio.keyboard.visible);
-    this.keyboardWindow.setSubTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
+    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
     
     SITE.translator.translate( this.Div.topDiv );
 };
