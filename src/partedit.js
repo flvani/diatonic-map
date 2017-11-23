@@ -47,7 +47,7 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
     this.editorWindow = new ABCXJS.edit.EditArea(
         this.Div.dataDiv
        ,{listener : this, method: 'editorCallback' }
-       ,{   draggable:SITE.properties.partGen.editor.floating
+       ,{   draggable:SITE.properties.partEdit.editor.floating
            ,toolbar: true, statusbar:true, translator: SITE.translator
            ,title: 'PartEditEditorTitle'
            ,compileOnChange: false /*SITE.properties.options.autoRefresh*/
@@ -63,25 +63,25 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
     this.controlDiv.innerHTML = document.getElementById(interfaceParams.controlDiv).innerHTML;
     document.getElementById(interfaceParams.controlDiv).innerHTML = "";
     
-    this.media = new SITE.Media( this.Div.dataDiv, interfaceParams.btShowMedia, { resize: true} ); 
+    this.media = new SITE.Media( this.Div.dataDiv, interfaceParams.btShowMedia, SITE.properties.partEdit.media ); 
     
     this.keyboardWindow = new DRAGGABLE.ui.Window( 
         this.Div.dataDiv
        ,[ 'move', 'rotate', 'zoom', 'globe']
        ,{title: '', translator: SITE.translator, statusbar: false
-            , top: SITE.properties.partGen.keyboard.top
-            , left: SITE.properties.partGen.keyboard.left
+            , top: SITE.properties.partEdit.keyboard.top
+            , left: SITE.properties.partEdit.keyboard.left
        } 
       ,{listener: this, method: 'keyboardCallback'}
     );
     
     this.accordion.setRenderOptions({
         draggable: true
-       ,show: SITE.properties.partGen.keyboard.visible
-       ,transpose: SITE.properties.partGen.keyboard.transpose
-       ,mirror: SITE.properties.partGen.keyboard.mirror
-       ,scale: SITE.properties.partGen.keyboard.scale
-       ,label: SITE.properties.partGen.keyboard.label
+       ,show: SITE.properties.partEdit.keyboard.visible
+       ,transpose: SITE.properties.partEdit.keyboard.transpose
+       ,mirror: SITE.properties.partEdit.keyboard.mirror
+       ,scale: SITE.properties.partEdit.keyboard.scale
+       ,label: SITE.properties.partEdit.keyboard.label
     });
     
     this.warningsDiv = document.createElement("DIV");
@@ -212,10 +212,10 @@ SITE.PartEdit.prototype.setup = function(options) {
     
     this.Div.setSubTitle( '- ' + this.accordion.getTxtModel() );
     
-    this.showEditor(SITE.properties.partGen.editor.visible);
+    this.showEditor(SITE.properties.partEdit.editor.visible);
 
-    if(SITE.properties.partGen.editor.floating) {
-        if( SITE.properties.partGen.editor.maximized ) {
+    if(SITE.properties.partEdit.editor.floating) {
+        if( SITE.properties.partEdit.editor.maximized ) {
             this.editorWindow.container.dispatchAction('MAXIMIZE');
         } else {
             this.editorWindow.container.dispatchAction('POPOUT');
@@ -224,7 +224,7 @@ SITE.PartEdit.prototype.setup = function(options) {
         this.editorWindow.container.dispatchAction('POPIN');
     }
 
-    this.showKeyboard(SITE.properties.partGen.keyboard.visible);
+    this.showKeyboard(SITE.properties.partEdit.keyboard.visible);
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
     
     this.resize();
@@ -256,7 +256,7 @@ SITE.PartEdit.prototype.resize = function( ) {
         w = this.warningsDiv.clientHeight;
     }
     
-    if(! SITE.properties.partGen.editor.floating) {
+    if(! SITE.properties.partEdit.editor.floating) {
         e = this.editorWindow.container.topDiv.clientHeight+4;
     }
 
@@ -303,10 +303,10 @@ SITE.PartEdit.prototype.closePartEdit = function(save) {
 
 
 SITE.PartEdit.prototype.showEditor = function(show) {
-    SITE.properties.partGen.editor.visible = 
-            (typeof show === 'undefined'? ! SITE.properties.partGen.editor.visible : show );
+    SITE.properties.partEdit.editor.visible = 
+            (typeof show === 'undefined'? ! SITE.properties.partEdit.editor.visible : show );
     
-    if(SITE.properties.partGen.editor.visible) {
+    if(SITE.properties.partEdit.editor.visible) {
         this.editorWindow.setVisible(true);
         document.getElementById('t2pI_showEditor').setAttribute('class', 'ico-folder-open' );
     } else {
@@ -317,12 +317,12 @@ SITE.PartEdit.prototype.showEditor = function(show) {
 };
 
 SITE.PartEdit.prototype.showKeyboard = function(show) {
-    SITE.properties.partGen.keyboard.visible = 
-            (typeof show === 'undefined'? ! SITE.properties.partGen.keyboard.visible : show );
+    SITE.properties.partEdit.keyboard.visible = 
+            (typeof show === 'undefined'? ! SITE.properties.partEdit.keyboard.visible : show );
     
-    this.accordion.render_opts.show = SITE.properties.partGen.keyboard.visible;
+    this.accordion.render_opts.show = SITE.properties.partEdit.keyboard.visible;
     
-    if(SITE.properties.partGen.keyboard.visible) {
+    if(SITE.properties.partEdit.keyboard.visible) {
         this.keyboardWindow.setVisible(true);
         this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
         document.getElementById('t2pI_showMap').setAttribute('class', 'ico-folder-open' );
@@ -357,22 +357,22 @@ SITE.PartEdit.prototype.editorCallback = function (action, elem) {
             this.salvaPartitura();
            break;
         case 'MAXIMIZE': 
-            this.editorWindow.maximizeWindow( true, SITE.properties.partGen.editor );
+            this.editorWindow.maximizeWindow( true, SITE.properties.partEdit.editor );
             break;
         case 'RESTORE': 
-            this.editorWindow.maximizeWindow( false, SITE.properties.partGen.editor );
+            this.editorWindow.maximizeWindow( false, SITE.properties.partEdit.editor );
             break;
         case 'POPIN':
-            this.editorWindow.dockWindow(true, SITE.properties.partGen.editor, 0, 0, "calc(100% - 5px)", "200px"  );
+            this.editorWindow.dockWindow(true, SITE.properties.partEdit.editor, 0, 0, "calc(100% - 5px)", "200px"  );
             this.resize();
             break;
         case 'POPOUT':
-            this.editorWindow.dockWindow(false, SITE.properties.partGen.editor );
+            this.editorWindow.dockWindow(false, SITE.properties.partEdit.editor );
             this.resize();
             break;
         case 'RESIZE':
         case 'MOVE':
-            this.editorWindow.retrieveProps( SITE.properties.partGen.editor );
+            this.editorWindow.retrieveProps( SITE.properties.partEdit.editor );
             break;
         case 'CLOSE':
             this.showEditor(false);
@@ -494,10 +494,10 @@ SITE.PartEdit.prototype.printABC = function() {
 };
 
 SITE.PartEdit.prototype.highlight = function(abcelem) {
-    if(SITE.properties.partGen.editor.visible && !this.midiPlayer.playing) {
+    if(SITE.properties.partEdit.editor.visible && !this.midiPlayer.playing) {
         this.editorWindow.setSelection(abcelem);
     }    
-    if(SITE.properties.partGen.keyboard.visible && !this.midiPlayer.playing) {
+    if(SITE.properties.partEdit.keyboard.visible && !this.midiPlayer.playing) {
         this.accordion.clearKeyboard(true);
         this.midiParser.setSelection(abcelem);
     }    
@@ -505,7 +505,7 @@ SITE.PartEdit.prototype.highlight = function(abcelem) {
 
 // limpa apenas a janela de texto. Os demais elementos são controlados por tempo 
 SITE.PartEdit.prototype.unhighlight = function(abcelem) {
-    if(SITE.properties.partGen.editor.visible) {
+    if(SITE.properties.partEdit.editor.visible) {
         this.editorWindow.clearSelection(abcelem);
     }    
 };
@@ -532,21 +532,21 @@ SITE.PartEdit.prototype.keyboardCallback = function( e ) {
     switch(e) {
         case 'MOVE':
             var k = this.keyboardWindow.topDiv.style;
-            SITE.properties.partGen.keyboard.left = k.left;
-            SITE.properties.partGen.keyboard.top = k.top;
+            SITE.properties.partEdit.keyboard.left = k.left;
+            SITE.properties.partEdit.keyboard.top = k.top;
             break;
         case 'ROTATE':
             this.accordion.rotateKeyboard(this.keyboardWindow.dataDiv);
-            SITE.properties.partGen.keyboard.transpose = this.accordion.render_opts.transpose;
-            SITE.properties.partGen.keyboard.mirror = this.accordion.render_opts.mirror;
+            SITE.properties.partEdit.keyboard.transpose = this.accordion.render_opts.transpose;
+            SITE.properties.partEdit.keyboard.mirror = this.accordion.render_opts.mirror;
             break;
         case 'ZOOM':
             this.accordion.scaleKeyboard(this.keyboardWindow.dataDiv);
-            SITE.properties.partGen.keyboard.scale = this.accordion.render_opts.scale;
+            SITE.properties.partEdit.keyboard.scale = this.accordion.render_opts.scale;
             break;
         case 'GLOBE':
             this.accordion.changeNotation();
-            SITE.properties.partGen.keyboard.label = this.accordion.render_opts.label;
+            SITE.properties.partEdit.keyboard.label = this.accordion.render_opts.label;
             break;
         case 'CLOSE':
             this.showKeyboard(false);

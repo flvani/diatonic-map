@@ -101,7 +101,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.currentPlayTimeLabel = document.getElementById(playerParams.currentPlayTimeLabel);
     
     // screen control
-    this.media = new SITE.Media( this.mapDiv, interfaceParams.btShowMedia, { resize: false, useSiteProperties: true} ); 
+    this.media = new SITE.Media( this.mapDiv, interfaceParams.btShowMedia, SITE.properties.mediaDiv ); 
     this.buttonChangeNotation = document.getElementById(interfaceParams.btChangeNotation);
     this.printButton = document.getElementById(interfaceParams.printBtn);
     this.toolsButton = document.getElementById(interfaceParams.toolsBtn);
@@ -466,6 +466,7 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
                ,printBtn:'printBtn2'
                ,saveBtn:'saveBtn'
                ,forceRefresh:'forceRefresh'
+               ,btShowMedia: 'buttonShowMedia2'
                ,accordion_options: {
                      id: this.accordion.getId()
                     ,accordionMaps: DIATONIC.map.accordionMaps

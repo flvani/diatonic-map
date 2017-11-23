@@ -52,6 +52,16 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     );
     this.editorWindow.setVisible(false);
 
+    this.controlDiv = document.createElement("DIV");
+    this.controlDiv.setAttribute("id", 'controlDiv' );
+    this.controlDiv.setAttribute("class", 'controlDiv btn-group' );
+    this.Div.dataDiv.appendChild(this.controlDiv);
+    
+    this.controlDiv.innerHTML = document.getElementById(interfaceParams.studioControlDiv).innerHTML;
+    document.getElementById(interfaceParams.studioControlDiv).innerHTML = "";
+
+    this.media = new SITE.Media( this.Div.dataDiv, interfaceParams.btShowMedia, SITE.properties.studio.media ); 
+    
     this.keyboardWindow = new DRAGGABLE.ui.Window( 
         this.Div.dataDiv
        ,[ 'move', 'rotate', 'zoom', 'globe']
@@ -71,14 +81,6 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
        ,label: SITE.properties.studio.keyboard.label
     });
     
-    this.controlDiv = document.createElement("DIV");
-    this.controlDiv.setAttribute("id", 'controlDiv' );
-    this.controlDiv.setAttribute("class", 'controlDiv btn-group' );
-    this.Div.dataDiv.appendChild(this.controlDiv);
-    
-    this.controlDiv.innerHTML = document.getElementById(interfaceParams.studioControlDiv).innerHTML;
-    document.getElementById(interfaceParams.studioControlDiv).innerHTML = "";
-   
     this.warningsDiv = document.createElement("DIV");
     this.warningsDiv.setAttribute("id", warnings_id);
     this.warningsDiv.setAttribute("class", "warningsDiv" );
@@ -96,6 +98,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.renderedTune.div = this.canvasDiv;
     
     this.Div.dataDiv.appendChild(this.studioCanvasDiv);
+    
     
     if( interfaceParams.onchange ) {
         this.onchangeCallback = interfaceParams.onchange;
@@ -836,6 +839,9 @@ SITE.Estudio.prototype.onModelChanged = function(loader) {
         loader.update( false, '<br>&nbsp;&nbsp;&nbsp;Gerando tablatura...<br><br>' );
         loader.stop();
     }
+    
+    this.media.show(this.renderedTune);
+    
     delete this.changing;
     
 };

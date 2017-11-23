@@ -25,9 +25,9 @@ notação abc, tablatura " />
         <link rel="stylesheet" href="fontsIco/abcx.css" />
         <link rel="stylesheet" href="fontsGoogle/fonts.css" />
         
-        <link rel="stylesheet" href="css/styles4abcx_5.13-min.css" />
+        <link rel="stylesheet" href="css/styles4abcx_5.14-min.css" />
         
-        <link rel="stylesheet" href="site/site_5.13-min.css" />
+        <link rel="stylesheet" href="site/site_5.14-min.css" />
         
         
     </head>
@@ -47,18 +47,18 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jslib/html5kellycolorpicker.min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_5.13-min.js"></script>
+        <script type="text/javascript" src="file/filemanager_5.14-min.js"></script>
         
         <!-- suporte mapas de acordeões -->
-        <script type="text/javascript" src="diatonic/diatonic_5.13-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic_5.14-min.js"></script>
         
         <!-- ACE Editor -->
-        <script type="text/javascript" src="ace4abcx/ace4abcx_5.13-min.js"></script>
+        <script type="text/javascript" src="ace4abcx/ace4abcx_5.14-min.js"></script>
        
         <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.13-min.js" ></script>
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.14-min.js" ></script>
         
-        <script id="mainSITE" type="text/javascript" src="site/site_5.13.js"></script>
+        <script id="mainSITE" type="text/javascript" src="site/site_5.14.js"></script>
 
         <div id="topBar" class="topBar gradiente" >
             <span data-translate="appName" class="topTitle">Mapa para Acordeões Diatônicos</span>
@@ -113,7 +113,7 @@ notação abc, tablatura " />
                     </button>
                     <button id="buttonPlay" data-translate="playBtn" ><i class="ico-play"></i></button>
                     <button id="buttonStop" data-translate="stopBtn" ><i class="ico-stop"></i></button>
-                    <label id="currentPlayTimeLabel" >00:00:00</label>
+                    <label id="currentPlayTimeLabel" style="width: 90px;" >00:00:00</label>
                 </div>
 
                 <div id="tuneContainerDiv" class="tv-content customScrollBar">
@@ -159,7 +159,10 @@ notação abc, tablatura " />
                 <button id="playBtn2" data-translate="playBtn" >&#160;<i class="ico-play"></i>&#160;</button>
                 <button id="stopBtn2" data-translate="stopBtn" >&#160;<i class="ico-stop"></i>&#160;</button>
             </div>
-            <label id="currentPlayTimeLabel2" >00:00:00</label>
+            <label id="currentPlayTimeLabel2" style="width: 90px;" >00:00:00</label>
+            <button id="buttonShowMedia2" style="display:none;" >
+                <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
+            </button>
         </div>  <!-- controlDiv - este bloco é tratado internamente -->  
         <div id="a2pControlDiv-raw" style="display:none;">
             <div id="a2pControlDiv1" class="btn-subgroup" >

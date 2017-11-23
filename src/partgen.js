@@ -74,7 +74,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     this.controlDiv.innerHTML = document.getElementById(interfaceParams.controlDiv).innerHTML;
     document.getElementById(interfaceParams.controlDiv).innerHTML = "";
 
-    this.media = new SITE.Media( this.Div.dataDiv,  interfaceParams.btShowMedia, { resize: true} ); 
+    this.media = new SITE.Media( this.Div.dataDiv,  interfaceParams.btShowMedia, SITE.properties.partGen.media ); 
 
     this.keyboardWindow = new DRAGGABLE.ui.Window( 
         this.Div.dataDiv
