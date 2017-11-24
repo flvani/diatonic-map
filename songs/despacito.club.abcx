@@ -1,0 +1,40 @@
+X:2028
+%%barnumbers 0
+%%papersize A4
+T:Despacito (club)
+C:Luis Fonsi & Daddy Yankee
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>adapt. Cezar Ferreira</a>)
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/2uNgzZEKkGM&T:Despacito;
+F:https://www.youtube-nocookie.com/embed/9wbyn4kIVzA&T:Parte 1 - Passo a passo;
+F:https://www.youtube-nocookie.com/embed/7S-Kbrw3SJo&T:Parte 2 - Passo a passo;
+F:https://www.youtube-nocookie.com/embed/bJSjGw9PtN0&T:Parte 3 - Passo a passo;
+F:https://www.youtube-nocookie.com/embed/dK0fN60m-tU&T:Parte 4 - Passo a passo;
+F:https://www.youtube-nocookie.com/embed/EacO1xaLiXU&T:Parte 5 - Passo a passo;
+F:https://www.youtube-nocookie.com/embed/BuTeMmsuvhM&T:Exercício Técnico - Acordes/Improvisação/Ritmo;
+L:1/8
+Q:90
+M:2/4
+K:Dm
+V:1 treble
+|: [P:Parte I] d2 z/2A/2d/2e/2 | (3fgf (3edc | B1.5 f1.5 g | f2 z2 | fc fc | fc fg/2e/2- | e4- | e2 z2 :| 
+|: [P:Parte II] d2 z/2d/2d/2e/2 | f/2e/2f/2e/2 fe | d2.5 d/2d/2e/2| f/2e/2f/2e/2 fg | c2.5 c/2c/2c/2 | f/2c/2f/2c/2 fg/2g/2- | g e3 |1 z4 :| 
+|:2 [P:Parte III] f2 e2 | d1.5A/2 z/2 A/2A/2A/2 | A/2d/2d/2d/2 dc/2d/2- | dB z/2B/2B/2B/2| B/2d/2d/2d/2d e/2f0.5- | fc1.5 c/2c/2c/2 | c/2f/2f/2f/2 fg/2g/2- | g e3 :| z4 | 
+|: [P:Parte IV] a/2g/2a/2g/2 ag/2a/2- | a/2g/2a/2g/2 ab/2b/2- | bf2 z | z/2 b/2b/2b/2 bc'/2b/2- | b a3 | z/2 a/2a/2a/2a/2 c'b/2 | a1.5 g2.5 |1 z4 :| 
+|2 [P:Parte V] z3/2 d/2f f/2e/2 |: dd f/2e/2f/2e/2 | d1.5 d/2f f/2e/2 | dd f/2e/2f/2e/2 | d1.5 z/2 g/2g/2g/2f/2 | gg/2f/2 g/2g/2g/2f/2 | gf f/2f/2f/2f/2 | ee/2 ee/2 d | 
+| f2 e2 :| d4 | 
+V:2 bass
+|: D,,[D,F,A,] z [D,F,A,] | D,,[D,F,A,] z [D,F,A,] | B,,[B,DF] z [B,DF] | B,,[B,DF] z [B,DF] | F,,[F,A,C] z [F,A,C] | F,,[F,A,C] z [F,A,C] | C,,[C,E,G,] z [C,E,G,] | A,,[C,E,G,] z [C,E,G,] :| 
+|: D,,[D,F,A,] z [D,F,A,] | D,,[D,F,A,] z [D,F,A,] | B,,[B,DF] z [B,DF] | B,,[B,DF] z [B,DF] | F,,[F,A,C] z [F,A,C] | F,,[F,A,C] z [F,A,C] | C,,[C,E,G,] z [C,E,G,] |1 A,,[C,E,G,] z [C,E,G,] :| 
+|:2 z2 z2 | D,,[D,F,A,] z [D,F,A,] | D,,[D,F,A,] z [D,F,A,] | B,,[B,DF] z [B,DF] | B,,[B,DF] z2  | F,,[F,A,C] z [F,A,C] | F,,[F,A,C] z [F,A,C] | C,,[C,E,G,] z [C,E,G,] :| A,,[C,E,G,] z [C,E,G,] | 
+|: D,,[D,F,A,] z [D,F,A,] | D,,[D,F,A,] z [D,F,A,] | B,,[B,DF] z [B,DF] | B,,[B,DF] z [B,DF] | C,,[F,A,C] z [F,A,C] | F,,[F,A,C] z [C,E,G,] | C,,[C,E,G,] z [C,E,G,] |1 A,,[C,E,G,] z [C,E,G,] :| 
+|2 C,,z z z |: D,,[D,F,A,] z [D,F,A,] | D,,[D,F,A,] z [D,F,A,] | B,,[B,DF] z [B,DF] | B,,[B,DF] z [B,DF] | F,,[F,A,C] z [F,A,C] | F,,[F,A,C] z [F,A,C] | C,,[C,E,G,] z [C,E,G,] | 
+| A,,[C,E,G,] z [C,E,G,] :| D,,4 | 
+V:3 accordionTab
+|: D-8 d-> z-z0.5 z-60.5 d-80.5 >-7'0.5 | (3 D-9 >-8'0.5 d->0.5 >-9 ) (3 z-7' z-80.5 d->0.5 >-6' ) | B♭-5' b♭->0.5 >-90.5 z-> b♭-8' | B♭-9 b♭-> z-z b♭-z | F+7' f+7 z+7' f+7 | F+7' f+7 z+7' f+90.5 >+80.5 | C+> c+> z+> c+> | A+8 c+> z+z c+z :| 
+|: D-8 d-> z-z.5 z-8.5 d-8.5 >-7'.5 | D-9.5 >-7'.5 d-9.5 >-7'.5 z-9 d-7' | B♭-8 b♭-> z->.5 z-8.5 b♭-8.5 >-7'.5 | B♭-9.5 >-7'.5 b♭-9.5 >-7'.5 z-9 b♭-8' | F+7 f+> z+>.5 z+7.5 f+7.5 >+7.5 | F+7'.5 >+7.5 f+7'.5 >+7.5 z+7' f+9.5 >+9.5 | C+> c+8 z+> c+> |1 A+z c+z z+z c+z :| 
+|:2 z-92 z-7'2 | D-8 d->0.5 >-60.5 z-z0.5 z-60.5 d-60.5 >-60.5 | D-6.5 >-8.5 d-8.5 >-8.5 z-8 d-6'.5 >-8.5 | B♭-> b♭-5' z-z.5 z-5'.5 b♭-5'.5 >-5'.5 | B♭-5'.5 >-8.5 b♭-8.5 >-8.5 z-8 z-7'.5 z+7'.5 | F+> f+7 z+>.5 z+7.5 f+7.5 >+7.5 | F+7.5 >+7'.5 f+7'.5 >+7'.5 z+7' f+9.5 >+9.5 | C+> c+8 z+> c+> :| A+z c+z z+z c+z | 
+|: D-a0.5 >-8'0.5 d-a0.5 >-8'0.5 z-a d-8'0.5 >-a0.5 | D->0.5 >-8'0.5 d-a0.5 >-8'0.5 z-a d-9'0.5 >-9'0.5 | B♭-> b♭-9 z-> b♭-z | B♭-z0.5 >-9'0.5 b♭-9'0.5 >-9'0.5 z-9' b♭-a'.5 >-9'.5 | C-> f+8' z+> f+> | F+z0.5 >+8'0.5 f+8'0.5 >+8'0.5 z+8'0.5 z-a'0.5 c->0.5 >-9'0.5 | C-a c->.5 >-8'.5 z-> c-> |1 A+z c+z z+z c+z :| 
+|2 C-z z-z0.5 z-80.5 z-9 z-90.5 z-7'0.5 |: D-8 d-8 z-90.5 z-7'0.5 d-90.5 >-7'0.5 | D-8 d->0.5 >-80.5 z-9 d-90.5 >-7'0.5 | B♭-8 b♭-8 z-90.5 z-7'0.5 b♭-90.5 >-7'0.5 | B♭-8 b♭->0.5 >-z0.5 z-8'0.5 z-8'0.5 b♭-8'0.5 >-90.5 | F+9 f+9.5 >+7'.5 z+9.5 z+9.5 f+9.5 >+7'.5 | F+9 f+7' z+7'.5 z+7'.5 f+7'.5 >+7'.5 | C-7' c-7'0.5 >-7'0.5 z->0.5 z-7'0.5 c-8 | 
+| A+7' c+> z+8 c+> :| D-84 | 

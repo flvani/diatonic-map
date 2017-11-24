@@ -1,0 +1,22 @@
+X:2027
+%%barnumbers 1
+%%papersize A4
+T:Chula (club)
+C:Tradicional
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/bABzUoPSrD0&T:Chula;
+M:2/4
+L:1/8
+Q:120
+K:C
+V:1 treble
+| z [eg][eg][eg] [ec']2 [gb]2 |: +segno+ [gb][fa][fa] [fa] [gb]2 [fa]2 | [fa][eg][eg] [eg] [fa]2 [eg]2 | [eg][df][df] [df] [eg]2 [df]2 |1 [ce][eg][eg] [eg] [ec']2 [gb]2 :| 
+|:2 [CE][EG][EG] [EG] [Ec]2 [GB]2 | [GB][FA][FA] [FA] [GB]2 [FA]2 | [FA][EG][EG] [EG] [FA]2 [EG]2 | +dacoda+ [EG][DF][DF] [DF] [EG]2 [DF]2 :| +dsalcoda+  +coda+  [ce][eg][eg] [eg] [ec']2 [gb]2 | [E,CEc]4 z4 | 
+V:2 bass
+| z8 |: G,,3 [G,B,D] G,,2 [G,B,D]2 | C,,3 [C,E,G,] C,,2 [C,E,G,]2 | G,,3 [G,B,D] G,,2 [G,B,D]2 |1 C,,3 [C,E,G,] C,,2 z2 :| 
+|:2 C,,3 [C,E,G,] C,,2 z2 | G,,3 [G,B,D] G,,2 [G,B,D]2 | C,,3 [C,E,G,] C,,2 [C,E,G,]2 | G,,3 [G,B,D] G,,2 [G,B,D]2 :| C,,3 [C,E,G,] C,,2 z2 | C,,4 z4 | 
+V:3 accordionTab
+| z+z z+[89] z+[89] z+[89] z+[8a]2 z-[8'b]2 |: G-[8'b] >-[9a] >-[9a] g-[9a] G-[8'b]2 g-[9a]2 | C+[7'8'] >+[89] >+[89] c+[89] C+[7'8']2 c+[89]2 | G-[7'8'] >-[89] >-[89] g-[89] G-[7'8']2 g-[89]2 |1 C+[78] >+[89] >+[89] c+[89] C+[8a]2 z-[8'b]2 :| 
+|:2 C+[45] >+[56] >+[56] c+[56] C+[56']2 z-[4'7]2 | G-[4'7] >-[56] >-[56] g-[56] G-[4'7]2 g-[56]2 | C+[4'5'] >+[56] >+[56] c+[56] C+[4'5']2 c+[56]2 | G-[3'4'] >-[45] >-[45] g-[45] G-[3'4']2 g-[45]2 :| C+[78] >+[89] >+[89] c+[89] C+[8a]2 z-[8'b]2 | C+[2457]4 z+z4 | 
