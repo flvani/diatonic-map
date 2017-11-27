@@ -73,6 +73,23 @@ SITE.LoadProperties = function() {
         
         SITE.properties.options.showConsole = true;
         
+        if( ! SITE.properties.studio.media ) {
+            SITE.properties.studio.media = {
+                visible: false
+                ,top: "20px"
+                ,left: "1200px"
+                ,width: 100
+                ,height: 200
+            };
+            SITE.properties.partGen.media = {
+                visible: false
+                ,top: "20px"
+                ,left: "1200px"
+                ,width: 100
+                ,height: 200
+            };
+        }
+        
     } else if( ! SITE.properties.version || SITE.properties.version === 'debug' || parseFloat( SITE.properties.version ) < parseFloat( ver )  ) {
         
         SITE.properties.version = ver;
