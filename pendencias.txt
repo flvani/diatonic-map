@@ -1,4 +1,4 @@
-### TO DO RELEASE 5.1 ####################################################################################
+### TO DO NEXT RELEASE ####################################################################################
 
 - Tradução 
     - Traduzir mensagens de erro???
@@ -7,15 +7,9 @@
 - Atualizar as paginas de ajuda:
         - mapa, estudio, formato e tutoriais
 
-
-### TO DO NEXT RELEASE ####################################################################################
-
-- Bug MIDI player no iPad Mini (não soa)
-
-
 - Eliminar esta variável assim que possível: var debug=false; 
 - Bug na sintaxe colorida da tablatura quando há acordes
-- Janela de midia: Preparar versao com abas para multiplos videos da mesma musica
+
 - Editor: Implementar funcao inativo para botões da toolbar, p. ex., quando não houver undo
 
 - Ajustar posicionamento das telas de alerta
@@ -35,6 +29,9 @@
 
 ### DONE ####################################################################################
 
+- Bug MIDI player no iPad Mini (não soa)
+    O problema é quando começa com pausa.
+
 - Bug resize da janela com editor maximizado
 
 Editarea
@@ -42,3 +39,4 @@ Editarea
  - Melhorias no dialogo de localizar e substitur
  - Melhorias no editor de tablaturas: show hidden chars e não usa mais soft-tabs
 
+- Janela de midia: Preparar versao com abas para multiplos videos da mesma musica

@@ -1351,32 +1351,108 @@ SITE.Mapa.prototype.helpCallback = function ( action ) {
 
 // Esta rotina foi criada como forma de verificar todos warnings de compilacao do repertório
 SITE.Mapa.prototype.debugRepertorio = function( ) {
+
+    var repertorio = { geral: [], transportada: [], corona: [] };
+    var lista  = null;
+    var club   = false;
+    var accordion = new window.ABCXJS.tablature.Accordion({
+                             accordionMaps: DIATONIC.map.accordionMaps
+                            ,translator: SITE.translator 
+                            ,render_keyboard_opts:{
+                                 transpose:true
+                                ,mirror:false
+                                ,scale:1
+                                ,draggable:false
+                                ,show:true
+                                ,label:false
+                            }
+                        });
+
+
     
-    for (var title in this.accordion.loaded.songs.items ) {
+    for(var a = 0; a <accordion.accordions.length; a ++ ) {
+        accordion.load( a );
+        var abcParser = new ABCXJS.parse.Parse( null, accordion );
+        var midiParser = new ABCXJS.midi.Parse();
 
-        waterbug.log(title);
+        waterbug.log(accordion.loaded.id);
+        club = false;
         
-        this.abcParser.parse( this.accordion.loaded.songs.items[title] );
-
-        var w = this.abcParser.getWarnings() || [];
-        var l = w.length;
-        
-        for (var j=0; j<w.length; j++) {
-            waterbug.logError( '   ' + w[j]);
+        switch(accordion.loaded.id) {
+             case 'GAITA_HOHNER_CLUB_IIIM_BR':
+                club = true;
+             case 'GAITA_MINUANO_GC':
+                lista = repertorio.geral;
+                break;
+             case 'GAITA_HOHNER_CORONA_II':
+                lista = repertorio.corona;
+                break;
+             case 'GAITA_MINUANO_BC_TRANSPORTADA':
+                lista = repertorio.transportada;
+                break;
         }
+         
+        for (var title in accordion.loaded.songs.items ) {
 
-        if ( this.midiParser ) {
-            this.midiParser.parse( this.abcParser.getTune(), this.accordion.loadedKeyboard );
-            var w = this.midiParser.getWarnings();
+            waterbug.log(title);
+
+            abcParser.parse( accordion.loaded.songs.items[title] );
+
+            var w = abcParser.getWarnings() || [];
+            var l = w.length;
+
+            for (var j=0; j<w.length; j++) {
+                waterbug.logError( '   ' + w[j]);
+            }
+
+            var tune = abcParser.getTune();
+
+
+            if( ! club ) {
+                var title = tune.metaText.title.replace( '(corona)', '' ).replace( '(transportada)', '' ).trim();
+                lista.push ( {title:title, composer:tune.metaText.composer, geral: true, club: false } );
+            } else {
+                var title = tune.metaText.title.replace( '(club)', '' ).trim();
+                var idx = -1, l = 0;
+                while( idx === -1 && l < lista.length  ) {
+                    if( lista[l].title === title ) idx = l;
+                    l ++;
+                }
+                if( idx !== -1 ) {
+                    lista[idx].club = true;
+                } else {
+                    lista.push ( {title:title, composer:tune.metaText.composer, geral: false, club: true } );
+                }
+            }
+
+            midiParser.parse( tune, accordion.loadedKeyboard );
+            var w = midiParser.getWarnings();
             l += w.length;
             for (var j=0; j<w.length; j++) {
                 waterbug.logError( '   ' + w[j]);
             }
+
+            waterbug.log(l > 0 ? '': '--> OK' );
+            waterbug.log( '' );
         }
-        
-        waterbug.log(l > 0 ? '': '--> OK' );
-        waterbug.log( '' );
     }
+
+    repertorio.geral.sort( function(a,b) { 
+        if (a.title < b.title)
+          return -1;
+        if ( a.title > b.title)
+          return 1;
+        return 0; 
+    });    
+
+    var h = '<table>';
+    for( var r = 0; r < repertorio.geral.length; r ++ ) {
+        h += '<tr><td>'+repertorio.geral[r].title+'</td><td>'+repertorio.geral[r].composer+'</td><td>'+repertorio.geral[r].geral+'</td><td>'+repertorio.geral[r].club+'</td></tr>';
+    }
+     h += '</table>';
+     
+    waterbug.log( h );
     
     waterbug.show();    
+    
 };        

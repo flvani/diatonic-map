@@ -20,10 +20,11 @@
        , "open": [["b2:m", "B2", "e2:m", "E2", "c2", "C2"], ["e2", "E2", "a2", "A2", "d2", "D2"]]
       }
     }
-  ,"songPathList":[
+  ,"songPathList":
+    [
        "songs/despacito.corona.abcx"
       ,"songs/xote.laranjeira.corona.abcx"
-  ]
+    ]
   ,"practicePathList":[]
   ,"chordPathList":[
        "chords/acordes.corona.abcx"
