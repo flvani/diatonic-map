@@ -1,9 +1,14 @@
 X:1030
-%%barnumbers 1
+%%barnumbers 0
 %%papersize A4
+%%landscape
+%%pagenumbering
 T:J'ai vu le loup, le renard et la belette
 T:Eu vi o lobo, a raposa e a doninha
-C:Tradicional
+C:Folcore francês
+Z:Bernard Loffet
+F:https://www.youtube-nocookie.com/embed/mAAogTbvysY
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 Q:"Allegro" 1/4=140
 L:1/8
 M:2/4

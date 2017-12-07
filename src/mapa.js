@@ -20,6 +20,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     DIATONIC.map.color.close = SITE.properties.colors.close;
     DIATONIC.map.color.open = SITE.properties.colors.open;
     
+    this.songId = interfaceParams.songId;
     this.keyboardDiv = interfaceParams.keyboardDiv;
     
     this.fileLoadMap = document.getElementById('fileLoadMap');
@@ -291,9 +292,10 @@ SITE.Mapa.prototype.loadOriginalRepertoire = function () {
 SITE.Mapa.prototype.doLoadOriginalRepertoire = function (loader) {
     
     this.renderedChord.title = 
-           FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.chords.title')
+            FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.chords.title')
         || this.accordion.loaded.getFirstChord();
-
+    
+    
     this.loadABCList(this.renderedChord.tab);
 
     this.renderedPractice.title = 
@@ -302,8 +304,16 @@ SITE.Mapa.prototype.doLoadOriginalRepertoire = function (loader) {
 
     this.loadABCList(this.renderedPractice.tab);
 
+    var title;
+    
+    if(  this.songId ) {
+        title = this.accordion.loaded.songs.ids[this.songId];
+        delete this.songId; // load once
+    }
+    
     this.renderedTune.title = 
-           FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.songs.title')
+            title
+        ||  FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.songs.title')
         || this.accordion.loaded.getFirstSong();
 
     this.loadABCList(this.renderedTune.tab);
@@ -1352,23 +1362,18 @@ SITE.Mapa.prototype.helpCallback = function ( action ) {
 // Esta rotina foi criada como forma de verificar todos warnings de compilacao do repertório
 SITE.Mapa.prototype.debugRepertorio = function( ) {
 
-    var repertorio = { geral: [], transportada: [], corona: [] };
-    var lista  = null;
-    var club   = false;
     var accordion = new window.ABCXJS.tablature.Accordion({
-                             accordionMaps: DIATONIC.map.accordionMaps
-                            ,translator: SITE.translator 
-                            ,render_keyboard_opts:{
-                                 transpose:true
-                                ,mirror:false
-                                ,scale:1
-                                ,draggable:false
-                                ,show:true
-                                ,label:false
-                            }
-                        });
-
-
+        accordionMaps: DIATONIC.map.accordionMaps
+       ,translator: SITE.translator 
+       ,render_keyboard_opts:{
+            transpose:true
+           ,mirror:false
+           ,scale:1
+           ,draggable:false
+           ,show:true
+           ,label:false
+       }
+    });
     
     for(var a = 0; a <accordion.accordions.length; a ++ ) {
         accordion.load( a );
@@ -1376,6 +1381,61 @@ SITE.Mapa.prototype.debugRepertorio = function( ) {
         var midiParser = new ABCXJS.midi.Parse();
 
         waterbug.log(accordion.loaded.id);
+        
+        for (var title in accordion.loaded.songs.items ) {
+
+            waterbug.log(title);
+
+            abcParser.parse( accordion.loaded.songs.items[title] );
+
+            var w = abcParser.getWarnings() || [];
+            var l = w.length;
+
+            for (var j=0; j<w.length; j++) {
+                waterbug.logError( '   ' + w[j]);
+            }
+
+            var tune = abcParser.getTune();
+
+            midiParser.parse( tune, accordion.loadedKeyboard );
+            var w = midiParser.getWarnings();
+            l += w.length;
+            for (var j=0; j<w.length; j++) {
+                waterbug.logError( '   ' + w[j]);
+            }
+
+            waterbug.log(l > 0 ? '': '--> OK' );
+            waterbug.log( '' );
+        }
+    }
+    
+    waterbug.show();    
+    
+};        
+
+// gerar repertório indexado
+SITE.Mapa.prototype.geraIndex = function( ) {
+
+    var lista  = null;
+    var club   = false;
+    var repertorio = { geral: [], transportada: [], corona: [] };
+    var accordion = new window.ABCXJS.tablature.Accordion({
+        accordionMaps: DIATONIC.map.accordionMaps
+       ,translator: SITE.translator 
+       ,render_keyboard_opts:{
+            transpose:true
+           ,mirror:false
+           ,scale:1
+           ,draggable:false
+           ,show:true
+           ,label:false
+       }
+    });
+    
+    for(var a = 0; a <accordion.accordions.length; a ++ ) {
+        accordion.load( a );
+        var abcParser = new ABCXJS.parse.Parse( null, accordion );
+
         club = false;
         
         switch(accordion.loaded.id) {
@@ -1394,23 +1454,14 @@ SITE.Mapa.prototype.debugRepertorio = function( ) {
          
         for (var title in accordion.loaded.songs.items ) {
 
-            waterbug.log(title);
-
             abcParser.parse( accordion.loaded.songs.items[title] );
 
-            var w = abcParser.getWarnings() || [];
-            var l = w.length;
-
-            for (var j=0; j<w.length; j++) {
-                waterbug.logError( '   ' + w[j]);
-            }
-
             var tune = abcParser.getTune();
-
+            var composer = tune.metaText.composer.replaceAll('\n', '<br>');
 
             if( ! club ) {
                 var title = tune.metaText.title.replace( '(corona)', '' ).replace( '(transportada)', '' ).trim();
-                lista.push ( {title:title, composer:tune.metaText.composer, geral: true, club: false } );
+                lista.push ( {title:title, composer:composer, geral: tune.metaText.pieceId, club: 0 } );
             } else {
                 var title = tune.metaText.title.replace( '(club)', '' ).trim();
                 var idx = -1, l = 0;
@@ -1419,21 +1470,11 @@ SITE.Mapa.prototype.debugRepertorio = function( ) {
                     l ++;
                 }
                 if( idx !== -1 ) {
-                    lista[idx].club = true;
+                    lista[idx].club = tune.metaText.pieceId ;
                 } else {
-                    lista.push ( {title:title, composer:tune.metaText.composer, geral: false, club: true } );
+                    lista.push ( {title:title, composer:composer, geral: 0, club: tune.metaText.pieceId } );
                 }
             }
-
-            midiParser.parse( tune, accordion.loadedKeyboard );
-            var w = midiParser.getWarnings();
-            l += w.length;
-            for (var j=0; j<w.length; j++) {
-                waterbug.logError( '   ' + w[j]);
-            }
-
-            waterbug.log(l > 0 ? '': '--> OK' );
-            waterbug.log( '' );
         }
     }
 
@@ -1445,14 +1486,38 @@ SITE.Mapa.prototype.debugRepertorio = function( ) {
         return 0; 
     });    
 
-    var h = '<table>';
+    var h = '<html>';
+    
+    h += '<br><h1>Repertório</h1>';
+    h += '<table border="1">';
+    h += '<tr><th>Título</th><th>Autor(es)</th><th>G/C</th><th>Club(br)</th></tr>';
     for( var r = 0; r < repertorio.geral.length; r ++ ) {
-        h += '<tr><td>'+repertorio.geral[r].title+'</td><td>'+repertorio.geral[r].composer+'</td><td>'+repertorio.geral[r].geral+'</td><td>'+repertorio.geral[r].club+'</td></tr>';
+        h += '<tr><td>'+repertorio.geral[r].title
+                +'</td><td>'+repertorio.geral[r].composer
+                +'</td><td><a href="http://localhost:8383/diatonic-map/mapa-debug.html?accordion=GAITA_MINUANO_GC&id='+repertorio.geral[r].geral+'">C/G</a>'
+                +'</td><td><a href="http://localhost:8383/diatonic-map/mapa-debug.html?accordion=GAITA_HOHNER_CLUB_IIIM_BR&id='+repertorio.geral[r].club+'">CLUB_IIIM_BR</a>'
+                +'</td></tr>';
+    }
+    h += '</table>';
+
+    h += '<br><h1>Transportada</h1>';
+    h += '<table border="1">';
+    h += '<tr><th>Título</th><th>Autor(es)</th>';
+    for( var r = 0; r < repertorio.transportada.length; r ++ ) {
+        h += '<tr><td>'+repertorio.transportada[r].title+'</td><td>'+repertorio.transportada[r].composer+'</td></tr>';
+    }
+    h += '</table>';
+    
+    h += '<br><h1>Corona</h1>';
+    h += '<table border="1">';
+    h += '<tr><th>Título</th><th>Autor(es)</th>';
+    for( var r = 0; r < repertorio.corona.length; r ++ ) {
+        h += '<tr><td>'+repertorio.corona[r].title+'</td><td>'+repertorio.corona[r].composer+'</td></tr>';
     }
      h += '</table>';
-     
-    waterbug.log( h );
+     h += '</html>';
+
     
-    waterbug.show();    
+    FILEMANAGER.download( 'repertorio.indexado.html', h );
     
 };        

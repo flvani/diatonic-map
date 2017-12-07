@@ -116,7 +116,7 @@ DIATONIC.map.AccordionMap.prototype.getFirstChord = function () {
 DIATONIC.map.AccordionMap.prototype.loadABCX = function(pathList, cb ) {
     var toLoad = 0;
     var path;
-    var objRet = { items:{}, sortedIndex: [] };
+    var objRet = { items:{}, ids: {}, sortedIndex: [] };
     for (var s = 0; s < pathList.length; s++) {
         toLoad ++;
         FILEMANAGER.register('ABCX');
@@ -127,6 +127,7 @@ DIATONIC.map.AccordionMap.prototype.loadABCX = function(pathList, cb ) {
                 var tunebook = new ABCXJS.TuneBook(data);
                 for (var t = 0; t < tunebook.tunes.length; t ++)  {
                     objRet.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
+                    objRet.ids[tunebook.tunes[t].id] = tunebook.tunes[t].title;
                     objRet.sortedIndex.push( tunebook.tunes[t].title );
                 }    
             })

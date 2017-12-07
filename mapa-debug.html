@@ -358,7 +358,11 @@ notação abc, tablatura " />
                 //waterbug.log( 'createMap');
                 //waterbug.show();
                 
-                var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
+                var url = new URL(window.location.href);
+                var accordionId = url.searchParams.get("accordion");
+                var songId = url.searchParams.get("id");
+                
+                var accordion = accordionId || FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
 
                 myMap = new SITE.Mapa(
                     {   // interfaceParams
@@ -372,6 +376,7 @@ notação abc, tablatura " />
                       , mapMenuDiv: 'mapMenu'
                       , settingsMenu:'topSettings'
                       , keyboardDiv: "keyboardContainerDiv"
+                      , songId: songId
                       , accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps
@@ -414,7 +419,9 @@ notação abc, tablatura " />
                     setTimeout(function() { $('#tipsDiv').fadeOut('slow'); }, 15000);
                 }
                 
-                myMap.debugRepertorio();
+                //myMap.debugRepertorio();
+                //myMap.geraIndex();
+                
             }
             
         </script> <!-- mainScript -->

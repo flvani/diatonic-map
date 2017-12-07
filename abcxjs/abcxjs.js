@@ -3163,7 +3163,7 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
         if (ret.newline && multilineVars.continueall === undefined)
             startNewLine();
         if (ret.words)
-        addWords(tune.getCurrentStaff(), tune.getCurrentVoice(), line.substring(2));
+            addWords(tune.getCurrentStaff(), tune.getCurrentVoice(), line.substring(2));
         if (ret.symbols)
             addSymbols(tune.getCurrentVoice(), line.substring(2));
         if (ret.recurse)
@@ -4307,7 +4307,8 @@ window.ABCXJS.parse.ParseHeader = function(tokenizer, warn, multilineVars, tune,
 		R: 'rhythm',
 		S: 'source',
 		W: 'unalignedWords',
-		Z: 'transcription'
+		Z: 'transcription',
+                X: 'pieceId'
 	};
 
 	this.parseHeader = function(line, lineNumber ) {
@@ -4387,8 +4388,6 @@ window.ABCXJS.parse.ParseHeader = function(tokenizer, warn, multilineVars, tune,
 							return {symbols: true};
 						case  'w':
 							return {words: true};
-						case 'X':
-							break;
 						case 'E':
 						case 'm':
 							warn("Ignored header", line, 0);
