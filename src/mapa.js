@@ -1486,38 +1486,83 @@ SITE.Mapa.prototype.geraIndex = function( ) {
         return 0; 
     });    
 
-    var h = '<html>';
+    var path = '/diatonic-map/mapa-debug.html';
+    var h = '\
+<html>\n\
+    <head>\n\
+        <meta charset="UTF-8">\n\
+        <title>Repertório indexado</title>\n\
+        <style>\n\
+            h1 {font-family: Arial; font-size: 30px; line-height:10x;}\n\
+            h2 {font-family: Arial; font-size: 20px; line-height:10x;}\n\
+            table.interna {border-collapse: collapse; margin: 3px;}\n\
+            table.interna tr th td {border:1px solid #FF0000; }\n\
+            table.interna th {padding: 10px; background: blue; color: white; text-align: center;}\n\
+            table.interna tr {font-family: Arial; background: #dfdfdf;}\n\
+            table.interna td { padding: 10px; }\n\
+            table.interna img { width: 40px }\n\
+            table.interna .par {background: #C0C0C0;}\n\
+            table.interna .left {text-align: left;}\n\
+            table.interna .center {text-align: center;}\n\
+        </style>\n\
+    </head>\n\
+<body>\n\
+<br>\n\
+<h1>Repertório Geral</h1>\n\
+<h2>Tablaturas para acordeão G/C e/ou Club IIIM</h2>\n\
+<table class="interna"><tr><th class="left">Título</th><th class="left">Autor(es)</th><th>C/G</th><th>C/F - Club(br)</th></tr>\n\
+';
     
-    h += '<br><h1>Repertório</h1>';
-    h += '<table border="1">';
-    h += '<tr><th>Título</th><th>Autor(es)</th><th>G/C</th><th>Club(br)</th></tr>';
     for( var r = 0; r < repertorio.geral.length; r ++ ) {
-        h += '<tr><td>'+repertorio.geral[r].title
+        var a1 = repertorio.geral[r].geral? '<a href="'+path+'?accordion=GAITA_MINUANO_GC&id='+repertorio.geral[r].geral+'"><img alt="sim" src="../images/sim.png" ></a>': '<img alt="nao" src="../images/nao.png" >';
+        var a2 = repertorio.geral[r].club? '<a href="'+path+'?accordion=GAITA_HOHNER_CLUB_IIIM_BR&id='+repertorio.geral[r].club+'"><img alt="sim" src="../images/sim.png" ></a>': '<img alt="nao" src="../images/nao.png" >';
+        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
+                +'<td>'+repertorio.geral[r].title
                 +'</td><td>'+repertorio.geral[r].composer
-                +'</td><td><a href="http://localhost:8383/diatonic-map/mapa-debug.html?accordion=GAITA_MINUANO_GC&id='+repertorio.geral[r].geral+'">C/G</a>'
-                +'</td><td><a href="http://localhost:8383/diatonic-map/mapa-debug.html?accordion=GAITA_HOHNER_CLUB_IIIM_BR&id='+repertorio.geral[r].club+'">CLUB_IIIM_BR</a>'
-                +'</td></tr>';
+                +'</td>\n<td class="center">'+a1
+                +'</td>\n<td class="center">'+a2
+                +'</td></tr>\n';
     }
-    h += '</table>';
-
-    h += '<br><h1>Transportada</h1>';
-    h += '<table border="1">';
-    h += '<tr><th>Título</th><th>Autor(es)</th>';
+    
+    h += '\
+</table>\n\
+<br><h1>Transportada</h1>\n\
+<h2>Tablaturas para acordeão Transportado</h2>\n\
+<table class="interna"><tr><th class="left">Título</th><th class="left">Autor(es)</th><th>B/C</th></tr>\n\
+';
+                    
     for( var r = 0; r < repertorio.transportada.length; r ++ ) {
-        h += '<tr><td>'+repertorio.transportada[r].title+'</td><td>'+repertorio.transportada[r].composer+'</td></tr>';
+        var a1 = '<a href="'+path+'?accordion=GAITA_MINUANO_BC_TRANSPORTADA&id='+repertorio.transportada[r].geral+'"><img alt="sim" src="../images/sim.png" ></a>';
+        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
+                +'<td>'+repertorio.transportada[r].title
+                +'</td><td>'+repertorio.transportada[r].composer
+                +'</td>\n<td class="center">'+a1
+                +'</td></tr>\n';
     }
-    h += '</table>';
     
-    h += '<br><h1>Corona</h1>';
-    h += '<table border="1">';
-    h += '<tr><th>Título</th><th>Autor(es)</th>';
+    h += '\
+</table>\n\
+<br><h1>Corona</h1>\n\
+<h2>Tablaturas para acordeão Corona II A/D/G</h2>\n\
+<table class="interna"><tr><th class="left">Título</th><th class="left">Autor(es)</th><th>A/D/G</th></tr>\n\
+';
+                    
     for( var r = 0; r < repertorio.corona.length; r ++ ) {
-        h += '<tr><td>'+repertorio.corona[r].title+'</td><td>'+repertorio.corona[r].composer+'</td></tr>';
+        var a1 = '<a href="'+path+'?accordion=GAITA_MINUANO_BC_TRANSPORTADA&id='+repertorio.corona[r].geral+'"><img alt="sim" src="../images/sim.png" ></a>';
+        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
+                +'<td>'+repertorio.corona[r].title
+                +'</td><td>'+repertorio.corona[r].composer
+                +'</td>\n<td class="center">'+a1
+                +'</td></tr>\n';
     }
-     h += '</table>';
-     h += '</html>';
+    
+    h += '\
+</table>\n\
+</body>\n\
+</html>\n\
+';
 
     
-    FILEMANAGER.download( 'repertorio.indexado.html', h );
+FILEMANAGER.download( 'repertorio.indexado.html', h );
     
 };        
