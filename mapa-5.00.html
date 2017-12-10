@@ -25,9 +25,9 @@ notação abc, tablatura " />
         <link rel="stylesheet" href="fontsIco/abcx.css" />
         <link rel="stylesheet" href="fontsGoogle/fonts.css" />
         
-        <link rel="stylesheet" href="css/styles4abcx_5.15-min.css" />
+        <link rel="stylesheet" href="css/styles4abcx_5.16-min.css" />
         
-        <link rel="stylesheet" href="site/site_5.15-min.css" />
+        <link rel="stylesheet" href="site/site_5.16-min.css" />
         
         
     </head>
@@ -47,18 +47,18 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jslib/html5kellycolorpicker.min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_5.15-min.js"></script>
+        <script type="text/javascript" src="file/filemanager_5.16-min.js"></script>
         
         <!-- suporte mapas de acordeões -->
-        <script type="text/javascript" src="diatonic/diatonic_5.15-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic_5.16-min.js"></script>
         
         <!-- ACE Editor -->
-        <script type="text/javascript" src="ace4abcx/ace4abcx_5.15-min.js"></script>
+        <script type="text/javascript" src="ace4abcx/ace4abcx_5.16-min.js"></script>
        
         <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.15-min.js" ></script>
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.16-min.js" ></script>
         
-        <script id="mainSITE" type="text/javascript" src="site/site_5.15.js"></script>
+        <script id="mainSITE" type="text/javascript" src="site/site_5.16.js"></script>
 
         <div id="topBar" class="topBar gradiente" >
             <span data-translate="appName" class="topTitle">Mapa para Acordeões Diatônicos</span>
@@ -341,7 +341,11 @@ notação abc, tablatura " />
             
             function createMap() {
                 
-                var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
+                var url = new URL(window.location.href);
+                var accordionId = url.searchParams.get("accordion");
+                var songId = url.searchParams.get("id");
+                
+                var accordion = accordionId || FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
 
                 myMap = new SITE.Mapa(
                     {   // interfaceParams
@@ -355,6 +359,7 @@ notação abc, tablatura " />
                       , mapMenuDiv: 'mapMenu'
                       , settingsMenu:'topSettings'
                       , keyboardDiv: "keyboardContainerDiv"
+                      , songId: songId
                       , accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps
@@ -391,8 +396,6 @@ notação abc, tablatura " />
                     $('#tipsDiv').fadeIn('slow');
                     setTimeout(function() { $('#tipsDiv').fadeOut('slow'); }, 15000);
                 }
-                
-                // myMap.debugRepertorio();
             }
             
         </script> <!-- mainScript -->

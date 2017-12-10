@@ -40,6 +40,7 @@
         ,"tabPractices": "Practices"
         ,"SAVEMAP": "Save current map"
         ,"LOADMAP": "Load from local drive"
+        ,"IDXREPERTOIRE": "Index"
         ,"RESTOREREPERTOIRE": "Restore original"
         ,"LOADREPERTOIRE": "Load from local drive"
         ,"EXPORTREPERTOIRE": "Export to local drive"

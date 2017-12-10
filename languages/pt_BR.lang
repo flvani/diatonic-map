@@ -40,6 +40,7 @@
         ,"tabPractices": "Exercícios"
         ,"SAVEMAP": "Salvar mapa corrente"
         ,"LOADMAP": "Carregar mapa do disco local"
+        ,"IDXREPERTOIRE": "Índice"
         ,"RESTOREREPERTOIRE": "Restaurar o original"
         ,"LOADREPERTOIRE": "Carregar do drive local"
         ,"EXPORTREPERTOIRE": "Exportar para o drive local"

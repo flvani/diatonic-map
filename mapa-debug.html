@@ -69,6 +69,7 @@ notação abc, tablatura " />
         <script type="text/javascript" src="src/tabgen.js"></script>
         <script type="text/javascript" src="src/t2p_parser.js"></script>
         <script type="text/javascript" src="src/p2t_parser.js"></script>
+        <script type="text/javascript" src="src/repertorio.js"></script>
 
         <div id="topBar" class="topBar gradiente" >
             <span data-translate="appName" class="topTitle">Mapa para Acordeões Diatônicos</span>
@@ -419,8 +420,8 @@ notação abc, tablatura " />
                     setTimeout(function() { $('#tipsDiv').fadeOut('slow'); }, 15000);
                 }
                 
-                //myMap.debugRepertorio();
-                myMap.geraIndex();
+                //(new SITE.Repertorio()).compileAll()
+                //(new SITE.Repertorio()).geraIndex();
                 
             }
             
