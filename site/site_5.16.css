@@ -10,6 +10,7 @@
 
 body {
   background: #fff;
+  width: calc(100% - 30px); 
 
 }
 
@@ -70,14 +71,21 @@ body {
     padding: 4px;
     position: relative;
     float:bottom;
-    top: 50px;
+    top: 70px;
     left: 0px;
-    right:0; 
+    width: calc(100% - 10px); 
+    max-width:1000px; 
     border: #C0C0C0; 
     border-style: double; 
     border-width: 2px; 
    font-family: sans-serif;
 }
+
+.helpContent img { 
+    width: calc(100% - 10px); 
+    max-width:990px; 
+}
+
 
 .helpContent h1 {
   text-align: center;

@@ -10,16 +10,16 @@ function printHelp(p) {
     ga('send', 'event', 'Ajuda', 'print', p );
                
     var doc = document.getElementById("helpContainer");
-    var mTop = doc.style.marginTop;
+    var mTop = doc.style.top;
     var bWid = doc.style.borderWidth ;
     var pad = doc.style.padding;
     document.getElementById("helpHeader").style.display = 'none';
-    doc.style.marginTop = '20px';
+    doc.style.top = '0px';
     doc.style.borderWidth = '0px';
     doc.style.padding = '0px';
     window.print();
     doc.style.padding = pad;
-    doc.style.marginTop = mTop;
+    doc.style.top = mTop;
     doc.style.borderWidth = bWid;
     document.getElementById("helpHeader").style.display = 'inline';
    

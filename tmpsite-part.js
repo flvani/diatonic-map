@@ -762,7 +762,8 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     DIATONIC.map.color.close = SITE.properties.colors.close;
     DIATONIC.map.color.open = SITE.properties.colors.open;
     
-    this.songId = interfaceParams.songId;
+    this.loadByIdx = this.songId = interfaceParams.songId;
+    
     this.keyboardDiv = interfaceParams.keyboardDiv;
     
     this.fileLoadMap = document.getElementById('fileLoadMap');
@@ -917,14 +918,10 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.showAccordionImage();
     this.accordionSelector.populate(false);
     this.accordion.printKeyboard( this.keyboardDiv );
-    
-    if(this.songId ) {
-        (new SITE.Repertorio()).geraIndex(this);
-    }
-    
     this.loadOriginalRepertoire();
     
     SITE.translator.translate();
+    
     this.resize();
     
 };
@@ -945,8 +942,6 @@ SITE.Mapa.prototype.setup = function (tabParams) {
     
     this.midiPlayer.reset();
     this.accordion.loadById(tabParams.accordionId);
-    
-    
     
     this.showAccordionName();
     this.showAccordionImage();
@@ -1080,7 +1075,14 @@ SITE.Mapa.prototype.doLoadOriginalRepertoire = function (loader) {
     this.loadABCList(this.renderedTune.tab);
     
     this.showTab('songsTab');
+    
     loader.stop();
+    
+    if( this.loadByIdx ) {
+        SITE.ga('send', 'event', 'Mapa5', 'index', this.getActiveTab().title);
+        (new SITE.Repertorio()).geraIndex(this);
+        delete this.loadByIdx;
+    }
 
 };
 
@@ -2121,8 +2123,12 @@ SITE.Mapa.prototype.helpCallback = function ( action ) {
         this.helpWindow.setVisible(false);
     } else if( action === 'PRINT' ) {
         var container = this.iframe.contentDocument.getElementById('helpContainer');
-        if( container )
-            this.printPreview( container.innerHTML, ["#topBar","#mapaDiv"], false );
+        if( container ) {
+            var t = container.style.top;
+            container.style.top = '0';
+            this.printPreview( container.innerHTML, ["#draggableWindow2", "#topBar","#mapaDiv"], false );
+            container.style.top = t;
+        }
     }
 //    console.log( action );
 };

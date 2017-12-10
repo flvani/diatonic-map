@@ -211,6 +211,7 @@ acordeão diatônico, gaita de oito baixos, gaita ponto, notação musical, apre
                     top: "10px", left: "800px", width: 'auto', height: "80%", title: 'IDXREPERTOIRE'}
                 , null 
             );
+            this.win.dataDiv.className = "draggableData customScrollBar";
         }
         this.win.setVisible(true);
         this.win.dataDiv.innerHTML = h;

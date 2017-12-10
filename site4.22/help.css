@@ -13,6 +13,8 @@ body {
 
 }
 
+
+
 .tabCifra {
     border-collapse: collapse;
     border: 1px solid black;
@@ -72,7 +74,7 @@ body {
     float:bottom;
     top: 50px;
     left: 0px;
-    right:0; 
+    right:100%; 
     border: #C0C0C0; 
     border-style: double; 
     border-width: 2px; 
