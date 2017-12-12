@@ -55,7 +55,7 @@ SITE.getLanguage = function ( ) {
 };
 
 SITE.LoadProperties = function() {
-    
+    var salvar = false;
     //FILEMANAGER.removeLocal('diatonic-map.site.properties' ); // usdo para forçar reset da propriedades
     
     try{
@@ -77,93 +77,89 @@ SITE.LoadProperties = function() {
         
         SITE.properties.options.showConsole = true;
         
-        if( ! SITE.properties.studio.media ) {
-            SITE.properties.studio.media = {
-                visible: false
-                ,top: "20px"
-                ,left: "1200px"
-                ,width: 100
-                ,height: 200
-            };
-            SITE.properties.partGen.media = {
-                visible: false
-                ,top: "20px"
-                ,left: "1200px"
-                ,width: 100
-                ,height: 200
-            };
-        }
-        
     } else if( ! SITE.properties.version || SITE.properties.version === 'debug' || parseFloat( SITE.properties.version ) < parseFloat( ver )  ) {
         
         SITE.properties.version = ver;
+        salvar = true;
+        
+    }
+    
+    if( !SITE.properties.known_languages ) {
 
-        if( !SITE.properties.known_languages ) {
+        SITE.properties.known_languages = {
+             de_DE: { file: 'languages/de_DE.lang', image: "images/de_DE.png", name: 'Deustch' } 
+            ,en_US: { file: 'languages/en_US.lang', image: "images/en_US.png", name: 'US English' } 
+            ,es_ES: { file: 'languages/es_ES.lang', image: "images/es_ES.png", name: 'Español' } 
+            ,fr_FR: { file: 'languages/fr_FR.lang', image: "images/fr_FR.png", name: 'Français' } 
+            ,it_IT: { file: 'languages/it_IT.lang', image: "images/it_IT.png", name: 'Italiano' } 
+            ,pt_BR: { file: 'languages/pt_BR.lang', image: "images/pt_BR.png", name: 'Português do Brasil' } 
+        };
 
-            SITE.properties.known_languages = {
-                 de_DE: { file: 'languages/de_DE.lang', image: "images/de_DE.png", name: 'Deustch' } 
-                ,en_US: { file: 'languages/en_US.lang', image: "images/en_US.png", name: 'US English' } 
-                ,es_ES: { file: 'languages/es_ES.lang', image: "images/es_ES.png", name: 'Español' } 
-                ,fr_FR: { file: 'languages/fr_FR.lang', image: "images/fr_FR.png", name: 'Français' } 
-                ,it_IT: { file: 'languages/it_IT.lang', image: "images/it_IT.png", name: 'Italiano' } 
-                ,pt_BR: { file: 'languages/pt_BR.lang', image: "images/pt_BR.png", name: 'Português do Brasil' } 
-            };
+        SITE.properties.options.language = SITE.getLanguage() ;
+        SITE.properties.colors.highLight = '#ff0000';
+        SITE.properties.options.showWarnings = false;
+        SITE.properties.options.showConsole = false;
+        SITE.properties.options.pianoSound = false;
+        
+        salvar = true;
+        
+    }
 
-            SITE.properties.options.language = SITE.getLanguage() ;
-            SITE.properties.colors.highLight = '#ff0000';
-            SITE.properties.options.showWarnings = false;
-            SITE.properties.options.showConsole = false;
-            SITE.properties.options.pianoSound = false;
-        }
+    if( ! SITE.properties.studio.media ) {
+        SITE.properties.studio.media = {
+            visible: false
+            ,top: "20px"
+            ,left: "1200px"
+            ,width: 100
+            ,height: 200
+        };
+        SITE.properties.partGen.media = {
+            visible: false
+            ,top: "20px"
+            ,left: "1200px"
+            ,width: 100
+            ,height: 200
+        };
+        
+        salvar = true;
+    }
 
-        if( ! SITE.properties.studio.media ) {
-            SITE.properties.studio.media = {
+    if(!SITE.properties.partEdit) {
+        SITE.properties.partEdit = {
+             media: {
                 visible: false
                 ,top: "20px"
                 ,left: "1200px"
                 ,width: 100
                 ,height: 200
-            };
-            SITE.properties.partGen.media = {
-                visible: false
-                ,top: "20px"
+            } 
+            , editor : {
+                 visible: true
+                ,floating: false
+                ,maximized: false
+                ,top: "40px"
+                ,left: "50px"
+                ,width: "700px"
+                ,height: "480px"
+            }
+            , keyboard: {
+                 visible: false
+                ,top: "65px"
                 ,left: "1200px"
-                ,width: 100
-                ,height: 200
-            };
-        }
-        if(!SITE.properties.partEdit) {
-            SITE.properties.partEdit = {
-                 media: {
-                    visible: false
-                    ,top: "20px"
-                    ,left: "1200px"
-                    ,width: 100
-                    ,height: 200
-                } 
-                , editor : {
-                     visible: true
-                    ,floating: false
-                    ,maximized: false
-                    ,top: "40px"
-                    ,left: "50px"
-                    ,width: "700px"
-                    ,height: "480px"
-                }
-                , keyboard: {
-                     visible: false
-                    ,top: "65px"
-                    ,left: "1200px"
-                    ,scale: 1
-                    ,mirror: true
-                    ,transpose: false
-                    ,label: false
-                }
-            };
-        }
-
+                ,scale: 1
+                ,mirror: true
+                ,transpose: false
+                ,label: false
+            }
+        };
+        
+        salvar = true;
+    }
+    
+    if( salvar ) {
         SITE.SaveProperties();
     }
+    
 };
 
 SITE.SaveProperties = function() {
@@ -577,7 +573,7 @@ SITE.Media.prototype.show = function(tab) {
             this.mediaWindow.dataDiv.style.width = width + 'px'; 
             this.mediaWindow.topDiv.style.width = width + 'px'; 
             this.mediaWindow.dataDiv.style.height = height + 'px';
-            this.mediaWindow.topDiv.style.height = width + 'px'; 
+            this.mediaWindow.topDiv.style.height = height + 'px'; 
             
             if( ! this.tabDiv ) {
                 this.tabDiv = document.createElement('div');
@@ -1005,28 +1001,28 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             (new SITE.Repertorio()).geraIndex(this);
             break;
         case 'JUMPS':
-            this.showHelp('HelpTitle', 'JUMPS', '/diatonic-map/html5/sinaisRepeticao.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'JUMPS', '/diatonic-map/html/sinaisRepeticao.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'ABCX':
-            this.showHelp('HelpTitle', 'ABCX', '/diatonic-map/html5/formatoABCX.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'ABCX', '/diatonic-map/html/formatoABCX.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'ESTUDIO':
-            this.showHelp('HelpTitle', 'ESTUDIO', '/diatonic-map/html5/estudioABCX.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'ESTUDIO', '/diatonic-map/html/estudioABCX.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TABS':
-            this.showHelp('HelpTitle', 'TABS', '/diatonic-map/html5/tablatura.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'TABS', '/diatonic-map/html/tablatura.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TABSTRANSPORTADA':
-            this.showHelp('HelpTitle', 'TABSTRANSPORTADA', '/diatonic-map/html5/tablaturaTransportada.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'TABSTRANSPORTADA', '/diatonic-map/html/tablaturaTransportada.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'MAPS':
-            this.showHelp('HelpTitle', 'MAPS', '/diatonic-map/html5/mapas.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'MAPS', '/diatonic-map/html/mapas.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TUTORIAL':
-            this.showHelp('HelpTitle', 'TUTORIAL', '/diatonic-map/html5/tutoriais.pt_BR.html', { width: '1024', height: '600', print:false } );
+            this.showHelp('HelpTitle', 'TUTORIAL', '/diatonic-map/html/tutoriais.pt_BR.html', { width: '1024', height: '600', print:false } );
             break;
         case 'ABOUT':
-            this.showHelp('AboutTitle', '', '/diatonic-map/html5/about.pt_BR.html', { width: '800', print:false } );
+            this.showHelp('AboutTitle', '', '/diatonic-map/html/about.pt_BR.html', { width: '800', print:false } );
             break;
         case 'GAITA_MINUANO_GC':
         case 'GAITA_MINUANO_BC_TRANSPORTADA':
@@ -2124,10 +2120,12 @@ SITE.Mapa.prototype.helpCallback = function ( action ) {
     } else if( action === 'PRINT' ) {
         var container = this.iframe.contentDocument.getElementById('helpContainer');
         if( container ) {
-            var t = container.style.top;
-            container.style.top = '0';
-            this.printPreview( container.innerHTML, ["#draggableWindow2", "#topBar","#mapaDiv"], false );
-            container.style.top = t;
+            //var t = container.style.top;
+            //container.style.top = '0';
+            this.printPreview( container.innerHTML, [ "#"+this.helpWindow.topDiv.id, "#topBar","#mapaDiv"], false );
+            //var header = this.iframe.contentDocument.getElementById('helpHeader');
+            //if( header ) header.style.display = 'none';
+            //container.style.top = t;
         }
     }
 //    console.log( action );

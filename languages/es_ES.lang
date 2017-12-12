@@ -159,7 +159,7 @@
         ,"IEMsgTitle": "Parece que estás utilizando el Internet Explorer."
         ,"IEMsgDescription": "Desafortunadamente, muchas características no estarían disponibles con este navegador. Por favor, pruebe uno de los siguientes navegadores:"
         ,"ErrLoadingTitle": "OOPS !!! ¡Algo salió mal!"
-        ,"ErrLoadingDescription1": "Por favor, intenta volver a cargar esta página o intenta utilizar la versión anterior del sitio:"
+        ,"ErrLoadingDescription1": "Por favor, intenta volver a cargar esta página."
         ,"ErrLoadingDescription2": "Si el problema persiste, escriba un e-mail a:"
         ,"ReleaseNotesNotice": "Hay una nueva versión: Vea las notas de lanzamiento."
     }

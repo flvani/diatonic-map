@@ -159,7 +159,7 @@
         ,"IEMsgTitle": "Parece que você está usando o Internet Explorer."
         ,"IEMsgDescription": "Infelizmente, muitas funcionalidades do aplicativo ficariam indisponíves neste navegador. Por favor, use um dos seguintes navegadores:"
         ,"ErrLoadingTitle": "OOPS!!! Tivemos problemas para carregar alguns recursos!"
-        ,"ErrLoadingDescription1": "Por favor, tente recarregar esta página ou use a versão anterior deste site:"
+        ,"ErrLoadingDescription1": "Por favor, tente recarregar esta página."
         ,"ErrLoadingDescription2": "Se o problema persistir, avise-nos pelo e-mail:"
         ,"ReleaseNotesNotice": "Há uma nova versão: Veja as notas de lançamento."
    }

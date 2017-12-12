@@ -111,7 +111,7 @@ SITE.Media.prototype.show = function(tab) {
             this.mediaWindow.dataDiv.style.width = width + 'px'; 
             this.mediaWindow.topDiv.style.width = width + 'px'; 
             this.mediaWindow.dataDiv.style.height = height + 'px';
-            this.mediaWindow.topDiv.style.height = width + 'px'; 
+            this.mediaWindow.topDiv.style.height = height + 'px'; 
             
             if( ! this.tabDiv ) {
                 this.tabDiv = document.createElement('div');

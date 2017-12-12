@@ -55,7 +55,7 @@ SITE.getLanguage = function ( ) {
 };
 
 SITE.LoadProperties = function() {
-    
+    var salvar = false;
     //FILEMANAGER.removeLocal('diatonic-map.site.properties' ); // usdo para forçar reset da propriedades
     
     try{
@@ -77,93 +77,89 @@ SITE.LoadProperties = function() {
         
         SITE.properties.options.showConsole = true;
         
-        if( ! SITE.properties.studio.media ) {
-            SITE.properties.studio.media = {
-                visible: false
-                ,top: "20px"
-                ,left: "1200px"
-                ,width: 100
-                ,height: 200
-            };
-            SITE.properties.partGen.media = {
-                visible: false
-                ,top: "20px"
-                ,left: "1200px"
-                ,width: 100
-                ,height: 200
-            };
-        }
-        
     } else if( ! SITE.properties.version || SITE.properties.version === 'debug' || parseFloat( SITE.properties.version ) < parseFloat( ver )  ) {
         
         SITE.properties.version = ver;
+        salvar = true;
+        
+    }
+    
+    if( !SITE.properties.known_languages ) {
 
-        if( !SITE.properties.known_languages ) {
+        SITE.properties.known_languages = {
+             de_DE: { file: 'languages/de_DE.lang', image: "images/de_DE.png", name: 'Deustch' } 
+            ,en_US: { file: 'languages/en_US.lang', image: "images/en_US.png", name: 'US English' } 
+            ,es_ES: { file: 'languages/es_ES.lang', image: "images/es_ES.png", name: 'Español' } 
+            ,fr_FR: { file: 'languages/fr_FR.lang', image: "images/fr_FR.png", name: 'Français' } 
+            ,it_IT: { file: 'languages/it_IT.lang', image: "images/it_IT.png", name: 'Italiano' } 
+            ,pt_BR: { file: 'languages/pt_BR.lang', image: "images/pt_BR.png", name: 'Português do Brasil' } 
+        };
 
-            SITE.properties.known_languages = {
-                 de_DE: { file: 'languages/de_DE.lang', image: "images/de_DE.png", name: 'Deustch' } 
-                ,en_US: { file: 'languages/en_US.lang', image: "images/en_US.png", name: 'US English' } 
-                ,es_ES: { file: 'languages/es_ES.lang', image: "images/es_ES.png", name: 'Español' } 
-                ,fr_FR: { file: 'languages/fr_FR.lang', image: "images/fr_FR.png", name: 'Français' } 
-                ,it_IT: { file: 'languages/it_IT.lang', image: "images/it_IT.png", name: 'Italiano' } 
-                ,pt_BR: { file: 'languages/pt_BR.lang', image: "images/pt_BR.png", name: 'Português do Brasil' } 
-            };
+        SITE.properties.options.language = SITE.getLanguage() ;
+        SITE.properties.colors.highLight = '#ff0000';
+        SITE.properties.options.showWarnings = false;
+        SITE.properties.options.showConsole = false;
+        SITE.properties.options.pianoSound = false;
+        
+        salvar = true;
+        
+    }
 
-            SITE.properties.options.language = SITE.getLanguage() ;
-            SITE.properties.colors.highLight = '#ff0000';
-            SITE.properties.options.showWarnings = false;
-            SITE.properties.options.showConsole = false;
-            SITE.properties.options.pianoSound = false;
-        }
+    if( ! SITE.properties.studio.media ) {
+        SITE.properties.studio.media = {
+            visible: false
+            ,top: "20px"
+            ,left: "1200px"
+            ,width: 100
+            ,height: 200
+        };
+        SITE.properties.partGen.media = {
+            visible: false
+            ,top: "20px"
+            ,left: "1200px"
+            ,width: 100
+            ,height: 200
+        };
+        
+        salvar = true;
+    }
 
-        if( ! SITE.properties.studio.media ) {
-            SITE.properties.studio.media = {
+    if(!SITE.properties.partEdit) {
+        SITE.properties.partEdit = {
+             media: {
                 visible: false
                 ,top: "20px"
                 ,left: "1200px"
                 ,width: 100
                 ,height: 200
-            };
-            SITE.properties.partGen.media = {
-                visible: false
-                ,top: "20px"
+            } 
+            , editor : {
+                 visible: true
+                ,floating: false
+                ,maximized: false
+                ,top: "40px"
+                ,left: "50px"
+                ,width: "700px"
+                ,height: "480px"
+            }
+            , keyboard: {
+                 visible: false
+                ,top: "65px"
                 ,left: "1200px"
-                ,width: 100
-                ,height: 200
-            };
-        }
-        if(!SITE.properties.partEdit) {
-            SITE.properties.partEdit = {
-                 media: {
-                    visible: false
-                    ,top: "20px"
-                    ,left: "1200px"
-                    ,width: 100
-                    ,height: 200
-                } 
-                , editor : {
-                     visible: true
-                    ,floating: false
-                    ,maximized: false
-                    ,top: "40px"
-                    ,left: "50px"
-                    ,width: "700px"
-                    ,height: "480px"
-                }
-                , keyboard: {
-                     visible: false
-                    ,top: "65px"
-                    ,left: "1200px"
-                    ,scale: 1
-                    ,mirror: true
-                    ,transpose: false
-                    ,label: false
-                }
-            };
-        }
-
+                ,scale: 1
+                ,mirror: true
+                ,transpose: false
+                ,label: false
+            }
+        };
+        
+        salvar = true;
+    }
+    
+    if( salvar ) {
         SITE.SaveProperties();
     }
+    
 };
 
 SITE.SaveProperties = function() {

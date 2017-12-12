@@ -159,7 +159,7 @@
         ,"IEMsgTitle": "Sembra che utilizzi Internet Explorer."
         ,"IEMsgDescription": "Purtroppo, molte funzioni non saranno disponibili con questobrowser. Prova uno dei seguenti browser:"
         ,"ErrLoadingTitle": "OOPS!!! Qualcosa è andato storto!"
-        ,"ErrLoadingDescription1": "Prova a ricaricare questa pagina o prova a utilizzare la versione precedente del sito:"
+        ,"ErrLoadingDescription1": "Prova a ricaricare questa pagina."
         ,"ErrLoadingDescription2": "Se il problema persiste, scrivere un'email a:"
         ,"ReleaseNotesNotice": "C'è una nuova versione: Vedi le note di rilascio."
     }

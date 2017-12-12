@@ -159,7 +159,7 @@
         ,"IEMsgTitle": "Il semble que vous utilisez Internet Explorer."
         ,"IEMsgDescription": "Malheureusement, beaucoup de fonctionnalités deviendraient indisponibles avec ce navigateur. Veuillez essayer l'un des navigateurs suivants:"
         ,"ErrLoadingTitle": "OOPS!!! Quelque chose a mal tourné!"
-        ,"ErrLoadingDescription1": "Veuillez essayer de recharger cette page ou essayer d'utiliser la version précédente du site:"
+        ,"ErrLoadingDescription1": "Veuillez essayer de recharger cette page."
         ,"ErrLoadingDescription2": "Si le problème persiste, écrivez un e-mail à:"
         ,"ReleaseNotesNotice": "Il y a une nouvelle version: voir les notes de version."
     }

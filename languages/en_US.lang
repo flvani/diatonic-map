@@ -159,7 +159,7 @@
         ,"IEMsgTitle": "It seems you are using the Internet Explorer."
         ,"IEMsgDescription": "Unfortunately, lots of features would become unavailable with this browser. Please, try one of the following browsers:"
         ,"ErrLoadingTitle": "OOPS!!! Something went wrong!"
-        ,"ErrLoadingDescription1": "Please, try to reload this page or try to use the previous version of the site:"
+        ,"ErrLoadingDescription1": "Please, try to reload this page."
         ,"ErrLoadingDescription2": "If the problem persists, write an e-mail to:"
         ,"ReleaseNotesNotice": "There's a new version: See the release notes."    
     }

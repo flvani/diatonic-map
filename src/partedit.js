@@ -386,7 +386,7 @@ SITE.PartEdit.prototype.a2pCallback = function( e ) {
             this.closePartEdit(true);
             break;
         case 'HELP':
-            //this.mapa.showHelp('HelpTitle', 'PartEditTitle', '/diatonic-map/html5/geradorPartitura.pt_BR.html', { width: '1024', height: '600' } );
+            //this.mapa.showHelp('HelpTitle', 'PartEditTitle', '/diatonic-map/html/geradorPartitura.pt_BR.html', { width: '1024', height: '600' } );
             alert( 'Not implemented yet!' );
     }
 };
@@ -628,7 +628,7 @@ SITE.PartEdit.prototype.getDemoText = function() {
     return '\
 X: 1\n\
 T:Oh! Susannah\n\
-F:http://flvani.github.io/diatonic-map/img/susannah.tablatura.png\n\
+F:/diatonic-map/images/susannah.tablatura.png\n\
 M:2/4\n\
 L:1/4\n\
 Q:100\n\

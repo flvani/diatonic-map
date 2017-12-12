@@ -159,7 +159,7 @@
         ,"IEMsgTitle": "Es scheint, Sie verwenden den Internet Explorer."
         ,"IEMsgDescription": "Leider sind viele Features in diesem Browser nicht verfügbar. Bitte, versuchen Sie einen der folgenden Browser:"
         ,"ErrLoadingTitle": "OOPS!!! Etwas ist schief gelaufen!"
-        ,"ErrLoadingDescription1": "Bitte versuchen Sie, diese Seite neu zu laden oder versuchen Sie die vorherige Version der Website zu verwenden:"
+        ,"ErrLoadingDescription1": "Bitte versuchen Sie, diese Seite neu zu laden."
         ,"ErrLoadingDescription2": "Wenn das Problem weiterhin besteht, schreiben Sie eine E-Mail an:"
         ,"ReleaseNotesNotice": "Es gibt eine neue Version: Siehe die Release Notes."
     }
