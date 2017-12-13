@@ -82,8 +82,8 @@ body {
 }
 
 .helpContent img { 
-    width: calc(100% - 10px); 
-    max-width:990px; 
+   /* width: calc(100% - 10px); */
+    max-width: calc(100% - 10px);
 }
 
 

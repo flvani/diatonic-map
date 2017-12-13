@@ -249,6 +249,8 @@ notação abc, tablatura " />
                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
                 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+                SITE.ga('create', 'UA-62839199-1', 'auto');
+                
                 SITE.LoadProperties();
                 SITE.translator = new SITE.Translator( { language: SITE.properties.options.language, callback: initApp } );
                 
@@ -260,7 +262,6 @@ notação abc, tablatura " />
                 
                 if( ABCXJS.misc.isIE() ){
                     $('#mapaDiv').hide();
-                    SITE.ga('create', 'UA-62839199-1', 'auto');
                     SITE.ga('send', 'event', 'Error', 'browser', 'MS-IE' );
                     new DRAGGABLE.ui.Alert( 
                          null, null
@@ -312,7 +313,6 @@ notação abc, tablatura " />
             function loadMIDI(success) {
                 if(!success) {
                     MIDI.widget.hide();
-                    SITE.ga('create', 'UA-62839199-1', 'auto');
                     SITE.ga('send', 'event', 'Error', 'loading', 'resources' );
                     new DRAGGABLE.ui.Alert( 
                         null, null, 
@@ -387,7 +387,6 @@ notação abc, tablatura " />
                     } 
                 );
                 
-                SITE.ga('create', 'UA-62839199-1', 'auto');
                 SITE.ga('send', 'pageview');
                 SITE.ga('send', 'event', 'Configuration', 'language', SITE.properties.options.language);
                 

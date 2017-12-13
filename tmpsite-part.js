@@ -63,7 +63,6 @@ SITE.LoadProperties = function() {
     } catch(e) {
         waterbug.log( 'Could not load the properties.');
         waterbug.show( 'Could not save the properties');
-        SITE.ga('create', 'UA-62839199-1', 'auto');
         SITE.ga('send', 'event', 'Error', 'html5storage', 'loadingLocal' );
     }
     
@@ -168,7 +167,6 @@ SITE.SaveProperties = function() {
     } catch(e) {
         waterbug.log( 'Could not save the properties');
         waterbug.show( 'Could not save the properties');
-        SITE.ga('create', 'UA-62839199-1', 'auto');
         SITE.ga('send', 'event', 'Error', 'html5storage', 'savingLocal' );
     }
 };
