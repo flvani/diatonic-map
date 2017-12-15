@@ -129,16 +129,20 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
     var h = '\
 <html>\n\
     <head>\n\
-        <title>Repertório indexado</title>\n\
+        <title>Mapa para acordões diatônicos - Repertório indexado</title>\n\
         <meta charset="UTF-8">\n\
         <meta name="robots" content="index,follow">\n\
         <meta name="revisit-after" content="7 days">\n\
-        <meta name="keywords" content="diatonic accordion, notation, learning, practice, repertoire, abc tunes, midi, tablature\n\
+        <meta name="keywords" content="diatonic accordion, notation, learning, practice, repertoire, abc tunes, midi, tablature \
 acordeão diatônico, gaita de oito baixos, gaita ponto, notação musical, aprendizagem, prática, repertorio, notação abc, tablatura ">\n\
         <style>\n\
-            h1 {font-family: Arial; font-size: 30px; line-height:10x; margin:3px; }\n\
-            h2 {font-family: Arial; font-size: 20px; line-height:10x; margin:3px; }\n\
-            table.interna {border-collapse: collapse; width:650px; margin:3px; }\n\
+            h1 {font-family: Arial; font-size: 40px; line-height:10x; margin:3px; }\n\
+            h2 {font-family: Arial; font-size: 30px; line-height:10x; margin:3px; }\n\
+            h3 {font-family: Arial; font-size: 20px; line-height:10x; margin:3px; }\n\
+            p {font-family: Arial; font-size: 15px; line-height:10x; margin:3px; margin-bottom: 10px; }\n\
+            .credit {font-style: italic; }\n\
+            span {font-style: italic; font-weight: bold;}\n\
+            table.interna {border-collapse: collapse; width:calc(100% - 10px); min-width:650px; max-width:1024px; margin:3px; }\n\
             table.interna tr {font-family: Arial; background: #dfdfdf;}\n\
             table.interna th {background: blue; color: white; text-align: left; padding: 3px;}\n\
             table.interna td {text-align: left; padding: 3px;}\n\
@@ -150,9 +154,21 @@ acordeão diatônico, gaita de oito baixos, gaita ponto, notação musical, apre
         </style>\n\
     </head>\n\
 <body>\n\
-<br>\n\
-<h1>Repertório Geral</h1>\n\
-<h2>Tablaturas para acordeão G/C e/ou Club IIIM</h2>\n\
+<br>\n';
+                    
+if( ! map ) {
+h += '\
+<h1>Mapa para acordões diatônicos</h1>\n\
+<p class="credit">Desenvolvido por: <span>Flávio Vani</span>\n\
+<br>Coordenação musical: <span>prof. Cezar Ferreira</span></p>\n\
+<p>Esta página apresenta, em ordem alfabética, todo o repertório do site. O site é composto de partituras para acordeão diatônico com \n\
+tablaturas.</p>\n\
+<p><span>Nota: </span>Clique no checkmark verde (à direita) para abrir o site na partitura com o acordeão selecionado.</p>\n\
+';
+}
+
+h += '<h2>Repertório Geral</h2>\n\
+<h3>Tablaturas para acordeão G/C e/ou Club IIIM</h3>\n\
 <table class="interna"><tr><th>Título</th><th >Autor(es)</th><th class="center">G/C</th><th class="center">C/F  Club(br)</th></tr>\n\
 ';
     
@@ -167,8 +183,8 @@ acordeão diatônico, gaita de oito baixos, gaita ponto, notação musical, apre
     
     h += '\
 </table>\n\
-<br><h1>Transportada</h1>\n\
-<h2>Tablaturas para acordeão Transportado</h2>\n\
+<br><h2>Transportada</h2>\n\
+<h3>Tablaturas para acordeão Transportado</h3>\n\
 <table class="interna"><tr><th>Título</th><th>Autor(es)</th><th class="center">B/C</th></tr>\n\
 ';
                     
@@ -182,8 +198,8 @@ acordeão diatônico, gaita de oito baixos, gaita ponto, notação musical, apre
     
     h += '\
 </table>\n\
-<br><h1>Corona</h1>\n\
-<h2>Tablaturas para acordeão Corona II A/D/G</h2>\n\
+<br><h2>Corona</h2>\n\
+<h3>Tablaturas para acordeão Corona II A/D/G</h3>\n\
 <table class="interna"><tr><th>Título</th><th>Autor(es)</th><th class="center">A/D/G</th></tr>\n\
 ';
                     
