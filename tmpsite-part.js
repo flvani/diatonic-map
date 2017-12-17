@@ -996,7 +996,10 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             this.openABC2Part();
             break;
         case 'IDXREPERTOIRE':
-            (new SITE.Repertorio()).geraIndex(this);
+            if(! this.repertoireWin ) {
+                this.repertoireWin = new SITE.Repertorio();
+            }
+            this.repertoireWin.geraIndex(this);
             break;
         case 'JUMPS':
             this.showHelp('HelpTitle', 'JUMPS', '/diatonic-map/html/sinaisRepeticao.pt_BR.html', { width: '1024', height: '600' } );
@@ -1074,7 +1077,11 @@ SITE.Mapa.prototype.doLoadOriginalRepertoire = function (loader) {
     
     if( this.loadByIdx ) {
         SITE.ga('send', 'event', 'Mapa5', 'index', this.getActiveTab().title);
-        (new SITE.Repertorio()).geraIndex(this);
+        if(! this.repertoireWin ) {
+            this.repertoireWin = new SITE.Repertorio();
+        }
+        this.repertoireWin.geraIndex(this);
+        
         delete this.loadByIdx;
     }
 

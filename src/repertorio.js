@@ -219,7 +219,8 @@ h += '<h2>Repertório Geral</h2>\n\
 ';
 
     if( map ){
-        if( ! this.win ) {
+        var novo = ! this.win;
+        if( novo ) {
             this.win = new DRAGGABLE.ui.Window( 
                   map.mapDiv
                 , null
@@ -230,9 +231,15 @@ h += '<h2>Repertório Geral</h2>\n\
             this.win.dataDiv.className = "draggableData customScrollBar";
         }
         this.win.setVisible(true);
+        
         this.win.dataDiv.innerHTML = h;
-        this.win.topDiv.style.left = (window.innerWidth - this.win.topDiv.clientWidth - 12) + 'px';
+        
+        if(novo) {
+            this.win.topDiv.style.left = (window.innerWidth - this.win.topDiv.clientWidth - 12) + 'px';
+        }
+        
         this.bindSongs(this.win.dataDiv, map );
+        
     } else {
         FILEMANAGER.download( 'repertorio.indexado.pt_BR.html', h );
     }
