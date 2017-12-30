@@ -235,7 +235,10 @@ h += '<h2>Repertório Geral</h2>\n\
         this.win.dataDiv.innerHTML = h;
         
         if(novo) {
-            this.win.topDiv.style.left = (window.innerWidth - this.win.topDiv.clientWidth - 12) + 'px';
+            
+            var x = window.innerWidth - this.win.topDiv.clientWidth - 12;
+            this.win.topDiv.style.left = (x<0?0:x) + 'px';
+            
         }
         
         this.bindSongs(this.win.dataDiv, map );

@@ -340,9 +340,8 @@ notação abc, tablatura " />
             
             function createMap() {
                 
-                var url = new URL(window.location.href);
-                var accordionId = url.searchParams.get("accordion");
-                var songId = url.searchParams.get("id");
+                var accordionId = SITE.findGetParameter("accordion");
+                var songId = SITE.findGetParameter("id");
                 
                 var accordion = accordionId || FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
 

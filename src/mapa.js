@@ -1232,23 +1232,38 @@ SITE.Mapa.prototype.changePageOrientation = function (orientation) {
 SITE.Mapa.prototype.printPreview = function (html, divsToHide, landscape ) {
     
     var dv = document.getElementById('printPreviewDiv');
-
-    divsToHide.forEach( function( div ) {
-        $(div).hide();
-    });
     
-    this.changePageOrientation(landscape? 'landscape': 'portrait');
-    
-    dv.style.display = 'block';
-    dv.innerHTML = html;
-    window.setTimeout(function(){
-        window.print();
-        dv.style.display = 'none';
-
+    if (window.matchMedia ) {
+        
         divsToHide.forEach( function( div ) {
-            $(div).show();
+            var hd = document.getElementById(div.substring(1));
+            hd.style.opacity = 0;
         });
-    }, 100 );
+
+        this.changePageOrientation(landscape? 'landscape': 'portrait');
+
+        dv.style.display = 'block';
+        dv.innerHTML = html;
+
+        var printMedia = window.matchMedia( 'print' );
+        
+        printMedia.addListener( function(pm) {
+
+            if( ! pm.matches ) {
+                
+                dv.style.display = 'none';
+                
+                divsToHide.forEach( function( div ) {
+                    var hd = document.getElementById(div.substring(1));
+                    hd.style.opacity = 1;
+                    
+                });
+            }
+        });
+        
+        window.print();
+        
+    }    
 };
 
 SITE.Mapa.prototype.resizeActiveWindow = function() {
@@ -1339,7 +1354,7 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
           , { listener: this, method:'helpCallback' }
         );
         this.helpWindow.dataDiv.style.height = "auto";
-        this.helpWindow.dataDiv.className+=" customScrollBar";
+        //this.helpWindow.dataDiv.className+=" customScrollBar";
     }
 
     this.helpWindow.setTitle(title, SITE.translator);
@@ -1361,7 +1376,7 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
                 that.helpWindow.topDiv.style.opacity = "1";
                 that.iframe.style.height = options.height+"px";
                 loader.stop();
-                this.contentDocument.body.className+="customScrollBar";
+                //this.contentDocument.body.className+="customScrollBar";
                 var header = this.contentDocument.getElementById('helpHeader');
                 var container = this.contentDocument.getElementById('helpContainer');
                 if( header ) header.style.display = 'none';

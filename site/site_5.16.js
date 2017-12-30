@@ -7,6 +7,17 @@
 if (!window.SITE)
     window.SITE = {};
 
+SITE.findGetParameter = function(parameterName) {
+    var result = null,
+        tmp = [];
+    var items = window.location.search.substr(1).split("&");
+    for (var index = 0; index < items.length; index++) {
+        tmp = items[index].split("=");
+        if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+    }
+    return result;
+};
+
 SITE.getDate = function (){
     var today = new Date();
     var dd = today.getDate();
@@ -1968,23 +1979,38 @@ SITE.Mapa.prototype.changePageOrientation = function (orientation) {
 SITE.Mapa.prototype.printPreview = function (html, divsToHide, landscape ) {
     
     var dv = document.getElementById('printPreviewDiv');
-
-    divsToHide.forEach( function( div ) {
-        $(div).hide();
-    });
     
-    this.changePageOrientation(landscape? 'landscape': 'portrait');
-    
-    dv.style.display = 'block';
-    dv.innerHTML = html;
-    window.setTimeout(function(){
-        window.print();
-        dv.style.display = 'none';
-
+    if (window.matchMedia ) {
+        
         divsToHide.forEach( function( div ) {
-            $(div).show();
+            var hd = document.getElementById(div.substring(1));
+            hd.style.opacity = 0;
         });
-    }, 100 );
+
+        this.changePageOrientation(landscape? 'landscape': 'portrait');
+
+        dv.style.display = 'block';
+        dv.innerHTML = html;
+
+        var printMedia = window.matchMedia( 'print' );
+        
+        printMedia.addListener( function(pm) {
+
+            if( ! pm.matches ) {
+                
+                dv.style.display = 'none';
+                
+                divsToHide.forEach( function( div ) {
+                    var hd = document.getElementById(div.substring(1));
+                    hd.style.opacity = 1;
+                    
+                });
+            }
+        });
+        
+        window.print();
+        
+    }    
 };
 
 SITE.Mapa.prototype.resizeActiveWindow = function() {
@@ -2075,7 +2101,7 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
           , { listener: this, method:'helpCallback' }
         );
         this.helpWindow.dataDiv.style.height = "auto";
-        this.helpWindow.dataDiv.className+=" customScrollBar";
+        //this.helpWindow.dataDiv.className+=" customScrollBar";
     }
 
     this.helpWindow.setTitle(title, SITE.translator);
@@ -2097,7 +2123,7 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
                 that.helpWindow.topDiv.style.opacity = "1";
                 that.iframe.style.height = options.height+"px";
                 loader.stop();
-                this.contentDocument.body.className+="customScrollBar";
+                //this.contentDocument.body.className+="customScrollBar";
                 var header = this.contentDocument.getElementById('helpHeader');
                 var container = this.contentDocument.getElementById('helpContainer');
                 if( header ) header.style.display = 'none';
@@ -6180,7 +6206,10 @@ h += '<h2>Repertório Geral</h2>\n\
         this.win.dataDiv.innerHTML = h;
         
         if(novo) {
-            this.win.topDiv.style.left = (window.innerWidth - this.win.topDiv.clientWidth - 12) + 'px';
+            
+            var x = window.innerWidth - this.win.topDiv.clientWidth - 12;
+            this.win.topDiv.style.left = (x<0?0:x) + 'px';
+            
         }
         
         this.bindSongs(this.win.dataDiv, map );

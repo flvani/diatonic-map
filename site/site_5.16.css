@@ -7,42 +7,19 @@
     .page-break	{ display: block; page-break-before: always; }
     .info   	{ display: block; }
 }
-
 body {
-  background: #fff;
-  width: calc(100% - 30px); 
-
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
-.tabCifra {
-    border-collapse: collapse;
-    border: 1px solid black;
-    width: 70%;
-    margin: auto;
+.frame {
+    background: #fff;
+    overflow-y: scroll;
+    width: calc( 100% - 1px );
+    height: calc( 100% - 0px );
+    position: absolute;
 }
-
-.tabCifra th, .tabCifra td {
-    border: 1px solid black;
-    width:80px;
-    text-align: center;
-}
-
-.tabCifra th {
-    font-weight: bold;
-}
-
-.btn {
-  border: 1px outset buttonface;
-  color: buttontext;
-  background-color: buttonface;
-  height: 26px;
-  padding: 1px 6px;
-  margin-top: 0px;
-  margin-left: 5px;
-}
-
-.btn:hover { color: #000; }
-.btn:focus{ color: #000; }
 
 .helpTit {
     font-size: 28px;
@@ -67,25 +44,23 @@ body {
 }
  
 .helpContent {
-    margin: 10px;
+    top: 60px;
+    left: 0px;
+    margin: 4px;
     padding: 4px;
     position: relative;
-    float:bottom;
-    top: 70px;
-    left: 0px;
-    width: calc(100% - 10px); 
-    max-width:1000px; 
+    width: calc(100% - 20px); 
+    max-width: 1024px; 
     border: #C0C0C0; 
     border-style: double; 
     border-width: 2px; 
-   font-family: sans-serif;
+    font-family: sans-serif;
 }
 
 .helpContent img { 
    /* width: calc(100% - 10px); */
     max-width: calc(100% - 10px);
 }
-
 
 .helpContent h1 {
   text-align: center;
@@ -145,28 +120,35 @@ pre {
   font-size: 13px;
 }
 
-/*
-
-.helpContainer {
-    margin: 10px;
-    position: fixed;
-    top: 50px;
-    width: 1024px; 
-    height: 100%;
-    border: #C0C0C0; 
-    border-style: double; 
-    border-width: 2px; 
+.tabCifra {
+    border-collapse: collapse;
+    border: 1px solid black;
+    width: 70%;
+    margin: auto;
 }
 
-.helpFrame {
-    position: fixed;
-    top: 50px;
-    margin: 10px;
-    padding:8px;
-    width: 98%; 
-   font-family: sans-serif;
-    //font-size: 18px;
-}*/
+.tabCifra th, .tabCifra td {
+    border: 1px solid black;
+    width:80px;
+    text-align: center;
+}
+
+.tabCifra th {
+    font-weight: bold;
+}
+
+.btn {
+  border: 1px outset buttonface;
+  color: buttontext;
+  background-color: buttonface;
+  height: 26px;
+  padding: 1px 6px;
+  margin-top: 0px;
+  margin-left: 5px;
+}
+
+.btn:hover { color: #000; }
+.btn:focus{ color: #000; }
 
 .customScrollBar::-webkit-scrollbar {
     width: 7px;
