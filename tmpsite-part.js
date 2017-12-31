@@ -1604,6 +1604,7 @@ SITE.Mapa.prototype.doCarregaRepertorioLocal = function(files) {
             } 
             // add or replace content
             accordion.songs.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
+            accordion.songs.details[tunebook.tunes[t].title] = { composer: tunebook.tunes[t].composer, id: tunebook.tunes[t].id };
 
             if(! first ) {
                 // marca a primeira das novas canções para ser selecionada
@@ -1713,8 +1714,8 @@ SITE.Mapa.prototype.loadABCList = function(type) {
         var title = items.sortedIndex[i];
         var vid = 0;
         
-        if( ! items.details[title] ) {
-            waterbug.logError( 'Missing ID (X:nnn) for "' + title +'"' );
+        if( ! items.details[title] || isNaN(parseInt(items.details[title].id)) ) {
+            waterbug.logError( 'Missing or incorrect ID (X:nnn) for "' + title +'"' );
             waterbug.show();
         } else {
             vid = items.details[title].id;
