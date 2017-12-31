@@ -1605,6 +1605,7 @@ SITE.Mapa.prototype.doCarregaRepertorioLocal = function(files) {
             // add or replace content
             accordion.songs.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
             accordion.songs.details[tunebook.tunes[t].title] = { composer: tunebook.tunes[t].composer, id: tunebook.tunes[t].id };
+            accordion.songs.ids[tunebook.tunes[t].id] = tunebook.tunes[t].title;
 
             if(! first ) {
                 // marca a primeira das novas canções para ser selecionada
