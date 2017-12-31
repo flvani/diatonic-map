@@ -341,6 +341,16 @@ SITE.Mapa.prototype.doLoadOriginalRepertoire = function (loader) {
     
     if( this.loadByIdx ) {
         SITE.ga('send', 'event', 'Mapa5', 'index', this.getActiveTab().title);
+        
+        SITE.gtag( 'event', 'index', {
+          send_to : 'acessos',
+          event_category: 'Mapa5',
+          event_action: 'index',
+          event_label: this.getActiveTab().title,
+          event_value: 0,
+          nonInteraction: false 
+        });                
+        
         if(! this.repertoireWin ) {
             this.repertoireWin = new SITE.Repertorio();
         }
@@ -356,7 +366,18 @@ SITE.Mapa.prototype.printPartiture = function (button, event) {
     event.preventDefault();
     button.blur();
     if(  currentABC.div.innerHTML )  {
+        
         SITE.ga('send', 'event', 'Mapa5', 'print', currentABC.title);
+        
+        SITE.gtag( 'event', 'print', {
+          send_to : 'acessos',
+          event_category: 'Mapa5',
+          event_action: 'print',
+          event_label: currentABC.title,
+          event_value: 0,
+          nonInteraction: false 
+        });                
+        
         this.printPreview(currentABC.div.innerHTML, ["#topBar","#mapaDiv"], currentABC.abc.formatting.landscape );
     }
 };
@@ -541,6 +562,17 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
 
     if( tab.text ) {
         SITE.ga('send', 'event', 'Mapa5', 'tools', tab.title);
+        
+        SITE.gtag( 'event', 'tools', {
+          send_to : 'acessos',
+          event_category: 'Mapa5',
+          event_action: 'tools',
+          event_label: tab.title,
+          event_value: 0,
+          nonInteraction: false 
+        });                
+        
+        
         var loader = this.startLoader( "OpenEstudio" );
         loader.start(  function() { 
             self.studio.setup( tab, self.accordion.getId() );
@@ -570,12 +602,28 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
         if(type==="normal") {
             if( this.midiPlayer.startPlay(currentABC.abc.midi) ) {
                 SITE.ga('send', 'event', 'Mapa5', 'play', currentABC.title);
+                SITE.gtag( 'event', 'play', {
+                  send_to : 'acessos',
+                  event_category: 'Mapa5',
+                  event_action: 'play',
+                  event_label: currentABC.title,
+                  event_value: 0,
+                  nonInteraction: false 
+                });                
                 this.playButton.title = SITE.translator.getResource("pause");
                 this.playButton.innerHTML =  '<i class="ico-pause"></i>';
             }
         } else {
             if( this.midiPlayer.startDidacticPlay(currentABC.abc.midi, type, value ) ) {
                 SITE.ga('send', 'event', 'Mapa5', 'didactic-play', currentABC.title);
+                SITE.gtag( 'event', 'didactic-play', {
+                  send_to : 'acessos',
+                  event_category: 'Mapa5',
+                  event_action: 'didactic-play',
+                  event_label: currentABC.title,
+                  event_value: 0,
+                  nonInteraction: false 
+                });                
             }
         }
     }
@@ -779,6 +827,14 @@ SITE.Mapa.prototype.doCarregaRepertorioLocal = function(files) {
             }
             
             SITE.ga('send', 'event', 'Mapa5', 'load', tunebook.tunes[t].title);
+            SITE.gtag( 'event', 'loadSong', {
+              send_to : 'acessos',
+              event_category: 'Mapa5',
+              event_action: 'loadsong',
+              event_label: tunebook.tunes[t].title,
+              event_value: 0,
+              nonInteraction: false 
+            });                
         }    
     }
 
@@ -808,13 +864,13 @@ SITE.Mapa.prototype.showTab = function(tabString) {
 SITE.Mapa.prototype.showABC = function(action) {
     var type, title, self = this;
     var tab = self.getActiveTab();
+    var a = action.split('#');
     
-    if( action.indexOf('#') >= 0 ) {
-        var a = action.split('#');
+    if( action.indexOf('#') >= 0 && parseInt(a[1]) > 0 ) {
         type = a[0];
         title = this.accordion.loaded[type].ids[ a[1] ];
     } else {
-        waterbug.log( 'ABC not found!');
+        waterbug.logError( 'ABCX not found!');
         waterbug.show();
         return;
     }
@@ -870,7 +926,16 @@ SITE.Mapa.prototype.loadABCList = function(type) {
     for( var i = 0; i < items.sortedIndex.length; i++) {
         
         var title = items.sortedIndex[i];
-        var m = tab.menu.addItemSubMenu( tab.ddmId, title +'|'+type+'#'+items.details[title].id);
+        var vid = 0;
+        
+        if( ! items.details[title] ) {
+            waterbug.logError( 'Missing ID (X:nnn) for "' + title +'"' );
+            waterbug.show();
+        } else {
+            vid = items.details[title].id;
+        }
+        
+        var m = tab.menu.addItemSubMenu( tab.ddmId, title +'|'+type+'#'+vid);
         if(title === tab.title ) {
             achou = true;
             tab.menu.setSubMenuTitle( tab.ddmId, title );
@@ -1175,6 +1240,14 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             this.settings.window.setVisible(false);
             SITE.ResetProperties();
             SITE.ga('send', 'event', 'Configuration', 'reset', SITE.properties.version );
+            SITE.gtag( 'event', 'reset', {
+              send_to : 'outros',
+              event_category: 'Configuration',
+              event_action: 'reset',
+              event_label: SITE.properties.version,
+              event_value: 0,
+              nonInteraction: true 
+            });                
             this.applySettings();
             break;
         case 'RESET-NO':
@@ -1189,12 +1262,29 @@ SITE.Mapa.prototype.applySettings = function() {
     if( this.settings.lang !== SITE.properties.options.language ) {
         SITE.properties.options.language = this.settings.lang;
         SITE.ga('send', 'event', 'Configuration', 'changeLang', SITE.properties.options.language);
+        SITE.gtag( 'event', 'changelang', {
+          send_to : 'outros',
+          event_category: 'Configuration',
+          event_action: 'changelang',
+          event_label: SITE.properties.options.language,
+          event_value: 0,
+          nonInteraction: true 
+        });
         SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
     }
     
     if( this.settings.pianoSound.checked  !== SITE.properties.options.pianoSound ) {
         SITE.properties.options.pianoSound = this.settings.pianoSound.checked;
         SITE.ga('send', 'event', 'Configuration', 'changeInstrument', SITE.properties.options.pianoSound?'piano':'accordion');
+        SITE.gtag( 'event', 'changeInstrument', {
+          send_to : 'outros',
+          event_category: 'Configuration',
+          event_action: 'changeInstrument',
+          event_label: SITE.properties.options.pianoSound?'piano':'accordion',
+          event_value: 0,
+          nonInteraction: true 
+        });
+        
         this.defineInstrument();
     }
     

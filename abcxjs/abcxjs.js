@@ -13516,7 +13516,7 @@ ABCXJS.tablature.Accordion.prototype.accordionExists = function(id) {
 };
 
 ABCXJS.tablature.Accordion.prototype.accordionIsCurrent = function(id) {
-    return (this.loaded && this.loaded.id === id);
+    return (this.accordions.loaded && this.accordions.loaded.id === id);
 };
 
 ABCXJS.tablature.Accordion.prototype.clearKeyboard = function(full) {

@@ -3,9 +3,42 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+          
 if (!window.SITE)
     window.SITE = {};
+
+window.dataLayer = window.dataLayer || [];
+
+SITE.gtag = function () {
+    if( SITE.getDate() < 20180101 ) {
+        return;
+    }
+
+    if( window.location.href.indexOf( 'flvani.github.io') >= 0
+           && SITE.getVersion('mainSITE', '' ) !== 'debug' 
+           && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) 
+    {
+        dataLayer.push(arguments);
+    } else {
+        console.log('Funcao gtag não definida.');
+    }
+};
+          
+SITE.ga = function ( p1, p2, p3, p4, p5  ){
+    
+    if( SITE.getDate() > 20171231 ) {
+        return;
+    }
+    
+    if( ga && window.location.href.indexOf( 'flvani.github.io') >= 0
+           && SITE.getVersion('mainSITE', '' ) !== 'debug' 
+           && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) 
+    {
+        ga( p1, p2, p3, p4, p5 );
+    } else {
+        console.log('Funcao ga não definida.');
+    }
+};
 
 SITE.findGetParameter = function(parameterName) {
     var result = null,
@@ -24,18 +57,6 @@ SITE.getDate = function (){
     var mm = today.getMonth()+1; //January is 0!
     var yyyy = today.getFullYear();
     return yyyy*10000+mm*100+dd;
-};
-
-SITE.ga = function ( p1, p2, p3, p4, p5  ){
-    
-    if( ga && window.location.href.indexOf( 'flvani.github.io') >= 0
-           && SITE.getVersion('mainSITE', '' ) !== 'debug' 
-           && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) 
-    {
-        ga( p1, p2, p3, p4, p5 );
-    } else {
-        console.log('Funcao ga não definida.');
-    }
 };
 
 SITE.getVersion = function(tag, label) {
@@ -75,6 +96,15 @@ SITE.LoadProperties = function() {
         waterbug.log( 'Could not load the properties.');
         waterbug.show( 'Could not save the properties');
         SITE.ga('send', 'event', 'Error', 'html5storage', 'loadingLocal' );
+        SITE.gtag('event', 'html5storage', {
+          send_to : 'outros',
+          event_category: 'Error',
+          event_action: 'html5storage',
+          event_label: 'loadingLocal',
+          event_value: 0,
+          nonInteraction: true 
+        });                
+        
     }
     
     var ver = SITE.getVersion('mainSITE', '' );
@@ -179,6 +209,14 @@ SITE.SaveProperties = function() {
         waterbug.log( 'Could not save the properties');
         waterbug.show( 'Could not save the properties');
         SITE.ga('send', 'event', 'Error', 'html5storage', 'savingLocal' );
+        SITE.gtag('event', 'html5storage', {
+          send_to : 'outros',
+          event_category: 'Error',
+          event_action: 'html5storage',
+          event_label: 'savingLocal',
+          event_value: 0,
+          nonInteraction: true 
+        });                
     }
 };
 

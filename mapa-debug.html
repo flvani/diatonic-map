@@ -38,6 +38,9 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jslib/proto_noconflict.js" ></script>
         <script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
         
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-62839199-1"></script>
+        
         <!-- suporte a MIDI -->
         <script type="text/javascript" src="jslib/MIDI.js"></script>
         
@@ -261,7 +264,10 @@ notação abc, tablatura " />
                 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
                 
                 SITE.ga('create', 'UA-62839199-1', 'auto');
-                    
+                
+                SITE.gtag( 'js', new Date() );
+                SITE.gtag( 'config', 'UA-62839199-1', { 'send_page_view': true, 'groups': [ 'acessos', 'outros' ] } );
+
                 SITE.LoadProperties();
                 SITE.translator = new SITE.Translator( { language: SITE.properties.options.language, callback: initApp } );
             };
@@ -274,8 +280,19 @@ notação abc, tablatura " />
                 SITE.translator.translate();
                 
                 if( ABCXJS.misc.isIE() ){
+                    
                     $('#mapaDiv').hide();
+                    
                     SITE.ga('send', 'event', 'Error', 'browser', 'MS-IE' );
+                    SITE.gtag('event', 'browser', {
+                      send_to : 'outros',
+                      event_category: 'Error',
+                      event_action: 'browser',
+                      event_label: 'MS-IE',
+                      event_value: 0,
+                      nonInteraction: true 
+                    });                
+                    
                     new DRAGGABLE.ui.Alert( 
                          null, null
                         ,'<br>'+SITE.translator.getResource('IEMsgTitle')
@@ -328,7 +345,17 @@ notação abc, tablatura " />
                 //waterbug.show();
                 if(!success) {
                     MIDI.widget.hide();
+                    
                     SITE.ga('send', 'event', 'Error', 'loading', 'resources' );
+                    SITE.gtag('event', 'loading', {
+                      send_to : 'outros',
+                      event_category: 'Error',
+                      event_action: 'loading',
+                      event_label: 'resources',
+                      event_value: 0,
+                      nonInteraction: true 
+                    });                
+                    
                     new DRAGGABLE.ui.Alert( 
                         null, null, 
                         '<br>'+SITE.translator.getResource('ErrLoadingTitle'),
@@ -401,8 +428,17 @@ notação abc, tablatura " />
                     } 
                 );
                 
-                SITE.ga('send', 'pageview');
-                SITE.ga('send', 'event', 'Configuration', 'language', SITE.properties.options.language);
+                SITE.ga( 'send', 'pageview' );
+                SITE.ga( 'send', 'event', 'Configuration', 'language', SITE.properties.options.language);
+                
+                SITE.gtag('event', 'language', {
+                  send_to : 'outros',
+                  event_category: 'Configuration',
+                  event_action: 'language',
+                  event_label: SITE.properties.options.language,
+                  event_value: 0,
+                  nonInteraction: true 
+                });                
                 
                 if( SITE.getDate() <= 20170909 ) {
                     $('#tipsDiv').fadeIn('slow');

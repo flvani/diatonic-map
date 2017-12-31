@@ -25,9 +25,9 @@ notação abc, tablatura " />
         <link rel="stylesheet" href="fontsIco/abcx.css" />
         <link rel="stylesheet" href="fontsGoogle/fonts.css" />
         
-        <link rel="stylesheet" href="css/styles4abcx_5.16-min.css" />
+        <link rel="stylesheet" href="css/styles4abcx_5.18-min.css" />
         
-        <link rel="stylesheet" href="site/site_5.16-min.css" />
+        <link rel="stylesheet" href="site/site_5.18-min.css" />
         
         
     </head>
@@ -35,6 +35,9 @@ notação abc, tablatura " />
         
         <script type="text/javascript" src="jslib/proto_noconflict.js" ></script>
         <script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
+        
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-62839199-1"></script>
         
         <!-- suporte a MIDI >
         <script type="text/javascript" src="jslib/MIDI.js"></script-->
@@ -47,18 +50,18 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jslib/html5kellycolorpicker.min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_5.16-min.js"></script>
+        <script type="text/javascript" src="file/filemanager_5.18-min.js"></script>
         
         <!-- suporte mapas de acordeões -->
-        <script type="text/javascript" src="diatonic/diatonic_5.16-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic_5.18-min.js"></script>
         
         <!-- ACE Editor -->
-        <script type="text/javascript" src="ace4abcx/ace4abcx_5.16-min.js"></script>
+        <script type="text/javascript" src="ace4abcx/ace4abcx_5.18-min.js"></script>
        
         <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.16-min.js" ></script>
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.18-min.js" ></script>
         
-        <script id="mainSITE" type="text/javascript" src="site/site_5.16.js"></script>
+        <script id="mainSITE" type="text/javascript" src="site/site_5.18.js"></script>
 
         <div id="topBar" class="topBar gradiente" >
             <span data-translate="appName" class="topTitle">Mapa para Acordeões Diatônicos</span>
@@ -251,6 +254,9 @@ notação abc, tablatura " />
 
                 SITE.ga('create', 'UA-62839199-1', 'auto');
                 
+                SITE.gtag( 'js', new Date() );
+                SITE.gtag( 'config', 'UA-62839199-1', { 'send_page_view': true, 'groups': [ 'acessos', 'outros' ] } );
+                
                 SITE.LoadProperties();
                 SITE.translator = new SITE.Translator( { language: SITE.properties.options.language, callback: initApp } );
                 
@@ -262,7 +268,17 @@ notação abc, tablatura " />
                 
                 if( ABCXJS.misc.isIE() ){
                     $('#mapaDiv').hide();
+                    
                     SITE.ga('send', 'event', 'Error', 'browser', 'MS-IE' );
+                    SITE.gtag('event', 'browser', {
+                      send_to : 'outros',
+                      event_category: 'Error',
+                      event_action: 'browser',
+                      event_label: 'MS-IE',
+                      event_value: 0,
+                      nonInteraction: true 
+                    });                
+                    
                     new DRAGGABLE.ui.Alert( 
                          null, null
                         ,'<br>'+SITE.translator.getResource('IEMsgTitle')
@@ -313,7 +329,17 @@ notação abc, tablatura " />
             function loadMIDI(success) {
                 if(!success) {
                     MIDI.widget.hide();
+                    
                     SITE.ga('send', 'event', 'Error', 'loading', 'resources' );
+                    SITE.gtag('event', 'loading', {
+                      send_to : 'outros',
+                      event_category: 'Error',
+                      event_action: 'loading',
+                      event_label: 'resources',
+                      event_value: 0,
+                      nonInteraction: true 
+                    });                
+                    
                     new DRAGGABLE.ui.Alert( 
                         null, null, 
                         '<br>'+SITE.translator.getResource('ErrLoadingTitle'),
@@ -388,6 +414,15 @@ notação abc, tablatura " />
                 
                 SITE.ga('send', 'pageview');
                 SITE.ga('send', 'event', 'Configuration', 'language', SITE.properties.options.language);
+                
+                SITE.gtag('event', 'language', {
+                  send_to : 'outros',
+                  event_category: 'Configuration',
+                  event_action: 'language',
+                  event_label: SITE.properties.options.language,
+                  event_value: 0,
+                  nonInteraction: true 
+                });                
                 
                 if( SITE.getDate() <= 20170909 ) {
                     $('#tipsDiv').fadeIn('slow');
