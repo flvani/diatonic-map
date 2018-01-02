@@ -9,16 +9,17 @@ if (!window.SITE)
 
 window.dataLayer = window.dataLayer || [];
 
-SITE.gtag = function () {
-    gtag.apply(this, arguments);
-    if( window.location.href.indexOf( 'flvani.github.io') >= 0
-           && SITE.getVersion('mainSITE', '' ) !== 'debug' 
-           && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) 
-    {
+SITE.myGtag = function () {
+    if( window.location.href.indexOf( 'flvani.github.io') >= 0 )
         gtag.apply(this, arguments);
-    } else {
-        console.log('Funcao gtag não definida.');
-    }
+//    if( window.location.href.indexOf( 'flvani.github.io') >= 0
+//           && SITE.getVersion('mainSITE', '' ) !== 'debug' 
+//           && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) 
+//    {
+//        gtag.apply(this, arguments);
+//    } else {
+//        console.log('Funcao gtag não definida.');
+//    }
 };
           
 //SITE.ga = function ( p1, p2, p3, p4, p5  ){
@@ -93,7 +94,7 @@ SITE.LoadProperties = function() {
         waterbug.log( 'Could not load the properties.');
         waterbug.show( 'Could not save the properties');
         //SITE.ga('send', 'event', 'Error', 'html5storage', 'loadingLocal' );
-        SITE.gtag('event', 'html5storage', {
+        SITE.myGtag('event', 'html5storage', {
           send_to : 'outros',
           event_category: 'Error',
           event_action: 'html5storage',
@@ -206,7 +207,7 @@ SITE.SaveProperties = function() {
         waterbug.log( 'Could not save the properties');
         waterbug.show( 'Could not save the properties');
         //SITE.ga('send', 'event', 'Error', 'html5storage', 'savingLocal' );
-        SITE.gtag('event', 'html5storage', {
+        SITE.myGtag('event', 'html5storage', {
           send_to : 'outros',
           event_category: 'Error',
           event_action: 'html5storage',

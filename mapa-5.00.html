@@ -269,8 +269,8 @@ notação abc, tablatura " />
 //
 //                SITE.ga('create', 'UA-62839199-1', 'auto');
                 
-//                SITE.gtag( 'js', new Date() );
-//                SITE.gtag( 'config', 'UA-62839199-1', { 'send_page_view': true, 'groups': [ 'acessos', 'outros' ] } );
+//                SITE.myGtag( 'js', new Date() );
+//                SITE.myGtag( 'config', 'UA-62839199-1', { 'send_page_view': true, 'groups': [ 'acessos', 'outros' ] } );
                 
                 SITE.LoadProperties();
                 SITE.translator = new SITE.Translator( { language: SITE.properties.options.language, callback: initApp } );
@@ -285,7 +285,7 @@ notação abc, tablatura " />
                     $('#mapaDiv').hide();
                     
                     //SITE.ga('send', 'event', 'Error', 'browser', 'MS-IE' );
-                    SITE.gtag('event', 'browser', {
+                    SITE.myGtag('event', 'browser', {
                       send_to : 'outros',
                       event_category: 'Error',
                       event_action: 'browser',
@@ -346,7 +346,7 @@ notação abc, tablatura " />
                     MIDI.widget.hide();
                     
                     //SITE.ga('send', 'event', 'Error', 'loading', 'resources' );
-                    SITE.gtag('event', 'loading', {
+                    SITE.myGtag('event', 'loading', {
                       send_to : 'outros',
                       event_category: 'Error',
                       event_action: 'loading',
@@ -430,7 +430,7 @@ notação abc, tablatura " />
                 //SITE.ga('send', 'pageview');
                 //SITE.ga('send', 'event', 'Configuration', 'language', SITE.properties.options.language);
                 
-                SITE.gtag('event', 'language', {
+                SITE.myGtag('event', 'language', {
                   send_to : 'outros',
                   event_category: 'Configuration',
                   event_action: 'language',

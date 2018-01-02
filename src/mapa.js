@@ -342,7 +342,7 @@ SITE.Mapa.prototype.doLoadOriginalRepertoire = function (loader) {
     if( this.loadByIdx ) {
         //SITE.ga('send', 'event', 'Mapa5', 'index', this.getActiveTab().title);
         
-        SITE.gtag( 'event', 'index', {
+        SITE.myGtag( 'event', 'index', {
           send_to : 'acessos',
           event_category: 'Mapa5',
           event_action: 'index',
@@ -369,7 +369,7 @@ SITE.Mapa.prototype.printPartiture = function (button, event) {
         
         //SITE.ga('send', 'event', 'Mapa5', 'print', currentABC.title);
         
-        SITE.gtag( 'event', 'print', {
+        SITE.myGtag( 'event', 'print', {
           send_to : 'acessos',
           event_category: 'Mapa5',
           event_action: 'print',
@@ -563,7 +563,7 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
     if( tab.text ) {
         //SITE.ga('send', 'event', 'Mapa5', 'tools', tab.title);
         
-        SITE.gtag( 'event', 'tools', {
+        SITE.myGtag( 'event', 'tools', {
           send_to : 'acessos',
           event_category: 'Mapa5',
           event_action: 'tools',
@@ -602,7 +602,7 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
         if(type==="normal") {
             if( this.midiPlayer.startPlay(currentABC.abc.midi) ) {
                 //SITE.ga('send', 'event', 'Mapa5', 'play', currentABC.title);
-                SITE.gtag( 'event', 'play', {
+                SITE.myGtag( 'event', 'play', {
                   send_to : 'acessos',
                   event_category: 'Mapa5',
                   event_action: 'play',
@@ -616,7 +616,7 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
         } else {
             if( this.midiPlayer.startDidacticPlay(currentABC.abc.midi, type, value ) ) {
                 //SITE.ga('send', 'event', 'Mapa5', 'didactic-play', currentABC.title);
-                SITE.gtag( 'event', 'didactic-play', {
+                SITE.myGtag( 'event', 'didactic-play', {
                   send_to : 'acessos',
                   event_category: 'Mapa5',
                   event_action: 'didactic-play',
@@ -829,7 +829,7 @@ SITE.Mapa.prototype.doCarregaRepertorioLocal = function(files) {
             }
             
             //SITE.ga('send', 'event', 'Mapa5', 'load', tunebook.tunes[t].title);
-            SITE.gtag( 'event', 'loadSong', {
+            SITE.myGtag( 'event', 'loadSong', {
               send_to : 'acessos',
               event_category: 'Mapa5',
               event_action: 'loadSong',
@@ -1242,7 +1242,7 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             this.settings.window.setVisible(false);
             SITE.ResetProperties();
             //SITE.ga('send', 'event', 'Configuration', 'reset', SITE.properties.version );
-            SITE.gtag( 'event', 'reset', {
+            SITE.myGtag( 'event', 'reset', {
               send_to : 'outros',
               event_category: 'Configuration',
               event_action: 'reset',
@@ -1264,7 +1264,7 @@ SITE.Mapa.prototype.applySettings = function() {
     if( this.settings.lang !== SITE.properties.options.language ) {
         SITE.properties.options.language = this.settings.lang;
         //SITE.ga('send', 'event', 'Configuration', 'changeLang', SITE.properties.options.language);
-        SITE.gtag( 'event', 'changeLang', {
+        SITE.myGtag( 'event', 'changeLang', {
           send_to : 'outros',
           event_category: 'Configuration',
           event_action: 'changeLang',
@@ -1278,7 +1278,7 @@ SITE.Mapa.prototype.applySettings = function() {
     if( this.settings.pianoSound.checked  !== SITE.properties.options.pianoSound ) {
         SITE.properties.options.pianoSound = this.settings.pianoSound.checked;
         //SITE.ga('send', 'event', 'Configuration', 'changeInstrument', SITE.properties.options.pianoSound?'piano':'accordion');
-        SITE.gtag( 'event', 'changeInstrument', {
+        SITE.myGtag( 'event', 'changeInstrument', {
           send_to : 'outros',
           event_category: 'Configuration',
           event_action: 'changeInstrument',

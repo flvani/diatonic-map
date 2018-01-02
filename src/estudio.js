@@ -156,7 +156,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         
         //SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
         
-        SITE.gtag( 'event', 'print', {
+        SITE.myGtag( 'event', 'print', {
           send_to : 'acessos',
           event_category: 'Mapa5',
           event_action: 'print',
@@ -717,7 +717,7 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
                 
                 //SITE.ga('send', 'event', 'Mapa5', 'play', this.renderedTune.title);
                 
-                SITE.gtag( 'event', 'play', {
+                SITE.myGtag( 'event', 'play', {
                   send_to : 'acessos',
                   event_category: 'Mapa5',
                   event_action: 'play',
@@ -734,7 +734,7 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
             
             //SITE.ga('send', 'event', 'Mapa5', 'didactic-play', this.renderedTune.title);
             
-            SITE.gtag( 'event', 'didactic-play', {
+            SITE.myGtag( 'event', 'didactic-play', {
               send_to : 'acessos',
               event_category: 'Mapa5',
               event_action: 'didactic-play',
