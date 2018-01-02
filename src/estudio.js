@@ -154,7 +154,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         evt.preventDefault();
         this.blur();
         
-        SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
+        //SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
         
         SITE.gtag( 'event', 'print', {
           send_to : 'acessos',
@@ -715,7 +715,7 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
             this.midiPlayer.setPlayableClefs('TB');
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
                 
-                SITE.ga('send', 'event', 'Mapa5', 'play', this.renderedTune.title);
+                //SITE.ga('send', 'event', 'Mapa5', 'play', this.renderedTune.title);
                 
                 SITE.gtag( 'event', 'play', {
                   send_to : 'acessos',
@@ -732,7 +732,7 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
         } else {
             this.midiPlayer.setPlayableClefs( (SITE.properties.studio.trebleOn?"T":"")+(SITE.properties.studio.bassOn?"B":"") );
             
-            SITE.ga('send', 'event', 'Mapa5', 'didactic-play', this.renderedTune.title);
+            //SITE.ga('send', 'event', 'Mapa5', 'didactic-play', this.renderedTune.title);
             
             SITE.gtag( 'event', 'didactic-play', {
               send_to : 'acessos',

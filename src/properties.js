@@ -10,10 +10,6 @@ if (!window.SITE)
 window.dataLayer = window.dataLayer || [];
 
 SITE.gtag = function () {
-    if( SITE.getDate() < 20180101 ) {
-        return;
-    }
-
     if( window.location.href.indexOf( 'flvani.github.io') >= 0
            && SITE.getVersion('mainSITE', '' ) !== 'debug' 
            && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) 
@@ -24,21 +20,21 @@ SITE.gtag = function () {
     }
 };
           
-SITE.ga = function ( p1, p2, p3, p4, p5  ){
-    
-    if( SITE.getDate() > 20171231 ) {
-        return;
-    }
-    
-    if( ga && window.location.href.indexOf( 'flvani.github.io') >= 0
-           && SITE.getVersion('mainSITE', '' ) !== 'debug' 
-           && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) 
-    {
-        ga( p1, p2, p3, p4, p5 );
-    } else {
-        console.log('Funcao ga não definida.');
-    }
-};
+//SITE.ga = function ( p1, p2, p3, p4, p5  ){
+//    
+//    if( SITE.getDate() > 20171231 ) {
+//        return;
+//    }
+//    
+//    if( ga && window.location.href.indexOf( 'flvani.github.io') >= 0
+//           && SITE.getVersion('mainSITE', '' ) !== 'debug' 
+//           && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) 
+//    {
+//        ga( p1, p2, p3, p4, p5 );
+//    } else {
+//        console.log('Funcao ga não definida.');
+//    }
+//};
 
 SITE.findGetParameter = function(parameterName) {
     var result = null,
@@ -95,7 +91,7 @@ SITE.LoadProperties = function() {
     } catch(e) {
         waterbug.log( 'Could not load the properties.');
         waterbug.show( 'Could not save the properties');
-        SITE.ga('send', 'event', 'Error', 'html5storage', 'loadingLocal' );
+        //SITE.ga('send', 'event', 'Error', 'html5storage', 'loadingLocal' );
         SITE.gtag('event', 'html5storage', {
           send_to : 'outros',
           event_category: 'Error',
@@ -208,7 +204,7 @@ SITE.SaveProperties = function() {
     } catch(e) {
         waterbug.log( 'Could not save the properties');
         waterbug.show( 'Could not save the properties');
-        SITE.ga('send', 'event', 'Error', 'html5storage', 'savingLocal' );
+        //SITE.ga('send', 'event', 'Error', 'html5storage', 'savingLocal' );
         SITE.gtag('event', 'html5storage', {
           send_to : 'outros',
           event_category: 'Error',

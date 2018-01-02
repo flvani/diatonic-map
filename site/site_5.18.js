@@ -10,10 +10,6 @@ if (!window.SITE)
 window.dataLayer = window.dataLayer || [];
 
 SITE.gtag = function () {
-    if( SITE.getDate() < 20180101 ) {
-        return;
-    }
-
     if( window.location.href.indexOf( 'flvani.github.io') >= 0
            && SITE.getVersion('mainSITE', '' ) !== 'debug' 
            && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) 
@@ -24,21 +20,21 @@ SITE.gtag = function () {
     }
 };
           
-SITE.ga = function ( p1, p2, p3, p4, p5  ){
-    
-    if( SITE.getDate() > 20171231 ) {
-        return;
-    }
-    
-    if( ga && window.location.href.indexOf( 'flvani.github.io') >= 0
-           && SITE.getVersion('mainSITE', '' ) !== 'debug' 
-           && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) 
-    {
-        ga( p1, p2, p3, p4, p5 );
-    } else {
-        console.log('Funcao ga não definida.');
-    }
-};
+//SITE.ga = function ( p1, p2, p3, p4, p5  ){
+//    
+//    if( SITE.getDate() > 20171231 ) {
+//        return;
+//    }
+//    
+//    if( ga && window.location.href.indexOf( 'flvani.github.io') >= 0
+//           && SITE.getVersion('mainSITE', '' ) !== 'debug' 
+//           && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) 
+//    {
+//        ga( p1, p2, p3, p4, p5 );
+//    } else {
+//        console.log('Funcao ga não definida.');
+//    }
+//};
 
 SITE.findGetParameter = function(parameterName) {
     var result = null,
@@ -95,7 +91,7 @@ SITE.LoadProperties = function() {
     } catch(e) {
         waterbug.log( 'Could not load the properties.');
         waterbug.show( 'Could not save the properties');
-        SITE.ga('send', 'event', 'Error', 'html5storage', 'loadingLocal' );
+        //SITE.ga('send', 'event', 'Error', 'html5storage', 'loadingLocal' );
         SITE.gtag('event', 'html5storage', {
           send_to : 'outros',
           event_category: 'Error',
@@ -208,7 +204,7 @@ SITE.SaveProperties = function() {
     } catch(e) {
         waterbug.log( 'Could not save the properties');
         waterbug.show( 'Could not save the properties');
-        SITE.ga('send', 'event', 'Error', 'html5storage', 'savingLocal' );
+        //SITE.ga('send', 'event', 'Error', 'html5storage', 'savingLocal' );
         SITE.gtag('event', 'html5storage', {
           send_to : 'outros',
           event_category: 'Error',
@@ -1125,7 +1121,7 @@ SITE.Mapa.prototype.doLoadOriginalRepertoire = function (loader) {
     loader.stop();
     
     if( this.loadByIdx ) {
-        SITE.ga('send', 'event', 'Mapa5', 'index', this.getActiveTab().title);
+        //SITE.ga('send', 'event', 'Mapa5', 'index', this.getActiveTab().title);
         
         SITE.gtag( 'event', 'index', {
           send_to : 'acessos',
@@ -1152,7 +1148,7 @@ SITE.Mapa.prototype.printPartiture = function (button, event) {
     button.blur();
     if(  currentABC.div.innerHTML )  {
         
-        SITE.ga('send', 'event', 'Mapa5', 'print', currentABC.title);
+        //SITE.ga('send', 'event', 'Mapa5', 'print', currentABC.title);
         
         SITE.gtag( 'event', 'print', {
           send_to : 'acessos',
@@ -1346,7 +1342,7 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
     }
 
     if( tab.text ) {
-        SITE.ga('send', 'event', 'Mapa5', 'tools', tab.title);
+        //SITE.ga('send', 'event', 'Mapa5', 'tools', tab.title);
         
         SITE.gtag( 'event', 'tools', {
           send_to : 'acessos',
@@ -1386,7 +1382,7 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
         this.accordion.clearKeyboard();
         if(type==="normal") {
             if( this.midiPlayer.startPlay(currentABC.abc.midi) ) {
-                SITE.ga('send', 'event', 'Mapa5', 'play', currentABC.title);
+                //SITE.ga('send', 'event', 'Mapa5', 'play', currentABC.title);
                 SITE.gtag( 'event', 'play', {
                   send_to : 'acessos',
                   event_category: 'Mapa5',
@@ -1400,7 +1396,7 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
             }
         } else {
             if( this.midiPlayer.startDidacticPlay(currentABC.abc.midi, type, value ) ) {
-                SITE.ga('send', 'event', 'Mapa5', 'didactic-play', currentABC.title);
+                //SITE.ga('send', 'event', 'Mapa5', 'didactic-play', currentABC.title);
                 SITE.gtag( 'event', 'didactic-play', {
                   send_to : 'acessos',
                   event_category: 'Mapa5',
@@ -1613,11 +1609,11 @@ SITE.Mapa.prototype.doCarregaRepertorioLocal = function(files) {
                 first = true;
             }
             
-            SITE.ga('send', 'event', 'Mapa5', 'load', tunebook.tunes[t].title);
+            //SITE.ga('send', 'event', 'Mapa5', 'load', tunebook.tunes[t].title);
             SITE.gtag( 'event', 'loadSong', {
               send_to : 'acessos',
               event_category: 'Mapa5',
-              event_action: 'loadsong',
+              event_action: 'loadSong',
               event_label: tunebook.tunes[t].title,
               event_value: 0,
               nonInteraction: false 
@@ -2026,7 +2022,7 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             this.picker.close();
             this.settings.window.setVisible(false);
             SITE.ResetProperties();
-            SITE.ga('send', 'event', 'Configuration', 'reset', SITE.properties.version );
+            //SITE.ga('send', 'event', 'Configuration', 'reset', SITE.properties.version );
             SITE.gtag( 'event', 'reset', {
               send_to : 'outros',
               event_category: 'Configuration',
@@ -2048,11 +2044,11 @@ SITE.Mapa.prototype.applySettings = function() {
 
     if( this.settings.lang !== SITE.properties.options.language ) {
         SITE.properties.options.language = this.settings.lang;
-        SITE.ga('send', 'event', 'Configuration', 'changeLang', SITE.properties.options.language);
-        SITE.gtag( 'event', 'changelang', {
+        //SITE.ga('send', 'event', 'Configuration', 'changeLang', SITE.properties.options.language);
+        SITE.gtag( 'event', 'changeLang', {
           send_to : 'outros',
           event_category: 'Configuration',
-          event_action: 'changelang',
+          event_action: 'changeLang',
           event_label: SITE.properties.options.language,
           event_value: 0,
           nonInteraction: true 
@@ -2062,7 +2058,7 @@ SITE.Mapa.prototype.applySettings = function() {
     
     if( this.settings.pianoSound.checked  !== SITE.properties.options.pianoSound ) {
         SITE.properties.options.pianoSound = this.settings.pianoSound.checked;
-        SITE.ga('send', 'event', 'Configuration', 'changeInstrument', SITE.properties.options.pianoSound?'piano':'accordion');
+        //SITE.ga('send', 'event', 'Configuration', 'changeInstrument', SITE.properties.options.pianoSound?'piano':'accordion');
         SITE.gtag( 'event', 'changeInstrument', {
           send_to : 'outros',
           event_category: 'Configuration',
@@ -2448,7 +2444,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         evt.preventDefault();
         this.blur();
         
-        SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
+        //SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
         
         SITE.gtag( 'event', 'print', {
           send_to : 'acessos',
@@ -3009,7 +3005,7 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
             this.midiPlayer.setPlayableClefs('TB');
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
                 
-                SITE.ga('send', 'event', 'Mapa5', 'play', this.renderedTune.title);
+                //SITE.ga('send', 'event', 'Mapa5', 'play', this.renderedTune.title);
                 
                 SITE.gtag( 'event', 'play', {
                   send_to : 'acessos',
@@ -3026,7 +3022,7 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
         } else {
             this.midiPlayer.setPlayableClefs( (SITE.properties.studio.trebleOn?"T":"")+(SITE.properties.studio.bassOn?"B":"") );
             
-            SITE.ga('send', 'event', 'Mapa5', 'didactic-play', this.renderedTune.title);
+            //SITE.ga('send', 'event', 'Mapa5', 'didactic-play', this.renderedTune.title);
             
             SITE.gtag( 'event', 'didactic-play', {
               send_to : 'acessos',
