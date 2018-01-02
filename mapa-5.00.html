@@ -32,6 +32,19 @@ notação abc, tablatura " />
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-62839199-1"></script>
         
+        <script>
+            
+          window.dataLayer = window.dataLayer || [];
+          
+          function gtag(){dataLayer.push(arguments);}
+          
+          gtag('js', new Date());
+
+          gtag('config', 'UA-62839199-1', { 'send_page_view': true, 'groups': [ 'acessos', 'outros' ] } );
+
+        </script>        
+        
+        
     </head>
     <body>
         
@@ -254,8 +267,8 @@ notação abc, tablatura " />
 //
 //                SITE.ga('create', 'UA-62839199-1', 'auto');
                 
-                SITE.gtag( 'js', new Date() );
-                SITE.gtag( 'config', 'UA-62839199-1', { 'send_page_view': true, 'groups': [ 'acessos', 'outros' ] } );
+//                SITE.gtag( 'js', new Date() );
+//                SITE.gtag( 'config', 'UA-62839199-1', { 'send_page_view': true, 'groups': [ 'acessos', 'outros' ] } );
                 
                 SITE.LoadProperties();
                 SITE.translator = new SITE.Translator( { language: SITE.properties.options.language, callback: initApp } );

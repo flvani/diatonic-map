@@ -14,7 +14,7 @@ SITE.gtag = function () {
            && SITE.getVersion('mainSITE', '' ) !== 'debug' 
            && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) 
     {
-        dataLayer.push(arguments);
+        gtag(arguments);
     } else {
         console.log('Funcao gtag não definida.');
     }
