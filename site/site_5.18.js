@@ -10,11 +10,12 @@ if (!window.SITE)
 window.dataLayer = window.dataLayer || [];
 
 SITE.gtag = function () {
+    gtag.apply(this, arguments);
     if( window.location.href.indexOf( 'flvani.github.io') >= 0
            && SITE.getVersion('mainSITE', '' ) !== 'debug' 
            && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) 
     {
-        gtag(arguments);
+        gtag.apply(this, arguments);
     } else {
         console.log('Funcao gtag não definida.');
     }
