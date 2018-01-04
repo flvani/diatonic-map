@@ -9,30 +9,14 @@ if (!window.SITE)
 
 window.dataLayer = window.dataLayer || [];
 
-SITE.myGtag = function () {
-    if( gtag && window.location.href.indexOf( 'flvani.github.io') >= 0 ) {
-        gtag.apply(this, arguments);
+SITE.ga = function () {
+    if( ga && window.location.href.indexOf( 'flvani.github.io') >= 0 ) {
+        ga.apply(this, arguments);
     } else {
-        console.log('Funcao gtag não definida.');
+        console.log('Funcao ga não definida.');
     }
 };
           
-//SITE.ga = function ( p1, p2, p3, p4, p5  ){
-//    
-//    if( SITE.getDate() > 20171231 ) {
-//        return;
-//    }
-//    
-//    if( ga && window.location.href.indexOf( 'flvani.github.io') >= 0
-//           && SITE.getVersion('mainSITE', '' ) !== 'debug' 
-//           && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) 
-//    {
-//        ga( p1, p2, p3, p4, p5 );
-//    } else {
-//        console.log('Funcao ga não definida.');
-//    }
-//};
-
 SITE.findGetParameter = function(parameterName) {
     var result = null,
         tmp = [];
@@ -88,15 +72,16 @@ SITE.LoadProperties = function() {
     } catch(e) {
         waterbug.log( 'Could not load the properties.');
         waterbug.show( 'Could not save the properties');
-        //SITE.ga('send', 'event', 'Error', 'html5storage', 'loadingLocal' );
-        SITE.myGtag('event', 'html5storage', {
-          send_to : 'outros',
-          event_category: 'Error',
-          event_action: 'html5storage',
-          event_label: 'loadingLocal',
-          event_value: 0,
-          nonInteraction: true 
-        });                
+        SITE.ga('send', 'event', 'Error', 'html5storage', 'loadingLocal', { nonInteraction: true } );
+        
+//        SITE.myGtag('event', 'html5storage', {
+//          send_to : 'outros',
+//          event_category: 'Error',
+//          event_action: 'html5storage',
+//          event_label: 'loadingLocal',
+//          event_value: 0,
+//          nonInteraction: true 
+//        });                
         
     }
     
@@ -201,15 +186,16 @@ SITE.SaveProperties = function() {
     } catch(e) {
         waterbug.log( 'Could not save the properties');
         waterbug.show( 'Could not save the properties');
-        //SITE.ga('send', 'event', 'Error', 'html5storage', 'savingLocal' );
-        SITE.myGtag('event', 'html5storage', {
-          send_to : 'outros',
-          event_category: 'Error',
-          event_action: 'html5storage',
-          event_label: 'savingLocal',
-          event_value: 0,
-          nonInteraction: true 
-        });                
+        SITE.ga('send', 'event', 'Error', 'html5storage', 'savingLocal', { nonInteraction: true } );
+
+//        SITE.myGtag('event', 'html5storage', {
+//          send_to : 'outros',
+//          event_category: 'Error',
+//          event_action: 'html5storage',
+//          event_label: 'savingLocal',
+//          event_value: 0,
+//          nonInteraction: true 
+//        });                
     }
 };
 
@@ -1118,16 +1104,16 @@ SITE.Mapa.prototype.doLoadOriginalRepertoire = function (loader) {
     loader.stop();
     
     if( this.loadByIdx ) {
-        //SITE.ga('send', 'event', 'Mapa5', 'index', this.getActiveTab().title);
+        SITE.ga('send', 'event', 'Mapa5', 'index', this.getActiveTab().title);
         
-        SITE.myGtag( 'event', 'index', {
-          send_to : 'acessos',
-          event_category: 'Mapa5',
-          event_action: 'index',
-          event_label: this.getActiveTab().title,
-          event_value: 0,
-          nonInteraction: false 
-        });                
+//        SITE.myGtag( 'event', 'index', {
+//          send_to : 'acessos',
+//          event_category: 'Mapa5',
+//          event_action: 'index',
+//          event_label: this.getActiveTab().title,
+//          event_value: 0,
+//          nonInteraction: false 
+//        });                
         
         if(! this.repertoireWin ) {
             this.repertoireWin = new SITE.Repertorio();
@@ -1145,16 +1131,16 @@ SITE.Mapa.prototype.printPartiture = function (button, event) {
     button.blur();
     if(  currentABC.div.innerHTML )  {
         
-        //SITE.ga('send', 'event', 'Mapa5', 'print', currentABC.title);
+        SITE.ga('send', 'event', 'Mapa5', 'print', currentABC.title);
         
-        SITE.myGtag( 'event', 'print', {
-          send_to : 'acessos',
-          event_category: 'Mapa5',
-          event_action: 'print',
-          event_label: currentABC.title,
-          event_value: 0,
-          nonInteraction: false 
-        });                
+//        SITE.myGtag( 'event', 'print', {
+//          send_to : 'acessos',
+//          event_category: 'Mapa5',
+//          event_action: 'print',
+//          event_label: currentABC.title,
+//          event_value: 0,
+//          nonInteraction: false 
+//        });                
         
         this.printPreview(currentABC.div.innerHTML, ["#topBar","#mapaDiv"], currentABC.abc.formatting.landscape );
     }
@@ -1339,16 +1325,16 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
     }
 
     if( tab.text ) {
-        //SITE.ga('send', 'event', 'Mapa5', 'tools', tab.title);
+        SITE.ga('send', 'event', 'Mapa5', 'tools', tab.title);
         
-        SITE.myGtag( 'event', 'tools', {
-          send_to : 'acessos',
-          event_category: 'Mapa5',
-          event_action: 'tools',
-          event_label: tab.title,
-          event_value: 0,
-          nonInteraction: false 
-        });                
+//        SITE.myGtag( 'event', 'tools', {
+//          send_to : 'acessos',
+//          event_category: 'Mapa5',
+//          event_action: 'tools',
+//          event_label: tab.title,
+//          event_value: 0,
+//          nonInteraction: false 
+//        });                
         
         
         var loader = this.startLoader( "OpenEstudio" );
@@ -1379,29 +1365,33 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
         this.accordion.clearKeyboard();
         if(type==="normal") {
             if( this.midiPlayer.startPlay(currentABC.abc.midi) ) {
-                //SITE.ga('send', 'event', 'Mapa5', 'play', currentABC.title);
-                SITE.myGtag( 'event', 'play', {
-                  send_to : 'acessos',
-                  event_category: 'Mapa5',
-                  event_action: 'play',
-                  event_label: currentABC.title,
-                  event_value: 0,
-                  nonInteraction: false 
-                });                
+                SITE.ga('send', 'event', 'Mapa5', 'play', currentABC.title);
+                
+//                SITE.myGtag( 'event', 'play', {
+//                  send_to : 'acessos',
+//                  event_category: 'Mapa5',
+//                  event_action: 'play',
+//                  event_label: currentABC.title,
+//                  event_value: 0,
+//                  nonInteraction: false 
+//                });                
+
                 this.playButton.title = SITE.translator.getResource("pause");
                 this.playButton.innerHTML =  '<i class="ico-pause"></i>';
             }
         } else {
             if( this.midiPlayer.startDidacticPlay(currentABC.abc.midi, type, value ) ) {
-                //SITE.ga('send', 'event', 'Mapa5', 'didactic-play', currentABC.title);
-                SITE.myGtag( 'event', 'didactic-play', {
-                  send_to : 'acessos',
-                  event_category: 'Mapa5',
-                  event_action: 'didactic-play',
-                  event_label: currentABC.title,
-                  event_value: 0,
-                  nonInteraction: false 
-                });                
+                SITE.ga('send', 'event', 'Mapa5', 'didactic-play', currentABC.title);
+                
+//                SITE.myGtag( 'event', 'didactic-play', {
+//                  send_to : 'acessos',
+//                  event_category: 'Mapa5',
+//                  event_action: 'didactic-play',
+//                  event_label: currentABC.title,
+//                  event_value: 0,
+//                  nonInteraction: false 
+//                });                
+
             }
         }
     }
@@ -1606,15 +1596,16 @@ SITE.Mapa.prototype.doCarregaRepertorioLocal = function(files) {
                 first = true;
             }
             
-            //SITE.ga('send', 'event', 'Mapa5', 'load', tunebook.tunes[t].title);
-            SITE.myGtag( 'event', 'loadSong', {
-              send_to : 'acessos',
-              event_category: 'Mapa5',
-              event_action: 'loadSong',
-              event_label: tunebook.tunes[t].title,
-              event_value: 0,
-              nonInteraction: false 
-            });                
+            SITE.ga('send', 'event', 'Mapa5', 'loadSong', tunebook.tunes[t].title);
+            
+//            SITE.myGtag( 'event', 'loadSong', {
+//              send_to : 'acessos',
+//              event_category: 'Mapa5',
+//              event_action: 'loadSong',
+//              event_label: tunebook.tunes[t].title,
+//              event_value: 0,
+//              nonInteraction: false 
+//            });                
         }    
     }
 
@@ -2019,15 +2010,17 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             this.picker.close();
             this.settings.window.setVisible(false);
             SITE.ResetProperties();
-            //SITE.ga('send', 'event', 'Configuration', 'reset', SITE.properties.version );
-            SITE.myGtag( 'event', 'reset', {
-              send_to : 'outros',
-              event_category: 'Configuration',
-              event_action: 'reset',
-              event_label: SITE.properties.version,
-              event_value: 0,
-              nonInteraction: true 
-            });                
+            SITE.ga('send', 'event', 'Configuration', 'reset', SITE.properties.version );
+            
+//            SITE.myGtag( 'event', 'reset', {
+//              send_to : 'outros',
+//              event_category: 'Configuration',
+//              event_action: 'reset',
+//              event_label: SITE.properties.version,
+//              event_value: 0,
+//              nonInteraction: true 
+//            });  
+            
             this.applySettings();
             break;
         case 'RESET-NO':
@@ -2041,29 +2034,33 @@ SITE.Mapa.prototype.applySettings = function() {
 
     if( this.settings.lang !== SITE.properties.options.language ) {
         SITE.properties.options.language = this.settings.lang;
-        //SITE.ga('send', 'event', 'Configuration', 'changeLang', SITE.properties.options.language);
-        SITE.myGtag( 'event', 'changeLang', {
-          send_to : 'outros',
-          event_category: 'Configuration',
-          event_action: 'changeLang',
-          event_label: SITE.properties.options.language,
-          event_value: 0,
-          nonInteraction: true 
-        });
+        
+        SITE.ga('send', 'event', 'Configuration', 'changeLang', SITE.properties.options.language);
+        
+//        SITE.myGtag( 'event', 'changeLang', {
+//          send_to : 'outros',
+//          event_category: 'Configuration',
+//          event_action: 'changeLang',
+//          event_label: SITE.properties.options.language,
+//          event_value: 0,
+//          nonInteraction: true 
+//        });
+
         SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
     }
     
     if( this.settings.pianoSound.checked  !== SITE.properties.options.pianoSound ) {
         SITE.properties.options.pianoSound = this.settings.pianoSound.checked;
-        //SITE.ga('send', 'event', 'Configuration', 'changeInstrument', SITE.properties.options.pianoSound?'piano':'accordion');
-        SITE.myGtag( 'event', 'changeInstrument', {
-          send_to : 'outros',
-          event_category: 'Configuration',
-          event_action: 'changeInstrument',
-          event_label: SITE.properties.options.pianoSound?'piano':'accordion',
-          event_value: 0,
-          nonInteraction: true 
-        });
+        SITE.ga('send', 'event', 'Configuration', 'changeInstrument', SITE.properties.options.pianoSound?'piano':'accordion');
+        
+//        SITE.myGtag( 'event', 'changeInstrument', {
+//          send_to : 'outros',
+//          event_category: 'Configuration',
+//          event_action: 'changeInstrument',
+//          event_label: SITE.properties.options.pianoSound?'piano':'accordion',
+//          event_value: 0,
+//          nonInteraction: true 
+//        });
         
         this.defineInstrument();
     }
@@ -2441,16 +2438,16 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         evt.preventDefault();
         this.blur();
         
-        //SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
+        SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
         
-        SITE.myGtag( 'event', 'print', {
-          send_to : 'acessos',
-          event_category: 'Mapa5',
-          event_action: 'print',
-          event_label: that.renderedTune.title,
-          event_value: 0,
-          nonInteraction: false 
-        });                
+//        SITE.myGtag( 'event', 'print', {
+//          send_to : 'acessos',
+//          event_category: 'Mapa5',
+//          event_action: 'print',
+//          event_label: that.renderedTune.title,
+//          event_value: 0,
+//          nonInteraction: false 
+//        });                
         
         that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#studioDiv"], that.renderedTune.abc.formatting.landscape);
         return;
@@ -3002,16 +2999,16 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
             this.midiPlayer.setPlayableClefs('TB');
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
                 
-                //SITE.ga('send', 'event', 'Mapa5', 'play', this.renderedTune.title);
+                SITE.ga('send', 'event', 'Mapa5', 'play', this.renderedTune.title);
                 
-                SITE.myGtag( 'event', 'play', {
-                  send_to : 'acessos',
-                  event_category: 'Mapa5',
-                  event_action: 'play',
-                  event_label: this.renderedTune.title,
-                  event_value: 0,
-                  nonInteraction: false 
-                });                
+//                SITE.myGtag( 'event', 'play', {
+//                  send_to : 'acessos',
+//                  event_category: 'Mapa5',
+//                  event_action: 'play',
+//                  event_label: this.renderedTune.title,
+//                  event_value: 0,
+//                  nonInteraction: false 
+//                });                
                 
                 this.playButton.title = SITE.translator.getResource("pause");
                 this.playButton.innerHTML = '&#160;<i class="ico-pause"></i>&#160;';
@@ -3019,16 +3016,16 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
         } else {
             this.midiPlayer.setPlayableClefs( (SITE.properties.studio.trebleOn?"T":"")+(SITE.properties.studio.bassOn?"B":"") );
             
-            //SITE.ga('send', 'event', 'Mapa5', 'didactic-play', this.renderedTune.title);
+            SITE.ga('send', 'event', 'Mapa5', 'didactic-play', this.renderedTune.title);
             
-            SITE.myGtag( 'event', 'didactic-play', {
-              send_to : 'acessos',
-              event_category: 'Mapa5',
-              event_action: 'didactic-play',
-              event_label: this.renderedTune.title,
-              event_value: 0,
-              nonInteraction: false 
-            });                
+//            SITE.myGtag( 'event', 'didactic-play', {
+//              send_to : 'acessos',
+//              event_category: 'Mapa5',
+//              event_action: 'didactic-play',
+//              event_label: this.renderedTune.title,
+//              event_value: 0,
+//              nonInteraction: false 
+//            });                
             
             
             this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value, valueF );

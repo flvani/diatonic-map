@@ -154,16 +154,16 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         evt.preventDefault();
         this.blur();
         
-        //SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
+        SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
         
-        SITE.myGtag( 'event', 'print', {
-          send_to : 'acessos',
-          event_category: 'Mapa5',
-          event_action: 'print',
-          event_label: that.renderedTune.title,
-          event_value: 0,
-          nonInteraction: false 
-        });                
+//        SITE.myGtag( 'event', 'print', {
+//          send_to : 'acessos',
+//          event_category: 'Mapa5',
+//          event_action: 'print',
+//          event_label: that.renderedTune.title,
+//          event_value: 0,
+//          nonInteraction: false 
+//        });                
         
         that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#studioDiv"], that.renderedTune.abc.formatting.landscape);
         return;
@@ -715,16 +715,16 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
             this.midiPlayer.setPlayableClefs('TB');
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
                 
-                //SITE.ga('send', 'event', 'Mapa5', 'play', this.renderedTune.title);
+                SITE.ga('send', 'event', 'Mapa5', 'play', this.renderedTune.title);
                 
-                SITE.myGtag( 'event', 'play', {
-                  send_to : 'acessos',
-                  event_category: 'Mapa5',
-                  event_action: 'play',
-                  event_label: this.renderedTune.title,
-                  event_value: 0,
-                  nonInteraction: false 
-                });                
+//                SITE.myGtag( 'event', 'play', {
+//                  send_to : 'acessos',
+//                  event_category: 'Mapa5',
+//                  event_action: 'play',
+//                  event_label: this.renderedTune.title,
+//                  event_value: 0,
+//                  nonInteraction: false 
+//                });                
                 
                 this.playButton.title = SITE.translator.getResource("pause");
                 this.playButton.innerHTML = '&#160;<i class="ico-pause"></i>&#160;';
@@ -732,16 +732,16 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
         } else {
             this.midiPlayer.setPlayableClefs( (SITE.properties.studio.trebleOn?"T":"")+(SITE.properties.studio.bassOn?"B":"") );
             
-            //SITE.ga('send', 'event', 'Mapa5', 'didactic-play', this.renderedTune.title);
+            SITE.ga('send', 'event', 'Mapa5', 'didactic-play', this.renderedTune.title);
             
-            SITE.myGtag( 'event', 'didactic-play', {
-              send_to : 'acessos',
-              event_category: 'Mapa5',
-              event_action: 'didactic-play',
-              event_label: this.renderedTune.title,
-              event_value: 0,
-              nonInteraction: false 
-            });                
+//            SITE.myGtag( 'event', 'didactic-play', {
+//              send_to : 'acessos',
+//              event_category: 'Mapa5',
+//              event_action: 'didactic-play',
+//              event_label: this.renderedTune.title,
+//              event_value: 0,
+//              nonInteraction: false 
+//            });                
             
             
             this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value, valueF );

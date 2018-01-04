@@ -29,21 +29,16 @@ notação abc, tablatura " />
         
         <link rel="stylesheet" href="site/site_5.18-min.css" />
         
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-62839199-1"></script>
-        
         <script>
             
-          window.dataLayer = window.dataLayer || [];
-          
-          window.GAID = 'UA-62839199-1';
-          
-          function gtag(){
-            dataLayer.push(arguments);
-          }
-          
-          gtag('js', new Date());
-          gtag('config', GAID, { send_page_view: false, groups: [ 'acessos', 'outros' ] } );
+            window.GAID = 'UA-62839199-1';
+            
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+            ga('create', GAID, 'auto');
 
         </script>        
         
@@ -275,15 +270,16 @@ notação abc, tablatura " />
                 if( ABCXJS.misc.isIE() ){
                     $('#mapaDiv').hide();
                     
-                    //SITE.ga('send', 'event', 'Error', 'browser', 'MS-IE' );
-                    SITE.myGtag('event', 'browser', {
-                      send_to : 'outros',
-                      event_category: 'Error',
-                      event_action: 'browser',
-                      event_label: 'MS-IE',
-                      event_value: 0,
-                      nonInteraction: true 
-                    });                
+                    SITE.ga('send', 'event', 'Error', 'browser', 'MS-IE', { nonInteraction: true } );
+                    
+//                    SITE.myGtag('event', 'browser', {
+//                      send_to : 'outros',
+//                      event_category: 'Error',
+//                      event_action: 'browser',
+//                      event_label: 'MS-IE',
+//                      event_value: 0,
+//                      nonInteraction: true 
+//                    });                
                     
                     new DRAGGABLE.ui.Alert( 
                          null, null
@@ -336,15 +332,16 @@ notação abc, tablatura " />
                 if(!success) {
                     MIDI.widget.hide();
                     
-                    //SITE.ga('send', 'event', 'Error', 'loading', 'resources' );
-                    SITE.myGtag('event', 'loading', {
-                      send_to : 'outros',
-                      event_category: 'Error',
-                      event_action: 'loading',
-                      event_label: 'resources',
-                      event_value: 0,
-                      nonInteraction: true 
-                    });                
+                    SITE.ga('send', 'event', 'Error', 'loading', 'resources', { nonInteraction: true } );
+                    
+//                    SITE.myGtag('event', 'loading', {
+//                      send_to : 'outros',
+//                      event_category: 'Error',
+//                      event_action: 'loading',
+//                      event_label: 'resources',
+//                      event_value: 0,
+//                      nonInteraction: true 
+//                    });                
                     
                     new DRAGGABLE.ui.Alert( 
                         null, null, 
@@ -418,19 +415,18 @@ notação abc, tablatura " />
                     } 
                 );
                 
-                //SITE.ga('send', 'pageview');
-                //SITE.ga('send', 'event', 'Configuration', 'language', SITE.properties.options.language);
+                SITE.ga('send', 'pageview');
+                SITE.ga('send', 'event', 'Configuration', 'language', SITE.properties.options.language, { nonInteraction: true } );
                 
-                SITE.myGtag('event', 'page_view', {send_to: GAID });
-                
-                SITE.myGtag('event', 'language', {
-                  send_to : 'outros',
-                  event_category: 'Configuration',
-                  event_action: 'language',
-                  event_label: SITE.properties.options.language,
-                  event_value: 0,
-                  nonInteraction: true 
-                });                
+//                SITE.myGtag('event', 'page_view', {send_to: GAID });
+//                SITE.myGtag('event', 'language', {
+//                  send_to : 'outros',
+//                  event_category: 'Configuration',
+//                  event_action: 'language',
+//                  event_label: SITE.properties.options.language,
+//                  event_value: 0,
+//                  nonInteraction: true 
+//                });                
                 
                 if( SITE.getDate() <= 20170909 ) {
                     $('#tipsDiv').fadeIn('slow');
