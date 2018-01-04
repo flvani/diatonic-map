@@ -39,13 +39,14 @@ notação abc, tablatura " />
             
           window.dataLayer = window.dataLayer || [];
           
+          window.GAID = 'UA-62839199-4';
+          
           function gtag(){
             dataLayer.push(arguments);
           }
           
           gtag('js', new Date());
-
-          gtag('config', 'UA-62839199-4', { 'send_page_view': true, 'groups': [ 'acessos', 'outros' ] } );
+          gtag('config', GAID, { send_page_view: false, groups: [ 'acessos', 'outros' ] } );
 
         </script>        
         
@@ -272,16 +273,6 @@ notação abc, tablatura " />
             
             window.onload = function () {
                 
-//                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-//                (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
-//                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
-//                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-                
-                //SITE.ga('create', 'UA-62839199-1', 'auto');
-                
-                //SITE.myGtag( 'js', new Date() );
-                //SITE.myGtag( 'config', 'UA-62839199-1', { 'send_page_view': true, 'groups': [ 'acessos', 'outros' ] } );
-
                 SITE.LoadProperties();
                 SITE.translator = new SITE.Translator( { language: SITE.properties.options.language, callback: initApp } );
             };
@@ -298,6 +289,7 @@ notação abc, tablatura " />
                     $('#mapaDiv').hide();
                     
                     //SITE.ga('send', 'event', 'Error', 'browser', 'MS-IE' );
+
                     SITE.myGtag('event', 'browser', {
                       send_to : 'outros',
                       event_category: 'Error',
@@ -357,7 +349,7 @@ notação abc, tablatura " />
             function loadMIDI(success) {
                 //waterbug.log( 'loadMIDI');
                 //waterbug.show();
-                if(!success) {
+                if(! success ) {
                     MIDI.widget.hide();
                     
                     //SITE.ga('send', 'event', 'Error', 'loading', 'resources' );
@@ -368,7 +360,7 @@ notação abc, tablatura " />
                       event_label: 'resources',
                       event_value: 0,
                       nonInteraction: true 
-                    });                
+                    });    
                     
                     new DRAGGABLE.ui.Alert( 
                         null, null, 
@@ -445,6 +437,7 @@ notação abc, tablatura " />
                 //SITE.ga( 'send', 'pageview' );
                 //SITE.ga( 'send', 'event', 'Configuration', 'language', SITE.properties.options.language);
                 
+                SITE.myGtag('event', 'page_view', {send_to: GAID });
                 SITE.myGtag('event', 'language', {
                   send_to : 'outros',
                   event_category: 'Configuration',
