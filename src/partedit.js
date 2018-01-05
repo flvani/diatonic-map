@@ -444,9 +444,14 @@ SITE.PartEdit.prototype.parseABC = function(text, transpose) {
 
     var warnings = abcParser.getWarnings() || [];
 
-    if(this.renderedTune.title)
+    if(this.renderedTune.title) {
         this.editorWindow.container.setSubTitle('- ' + this.renderedTune.abc.metaText.title );
-    else
+        if( ! this.GApartEdit || this.GApartEdit !== this.renderedTune.abc.metaText.title ) {
+            this.GApartEdit = this.renderedTune.abc.metaText.title;
+            SITE.ga('send', 'event', 'Mapa5', 'partEdit', this.GApartEdit );
+        }
+        
+    }else
         this.editorWindow.container.setSubTitle( "" );
 
     if ( this.midiParser ) {

@@ -491,9 +491,13 @@ SITE.PartGen.prototype.parseABC = function() {
     
     this.renderedTune.title = this.renderedTune.abc.metaText.title ;
     
-    if(this.renderedTune.title)
+    if(this.renderedTune.title) {
         this.editorWindow.container.setSubTitle('- ' + this.renderedTune.abc.metaText.title );
-    else
+        if( ! this.GApartGen || this.GApartGen !== this.renderedTune.abc.metaText.title ) {
+            this.GApartGen = this.renderedTune.abc.metaText.title;
+            SITE.ga('send', 'event', 'Mapa5', 'partGen', this.GApartGen );
+        }
+    } else
         this.editorWindow.container.setSubTitle( "" );
 
     if ( this.midiParser ) {
