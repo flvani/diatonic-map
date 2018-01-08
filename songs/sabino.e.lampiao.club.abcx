@@ -1,0 +1,38 @@
+X:2030
+%%barnumbers 1
+%%papersize A4
+%%barsperstaff 6
+%%tabinferenceopts +1
+T:Sabino e Lampião (club)
+C:Antônio "Volta Seca" dos Santos
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/y8zGujCNTOc
+M:2/4
+L:1/8
+Q:90
+K:F
+V:1 treble
+| z z0.5 F0.5 Ac |: +segno+ "B♭" BB0.5F0.5 Ac | "F/A" A1.5F0.5 FA | "Gm7" GG0.5G0.5 "C" FA |1 "F" F1.5F0.5 Ac :|2 "F" F2FF | "F"FA "Gm7"GF | 
+w: * Lá vem Sa-bi-no mais * Lam-pião, chapéu * de couro, * fu-zil na mão Lá vem Sa- mão Lampião * diz que é~va-len-
+| "F/A"F1.5F0.5 FA | "B♭"c_e dc | "F" cc z f | "B♭"f_e dc | "F"Ac "B♭"BA | 
+w:te. É men-ti-ra: é cor-re-dor * Cor-reu da ma-ta escu-ra que a
+| "F"FA "Gm7" GF | "F/A" A3 f | "B♭" f_e dc | "F"Ac "B♭"BA | "C7/9" FA "C/G" GF | "F" F1.5F0.5 Ac +dasegno+ | 
+w: po-eira le-van-tou Cor-reu da ma-ta escu-ra que a po-eira le-van-tou Lá vem Sa-
+|: "B♭" BB0.5F0.5 Ac | "F/A" A1.5F0.5 FA | "Gm7" GG0.5G0.5 "C" FA |1 "F" F1.5F0.5 Ac :|2 "F" F4 |
+w:bi-no mais * Lam-pião, chapéu * de couro, * fu-zil na mão Lá vem Sa- mão
+V:2 bass
+| z4 |: B,,[B,DF] B,,[B,DF] | A,,[F,A,C] A,,[F,A,C] | G,,[B,DF] C,,[C,E,G,] |1 F,,[F,A,C] F,,[F,A,C] :|2 F,,[F,A,C] F,,[F,A,C] | F,,[F,A,C] G,,[B,DF] | 
+| A,,[F,A,C] A,,[F,A,C] | B,,[B,DF] B,,[B,DF] | F,,[F,A,C] F,,[F,A,C] | B,,[B,DF] B,,[B,DF] | F,,[F,A,C] B,,[B,DF] | 
+| F,,[F,A,C] G,,[B,DF] | A,,[F,A,C] A,,[F,A,C] | B,,[B,DF] B,,[B,DF] | F,,[F,A,C] B,,[B,DF] | C,,[B,DF] G,,[C,E,G,] | F,,[F,A,C] F,,[F,A,C] |
+|: B,,[B,DF] B,,[B,DF] | A,,[F,A,C] A,,[F,A,C] | G,,[B,DF] C,,[C,E,G,] |1 F,,[F,A,C] F,,[F,A,C] :|2 F,,4 | 
+V:3 accordionTab
+| z+z z+z0.5 z+4'0.5 z+5' z+6' |: B♭-5' b♭-5'0.5 >-50.5 B♭-6 b♭-6' | A+5' f+>0.5 >+4'0.5 A+4' f+5' | G-4' b♭-4'0.5 >-4'0.5 C-5 c-6 |1 F+4' f+>0.5 >+4'0.5 F+5' f+6' :|2 F+4' f+> F+4' f+4' | F+4' f+5' G-4' b♭-5 |
+| A+4' f+>0.5 >+4'0.5 A+4' f+5' | B♭-6' b♭-5'' B♭-8 b♭-6' | F+6' f+6' F+z f+7' | B♭-9 b♭-5'' B♭-8 b♭-6' | F+5' f+6' B♭-5' b♭-6 |
+| F+4' f+5' G-4' b♭-5 | A+5' f+> A+> f+7' | B♭-9 b♭-5'' B♭-8 b♭-6' | F+5' f+6' B♭-5' b♭-6 | C-5 b♭-6 G-4' c-5 | F+4' f+>0.5 >+4'0.5 F+5' f+6' |
+|: B♭-5' b♭-5'0.5 >-50.5 B♭-6 b♭-6' | A+5' f+>0.5 >+4'0.5 A+4' f+5' | G-4' b♭-4'0.5 >-4'0.5 C-5 c-6 |1 F+4' f+>0.5 >+4'0.5 F+5' f+6' :|2 F+4'4 |
+W: Lá vem Sabino mais Lampião, chapéu quebrado, fuzil na mão
+W: Lá vem Sabino mais Lampião, chapéu quebrado, fuzil na mão
+W: Lampião tava dormindo, acordou muito assustado
+W: Deu tiro numa graúna pensando que era soldado.
+W: Deu tiro numa graúna pensando que era soldado.
