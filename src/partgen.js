@@ -260,7 +260,7 @@ SITE.PartGen.prototype.setup = function(options) {
     
     this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
     
-    //this.fireChanged();
+    this.fireChanged();
     this.editorWindow.restartUndoManager();
     
     this.Div.setSubTitle( '- ' + this.accordion.getTxtModel() );

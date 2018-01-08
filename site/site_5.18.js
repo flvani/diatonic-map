@@ -4958,6 +4958,13 @@ ABCXJS.Tab2Part.prototype.addLine = function (ll) {
 
 ABCXJS.Tab2Part.prototype.parseStaff = function () {
     var staffs = this.idStaff();
+    
+    if(!staffs){
+        this.addWarning('Linha Ínvalida: ['+(this.currLine+1)+'] --> "' + this.tabLines[this.currLine] + '"' );
+        this.hasErrors = true;
+        return;
+    }
+    
     var st = 1; // 0 - fim; 1 - barra; 2 dados; - 1 para garantir a entrada
     var cnt = 1000; // limite de saida para o caso de erro de alinhamento do texto
     while( st > 0 && --cnt ) {
@@ -5346,6 +5353,10 @@ ABCXJS.Tab2Part.prototype.idStaff = function () {
         }
         
         this.currLine++;
+    }
+    
+    if(p.length===0) {
+        return null;
     }
     
     // verifica o alinhamento das barras
