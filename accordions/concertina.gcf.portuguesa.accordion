@@ -1,0 +1,30 @@
+{
+   "id":"CONCERTINA_PORTUGUESA"
+  ,"menuOrder" : 5
+  ,"model":"Dino Baffetti"
+  ,"tuning":["G","C","F"]
+  ,"buttons":["33","12"]
+  ,"pedal":[]
+  ,"image":"images/concertina.portuguesa.png"
+  ,"keyboard": 
+    {
+       "layout": [0, 0.5, 1.0]
+      ,"keys":
+      {
+        "close": [["B2", "D3",  "G3", "B3", "D4",  "G4", "B4", "D5", "G5", "B5", "D6", "G6" ], [ "E3", "G♯3", "C4", "E4", "G♯4", "C5", "E5", "G♯5", "C6", "E6", "G♯6" ], ["A3","C♯4","F4","A4","C♯5","F5","A5","C♯6","F6","A6"]]
+       , "open": [["D3", "F♯3", "A3", "C4", "E4", "F♯4", "A4", "C5", "E5", "F♯5", "A5", "C6" ], [ "G3", "B3", "D4", "F4", "A4", "B4", "D5", "F5", "A5", "B5", "C♯6"  ], ["C4","E♭4","G4","B♭4","D5","E♭5","G5","B♭5","D6","E♭6"]]
+      }
+      ,"basses":
+      {
+        "close": [["e2",   "E2",   "a2", "A2",  "b♭2", "B♭2"], ["g2", "G2", "c2", "C2", "f2", "F2"]]
+       , "open": [["a2:m", "A2", "d2:m", "D2"  ,"b♭2", "B♭2"], ["d2", "D2", "g2", "G2", "c2", "C2"]]
+      }
+    }
+  ,"songPathList":
+    [
+       "songs/oh.minha.rosinha.portuguesa.abcx"
+      ,"songs/oh.malhao.malhao.portuguesa.abcx"
+    ]
+  ,"practicePathList":[]
+  ,"chordPathList":[]
+}

@@ -1,0 +1,26 @@
+X:5002
+%%barnumbers 1
+%%papersize A4
+%%tabinferenceopts -3
+T:Oh, malhão malhão (portuguesa)
+C:Foclore Português
+Z:Flávio Vani
+F:/diatonic-map/oh.malhao.malhao.png
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:2/4
+L:1/8
+Q:80
+K:C
+V:1 treble
+| z E/2F/2 GE |: +segno+ "C" A/2A/2A/2G/2 FE | "G" DD/2E/2 FA | G/2G/2G/2F/2 ED |1 "C" CE/2F/2 GE :|
+|2 "C" C4- | CE/2G/2 c3/2c/2 | "G" B/2A/2G/2A/2 B3/2B/2 | "C" A/2E/2E/2G/2 c3/2c/2 | "G" B/2A/2G/2A/2 B3/2B/2 |
+| "C" A E3- | EE/2F/2 GA | "G" B/2B/2B/2G/2 AF | G/2G/2D/2F/2 ED | "C" C4- |
+| CE/2F/2 GA | "G" B/2B/2B/2G/2 AF | G/2G/2D/2F/2 ED | "C" C4- | CE/2F/2 GE +dasegno+ |
+| A/2A/2A/2G/2 FE | "G" DD/2E/2 FA | G/2G/2G/2F/2 ED | "C" C z G z | c z2 z |
+V:2 bass
+| z4 |: C,,[C,E,G,] [C,E,G,][C,E,G,] | G,,[G,B,D] [G,B,D][G,B,D] | G,,[G,B,D] [G,B,D][G,B,D] |1 C,,[C,E,G,] [C,E,G,][C,E,G,] :|
+|2 C,,[C,E,G,] [C,E,G,][C,E,G,] | C,,[C,E,G,] [C,E,G,][C,E,G,] | G,,[G,B,D] [G,B,D][G,B,D] | C,,[C,E,G,] [C,E,G,][C,E,G,] | G,,[G,B,D] [G,B,D][G,B,D] |
+| C,,[C,E,G,] [C,E,G,][C,E,G,] | C,,[C,E,G,] [C,E,G,][C,E,G,] | G,,[G,B,D] [G,B,D][G,B,D] | G,,[G,B,D] [G,B,D][G,B,D] | C,,[C,E,G,] [C,E,G,][C,E,G,] |
+| C,,[C,E,G,] [C,E,G,][C,E,G,] | G,,[G,B,D] [G,B,D][G,B,D] | G,,[G,B,D] [G,B,D][G,B,D] | C,,[C,E,G,] [C,E,G,][C,E,G,] | C,,[C,E,G,] [C,E,G,][C,E,G,] |
+| C,,[C,E,G,] [C,E,G,][C,E,G,] | G,,[G,B,D] [G,B,D][G,B,D] | G,,[G,B,D] [G,B,D][G,B,D] | C,,[C,E,G,] [C,E,G,][C,E,G,] | C,,[C,E,G,] [C,E,G,][C,E,G,] |
+V:3 accordionTab

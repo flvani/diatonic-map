@@ -69,7 +69,7 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
 
     var lista  = null;
     var club   = false;
-    var repertorio = { geral: [], transportada: [], corona: [] };
+    var repertorio = { geral: [], transportada: [], corona: [], portuguesa: [] };
     
     for(var a = 0; a < this.accordion.accordions.length; a ++ ) {
         this.accordion.load( a );
@@ -86,6 +86,9 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
              case 'GAITA_HOHNER_CORONA_II':
                 lista = repertorio.corona;
                 break;
+             case 'CONCERTINA_PORTUGUESA':
+                lista = repertorio.portuguesa;
+                break;
              case 'GAITA_MINUANO_BC_TRANSPORTADA':
                 lista = repertorio.transportada;
                 break;
@@ -93,7 +96,7 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
          
         for (var t in this.accordion.loaded.songs.items ) {
 
-            var title = t.replace( '(corona)', '' ).replace( '(club)', '' ).replace( '(transportada)', '' ).trim();
+            var title = t.replace( '(corona)', '' ).replace( '(club)', '' ).replace( '(transportada)', '' ).replace( '(portuguesa)', '' ).trim();
             var composer = this.accordion.loaded.songs.details[t].composer;
             var id = this.accordion.loaded.songs.details[t].id;
 
@@ -193,6 +196,21 @@ h += '<h2>Repertório Geral</h2>\n\
             +'<td class="title" >'+repertorio.transportada[r].title
             +'</td><td class="composer" >'+repertorio.transportada[r].composer
             +'</td>\n<td class="center">' + this.makeAnchor( map, 'GAITA_MINUANO_BC_TRANSPORTADA', repertorio.transportada[r].geral ) 
+            +'</td></tr>\n';
+    }
+    
+    h += '\
+</table>\n\
+<br><h2>Portuguesa</h2>\n\
+<h3>Tablaturas para Concertina Portuguesa em sistema diatônico italiano </h3>\n\
+<table class="interna"><tr><th>Título</th><th>Autor(es)</th><th class="center">G/C/F</th></tr>\n\
+';
+                    
+    for( var r = 0; r < repertorio.portuguesa.length; r ++ ) {
+        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
+            +'<td class="title" >'+repertorio.portuguesa[r].title
+            +'</td><td class="composer" >'+repertorio.portuguesa[r].composer
+            +'</td>\n<td class="center">' + this.makeAnchor( map, 'CONCERTINA_PORTUGUESA', repertorio.portuguesa[r].geral ) 
             +'</td></tr>\n';
     }
     

@@ -290,8 +290,10 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             this.showHelp('AboutTitle', '', '/diatonic-map/html/about.pt_BR.html', { width: '800', print:false } );
             break;
         case 'GAITA_MINUANO_GC':
-        case 'GAITA_MINUANO_BC_TRANSPORTADA':
+        case 'CONCERTINA_PORTUGUESA':
+        case 'GAITA_HOHNER_CORONA_II':
         case 'GAITA_HOHNER_CLUB_IIIM_BR':
+        case 'GAITA_MINUANO_BC_TRANSPORTADA':
         default: // as gaitas conhecidas e outras carregadas sob demanda
             this.setup({accordionId:ev});
     }

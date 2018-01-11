@@ -1,0 +1,28 @@
+X:2031
+%%barnumbers 1
+%%papersize A4
+%%tabinferenceopts -3
+T:Oh, minha rosinha (club)
+C:Foclore Português
+Z:Flávio Vani
+F:/diatonic-map/o minha rosinha.png
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:3/8
+L:1/8
+Q:160
+K:Bb 
+V:1 treble
+| "B♭" +fermata+ [Bd] c/2d/2 e/2f/2 | "F"[fa]2 [eg] | "B♭" [eg]dc | [Bd]3 | z2 f |: "B♭" ggf | gfg | fed |
+| "F" c2 f | ffg | f2 f | edc | "B♭" B2 f | ggf | gfg | fed | "F" c2 f | 
+| ffg | f2 f | edc | "B♭" B3 | d2 B | "Eb" e2 e | dcB | "F" A3 | e2 c | f2 f |
+| edc | "B♭" B3 | d2 B | "Eb" e2 e | dcB | "F" A3 | e2 c | f2 f | edc |1 "B♭" B2 f :|2 "B♭" B3 |
+V:2 bass
+| B,, [B,DF] [B,DF] | F,, [F,A,C] [F,A,C] | B,, [B,DF] [B,DF] |  B,, [B,DF] [B,DF] |  B,, [B,DF] [B,DF] |:  B,, [B,DF] [B,DF] |  B,, [B,DF] [B,DF] |  B,, [B,DF] [B,DF] | 
+| F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | B,, [B,DF] [B,DF] | B,, [B,DF] [B,DF] | B,, [B,DF] [B,DF] | B,, [B,DF] [B,DF] | F,, [F,A,C] [F,A,C] |
+| F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | B,, [B,DF] [B,DF] |  B,, [B,DF] [B,DF] |  E,, [E,G,B,] [E,G,B,] | E,, [E,G,B,] [E,G,B,] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] |
+| F,, [F,A,C] [F,A,C] | B,, [B,DF] [B,DF] | B,, [B,DF] [B,DF] | E,, [E,G,B,] [E,G,B,] | E,, [E,G,B,] [E,G,B,] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] |1 B,, [B,DF] [B,DF] :|2 [B,DF]3 |
+V:3 accordionTab
+| B♭-[5'8] b♭-6'0.5 >-80.5 b♭-5''0.5 >-90.5 | F+[7'8'] f+[>>] f+[4''9] | B♭-[5''8'] b♭-8 b♭-6' | B♭-[5'8] b♭-[>>] b♭-[>>] | B♭-z b♭-z b♭-9 |: B♭-8' b♭-8' b♭-9 | B♭-8' b♭-9 b♭-8' | B♭-9 b♭-5'' b♭-8 |
+| F+6' f+> f+7' | F+7' f+7' f+9 | F+7' f+> f+7' | F+4'' f+5'' f+6' | B♭-5' b♭-> b♭-9 | B♭-8' b♭-8' b♭-9 | B♭-8' b♭-9 b♭-8' | B♭-9 b♭-5'' b♭-8 | F+7 f+> f+7' |
+| F+7' f+7' f+9 | F+7' f+> f+7' | F+4'' f+5'' f+6' | B♭-5' b♭-> b♭-> | B♭-8 b♭-> b♭-5' | E♭+4'' e♭+> e♭+4'' | E♭+5'' e♭+6' e♭+2'' | F+5' f+> f+> | F+4'' f+> f+6' | F+7' f+> f+7' |
+| F+4'' f+5'' f+6' | B♭-5' b♭-> b♭-> | B♭-8 b♭-> b♭-5' | E♭+4'' e♭+> e♭+4'' | E♭+5'' e♭+6' e♭+2'' | F+5' f+> f+> | F+4'' f+> f+6' | F+7' f+> f+7' | F+4'' f+5'' f+6' |1 B♭-5' b♭-> b♭-9 :|2 b♭-5'3 |

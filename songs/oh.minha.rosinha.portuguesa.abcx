@@ -1,0 +1,28 @@
+X:5001
+%%barnumbers 1
+%%papersize A4
+%%tabinferenceopts -3
+T:Oh, minha rosinha (portuguesa)
+C:Foclore Português
+Z:Flávio Vani
+F:/diatonic-map/o minha rosinha.png
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:3/8
+L:1/8
+Q:160
+K:G
+V:1 treble
+| "G" +fermata+ [GB] A/2B/2 c/2d/2 | "D"[df]2 [ce] | "G" [ce]BA | [GB]3 | z2 d |: "G" eed | ede | dcB |
+| "D" A2 d | dde | d2 d | cBA | "G" G2 d | eed | ede | dcB | "D" A2 d | 
+| dde | d2 d | cBA | "G" G3 | B2 G | "C" c2 c | BAG | "D" F3 | c2 A | d2 d |
+| cBA | "G" G3 | B2 G | "C" c2 c | BAG | "D" F3 | c2 A | d2 d | cBA |1 "G" G2 d :|2 "G" G3 |
+V:2 bass
+| G,, [G,B,D] [G,B,D] | D,, [D,F,A,] [D,F,A,] | G,, [G,B,D] [G,B,D] |  G,, [G,B,D] [G,B,D] |  G,, [G,B,D] [G,B,D] |:  G,, [G,B,D] [G,B,D] |  G,, [G,B,D] [G,B,D] |  G,, [G,B,D] [G,B,D] | 
+| D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | D,, [D,F,A,] [D,F,A,] |
+| D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | G,, [G,B,D] [G,B,D] |  G,, [G,B,D] [G,B,D] |  C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] |
+| D,, [D,F,A,] [D,F,A,] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] |1 G,, [G,B,D] [G,B,D] :|2 [G,B,D]3 |
+V:3 accordionTab
+| G-[3''6'] g-70.5 >-6'0.5 g-80.5 >-7'0.5 | D-[7'a] d-[>>] d-[89] | G-[89] g-6' g-7 | G+[67] g+[>>] g+[>>] | G+z g+z g+8 |: G+7' g+7' g+8 | G-9 g-7' g-9 | G-7' g-8 g-6' |
+| D-5' d-> d-7' | D-7' d-7' d-9 | D-7' d-> d-7' | D-8 d-6' d-7 | G+6 g+> g+8 | G+7' g+7' g+8 | G+7' g+8 g+7' | G-7' g-8 g-6' | D-7 d-> d-7' |
+| D-7' d-7' d-9 | D-7' d-> d-7' | D-8 d-6' d-7 | G+6 g+> g+> | G+7 g+> g+6 | C+6' c+> c+6' | C-6' c-7 c-3'' | D-6 d-> d-> | D-8 d-> d-7 | D-7' d-> d-7' |
+| D-8 d-6' d-7 | G+6 g+> g+> | G+7 g+> g+6 | C+6' c+> c+6' | C-6' c-7 c-3'' | D-6 d-> d-> | D-8 d-> d-7 | D-7' d-> d-7' | D-8 d-6' d-7 |1 G+6 g+> g+8 :|2 g+63 |

@@ -263,6 +263,7 @@ SITE.PartEdit.prototype.resize = function( ) {
     this.studioCanvasDiv.style.height = t-(w+e+c+6) +"px";
     
     this.posicionaTeclado();
+    this.editorWindow.resize();
 };
 
 SITE.PartEdit.prototype.posicionaTeclado = function() {
