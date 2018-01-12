@@ -1,28 +1,29 @@
 X:2031
 %%barnumbers 1
 %%papersize A4
-%%tabinferenceopts -3
+%%tabinferenceopts -4
 T:Oh, minha rosinha (club)
 C:Foclore Português
 Z:Flávio Vani
-F:/diatonic-map/o minha rosinha.png
+%F:/diatonic-map/o minha rosinha.png
+F:https://www.youtube-nocookie.com/embed/ciXKd-v7yfw
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 M:3/8
 L:1/8
 Q:160
-K:Bb 
+K:C
 V:1 treble
-| "B♭" +fermata+ [Bd] c/2d/2 e/2f/2 | "F"[fa]2 [eg] | "B♭" [eg]dc | [Bd]3 | z2 f |: "B♭" ggf | gfg | fed |
-| "F" c2 f | ffg | f2 f | edc | "B♭" B2 f | ggf | gfg | fed | "F" c2 f | 
-| ffg | f2 f | edc | "B♭" B3 | d2 B | "Eb" e2 e | dcB | "F" A3 | e2 c | f2 f |
-| edc | "B♭" B3 | d2 B | "Eb" e2 e | dcB | "F" A3 | e2 c | f2 f | edc |1 "B♭" B2 f :|2 "B♭" B3 |
+| "C" +fermata+ [ce] d/2e/2 f/2g/2 | "G"[gb]2 [fa] | "C" [fa]ed | [ce]3 | z2 g |: "C" aag | aga | gfe |
+| "G" d2 g | gga | g2 g | fed | "C" [ceg]2 g | aag | aga | gfe | "G" d2 g | 
+| gga | g2 g | fed | "C" [ceg]3 | e2 c | "F" f2 f | edc | "G" B3 | f2 d | g2 g |
+| fed | "C" [ceg]3 | e2 c | "F" f2 f | edc | "G" B3 | f2 d | g2 g | fed |1 "C" [ceg]2 g :|2 "C" [ceg]3 |
 V:2 bass
-| B,, [B,DF] [B,DF] | F,, [F,A,C] [F,A,C] | B,, [B,DF] [B,DF] |  B,, [B,DF] [B,DF] |  B,, [B,DF] [B,DF] |:  B,, [B,DF] [B,DF] |  B,, [B,DF] [B,DF] |  B,, [B,DF] [B,DF] | 
-| F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | B,, [B,DF] [B,DF] | B,, [B,DF] [B,DF] | B,, [B,DF] [B,DF] | B,, [B,DF] [B,DF] | F,, [F,A,C] [F,A,C] |
-| F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | B,, [B,DF] [B,DF] |  B,, [B,DF] [B,DF] |  E,, [E,G,B,] [E,G,B,] | E,, [E,G,B,] [E,G,B,] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] |
-| F,, [F,A,C] [F,A,C] | B,, [B,DF] [B,DF] | B,, [B,DF] [B,DF] | E,, [E,G,B,] [E,G,B,] | E,, [E,G,B,] [E,G,B,] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] |1 B,, [B,DF] [B,DF] :|2 [B,DF]3 |
+| C,, [C,E,G,] [C,E,G,] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] |  C,, [C,E,G,] [C,E,G,] |  C,, [C,E,G,] [C,E,G,] |:  C,, [C,E,G,] [C,E,G,] |  C,, [C,E,G,] [C,E,G,] |  C,, [C,E,G,] [C,E,G,] | 
+| G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | G,, [G,B,D] [G,B,D] |
+| G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] |  C,, [C,E,G,] [C,E,G,] |  F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] |
+| G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] |1 C,, [C,E,G,] [C,E,G,] :|2 [C,E,G,]3 |
 V:3 accordionTab
-| B♭-[5'8] b♭-6'0.5 >-80.5 b♭-5''0.5 >-90.5 | F+[7'8'] f+[>>] f+[4''9] | B♭-[5''8'] b♭-8 b♭-6' | B♭-[5'8] b♭-[>>] b♭-[>>] | B♭-z b♭-z b♭-9 |: B♭-8' b♭-8' b♭-9 | B♭-8' b♭-9 b♭-8' | B♭-9 b♭-5'' b♭-8 |
-| F+6' f+> f+7' | F+7' f+7' f+9 | F+7' f+> f+7' | F+4'' f+5'' f+6' | B♭-5' b♭-> b♭-9 | B♭-8' b♭-8' b♭-9 | B♭-8' b♭-9 b♭-8' | B♭-9 b♭-5'' b♭-8 | F+7 f+> f+7' |
-| F+7' f+7' f+9 | F+7' f+> f+7' | F+4'' f+5'' f+6' | B♭-5' b♭-> b♭-> | B♭-8 b♭-> b♭-5' | E♭+4'' e♭+> e♭+4'' | E♭+5'' e♭+6' e♭+2'' | F+5' f+> f+> | F+4'' f+> f+6' | F+7' f+> f+7' |
-| F+4'' f+5'' f+6' | B♭-5' b♭-> b♭-> | B♭-8 b♭-> b♭-5' | E♭+4'' e♭+> e♭+4'' | E♭+5'' e♭+6' e♭+2'' | F+5' f+> f+> | F+4'' f+> f+6' | F+7' f+> f+7' | F+4'' f+5'' f+6' |1 B♭-5' b♭-> b♭-9 :|2 b♭-5'3 |
+| C-[6'7'] c-80.5 >-7'0.5 c-90.5 >-8'0.5 | G-[8'b] g-[>>] g-[9a] | C-[9a] c-7' c-8 | C-[6'7'] c-[>>] c-[>>] | C+z c+z c+9 |: C+8' c+8' c+9 | C+8' c+9 c+8' | C+9 c+7' c+8 |
+| G-8 g-> g-8' | G-8' g-8' g-a | G-8' g-> g-8' | G-9 g-7' g-8 | C+[789] c+[>>>] c+9 | C+8' c+8' c+9 | C+8' c+9 c+8' | C+9 c+7' c+8 | G-8 g-> g-8' |
+| G-8' g-8' g-a | G-8' g-> g-8' | G-9 g-7' g-8 | C+[789] c+[>>>] c+[>>>] | C+8 c+> c+7 | F+7' f+> f+7' | F+8 f+5'' f+6' | G-7 g-> g-> | G-9 g-> g-8 | G-8' g-> g-8' |
+| G-9 g-7' g-8 | C+[789] c+[>>>] c+[>>>] | C+8 c+> c+7 | F+7' f+> f+7' | F+8 f+5'' f+6' | G-7 g-> g-> | G-9 g-> g-8 | G-8' g-> g-8' | G-9 g-7' g-8 |1 C+[789] c+[>>>] c+9 :|2 c+[789]3 |
