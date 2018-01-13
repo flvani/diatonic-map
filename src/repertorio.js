@@ -144,7 +144,7 @@ acordeão diatônico, gaita de oito baixos, gaita ponto, notação musical, apre
             h3 {font-family: Arial; font-size: 20px; line-height:10x; margin:3px; }\n\
             p {font-family: Arial; font-size: 15px; line-height:10x; margin:3px; margin-bottom: 10px; }\n\
             .credit {font-style: italic; }\n\
-            span {font-style: italic; font-weight: bold;}\n\
+            .destaque {font-style: italic; font-weight: bold;}\n\
             table.interna {border-collapse: collapse; width:calc(100% - 10px); min-width:650px; max-width:1024px; margin:3px; }\n\
             table.interna tr {font-family: Arial; background: #dfdfdf;}\n\
             table.interna th {background: blue; color: white; text-align: left; padding: 3px;}\n\
@@ -162,11 +162,11 @@ acordeão diatônico, gaita de oito baixos, gaita ponto, notação musical, apre
 if( ! map ) {
 h += '\
 <h1>Mapa para acordões diatônicos</h1>\n\
-<p class="credit">Desenvolvido por: <span>Flávio Vani</span>\n\
-<br>Coordenação musical: <span>prof. Cezar Ferreira</span></p>\n\
+<p class="credit">Desenvolvido por: <span class="destaque">Flávio Vani</span>\n\
+<br>Coordenação musical: <span class="destaque">prof. Cezar Ferreira</span></p>\n\
 <p>Esta página apresenta, em ordem alfabética, todo o repertório do site. O site é composto de partituras para acordeão diatônico com \n\
 tablaturas.</p>\n\
-<p><span>Nota: </span>Clique no checkmark verde (à direita) para abrir o site na partitura com o acordeão selecionado.</p>\n\
+<p><span class="destaque">Nota: </span>Clique no checkmark verde (à direita) para abrir o site na partitura com o acordeão selecionado.</p>\n\
 ';
 }
 

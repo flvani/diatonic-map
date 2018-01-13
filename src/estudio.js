@@ -556,7 +556,7 @@ SITE.Estudio.prototype.keyboardCallback = function( e ) {
 };
 
 SITE.Estudio.prototype.setScrolling = function(player) {
-    if( !this.studioCanvasDiv || player.currAbsElem.staffGroup === this.lastStaffGroup ) return;
+    if( !this.studioCanvasDiv || !player.currAbsElem || player.currAbsElem.staffGroup === this.lastStaffGroup ) return;
     
     this.lastStaffGroup = player.currAbsElem.staffGroup;
     
@@ -800,6 +800,7 @@ SITE.Estudio.prototype.parseABC = function (transpose, force) {
 
     if (this.midiParser) {
         this.midiParser.parse(this.renderedTune.abc, this.accordion.loadedKeyboard);
+        this.midiPlayer.reset();
         var warnings = this.midiParser.getWarnings();
         for (var j = 0; j < warnings.length; j++) {
             this.warnings.push(warnings[j]);
