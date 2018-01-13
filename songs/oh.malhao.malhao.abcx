@@ -1,0 +1,31 @@
+X:1042
+%%barnumbers 1
+%%papersize A4
+%%tabinferenceopts -3
+T:Oh, malhão malhão
+C:Foclore Português
+Z:Flávio Vani
+F:/diatonic-map/oh.malhao.malhao.png
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:2/4
+L:1/8
+Q:80
+K:G
+V:1 treble
+| z B,/2C/2 DB, |: +segno+ "G" E/2E/2E/2D/2 CB, | "D" A,A,/2B,/2 CE | D/2D/2D/2C/2 B,A, |1 "G" G,B,/2C/2 DB, :|
+|2 "G" G,4- | G,B,/2D/2 G3/2G/2 | "D" F/2E/2D/2E/2 F3/2F/2 | "G" E/2B,/2B,/2D/2 G3/2G/2 | "D" F/2E/2D/2E/2 F3/2F/2 |
+| "G" E B,3- | B,B,/2C/2 DE | "D" F/2F/2F/2D/2 EC | D/2D/2A,/2C/2 B,A, | "G" G,4- |
+| G,B,/2C/2 DE | "D" F/2F/2F/2D/2 EC | D/2D/2A,/2C/2 B,A, | "G" G,4- | G,B,/2C/2 DB, +dasegno+ |
+| E/2E/2E/2D/2 CB, | "D" A,A,/2B,/2 CE | D/2D/2D/2C/2 B,A, | "G" G, z D z | G z2 z |
+V:2 bass
+| z4 |: G,,[G,B,D] [G,B,D][G,B,D] | D,,[D,F,A,] [D,F,A,][D,F,A,] | D,,[D,F,A,] [D,F,A,][D,F,A,] |1 G,,[G,B,D] [G,B,D][G,B,D] :|
+|2 G,,[G,B,D] [G,B,D][G,B,D] | G,,[G,B,D] [G,B,D][G,B,D] | D,,[D,F,A,] [D,F,A,][D,F,A,] | G,,[G,B,D] [G,B,D][G,B,D] | D,,[D,F,A,] [D,F,A,][D,F,A,] |
+| G,,[G,B,D] [G,B,D][G,B,D] | G,,[G,B,D] [G,B,D][G,B,D] | D,,[D,F,A,] [D,F,A,][D,F,A,] | D,,[D,F,A,] [D,F,A,][D,F,A,] | G,,[G,B,D] [G,B,D][G,B,D] |
+| G,,[G,B,D] [G,B,D][G,B,D] | D,,[D,F,A,] [D,F,A,][D,F,A,] | D,,[D,F,A,] [D,F,A,][D,F,A,] | G,,[G,B,D] [G,B,D][G,B,D] | G,,[G,B,D] [G,B,D][G,B,D] |
+| G,,[G,B,D] [G,B,D][G,B,D] | D,,[D,F,A,] [D,F,A,][D,F,A,] | D,,[D,F,A,] [D,F,A,][D,F,A,] | G,,[G,B,D] [G,B,D][G,B,D] | G,,[G,B,D] [G,B,D][G,B,D] |
+V:3 accordionTab
+| z+z z+40.5 z+3'0.5 z+5 z+4 |: G+4'0.5 >+4'0.5 g+4'0.5 >+50.5 g+3' g+4 | D-3 d-30.5 >-2'0.5 d-4 d-5 | D-3'0.5 >-3'0.5 d-3'0.5 >-40.5 d-2' d-3 |1 G+3 g+40.5 >+3'0.5 g+5 g+4 :|
+|2 G+2' g+> g+> g+> | G+> g+40.5 >+50.5 g+5' g+>0.5 >+5'0.5 | D-60.5 >-50.5 d-3'0.5 >-50.5 d-6 d->0.5 >-60.5 | G-50.5 >-2'0.5 g-2'0.5 >-3'0.5 g-5' g->0.5 >-5'0.5 | D-60.5 >-50.5 d-3'0.5 >-50.5 d-6 d->0.5 >-60.5 |
+| G+4' g+4 g+> g+> | G+> g+40.5 >+3'0.5 g+5 g+4' | D-60.5 >-60.5 d-60.5 >-3'0.5 d-5 d-4 | D-3'0.5 >-3'0.5 d-30.5 >-40.5 d-2' d-3 | G+2' g+> g+> g+> |
+| G+> g+40.5 >+3'0.5 g+5 g+4' | D-60.5 >-60.5 d-60.5 >-3'0.5 d-5 d-4 | D-3'0.5 >-3'0.5 d-30.5 >-40.5 d-2' d-3 | G+2' g+> g+> g+> | G+> g+40.5 >+3'0.5 g+5 g+4 |
+| G+4'0.5 >+4'0.5 g+4'0.5 >+50.5 g+3' g+4 | D-3 d-30.5 >-2'0.5 d-4 d-5 | D-3'0.5 >-3'0.5 d-3'0.5 >-40.5 d-2' d-3 | G+2' g+z g+5 g+z | G+5' g+z g+z g+z |
