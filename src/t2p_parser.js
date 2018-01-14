@@ -191,7 +191,11 @@ ABCXJS.Tab2Part.prototype.parseStaff = function () {
                 this.addBar(staffs, staffs[0].token.str );
                 break;
             case 2:
-                this.addNotes(staffs);
+                if(staffs[0].token.type==='triplet'){
+                    this.addTriplet(staffs, staffs[0].token.str);
+                } else {
+                    this.addNotes(staffs);
+                }
                 break;
         }
     } 
@@ -220,6 +224,20 @@ ABCXJS.Tab2Part.prototype.addBar = function (staffs, bar ) {
             this.setStaffState(staffs[i]);
         }
     }
+};
+
+ABCXJS.Tab2Part.prototype.addTriplet = function ( staffs, triplet ) {
+    
+    if( triplet.charAt(0) === '(' ) {
+        this.addTrebleElem(triplet + ' ' );
+    }
+    
+    this.addTabElem(triplet + ' ' );
+    
+    for( var i = 0; i < staffs.length; i ++ ) {
+        this.setStaffState(staffs[i]);
+    }
+    
 };
 
 ABCXJS.Tab2Part.prototype.addNotes = function(staffs) {
@@ -644,9 +662,11 @@ ABCXJS.Tab2Part.prototype.posiciona = function(staffs) {
 
 ABCXJS.Tab2Part.prototype.read = function(staffs) {
     var st = 0, ret = 0;
+    
+    this.endByTriplet = false; // marca o final de todos os elementos da coluna, visto que o triplet está acabando aqui
+    
     for( var j = 0; j < staffs.length; j ++ ) {
         var source = staffs[j];
-
         switch( source.st ) {
             case "waiting for data":
                 source.token = this.getToken(source);
@@ -761,11 +781,20 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
             tokens.push( token );
             strToken += token;
         }
-        if( this.barEnding || ll.pos >= this.tabLines[ll.l].length || this.spaces.indexOf( this.tabLines[ll.l].charAt(this.endColumn)) < 0 ) {
+        
+        var endingChar = this.tabLines[ll.l].charAt(this.endColumn);
+        var endInSpace = this.spaces.indexOf( endingChar ) >= 0;
+        
+        if( endingChar === ')' || endingChar === '(' ) {
+            this.endByTriplet = true;
+        }
+            
+        if( this.barEnding || ll.pos >= this.tabLines[ll.l].length || !endInSpace ) {
             afinal = true;
         }
     }
     staff.hasToken = strToken.trim().length !== 0;
+    
     //determina o tipo de token
     if( staff.hasToken  ) {
         if( syms.indexOf( strToken.charAt(0) )>= 0 ) {

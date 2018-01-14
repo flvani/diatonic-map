@@ -4985,7 +4985,11 @@ ABCXJS.Tab2Part.prototype.parseStaff = function () {
                 this.addBar(staffs, staffs[0].token.str );
                 break;
             case 2:
-                this.addNotes(staffs);
+                if(staffs[0].token.type==='triplet'){
+                    this.addTriplet(staffs, staffs[0].token.str);
+                } else {
+                    this.addNotes(staffs);
+                }
                 break;
         }
     } 
@@ -5014,6 +5018,20 @@ ABCXJS.Tab2Part.prototype.addBar = function (staffs, bar ) {
             this.setStaffState(staffs[i]);
         }
     }
+};
+
+ABCXJS.Tab2Part.prototype.addTriplet = function ( staffs, triplet ) {
+    
+    if( triplet.charAt(0) === '(' ) {
+        this.addTrebleElem(triplet + ' ' );
+    }
+    
+    this.addTabElem(triplet + ' ' );
+    
+    for( var i = 0; i < staffs.length; i ++ ) {
+        this.setStaffState(staffs[i]);
+    }
+    
 };
 
 ABCXJS.Tab2Part.prototype.addNotes = function(staffs) {
@@ -5438,9 +5456,11 @@ ABCXJS.Tab2Part.prototype.posiciona = function(staffs) {
 
 ABCXJS.Tab2Part.prototype.read = function(staffs) {
     var st = 0, ret = 0;
+    
+    this.endByTriplet = false; // marca o final de todos os elementos da coluna, visto que o triplet está acabando aqui
+    
     for( var j = 0; j < staffs.length; j ++ ) {
         var source = staffs[j];
-
         switch( source.st ) {
             case "waiting for data":
                 source.token = this.getToken(source);
@@ -5555,11 +5575,20 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
             tokens.push( token );
             strToken += token;
         }
-        if( this.barEnding || ll.pos >= this.tabLines[ll.l].length || this.spaces.indexOf( this.tabLines[ll.l].charAt(this.endColumn)) < 0 ) {
+        
+        var endingChar = this.tabLines[ll.l].charAt(this.endColumn);
+        var endInSpace = this.spaces.indexOf( endingChar ) >= 0;
+        
+        if( endingChar === ')' || endingChar === '(' ) {
+            this.endByTriplet = true;
+        }
+            
+        if( this.barEnding || ll.pos >= this.tabLines[ll.l].length || !endInSpace ) {
             afinal = true;
         }
     }
     staff.hasToken = strToken.trim().length !== 0;
+    
     //determina o tipo de token
     if( staff.hasToken  ) {
         if( syms.indexOf( strToken.charAt(0) )>= 0 ) {
@@ -5792,6 +5821,8 @@ ABCXJS.Part2Tab.prototype.init = function () {
     this.currBar = 0;
     this.warnings = [];
     this.inTab = false;
+    this.lastParsed = { notes: undefined, tabLine: undefined };
+    this.finalTabLines = [];
 };
 
 ABCXJS.Part2Tab.prototype.parse = function (text, keyboard ) {
@@ -5809,6 +5840,20 @@ ABCXJS.Part2Tab.prototype.parse = function (text, keyboard ) {
         }
     }
     
+    // each parsed line is stored in finalTabLines array
+    var tabL = this.finalTabLines;
+    
+    for(var t =0; t < tabL.length; t++ ) {
+        this.addLine( tabL[t].basses);
+        for( var r =0; r <tabL[t].close.length; r++){
+            this.addLine( tabL[t].close[r]);
+        }
+        for( var r =0; r <tabL[t].open.length; r++){
+            this.addLine( tabL[t].open[r]);
+        }
+        this.addLine( tabL[t].duration+'\n');
+    }
+        
     return this.tabText;
 };
 
@@ -5849,15 +5894,8 @@ ABCXJS.Part2Tab.prototype.parseLine = function () {
         }  
     } else {
         if( this.inTab ) {
-           var tabL =this.parseTab(); 
-           this.addLine( tabL.basses);
-           for( var r =0; r <tabL.close.length; r++){
-               this.addLine( tabL.close[r]);
-           }
-           for( var r =0; r <tabL.open.length; r++){
-               this.addLine( tabL.open[r]);
-           }
-           this.addLine( tabL.duration+'\n');
+           //Salva as linhas para inserção ao final - há relações inter linhas
+           this.finalTabLines.push( this.parseTab() );
         }
     }
 };
@@ -5874,7 +5912,7 @@ ABCXJS.Part2Tab.prototype.parseTab = function () {
     var cnt = 1000; // limite de saida para o caso de erro de alinhamento do texto
     while( line.tokenType > 0 && --cnt ) {
         
-        this.getToken(line);
+        this.getToken(line, tabline);
 
         switch(line.tokenType){
             case 1: // bar
@@ -5883,11 +5921,14 @@ ABCXJS.Part2Tab.prototype.parseTab = function () {
             case 2: // note
                 this.addNotes(tabline, line);
                 break;
+            case 3: // triplet
+                this.addTriplet(tabline, line);
+                break;
         }
     } 
     
     if( line.tokenType < 0 ) {
-        this.addWarning('Encontrados simbolos inválidos na linha ('+this.currLine+','+line.posi+') .');
+        this.addWarning('Encontrados símbolos inválidos na linha ('+(this.currLine+1)+','+(line.posi+1)+') .');
         this.hasErrors = true;
     }
     if( ! cnt ) {
@@ -5921,53 +5962,69 @@ ABCXJS.Part2Tab.prototype.addBar = function (tabline, token) {
     
 };
 
+ABCXJS.Part2Tab.prototype.addTriplet = function(tabline, line) {
+    var l = line.currToken.length+1;
+    
+    tabline.basses += line.currToken + ' ';
+    
+    for(var r=0; r < tabline.open.length; r++){
+        tabline.open[r] +=  line.currToken + ' ';
+    }
+    for(var r=0; r < tabline.close.length; r++){
+        tabline.close[r] +=  line.currToken + ' ';
+    }
+    
+    tabline.sparring += rpad( ' ', ' ', l);
+    tabline.duration += rpad( ' ', ' ', l);
+    
+    tabline.pos += l;
+};
+
 ABCXJS.Part2Tab.prototype.addNotes = function(tabline, line) {
     
     var parsedNotes = line.parsedNotes;
-//    if( parsedNotes.empty ){
-//      var x =1;  
-//    };
     
-    if( parsedNotes.empty &&  (line.parsedNotes.bas.trim().length === 0 || line.parsedNotes.currBar !== line.lastParsedNotes.currBar )) {
-        line.lastParsedNotes.currBar = line.parsedNotes.currBar;
-        var lastNotes = line.lastParsedNotes.notes;
+    if( parsedNotes.empty &&  (line.parsedNotes.bas.trim().length === 0 || line.parsedNotes.currBar !== this.lastParsed.notes.currBar )) {
+        this.lastParsed.notes.currBar = line.parsedNotes.currBar;
+        var lastNotes = this.lastParsed.notes.notes;
+        var lastTabline = this.lastParsed.tabLine;
         if(parsedNotes.closing) {
-            var i = tabline.close[0].lastIndexOf( lastNotes[0] ) + line.lastParsedNotes.maxL;
-            for(var r=0; r < tabline.close.length; r++){
-               var str = tabline.close[r];
+            var i = lastTabline.close[0].lastIndexOf( lastNotes[0] ) + this.lastParsed.notes.maxL;
+            for(var r=0; r < lastTabline.close.length; r++){
+               var str = lastTabline.close[r];
                 if(r<parsedNotes.notes.length) {
                     var n = str.lastIndexOf(lastNotes[r]);
-                    tabline.close[r] = str.slice(0, n) + str.slice(n).replace(lastNotes[r],lastNotes[r]+'-');
+                    lastTabline.close[r] = str.slice(0, n) + str.slice(n).replace(lastNotes[r],lastNotes[r]+'-');
                 } else {
-                    tabline.close[r] = str.slice(0, i) +' '+ str.slice(i); 
+                    lastTabline.close[r] = str.slice(0, i) +' '+ str.slice(i); 
                 }
             }
-            for(var r=0; r < tabline.open.length; r++){
-                var str = tabline.open[r];
-                tabline.open[r] = str.slice(0, i) +' '+ str.slice(i); 
+            for(var r=0; r < lastTabline.open.length; r++){
+                var str = lastTabline.open[r];
+                lastTabline.open[r] = str.slice(0, i) +' '+ str.slice(i); 
             }
         } else {
-            var i = tabline.open[0].lastIndexOf( lastNotes[0] ) + line.lastParsedNotes.maxL;
-            for(var r=0; r < tabline.open.length; r++){
-               var str = tabline.open[r];
+            var i = lastTabline.open[0].lastIndexOf( lastNotes[0] ) + this.lastParsed.notes.maxL;
+            for(var r=0; r < lastTabline.open.length; r++){
+               var str = lastTabline.open[r];
                 if(r<parsedNotes.notes.length) {
                     var n = str.lastIndexOf(lastNotes[r]);
-                    tabline.open[r] = str.slice(0, n) + str.slice(n).replace(lastNotes[r],lastNotes[r]+'-');
+                    lastTabline.open[r] = str.slice(0, n) + str.slice(n).replace(lastNotes[r],lastNotes[r]+'-');
                 } else {
-                    tabline.open[r] = str.slice(0, i) +' '+ str.slice(i); 
+                    lastTabline.open[r] = str.slice(0, i) +' '+ str.slice(i); 
                 }
             }
-            for(var r=0; r < tabline.close.length; r++){
-                 var str = tabline.close[r];
-                tabline.close[r] = str.slice(0, i) +' '+ str.slice(i); 
+            for(var r=0; r < lastTabline.close.length; r++){
+                 var str = lastTabline.close[r];
+                lastTabline.close[r] = str.slice(0, i) +' '+ str.slice(i); 
             }
         }
-        tabline.duration = tabline.duration.slice(0, i) +' '+ tabline.duration.slice(i); 
-        tabline.sparring = tabline.sparring.slice(0, i) +' '+ tabline.sparring.slice(i); 
-        tabline.basses = tabline.basses.slice(0, i) +' '+ tabline.basses.slice(i); 
-        line.parsedNotes = window.ABCXJS.parse.clone(line.lastParsedNotes);
+        lastTabline.duration = lastTabline.duration.slice(0, i) +' '+ lastTabline.duration.slice(i); 
+        lastTabline.sparring = lastTabline.sparring.slice(0, i) +' '+ lastTabline.sparring.slice(i); 
+        lastTabline.basses = lastTabline.basses.slice(0, i) +' '+ lastTabline.basses.slice(i); 
+        line.parsedNotes = window.ABCXJS.parse.clone(this.lastParsed.notes);
         parsedNotes.notes = lastNotes;
-        parsedNotes.maxL = Math.max( parsedNotes.maxL, line.lastParsedNotes.maxL );
+        parsedNotes.maxL = Math.max( parsedNotes.maxL, this.lastParsed.notes.maxL );
     }
     
     var l = parsedNotes.maxL+1;
@@ -6076,7 +6133,7 @@ ABCXJS.Part2Tab.prototype.parseNotes = function( token) {
     return notes;
 };
 
-ABCXJS.Part2Tab.prototype.getToken = function(line) {
+ABCXJS.Part2Tab.prototype.getToken = function(line, tabline ) {
     var found = false;
     var c = '';
     
@@ -6098,6 +6155,8 @@ ABCXJS.Part2Tab.prototype.getToken = function(line) {
                 line.tokenType = 1; // bar
             } else if(this.validBasses.indexOf( c )>=0)  {
                 line.tokenType = 2; // note
+            } else if(c==="(" || c===")" )  {
+                line.tokenType = 3;
             } else if(this.startSyms.indexOf( c )<0)  {
                 line.tokenType = -1;
             }
@@ -6109,6 +6168,7 @@ ABCXJS.Part2Tab.prototype.getToken = function(line) {
                     }
                     break;
                 case 2:
+                case 3:
                     if(c.match(/(\||\:)/g)){
                         found=true; continue;
                     }
@@ -6124,7 +6184,8 @@ ABCXJS.Part2Tab.prototype.getToken = function(line) {
     
     if(found && line.tokenType===2) {
         if( line.parsedNotes !== undefined && ! line.parsedNotes.empty ) {
-            line.lastParsedNotes = line.parsedNotes;
+            this.lastParsed.notes = line.parsedNotes;
+            this.lastParsed.tabLine = tabline;
         }
         line.parsedNotes = this.parseNotes( line.currToken ) ;
         if( line.parsedNotes === null ) {
