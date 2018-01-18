@@ -309,9 +309,9 @@ SITE.PartEdit.prototype.showEditor = function(show) {
     
     if(SITE.properties.partEdit.editor.visible) {
         this.editorWindow.setVisible(true);
-        document.getElementById('t2pI_showEditor').setAttribute('class', 'ico-folder-open' );
+        document.getElementById('a2pI_showEditor').setAttribute('class', 'ico-folder-open' );
     } else {
-        document.getElementById('t2pI_showEditor').setAttribute('class', 'ico-folder' );
+        document.getElementById('a2pI_showEditor').setAttribute('class', 'ico-folder' );
         this.editorWindow.setVisible(false);
     }
     this.resize();
@@ -326,12 +326,12 @@ SITE.PartEdit.prototype.showKeyboard = function(show) {
     if(SITE.properties.partEdit.keyboard.visible) {
         this.keyboardWindow.setVisible(true);
         this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
-        document.getElementById('t2pI_showMap').setAttribute('class', 'ico-folder-open' );
+        document.getElementById('a2pI_showMap').setAttribute('class', 'ico-folder-open' );
         this.posicionaTeclado();
     } else {
         this.accordion.render_opts.show = false;
         this.keyboardWindow.setVisible(false);
-        document.getElementById('t2pI_showMap').setAttribute('class', 'ico-folder' );
+        document.getElementById('a2pI_showMap').setAttribute('class', 'ico-folder' );
     }
 };
 

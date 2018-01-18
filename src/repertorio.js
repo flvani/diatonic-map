@@ -145,7 +145,7 @@ acordeão diatônico, gaita de oito baixos, gaita ponto, notação musical, apre
             p {font-family: Arial; font-size: 15px; line-height:10x; margin:3px; margin-bottom: 10px; }\n\
             .credit {font-style: italic; }\n\
             .destaque {font-style: italic; font-weight: bold;}\n\
-            table.interna {border-collapse: collapse; width:calc(100% - 10px); min-width:650px; max-width:1024px; margin:3px; }\n\
+            table.interna {border-collapse: collapse; width:calc(100% - 10px); min-width:'+(map?450:650)+'px; max-width:1024px; margin:3px; }\n\
             table.interna tr {font-family: Arial; background: #dfdfdf;}\n\
             table.interna th {background: blue; color: white; text-align: left; padding: 3px;}\n\
             table.interna td {text-align: left; padding: 3px;}\n\
@@ -172,14 +172,14 @@ tablaturas.</p>\n\
 
 h += '<h2>Repertório Geral</h2>\n\
 <h3>Tablaturas para acordeão G/C e/ou Club IIIM</h3>\n\
-<table class="interna"><tr><th>Título</th><th >Autor(es)</th><th class="center">G/C</th><th class="center">C/F  Club(br)</th></tr>\n\
+<table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">G/C</th><th class="center">C/F  Club(br)</th></tr>\n\
 ';
     
     for( var r = 0; r < repertorio.geral.length; r ++ ) {
         h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
-                +'<td class="title" >'+repertorio.geral[r].title
-                +'</td><td class="composer" >'+repertorio.geral[r].composer
-                +'</td>\n<td class="center">' + this.makeAnchor( map, 'GAITA_MINUANO_GC', repertorio.geral[r].geral  ) 
+                +'<td class="title" >'+repertorio.geral[r].title+'</td>'
+                + (map? '\n': '<td class="composer" >'+repertorio.geral[r].composer+'</td>\n' )
+                +'<td class="center">' + this.makeAnchor( map, 'GAITA_MINUANO_GC', repertorio.geral[r].geral  ) 
                 +'</td>\n<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CLUB_IIIM_BR', repertorio.geral[r].club ) 
                 +'</td></tr>\n';
     }
@@ -188,14 +188,14 @@ h += '<h2>Repertório Geral</h2>\n\
 </table>\n\
 <br><h2>Transportada</h2>\n\
 <h3>Tablaturas para acordeão Transportado</h3>\n\
-<table class="interna"><tr><th>Título</th><th>Autor(es)</th><th class="center">B/C</th></tr>\n\
+<table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">B/C</th></tr>\n\
 ';
                     
     for( var r = 0; r < repertorio.transportada.length; r ++ ) {
         h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
-            +'<td class="title" >'+repertorio.transportada[r].title
-            +'</td><td class="composer" >'+repertorio.transportada[r].composer
-            +'</td>\n<td class="center">' + this.makeAnchor( map, 'GAITA_MINUANO_BC_TRANSPORTADA', repertorio.transportada[r].geral ) 
+            +'<td class="title" >'+repertorio.transportada[r].title+'</td>'
+            + (map? '\n': '<td class="composer" >'+repertorio.transportada[r].composer+'</td>\n')
+            +'<td class="center">' + this.makeAnchor( map, 'GAITA_MINUANO_BC_TRANSPORTADA', repertorio.transportada[r].geral ) 
             +'</td></tr>\n';
     }
     
@@ -203,14 +203,14 @@ h += '<h2>Repertório Geral</h2>\n\
 </table>\n\
 <br><h2>Portuguesa</h2>\n\
 <h3>Tablaturas para Concertina Portuguesa em sistema diatônico italiano </h3>\n\
-<table class="interna"><tr><th>Título</th><th>Autor(es)</th><th class="center">G/C/F</th></tr>\n\
+<table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">G/C/F</th></tr>\n\
 ';
                     
     for( var r = 0; r < repertorio.portuguesa.length; r ++ ) {
         h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
-            +'<td class="title" >'+repertorio.portuguesa[r].title
-            +'</td><td class="composer" >'+repertorio.portuguesa[r].composer
-            +'</td>\n<td class="center">' + this.makeAnchor( map, 'CONCERTINA_PORTUGUESA', repertorio.portuguesa[r].geral ) 
+            +'<td class="title" >'+repertorio.portuguesa[r].title+'</td>'
+            + (map? '\n': '<td class="composer" >'+repertorio.portuguesa[r].composer+'</td>\n')
+            +'<td class="center">' + this.makeAnchor( map, 'CONCERTINA_PORTUGUESA', repertorio.portuguesa[r].geral ) 
             +'</td></tr>\n';
     }
     
@@ -218,14 +218,14 @@ h += '<h2>Repertório Geral</h2>\n\
 </table>\n\
 <br><h2>Corona</h2>\n\
 <h3>Tablaturas para acordeão Corona II A/D/G</h3>\n\
-<table class="interna"><tr><th>Título</th><th>Autor(es)</th><th class="center">A/D/G</th></tr>\n\
+<table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">A/D/G</th></tr>\n\
 ';
                     
     for( var r = 0; r < repertorio.corona.length; r ++ ) {
         h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
-            +'<td class="title" >'+repertorio.corona[r].title
-            +'</td><td class="composer" >'+repertorio.corona[r].composer
-            +'</td>\n<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_II', repertorio.corona[r].geral ) 
+            +'<td class="title" >'+repertorio.corona[r].title+'</td>'
+            + (map? '\n': '<td class="composer" >'+repertorio.corona[r].composer+'</td>\n')
+            +'<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_II', repertorio.corona[r].geral ) 
             +'</td></tr>\n';
     }
     

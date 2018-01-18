@@ -190,30 +190,22 @@ notação abc, tablatura " />
                 <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
             </button>
         </div>  <!-- controlDiv - este bloco é tratado internamente -->  
-        <div id="a2pControlDiv-raw" style="display:none;">
-            <div id="a2pControlDiv1" class="btn-subgroup" >
-                <button id="a2pShowEditorBtn" data-translate="showEditorTip"><i id="a2pI_showEditor" class="ico-folder"></i>&#160;<span data-translate="showEditorBtn">Editor</span></button>
-                <button id="a2pShowMapBtn" data-translate="showMapTip"><i id="a2pI_showMap" class="ico-folder"></i>&#160;<span data-translate="showMapBtn">Teclado</span></button>
-                <button id="a2pPrintBtn" data-translate="printPreviewTip"><i class="ico-printer"></i>&#160;<span data-translate="printBtn">Impimir</span></button>
-                <button id="a2pSaveBtn" data-translate="saveTip"><i class="ico-download"></i>&#160;<span data-translate="saveBtn">Salvar Local</span></button>
-                <button id="a2pForceRefresh" data-translate="forceRefreshBtn" ><i class="ico-bolt"></i>&#160<span data-translate="forceRefreshBtn">Atualizar</span></button>
-            </div>
-            <div id="a2pDivNormalPlayControls" class="btn-subgroup" >
-                <button id="a2pPlayBtn" data-translate="playBtn" onclick="">&#160;<i class="ico-play"></i>&#160;</button>
-                <button id="a2pStopBtn" data-translate="stopBtn" onclick="">&#160;<i class="ico-stop"></i>&#160;</button>
-                <label id="a2pCurrentPlayTimeLabel" style="width: 90px;" >00:00:00</label>
-            </div>
-            <button id="a2pbuttonShowMedia" style="display:none;" >
-                <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
-            </button>
-        </div> <!-- a2pcontrolDiv - este bloco é tratado internamente -->     
-        <div id="t2pControlDiv-raw" style="display:none;">
+        <div id="p2tControlDiv-raw" style="display:none;"> <!-- extrair tablatura -->  
+            <div id="p2tControlDiv1" class="btn-subgroup" >
+                <button id="p2tForceRefresh" data-translate="TabGenRefreshTip"><i class="ico-bolt"></i>&#160;<span data-translate="TabGenRefreshBtn">Extrair</span></button>
+                <button id="p2tOpenInGenerator" data-translate="TabGenOpenInTip"><i class="ico-folder-open"></i>&#160;<span data-translate="TabGenOpenInBtn">Abrir no gerador de partitura</span></button>
+                <button id="p2tSaveBtn" data-translate="saveTabTip"><i class="ico-download"></i>&#160;<span data-translate="TabGenSaveBtn">Salvar Local</span></button>
+                <span id="useBeams" style="display: inline;"><input type="checkbox" id="ckUseBeams">&#160;<span data-translate="chkUseBeams">Unir notas com barras</span></span>
+            </div> <!-- p2tcontrolDiv - este bloco é tratado internamente -->     
+        </div>    
+        <div id="t2pControlDiv-raw" style="display:none;"><!-- gerador de partitura -->  
             <div id="t2pControlDiv1" class="btn-subgroup" >
                 <button id="t2pShowEditorBtn" data-translate="showEditorTip"><i id="t2pI_showEditor" class="ico-folder"></i>&#160;<span data-translate="showEditorBtn">Editor</span></button>
-                <button id="t2pShowMapBtn" data-translate="showMapTip"><i id="t2pI_showMap" class="ico-folder"></i>&#160;<span data-translate="showMapBtn">Teclado</span></button>
-                <button id="t2pPrintBtn" data-translate="printPreviewTip"><i class="ico-printer"></i>&#160;<span data-translate="printBtn">Impimir</span></button>
-                <button id="t2pSaveBtn" data-translate="saveTip"><i class="ico-download"></i>&#160;<span data-translate="saveBtn">Salvar Local</span></button>
                 <button id="t2pForceRefresh" data-translate="forceRefreshBtn" ><i class="ico-bolt"></i>&#160<span data-translate="forceRefreshBtn">Atualizar</span></button>
+                <button id="t2pSaveBtn" data-translate="saveTabTip"><i class="ico-download"></i>&#160;<span data-translate="saveBtn">Salvar Local</span></button>
+                <button id="t2pLoadBtn" data-translate="loadTabTip"><i class="ico-upload"></i>&#160;<span data-translate="loadBtn">Carregar</span></button>
+                <button id="t2pOpenInGenerator" data-translate="PartGenOpenInTip"><i class="ico-folder-open"></i>&#160;<span data-translate="PartGenOpenInBtn">Editar partitura</span></button>
+                <button id="t2pSavePartTip" data-translate="savePartTip"><i class="ico-download"></i>&#160;<span data-translate="PartGenSavePartBtn">Salvar Partitura</span></button>
             </div>
             <div id="t2pDivNormalPlayControls" class="btn-subgroup" >
                 <button id="t2pPlayBtn" data-translate="playBtn" onclick="">&#160;<i class="ico-play"></i>&#160;</button>
@@ -229,13 +221,24 @@ notação abc, tablatura " />
                 <span id="convertFromClub" style="display: none;"><input type="checkbox" id="ckConvertFromClub">&#160;<span data-translate="chkConvertFromClub">Converter de Club IIIM (br)</span></span>
             </div>
         </div> <!-- t2pcontrolDiv - este bloco é tratado internamente -->     
-        <div id="p2tControlDiv-raw" style="display:none;">
-            <div id="p2tControlDiv1" class="btn-subgroup" >
-                <button id="p2tForceRefresh" data-translate="TabGenRefreshTip"><i class="ico-bolt"></i>&#160;<span data-translate="TabGenRefreshBtn">Extrair</span></button>
-                <button id="p2tOpenInGenerator" data-translate="TabGenOpenInTip"><i class="ico-folder-open"></i>&#160;<span data-translate="TabGenOpenInBtn">Abrir no gerador de partitura</span></button>
-                <button id="p2tSaveBtn" data-translate="TabGenSaveTip"><i class="ico-download"></i>&#160;<span data-translate="TabGenSaveBtn">Salvar Local</span></button>
-            </div> <!-- p2tcontrolDiv - este bloco é tratado internamente -->     
-        </div>    
+        <div id="a2pControlDiv-raw" style="display:none;"><!-- editor de partitura -->  
+            <div id="a2pControlDiv1" class="btn-subgroup" >
+                <button id="a2pShowEditorBtn" data-translate="showEditorTip"><i id="a2pI_showEditor" class="ico-folder"></i>&#160;<span data-translate="showEditorBtn">Editor</span></button>
+                <button id="a2pShowMapBtn" data-translate="showMapTip"><i id="a2pI_showMap" class="ico-folder"></i>&#160;<span data-translate="showMapBtn">Teclado</span></button>
+                <button id="a2pForceRefresh" data-translate="forceRefreshBtn" ><i class="ico-bolt"></i>&#160<span data-translate="forceRefreshBtn">Atualizar</span></button>
+                <button id="a2pLoadBtn" data-translate="loadPartTip"><i class="ico-upload"></i>&#160;<span data-translate="loadBtn">Carregar</span></button>
+                <button id="a2pSaveBtn" data-translate="savePartTip"><i class="ico-download"></i>&#160;<span data-translate="saveBtn">Salvar</span></button>
+                <button id="a2pPrintBtn" data-translate="printPreviewTip"><i class="ico-printer"></i>&#160;<span data-translate="printBtn">Impimir</span></button>
+            </div>
+            <div id="a2pDivNormalPlayControls" class="btn-subgroup" >
+                <button id="a2pPlayBtn" data-translate="playBtn" onclick="">&#160;<i class="ico-play"></i>&#160;</button>
+                <button id="a2pStopBtn" data-translate="stopBtn" onclick="">&#160;<i class="ico-stop"></i>&#160;</button>
+                <label id="a2pCurrentPlayTimeLabel" style="width: 90px;" >00:00:00</label>
+            </div>
+            <button id="a2pbuttonShowMedia" style="display:none;" >
+                <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
+            </button>
+        </div> <!-- a2pcontrolDiv - este bloco é tratado internamente -->     
         
         <div id="printPreviewDiv" class="printPreviewClass"></div>
         <div id="tipsDiv" class="tips" ><a href="html/release.pt_BR.html" target="_blank"><span data-translate="ReleaseNotesNotice"></span></a></div>

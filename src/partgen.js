@@ -76,19 +76,19 @@ SITE.PartGen = function( mapa, interfaceParams ) {
 
     this.media = new SITE.Media( this.Div.dataDiv,  interfaceParams.btShowMedia, SITE.properties.partGen.media ); 
 
-    this.keyboardWindow = new DRAGGABLE.ui.Window( 
-        this.Div.dataDiv
-       ,[ 'move', 'rotate', 'zoom', 'globe']
-       ,{title: '', translator: SITE.translator, statusbar: false
-            , top: SITE.properties.partGen.keyboard.top
-            , left: SITE.properties.partGen.keyboard.left
-       } 
-      ,{listener: this, method: 'keyboardCallback'}
-    );
-    
+//    this.keyboardWindow = new DRAGGABLE.ui.Window( 
+//        this.Div.dataDiv
+//       ,[ 'move', 'rotate', 'zoom', 'globe']
+//       ,{title: '', translator: SITE.translator, statusbar: false
+//            , top: SITE.properties.partGen.keyboard.top
+//            , left: SITE.properties.partGen.keyboard.left
+//       } 
+//      ,{listener: this, method: 'keyboardCallback'}
+//    );
+//    
     this.accordion.setRenderOptions({
         draggable: true
-       ,show: SITE.properties.partGen.keyboard.visible
+       ,show: false // SITE.properties.partGen.keyboard.visible
        ,transpose: SITE.properties.partGen.keyboard.transpose
        ,mirror: SITE.properties.partGen.keyboard.mirror
        ,scale: SITE.properties.partGen.keyboard.scale
@@ -153,12 +153,12 @@ SITE.PartGen = function( mapa, interfaceParams ) {
         that.showEditor();
     }, false);
     
-    this.showMapButton.addEventListener("click", function (evt) {
-        evt.preventDefault();
-        this.blur();
-        that.showKeyboard();
-    }, false);
-    
+//    this.showMapButton.addEventListener("click", function (evt) {
+//        evt.preventDefault();
+//        this.blur();
+//        that.showKeyboard();
+//    }, false);
+//    
     this.updateButton.addEventListener("click", function() {
         that.fireChanged();
     }, false);
@@ -178,11 +178,11 @@ SITE.PartGen = function( mapa, interfaceParams ) {
         that.abcDiv.style.display = this.checked ? '' : 'none';
     }, false);
 
-    this.printButton.addEventListener("click", function(evt) {
-        evt.preventDefault();
-        this.blur();
-        that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#mapaDiv","#partGenDiv"], that.renderedTune.abc.formatting.landscape);
-    }, false);
+//    this.printButton.addEventListener("click", function(evt) {
+//        evt.preventDefault();
+//        this.blur();
+//        that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#mapaDiv","#partGenDiv"], that.renderedTune.abc.formatting.landscape);
+//    }, false);
 
     this.saveButton.addEventListener("click", function() {
         that.salvaPartitura();
@@ -206,7 +206,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
         that.playButton.title = SITE.translator.getResource("playBtn");
         that.playButton.innerHTML = '&#160;<i class="ico-play"></i>&#160;';
         that.renderedTune.printer.clearSelection();
-        that.accordion.clearKeyboard(true);
+        //that.accordion.clearKeyboard(true);
         that.blockEdition(false);
         if( warns ) {
             var txt = "";
@@ -277,8 +277,8 @@ SITE.PartGen.prototype.setup = function(options) {
         this.editorWindow.container.dispatchAction('POPIN');
     }
 
-    this.showKeyboard(SITE.properties.partGen.keyboard.visible);
-    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
+    //this.showKeyboard(SITE.properties.partGen.keyboard.visible);
+    //this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
     
     this.resize();
     
@@ -315,27 +315,27 @@ SITE.PartGen.prototype.resize = function( ) {
 
     this.studioCanvasDiv.style.height = t-(w+e+c+6) +"px";
     
-    this.posicionaTeclado();
+    //this.posicionaTeclado();
     this.editorWindow.resize();
 };
 
-SITE.PartGen.prototype.posicionaTeclado = function() {
-    
-    if( ! SITE.properties.studio.keyboard.visible ) return;
-    
-    var w = window.innerWidth;
-    
-    var k = this.keyboardWindow.topDiv;
-    var x = parseInt(k.style.left.replace('px', ''));
-    
-    if( x + k.offsetWidth > w ) {
-        x = (w - (k.offsetWidth + 50));
-    }
-    
-    if(x < 0) x = 10;
-    
-    k.style.left = x+"px";
-};
+//SITE.PartGen.prototype.posicionaTeclado = function() {
+//    
+//    if( ! SITE.properties.studio.keyboard.visible ) return;
+//    
+//    var w = window.innerWidth;
+//    
+//    var k = this.keyboardWindow.topDiv;
+//    var x = parseInt(k.style.left.replace('px', ''));
+//    
+//    if( x + k.offsetWidth > w ) {
+//        x = (w - (k.offsetWidth + 50));
+//    }
+//    
+//    if(x < 0) x = 10;
+//    
+//    k.style.left = x+"px";
+//};
 
 
 SITE.PartGen.prototype.closePartGen = function(save) {
@@ -370,23 +370,23 @@ SITE.PartGen.prototype.showEditor = function(show) {
     this.resize();
 };
 
-SITE.PartGen.prototype.showKeyboard = function(show) {
-    SITE.properties.partGen.keyboard.visible = 
-            (typeof show === 'undefined'? ! SITE.properties.partGen.keyboard.visible : show );
-    
-    this.accordion.render_opts.show = SITE.properties.partGen.keyboard.visible;
-    
-    if(SITE.properties.partGen.keyboard.visible) {
-        this.keyboardWindow.setVisible(true);
-        this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
-        document.getElementById('t2pI_showMap').setAttribute('class', 'ico-folder-open' );
-        this.posicionaTeclado();
-    } else {
-        this.accordion.render_opts.show = false;
-        this.keyboardWindow.setVisible(false);
-        document.getElementById('t2pI_showMap').setAttribute('class', 'ico-folder' );
-    }
-};
+//SITE.PartGen.prototype.showKeyboard = function(show) {
+//    SITE.properties.partGen.keyboard.visible = 
+//            (typeof show === 'undefined'? ! SITE.properties.partGen.keyboard.visible : show );
+//    
+//    this.accordion.render_opts.show = SITE.properties.partGen.keyboard.visible;
+//    
+//    if(SITE.properties.partGen.keyboard.visible) {
+//        this.keyboardWindow.setVisible(true);
+//        this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
+//        document.getElementById('t2pI_showMap').setAttribute('class', 'ico-folder-open' );
+//        this.posicionaTeclado();
+//    } else {
+//        this.accordion.render_opts.show = false;
+//        this.keyboardWindow.setVisible(false);
+//        document.getElementById('t2pI_showMap').setAttribute('class', 'ico-folder' );
+//    }
+//};
 
 SITE.PartGen.prototype.editorCallback = function (action, elem) {
     switch(action) {
@@ -511,10 +511,10 @@ SITE.PartGen.prototype.highlight = function(abcelem) {
     //if(SITE.properties.partGen.editor.visible) {
     //    this.editorWindow.setSelection(abcelem);
     //}    
-    if(SITE.properties.partGen.keyboard.visible && !this.midiPlayer.playing) {
-        this.accordion.clearKeyboard(true);
-        this.midiParser.setSelection(abcelem);
-    }    
+//    if(SITE.properties.partGen.keyboard.visible && !this.midiPlayer.playing) {
+//        this.accordion.clearKeyboard(true);
+//        this.midiParser.setSelection(abcelem);
+//    }    
 };
 
 // limpa apenas a janela de texto. Os demais elementos são controlados por tempo 
@@ -542,31 +542,31 @@ SITE.PartGen.prototype.updateSelection = function (force) {
     }
 };
 
-SITE.PartGen.prototype.keyboardCallback = function( e ) {
-    switch(e) {
-        case 'MOVE':
-            var k = this.keyboardWindow.topDiv.style;
-            SITE.properties.partGen.keyboard.left = k.left;
-            SITE.properties.partGen.keyboard.top = k.top;
-            break;
-        case 'ROTATE':
-            this.accordion.rotateKeyboard(this.keyboardWindow.dataDiv);
-            SITE.properties.partGen.keyboard.transpose = this.accordion.render_opts.transpose;
-            SITE.properties.partGen.keyboard.mirror = this.accordion.render_opts.mirror;
-            break;
-        case 'ZOOM':
-            this.accordion.scaleKeyboard(this.keyboardWindow.dataDiv);
-            SITE.properties.partGen.keyboard.scale = this.accordion.render_opts.scale;
-            break;
-        case 'GLOBE':
-            this.accordion.changeNotation();
-            SITE.properties.partGen.keyboard.label = this.accordion.render_opts.label;
-            break;
-        case 'CLOSE':
-            this.showKeyboard(false);
-            break;
-    }
-};
+//SITE.PartGen.prototype.keyboardCallback = function( e ) {
+//    switch(e) {
+//        case 'MOVE':
+//            var k = this.keyboardWindow.topDiv.style;
+//            SITE.properties.partGen.keyboard.left = k.left;
+//            SITE.properties.partGen.keyboard.top = k.top;
+//            break;
+//        case 'ROTATE':
+//            this.accordion.rotateKeyboard(this.keyboardWindow.dataDiv);
+//            SITE.properties.partGen.keyboard.transpose = this.accordion.render_opts.transpose;
+//            SITE.properties.partGen.keyboard.mirror = this.accordion.render_opts.mirror;
+//            break;
+//        case 'ZOOM':
+//            this.accordion.scaleKeyboard(this.keyboardWindow.dataDiv);
+//            SITE.properties.partGen.keyboard.scale = this.accordion.render_opts.scale;
+//            break;
+//        case 'GLOBE':
+//            this.accordion.changeNotation();
+//            SITE.properties.partGen.keyboard.label = this.accordion.render_opts.label;
+//            break;
+//        case 'CLOSE':
+//            this.showKeyboard(false);
+//            break;
+//    }
+//};
 
 SITE.PartGen.prototype.salvaPartitura = function() {
     if (FILEMANAGER.requiredFeaturesAvailable()) {
@@ -617,7 +617,7 @@ SITE.PartGen.prototype.startPlay = function( type, value ) {
         
     } else {
         
-        this.accordion.clearKeyboard();
+        //this.accordion.clearKeyboard();
         if(type==="normal") {
             this.blockEdition(true);
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {

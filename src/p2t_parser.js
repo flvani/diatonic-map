@@ -86,7 +86,7 @@ ABCXJS.Part2Tab = function () {
         , ":|]" : "bar_right_repeat"
     };
     
-    this.validBasses = 'abcdefgABCDEFGz>';
+    this.validBasses = 'abcdefgABCDEFGz>+-';
     this.startSyms = "[|:";
     this.spaces = "\ \t";
     
@@ -411,14 +411,26 @@ ABCXJS.Part2Tab.prototype.getNotes = function (strBass, strNote, closing) {
 };
 
 ABCXJS.Part2Tab.prototype.parseNotes = function( token) {
-    var v,notes;
-    if( token.indexOf('+')>0){
-        v= token.split('+');
-       notes=this.getNotes(v[0],v[1], true);
-    } else {
-        v= token.split('-');
-        notes=this.getNotes(v[0],v[1], false );
+    var v, notes, closing = false;
+    
+    //padroniza sintaxe quando o baixo inexistente significa pausa.
+    if( token.charAt(0) === '+' || token.charAt(0) === '-') {
+        token = 'z' + token;
     }
+    
+    if( token.indexOf('+') > 0 ){
+       v = token.split('+');
+       closing = true;
+    }
+    
+    if( token.indexOf('-') > 0 ){
+        v = token.split('-');
+    }
+    
+    if( ! v ) return null;
+    
+    notes = this.getNotes(v[0],v[1], closing);
+    
     return notes;
 };
 
