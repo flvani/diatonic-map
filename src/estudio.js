@@ -916,7 +916,3 @@ SITE.Estudio.prototype.updateSelection = function (force) {
         setTimeout( that.updateSelection(true), 300 );
     }
 };
-
-SITE.Estudio.prototype.translate = function( ) {
-    //this.initEditArea( "editorTextArea" );
-}; 

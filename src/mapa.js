@@ -438,11 +438,12 @@ SITE.Mapa.prototype.openABC2Part = function () {
             ,{   // interfaceParams
                 partEditDiv: 'partEditDiv'
                ,controlDiv: 'a2pControlDiv-raw' 
-               ,showMapBtn: 'a2pShowMapBtn'
                ,showEditorBtn: 'a2pShowEditorBtn'
-               ,printBtn:'a2pPrintBtn'
-               ,saveBtn:'a2pSaveBtn'
+               ,showMapBtn: 'a2pShowMapBtn'
                ,updateBtn:'a2pForceRefresh'
+               ,loadBtn:'a2pLoadBtn'
+               ,saveBtn:'a2pSaveBtn'
+               ,printBtn:'a2pPrintBtn'
                ,playBtn: "a2pPlayBtn"
                ,stopBtn: "a2pStopBtn"
                ,btShowMedia: 'a2pbuttonShowMedia'
@@ -473,11 +474,14 @@ SITE.Mapa.prototype.openTab2Part = function () {
             ,{   // interfaceParams
                 partGenDiv: 'partGenDiv'
                ,controlDiv: 't2pControlDiv-raw' 
-               ,showMapBtn: 't2pShowMapBtn'
+               //,showMapBtn: 't2pShowMapBtn'
+               //,printBtn:'t2pPrintBtn'
                ,showEditorBtn: 't2pShowEditorBtn'
-               ,printBtn:'t2pPrintBtn'
-               ,saveBtn:'t2pSaveBtn'
                ,updateBtn:'t2pForceRefresh'
+               ,loadBtn:'t2pLoadBtn'
+               ,saveBtn:'t2pSaveBtn'
+               ,editPartBtn:'t2pOpenInPartEditBtn'
+               ,savePartBtn:'t2pSavePartBtn'
                ,playBtn: "t2pPlayBtn"
                ,stopBtn: "t2pStopBtn"
                ,currentPlayTimeLabel: "t2pCurrentPlayTimeLabel"
@@ -524,7 +528,7 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
                ,showMapBtn: 'showMapBtn'
                ,showEditorBtn: 'showEditorBtn'
                ,showTextBtn: 'showTextBtn'
-               ,printBtn:'printBtn2'
+               ,printBtn:'printBtn'
                ,saveBtn:'saveBtn'
                ,forceRefresh:'forceRefresh'
                ,btShowMedia: 'buttonShowMedia2'
@@ -1309,11 +1313,14 @@ SITE.Mapa.prototype.applySettings = function() {
         this.studio.setAutoRefresh(SITE.properties.options.autoRefresh);
         this.studio.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
     }
+    if (this.part2tab) {
+        this.part2tab.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
+    }
     if (this.tab2part) {
         this.tab2part.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
     }
-    if (this.part2tab) {
-        this.part2tab.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
+    if (this.ABC2part) {
+        this.ABC2part.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
     }
     
     this.resizeActiveWindow();
@@ -1409,33 +1416,6 @@ SITE.Mapa.prototype.silencia = function(force) {
                 this.startPlay('normal'); // pause
         }
     }
-};
-
-SITE.Mapa.prototype.translate = function() {
-    
-  this.accordion.keyboard.legenda.setText( true, SITE.translator.getResource('pull'), SITE.translator.getResource('push') );
-  this.showAccordionName();
-  
-  document.title = SITE.translator.getResource("title");  
-  
-  DR.setDescription();
-  
-  document.getElementById("toolsBtn").innerHTML = '<i class="ico-wrench"></i>&#160;'+SITE.translator.getResource("toolsBtn");
-  document.getElementById("printBtn2").innerHTML = '<i class="ico-print"></i>&#160;'+SITE.translator.getResource("printBtn");
-  document.getElementById("pdfBtn").innerHTML = '<i class="ico-print"></i>&#160;'+SITE.translator.getResource("pdfBtn");
-  document.getElementById("message").alt = SITE.translator.getResource("message");
-  
-  document.getElementById("octaveUpBtn").title = SITE.translator.getResource("octave");
-  document.getElementById("octaveUpBtn").innerHTML = '<i class="ico-octave-up"></i>&#160;'+SITE.translator.getResource("octave");
-  document.getElementById("octaveDwBtn").title = SITE.translator.getResource("octave");
-  document.getElementById("octaveDwBtn").innerHTML = '<i class="ico--octave-down"></i>&#160;'+SITE.translator.getResource("octave");
-  document.getElementById("printBtn").innerHTML = '<i class="ico-print"></i>&#160;'+SITE.translator.getResource("printBtn");
-  document.getElementById("saveBtn").innerHTML = '<i class="ico-download"></i>&#160;'+SITE.translator.getResource("saveBtn");
-  document.getElementById("forceRefresh").innerHTML = SITE.translator.getResource("forceRefresh");
-  document.getElementById("forceRefresh2").innerHTML = SITE.translator.getResource("forceRefresh");
-  document.getElementById("gotoMeasureBtn").value = SITE.translator.getResource("goto");
-  document.getElementById("untilMeasureBtn").value = SITE.translator.getResource("until");
-  
 };
 
 SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {

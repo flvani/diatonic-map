@@ -6,7 +6,7 @@
     {
          "appName": "Mappa per Fisarmoniche Diatoniche"
         ,"TAB2PART": "Tablatura > Spartito"
-        ,"ABC2PART": "ABC > Spartito"
+        ,"ABC2PART": "ABCX > Spartito"
         ,"JUMPS": "Segni di ripetizione (in portoghese)"
         ,"Push": "Chiudere"
         ,"Pull": "Aprire"
@@ -108,7 +108,7 @@
         ,"PartGenOpenInBtn": "Edit the partiture"
         ,"PartGenSavePartBtn": "Save the partiture"
         ,"PartEditTitle": "Editore di spartito"
-        ,"PartEditEditorTitle": "Editore di ABC"
+        ,"PartEditEditorTitle": "Editore di ABCX"
         ,"TabGenTitle": "Estrattore di tablatura"
         ,"TabGenRefreshTip": "Estrai la tablatura"
         ,"TabGenRefreshBtn": "Estrarre"

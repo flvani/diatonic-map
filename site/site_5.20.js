@@ -1206,11 +1206,12 @@ SITE.Mapa.prototype.openABC2Part = function () {
             ,{   // interfaceParams
                 partEditDiv: 'partEditDiv'
                ,controlDiv: 'a2pControlDiv-raw' 
-               ,showMapBtn: 'a2pShowMapBtn'
                ,showEditorBtn: 'a2pShowEditorBtn'
-               ,printBtn:'a2pPrintBtn'
-               ,saveBtn:'a2pSaveBtn'
+               ,showMapBtn: 'a2pShowMapBtn'
                ,updateBtn:'a2pForceRefresh'
+               ,loadBtn:'a2pLoadBtn'
+               ,saveBtn:'a2pSaveBtn'
+               ,printBtn:'a2pPrintBtn'
                ,playBtn: "a2pPlayBtn"
                ,stopBtn: "a2pStopBtn"
                ,btShowMedia: 'a2pbuttonShowMedia'
@@ -1241,11 +1242,14 @@ SITE.Mapa.prototype.openTab2Part = function () {
             ,{   // interfaceParams
                 partGenDiv: 'partGenDiv'
                ,controlDiv: 't2pControlDiv-raw' 
-               ,showMapBtn: 't2pShowMapBtn'
+               //,showMapBtn: 't2pShowMapBtn'
+               //,printBtn:'t2pPrintBtn'
                ,showEditorBtn: 't2pShowEditorBtn'
-               ,printBtn:'t2pPrintBtn'
-               ,saveBtn:'t2pSaveBtn'
                ,updateBtn:'t2pForceRefresh'
+               ,loadBtn:'t2pLoadBtn'
+               ,saveBtn:'t2pSaveBtn'
+               ,editPartBtn:'t2pOpenInPartEditBtn'
+               ,savePartBtn:'t2pSavePartBtn'
                ,playBtn: "t2pPlayBtn"
                ,stopBtn: "t2pStopBtn"
                ,currentPlayTimeLabel: "t2pCurrentPlayTimeLabel"
@@ -1292,7 +1296,7 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
                ,showMapBtn: 'showMapBtn'
                ,showEditorBtn: 'showEditorBtn'
                ,showTextBtn: 'showTextBtn'
-               ,printBtn:'printBtn2'
+               ,printBtn:'printBtn'
                ,saveBtn:'saveBtn'
                ,forceRefresh:'forceRefresh'
                ,btShowMedia: 'buttonShowMedia2'
@@ -2077,11 +2081,14 @@ SITE.Mapa.prototype.applySettings = function() {
         this.studio.setAutoRefresh(SITE.properties.options.autoRefresh);
         this.studio.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
     }
+    if (this.part2tab) {
+        this.part2tab.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
+    }
     if (this.tab2part) {
         this.tab2part.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
     }
-    if (this.part2tab) {
-        this.part2tab.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
+    if (this.ABC2part) {
+        this.ABC2part.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
     }
     
     this.resizeActiveWindow();
@@ -2177,33 +2184,6 @@ SITE.Mapa.prototype.silencia = function(force) {
                 this.startPlay('normal'); // pause
         }
     }
-};
-
-SITE.Mapa.prototype.translate = function() {
-    
-  this.accordion.keyboard.legenda.setText( true, SITE.translator.getResource('pull'), SITE.translator.getResource('push') );
-  this.showAccordionName();
-  
-  document.title = SITE.translator.getResource("title");  
-  
-  DR.setDescription();
-  
-  document.getElementById("toolsBtn").innerHTML = '<i class="ico-wrench"></i>&#160;'+SITE.translator.getResource("toolsBtn");
-  document.getElementById("printBtn2").innerHTML = '<i class="ico-print"></i>&#160;'+SITE.translator.getResource("printBtn");
-  document.getElementById("pdfBtn").innerHTML = '<i class="ico-print"></i>&#160;'+SITE.translator.getResource("pdfBtn");
-  document.getElementById("message").alt = SITE.translator.getResource("message");
-  
-  document.getElementById("octaveUpBtn").title = SITE.translator.getResource("octave");
-  document.getElementById("octaveUpBtn").innerHTML = '<i class="ico-octave-up"></i>&#160;'+SITE.translator.getResource("octave");
-  document.getElementById("octaveDwBtn").title = SITE.translator.getResource("octave");
-  document.getElementById("octaveDwBtn").innerHTML = '<i class="ico--octave-down"></i>&#160;'+SITE.translator.getResource("octave");
-  document.getElementById("printBtn").innerHTML = '<i class="ico-print"></i>&#160;'+SITE.translator.getResource("printBtn");
-  document.getElementById("saveBtn").innerHTML = '<i class="ico-download"></i>&#160;'+SITE.translator.getResource("saveBtn");
-  document.getElementById("forceRefresh").innerHTML = SITE.translator.getResource("forceRefresh");
-  document.getElementById("forceRefresh2").innerHTML = SITE.translator.getResource("forceRefresh");
-  document.getElementById("gotoMeasureBtn").value = SITE.translator.getResource("goto");
-  document.getElementById("untilMeasureBtn").value = SITE.translator.getResource("until");
-  
 };
 
 SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
@@ -3206,10 +3186,6 @@ SITE.Estudio.prototype.updateSelection = function (force) {
         setTimeout( that.updateSelection(true), 300 );
     }
 };
-
-SITE.Estudio.prototype.translate = function( ) {
-    //this.initEditArea( "editorTextArea" );
-}; 
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -3347,12 +3323,19 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     
     this.Div.dataDiv.appendChild(this.studioCanvasDiv);
     
-    this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
+   // this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
+    //this.printButton = document.getElementById(interfaceParams.printBtn);
+    
+    this.fileLoadTab = document.getElementById('fileLoadTab');
+    this.fileLoadTab.addEventListener('change', function(event) { that.carregaTablatura(event); }, false);        
+    
     this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
     
-    this.printButton = document.getElementById(interfaceParams.printBtn);
-    this.saveButton = document.getElementById(interfaceParams.saveBtn);
     this.updateButton = document.getElementById(interfaceParams.updateBtn);
+    this.loadButton = document.getElementById(interfaceParams.loadBtn);
+    this.saveButton = document.getElementById(interfaceParams.saveBtn);
+    this.editPartButton = document.getElementById(interfaceParams.editPartBtn);
+    this.savePartButton = document.getElementById(interfaceParams.savePartBtn);
 
     // player control
     this.playButton = document.getElementById(interfaceParams.playBtn);
@@ -3371,9 +3354,12 @@ SITE.PartGen = function( mapa, interfaceParams ) {
 //        that.showKeyboard();
 //    }, false);
 //    
-    this.updateButton.addEventListener("click", function() {
-        that.fireChanged();
-    }, false);
+
+//    this.printButton.addEventListener("click", function(evt) {
+//        evt.preventDefault();
+//        this.blur();
+//        that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#mapaDiv","#partGenDiv"], that.renderedTune.abc.formatting.landscape);
+//    }, false);
 
     this.ckConvertToClub.addEventListener("click", function() {
         SITE.properties.partGen.convertToClub = !!this.checked;
@@ -3390,13 +3376,29 @@ SITE.PartGen = function( mapa, interfaceParams ) {
         that.abcDiv.style.display = this.checked ? '' : 'none';
     }, false);
 
-//    this.printButton.addEventListener("click", function(evt) {
-//        evt.preventDefault();
-//        this.blur();
-//        that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#mapaDiv","#partGenDiv"], that.renderedTune.abc.formatting.landscape);
-//    }, false);
+    this.updateButton.addEventListener("click", function() {
+        that.fireChanged();
+    }, false);
 
+    this.loadButton.addEventListener("click", function() {
+        that.fileLoadTab.click();
+    }, false);
+    
     this.saveButton.addEventListener("click", function() {
+        that.salvaTablatura();
+    }, false);
+
+    this.editPartButton.addEventListener("click", function() {
+        var text = that.renderedTune.text;
+        if(text !== "" ) {
+            that.setVisible(false);
+            SITE.SaveProperties();
+            FILEMANAGER.saveLocal( 'ultimaPartituraEditada', text );
+            that.mapa.menu.dispatchAction('menuRepertorio','ABC2PART');
+        }    
+    }, false);
+    
+    this.savePartButton.addEventListener("click", function() {
         that.salvaPartitura();
     }, false);
     
@@ -3800,6 +3802,18 @@ SITE.PartGen.prototype.salvaTablatura = function() {
     }
 };
 
+SITE.PartGen.prototype.carregaTablatura = function(evt) {
+    var that = this;
+    FILEMANAGER.loadLocalFiles( evt, function() {
+      that.doCarregaTablatura(FILEMANAGER.files);
+      evt.target.value = "";
+    });
+};
+
+SITE.PartGen.prototype.doCarregaTablatura = function(file) {
+    this.editorWindow.setString(file[0].content);
+    this.fireChanged();
+};
 
 SITE.PartGen.prototype.blockEdition = function( block ) {
     this.editorWindow.setReadOnly(!block);
@@ -3985,13 +3999,17 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
     this.renderedTune.div = this.canvasDiv;
     
     this.Div.dataDiv.appendChild(this.studioCanvasDiv);
+
+    this.fileLoadABC = document.getElementById('fileLoadABC');
+    this.fileLoadABC.addEventListener('change', function(event) { that.carregaPartitura(event); }, false);        
+
     
-    this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
     this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
-    
-    this.printButton = document.getElementById(interfaceParams.printBtn);
-    this.saveButton = document.getElementById(interfaceParams.saveBtn);
+    this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
     this.updateButton = document.getElementById(interfaceParams.updateBtn);
+    this.loadButton = document.getElementById(interfaceParams.loadBtn);
+    this.saveButton = document.getElementById(interfaceParams.saveBtn);
+    this.printButton = document.getElementById(interfaceParams.printBtn);
 
     // player control
     this.playButton = document.getElementById(interfaceParams.playBtn);
@@ -4014,16 +4032,20 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
         that.fireChanged();
     }, false);
 
+    this.loadButton.addEventListener("click", function() {
+        that.fileLoadABC.click();
+    }, false);
+    
+    this.saveButton.addEventListener("click", function() {
+        that.salvaPartitura();
+    }, false);
+    
     this.printButton.addEventListener("click", function(evt) {
         evt.preventDefault();
         this.blur();
         that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#mapaDiv","#partEditDiv"], that.renderedTune.abc.formatting.landscape);
     }, false);
 
-    this.saveButton.addEventListener("click", function() {
-        that.salvaPartitura();
-    }, false);
-    
     
     this.playerCallBackOnScroll = function( player ) {
         that.setScrolling(player);
@@ -4356,20 +4378,6 @@ SITE.PartEdit.prototype.parseABC = function(text, transpose) {
 
 SITE.PartEdit.prototype.printABC = function() {
     
-//    this.abcDiv.innerHTML = this.renderedTune.text.replace(/\n/g,'\<br\>');
-//   
-//    var warns = this.abcParser.getWarnings();
-//    
-//    if(warns) {
-//        this.warningsDiv.innerHTML = warns;
-//        this.warningsDiv.style.color = 'red';
-//    } else {
-//        this.warningsDiv.innerHTML = 'Partitura gerada com sucesso!';
-//        this.warningsDiv.style.color = 'green';
-//    }
-//    
-//    this.parseABC();
-    
     this.renderedTune.div.innerHTML = "";
     
     this.renderedTune.printer = new ABCXJS.write.Printer( new SVG.Printer( this.renderedTune.div ) );
@@ -4451,6 +4459,19 @@ SITE.PartEdit.prototype.salvaPartitura = function() {
     } else {
         alert(SITE.translator.getResource("err_saving"));
     }
+};
+
+SITE.PartEdit.prototype.carregaPartitura = function(evt) {
+    var that = this;
+    FILEMANAGER.loadLocalFiles( evt, function() {
+      that.doCarregaPartitura(FILEMANAGER.files);
+      evt.target.value = "";
+    });
+};
+
+SITE.PartEdit.prototype.doCarregaPartitura = function(file) {
+    this.editorWindow.setString(file[0].content);
+    this.fireChanged();
 };
 
 SITE.PartEdit.prototype.blockEdition = function( block ) {
@@ -4613,9 +4634,9 @@ SITE.TabGen = function( mapa, interfaceParams ) {
     this.tabEditorWindow.container.setButtonVisible( 'REFRESH', false);
     this.tabEditorWindow.keySelector.setVisible(false);
     
-    this.saveButton = document.getElementById(interfaceParams.saveBtn);
     this.updateButton = document.getElementById(interfaceParams.updateBtn);
     this.openButton = document.getElementById(interfaceParams.openBtn);
+    this.saveButton = document.getElementById(interfaceParams.saveBtn);
     
     this.updateButton.addEventListener("click", function() {
         that.fireChanged();
@@ -4643,7 +4664,7 @@ SITE.TabGen.prototype.setup = function(abcText) {
     
     this.setVisible(true);
     this.abcEditorWindow.setString(abcText);
-        this.abcEditorWindow.container.dispatchAction('READONLY');
+    this.abcEditorWindow.container.dispatchAction('READONLY');
     
     if(SITE.properties.tabGen.abcEditor.floating) {
         if( SITE.properties.tabGen.abcEditor.maximized ) {
@@ -4668,6 +4689,7 @@ SITE.TabGen.prototype.setup = function(abcText) {
         this.tabEditorWindow.container.dispatchAction('POPIN');
     }
     
+    this.tabEditorWindow.container.dispatchAction('READONLY');
     this.tabEditorWindow.restartUndoManager();
     this.resize();
 };

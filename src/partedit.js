@@ -102,13 +102,17 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
     this.renderedTune.div = this.canvasDiv;
     
     this.Div.dataDiv.appendChild(this.studioCanvasDiv);
+
+    this.fileLoadABC = document.getElementById('fileLoadABC');
+    this.fileLoadABC.addEventListener('change', function(event) { that.carregaPartitura(event); }, false);        
+
     
-    this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
     this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
-    
-    this.printButton = document.getElementById(interfaceParams.printBtn);
-    this.saveButton = document.getElementById(interfaceParams.saveBtn);
+    this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
     this.updateButton = document.getElementById(interfaceParams.updateBtn);
+    this.loadButton = document.getElementById(interfaceParams.loadBtn);
+    this.saveButton = document.getElementById(interfaceParams.saveBtn);
+    this.printButton = document.getElementById(interfaceParams.printBtn);
 
     // player control
     this.playButton = document.getElementById(interfaceParams.playBtn);
@@ -131,16 +135,20 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
         that.fireChanged();
     }, false);
 
+    this.loadButton.addEventListener("click", function() {
+        that.fileLoadABC.click();
+    }, false);
+    
+    this.saveButton.addEventListener("click", function() {
+        that.salvaPartitura();
+    }, false);
+    
     this.printButton.addEventListener("click", function(evt) {
         evt.preventDefault();
         this.blur();
         that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#mapaDiv","#partEditDiv"], that.renderedTune.abc.formatting.landscape);
     }, false);
 
-    this.saveButton.addEventListener("click", function() {
-        that.salvaPartitura();
-    }, false);
-    
     
     this.playerCallBackOnScroll = function( player ) {
         that.setScrolling(player);
@@ -473,20 +481,6 @@ SITE.PartEdit.prototype.parseABC = function(text, transpose) {
 
 SITE.PartEdit.prototype.printABC = function() {
     
-//    this.abcDiv.innerHTML = this.renderedTune.text.replace(/\n/g,'\<br\>');
-//   
-//    var warns = this.abcParser.getWarnings();
-//    
-//    if(warns) {
-//        this.warningsDiv.innerHTML = warns;
-//        this.warningsDiv.style.color = 'red';
-//    } else {
-//        this.warningsDiv.innerHTML = 'Partitura gerada com sucesso!';
-//        this.warningsDiv.style.color = 'green';
-//    }
-//    
-//    this.parseABC();
-    
     this.renderedTune.div.innerHTML = "";
     
     this.renderedTune.printer = new ABCXJS.write.Printer( new SVG.Printer( this.renderedTune.div ) );
@@ -568,6 +562,19 @@ SITE.PartEdit.prototype.salvaPartitura = function() {
     } else {
         alert(SITE.translator.getResource("err_saving"));
     }
+};
+
+SITE.PartEdit.prototype.carregaPartitura = function(evt) {
+    var that = this;
+    FILEMANAGER.loadLocalFiles( evt, function() {
+      that.doCarregaPartitura(FILEMANAGER.files);
+      evt.target.value = "";
+    });
+};
+
+SITE.PartEdit.prototype.doCarregaPartitura = function(file) {
+    this.editorWindow.setString(file[0].content);
+    this.fireChanged();
 };
 
 SITE.PartEdit.prototype.blockEdition = function( block ) {

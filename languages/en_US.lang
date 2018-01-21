@@ -6,7 +6,7 @@
     {
          "appName": "Map for Diatonic Accordions"
         ,"TAB2PART": "Tablature > Partiture"
-        ,"ABC2PART": "ABC > Partiture"
+        ,"ABC2PART": "ABCX > Partiture"
         ,"JUMPS": "Jumps & Breaks (in Portuguese)"
         ,"Push": "Push"
         ,"Pull": "Pull"
@@ -108,7 +108,7 @@
         ,"PartGenOpenInBtn": "Edit the partiture"
         ,"PartGenSavePartBtn": "Save the partiture"
         ,"PartEditTitle": "Partiture Editor"
-        ,"PartEditEditorTitle": "ABC Editor"
+        ,"PartEditEditorTitle": "ABCX Editor"
         ,"TabGenTitle": "Tablature Extractor"
         ,"TabGenRefreshTip": "Extract the tablature"
         ,"TabGenRefreshBtn": "Extract"

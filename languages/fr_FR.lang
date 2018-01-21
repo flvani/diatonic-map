@@ -6,7 +6,7 @@
     {
          "appName": "Carte pour Accordéons Diatoniques"
         ,"TAB2PART": "Tablature > Partition"
-        ,"ABC2PART": "ABC > Partition"
+        ,"ABC2PART": "ABCX > Partition"
         ,"JUMPS": "Signes de répétition (en portugais)"
         ,"Push": "Pousser"
         ,"Pull": "Tirer"
@@ -108,7 +108,7 @@
         ,"PartGenOpenInBtn": "Edit the partiture"
         ,"PartGenSavePartBtn": "Save the partiture"
         ,"PartEditTitle": "Éditeur de partition"
-        ,"PartEditEditorTitle": "ABC Éditeur"
+        ,"PartEditEditorTitle": "ABCX Éditeur"
         ,"TabGenTitle": "Extracteur de tablatures"
         ,"TabGenRefreshTip": "Extrayez le tablature"
         ,"TabGenRefreshBtn": "Extraire"

@@ -6,7 +6,7 @@
     {
          "appName": "Systematik für diatonische Akkordeons"
         ,"TAB2PART": "Tabulatur > Noten"
-        ,"ABC2PART": "ABC > Noten"
+        ,"ABC2PART": "ABCX > Noten"
         ,"JUMPS": "Zeichen der Wiederholung (auf Portugiesisch)"
         ,"Push": "Drücken"
         ,"Pull": "Ziehen"
@@ -108,7 +108,7 @@
         ,"PartGenOpenInBtn": "Edit the partiture"
         ,"PartGenSavePartBtn": "Save the partiture"
         ,"PartEditTitle": "Noten Editor"
-        ,"PartEditEditorTitle": "ABC-Editor"
+        ,"PartEditEditorTitle": "ABCX-Editor"
         ,"TabGenTitle": "Tabulatur-Extraktor"
         ,"TabGenRefreshTip": "Extrahieren die Tabulatur"
         ,"TabGenRefreshBtn": "Extrahieren"

@@ -81,9 +81,9 @@ SITE.TabGen = function( mapa, interfaceParams ) {
     this.tabEditorWindow.container.setButtonVisible( 'REFRESH', false);
     this.tabEditorWindow.keySelector.setVisible(false);
     
-    this.saveButton = document.getElementById(interfaceParams.saveBtn);
     this.updateButton = document.getElementById(interfaceParams.updateBtn);
     this.openButton = document.getElementById(interfaceParams.openBtn);
+    this.saveButton = document.getElementById(interfaceParams.saveBtn);
     
     this.updateButton.addEventListener("click", function() {
         that.fireChanged();
@@ -111,7 +111,7 @@ SITE.TabGen.prototype.setup = function(abcText) {
     
     this.setVisible(true);
     this.abcEditorWindow.setString(abcText);
-        this.abcEditorWindow.container.dispatchAction('READONLY');
+    this.abcEditorWindow.container.dispatchAction('READONLY');
     
     if(SITE.properties.tabGen.abcEditor.floating) {
         if( SITE.properties.tabGen.abcEditor.maximized ) {
@@ -136,6 +136,7 @@ SITE.TabGen.prototype.setup = function(abcText) {
         this.tabEditorWindow.container.dispatchAction('POPIN');
     }
     
+    this.tabEditorWindow.container.dispatchAction('READONLY');
     this.tabEditorWindow.restartUndoManager();
     this.resize();
 };

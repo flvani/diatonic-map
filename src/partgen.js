@@ -135,12 +135,19 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     
     this.Div.dataDiv.appendChild(this.studioCanvasDiv);
     
-    this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
+   // this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
+    //this.printButton = document.getElementById(interfaceParams.printBtn);
+    
+    this.fileLoadTab = document.getElementById('fileLoadTab');
+    this.fileLoadTab.addEventListener('change', function(event) { that.carregaTablatura(event); }, false);        
+    
     this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
     
-    this.printButton = document.getElementById(interfaceParams.printBtn);
-    this.saveButton = document.getElementById(interfaceParams.saveBtn);
     this.updateButton = document.getElementById(interfaceParams.updateBtn);
+    this.loadButton = document.getElementById(interfaceParams.loadBtn);
+    this.saveButton = document.getElementById(interfaceParams.saveBtn);
+    this.editPartButton = document.getElementById(interfaceParams.editPartBtn);
+    this.savePartButton = document.getElementById(interfaceParams.savePartBtn);
 
     // player control
     this.playButton = document.getElementById(interfaceParams.playBtn);
@@ -159,9 +166,12 @@ SITE.PartGen = function( mapa, interfaceParams ) {
 //        that.showKeyboard();
 //    }, false);
 //    
-    this.updateButton.addEventListener("click", function() {
-        that.fireChanged();
-    }, false);
+
+//    this.printButton.addEventListener("click", function(evt) {
+//        evt.preventDefault();
+//        this.blur();
+//        that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#mapaDiv","#partGenDiv"], that.renderedTune.abc.formatting.landscape);
+//    }, false);
 
     this.ckConvertToClub.addEventListener("click", function() {
         SITE.properties.partGen.convertToClub = !!this.checked;
@@ -178,13 +188,29 @@ SITE.PartGen = function( mapa, interfaceParams ) {
         that.abcDiv.style.display = this.checked ? '' : 'none';
     }, false);
 
-//    this.printButton.addEventListener("click", function(evt) {
-//        evt.preventDefault();
-//        this.blur();
-//        that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#mapaDiv","#partGenDiv"], that.renderedTune.abc.formatting.landscape);
-//    }, false);
+    this.updateButton.addEventListener("click", function() {
+        that.fireChanged();
+    }, false);
 
+    this.loadButton.addEventListener("click", function() {
+        that.fileLoadTab.click();
+    }, false);
+    
     this.saveButton.addEventListener("click", function() {
+        that.salvaTablatura();
+    }, false);
+
+    this.editPartButton.addEventListener("click", function() {
+        var text = that.renderedTune.text;
+        if(text !== "" ) {
+            that.setVisible(false);
+            SITE.SaveProperties();
+            FILEMANAGER.saveLocal( 'ultimaPartituraEditada', text );
+            that.mapa.menu.dispatchAction('menuRepertorio','ABC2PART');
+        }    
+    }, false);
+    
+    this.savePartButton.addEventListener("click", function() {
         that.salvaPartitura();
     }, false);
     
@@ -588,6 +614,18 @@ SITE.PartGen.prototype.salvaTablatura = function() {
     }
 };
 
+SITE.PartGen.prototype.carregaTablatura = function(evt) {
+    var that = this;
+    FILEMANAGER.loadLocalFiles( evt, function() {
+      that.doCarregaTablatura(FILEMANAGER.files);
+      evt.target.value = "";
+    });
+};
+
+SITE.PartGen.prototype.doCarregaTablatura = function(file) {
+    this.editorWindow.setString(file[0].content);
+    this.fireChanged();
+};
 
 SITE.PartGen.prototype.blockEdition = function( block ) {
     this.editorWindow.setReadOnly(!block);
