@@ -1,0 +1,29 @@
+X:1043
+%%barnumbers 1
+%%papersize A4
+%%tabinferenceopts -2
+T:Luar do Sertão
+C:Catulo da paixão cearence
+Z:Flávio Vani
+F:/diatonic-map/luar.1.jpg
+F:/diatonic-map/luar.2.pdf
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:4/4
+L:1/8
+Q:100
+K:C
+V:1 treble
+| z2 z G |: +segno+ "C" c3 "Am" d e3 d | "Dm" f3 e "F" d3 c |1 "G7" B3  A G2 F2 | "C" E6- "G7" EG :|2 "G7" B3  A G2 d2 |
+| "C" c4- "G7" cGAB | "C" cccd "Am" eeed | "Dm" fffe "F" dddc | "G7" dcBA BAGF | "C" E4- "G7" EGAB | "C" cccd "Am" eeed |
+| "Dm" fffe "F" dddc | "G7" dcBA BAGd | "C" c6- "G7" cG +dsalfine+ |  "C" c3 "Am" d e3 d | "Dm" f3 e "F" d3 c | "G7" B3  A G2 F2 |
+| "C" E6- "G7" EG | "C" c3 "Am" d e3 d | "Dm" f3 e "F" d3 c | "G7" B3  A G2 d2 | "C" c8 +fine+|
+V:2 bass
+| z4 |: C,,3[C,E,G,] A,,3 [A,CE] | D,,3 [F,A,C] F,,3 [F,A,C] |1 G,,3 [G,B,D] G,,2 [G,B,D]2 |  C,,3[C,E,G,] G,,2 [G,B,D]2 :|2 G,,3 [G,B,D] G,,2 [G,B,D]2 |
+| C,,3[C,E,G,] G,,2 [G,B,D]2 | C,,3[C,E,G,] A,,2 [A,CE]2 | D,,3 [F,A,C] F,,2 [F,A,C]2 | G,,3 [G,B,D] G,,2 [G,B,D]2 | C,,3[C,E,G,] G,,2 [G,B,D]2 | C,,3[C,E,G,] A,,2 [A,CE]2 |
+| D,,3 [F,A,C] F,,2 [F,A,C]2 | G,,3 [G,B,D] G,,2 [G,B,D]2 | C,,3[C,E,G,] G,,2 [G,B,D]2 | C,,3[C,E,G,] A,,3 [A,CE] | D,,3 [F,A,C] F,,3 [F,A,C] | G,,3 [G,B,D] G,,2 [G,B,D]2 |
+| C,,3[C,E,G,] G,,2 [G,B,D]2 | C,,3[C,E,G,] A,,3 [A,CE] | D,,3 [F,A,C] F,,3 [F,A,C] | G,,3 [G,B,D] G,,2 [G,B,D]2 |  [C,E,G,]8 |
+V:3 accordionTab
+| z-z2 z-z z+5' |: C+6'3 c+8 A-93 a-7' | D-8'3 f-9 F-7'3 f-8 |1 G-6'3 g-7 G-5'2 g-4'2 | C+4'3 c+> G+>2 g+> >+5' :|2 G-6'3 g-7 G-5'2 g-7'2 |
+| C+6'3 c+> G+> >+6 g-7 >-6' | C+6' >+6' >+6' c+8 A-9 >-9 a-9 >-7' | D-8' >-8' >-8' f-9 F-7' >-7' f-7' >-8 | G-7' >-8 >-6' g-7 G-6' >-7 g-5' >-4' | C+4'3 c+> G+> >+5' g-7 >-6' | C+6' >+6' >+6' c+8 A-9 >-9 a-9 >-7' |
+| D-8' >-8' >-8' f-9 F-7' >-7' f-7' >-8 | G-7' >-8 >-6' g-7 G-6' >-7 g-5' >-7' | C+6'3 c+> G+>2 g+> >+6 | C+6'3 c+8 A-93 a-7' | D-8'3 f-9 F-7'3 f-8 | G-6'3 g-7 G-5'2 g-4'2 |
+| C+4'3 c+> G+>2 g+> >+5' | C+6'3 c+8 A-93 a-7' | D-8'3 f-9 F-7'3 f-8 | G-6'3 g-7 G+62 g+82 | c+6'8 |
