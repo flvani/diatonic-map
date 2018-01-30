@@ -13,7 +13,7 @@ L:1/8
 Q:160
 K:C
 V:1 treble
-| "C" +fermata+ [ce] d/2e/2 f/2g/2 | "G"[gb]2 [fa] | "C" [fa]ed | [ce]3 | z2 g |: "C" aag | aga | gfe |
+| "C" +fermata+ [ce] d/2e/2 f/2g/2 | "G"[gb]2 [fa] | "C" [fa]ed | [ce]3 | z2 g |: "C" aag | a2 a | gfe |
 | "G" d2 g | gga | g2 g | fed | "C" [ceg]2 g | aag | aga | gfe | "G" d2 g | 
 | gga | g2 g | fed | "C" [ceg]3 | e2 c | "F" f2 f | edc | "G" B3 | f2 d | g2 g |
 | fed | "C" [ceg]3 | e2 c | "F" f2 f | edc | "G" B3 | f2 d | g2 g | fed |1 "C" [ceg]2 g :|2 "C" [ceg]3 |
@@ -23,7 +23,7 @@ V:2 bass
 | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] |  C,, [C,E,G,] [C,E,G,] |  F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] |
 | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] |1 C,, [C,E,G,] [C,E,G,] :|2 [C,E,G,]3 |
 V:3 accordionTab
-| C-[6'7'] c-80.5 >-7'0.5 c-90.5 >-8'0.5 | G-[8'b] g-[>>] g-[9a] | C-[9a] c-7' c-8 | C-[6'7'] c-[>>] c-[>>] | C+z c+z c+9 |: C+8' c+8' c+9 | C+8' c+9 c+8' | C+9 c+7' c+8 |
+| C-[6'7'] c-80.5 >-7'0.5 c-90.5 >-8'0.5 | G-[8'b] g-[>>] g-[9a] | C-[9a] c-7' c-8 | C-[6'7'] c-[>>] c-[>>] | C+z c+z c+9 |: C+8' c+8' c+9 | C+8' c+> c+8' | C+9 c+7' c+8 |
 | G-8 g-> g-8' | G-8' g-8' g-a | G-8' g-> g-8' | G-9 g-7' g-8 | C+[789] c+[>>>] c+9 | C+8' c+8' c+9 | C+8' c+9 c+8' | C+9 c+7' c+8 | G-8 g-> g-8' |
 | G-8' g-8' g-a | G-8' g-> g-8' | G-9 g-7' g-8 | C+[789] c+[>>>] c+[>>>] | C+8 c+> c+7 | F+7' f+> f+7' | F+8 f+5'' f+6' | G-7 g-> g-> | G-9 g-> g-8 | G-8' g-> g-8' |
 | G-9 g-7' g-8 | C+[789] c+[>>>] c+[>>>] | C+8 c+> c+7 | F+7' f+> f+7' | F+8 f+5'' f+6' | G-7 g-> g-> | G-9 g-> g-8 | G-8' g-> g-8' | G-9 g-7' g-8 |1 C+[789] c+[>>>] c+9 :|2 c+[789]3 |
