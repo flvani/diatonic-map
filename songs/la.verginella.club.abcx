@@ -1,13 +1,15 @@
-X:234
+X:2034
 %%barnumbers 1
 %%papersize A4
-%%tabinferenceopts +2
+%%tabinferenceopts +1
 %%barsperstaff 6
 %staffsep 5
 %%pagenumbering
-T:La verginella
-C:Canto Popolare del Tirolo Veneto
-C:Anonimo c:1876 
+T:La verginella (club)
+C:Canto Popolare del Tirolo (Vêneto)
+C:(Anonimo c:1876)
+F:https://www.youtube-nocookie.com/embed/jLkP7m-Ek-I
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 Z:Flávio Vani
 M:3/4
 L:1/8
@@ -15,7 +17,7 @@ Q:80
 K:C
 V:1 treble
 |: c c3/2c/2 | cAc | fed | c2 z :|
-w: La ver-gi-nel-la non pos-so tro-var
+w: La ver-gi-nel-la non pos-so tro-vare
 |: eeg | g2 f | ddf | f2 e |
 w:So-lo mi bas-ta che lei sià bel-la~e
 | c c/2c/2 d/2e/2 | e2  d | fed |  c3 +D.C.+ :|
@@ -26,8 +28,8 @@ V:2 bass
 | C,, [C,E,G,] [C,E,G,] | G,, [G,B,D] [G,B,D] | F,, [F,A,C] [F,A,C] |  C,, [C,E,G,] [C,E,G,] :|
 V:3 accordionTab 
 |: C+6' c+6' c+>0.5 >+6'0.5 | C+6' c+5' c+6' | G-9 g-7' g-8 | C-6' c-> c-z :|
-|: C-7' c-7' c-8' | F+9 f+> f+7' | G-8 g-8 g-9 | C-9 c-> c-7' |
-| C-6' c-6'0.5 >-6'0.5 c-80.5 >-7'0.5 | G-7' g-> g-8 | F+7' f+8 f+5'' | C+6' c+> c+> :|
+|: C+8 c+8 c+9 | F+9 f+> f+7' | G-8 g-8 g-9 | C-9 c-> c-7' |
+| C+6' c+6'0.5 >+6'0.5 c+5''0.5 >+80.5 | G-7' g-> g-8 | F+7' f+8 f+5'' | C+6' c+> c+> :|
 W:_
 W:/: Ho girato la Italia e il Tirol, :/
 W:/: Solo per trovare una verginella, 
@@ -44,4 +46,3 @@ W:_
 W:/: I tirolesi son bravi soldati, :/
 W:/: Tutte le notte de sentinella,
 W:e ciomba la ri la re la e viva l’amore. :/
-
