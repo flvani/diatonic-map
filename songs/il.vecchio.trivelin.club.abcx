@@ -1,0 +1,48 @@
+X:2035
+%%barnumbers 1
+%%papersize A4
+%%tabinferenceopts +2
+%%pagenumbering
+%%staffsep 4
+T:Il Vecchio Trivelin
+C:Foclore do Vêneto
+F:https://www.youtube-nocookie.com/embed/dBGM_sYbecY
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:2/4
+L:1/8
+Q:120
+K:C
+V:1 treble
+| z2 G2  |: +segno+ cc cc | B2 AG    | BB  BB       |
+w:    La | vec-chia tri-ve | li-na la | gà la vis-ta |
+| A2 GG          | AA  AG        | G2 FG | GG FF                |1 E2  G2  :|
+w: cur-ta  e~an- | co-ra  la in- | sul-ta il | vec- chio tri-ve | lin  La |
+|2 E2 z2 |: G2  c2 | B2 z2 | GG BB | A2 z G |
+w: lin. No, no, | no!  No, co-sì, non | dà!  Il vec-chio tri-ve | lin  ro- | mai l'è mal cia- | pà! |
+| AA  AG         | G2 z F  | GG GF |1 E2 z2 :|2  E2 G2 +dasegno+ |
+w: vec-chio tri-ve | lin  ro- | mai l'è mal cia- | pà! | pà! La |
+V:2 bass
+%| z4 |:  C,, [C,E,G,] C,, [C,E,G,] |  G,, [G,B,D] G,, [G,B,D] | G,, [G,B,D] G,, [G,B,D] | 
+%| C,, [C,E,G,] C,, [C,E,G,] | C,, [C,E,G,] C,, [C,E,G,] | G,, [G,B,D] G,, [G,B,D] | G,, [G,B,D] G,, [G,B,D] |1 C,, [C,E,G,] C,, [C,E,G,] :|
+%|2 C,, [C,E,G,] C,, [C,E,G,] |: C,,2 [C,E,G,]2 | G,,3 [G,B,D] | G,, [G,B,D] G,, [G,B,D] | C,, [C,E,G,] C,, [C,E,G,] |
+%| C,, [C,E,G,] C,, [C,E,G,] | G,, [G,B,D] G,, [G,B,D] | G,, [G,B,D] G,, [G,B,D] |1 C,, [C,E,G,] C,, [C,E,G,] :|2 C,, [C,E,G,] C,, [C,E,G,] |
+| z4 |:  C,,2 [C,E,G,]2 |  G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | 
+| C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 |1 C,,2 [C,E,G,]2 :|
+|2 C,,2 [C,E,G,]2 |: C,,2 [C,E,G,]2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | C,,2 [C,E,G,]2 |
+| C,,2 [C,E,G,]2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 |1 C,,2 [C,E,G,]2 :|2 C,,2 [C,E,G,]2 |
+V:3 accordionTab
+| z+z2 z+62 |: C+6' >+6' c+6' >+6' | G-72 g-6 >-4' | G-7 >-7 g-7 >-7 |
+| C+5'2 c+6 >+6 | C+5' >+5' c+5' >+6 | G-4'2 g-5 >-4' | G-4' >-4' g-5 >-5 |1 C+52 c+62 :|
+|2 C+52 c+z2 |: C+62 c+72 | G-72 g-z2 | G-4' >-4' g-7 >-7 | C+5'2 c+z >+6 |
+| C+5' >+5' c+5' >+6 | G-4'2 g-z >-5 | G-4' >-4' g-4' >-5 |1 C+52 c+z2 :|2 C+52 c+62 |
+W:/: La vecchia trivelina la gà la vista curta e ancora la insulta, il vecchio trivelin. :/
+W:
+W:REFRÃO:
+W:/: No, no, no! No, così, non dà! Il vecchio trivelin romai l'è mal ciapà! :/
+W:
+W:/: Il vecchio trivelin delle volte se incativa e il và sù per la riva catarghe i mandolin. :/
+W:/: REFRÃO :/
+W:
+W:/: Il vecchio trivelin romai non sona più quella bella musicheta, sol và vardar Gesù. :/
+W:/: REFRÃO :/

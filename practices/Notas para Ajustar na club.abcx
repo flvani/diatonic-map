@@ -1,0 +1,11 @@
+X:201
+%%barnumbers 1
+%%papersize A4
+%%tabinferenceopts -2
+T:Notas para Ajustar na club
+M:4/4
+K:C
+V:1
+| "_1" c "_1" e  "_1" _e | "_1" c' "_1" c' "_1 e 5" g'  | "_2" ^c "_2" F "_2" f'|
+V:3 accordionTab
+| -6' -7' -5''|  +9' +a +c  |-4'' -5 +a'|
