@@ -5,22 +5,37 @@ X:1030
 %%pagenumbering
 T:J'ai vu le loup, le renard et la belette
 T:Eu vi o lobo, a raposa e a doninha
-C:Folcore francês
-Z:Bernard Loffet
-F:https://www.youtube-nocookie.com/embed/mAAogTbvysY
+C:Folclore Francês
+F:https://www.youtube-nocookie.com/embed/pUp3zd_OR00
+%F:https://www.youtube-nocookie.com/embed/mAAogTbvysY
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
-Q:"Allegro" 1/4=140
+Q:"Allegro" 1/4=150
 L:1/8
 M:2/4
 K:C
 V:1 treble
-|: c2 BA | G2 AB | cB cd | e2 c2 | c2 BA | G2 AB | c2 d2 | c2 z2 :| 
-w:J'ai vu le loup la re-nard et la ba-let-te. J'ai  vu le loup la  re-nard dan-ser!
-|: c2 d2 | e2 f2 | e2 d2 | e2 z2 | c2 cB | A2 AG | A2 B2 |1 A2 G2 :|2 c4 | 
-w:Je les ai vue taper leurs mains! Je les ai vue ta-per le-urs ma-ins pieds!
+|: c2 BA | G2 AB | cB cd | e2 c2  | c2 BA | G2 AB | c2 d2 | c2 z2 :| 
+w:J'ai vu le loup la re-nard et la ba-let-te. J'ai vu le loup, la re-nard dan-ser!
+|: c2 d2 | e2 f2 | e2 d2 | e2 z2 | c2 BA |1 "F" G2 GG | AA BB | c2  G2 :|2 G2 AB | c2 d2 | c2 z2 | 
+w:Je les | ai vus | taper des | mains! J'ai vu le | loup, la re- | nard~et * la | ba-lette. | loup, la re-nard dan-ser!
 V:2 bass
 |: C,,2 [C,E,G,] z | G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,]2 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,] z | F,,2 [F,,A,,C,]2 | G,,2 [G,,B,,D,]2 | C,,2 [C,E,G,]2 :| 
-|: C,,2 [C,E,G,]2 | F,,2 [F,,A,,C,]2 | G,,2 [G,,B,,D,]2 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | F,,2 [F,,A,,C,]2 | F,,2 [F,,A,,C,]2 |1 G,,2 [G,,B,,D,]2 :|2 C,,2 [C,E,G,]2 | 
+|: C,,2 [C,E,G,]2 | F,,2 [F,,A,,C,]2 | G,,2 [G,,B,,D,]2 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,] z |1 F,,2 [F,,A,,C,]2 | G,,2 [G,,B,,D,]2 | C,,2 [C,E,G,]2  :|2 F,,2 [F,,A,,C,]2 | G,,2 [G,,B,,D,]2 | C,,2 [C,E,G,]2 | 
 V:3 accordionTab
 |: C+6'2 c+7 z-7 | G-5'2 g-7 >-6' | G-8 >-6' g-8 >-7' | C+7'2 c+6'2 | C+6'2 c+7 z-7 | F-5'2 f-7 >-6' | G-82 g-7'2 | C+6'2 c+z2 :| 
-|: C+6'2 c+82 | F-92 f-8'2 | G-92 g-7'2 | C+7'2 c+z2 | C+6'2 c+6' >+7 | F-72 f-7 >-5' | F-72 f-6'2 |1 G-72 g-5'2 :|2 C+6'2 c+>2 | 
+|: C+6'2 c+82 | F-92 f-8'2 | G-92 g-7'2 | C+7'2 c+z2 | C+6'2 c+7 z-7 |1 F+5'2 f+5' >+5' | G-7 >-7 g-6' >-6' | C+6'2 c+62 :|2 F-5'2 f-7 >-6' | G-82 g-7'2 | C+6'2 c+z2 |
+W:CHORUS:
+W:  /: J’ai vu le loup, le renard et la belette.
+W:     J’ai vu le loup, le renard danser! :/
+W:
+W: Je les ai vus taper des mains!
+W: J’ai vu le loup, le renard et la belette. 
+W: Je les ai vus taper des mains!
+W: J’ai vu le loup, le renard danser! 
+W:
+W:/: CHORUS :/
+W:
+W: Je les ai vus taper des pieds!
+W: J’ai vu le loup, le renard et la belette. 
+W: Je les ai vus taper des pieds!
+W: J’ai vu le loup, le renard danser!

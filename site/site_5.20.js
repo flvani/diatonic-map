@@ -1414,7 +1414,7 @@ SITE.Mapa.prototype.setScrolling = function(player) {
     
     var fixedTop = player.printer.staffgroups[0].top;
     var vp = this.tuneContainerDiv.clientHeight - fixedTop;
-    var top = player.printer.staffgroups[player.currAbsElem.staffGroup].top;
+    var top = player.printer.staffgroups[player.currAbsElem.staffGroup].top-12;
     var bottom = top + player.printer.staffgroups[player.currAbsElem.staffGroup].height;
 
     if( bottom > vp+this.ypos || this.ypos > top-fixedTop ) {
