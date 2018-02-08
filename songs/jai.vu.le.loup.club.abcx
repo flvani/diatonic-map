@@ -3,6 +3,8 @@ X:2006
 %%papersize A4
 %%landscape
 %%pagenumbering
+%%tabinferenceopts +2
+%%restsintab
 T:J'ai vu le loup, le renard et la belette (club)
 T:Eu vi o lobo, a raposa e a doninha
 C:Folclore Francês
@@ -14,17 +16,17 @@ L:1/8
 M:2/4
 K:F 
 V:melodia treble
-|: f2 ed | c2 de | fe fg | a2 f2  | f2 ed | c2 de | f2 g2 | f2 z2 :| 
+|: "F" f2 ed | "C" c2 de | fe fg | "F" a2 f2  | f2 ed | "Bb" c2 de | "C" f2 g2 | "F" f2 z2 :| 
 w:J'ai vu le loup la re-nard et la ba-let-te. J'ai vu le loup, la re-nard dan-ser!
-|: f2 g2 | a2 b2 | a2 g2 | a2 z2 | f2 ed |1 "B♭" c2 cc | dd ee | f2  c2 :|2 c2 de | f2 g2 | f2 z2 | 
+|: "F" f2 g2 | "Bb" a2 b2 | "C" a2 g2 | "F" a2 z2 | f2 ed |1 "Bb" c2 cc | "C" d2 de | "F" f2  c2 :|2 "Bb"c2 de | "C"f2 g2 | "F"f2 z2 | 
 w:Je les | ai vus | taper des | mains! J'ai vu le | loup, la re- | nard~et * la | ba-lette. | loup, la re-nard dan-ser!
 V:2 bass
-|: F,,2 [F,A,C] z | C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 | F,,2 [F,A,C] z | B,,2 [B,,D,F,]2 | C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 :| 
+|: F,,2 [F,A,C]2 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 | F,,2 [F,A,C]2 | B,,2 [B,,D,F,]2 | C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 :| 
 |: F,,2 [F,A,C]2 | B,,2 [B,,D,F,]2 | C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 | F,,2 [F,A,C]2 |1 B,,2 [B,,D,F,]2 | C,,2 [C,E,G,]2 | F,,2 [F,A,C]2  :|2 B,,2 [B,,D,F,]2 | C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 | 
 V:tablatura accordionTab
 |: F+7'2 f+8 >+5'' | C-6'2 c-8 >-7' | C-9 >-7' c-9 >-8' | F+8'2 f+7'2 | F+7'2 f+8 >+5'' | B♭-6'2 b♭-8 >-7' | C-92 c-8'2 | F+7'2 f+z2 :|
-|: F+7'2 f+92 | B♭-a2 b♭-9'2 | C-a2 c-8'2 | F+8'2 f+z2 | F+7'2 f+8 >+5'' |1 B♭-6'2 b♭-6' >-6' | C-8  >-8 c-7' >-7' | F+7'2 f+6'2 :|2 B♭-6'2 b♭-8 >-7' | C-92 c-8'2 | F+7'2 f+z2 |
-W:CHORUS:
+|: F+7'2 f+92 | B♭-a2 b♭-9'2 | C-a2 c-8'2 | F+8'2 f+z2 | F+7'2 f+8 >+5'' |1 B♭-6'2 b♭-6' >-6' | C-82 c-8 >-7' | F+7'2 f+6'2 :|2 B♭-6'2 b♭-8 >-7' | C-92 c-8'2 | F+7'2 f+z2 |
+W:
 W:  /: J’ai vu le loup, le renard et la belette.
 W:     J’ai vu le loup, le renard danser! :/
 W:
