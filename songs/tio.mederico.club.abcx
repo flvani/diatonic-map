@@ -1,0 +1,34 @@
+X:2037
+%%barnumbers 0
+%%papersize a4
+%%staffsep 30
+%%barsperstaff 8
+T:Tio Mederico (club)
+C:Recolhida do folclore por Everton Dutra
+C:(Arr. Cezar Ferreira)
+F:https://www.youtube-nocookie.com/embed/mreOiHEq74g&T:Tio Mederico - Completa;
+F:https://www.youtube-nocookie.com/embed/KPtIuggAqHM&T:Tio Mederico - Parte 1 - Passo-a-passo;
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:2/4
+L:1/8
+Q:120
+K:F
+V:1 treble
+| z2 z c | dc Ac |: +segno+ [ac']4 | z g[gb] f | [fa]4 | z e[eg] d | [df]4 |
+| z f0.5e0.5 dc | [ce]4 | z d0.5c0.5 Bc | [gb]4 | z f[fa] e | [eg]4 | 
+| z d[df] c | [ce]3 A0.5B0.5 | [ce][Bd] [cA][GB] +dacoda+ |1 [FA]3 c | dc Ac :|2 [FA]4 |
+| A[Ac] G[GB] |: F4 |  B[Bd] A (3 c/2B/2G/2 | G4 | e[eg] d (3 f/2e/2d/2 | c[ce] B[Bd] |
+| A[Ac] G[GB] |1 F4 | A[Ac] G[GB] :|2 F3 c | dc Ac +dsalcoda+ !coda! | [FA]4 |
+V:2 bass
+| z4 | z4 |: F,,[F,A,C] F,,[F,A,C] | F,,[C,E,G,] C,,[F,A,C] | F,,[F,A,C] F,,[F,A,C] | F,,[F,A,C] F,,[C,E,G,] | B,,[B,DF] B,,[B,DF] |
+| B,,[B,DF] B,,[B,DF] | C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] C,,[C,E,G,] | 
+| C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] C,,[C,E,G,] |1 F,,[F,A,C] F,, z | D,, z D,, z :|2 F,,[F,A,C] F,,[F,A,C] |
+| F,,[F,A,C] C,,[C,E,G,] |: F,,[F,A,C] F,,[F,A,C] | B,,[B,DF] B,,[B,DF] | C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] C,,[C,E,G,] |
+| C,,[C,E,G,] C,,[C,E,G,] |1 F,,[F,A,C] F,,[F,A,C] | F,,[F,A,C] C,,[C,E,G,] :|2 F,,[F,A,C] F,, z | D,, z D,, z | [F,A,C]4  |
+V:3 accordionTab
+| z-z2 z-z z-6' | z-8 z-6' z-6 z-6' |: F+[8'9'] f+[>>] F+[>>] f+[>>] | F+z c-8' C-[8'9'] f+7' | F+[7'8'] f+[>>] F+[>>] f+[>>] | F+z f+8 F+[89] c-8 | B♭-[89] b♭-[>>] B♭-[>>] b♭-[>>] | 
+| B♭-z b♭-9.5 >-7'.5 B♭-8 b♭-6' | C-[6'7'] c-[>>] C-[>>] c-[>>] | C-z c-8.5 >-6'.5 C-5' c-6' | C-[8'9'] c-[>>] C-[>>] c-[>>] | C-z c+7' C+[7'8'] c+8 | C+[89] c+[>>] C+[>>] c+[>>] | 
+| C+z c-8 C-[89] c-6' | C-[6'7'] c-[>>] C-[>>] c-6.5 >-5'.5 | C-[6'7'] c-[5'8] C-[6'6] c-[4'5'] |1 F+[4'5'] f+[>>] F+[>>] z-6' | D-8 z-6' D-6 z-6' :|2 F+[4'5'] f+[>>] F+[>>] f+[>>] | 
+| F+5' f+[5'6'] C-4' c-[4'5'] |: F+4' f+> F+> f+> | B♭-5' b♭-[5'8] B♭-6 (3 b♭-6'0.5 >-5'0.5 >-4'0.5 ) | C-4' c-> C-> c-> | C+8 c+[89] C-8 (3 c-90.5 >-7'0.5 >-80.5 ) | C-6' c-[6'7'] C-5' c-[5'8] | 
+| C-6 c-[66'] C-4' c-[4'5'] |1 F+4' f+> F+> f+> | F+5' f+[5'6'] C-4' c-[4'5'] :|2 F+4' f+> F+> z-6' | D-8 z-6' D-6 z-6' | F+[4'5']4 | 

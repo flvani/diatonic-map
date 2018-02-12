@@ -1,0 +1,56 @@
+X:1048
+%%barnumbers 0
+%%papersize A4
+%%tabinferenceopts -2
+%%barsperstaff 6
+%staffsep 5
+%%pagenumbering
+T:Merica, Merica
+C:Canto Popolare
+C:(letra: Angelo Giusti, c:1875)
+F:https://www.youtube-nocookie.com/embed/HPAEJHW3phs
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+Z:Flávio Vani
+M:3/4
+L:1/8
+Q:80 
+K:G
+V:1 treble
+| B2 c | "G" +segno+ d3 | B2 e | d3 | Bed |
+w:Dal-la~I-ta-lia noi sia-mo * par
+| "D7" c3 | A3- | A z2 | dde | f3 | c2 f |
+w:ti-ti * Sia-mo par-ti-ti col 
+| f3 | efg | "G" d3 | B3- | B z2 | dde | 
+w:nos- * tro o-no-re * Tren-ta-sei
+| d3 | B2 e | d2 d | Bed | "D7" c3 |
+w:gio-rni di mac-chi-na e va-po-
+| A3- | A z2 | dde | f2 e | c2 f |
+w:re * e nel-la Me-ri-ca noi sia-
+| f3 | edc | "G" B3- | B z2 |
+w:mo ar-ri-va-ti. * 
+|: [Bd][Bd][Bd] | [Bd][Ac][GB] | "D7" [FA]2 [GB] | [Ac]3- | [Ac] z2 |
+w:Me-ri-ca, Me-ri-ca, Me-ri-ca! *
+|1 [ce][ce][ce] | [ce][Bd][Ac] | "G" [GB]2 [Ac] | [Bd]3- | [Bd] z2 :|
+w: Co-sa sa-rà-lo 'sta Me-ri-ca? *
+|2 "D7" [ce][ce][ce] | [ce][Bd][Ac] +dacoda+ | "G" [GB]3- | [GB] z2  | +dsalcoda+ B2 c +coda+ | [GB]3- | [GB]3 | 
+w: Un~bel * mazzo~ li-~no di fior!
+V:2 bass 
+| z3 |  G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] |
+| D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] |
+| D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] |
+| G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | D,, [D,F,A,] [D,F,A,] |
+| D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] |
+| D,, [D,F,A,] [D,F,A,] | D,, E,, G,, | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] |
+|: G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] |
+|1 D,, [D,F,A,] [D,F,A,] | D,, E,, G,, | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] :|
+|2  D,, [D,F,A,] [D,F,A,] | D,, E,, G,, | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | [G,B,D]3 |
+V:3 accordionTab
+| z-6'2 z-8 | G-7' g-> g-> | G-6' g-> g-9 | G+8 g+> g+> | G+7 g+7' g+8 |
+| D-8 d-> d-> | D-7 d-> d-> | D-> d-z d-z | D-7' d-7' d-9 | D-a d-> d-> | D-8 d-> d-a |
+| D-a d-> d-> | D-9 d-a d-9' | G+8 g+> g+> | G+7 g+> g+> | G+> g+z g+z | G+8 g+8 g+7' |
+| G-7' g-> g-> | G-6' g-> g-9 | G-7' g-> g-7' | G-6' g-9 g-7' | D-8 d-> d-> |
+| D-7 d-> d-> | D-> d-z d-z | D-7' d-7' d-9 | D-a d-> d-9 | D-8 d-> d-a |
+| D-a d-> d-> | D-9 E+8 G+6' | G+7 g+> g+> | G+> g+z g+z |
+|: G+[78] g+[78] g+[78] | G-[6'7'] g-[78] g-[5'6'] | D-[67] d-[>>] d-[5'6'] | D-[78] d-[>>] d-[>>] | D-[>>] d-z d-z |
+|1 D-[89] d-[89] d-[89] | D-[89] E+[78] G-[78] | G-[5'6'] g-[>>] g-[78] | G-[6'7'] g-[>>] g-[>>] | G-[>>] g-z g-z :|
+|2 D-[89] d-[89] d-[89] | D-[89] E+[78] G-[78] | G-[5'6'] g-[>>] g-[>>] | G-[>>] g-z g-z | G-6' g-> g-8 | G-[5'6'] g-[>>] g-[>>] | g-[>>]3 |
