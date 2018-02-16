@@ -132,6 +132,7 @@ SITE.Media.prototype.show = function(tab) {
                 var mId = (this.mediaWindow.id*10 + r);
                 
                 this.youTubeURL = (aUrl[r].match(/www.youtube-nocookie.com/g)!== null);
+                this.isPDF = (aUrl[r].match(/.*pdf$/)!== null);
                 
                 var par=aUrl[r].match(/\&.*\;/g);
                 
@@ -161,7 +162,7 @@ SITE.Media.prototype.show = function(tab) {
                 this.embed = document.getElementById( 'e' + mId );
 
                 this.embed.style.width = '100%';
-                this.embed.style.height = this.youTubeURL? '100%' : 'auto';
+                this.embed.style.height = ( this.youTubeURL? '100%' : (this.isPDF? 'calc(100% - 4px)': 'auto' ) );
                 
                 this.tabs['w'+mId] = {div:dv, tit:tit, u2be: this.youTubeURL};
                 

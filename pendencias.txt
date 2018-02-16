@@ -1,5 +1,7 @@
 ### TO DO NEXT RELEASE ####################################################################################
 
+- Escrever o sinal de menos junto com a acorde menor na partitura
+
 - Tradução 
     - Traduzir mensagens de erro???
     - revisão das traduções
@@ -40,3 +42,7 @@ Editarea
  - Melhorias no editor de tablaturas: show hidden chars e não usa mais soft-tabs
 
 - Janela de midia: Preparar versao com abas para multiplos videos da mesma musica
+
+- Remover o nome do acordeão no menu que lista o repertorio para cada gaita.
+
+- Janela de midia: Ajustar altura de PDF

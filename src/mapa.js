@@ -891,7 +891,8 @@ SITE.Mapa.prototype.showABC = function(action) {
     if( tab.title !== title && tab.menu.selectItem( tab.ddmId, action ) ) {
         tab.title = title;
         tab.text = this.accordion.loaded.getAbcText( tab.tab, tab.title );
-        tab.menu.setSubMenuTitle( tab.ddmId, (tab.title.length>43 ? tab.title.substr(0,40) + "..." : tab.title) );
+        var cleanedTitle = title.replace(/\(.*\)/g,"").trim();
+        tab.menu.setSubMenuTitle( tab.ddmId, (cleanedTitle.length>43 ? cleanedTitle.substr(0,40) + "..." : cleanedTitle) );
         if( !this.accordion.loaded.localResource)
             FILEMANAGER.saveLocal( 'property.'+this.accordion.getId()+'.'+type+'.title', tab.title );
         var loader = this.startLoader( "TABLoader" + type, this.tuneContainerDiv );
@@ -939,6 +940,7 @@ SITE.Mapa.prototype.loadABCList = function(type) {
     for( var i = 0; i < items.sortedIndex.length; i++) {
         
         var title = items.sortedIndex[i];
+        var cleanedTitle = title.replace(/\(.*\)/g,"").trim();
         var vid = 0;
         
         if( ! items.details[title] || isNaN(parseInt(items.details[title].id)) ) {
@@ -948,17 +950,18 @@ SITE.Mapa.prototype.loadABCList = function(type) {
             vid = items.details[title].id;
         }
         
-        var m = tab.menu.addItemSubMenu( tab.ddmId, title +'|'+type+'#'+vid);
+        var m = tab.menu.addItemSubMenu( tab.ddmId, cleanedTitle +'|'+type+'#'+vid);
         if(title === tab.title ) {
             achou = true;
-            tab.menu.setSubMenuTitle( tab.ddmId, title );
+            tab.menu.setSubMenuTitle( tab.ddmId, cleanedTitle );
             tab.menu.selectItem(tab.ddmId, m);
             tab.text = this.accordion.loaded.getAbcText(type, title);
         }    
     }
     if( !achou && items.sortedIndex.length > 0 ) {
         var title = items.sortedIndex[0];
-        tab.menu.setSubMenuTitle( tab.ddmId, title );
+        var cleanedTitle = title.replace(/\(.*\)/g,"").trim();
+        tab.menu.setSubMenuTitle( tab.ddmId, cleanedTitle );
         tab.menu.selectItem(tab.ddmId, type+'#'+items.details[title].id);
         tab.text = this.accordion.loaded.getAbcText(type, title);
     }

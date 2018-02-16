@@ -3,9 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+          
 if (!window.SITE)
     window.SITE = {};
+
+window.dataLayer = window.dataLayer || [];
+
+
+SITE.ga = function () {
+    if( ga && window.location.href.indexOf( 'flvani.github.io') >= 0
+           && SITE.getVersion('mainSITE', '' ) !== 'debug' 
+           && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) {
+        ga.apply(this, arguments);
+    } else {
+        console.log('Funcao ga não definida.');
+    }
+};
+          
+SITE.findGetParameter = function(parameterName) {
+    var result = null,
+        tmp = [];
+    var items = window.location.search.substr(1).split("&");
+    for (var index = 0; index < items.length; index++) {
+        tmp = items[index].split("=");
+        if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
+    }
+    return result;
+};
 
 SITE.getDate = function (){
     var today = new Date();
@@ -13,14 +37,6 @@ SITE.getDate = function (){
     var mm = today.getMonth()+1; //January is 0!
     var yyyy = today.getFullYear();
     return yyyy*10000+mm*100+dd;
-};
-
-SITE.ga = function ( p1, p2, p3, p4, p5  ){
-    if( ga && SITE.getVersion('mainSITE', '' ) !== 'debug' &&  ga && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) {
-        ga( p1, p2, p3, p4, p5 );
-    } else {
-        console.log('Funcao ga não definida.');
-    }
 };
 
 SITE.getVersion = function(tag, label) {
@@ -51,7 +67,7 @@ SITE.getLanguage = function ( ) {
 };
 
 SITE.LoadProperties = function() {
-    
+    var salvar = false;
     //FILEMANAGER.removeLocal('diatonic-map.site.properties' ); // usdo para forçar reset da propriedades
     
     try{
@@ -59,8 +75,17 @@ SITE.LoadProperties = function() {
     } catch(e) {
         waterbug.log( 'Could not load the properties.');
         waterbug.show( 'Could not save the properties');
-        SITE.ga('create', 'UA-62839199-1', 'auto');
-        SITE.ga('send', 'event', 'Error', 'html5storage', 'loadingLocal' );
+        SITE.ga('send', 'event', 'Error', 'html5storage', 'loadingLocal', { nonInteraction: true } );
+        
+//        SITE.myGtag('event', 'html5storage', {
+//          send_to : 'outros',
+//          event_category: 'Error',
+//          event_action: 'html5storage',
+//          event_label: 'loadingLocal',
+//          event_value: 0,
+//          nonInteraction: true 
+//        });                
+        
     }
     
     var ver = SITE.getVersion('mainSITE', '' );
@@ -76,73 +101,86 @@ SITE.LoadProperties = function() {
     } else if( ! SITE.properties.version || SITE.properties.version === 'debug' || parseFloat( SITE.properties.version ) < parseFloat( ver )  ) {
         
         SITE.properties.version = ver;
+        salvar = true;
+        
+    }
+    
+    if( !SITE.properties.known_languages ) {
 
-        if( !SITE.properties.known_languages ) {
+        SITE.properties.known_languages = {
+             de_DE: { file: 'languages/de_DE.lang', image: "images/de_DE.png", name: 'Deustch' } 
+            ,en_US: { file: 'languages/en_US.lang', image: "images/en_US.png", name: 'US English' } 
+            ,es_ES: { file: 'languages/es_ES.lang', image: "images/es_ES.png", name: 'Español' } 
+            ,fr_FR: { file: 'languages/fr_FR.lang', image: "images/fr_FR.png", name: 'Français' } 
+            ,it_IT: { file: 'languages/it_IT.lang', image: "images/it_IT.png", name: 'Italiano' } 
+            ,pt_BR: { file: 'languages/pt_BR.lang', image: "images/pt_BR.png", name: 'Português do Brasil' } 
+        };
 
-            SITE.properties.known_languages = {
-                 de_DE: { file: 'languages/de_DE.lang', image: "images/de_DE.png", name: 'Deustch' } 
-                ,en_US: { file: 'languages/en_US.lang', image: "images/en_US.png", name: 'US English' } 
-                ,es_ES: { file: 'languages/es_ES.lang', image: "images/es_ES.png", name: 'Español' } 
-                ,fr_FR: { file: 'languages/fr_FR.lang', image: "images/fr_FR.png", name: 'Français' } 
-                ,it_IT: { file: 'languages/it_IT.lang', image: "images/it_IT.png", name: 'Italiano' } 
-                ,pt_BR: { file: 'languages/pt_BR.lang', image: "images/pt_BR.png", name: 'Português do Brasil' } 
-            };
+        SITE.properties.options.language = SITE.getLanguage() ;
+        SITE.properties.colors.highLight = '#ff0000';
+        SITE.properties.options.showWarnings = false;
+        SITE.properties.options.showConsole = false;
+        SITE.properties.options.pianoSound = false;
+        
+        salvar = true;
+        
+    }
 
-            SITE.properties.options.language = SITE.getLanguage() ;
-            SITE.properties.colors.highLight = '#ff0000';
-            SITE.properties.options.showWarnings = false;
-            SITE.properties.options.showConsole = false;
-            SITE.properties.options.pianoSound = false;
-        }
+    if( ! SITE.properties.studio.media ) {
+        SITE.properties.studio.media = {
+            visible: false
+            ,top: "20px"
+            ,left: "1200px"
+            ,width: 100
+            ,height: 200
+        };
+        SITE.properties.partGen.media = {
+            visible: false
+            ,top: "20px"
+            ,left: "1200px"
+            ,width: 100
+            ,height: 200
+        };
+        
+        salvar = true;
+    }
 
-        if( ! SITE.properties.studio.media ) {
-            SITE.properties.studio.media = {
+    if(!SITE.properties.partEdit) {
+        SITE.properties.partEdit = {
+             media: {
                 visible: false
                 ,top: "20px"
                 ,left: "1200px"
                 ,width: 100
                 ,height: 200
-            };
-            SITE.properties.partGen.media = {
-                visible: false
-                ,top: "20px"
+            } 
+            , editor : {
+                 visible: true
+                ,floating: false
+                ,maximized: false
+                ,top: "40px"
+                ,left: "50px"
+                ,width: "700px"
+                ,height: "480px"
+            }
+            , keyboard: {
+                 visible: false
+                ,top: "65px"
                 ,left: "1200px"
-                ,width: 100
-                ,height: 200
-            };
-        }
-        if(!SITE.properties.partEdit) {
-            SITE.properties.partEdit = {
-                 media: {
-                    visible: false
-                    ,top: "20px"
-                    ,left: "1200px"
-                    ,width: 100
-                    ,height: 200
-                } 
-                , editor : {
-                     visible: true
-                    ,floating: false
-                    ,maximized: false
-                    ,top: "40px"
-                    ,left: "50px"
-                    ,width: "700px"
-                    ,height: "480px"
-                }
-                , keyboard: {
-                     visible: false
-                    ,top: "65px"
-                    ,left: "1200px"
-                    ,scale: 1
-                    ,mirror: true
-                    ,transpose: false
-                    ,label: false
-                }
-            };
-        }
-
+                ,scale: 1
+                ,mirror: true
+                ,transpose: false
+                ,label: false
+            }
+        };
+        
+        salvar = true;
+    }
+    
+    if( salvar ) {
         SITE.SaveProperties();
     }
+    
 };
 
 SITE.SaveProperties = function() {
@@ -151,8 +189,16 @@ SITE.SaveProperties = function() {
     } catch(e) {
         waterbug.log( 'Could not save the properties');
         waterbug.show( 'Could not save the properties');
-        SITE.ga('create', 'UA-62839199-1', 'auto');
-        SITE.ga('send', 'event', 'Error', 'html5storage', 'savingLocal' );
+        SITE.ga('send', 'event', 'Error', 'html5storage', 'savingLocal', { nonInteraction: true } );
+
+//        SITE.myGtag('event', 'html5storage', {
+//          send_to : 'outros',
+//          event_category: 'Error',
+//          event_action: 'html5storage',
+//          event_label: 'savingLocal',
+//          event_value: 0,
+//          nonInteraction: true 
+//        });                
     }
 };
 
@@ -440,6 +486,7 @@ SITE.Translator.prototype.sortLanguages = function () {
 
 SITE.Translator.prototype.log = function(msg) {
     if( msg.substr( 27, 6 ) === 'GAITA_' ) return;
+    if( msg.substr( 27, 11 ) === 'CONCERTINA_' ) return;
     waterbug.log( msg );
     (SITE.properties.options.showConsole) && waterbug.show();
 };
@@ -556,7 +603,7 @@ SITE.Media.prototype.show = function(tab) {
             this.mediaWindow.dataDiv.style.width = width + 'px'; 
             this.mediaWindow.topDiv.style.width = width + 'px'; 
             this.mediaWindow.dataDiv.style.height = height + 'px';
-            this.mediaWindow.topDiv.style.height = width + 'px'; 
+            this.mediaWindow.topDiv.style.height = height + 'px'; 
             
             if( ! this.tabDiv ) {
                 this.tabDiv = document.createElement('div');
@@ -577,6 +624,7 @@ SITE.Media.prototype.show = function(tab) {
                 var mId = (this.mediaWindow.id*10 + r);
                 
                 this.youTubeURL = (aUrl[r].match(/www.youtube-nocookie.com/g)!== null);
+                this.isPDF = (aUrl[r].match(/.*pdf$/)!== null);
                 
                 var par=aUrl[r].match(/\&.*\;/g);
                 
@@ -606,7 +654,7 @@ SITE.Media.prototype.show = function(tab) {
                 this.embed = document.getElementById( 'e' + mId );
 
                 this.embed.style.width = '100%';
-                this.embed.style.height = this.youTubeURL? '100%' : 'auto';
+                this.embed.style.height = ( this.youTubeURL? '100%' : (this.isPDF? 'calc(100% - 4px)': 'auto' ) );
                 
                 this.tabs['w'+mId] = {div:dv, tit:tit, u2be: this.youTubeURL};
                 
@@ -741,6 +789,8 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     DIATONIC.map.color.close = SITE.properties.colors.close;
     DIATONIC.map.color.open = SITE.properties.colors.open;
     
+    this.loadByIdx = this.songId = interfaceParams.songId;
+    
     this.keyboardDiv = interfaceParams.keyboardDiv;
     
     this.fileLoadMap = document.getElementById('fileLoadMap');
@@ -759,6 +809,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         ,  [{title: 'Acordeões', ddmId: 'menuGaitas', itens: [] }
            ,{title: 'Repertório', ddmId: 'menuRepertorio',
                 itens: [
+                    'Índice|IDXREPERTOIRE',
                     'Restaurar o original|RESTOREREPERTOIRE',
                     'Carregar do drive local|LOADREPERTOIRE',
                     'Exportar para drive local|EXPORTREPERTOIRE',
@@ -897,6 +948,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.loadOriginalRepertoire();
     
     SITE.translator.translate();
+    
     this.resize();
     
 };
@@ -904,8 +956,16 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
 SITE.Mapa.prototype.setup = function (tabParams) {
 
     if( this.accordion.accordionIsCurrent(tabParams.accordionId) ) {
+        if( tabParams.songId ) {
+            this.showTab('songsTab');
+            this.showABC('songs#'+tabParams.songId);
+        }
         return;
     }   
+    
+    if( tabParams.songId ) {
+        this.songId = tabParams.songId;
+    }
     
     this.midiPlayer.reset();
     this.accordion.loadById(tabParams.accordionId);
@@ -968,33 +1028,41 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
         case 'ABC2PART':
             this.openABC2Part();
             break;
+        case 'IDXREPERTOIRE':
+            if(! this.repertoireWin ) {
+                this.repertoireWin = new SITE.Repertorio();
+            }
+            this.repertoireWin.geraIndex(this);
+            break;
         case 'JUMPS':
-            this.showHelp('HelpTitle', 'JUMPS', '/diatonic-map/html5/sinaisRepeticao.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'JUMPS', '/diatonic-map/html/sinaisRepeticao.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'ABCX':
-            this.showHelp('HelpTitle', 'ABCX', '/diatonic-map/html5/formatoABCX.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'ABCX', '/diatonic-map/html/formatoABCX.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'ESTUDIO':
-            this.showHelp('HelpTitle', 'ESTUDIO', '/diatonic-map/html5/estudioABCX.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'ESTUDIO', '/diatonic-map/html/estudioABCX.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TABS':
-            this.showHelp('HelpTitle', 'TABS', '/diatonic-map/html5/tablatura.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'TABS', '/diatonic-map/html/tablatura.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TABSTRANSPORTADA':
-            this.showHelp('HelpTitle', 'TABSTRANSPORTADA', '/diatonic-map/html5/tablaturaTransportada.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'TABSTRANSPORTADA', '/diatonic-map/html/tablaturaTransportada.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'MAPS':
-            this.showHelp('HelpTitle', 'MAPS', '/diatonic-map/html5/mapas.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'MAPS', '/diatonic-map/html/mapas.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TUTORIAL':
-            this.showHelp('HelpTitle', 'TUTORIAL', '/diatonic-map/html5/tutoriais.pt_BR.html', { width: '1024', height: '600', print:false } );
+            this.showHelp('HelpTitle', 'TUTORIAL', '/diatonic-map/html/tutoriais.pt_BR.html', { width: '1024', height: '600', print:false } );
             break;
         case 'ABOUT':
-            this.showHelp('AboutTitle', '', '/diatonic-map/html5/about.pt_BR.html', { width: '800', print:false } );
+            this.showHelp('AboutTitle', '', '/diatonic-map/html/about.pt_BR.html', { width: '800', print:false } );
             break;
         case 'GAITA_MINUANO_GC':
-        case 'GAITA_MINUANO_BC_TRANSPORTADA':
+        case 'CONCERTINA_PORTUGUESA':
+        case 'GAITA_HOHNER_CORONA_II':
         case 'GAITA_HOHNER_CLUB_IIIM_BR':
+        case 'GAITA_MINUANO_BC_TRANSPORTADA':
         default: // as gaitas conhecidas e outras carregadas sob demanda
             this.setup({accordionId:ev});
     }
@@ -1012,9 +1080,10 @@ SITE.Mapa.prototype.loadOriginalRepertoire = function () {
 SITE.Mapa.prototype.doLoadOriginalRepertoire = function (loader) {
     
     this.renderedChord.title = 
-           FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.chords.title')
+            FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.chords.title')
         || this.accordion.loaded.getFirstChord();
-
+    
+    
     this.loadABCList(this.renderedChord.tab);
 
     this.renderedPractice.title = 
@@ -1023,14 +1092,43 @@ SITE.Mapa.prototype.doLoadOriginalRepertoire = function (loader) {
 
     this.loadABCList(this.renderedPractice.tab);
 
+    var title;
+    
+    if(  this.songId ) {
+        title = this.accordion.loaded.songs.ids[this.songId];
+        delete this.songId; // load once
+    }
+    
     this.renderedTune.title = 
-           FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.songs.title')
+            title
+        ||  FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.songs.title')
         || this.accordion.loaded.getFirstSong();
 
     this.loadABCList(this.renderedTune.tab);
     
     this.showTab('songsTab');
+    
     loader.stop();
+    
+    if( this.loadByIdx ) {
+        SITE.ga('send', 'event', 'Mapa5', 'index', this.getActiveTab().title);
+        
+//        SITE.myGtag( 'event', 'index', {
+//          send_to : 'acessos',
+//          event_category: 'Mapa5',
+//          event_action: 'index',
+//          event_label: this.getActiveTab().title,
+//          event_value: 0,
+//          nonInteraction: false 
+//        });                
+        
+        if(! this.repertoireWin ) {
+            this.repertoireWin = new SITE.Repertorio();
+        }
+        this.repertoireWin.geraIndex(this);
+        
+        delete this.loadByIdx;
+    }
 
 };
 
@@ -1039,7 +1137,18 @@ SITE.Mapa.prototype.printPartiture = function (button, event) {
     event.preventDefault();
     button.blur();
     if(  currentABC.div.innerHTML )  {
+        
         SITE.ga('send', 'event', 'Mapa5', 'print', currentABC.title);
+        
+//        SITE.myGtag( 'event', 'print', {
+//          send_to : 'acessos',
+//          event_category: 'Mapa5',
+//          event_action: 'print',
+//          event_label: currentABC.title,
+//          event_value: 0,
+//          nonInteraction: false 
+//        });                
+        
         this.printPreview(currentABC.div.innerHTML, ["#topBar","#mapaDiv"], currentABC.abc.formatting.landscape );
     }
 };
@@ -1098,11 +1207,12 @@ SITE.Mapa.prototype.openABC2Part = function () {
             ,{   // interfaceParams
                 partEditDiv: 'partEditDiv'
                ,controlDiv: 'a2pControlDiv-raw' 
-               ,showMapBtn: 'a2pShowMapBtn'
                ,showEditorBtn: 'a2pShowEditorBtn'
-               ,printBtn:'a2pPrintBtn'
-               ,saveBtn:'a2pSaveBtn'
+               ,showMapBtn: 'a2pShowMapBtn'
                ,updateBtn:'a2pForceRefresh'
+               ,loadBtn:'a2pLoadBtn'
+               ,saveBtn:'a2pSaveBtn'
+               ,printBtn:'a2pPrintBtn'
                ,playBtn: "a2pPlayBtn"
                ,stopBtn: "a2pStopBtn"
                ,btShowMedia: 'a2pbuttonShowMedia'
@@ -1133,11 +1243,14 @@ SITE.Mapa.prototype.openTab2Part = function () {
             ,{   // interfaceParams
                 partGenDiv: 'partGenDiv'
                ,controlDiv: 't2pControlDiv-raw' 
-               ,showMapBtn: 't2pShowMapBtn'
+               //,showMapBtn: 't2pShowMapBtn'
+               //,printBtn:'t2pPrintBtn'
                ,showEditorBtn: 't2pShowEditorBtn'
-               ,printBtn:'t2pPrintBtn'
-               ,saveBtn:'t2pSaveBtn'
                ,updateBtn:'t2pForceRefresh'
+               ,loadBtn:'t2pLoadBtn'
+               ,saveBtn:'t2pSaveBtn'
+               ,editPartBtn:'t2pOpenInPartEditBtn'
+               ,savePartBtn:'t2pSavePartBtn'
                ,playBtn: "t2pPlayBtn"
                ,stopBtn: "t2pStopBtn"
                ,currentPlayTimeLabel: "t2pCurrentPlayTimeLabel"
@@ -1184,7 +1297,7 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
                ,showMapBtn: 'showMapBtn'
                ,showEditorBtn: 'showEditorBtn'
                ,showTextBtn: 'showTextBtn'
-               ,printBtn:'printBtn2'
+               ,printBtn:'printBtn'
                ,saveBtn:'saveBtn'
                ,forceRefresh:'forceRefresh'
                ,btShowMedia: 'buttonShowMedia2'
@@ -1224,6 +1337,17 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
 
     if( tab.text ) {
         SITE.ga('send', 'event', 'Mapa5', 'tools', tab.title);
+        
+//        SITE.myGtag( 'event', 'tools', {
+//          send_to : 'acessos',
+//          event_category: 'Mapa5',
+//          event_action: 'tools',
+//          event_label: tab.title,
+//          event_value: 0,
+//          nonInteraction: false 
+//        });                
+        
+        
         var loader = this.startLoader( "OpenEstudio" );
         loader.start(  function() { 
             self.studio.setup( tab, self.accordion.getId() );
@@ -1253,12 +1377,32 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
         if(type==="normal") {
             if( this.midiPlayer.startPlay(currentABC.abc.midi) ) {
                 SITE.ga('send', 'event', 'Mapa5', 'play', currentABC.title);
+                
+//                SITE.myGtag( 'event', 'play', {
+//                  send_to : 'acessos',
+//                  event_category: 'Mapa5',
+//                  event_action: 'play',
+//                  event_label: currentABC.title,
+//                  event_value: 0,
+//                  nonInteraction: false 
+//                });                
+
                 this.playButton.title = SITE.translator.getResource("pause");
                 this.playButton.innerHTML =  '<i class="ico-pause"></i>';
             }
         } else {
             if( this.midiPlayer.startDidacticPlay(currentABC.abc.midi, type, value ) ) {
                 SITE.ga('send', 'event', 'Mapa5', 'didactic-play', currentABC.title);
+                
+//                SITE.myGtag( 'event', 'didactic-play', {
+//                  send_to : 'acessos',
+//                  event_category: 'Mapa5',
+//                  event_action: 'didactic-play',
+//                  event_label: currentABC.title,
+//                  event_value: 0,
+//                  nonInteraction: false 
+//                });                
+
             }
         }
     }
@@ -1271,7 +1415,7 @@ SITE.Mapa.prototype.setScrolling = function(player) {
     
     var fixedTop = player.printer.staffgroups[0].top;
     var vp = this.tuneContainerDiv.clientHeight - fixedTop;
-    var top = player.printer.staffgroups[player.currAbsElem.staffGroup].top;
+    var top = player.printer.staffgroups[player.currAbsElem.staffGroup].top-12;
     var bottom = top + player.printer.staffgroups[player.currAbsElem.staffGroup].height;
 
     if( bottom > vp+this.ypos || this.ypos > top-fixedTop ) {
@@ -1454,6 +1598,8 @@ SITE.Mapa.prototype.doCarregaRepertorioLocal = function(files) {
             } 
             // add or replace content
             accordion.songs.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
+            accordion.songs.details[tunebook.tunes[t].title] = { composer: tunebook.tunes[t].composer, id: tunebook.tunes[t].id };
+            accordion.songs.ids[tunebook.tunes[t].id] = tunebook.tunes[t].title;
 
             if(! first ) {
                 // marca a primeira das novas canções para ser selecionada
@@ -1461,7 +1607,16 @@ SITE.Mapa.prototype.doCarregaRepertorioLocal = function(files) {
                 first = true;
             }
             
-            SITE.ga('send', 'event', 'Mapa5', 'load', tunebook.tunes[t].title);
+            SITE.ga('send', 'event', 'Mapa5', 'loadSong', tunebook.tunes[t].title);
+            
+//            SITE.myGtag( 'event', 'loadSong', {
+//              send_to : 'acessos',
+//              event_category: 'Mapa5',
+//              event_action: 'loadSong',
+//              event_label: tunebook.tunes[t].title,
+//              event_value: 0,
+//              nonInteraction: false 
+//            });                
         }    
     }
 
@@ -1489,16 +1644,24 @@ SITE.Mapa.prototype.showTab = function(tabString) {
 };
 
 SITE.Mapa.prototype.showABC = function(action) {
-    var self = this;
-    var a = action.split('-');
-    var type = a[0];
-    var i = parseInt(a[1]);
+    var type, title, self = this;
     var tab = self.getActiveTab();
-    var title = this.accordion.loaded[type].sortedIndex[i];
+    var a = action.split('#');
+    
+    if( action.indexOf('#') >= 0 && parseInt(a[1]) > 0 ) {
+        type = a[0];
+        title = this.accordion.loaded[type].ids[ a[1] ];
+    } else {
+        waterbug.logError( 'ABCX not found!');
+        waterbug.show();
+        return;
+    }
+    
     if( tab.title !== title && tab.menu.selectItem( tab.ddmId, action ) ) {
         tab.title = title;
         tab.text = this.accordion.loaded.getAbcText( tab.tab, tab.title );
-        tab.menu.setSubMenuTitle( tab.ddmId, (tab.title.length>43 ? tab.title.substr(0,40) + "..." : tab.title) );
+        var cleanedTitle = title.replace(/\(.*\)/g,"").trim();
+        tab.menu.setSubMenuTitle( tab.ddmId, (cleanedTitle.length>43 ? cleanedTitle.substr(0,40) + "..." : cleanedTitle) );
         if( !this.accordion.loaded.localResource)
             FILEMANAGER.saveLocal( 'property.'+this.accordion.getId()+'.'+type+'.title', tab.title );
         var loader = this.startLoader( "TABLoader" + type, this.tuneContainerDiv );
@@ -1520,17 +1683,17 @@ SITE.Mapa.prototype.loadABCList = function(type) {
         case 'songs':
             tab = this.renderedTune;
             tab.ddmId = 'songsMenu';
-            items = this.accordion.loaded.songs.sortedIndex;
+            items = this.accordion.loaded.songs;
             break;
         case 'practices':
             tab = this.renderedPractice;
             tab.ddmId = 'practicesMenu';
-            items = this.accordion.loaded.practices.sortedIndex;
+            items = this.accordion.loaded.practices;
             break;
         case 'chords':
             tab = this.renderedChord;
             tab.ddmId = 'chordsMenu';
-            items = this.accordion.loaded.chords.sortedIndex;
+            items = this.accordion.loaded.chords;
             break;
     };
     
@@ -1543,21 +1706,32 @@ SITE.Mapa.prototype.loadABCList = function(type) {
     );
     
     var achou = false;
-    for( var i = 0; i < items.length; i++) {
+    for( var i = 0; i < items.sortedIndex.length; i++) {
         
-        var title = items[i];
-        var m = tab.menu.addItemSubMenu( tab.ddmId, title +'|'+type+'-'+i);
+        var title = items.sortedIndex[i];
+        var cleanedTitle = title.replace(/\(.*\)/g,"").trim();
+        var vid = 0;
+        
+        if( ! items.details[title] || isNaN(parseInt(items.details[title].id)) ) {
+            waterbug.logError( 'Missing or incorrect ID (X:nnn) for "' + title +'"' );
+            waterbug.show();
+        } else {
+            vid = items.details[title].id;
+        }
+        
+        var m = tab.menu.addItemSubMenu( tab.ddmId, cleanedTitle +'|'+type+'#'+vid);
         if(title === tab.title ) {
             achou = true;
-            tab.menu.setSubMenuTitle( tab.ddmId, title );
+            tab.menu.setSubMenuTitle( tab.ddmId, cleanedTitle );
             tab.menu.selectItem(tab.ddmId, m);
             tab.text = this.accordion.loaded.getAbcText(type, title);
         }    
     }
-    if( !achou && items.length > 0 ) {
-        var title = items[0];
-        tab.menu.setSubMenuTitle( tab.ddmId, title );
-        tab.menu.selectItem(tab.ddmId, type+'-0');
+    if( !achou && items.sortedIndex.length > 0 ) {
+        var title = items.sortedIndex[0];
+        var cleanedTitle = title.replace(/\(.*\)/g,"").trim();
+        tab.menu.setSubMenuTitle( tab.ddmId, cleanedTitle );
+        tab.menu.selectItem(tab.ddmId, type+'#'+items.details[title].id);
         tab.text = this.accordion.loaded.getAbcText(type, title);
     }
     
@@ -1851,6 +2025,16 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             this.settings.window.setVisible(false);
             SITE.ResetProperties();
             SITE.ga('send', 'event', 'Configuration', 'reset', SITE.properties.version );
+            
+//            SITE.myGtag( 'event', 'reset', {
+//              send_to : 'outros',
+//              event_category: 'Configuration',
+//              event_action: 'reset',
+//              event_label: SITE.properties.version,
+//              event_value: 0,
+//              nonInteraction: true 
+//            });  
+            
             this.applySettings();
             break;
         case 'RESET-NO':
@@ -1864,13 +2048,34 @@ SITE.Mapa.prototype.applySettings = function() {
 
     if( this.settings.lang !== SITE.properties.options.language ) {
         SITE.properties.options.language = this.settings.lang;
+        
         SITE.ga('send', 'event', 'Configuration', 'changeLang', SITE.properties.options.language);
+        
+//        SITE.myGtag( 'event', 'changeLang', {
+//          send_to : 'outros',
+//          event_category: 'Configuration',
+//          event_action: 'changeLang',
+//          event_label: SITE.properties.options.language,
+//          event_value: 0,
+//          nonInteraction: true 
+//        });
+
         SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
     }
     
     if( this.settings.pianoSound.checked  !== SITE.properties.options.pianoSound ) {
         SITE.properties.options.pianoSound = this.settings.pianoSound.checked;
         SITE.ga('send', 'event', 'Configuration', 'changeInstrument', SITE.properties.options.pianoSound?'piano':'accordion');
+        
+//        SITE.myGtag( 'event', 'changeInstrument', {
+//          send_to : 'outros',
+//          event_category: 'Configuration',
+//          event_action: 'changeInstrument',
+//          event_label: SITE.properties.options.pianoSound?'piano':'accordion',
+//          event_value: 0,
+//          nonInteraction: true 
+//        });
+        
         this.defineInstrument();
     }
     
@@ -1880,11 +2085,14 @@ SITE.Mapa.prototype.applySettings = function() {
         this.studio.setAutoRefresh(SITE.properties.options.autoRefresh);
         this.studio.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
     }
+    if (this.part2tab) {
+        this.part2tab.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
+    }
     if (this.tab2part) {
         this.tab2part.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
     }
-    if (this.part2tab) {
-        this.part2tab.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
+    if (this.ABC2part) {
+        this.ABC2part.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
     }
     
     this.resizeActiveWindow();
@@ -1908,23 +2116,38 @@ SITE.Mapa.prototype.changePageOrientation = function (orientation) {
 SITE.Mapa.prototype.printPreview = function (html, divsToHide, landscape ) {
     
     var dv = document.getElementById('printPreviewDiv');
-
-    divsToHide.forEach( function( div ) {
-        $(div).hide();
-    });
     
-    this.changePageOrientation(landscape? 'landscape': 'portrait');
-    
-    dv.style.display = 'block';
-    dv.innerHTML = html;
-    window.setTimeout(function(){
-        window.print();
-        dv.style.display = 'none';
-
+    if (window.matchMedia ) {
+        
         divsToHide.forEach( function( div ) {
-            $(div).show();
+            var hd = document.getElementById(div.substring(1));
+            hd.style.opacity = 0;
         });
-    }, 100 );
+
+        this.changePageOrientation(landscape? 'landscape': 'portrait');
+
+        dv.style.display = 'block';
+        dv.innerHTML = html;
+
+        var printMedia = window.matchMedia( 'print' );
+        
+        printMedia.addListener( function(pm) {
+
+            if( ! pm.matches ) {
+                
+                dv.style.display = 'none';
+                
+                divsToHide.forEach( function( div ) {
+                    var hd = document.getElementById(div.substring(1));
+                    hd.style.opacity = 1;
+                    
+                });
+            }
+        });
+        
+        window.print();
+        
+    }    
 };
 
 SITE.Mapa.prototype.resizeActiveWindow = function() {
@@ -1967,33 +2190,6 @@ SITE.Mapa.prototype.silencia = function(force) {
     }
 };
 
-SITE.Mapa.prototype.translate = function() {
-    
-  this.accordion.keyboard.legenda.setText( true, SITE.translator.getResource('pull'), SITE.translator.getResource('push') );
-  this.showAccordionName();
-  
-  document.title = SITE.translator.getResource("title");  
-  
-  DR.setDescription();
-  
-  document.getElementById("toolsBtn").innerHTML = '<i class="ico-wrench"></i>&#160;'+SITE.translator.getResource("toolsBtn");
-  document.getElementById("printBtn2").innerHTML = '<i class="ico-print"></i>&#160;'+SITE.translator.getResource("printBtn");
-  document.getElementById("pdfBtn").innerHTML = '<i class="ico-print"></i>&#160;'+SITE.translator.getResource("pdfBtn");
-  document.getElementById("message").alt = SITE.translator.getResource("message");
-  
-  document.getElementById("octaveUpBtn").title = SITE.translator.getResource("octave");
-  document.getElementById("octaveUpBtn").innerHTML = '<i class="ico-octave-up"></i>&#160;'+SITE.translator.getResource("octave");
-  document.getElementById("octaveDwBtn").title = SITE.translator.getResource("octave");
-  document.getElementById("octaveDwBtn").innerHTML = '<i class="ico--octave-down"></i>&#160;'+SITE.translator.getResource("octave");
-  document.getElementById("printBtn").innerHTML = '<i class="ico-print"></i>&#160;'+SITE.translator.getResource("printBtn");
-  document.getElementById("saveBtn").innerHTML = '<i class="ico-download"></i>&#160;'+SITE.translator.getResource("saveBtn");
-  document.getElementById("forceRefresh").innerHTML = SITE.translator.getResource("forceRefresh");
-  document.getElementById("forceRefresh2").innerHTML = SITE.translator.getResource("forceRefresh");
-  document.getElementById("gotoMeasureBtn").value = SITE.translator.getResource("goto");
-  document.getElementById("untilMeasureBtn").value = SITE.translator.getResource("until");
-  
-};
-
 SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
     var that = this;
     options = options || {};
@@ -2015,7 +2211,7 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
           , { listener: this, method:'helpCallback' }
         );
         this.helpWindow.dataDiv.style.height = "auto";
-        this.helpWindow.dataDiv.className+=" customScrollBar";
+        //this.helpWindow.dataDiv.className+=" customScrollBar";
     }
 
     this.helpWindow.setTitle(title, SITE.translator);
@@ -2037,7 +2233,7 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
                 that.helpWindow.topDiv.style.opacity = "1";
                 that.iframe.style.height = options.height+"px";
                 loader.stop();
-                this.contentDocument.body.className+="customScrollBar";
+                //this.contentDocument.body.className+="customScrollBar";
                 var header = this.contentDocument.getElementById('helpHeader');
                 var container = this.contentDocument.getElementById('helpContainer');
                 if( header ) header.style.display = 'none';
@@ -2064,43 +2260,18 @@ SITE.Mapa.prototype.helpCallback = function ( action ) {
         this.helpWindow.setVisible(false);
     } else if( action === 'PRINT' ) {
         var container = this.iframe.contentDocument.getElementById('helpContainer');
-        if( container )
-            this.printPreview( container.innerHTML, ["#topBar","#mapaDiv"], false );
+        if( container ) {
+            //var t = container.style.top;
+            //container.style.top = '0';
+            this.printPreview( container.innerHTML, [ "#"+this.helpWindow.topDiv.id, "#topBar","#mapaDiv"], false );
+            //var header = this.iframe.contentDocument.getElementById('helpHeader');
+            //if( header ) header.style.display = 'none';
+            //container.style.top = t;
+        }
     }
 //    console.log( action );
 };
 
-// Esta rotina foi criada como forma de verificar todos warnings de compilacao do repertório
-SITE.Mapa.prototype.debugRepertorio = function( ) {
-    
-    for (var title in this.accordion.loaded.songs.items ) {
-
-        waterbug.log(title);
-        
-        this.abcParser.parse( this.accordion.loaded.songs.items[title] );
-
-        var w = this.abcParser.getWarnings() || [];
-        var l = w.length;
-        
-        for (var j=0; j<w.length; j++) {
-            waterbug.logError( '   ' + w[j]);
-        }
-
-        if ( this.midiParser ) {
-            this.midiParser.parse( this.abcParser.getTune(), this.accordion.loadedKeyboard );
-            var w = this.midiParser.getWarnings();
-            l += w.length;
-            for (var j=0; j<w.length; j++) {
-                waterbug.logError( '   ' + w[j]);
-            }
-        }
-        
-        waterbug.log(l > 0 ? '': '--> OK' );
-        waterbug.log( '' );
-    }
-    
-    waterbug.show();    
-};        
 
 if (!window.SITE)
     window.SITE = {};
@@ -2256,7 +2427,18 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.printButton.addEventListener("click", function (evt) {
         evt.preventDefault();
         this.blur();
+        
         SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
+        
+//        SITE.myGtag( 'event', 'print', {
+//          send_to : 'acessos',
+//          event_category: 'Mapa5',
+//          event_action: 'print',
+//          event_label: that.renderedTune.title,
+//          event_value: 0,
+//          nonInteraction: false 
+//        });                
+        
         that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#studioDiv"], that.renderedTune.abc.formatting.landscape);
         return;
 
@@ -2502,6 +2684,7 @@ SITE.Estudio.prototype.resize = function( ) {
     this.studioCanvasDiv.style.height = t-(w+e+c+6) +"px";
     
     this.posicionaTeclado();
+    this.editorWindow.resize();
     
 };
 
@@ -2647,7 +2830,7 @@ SITE.Estudio.prototype.keyboardCallback = function( e ) {
 };
 
 SITE.Estudio.prototype.setScrolling = function(player) {
-    if( !this.studioCanvasDiv || player.currAbsElem.staffGroup === this.lastStaffGroup ) return;
+    if( !this.studioCanvasDiv || !player.currAbsElem || player.currAbsElem.staffGroup === this.lastStaffGroup ) return;
     
     this.lastStaffGroup = player.currAbsElem.staffGroup;
     
@@ -2806,13 +2989,36 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
         if(type==="normal") {
             this.midiPlayer.setPlayableClefs('TB');
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
+                
                 SITE.ga('send', 'event', 'Mapa5', 'play', this.renderedTune.title);
+                
+//                SITE.myGtag( 'event', 'play', {
+//                  send_to : 'acessos',
+//                  event_category: 'Mapa5',
+//                  event_action: 'play',
+//                  event_label: this.renderedTune.title,
+//                  event_value: 0,
+//                  nonInteraction: false 
+//                });                
+                
                 this.playButton.title = SITE.translator.getResource("pause");
                 this.playButton.innerHTML = '&#160;<i class="ico-pause"></i>&#160;';
             }
         } else {
             this.midiPlayer.setPlayableClefs( (SITE.properties.studio.trebleOn?"T":"")+(SITE.properties.studio.bassOn?"B":"") );
+            
             SITE.ga('send', 'event', 'Mapa5', 'didactic-play', this.renderedTune.title);
+            
+//            SITE.myGtag( 'event', 'didactic-play', {
+//              send_to : 'acessos',
+//              event_category: 'Mapa5',
+//              event_action: 'didactic-play',
+//              event_label: this.renderedTune.title,
+//              event_value: 0,
+//              nonInteraction: false 
+//            });                
+            
+            
             this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value, valueF );
         }
     }
@@ -2868,6 +3074,7 @@ SITE.Estudio.prototype.parseABC = function (transpose, force) {
 
     if (this.midiParser) {
         this.midiParser.parse(this.renderedTune.abc, this.accordion.loadedKeyboard);
+        this.midiPlayer.reset();
         var warnings = this.midiParser.getWarnings();
         for (var j = 0; j < warnings.length; j++) {
             this.warnings.push(warnings[j]);
@@ -2950,12 +3157,14 @@ SITE.Estudio.prototype.onModelChanged = function(loader) {
 };
 
 SITE.Estudio.prototype.highlight = function(abcelem) {
-    if(SITE.properties.studio.keyboard.visible && !this.midiPlayer.playing) {
+    if( !this.midiPlayer.playing) {
         if(SITE.properties.studio.editor.visible) {
             this.editorWindow.setSelection(abcelem);
         }    
-        this.accordion.clearKeyboard(true);
-        this.midiParser.setSelection(abcelem);
+        if(SITE.properties.studio.keyboard.visible ) {
+            this.accordion.clearKeyboard(true);
+            this.midiParser.setSelection(abcelem);
+        }
     }    
 };
 
@@ -2981,10 +3190,6 @@ SITE.Estudio.prototype.updateSelection = function (force) {
         setTimeout( that.updateSelection(true), 300 );
     }
 };
-
-SITE.Estudio.prototype.translate = function( ) {
-    //this.initEditArea( "editorTextArea" );
-}; 
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -3063,19 +3268,19 @@ SITE.PartGen = function( mapa, interfaceParams ) {
 
     this.media = new SITE.Media( this.Div.dataDiv,  interfaceParams.btShowMedia, SITE.properties.partGen.media ); 
 
-    this.keyboardWindow = new DRAGGABLE.ui.Window( 
-        this.Div.dataDiv
-       ,[ 'move', 'rotate', 'zoom', 'globe']
-       ,{title: '', translator: SITE.translator, statusbar: false
-            , top: SITE.properties.partGen.keyboard.top
-            , left: SITE.properties.partGen.keyboard.left
-       } 
-      ,{listener: this, method: 'keyboardCallback'}
-    );
-    
+//    this.keyboardWindow = new DRAGGABLE.ui.Window( 
+//        this.Div.dataDiv
+//       ,[ 'move', 'rotate', 'zoom', 'globe']
+//       ,{title: '', translator: SITE.translator, statusbar: false
+//            , top: SITE.properties.partGen.keyboard.top
+//            , left: SITE.properties.partGen.keyboard.left
+//       } 
+//      ,{listener: this, method: 'keyboardCallback'}
+//    );
+//    
     this.accordion.setRenderOptions({
         draggable: true
-       ,show: SITE.properties.partGen.keyboard.visible
+       ,show: false // SITE.properties.partGen.keyboard.visible
        ,transpose: SITE.properties.partGen.keyboard.transpose
        ,mirror: SITE.properties.partGen.keyboard.mirror
        ,scale: SITE.properties.partGen.keyboard.scale
@@ -3122,12 +3327,19 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     
     this.Div.dataDiv.appendChild(this.studioCanvasDiv);
     
-    this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
+   // this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
+    //this.printButton = document.getElementById(interfaceParams.printBtn);
+    
+    this.fileLoadTab = document.getElementById('fileLoadTab');
+    this.fileLoadTab.addEventListener('change', function(event) { that.carregaTablatura(event); }, false);        
+    
     this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
     
-    this.printButton = document.getElementById(interfaceParams.printBtn);
-    this.saveButton = document.getElementById(interfaceParams.saveBtn);
     this.updateButton = document.getElementById(interfaceParams.updateBtn);
+    this.loadButton = document.getElementById(interfaceParams.loadBtn);
+    this.saveButton = document.getElementById(interfaceParams.saveBtn);
+    this.editPartButton = document.getElementById(interfaceParams.editPartBtn);
+    this.savePartButton = document.getElementById(interfaceParams.savePartBtn);
 
     // player control
     this.playButton = document.getElementById(interfaceParams.playBtn);
@@ -3140,15 +3352,18 @@ SITE.PartGen = function( mapa, interfaceParams ) {
         that.showEditor();
     }, false);
     
-    this.showMapButton.addEventListener("click", function (evt) {
-        evt.preventDefault();
-        this.blur();
-        that.showKeyboard();
-    }, false);
-    
-    this.updateButton.addEventListener("click", function() {
-        that.fireChanged();
-    }, false);
+//    this.showMapButton.addEventListener("click", function (evt) {
+//        evt.preventDefault();
+//        this.blur();
+//        that.showKeyboard();
+//    }, false);
+//    
+
+//    this.printButton.addEventListener("click", function(evt) {
+//        evt.preventDefault();
+//        this.blur();
+//        that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#mapaDiv","#partGenDiv"], that.renderedTune.abc.formatting.landscape);
+//    }, false);
 
     this.ckConvertToClub.addEventListener("click", function() {
         SITE.properties.partGen.convertToClub = !!this.checked;
@@ -3165,13 +3380,29 @@ SITE.PartGen = function( mapa, interfaceParams ) {
         that.abcDiv.style.display = this.checked ? '' : 'none';
     }, false);
 
-    this.printButton.addEventListener("click", function(evt) {
-        evt.preventDefault();
-        this.blur();
-        that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#mapaDiv","#partGenDiv"], that.renderedTune.abc.formatting.landscape);
+    this.updateButton.addEventListener("click", function() {
+        that.fireChanged();
     }, false);
 
+    this.loadButton.addEventListener("click", function() {
+        that.fileLoadTab.click();
+    }, false);
+    
     this.saveButton.addEventListener("click", function() {
+        that.salvaTablatura();
+    }, false);
+
+    this.editPartButton.addEventListener("click", function() {
+        var text = that.renderedTune.text;
+        if(text !== "" ) {
+            that.setVisible(false);
+            SITE.SaveProperties();
+            FILEMANAGER.saveLocal( 'ultimaPartituraEditada', text );
+            that.mapa.menu.dispatchAction('menuRepertorio','ABC2PART');
+        }    
+    }, false);
+    
+    this.savePartButton.addEventListener("click", function() {
         that.salvaPartitura();
     }, false);
     
@@ -3193,7 +3424,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
         that.playButton.title = SITE.translator.getResource("playBtn");
         that.playButton.innerHTML = '&#160;<i class="ico-play"></i>&#160;';
         that.renderedTune.printer.clearSelection();
-        that.accordion.clearKeyboard(true);
+        //that.accordion.clearKeyboard(true);
         that.blockEdition(false);
         if( warns ) {
             var txt = "";
@@ -3264,8 +3495,8 @@ SITE.PartGen.prototype.setup = function(options) {
         this.editorWindow.container.dispatchAction('POPIN');
     }
 
-    this.showKeyboard(SITE.properties.partGen.keyboard.visible);
-    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
+    //this.showKeyboard(SITE.properties.partGen.keyboard.visible);
+    //this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
     
     this.resize();
     
@@ -3302,26 +3533,27 @@ SITE.PartGen.prototype.resize = function( ) {
 
     this.studioCanvasDiv.style.height = t-(w+e+c+6) +"px";
     
-    this.posicionaTeclado();
+    //this.posicionaTeclado();
+    this.editorWindow.resize();
 };
 
-SITE.PartGen.prototype.posicionaTeclado = function() {
-    
-    if( ! SITE.properties.studio.keyboard.visible ) return;
-    
-    var w = window.innerWidth;
-    
-    var k = this.keyboardWindow.topDiv;
-    var x = parseInt(k.style.left.replace('px', ''));
-    
-    if( x + k.offsetWidth > w ) {
-        x = (w - (k.offsetWidth + 50));
-    }
-    
-    if(x < 0) x = 10;
-    
-    k.style.left = x+"px";
-};
+//SITE.PartGen.prototype.posicionaTeclado = function() {
+//    
+//    if( ! SITE.properties.studio.keyboard.visible ) return;
+//    
+//    var w = window.innerWidth;
+//    
+//    var k = this.keyboardWindow.topDiv;
+//    var x = parseInt(k.style.left.replace('px', ''));
+//    
+//    if( x + k.offsetWidth > w ) {
+//        x = (w - (k.offsetWidth + 50));
+//    }
+//    
+//    if(x < 0) x = 10;
+//    
+//    k.style.left = x+"px";
+//};
 
 
 SITE.PartGen.prototype.closePartGen = function(save) {
@@ -3356,23 +3588,23 @@ SITE.PartGen.prototype.showEditor = function(show) {
     this.resize();
 };
 
-SITE.PartGen.prototype.showKeyboard = function(show) {
-    SITE.properties.partGen.keyboard.visible = 
-            (typeof show === 'undefined'? ! SITE.properties.partGen.keyboard.visible : show );
-    
-    this.accordion.render_opts.show = SITE.properties.partGen.keyboard.visible;
-    
-    if(SITE.properties.partGen.keyboard.visible) {
-        this.keyboardWindow.setVisible(true);
-        this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
-        document.getElementById('t2pI_showMap').setAttribute('class', 'ico-folder-open' );
-        this.posicionaTeclado();
-    } else {
-        this.accordion.render_opts.show = false;
-        this.keyboardWindow.setVisible(false);
-        document.getElementById('t2pI_showMap').setAttribute('class', 'ico-folder' );
-    }
-};
+//SITE.PartGen.prototype.showKeyboard = function(show) {
+//    SITE.properties.partGen.keyboard.visible = 
+//            (typeof show === 'undefined'? ! SITE.properties.partGen.keyboard.visible : show );
+//    
+//    this.accordion.render_opts.show = SITE.properties.partGen.keyboard.visible;
+//    
+//    if(SITE.properties.partGen.keyboard.visible) {
+//        this.keyboardWindow.setVisible(true);
+//        this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
+//        document.getElementById('t2pI_showMap').setAttribute('class', 'ico-folder-open' );
+//        this.posicionaTeclado();
+//    } else {
+//        this.accordion.render_opts.show = false;
+//        this.keyboardWindow.setVisible(false);
+//        document.getElementById('t2pI_showMap').setAttribute('class', 'ico-folder' );
+//    }
+//};
 
 SITE.PartGen.prototype.editorCallback = function (action, elem) {
     switch(action) {
@@ -3412,7 +3644,7 @@ SITE.PartGen.prototype.t2pCallback = function( e ) {
             this.closePartGen(true);
             break;
         case 'HELP':
-            this.mapa.showHelp('HelpTitle', 'PartGenTitle', '/diatonic-map/html5/geradorPartitura.pt_BR.html', { width: '1024', height: '600' } );
+            this.mapa.showHelp('HelpTitle', 'PartGenTitle', '/diatonic-map/html/geradorPartitura.pt_BR.html', { width: '1024', height: '600' } );
     }
 };
 
@@ -3478,9 +3710,13 @@ SITE.PartGen.prototype.parseABC = function() {
     
     this.renderedTune.title = this.renderedTune.abc.metaText.title ;
     
-    if(this.renderedTune.title)
+    if(this.renderedTune.title) {
         this.editorWindow.container.setSubTitle('- ' + this.renderedTune.abc.metaText.title );
-    else
+        if( ! this.GApartGen || this.GApartGen !== this.renderedTune.abc.metaText.title ) {
+            this.GApartGen = this.renderedTune.abc.metaText.title;
+            SITE.ga('send', 'event', 'Mapa5', 'partGen', this.GApartGen );
+        }
+    } else
         this.editorWindow.container.setSubTitle( "" );
 
     if ( this.midiParser ) {
@@ -3493,10 +3729,10 @@ SITE.PartGen.prototype.highlight = function(abcelem) {
     //if(SITE.properties.partGen.editor.visible) {
     //    this.editorWindow.setSelection(abcelem);
     //}    
-    if(SITE.properties.partGen.keyboard.visible && !this.midiPlayer.playing) {
-        this.accordion.clearKeyboard(true);
-        this.midiParser.setSelection(abcelem);
-    }    
+//    if(SITE.properties.partGen.keyboard.visible && !this.midiPlayer.playing) {
+//        this.accordion.clearKeyboard(true);
+//        this.midiParser.setSelection(abcelem);
+//    }    
 };
 
 // limpa apenas a janela de texto. Os demais elementos são controlados por tempo 
@@ -3524,31 +3760,31 @@ SITE.PartGen.prototype.updateSelection = function (force) {
     }
 };
 
-SITE.PartGen.prototype.keyboardCallback = function( e ) {
-    switch(e) {
-        case 'MOVE':
-            var k = this.keyboardWindow.topDiv.style;
-            SITE.properties.partGen.keyboard.left = k.left;
-            SITE.properties.partGen.keyboard.top = k.top;
-            break;
-        case 'ROTATE':
-            this.accordion.rotateKeyboard(this.keyboardWindow.dataDiv);
-            SITE.properties.partGen.keyboard.transpose = this.accordion.render_opts.transpose;
-            SITE.properties.partGen.keyboard.mirror = this.accordion.render_opts.mirror;
-            break;
-        case 'ZOOM':
-            this.accordion.scaleKeyboard(this.keyboardWindow.dataDiv);
-            SITE.properties.partGen.keyboard.scale = this.accordion.render_opts.scale;
-            break;
-        case 'GLOBE':
-            this.accordion.changeNotation();
-            SITE.properties.partGen.keyboard.label = this.accordion.render_opts.label;
-            break;
-        case 'CLOSE':
-            this.showKeyboard(false);
-            break;
-    }
-};
+//SITE.PartGen.prototype.keyboardCallback = function( e ) {
+//    switch(e) {
+//        case 'MOVE':
+//            var k = this.keyboardWindow.topDiv.style;
+//            SITE.properties.partGen.keyboard.left = k.left;
+//            SITE.properties.partGen.keyboard.top = k.top;
+//            break;
+//        case 'ROTATE':
+//            this.accordion.rotateKeyboard(this.keyboardWindow.dataDiv);
+//            SITE.properties.partGen.keyboard.transpose = this.accordion.render_opts.transpose;
+//            SITE.properties.partGen.keyboard.mirror = this.accordion.render_opts.mirror;
+//            break;
+//        case 'ZOOM':
+//            this.accordion.scaleKeyboard(this.keyboardWindow.dataDiv);
+//            SITE.properties.partGen.keyboard.scale = this.accordion.render_opts.scale;
+//            break;
+//        case 'GLOBE':
+//            this.accordion.changeNotation();
+//            SITE.properties.partGen.keyboard.label = this.accordion.render_opts.label;
+//            break;
+//        case 'CLOSE':
+//            this.showKeyboard(false);
+//            break;
+//    }
+//};
 
 SITE.PartGen.prototype.salvaPartitura = function() {
     if (FILEMANAGER.requiredFeaturesAvailable()) {
@@ -3570,6 +3806,18 @@ SITE.PartGen.prototype.salvaTablatura = function() {
     }
 };
 
+SITE.PartGen.prototype.carregaTablatura = function(evt) {
+    var that = this;
+    FILEMANAGER.loadLocalFiles( evt, function() {
+      that.doCarregaTablatura(FILEMANAGER.files);
+      evt.target.value = "";
+    });
+};
+
+SITE.PartGen.prototype.doCarregaTablatura = function(file) {
+    this.editorWindow.setString(file[0].content);
+    this.fireChanged();
+};
 
 SITE.PartGen.prototype.blockEdition = function( block ) {
     this.editorWindow.setReadOnly(!block);
@@ -3599,7 +3847,7 @@ SITE.PartGen.prototype.startPlay = function( type, value ) {
         
     } else {
         
-        this.accordion.clearKeyboard();
+        //this.accordion.clearKeyboard();
         if(type==="normal") {
             this.blockEdition(true);
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
@@ -3755,13 +4003,17 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
     this.renderedTune.div = this.canvasDiv;
     
     this.Div.dataDiv.appendChild(this.studioCanvasDiv);
+
+    this.fileLoadABC = document.getElementById('fileLoadABC');
+    this.fileLoadABC.addEventListener('change', function(event) { that.carregaPartitura(event); }, false);        
+
     
-    this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
     this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
-    
-    this.printButton = document.getElementById(interfaceParams.printBtn);
-    this.saveButton = document.getElementById(interfaceParams.saveBtn);
+    this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
     this.updateButton = document.getElementById(interfaceParams.updateBtn);
+    this.loadButton = document.getElementById(interfaceParams.loadBtn);
+    this.saveButton = document.getElementById(interfaceParams.saveBtn);
+    this.printButton = document.getElementById(interfaceParams.printBtn);
 
     // player control
     this.playButton = document.getElementById(interfaceParams.playBtn);
@@ -3784,16 +4036,20 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
         that.fireChanged();
     }, false);
 
+    this.loadButton.addEventListener("click", function() {
+        that.fileLoadABC.click();
+    }, false);
+    
+    this.saveButton.addEventListener("click", function() {
+        that.salvaPartitura();
+    }, false);
+    
     this.printButton.addEventListener("click", function(evt) {
         evt.preventDefault();
         this.blur();
         that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#mapaDiv","#partEditDiv"], that.renderedTune.abc.formatting.landscape);
     }, false);
 
-    this.saveButton.addEventListener("click", function() {
-        that.salvaPartitura();
-    }, false);
-    
     
     this.playerCallBackOnScroll = function( player ) {
         that.setScrolling(player);
@@ -3916,6 +4172,7 @@ SITE.PartEdit.prototype.resize = function( ) {
     this.studioCanvasDiv.style.height = t-(w+e+c+6) +"px";
     
     this.posicionaTeclado();
+    this.editorWindow.resize();
 };
 
 SITE.PartEdit.prototype.posicionaTeclado = function() {
@@ -3961,9 +4218,9 @@ SITE.PartEdit.prototype.showEditor = function(show) {
     
     if(SITE.properties.partEdit.editor.visible) {
         this.editorWindow.setVisible(true);
-        document.getElementById('t2pI_showEditor').setAttribute('class', 'ico-folder-open' );
+        document.getElementById('a2pI_showEditor').setAttribute('class', 'ico-folder-open' );
     } else {
-        document.getElementById('t2pI_showEditor').setAttribute('class', 'ico-folder' );
+        document.getElementById('a2pI_showEditor').setAttribute('class', 'ico-folder' );
         this.editorWindow.setVisible(false);
     }
     this.resize();
@@ -3978,12 +4235,12 @@ SITE.PartEdit.prototype.showKeyboard = function(show) {
     if(SITE.properties.partEdit.keyboard.visible) {
         this.keyboardWindow.setVisible(true);
         this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
-        document.getElementById('t2pI_showMap').setAttribute('class', 'ico-folder-open' );
+        document.getElementById('a2pI_showMap').setAttribute('class', 'ico-folder-open' );
         this.posicionaTeclado();
     } else {
         this.accordion.render_opts.show = false;
         this.keyboardWindow.setVisible(false);
-        document.getElementById('t2pI_showMap').setAttribute('class', 'ico-folder' );
+        document.getElementById('a2pI_showMap').setAttribute('class', 'ico-folder' );
     }
 };
 
@@ -4039,7 +4296,7 @@ SITE.PartEdit.prototype.a2pCallback = function( e ) {
             this.closePartEdit(true);
             break;
         case 'HELP':
-            //this.mapa.showHelp('HelpTitle', 'PartEditTitle', '/diatonic-map/html5/geradorPartitura.pt_BR.html', { width: '1024', height: '600' } );
+            //this.mapa.showHelp('HelpTitle', 'PartEditTitle', '/diatonic-map/html/geradorPartitura.pt_BR.html', { width: '1024', height: '600' } );
             alert( 'Not implemented yet!' );
     }
 };
@@ -4097,9 +4354,14 @@ SITE.PartEdit.prototype.parseABC = function(text, transpose) {
 
     var warnings = abcParser.getWarnings() || [];
 
-    if(this.renderedTune.title)
+    if(this.renderedTune.title) {
         this.editorWindow.container.setSubTitle('- ' + this.renderedTune.abc.metaText.title );
-    else
+        if( ! this.GApartEdit || this.GApartEdit !== this.renderedTune.abc.metaText.title ) {
+            this.GApartEdit = this.renderedTune.abc.metaText.title;
+            SITE.ga('send', 'event', 'Mapa5', 'partEdit', this.GApartEdit );
+        }
+        
+    }else
         this.editorWindow.container.setSubTitle( "" );
 
     if ( this.midiParser ) {
@@ -4119,20 +4381,6 @@ SITE.PartEdit.prototype.parseABC = function(text, transpose) {
 };        
 
 SITE.PartEdit.prototype.printABC = function() {
-    
-//    this.abcDiv.innerHTML = this.renderedTune.text.replace(/\n/g,'\<br\>');
-//   
-//    var warns = this.abcParser.getWarnings();
-//    
-//    if(warns) {
-//        this.warningsDiv.innerHTML = warns;
-//        this.warningsDiv.style.color = 'red';
-//    } else {
-//        this.warningsDiv.innerHTML = 'Partitura gerada com sucesso!';
-//        this.warningsDiv.style.color = 'green';
-//    }
-//    
-//    this.parseABC();
     
     this.renderedTune.div.innerHTML = "";
     
@@ -4217,6 +4465,19 @@ SITE.PartEdit.prototype.salvaPartitura = function() {
     }
 };
 
+SITE.PartEdit.prototype.carregaPartitura = function(evt) {
+    var that = this;
+    FILEMANAGER.loadLocalFiles( evt, function() {
+      that.doCarregaPartitura(FILEMANAGER.files);
+      evt.target.value = "";
+    });
+};
+
+SITE.PartEdit.prototype.doCarregaPartitura = function(file) {
+    this.editorWindow.setString(file[0].content);
+    this.fireChanged();
+};
+
 SITE.PartEdit.prototype.blockEdition = function( block ) {
     this.editorWindow.setReadOnly(!block);
     this.editorWindow.container.dispatchAction('READONLY');
@@ -4281,7 +4542,7 @@ SITE.PartEdit.prototype.getDemoText = function() {
     return '\
 X: 1\n\
 T:Oh! Susannah\n\
-F:http://flvani.github.io/diatonic-map/img/susannah.tablatura.png\n\
+F:/diatonic-map/images/susannah.tablatura.png\n\
 M:2/4\n\
 L:1/4\n\
 Q:100\n\
@@ -4377,9 +4638,9 @@ SITE.TabGen = function( mapa, interfaceParams ) {
     this.tabEditorWindow.container.setButtonVisible( 'REFRESH', false);
     this.tabEditorWindow.keySelector.setVisible(false);
     
-    this.saveButton = document.getElementById(interfaceParams.saveBtn);
     this.updateButton = document.getElementById(interfaceParams.updateBtn);
     this.openButton = document.getElementById(interfaceParams.openBtn);
+    this.saveButton = document.getElementById(interfaceParams.saveBtn);
     
     this.updateButton.addEventListener("click", function() {
         that.fireChanged();
@@ -4407,7 +4668,7 @@ SITE.TabGen.prototype.setup = function(abcText) {
     
     this.setVisible(true);
     this.abcEditorWindow.setString(abcText);
-        this.abcEditorWindow.container.dispatchAction('READONLY');
+    this.abcEditorWindow.container.dispatchAction('READONLY');
     
     if(SITE.properties.tabGen.abcEditor.floating) {
         if( SITE.properties.tabGen.abcEditor.maximized ) {
@@ -4432,6 +4693,7 @@ SITE.TabGen.prototype.setup = function(abcText) {
         this.tabEditorWindow.container.dispatchAction('POPIN');
     }
     
+    this.tabEditorWindow.container.dispatchAction('READONLY');
     this.tabEditorWindow.restartUndoManager();
     this.resize();
 };
@@ -4729,6 +4991,13 @@ ABCXJS.Tab2Part.prototype.addLine = function (ll) {
 
 ABCXJS.Tab2Part.prototype.parseStaff = function () {
     var staffs = this.idStaff();
+    
+    if(!staffs){
+        this.addWarning('Linha Ínvalida: ['+(this.currLine+1)+'] --> "' + this.tabLines[this.currLine] + '"' );
+        this.hasErrors = true;
+        return;
+    }
+    
     var st = 1; // 0 - fim; 1 - barra; 2 dados; - 1 para garantir a entrada
     var cnt = 1000; // limite de saida para o caso de erro de alinhamento do texto
     while( st > 0 && --cnt ) {
@@ -4742,7 +5011,11 @@ ABCXJS.Tab2Part.prototype.parseStaff = function () {
                 this.addBar(staffs, staffs[0].token.str );
                 break;
             case 2:
-                this.addNotes(staffs);
+                if(staffs[0].token.type==='triplet'){
+                    this.addTriplet(staffs, staffs[0].token.str);
+                } else {
+                    this.addNotes(staffs);
+                }
                 break;
         }
     } 
@@ -4771,6 +5044,20 @@ ABCXJS.Tab2Part.prototype.addBar = function (staffs, bar ) {
             this.setStaffState(staffs[i]);
         }
     }
+};
+
+ABCXJS.Tab2Part.prototype.addTriplet = function ( staffs, triplet ) {
+    
+    if( triplet.charAt(0) === '(' ) {
+        this.addTrebleElem(triplet + ' ' );
+    }
+    
+    this.addTabElem(triplet + ' ' );
+    
+    for( var i = 0; i < staffs.length; i ++ ) {
+        this.setStaffState(staffs[i]);
+    }
+    
 };
 
 ABCXJS.Tab2Part.prototype.addNotes = function(staffs) {
@@ -5119,6 +5406,10 @@ ABCXJS.Tab2Part.prototype.idStaff = function () {
         this.currLine++;
     }
     
+    if(p.length===0) {
+        return null;
+    }
+    
     // verifica o alinhamento das barras
     var k=0, l;
     while((l=(this.tabLines[maiorLinha].substr(k+1).indexOf("|")))>0) {
@@ -5191,9 +5482,11 @@ ABCXJS.Tab2Part.prototype.posiciona = function(staffs) {
 
 ABCXJS.Tab2Part.prototype.read = function(staffs) {
     var st = 0, ret = 0;
+    
+    this.endByTriplet = false; // marca o final de todos os elementos da coluna, visto que o triplet está acabando aqui
+    
     for( var j = 0; j < staffs.length; j ++ ) {
         var source = staffs[j];
-
         switch( source.st ) {
             case "waiting for data":
                 source.token = this.getToken(source);
@@ -5308,11 +5601,20 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
             tokens.push( token );
             strToken += token;
         }
-        if( this.barEnding || ll.pos >= this.tabLines[ll.l].length || this.spaces.indexOf( this.tabLines[ll.l].charAt(this.endColumn)) < 0 ) {
+        
+        var endingChar = this.tabLines[ll.l].charAt(this.endColumn);
+        var endInSpace = this.spaces.indexOf( endingChar ) >= 0;
+        
+        if( endingChar === ')' || endingChar === '(' ) {
+            this.endByTriplet = true;
+        }
+            
+        if( this.barEnding || ll.pos >= this.tabLines[ll.l].length || !endInSpace ) {
             afinal = true;
         }
     }
     staff.hasToken = strToken.trim().length !== 0;
+    
     //determina o tipo de token
     if( staff.hasToken  ) {
         if( syms.indexOf( strToken.charAt(0) )>= 0 ) {
@@ -5521,7 +5823,7 @@ ABCXJS.Part2Tab = function () {
         , ":|]" : "bar_right_repeat"
     };
     
-    this.validBasses = 'abcdefgABCDEFGz>';
+    this.validBasses = 'abcdefgABCDEFGz>+-';
     this.startSyms = "[|:";
     this.spaces = "\ \t";
     
@@ -5545,6 +5847,8 @@ ABCXJS.Part2Tab.prototype.init = function () {
     this.currBar = 0;
     this.warnings = [];
     this.inTab = false;
+    this.lastParsed = { notes: undefined, tabLine: undefined };
+    this.finalTabLines = [];
 };
 
 ABCXJS.Part2Tab.prototype.parse = function (text, keyboard ) {
@@ -5562,6 +5866,20 @@ ABCXJS.Part2Tab.prototype.parse = function (text, keyboard ) {
         }
     }
     
+    // each parsed line is stored in finalTabLines array
+    var tabL = this.finalTabLines;
+    
+    for(var t =0; t < tabL.length; t++ ) {
+        this.addLine( tabL[t].basses);
+        for( var r =0; r <tabL[t].close.length; r++){
+            this.addLine( tabL[t].close[r]);
+        }
+        for( var r =0; r <tabL[t].open.length; r++){
+            this.addLine( tabL[t].open[r]);
+        }
+        this.addLine( tabL[t].duration+'\n');
+    }
+        
     return this.tabText;
 };
 
@@ -5602,15 +5920,8 @@ ABCXJS.Part2Tab.prototype.parseLine = function () {
         }  
     } else {
         if( this.inTab ) {
-           var tabL =this.parseTab(); 
-           this.addLine( tabL.basses);
-           for( var r =0; r <tabL.close.length; r++){
-               this.addLine( tabL.close[r]);
-           }
-           for( var r =0; r <tabL.open.length; r++){
-               this.addLine( tabL.open[r]);
-           }
-           this.addLine( tabL.duration+'\n');
+           //Salva as linhas para inserção ao final - há relações inter linhas
+           this.finalTabLines.push( this.parseTab() );
         }
     }
 };
@@ -5627,7 +5938,7 @@ ABCXJS.Part2Tab.prototype.parseTab = function () {
     var cnt = 1000; // limite de saida para o caso de erro de alinhamento do texto
     while( line.tokenType > 0 && --cnt ) {
         
-        this.getToken(line);
+        this.getToken(line, tabline);
 
         switch(line.tokenType){
             case 1: // bar
@@ -5636,11 +5947,14 @@ ABCXJS.Part2Tab.prototype.parseTab = function () {
             case 2: // note
                 this.addNotes(tabline, line);
                 break;
+            case 3: // triplet
+                this.addTriplet(tabline, line);
+                break;
         }
     } 
     
     if( line.tokenType < 0 ) {
-        this.addWarning('Encontrados simbolos inválidos na linha ('+this.currLine+','+line.posi+') .');
+        this.addWarning('Encontrados símbolos inválidos na linha ('+(this.currLine+1)+','+(line.posi+1)+') .');
         this.hasErrors = true;
     }
     if( ! cnt ) {
@@ -5674,53 +5988,69 @@ ABCXJS.Part2Tab.prototype.addBar = function (tabline, token) {
     
 };
 
+ABCXJS.Part2Tab.prototype.addTriplet = function(tabline, line) {
+    var l = line.currToken.length+1;
+    
+    tabline.basses += line.currToken + ' ';
+    
+    for(var r=0; r < tabline.open.length; r++){
+        tabline.open[r] +=  line.currToken + ' ';
+    }
+    for(var r=0; r < tabline.close.length; r++){
+        tabline.close[r] +=  line.currToken + ' ';
+    }
+    
+    tabline.sparring += rpad( ' ', ' ', l);
+    tabline.duration += rpad( ' ', ' ', l);
+    
+    tabline.pos += l;
+};
+
 ABCXJS.Part2Tab.prototype.addNotes = function(tabline, line) {
     
     var parsedNotes = line.parsedNotes;
-//    if( parsedNotes.empty ){
-//      var x =1;  
-//    };
     
-    if( parsedNotes.empty &&  (line.parsedNotes.bas.trim().length === 0 || line.parsedNotes.currBar !== line.lastParsedNotes.currBar )) {
-        line.lastParsedNotes.currBar = line.parsedNotes.currBar;
-        var lastNotes = line.lastParsedNotes.notes;
+    if( parsedNotes.empty &&  (line.parsedNotes.bas.trim().length === 0 || line.parsedNotes.currBar !== this.lastParsed.notes.currBar )) {
+        this.lastParsed.notes.currBar = line.parsedNotes.currBar;
+        var lastNotes = this.lastParsed.notes.notes;
+        var lastTabline = this.lastParsed.tabLine;
         if(parsedNotes.closing) {
-            var i = tabline.close[0].lastIndexOf( lastNotes[0] ) + line.lastParsedNotes.maxL;
-            for(var r=0; r < tabline.close.length; r++){
-               var str = tabline.close[r];
+            var i = lastTabline.close[0].lastIndexOf( lastNotes[0] ) + this.lastParsed.notes.maxL;
+            for(var r=0; r < lastTabline.close.length; r++){
+               var str = lastTabline.close[r];
                 if(r<parsedNotes.notes.length) {
                     var n = str.lastIndexOf(lastNotes[r]);
-                    tabline.close[r] = str.slice(0, n) + str.slice(n).replace(lastNotes[r],lastNotes[r]+'-');
+                    lastTabline.close[r] = str.slice(0, n) + str.slice(n).replace(lastNotes[r],lastNotes[r]+'-');
                 } else {
-                    tabline.close[r] = str.slice(0, i) +' '+ str.slice(i); 
+                    lastTabline.close[r] = str.slice(0, i) +' '+ str.slice(i); 
                 }
             }
-            for(var r=0; r < tabline.open.length; r++){
-                var str = tabline.open[r];
-                tabline.open[r] = str.slice(0, i) +' '+ str.slice(i); 
+            for(var r=0; r < lastTabline.open.length; r++){
+                var str = lastTabline.open[r];
+                lastTabline.open[r] = str.slice(0, i) +' '+ str.slice(i); 
             }
         } else {
-            var i = tabline.open[0].lastIndexOf( lastNotes[0] ) + line.lastParsedNotes.maxL;
-            for(var r=0; r < tabline.open.length; r++){
-               var str = tabline.open[r];
+            var i = lastTabline.open[0].lastIndexOf( lastNotes[0] ) + this.lastParsed.notes.maxL;
+            for(var r=0; r < lastTabline.open.length; r++){
+               var str = lastTabline.open[r];
                 if(r<parsedNotes.notes.length) {
                     var n = str.lastIndexOf(lastNotes[r]);
-                    tabline.open[r] = str.slice(0, n) + str.slice(n).replace(lastNotes[r],lastNotes[r]+'-');
+                    lastTabline.open[r] = str.slice(0, n) + str.slice(n).replace(lastNotes[r],lastNotes[r]+'-');
                 } else {
-                    tabline.open[r] = str.slice(0, i) +' '+ str.slice(i); 
+                    lastTabline.open[r] = str.slice(0, i) +' '+ str.slice(i); 
                 }
             }
-            for(var r=0; r < tabline.close.length; r++){
-                 var str = tabline.close[r];
-                tabline.close[r] = str.slice(0, i) +' '+ str.slice(i); 
+            for(var r=0; r < lastTabline.close.length; r++){
+                 var str = lastTabline.close[r];
+                lastTabline.close[r] = str.slice(0, i) +' '+ str.slice(i); 
             }
         }
-        tabline.duration = tabline.duration.slice(0, i) +' '+ tabline.duration.slice(i); 
-        tabline.sparring = tabline.sparring.slice(0, i) +' '+ tabline.sparring.slice(i); 
-        tabline.basses = tabline.basses.slice(0, i) +' '+ tabline.basses.slice(i); 
-        line.parsedNotes = window.ABCXJS.parse.clone(line.lastParsedNotes);
+        lastTabline.duration = lastTabline.duration.slice(0, i) +' '+ lastTabline.duration.slice(i); 
+        lastTabline.sparring = lastTabline.sparring.slice(0, i) +' '+ lastTabline.sparring.slice(i); 
+        lastTabline.basses = lastTabline.basses.slice(0, i) +' '+ lastTabline.basses.slice(i); 
+        line.parsedNotes = window.ABCXJS.parse.clone(this.lastParsed.notes);
         parsedNotes.notes = lastNotes;
-        parsedNotes.maxL = Math.max( parsedNotes.maxL, line.lastParsedNotes.maxL );
+        parsedNotes.maxL = Math.max( parsedNotes.maxL, this.lastParsed.notes.maxL );
     }
     
     var l = parsedNotes.maxL+1;
@@ -5818,18 +6148,30 @@ ABCXJS.Part2Tab.prototype.getNotes = function (strBass, strNote, closing) {
 };
 
 ABCXJS.Part2Tab.prototype.parseNotes = function( token) {
-    var v,notes;
-    if( token.indexOf('+')>0){
-        v= token.split('+');
-       notes=this.getNotes(v[0],v[1], true);
-    } else {
-        v= token.split('-');
-        notes=this.getNotes(v[0],v[1], false );
+    var v, notes, closing = false;
+    
+    //padroniza sintaxe quando o baixo inexistente significa pausa.
+    if( token.charAt(0) === '+' || token.charAt(0) === '-') {
+        token = 'z' + token;
     }
+    
+    if( token.indexOf('+') > 0 ){
+       v = token.split('+');
+       closing = true;
+    }
+    
+    if( token.indexOf('-') > 0 ){
+        v = token.split('-');
+    }
+    
+    if( ! v ) return null;
+    
+    notes = this.getNotes(v[0],v[1], closing);
+    
     return notes;
 };
 
-ABCXJS.Part2Tab.prototype.getToken = function(line) {
+ABCXJS.Part2Tab.prototype.getToken = function(line, tabline ) {
     var found = false;
     var c = '';
     
@@ -5851,6 +6193,8 @@ ABCXJS.Part2Tab.prototype.getToken = function(line) {
                 line.tokenType = 1; // bar
             } else if(this.validBasses.indexOf( c )>=0)  {
                 line.tokenType = 2; // note
+            } else if(c==="(" || c===")" )  {
+                line.tokenType = 3;
             } else if(this.startSyms.indexOf( c )<0)  {
                 line.tokenType = -1;
             }
@@ -5862,6 +6206,7 @@ ABCXJS.Part2Tab.prototype.getToken = function(line) {
                     }
                     break;
                 case 2:
+                case 3:
                     if(c.match(/(\||\:)/g)){
                         found=true; continue;
                     }
@@ -5877,7 +6222,8 @@ ABCXJS.Part2Tab.prototype.getToken = function(line) {
     
     if(found && line.tokenType===2) {
         if( line.parsedNotes !== undefined && ! line.parsedNotes.empty ) {
-            line.lastParsedNotes = line.parsedNotes;
+            this.lastParsed.notes = line.parsedNotes;
+            this.lastParsed.tabLine = tabline;
         }
         line.parsedNotes = this.parseNotes( line.currToken ) ;
         if( line.parsedNotes === null ) {
@@ -5905,4 +6251,305 @@ ABCXJS.Part2Tab.prototype.skipEmptyLines = function () {
 
 ABCXJS.Part2Tab.prototype.addLine = function (ll) {
     this.tabText += ll + '\n';
+};
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+if (!window.SITE)
+    window.SITE = {};
+
+SITE.Repertorio = function() {
+    this.accordion = new window.ABCXJS.tablature.Accordion({
+        accordionMaps: DIATONIC.map.accordionMaps
+       ,translator: SITE.translator 
+       ,render_keyboard_opts:{
+            transpose:true
+           ,mirror:false
+           ,scale:1
+           ,draggable:false
+           ,show:true
+           ,label:false
+       }
+    });
+};
+
+// Esta rotina foi criada como forma de verificar todos warnings de compilacao do repertório
+SITE.Repertorio.prototype.compileAll = function() {
+
+    for(var a = 0; a <this.accordion.accordions.length; a ++ ) {
+        this.accordion.load( a );
+        var abcParser = new ABCXJS.parse.Parse( null, this.accordion );
+        var midiParser = new ABCXJS.midi.Parse();
+
+        waterbug.log(this.accordion.loaded.id);
+        
+        for (var title in this.accordion.loaded.songs.items ) {
+
+            waterbug.log(title);
+
+            abcParser.parse( this.accordion.loaded.songs.items[title] );
+
+            var w = abcParser.getWarnings() || [];
+            var l = w.length;
+
+            for (var j=0; j<w.length; j++) {
+                waterbug.logError( '   ' + w[j]);
+            }
+
+            var tune = abcParser.getTune();
+
+            midiParser.parse( tune, this.accordion.loadedKeyboard );
+            var w = midiParser.getWarnings();
+            l += w.length;
+            for (var j=0; j<w.length; j++) {
+                waterbug.logError( '   ' + w[j]);
+            }
+
+            waterbug.log(l > 0 ? '': '--> OK' );
+            waterbug.log( '' );
+        }
+    }
+    
+    waterbug.show();    
+    
+};        
+
+// gerar repertório indexado
+SITE.Repertorio.prototype.geraIndex = function( map ) {
+
+    var lista  = null;
+    var club   = false;
+    var repertorio = { geral: [], transportada: [], corona: [], portuguesa: [] };
+    
+    for(var a = 0; a < this.accordion.accordions.length; a ++ ) {
+        this.accordion.load( a );
+        //var abcParser = new ABCXJS.parse.Parse( null, accordion );
+
+        club = false;
+        
+        switch(this.accordion.loaded.id) {
+             case 'GAITA_HOHNER_CLUB_IIIM_BR':
+                club = true;
+             case 'GAITA_MINUANO_GC':
+                lista = repertorio.geral;
+                break;
+             case 'GAITA_HOHNER_CORONA_II':
+                lista = repertorio.corona;
+                break;
+             case 'CONCERTINA_PORTUGUESA':
+                lista = repertorio.portuguesa;
+                break;
+             case 'GAITA_MINUANO_BC_TRANSPORTADA':
+                lista = repertorio.transportada;
+                break;
+        }
+         
+        for (var t in this.accordion.loaded.songs.items ) {
+
+            var title = t.replace( '(corona)', '' ).replace( '(club)', '' ).replace( '(transportada)', '' ).replace( '(portuguesa)', '' ).trim();
+            var composer = this.accordion.loaded.songs.details[t].composer;
+            var id = this.accordion.loaded.songs.details[t].id;
+
+            if( ! club ) {
+                lista.push ( {title:title, composer:composer, geral: id, club: 0 } );
+            } else {
+                var idx = -1, l = 0;
+                while( idx === -1 && l < lista.length  ) {
+                    if( lista[l].title === title ) idx = l;
+                    l ++;
+                }
+                if( idx !== -1 ) {
+                    lista[idx].club = id;
+                } else {
+                    lista.push ( {title:title, composer:composer, geral: 0, club: id } );
+                }
+            }
+        }
+    }
+
+    var ordenador = function(a,b) { 
+        if (a.title < b.title)
+          return -1;
+        if ( a.title > b.title)
+          return 1;
+        return 0; 
+    };
+
+    repertorio.geral.sort( ordenador );    
+    repertorio.transportada.sort( ordenador );    
+    repertorio.corona.sort( ordenador );    
+
+    var h = '\
+<html>\n\
+    <head>\n\
+        <title>Mapa para acordões diatônicos - Repertório indexado</title>\n\
+        <meta charset="UTF-8">\n\
+        <meta name="robots" content="index,follow">\n\
+        <meta name="revisit-after" content="7 days">\n\
+        <meta name="keywords" content="diatonic accordion, notation, learning, practice, repertoire, abc tunes, midi, tablature \
+acordeão diatônico, gaita de oito baixos, gaita ponto, notação musical, aprendizagem, prática, repertorio, notação abc, tablatura ">\n\
+        <style>\n\
+            h1 {font-family: Arial; font-size: 40px; line-height:10x; margin:3px; }\n\
+            h2 {font-family: Arial; font-size: 30px; line-height:10x; margin:3px; }\n\
+            h3 {font-family: Arial; font-size: 20px; line-height:10x; margin:3px; }\n\
+            p {font-family: Arial; font-size: 15px; line-height:10x; margin:3px; margin-bottom: 10px; }\n\
+            .credit {font-style: italic; }\n\
+            .destaque {font-style: italic; font-weight: bold;}\n\
+            table.interna {border-collapse: collapse; width:calc(100% - 10px); min-width:'+(map?450:650)+'px; max-width:1024px; margin:3px; }\n\
+            table.interna tr {font-family: Arial; background: #dfdfdf;}\n\
+            table.interna th {background: blue; color: white; text-align: left; padding: 3px;}\n\
+            table.interna td {text-align: left; padding: 3px;}\n\
+            table.interna img { width: 40px;}\n\
+            table.interna .par {background: #c0c0c0;}\n\
+            table.interna .center {text-align: center;}\n\
+            table.interna .title {font-weight:bold;}\n\
+            table.interna .composer {font-style:italic;}\n\
+        </style>\n\
+    </head>\n\
+<body>\n\
+<br>\n';
+                    
+if( ! map ) {
+h += '\
+<h1>Mapa para acordões diatônicos</h1>\n\
+<p class="credit">Desenvolvido por: <span class="destaque">Flávio Vani</span>\n\
+<br>Coordenação musical: <span class="destaque">prof. Cezar Ferreira</span></p>\n\
+<p>Esta página apresenta, em ordem alfabética, todo o repertório do site. O site é composto de partituras para acordeão diatônico com \n\
+tablaturas.</p>\n\
+<p><span class="destaque">Nota: </span>Clique no checkmark verde (à direita) para abrir o site na partitura com o acordeão selecionado.</p>\n\
+';
+}
+
+h += '<h2>Repertório Geral</h2>\n\
+<h3>Tablaturas para acordeão G/C e/ou Club IIIM</h3>\n\
+<table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">G/C</th><th class="center">C/F  Club(br)</th></tr>\n\
+';
+    
+    for( var r = 0; r < repertorio.geral.length; r ++ ) {
+        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
+                +'<td class="title" >'+repertorio.geral[r].title+'</td>'
+                + (map? '\n': '<td class="composer" >'+repertorio.geral[r].composer+'</td>\n' )
+                +'<td class="center">' + this.makeAnchor( map, 'GAITA_MINUANO_GC', repertorio.geral[r].geral  ) 
+                +'</td>\n<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CLUB_IIIM_BR', repertorio.geral[r].club ) 
+                +'</td></tr>\n';
+    }
+    
+    h += '\
+</table>\n\
+<br><h2>Transportada</h2>\n\
+<h3>Tablaturas para acordeão Transportado</h3>\n\
+<table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">B/C</th></tr>\n\
+';
+                    
+    for( var r = 0; r < repertorio.transportada.length; r ++ ) {
+        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
+            +'<td class="title" >'+repertorio.transportada[r].title+'</td>'
+            + (map? '\n': '<td class="composer" >'+repertorio.transportada[r].composer+'</td>\n')
+            +'<td class="center">' + this.makeAnchor( map, 'GAITA_MINUANO_BC_TRANSPORTADA', repertorio.transportada[r].geral ) 
+            +'</td></tr>\n';
+    }
+    
+    h += '\
+</table>\n\
+<br><h2>Portuguesa</h2>\n\
+<h3>Tablaturas para Concertina Portuguesa em sistema diatônico italiano </h3>\n\
+<table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">G/C/F</th></tr>\n\
+';
+                    
+    for( var r = 0; r < repertorio.portuguesa.length; r ++ ) {
+        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
+            +'<td class="title" >'+repertorio.portuguesa[r].title+'</td>'
+            + (map? '\n': '<td class="composer" >'+repertorio.portuguesa[r].composer+'</td>\n')
+            +'<td class="center">' + this.makeAnchor( map, 'CONCERTINA_PORTUGUESA', repertorio.portuguesa[r].geral ) 
+            +'</td></tr>\n';
+    }
+    
+    h += '\
+</table>\n\
+<br><h2>Corona</h2>\n\
+<h3>Tablaturas para acordeão Corona II A/D/G</h3>\n\
+<table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">A/D/G</th></tr>\n\
+';
+                    
+    for( var r = 0; r < repertorio.corona.length; r ++ ) {
+        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
+            +'<td class="title" >'+repertorio.corona[r].title+'</td>'
+            + (map? '\n': '<td class="composer" >'+repertorio.corona[r].composer+'</td>\n')
+            +'<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_II', repertorio.corona[r].geral ) 
+            +'</td></tr>\n';
+    }
+    
+    h += '\
+</table>\n\
+<br>\n\
+</body>\n\
+</html>\n\
+';
+
+    if( map ){
+        var novo = ! this.win;
+        if( novo ) {
+            this.win = new DRAGGABLE.ui.Window( 
+                  map.mapDiv
+                , null
+                , {translator: SITE.translator, statusbar: false, draggable: true, 
+                    top: "10px", left: "800px", width: 'auto', height: "80%", title: 'IDXREPERTOIRE'}
+                , null 
+            );
+            this.win.dataDiv.className = "draggableData customScrollBar";
+        }
+        this.win.setVisible(true);
+        
+        this.win.dataDiv.innerHTML = h;
+        
+        if(novo) {
+            
+            var x = window.innerWidth - this.win.topDiv.clientWidth - 12;
+            this.win.topDiv.style.left = (x<0?0:x) + 'px';
+            
+        }
+        
+        this.bindSongs(this.win.dataDiv, map );
+        
+    } else {
+        FILEMANAGER.download( 'repertorio.indexado.pt_BR.html', h );
+    }
+};        
+
+SITE.Repertorio.prototype.makeAnchor = function( map, accordionId, songId  ) {
+    var path = '/diatonic-map/';
+    var anchor = '<img alt="nao" src="/diatonic-map/images/nao.png" >';
+    if( songId > 0 ) {
+        if( map ) {
+            anchor = '<img alt="sim" src="/diatonic-map/images/sim.png" data-song="'+accordionId+'#'+songId+'" >';
+        } else {
+            anchor = '<a href="'+path+'?accordion='+accordionId+'&id='
+                        +songId+'"><img alt="sim" src="/diatonic-map/images/sim.png" ></a>';
+        }
+    }
+        
+    return anchor;
+};
+
+SITE.Repertorio.prototype.bindSongs = function( container, map ) { 
+    
+    var clickMe = function (e, item) {
+        e.stopPropagation();
+        e.preventDefault();
+        var data = item.getAttribute("data-song").split("#");
+        map.setup( {accordionId: data[0], songId: data[1] } );
+    };
+    
+    var songs = container.querySelectorAll('[data-song]');
+    var songsArray = Array.prototype.slice.apply(songs);
+    for( var i=0; i < songsArray.length; i ++ ) {
+        var item = songsArray[i];
+        item.addEventListener('touchstart', function (e) { clickMe( e, this ); } );
+        item.addEventListener('mouseover', function (e) { this.style.cursor='pointer'; } );
+        item.addEventListener('click', function (e) { clickMe( e, this ); } );
+    }
 };
