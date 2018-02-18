@@ -12,25 +12,25 @@ N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 Q:"Allegro" 1/4=220
 L:1/4
 M:3/4
-K:F
+K:Am
 V:melodia treble
-| z z A |: "Dm" d2 f | e d ^c | d2 A | d2 B |
-| "A7" A2 G | G F E | "Dm" F D2- | D z A :|: "Gm" B2 c |
-| d c B | "Dm" d2 A | d2 B | "A7" A2 G | G F E |
-|1 "Dm" F D2 - | D z A :|2 "Dm" E z d |: d e f |
-| "Gm" g e g | g f e | "Dm" a2 d | d e f | "Gm" g e g |
-| g f e |1 "Dm" d2 d :|2 "Dm" d z "A7" z | "Dm" z z2 |
+| z z E |: "Am" A2 c | B A ^G | A2 E | A2 F |
+| "E7" E2 D | D C B, | "Am" C A,2- | A, z E :|: "Dm" F2 G |
+| A G F | "Am" A2 E | A2 F | "E7" E2 D | D C B, |
+|1 "Am" C A,2 - | A, z E :|2 "Am" B, z A |: A B c |
+| "Dm" d B d | d c B | "Am" e2 A | A B c | "Dm" d B d |
+| d c B |1 "Am" A2 A :|2 "Am" A z "E7" z | "Am" z z2 |
 V:2 bass
-| z2 z |: D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] z | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] |
-| A,, [A,^CE] [A,^CE] | A,, [A,^CE] [A,^CE] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] :|: G,, [B,DF] [B,DF] |
-| G,, [B,DF] [B,DF] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | A,, [A,^CE] [A,^CE] | A,, [A,^CE] [A,^CE] |
-|1 D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] :|2 D,, [D,F,A,] [D,F,A,] |: D,, [D,F,A,] [D,F,A,] |
-| G,, [B,DF] [B,DF] | G,, [B,DF] [B,DF] | D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | G,, [B,DF] [B,DF] |
-| G,, [B,DF] [B,DF] |1 D,, [D,F,A,] [D,F,A,] :|2 [D,F,A,] z [A,^CE] | [D,F,A,] z2 |
+| z2 z |: A,, [A,CE] [A,CE] | A,, [A,CE] z | A,, [A,CE] [A,CE] | A,, [A,CE] [A,CE] |
+| E,, [E,^G,B,] [E,G,B,] | E,, [E,^G,B,] [E,G,B,] | A,, [A,CE] [A,CE] | A,, [A,CE] [A,CE] :|: D,, [D,F,A,] [D,F,A,] |
+| D,, [D,F,A,] [D,F,A,] | A,, [A,CE] [A,CE] | A,, [A,CE] [A,CE] | E,, [E,^G,B,] [E,G,B,] | E,, [E,^G,B,] [E,G,B,] |
+|1 A,, [A,CE] [A,CE] | A,, [A,CE] [A,CE] :|2 A,, [A,CE] [A,CE] |: A,, [A,CE] [A,CE] |
+| D,, [D,F,A,] [D,F,A,] | D,, [D,F,A,] [D,F,A,] | A,, [A,CE] [A,CE] | A,, [A,CE] [A,CE] | D,, [D,F,A,] [D,F,A,] |
+| D,, [D,F,A,] [D,F,A,] |1 A,, [A,CE] [A,CE] :|2 [A,CE] z [E,^G,B,] | [A,CE] z2 |
 V:3 accordionTab
-| z+z z+z z+4'' |: D-7' d-> d-8' | D-9 d-7' z+5'' | D-7' d-> d-7 | D-7' d-> d-4'' |
-| A+4'' a+> a+6 | A+6 a+3'' a+4' | D-4' d-3' d-> | D-> d-z d-5' :|: G-4'' b♭-> b♭+6' |
-| G+8 b♭+6' b♭-4'' | D-7' d-> d-7 | D-7' d-> d-4'' | A+4'' a+> a+6 | A+6 a+3'' a+4' |
-|1 D-4' d-3' d-> | D-> d-z d-5' :|2 D-5 d-z d-7' |: D-7' d-9 d-8' |
-| G+9 b♭+7' b♭+9 | G+9 b♭+6'' b♭+7' | D-9' d-> d-7' | D-7' d-9 d-8' | G+9 b♭+7' b♭+9 |
-| G+9 b♭+6'' b♭+7' |1 D-7' d-> d-7' :|2 d-7' z-z a-z | d-z z+z2 |
+| z+z z+z z-5 |: A-5' am-> am-8 | A-6' am-7 z+5' | A-5' am-> am-5 | A-5' am-> am-4' |
+| E+4' e+> e+5 | E+5 e+3' e+4 | A-4 am-3 am-> | A-> am-z am-5 :|: D-4' dm-> dm-3'' |
+| D-5' dm-3'' dm-4' | A-5' am-> am-5 | A-5' am-> am-4' | E+4' e+> e+5 | E+5 e+3' e+4 |
+|1 A-4 am-3 am-> | A-> am-z am-5 :|2 A-2' am-z am-5' |: A-5' am-6' am-8 |
+| D-7' dm-6' dm-7' | D-7' dm-8 dm-6' | A-9 am-> am-7 | A-7 am-6' am-8 | D-7' dm-6' dm-7' |
+| D-7' dm-8 dm-6' |1 A-5' am-> am-5' :|2 am-5' z-z e+z | am-z z-z2 |

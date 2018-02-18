@@ -365,7 +365,7 @@ ABCXJS.Part2Tab.prototype.getNotes = function (strBass, strNote, closing) {
     var t, n = [], d, nn, b, l = 0;
 
     //parse do baixo
-    b = strBass.match(/(A|B|C|D|E|F|G|z|>)[(♭|♯)]{0,1}/gi);
+    b = strBass.match(/(A|B|C|D|E|F|G|z|>)[(♭|♯|m)]{0,1}/gi);
     if (b.length < 1) {
         return null;
     } else {

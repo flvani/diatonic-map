@@ -369,7 +369,7 @@ ABCXJS.Tab2Part.prototype.handleBassNote = function (note) {
     
     if( note.charAt(note.length-1) === 'm' ){
         isMinor = true;
-        note = note.slice(0,-1);
+        //note = note.slice(0,-1);
     }
     if( note === note.toLowerCase() ) {
         isChord = true;
@@ -436,7 +436,7 @@ ABCXJS.Tab2Part.prototype.getPitch = function (el) {
 };
 
 ABCXJS.Tab2Part.prototype.getChord = function ( pitch, isMinor ) {
-    var p = ABCXJS.parse.normalizeAcc(pitch.toUpperCase());
+    var p = ABCXJS.parse.normalizeAcc(pitch.toUpperCase().replace('M',''));
     var base = ABCXJS.parse.key2number[p];
     
     if( !(base >= 0)  ) {
@@ -881,17 +881,20 @@ ABCXJS.Tab2Part.prototype.checkBass = function( b, opening ) {
     if( b === '-->' || !this.keyboard ) return false;
     if( b === 'z' ) return true;
     var kb = this.keyboard;
-    var nota = kb.parseNote(b, true );
+    var nota = kb.parseNote(b.replace("m", ":m"), true );
     for( var j = kb.keyMap.length; j > kb.keyMap.length - 2; j-- ) {
         for( var i = 0; i < kb.keyMap[j-1].length; i++ ) {
             var tecla = kb.keyMap[j-1][i];
-            if( (opening && tecla.openNote.key === nota.key)
-                || (!opening && tecla.closeNote.key === nota.key) ) {
+            if( (opening && tecla.openNote.key === nota.key && nota.isMinor === tecla.openNote.isMinor )
+                || (!opening && tecla.closeNote.key === nota.key && nota.isMinor === tecla.closeNote.isMinor ) ) {
                 return opening ? tecla.openNote: tecla.closeNote.key;      
             } 
         }   
     }
     return false;
+//            if(tecla.closeNote.key === nota.key  && nota.isMinor === tecla.closeNote.isMinor ) return tecla;
+//            if(tecla.openNote.key === nota.key && nota.isMinor === tecla.openNote.isMinor ) return tecla;
+    
 };
 
 ABCXJS.Tab2Part.prototype.toHex = function( s ) {

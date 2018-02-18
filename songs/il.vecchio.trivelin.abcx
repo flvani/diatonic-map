@@ -14,28 +14,28 @@ L:1/8
 Q:120
 K:G
 V:1 treble
-| z2 d2  |: +segno+ gg gg | f2 ed    | ff  ff       |
+| z2 d2  |: +segno+ "G" gg gg | "D7" f2 ed    | ff  ff       |
 w:    La | vec-chia tri-ve | li-na la | gà la vis-ta |
-| e2 dd          | ee  ed        | d2 cd | dd cc                |1 B2  d2  :|
+| "G" e2 dd          | ee  ed        | "D7" d2 cd | dd cc                |1 "G" B2  d2  :|
 w: cur-ta  e~an- | co-ra  la in- | sul-ta il | vec- chio tri-ve | lin  La |
-|2 B2 z2 |: d2  g2 | f2 z2 | dd ff | e2 z d |
+|2 "G" B2 z2 |: d2  g2 | "D7" f2 z2 | dd ff | "G" e2 z d |
 w: lin. No, no, | no!  No, co-sì, non | dà!  Il vec-chio tri-ve | lin  ro- | mai l'è mal cia- | pà! |
-| ee  ed         | d2 z c  | dd dc |1 B2 z2 :|2  B2 d2 +dasegno+ |
+| ee  ed         | "D7" d2 z c  | dd dc |1 "G" B2 z2 :|2 "G" B2 d2 +dasegno+ |
 w: vec-chio tri-ve | lin  ro- | mai l'è mal cia- | pà! | pà! La |
 V:2 bass
 %| z4 |:  C,, [C,E,G,] C,, [C,E,G,] |  G,, [G,B,D] G,, [G,B,D] | G,, [G,B,D] G,, [G,B,D] | 
 %| C,, [C,E,G,] C,, [C,E,G,] | C,, [C,E,G,] C,, [C,E,G,] | G,, [G,B,D] G,, [G,B,D] | G,, [G,B,D] G,, [G,B,D] |1 C,, [C,E,G,] C,, [C,E,G,] :|
 %|2 C,, [C,E,G,] C,, [C,E,G,] |: C,,2 [C,E,G,]2 | G,,3 [G,B,D] | G,, [G,B,D] G,, [G,B,D] | C,, [C,E,G,] C,, [C,E,G,] |
 %| C,, [C,E,G,] C,, [C,E,G,] | G,, [G,B,D] G,, [G,B,D] | G,, [G,B,D] G,, [G,B,D] |1 C,, [C,E,G,] C,, [C,E,G,] :|2 C,, [C,E,G,] C,, [C,E,G,] |
-| z4 |:  G,,2 [G,B,D]2 |  D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | 
-| G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 |1 G,,2 [G,B,D]2 :|
-|2 G,,2 [G,B,D]2 |: G,,2 [G,B,D]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,B,D]2 |
-| G,,2 [G,B,D]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 |1 G,,2 [G,B,D]2 :|2 G,,2 [G,B,D]2 |
+| z4 |:  G,, [G,B,D] E,, [G,B,D] |  D,, [D,F,A,] A,, [D,F,A,] | D,, [D,F,A,] A,, [D,F,A,] | 
+| G,, [G,B,D] E,, [G,B,D] | G,, [G,B,D] E,, [G,B,D] | D,, [D,F,A,] A,, [D,F,A,] | D,, [D,F,A,] A,, [D,F,A,] |1 G,, [G,B,D] E,, [G,B,D] :|
+|2 G,, [G,B,D] E,, [G,B,D] |: G,, [G,B,D] E,, [G,B,D] | D,, [D,F,A,] A,, [D,F,A,] | D,, [D,F,A,] A,, [D,F,A,] | G,, [G,B,D] E,, [G,B,D] |
+| G,, [G,B,D] E,, [G,B,D] | D,, [D,F,A,] A,, [D,F,A,] | D,, [D,F,A,] A,, [D,F,A,] |1 G,, [G,B,D] E,, [G,B,D] :|2 G,, [G,B,D] E,, [G,B,D] |
 V:3 accordionTab
-| z+z2 z+82 |: G+8' >+8' g+8' >+8' | D-a2 d-9 >-7' | D-a >-a d-a >-a |
-| G+7'2 g+8 >+8 | G+7' >+7' g+7' >+8 | D-7'2 d-8 >-7' | D-7' >-7' d-8 >-8 |1 G+72 g+82 :|
-|2 G+72 g+z2 |: G+82 g+92 | D-a2 d-z2 | D-7' >-7' d-a >-a | G+7'2 g+z >+8 |
-| G+7' >+7' g+7' >+8 | D-7'2 d-z >-8 | D-7' >-7' d-7' >-8 |1 G+72 g+z2 :|2 G+72 g+82 |
+| z+z2 z+82 |: G+8' g+8' E+8' g+8' | D-a d-> A-9 d-7' | D-a d-a A-a d-a |
+| G+7' g+> E+8 g+8 | G+7' g+7' E+7' g+8 | D-7' d-> A-8 d-7' | D-7' d-7' A-8 d-8 |1 G+7 g+> E+8 g+> :|
+|2 G+7 g+> E+z g+z |: G+8 g+> E+8' g+> | D-a d-> A-z d-z | D-7' d-7' A-a d-a | G+7' g+> E+z g+8 |
+| G+7' g+7' E+7' g+8 | D-7' d-> A-z d-8 | D-7' d-7' A-7' d-8 |1 G+7 g+> E+z g+z :|2 G+7 g+> E+8 g+> |
 W:/: La vecchia trivelina la gà la vista curta e ancora la insulta, il vecchio trivelin. :/
 W:
 W:REFRÃO:
@@ -46,3 +46,4 @@ W:/: REFRÃO :/
 W:
 W:/: Il vecchio trivelin romai non sona più quella bella musicheta, sol và vardar Gesù. :/
 W:/: REFRÃO :/
+

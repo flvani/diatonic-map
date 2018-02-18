@@ -1,6 +1,10 @@
 ### TO DO NEXT RELEASE ####################################################################################
+- 1) Garantir, no caso de dois baixos iguais (que os pares corretos sejam usados).
+    Ex: Ré Maior e Ré menor em Vira, portugesa
 
-- Escrever o sinal de menos junto com a acorde menor na partitura
+- 2) Tentar evitar o uso de simbolos UTF8 na tablatura ('♯♭')
+    O problema é que usar "b" para bemol vai confundir com o acorde de Si (b).
+    
 
 - Tradução 
     - Traduzir mensagens de erro???
@@ -46,3 +50,6 @@ Editarea
 - Remover o nome do acordeão no menu que lista o repertorio para cada gaita.
 
 - Janela de midia: Ajustar altura de PDF
+
+- Escrever o sinal de menos junto com a acorde menor na partitura
+

@@ -400,8 +400,12 @@ DIATONIC.map.Keyboard.prototype.getButtons = function (note) {
 };
 
 DIATONIC.map.Keyboard.prototype.getNoteVal = function ( note ) {
-    //noteVal will be a numeric product of the key + octave (to avoid #/b problem)
-    return ABCXJS.parse.key2number[note.key.toUpperCase()] + (note.isBass?(note.isChord?-12:0):note.octave*12);
+    //noteVal sera um numero. 
+    //Notas serão = key + octave * 12 (to avoid #/b problem)
+    //Baixos serão = 0 a 11
+    //Acordes Maiores de -12 a -1
+    //Acordes menores de -24 a -13
+    return ABCXJS.parse.key2number[note.key.toUpperCase()] + (note.isBass?(note.isChord?(note.isMinor?-24:-12):0):note.octave*12);
 };
 
 DIATONIC.map.Keyboard.prototype.getLayout = function (r) {

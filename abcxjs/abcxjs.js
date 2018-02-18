@@ -11637,14 +11637,19 @@ ABCXJS.midi.Parse.prototype.setSelection = function(tabElem) {
 ABCXJS.midi.Parse.prototype.getBassButton = function( bellows, b ) {
     if( b === 'x' ||  !this.midiTune.keyboard ) return null;
     var kb = this.midiTune.keyboard;
-    var nota = kb.parseNote(b, true );
+    
+    // há uma pequena conversão: na tablatura registramos os acordes menores com "m"
+    // no mapeamento da gaita, escrevemos a1:m, por exemplo.
+    // então trocar "m" por ":m"
+    var nota = kb.parseNote(b.replace( "m", ":m" ), true );
+    
     for( var j = kb.keyMap.length; j > kb.keyMap.length - 2; j-- ) {
       for( var i = 0; i < kb.keyMap[j-1].length; i++ ) {
           var tecla = kb.keyMap[j-1][i];
           if(bellows === '+') {
-            if(tecla.closeNote.key === nota.key ) return tecla;
+            if(tecla.closeNote.key === nota.key  && nota.isMinor === tecla.closeNote.isMinor ) return tecla;
           } else {  
-            if(tecla.openNote.key === nota.key ) return tecla;
+            if(tecla.openNote.key === nota.key && nota.isMinor === tecla.openNote.isMinor ) return tecla;
           }
       }   
     }
@@ -13616,7 +13621,7 @@ ABCXJS.tablature.Accordion.prototype.getNoteName = function( item, keyAcc, barAc
     
     if (item.chord) key = key.toLowerCase();    
     
-    return { key: key, octave:oitava, isBass:bass, isChord: item.chord, value:value };
+    return { key: key, octave:oitava, isBass:bass, isChord: item.chord, isMinor: item.minor, value:value };
 };
 
 ABCXJS.tablature.Accordion.prototype.inferTablature = function(tune, vars, addWarning ) {
@@ -13729,7 +13734,7 @@ ABCXJS.tablature.Parse = function( accordion, str, vars ) {
     this.durSyms = "0123456789/.";
     this.belSyms = "+-";
     this.barSyms = ":]|[";
-    this.accSyms = "♭♯";
+    this.accSyms = "♭♯m"; // neste caso, "m" representa o acorde-baixo-menor
     this.i = 0;
     this.xi = 0;
     this.offset = 8.9;
@@ -13982,7 +13987,10 @@ ABCXJS.tablature.Parse.prototype.checkBassButton = function( bellows, b ) {
     
     if( !kb  || b === undefined || ('.>.x.z.').indexOf(b) > 0 ) return true;
     
-    var nota = kb.parseNote(b, true );
+    // há uma pequena conversão: na tablatura registramos os acordes menores com "m"
+    // no mapeamento da gaita, escrevemos a1:m, por exemplo.
+    // então trocar "m" por ":m"
+    var nota = kb.parseNote(b.replace( "m", ":m" ), true );
     for( var j = kb.keyMap.length; j > kb.keyMap.length - 2; j-- ) {
       for( var i = 0; i < kb.keyMap[j-1].length; i++ ) {
           var tecla = kb.keyMap[j-1][i];
@@ -14407,9 +14415,19 @@ ABCXJS.tablature.Infer.prototype.extraiIntervalo = function(voices) {
             ABCXJS.write.sortPitch(elem.pitches);
             if( voices[i].bass ) {
                 //todo: tratar adequadamente os acordes
-                var isChord = elem.pitches.length>1;
-                elem.pitches.splice(1, elem.pitches.length - 1);
-                elem.pitches[0].chord=isChord;
+                var v = [];
+                for( var j = 0; j < elem.pitches.length; j ++  ) {
+                  var note = this.accordion.getNoteName(elem.pitches[j], this.accBassKey, this.bassBarAcc, true);
+                  v[j] = note.value + note.octave*12;
+                }
+                var b = this.determineBassChord( v );
+                if( b.isChord ) {
+                    elem.pitches[0].pitch =  elem.pitches[b.inversion].pitch;
+                    elem.pitches[0].verticalPos =  elem.pitches[b.inversion].verticalPos;
+                    elem.pitches[0].chord = b.isChord;
+                    elem.pitches[0].minor = b.isMinor;
+                    elem.pitches.splice(1, elem.pitches.length - 1);
+                }
                 wf.bassNote[wf.bassNote.length] = ABCXJS.parse.clone(elem.pitches[0]);
             } else {
                 for( var j = 0; j < elem.pitches.length; j ++  ) {
@@ -14450,6 +14468,45 @@ ABCXJS.tablature.Infer.prototype.extraiIntervalo = function(voices) {
     return wf;
     
 };
+
+ABCXJS.tablature.Infer.prototype.determineBassChord = function(deltas) {
+  var ret = {isChord:false, isMinor:false, inversion:0};
+  
+  //Considerando a formação de acordes, com relação ao intervalo de semitons, podemos dizer que:
+  // Um acorde maior é formado por sua tonica (0) + a terça maior (+4 semitons) + a quinta justa (+3 semitons),
+  // assim o acorde Dó maior, C-E-G é 043. Dó menor, C-Eb-G será 034
+  // as inversões (1) G-c-e e (2) E-G-c e também podem ser representadas por estes mnemonicos
+  var aDeltas = {
+     '043': { isMinor: false, inversion:0 } 
+    ,'034': { isMinor: true,  inversion:0 } 
+    ,'035': { isMinor: false, inversion:2 } 
+    ,'045': { isMinor: true,  inversion:2 } 
+    ,'054': { isMinor: false, inversion:1 } 
+    ,'053': { isMinor: true,  inversion:1 } 
+  };
+  
+  switch(deltas.length) {
+      case 1: 
+          break;
+      case 2: 
+          this.addWarning('Acorde não reconhecido: ' + '0' + (deltas[1]-deltas[0]) + '.');
+          break;
+      case 3:
+          var map = '0' + (deltas[1]-deltas[0]) + (deltas[2]-deltas[1]);
+          try{
+              ret = {isChord:true, isMinor:aDeltas[map].isMinor, inversion:aDeltas[map].inversion};
+          } catch(e) {
+            this.addWarning('Acorde não reconhecido: ' + map + '.');
+          }
+          break;
+      default:
+          this.addWarning('Acorde com mais de 3 notas não é suportado.');
+          break;
+  }
+  
+  return ret;
+};
+
 
 ABCXJS.tablature.Infer.prototype.setTies = function(voice) {
     if(voice.wi.el_type && voice.wi.el_type === "note" && voice.wi.pitches )  {
@@ -14560,7 +14617,7 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token, line ) {
                 item.buttons = this.accordion.loadedKeyboard.getButtons(note);
                 baixoOpen  = baixoOpen  ? typeof (item.buttons.open) !== "undefined" : false;
                 baixoClose = baixoClose ? typeof (item.buttons.close) !== "undefined" : false;
-                item.note = note.key;
+                item.note = note.key + (note.isMinor?"m":"");
                 item.c =  (item.buttons.close || item.buttons.open) ? ( item.inTie ?  'scripts.rarrow': item.note ) :  'x';
                 child.pitches[b] = item;
                 this.registerLine(child.pitches[b].c === 'scripts.rarrow' ? '>' : child.pitches[b].c);
@@ -14889,7 +14946,7 @@ ABCXJS.tablature.Layout.prototype.printTabNote = function(elem) {
                 rel.c = '';
             }
         } else {
-            rel.c = curr.c;
+            rel.c = curr.c.replace('m', '-');
             rel.note = curr.note;
             rel.type = curr.type;
         }
