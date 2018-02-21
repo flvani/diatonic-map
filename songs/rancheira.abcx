@@ -3,6 +3,7 @@
 %%papersize A4
 %%pagenumbering
 %%staffsep 20
+%%tabinferenceopts +2
 T:Rancheira
 C:Tradicional
 M:3/4

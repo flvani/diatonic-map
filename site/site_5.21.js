@@ -6385,6 +6385,7 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
     repertorio.geral.sort( ordenador );    
     repertorio.transportada.sort( ordenador );    
     repertorio.corona.sort( ordenador );    
+    repertorio.portuguesa.sort( ordenador );    
 
     var h = '\
 <html>\n\

@@ -1,0 +1,35 @@
+X:2042
+%%barnumbers 0
+%%papersize A4
+%%tabinferenceopts +2
+%%barsperstaff 5
+T:Minha Terra (club)
+C:Mano Lima
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:4/4
+L:1/8
+Q:100
+K:F
+V:1 clef=treble stem=up
+| z FG F EF GA | B2- [dB]6 | B2- [dB]6 | 
+| d2- [bd]6 | d2- [bd]6 | d2- [bd]6 | 
+| B2 c2 B2 G2 | A2- [fA]6 | c2- [ac]6 | 
+| c2- [ac]6 | B2- [gB] z A2- [fA]2 | G2- [eG]6 | 
+| B2- [gB]6 | C6 E2 | G2 A2 c2 d2 | 
+| f2- [fcA]6 | z8 | 
+V:2 clef=bass
+[V:2]| F,,z2 [F,A,C] F,,2 [F,A,C]2 | B,,3 [B,DF] B,,2 [B,DF]2 | B,,3 [B,DF] B,,2 [B,DF]2 | 
+| B,,3 [B,DF] B,,2 [B,DF]2 | B,,3 [B,DF] B,,2 [B,DF]2 | B,,3 [B,DF] B,,2 [B,DF]2 | 
+| B,,3 [B,DF] B,,2 [B,DF]2 | F,,3 [F,A,C] F,,2 [F,A,C]2 | F,,3 [F,A,C] F,,2 [F,A,C]2 | 
+| F,,3 [F,A,C] F,,2 [F,A,C]2 | D,,3 [D,,F,,A,,] D,,2 [D,,F,,A,,]2 | C,,3 [C,E,G,] C,,2 [C,E,G,]2 | 
+| C,,3 [C,E,G,] C,,2 [C,E,G,]2 | C,,3 [C,E,G,] C,,2 [C,E,G,]2 | C,,3 [C,E,G,] C,,2 [C,E,G,]2 | 
+| F,,3 [F,A,C] F,,2 [F,A,C]2 | F,,8 | 
+V:3 clef=accordionTab
+| F+z z+4' z+6 f+4' F+5 >+4' f+6 >+5' | B♭-5'2 >-8 b♭-> B♭->2 b♭->2 | B♭-5'2 >-8 b♭-> B♭->2 b♭->2 | 
+| B♭-82 >-9' b♭-> B♭->2 b♭->2 | B♭-82 >-9' b♭-> B♭->2 b♭->2 | B♭-82 >-9' b♭-> B♭->2 b♭->2 | 
+| B♭-5'2 >-6' b♭-> B♭-5'2 b♭-4'2 | F+5'2 >+7' f+> F+>2 f+>2 | F+6'2 >+8' f+> F+>2 f+>2 | 
+| F+6'2 >+8' f+> F+>2 f+>2 | D-5'2 >-8' d-z D-62 d-92 | C-4'2 >-7' c-> C->2 c->2 | 
+| C-5'2 >-8' c-> C->2 c->2 | C-2'3 c-> C->2 c-3'2 | C-4'2 >-6 c-> C-6'2 c-82 | 
+| F+7'2 >+[5'6'] f+[>>] F+[>>]2 f+[>>]2 | F+z8 | 

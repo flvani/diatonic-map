@@ -1,0 +1,60 @@
+X:2044
+%%barnumbers 0
+%%papersize A4
+%%pagenumbering
+%%barsperstaff 8
+T:Paraíba Masculina (club)
+C:Luiz Gonzaga & Humberto Teixeira
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/69rv13vRK98
+M:2/4
+L:1/16
+Q:100
+K:C
+V:1 treble
+|: [egc']8 | [ceg]8 | [cea]8 | [Gce]8 | [Ag]6 [Gc]2 | [Ad]2[Ac] 2 [AF]2[Ac]2  |1 [EGc]8 | [GBd]8 :|
+|2 [EGc]4 z "C" G2c | e2g2 g2g2 | g3e e2e2 | d2c2 B2^A2 | "Dm" A4 z F2A | d2f2 f2f2 |
+w:* * Quando * a~la-ma vi-rou pe-dra e man-da-ca-ru se-cou, quando * o ri-ba-ção
+| f3d "G7" d2c2 | B2B2 A2A2 | "C" G4 z e2g | d2c2 e2g2 | "C7" d3c- cd2c | d2c2 d2e2 |
+w:de se-de  ba-teu asa e vo-ou, foi aí que eu vim m'em-bo-ra, car-re-gan-do a mi-nha 
+| "F" f4 z d2e | "Fm" fd2e fe2d  | "C" ee2c A2G2 | c'2e'c' "G7" a2c'a | "F" g2ag e2 z2 |
+w: dor. Hoje eu mando * um abraço * pra ti, pe-que-ni-na!  
+|: "C" G2G2 c2c2 | e2e2 "Dm" d2d2 | f2f2 "G7" e2e2 | d2d2 "C" c4 :|
+w: Pa-ra-í-ba, mas-cu-li-na, mu-lher ma-cho, sim, se-nhor!
+| "C" e3c- cG2B | A3G- Gc2B | A2G2 c2A2 | "Dm" B8 |
+w:Ei-tá, * pau pe-rei-ra, * Qu'em Prin-ce-sa já ron-cou!
+| f3d- dB2d | "G7" c3B- Bd2d | B2B2 A2A2 | "C" G8 |
+w:Ei-tá, * pa-ra-í-ba, mu- * lher ma-cho, sim, se-nhor!
+| e3c- cG2B | A3G- Gc2d | e3e1 d3c1 | "F"  A4 z d2e |
+w:Ei-tá, * pau pe-rei-ra, * meu bo-do-que não que-brou. Hoje eu 
+| "Fm" fd2e fe2d  | "C" ee2c A2G2 | c'2e'c' "G7" a2c'a | "F" g2ag e2 z2 |
+w: mando * Um abraço * pra ti, pe-que-ni-na! 
+|: "C" G2G2 c2c2 | e2e2 "Dm" d2d2 | f2f2 "G7" e2e2 | d2d2 "C" c4 :|
+w: Pa-ra-í-ba, mas-cu-li-na, mu-lher ma-cho, sim, se-nhor!
+|: "C" [egc']8 | [ceg]8 | [cea]8 | [Gce]8 | "F7" [Ag]6 [Gc]2 | [Ad]2[Ac] 2 [AF]2[Ac]2  |1  "C" [EGc]8 | [GBd]8 :|2  [EGc]8- | [EGc]4 z4 |
+w: Ei-tá! Ei-tá! Mu-ié macho, * sim se-nhor! * nhor!
+V:2 bass
+|:z8|z8|z8|z8|z8|z8|1 z8|z8:|
+|2 z4 z4 | C,,3[C,E,G,] C,,2[C,E,G,]2 | C,,2[C,E,G,] 2 C,,2[C,E,G,]2 |C,,3[C,E,G,]  C,,2[C,E,G,]2 | D,,2[D,F,A,] 2 D,,3[D,F,A,] | D,,2[D,F,A,] 2 D,,2[D,F,A,]2 |
+|D,,3[D,F,A,] G,,2[G,B,D]2 | G,,2[G,B,D] 2 G,,2[G,B,D] 2  | C,,2[C,E,G,] 2  C,,3[C,E,G,] |C,,2[C,E,G,] 2  C,,2[C,E,G,]2 | C,,3[C,E,G,]   C,,2[C,E,G,]2 | C,,2[C,E,G,] 2  C,,2[C,E,G,]2 |
+| F,,2[F,A,C] 2 D,,3[F,A,C]| D,,3[F,A,C]  F,,2[F,A,C] z| C,,3[C,E,G,] C,,2[C,E,G,]2| C,,2[C,E,G,] 2 G,,2[G,B,D] 2 | F,,2[F,A,C] 2 F,,2[F,A,C] 2 |
+|: C,,3[C,E,G,]  C,,2[C,E,G,]2|C,,2[C,E,G,] 2 D,,3[D,F,A,]  | D,,2[D,F,A,] 2 G,,3[G,B,D] | G,,2[G,B,D] 2 C,,3[C,E,G,] :|
+| C,,3[C,E,G,]  C,,2[C,E,G,]2|C,,2[C,E,G,] 2 C,,2[C,E,G,] 2|C,,3[C,E,G,] C,,2[C,E,G,] 2| D,,2[D,F,A,] 2 D,,2[D,F,A,]2 |
+|D,,3[D,F,A,] D,,2[D,F,A,]2 | G,,3[G,B,D] G,,2[G,B,D] 2|G,,2[G,B,D] 2 G,,2[G,B,D] 2| C,,2[C,E,G,] 2 C,,2[C,E,G,] 2|
+|C,,2[C,E,G,] 2 C,,2[C,E,G,] 2|C,,2[C,E,G,] 2 C,,2[C,E,G,] 2|C,,2[C,E,G,] 2 C,,2[C,E,G,] 2| F,,2[F,A,C] 2 D,,3[F,A,C]|
+| D,,3[F,A,C]  F,,2[F,A,C] z| C,,3[C,E,G,] C,,2[C,E,G,]2| C,,2[C,E,G,] 2 G,,2[G,B,D] 2 | F,,2[F,A,C] 2 F,,2[F,A,C] 2 |
+|: C,,3[C,E,G,]  C,,2[C,E,G,]2|C,,2[C,E,G,] 2 D,,3[D,F,A,]  | D,,2[D,F,A,] 2 G,,3[G,B,D] | G,,2[G,B,D] 2 C,,3[C,E,G,] :|
+|: C,,3[C,E,G,] C,,2[C,E,G,]2| C,,2[C,E,G,] 2 C,,2[C,E,G,]2 | C,,3[C,E,G,] C,,2[C,E,G,]2 | C,,2[C,E,G,] 2 C,,2[C,E,G,]2 | F,,3[F,A,C] F,,2[F,A,C] 2 | D,,2[F,A,C] 2 F,,2[F,A,C] 2 |1 C,,3[C,E,G,] C,,2[C,E,G,]2| C,,2[C,E,G,] 2 C,,2[C,E,G,]2 :|2 C,,2[C,E,G,] 2 C,,4- | C,,4 z4 |
+V:3 accordionTab
+|: z+[899']8 | z-[6'7'8']8 | z+[788']8 | z-[4'6'7']8 | z+[5'9]6 z+[66']2 | z-[68]2 z-[66']2 z-[56]2 z-[66']2 |1 z+[566']8 | z-[4'78]8 :| 
+|2 z+[566']4 z+z z+62 z+6' | C-7'2 >-8' c-> C-8'2 c-8'2 | C+92 c+> >+8 C+82 c+82 | C-82 >-6' c-> C-72 c-5'2 | D-62 d->2 D-z >-52 d-6 | D-82 d-92 D-92 d-92 | 
+| D-93 d-8 G-82 g-6'2 | G-72 g-72 G-62 g-62 | C+62 c+>2 C+z >+82 c+9 | C-82 c-6'2 C-7'2 c-8'2 | C-83 c-6' C-> >-8 c-> >-6' | C-82 c-6'2 C-82 c-7'2 | 
+| F+7'2 f+>2 D-z >-82 f+8 | D-9 >-82 f+8 F+7' >+8 f+> z-8 | C-7' >-7'2 c-6' C-62 c-4'2 | C+9'2 c+b >+a G-a2 g-a' >-a | F+92 f+8' >+9 F+82 f+z2 | 
+|: C+62 >+6 c+> C+6'2 c+6'2 | C-7'2 c-7'2 D-82 >-8 d-> | D-92 d-92 G-7'2 >-7' g-> | G-82 g-82 C+73 c+> :| 
+| C+83 c+7 C+> >+6 c+> >-7 | C-62 c-> >-4' C-> >-6' c-> >-7 | C+5'2 >+6 c+> C+6'2 c+5'2 | D-72 d->2 D->2 d->2 | 
+| D-93 d-8 D-> >-7 d-> >-8 | G-6'3 g-7 G-> >-8 g-> >-8 | G-72 g-72 G-62 g-62 | C+62 c+>2 C+>2 c+>2 | 
+| C+82 c+> >+7 C+> >+6 c+> >-7 | C-62 c-> >-4' C-> >-6' c-> >-8 | C+82 c+> >+8 C-82 c-> >-6' | F+5'2 f+>2 D-z >-82 f+8 | 
+| D-9 >-82 f+8 F+7' >+8 f+> z-8 | C-7' >-7'2 c-6' C-62 c-4'2 | C+9'2 c+b >+a G-a2 g-a' >-a | F+92 f+8' >+9 F+82 f+z2 | 
+|: C+62 >+6 c+> C+6'2 c+6'2 | C-7'2 c-7'2 D-82 >-8 d-> | D-92 d-92 G-7'2 >-7' g-> | G-82 g-82 C+73 c+> :| 
+|: C+[899']3 c+[>>>] C+[>>>]2 c+[>>>]2 | C-[6'7'8']2 c-[>>>]2 C-[>>>]2 c-[>>>]2 | C+[788']3 c+[>>>] C+[>>>]2 c+[>>>]2 | C-[4'6'7']2 c-[>>>]2 C-[>>>]2 c-[>>>]2 | F+[5'9]3 f+[>>] F+[>>]2 f+[66']2 | D-[68]2 f+[5'6']2 F+[4'5']2 f+[5'6']2 |1 C+[566']3 c+[>>>] C+[>>>]2 c+[>>>]2 | C-[4'78]2 c-[>>>]2 C-[>>>]2 c-[>>>]2 :|2 C+[566']2 c+[>>>]2 C+[>>>]4 | >+[>>>]4 z-z4 | 

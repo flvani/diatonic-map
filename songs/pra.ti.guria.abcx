@@ -17,12 +17,12 @@ V:1 treble
 | e-[eGB]3 z0.5 d0.5c0.5B0.5 | Ae2 BAG | F3 afe |1 B4 bg :|2 B4 z2 | 
 |: [P:Parte II] z [B,G] [CA][DB] E0.5c0.5 =F0.5d0.5 | [dF]3 [fA] z2 | z [dF][fA] [gB][ac] [bd] | [ac]3 d0.5g0.5 b2 | z [bd] [ac][gB] [fA][Ge] | 
 | [dF][Ec] [DB][CA] [B,G][A,F] | z E DF z0.5 E0.5D0.5C0.5 |1 B,5 z :|2 B,4 bg !dasegno!| 
-V:2 bass
+V:2 bass stem=up
 | z3 |: G,,[G,B,D] G,,[G,B,D] z2 | D,,[D,F,A,] D,,[D,F,A,] D,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z | G,,[G,B,D] G,,[G,B,D] G,, z | 
 | E,,[G,B,D] E,,[G,B,D] E,,0.5 z1.5 | A,,[A,CE] A,,[A,CE] A,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z |1 G,,[G,B,D] G,,[G,B,D] G,, z :|2 G,,[G,B,D] G,,[G,B,D] G,, z | 
 |: G,,[G,B,D] G,,[G,B,D] G,,0.5 z1.5 | D,,[D,F,A,] D,,[D,F,A,] E,,2 | D,,[D,F,A,] D,,[D,F,A,] D,, z | G,,[G,B,D] G,,[G,B,D] G,, z | G,,[G,B,D] G,,[G,B,D] G,, z | 
 | D,,[D,F,A,] D,,[D,F,A,] D,, z | D,,[D,F,A,] D,,[D,F,A,] D,,0.5 z1.5 |1 G,,[G,B,D] G,,[G,B,D] G,, z :|2 G,,[G,B,D] G,,[G,B,D] G,, z | 
-V:3 bass 
+V:3 bass stem=down
 | x3 |: x3 E,, x2 | x6 | x6 | x6 |
 | x6 | x6 | x6 |1 x6 :|2 x6 |
 |: x6 | x6 | x6 | x6 | x6 |

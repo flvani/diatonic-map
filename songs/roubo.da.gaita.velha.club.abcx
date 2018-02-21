@@ -1,0 +1,28 @@
+X:2047
+%%barnumbers 0
+%%barsperstaff 5
+%%papersize A4
+T:Roubo da Gaita Velha (club)
+C:José Mendes
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:2/4
+L:1/8
+Q:100
+K:C
+V:1 treble
+| z G,G,G, |:+segno+ FG,/2G,/2 EC | DG, G,G, | EG,/2G,/2 DG, |1 CG, G,G, :|2 C z aa | 
+| aa ag | ag gg | gg gf | 
+| fe ff |: ff fe | ed ee | 
+| ee dd |1 c z ff :|2 cG, G,G, +dasegno+| 
+V:2 bass
+| z4 |: C,,1.5[C,E,G,]/2 C,,[C,E,G,] | G,,1.5[G,B,D]/2 G,,[G,B,D] | G,,1.5[G,B,D]/2 G,,[G,B,D] |1 C,,1.5[C,E,G,]/2 C,,[C,E,G,] :|2 C,,1.5[C,E,G,]/2 C,,[C,E,G,] | 
+| C,,1.5[C,E,G,]/2 C,,[C,E,G,] | G,,1.5[G,B,D]/2 G,,[G,B,D] | G,,1.5[G,B,D]/2 G,,[G,B,D] | 
+| C,,1.5[C,E,G,]/2 C,,[C,E,G,] |: C,,1.5[C,E,G,]/2 C,,[C,E,G,] | G,,1.5[G,B,D]/2 G,,[G,B,D] | 
+| G,,1.5[G,B,D]/2 G,,[G,B,D] |1 C,,1.5[C,E,G,]/2 C,,[C,E,G,] :|2 C,,1.5[C,E,G,]/2 C,,[C,E,G,] | 
+V:3 accordionTab
+| z+z z+3 z+3 z+3 |: C+4' >+30.5 c+30.5 C+5 c+4 | G-4 >-20.5 g->0.5 G-2 g-2 | G-3' >-20.5 g-20.5 G-4 g-2 |1 C+4 >+30.5 c+>0.5 C+3 c+3 :|2 C+41.5 c+z0.5 C+8' c+8' | 
+| C+8' >+8'0.5 c+>0.5 C+8' c+9 | G-a >-8'0.5 g->0.5 G-8' g-8' | G-8' >-8'0.5 g->0.5 G-8' g-9 | 
+| C+7' >+80.5 c+>0.5 C+7' c+7' |: C+7' >+7'0.5 c+>0.5 C+7' c+8 | G-7' >-80.5 g->0.5 G-7' g-7' | 
+| G-7' >-7'0.5 g->0.5 G-8 g-8 |1 C+71.5 c+z0.5 C+7' c+7' :|2 C+7 >+30.5 c+>0.5 C+3 c+3 | 

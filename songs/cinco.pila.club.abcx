@@ -1,0 +1,26 @@
+﻿X:2039
+%%barnumbers 0
+%%papersize A4
+%%pagenumbering
+T:Cinco Pila (club)
+C:Recolhido do folclore por Tio Bilia
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/LFcan9OYkQ8
+M:2/4
+L:1/8
+Q:160
+K:C
+V:1 treble
+|: a2 gf | [eg]2 z2 | [eg]2 z2 | [df]2 z2 | g2 fe | [df]2 z2 | [df]2 z2 | [ce]2 z2 :| 
+|: z (4 cefg | [ac']2 z2 | [ac']2 z2 | [gb]2 ag | fe fg | [gb]2 z2 | [fa]2 z2 | [eg]2 ag | 
+| ff ef | [eg]2 z2 | [eg]2 z2 | [df]2 Bd | ef ga | [gb]2 ag | ff ed | c2 [eg]2 :| 
+V:2 bass
+|: C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | C,,2 [C,E,G,]2 :| 
+|: C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | C,,2 [C,E,G,]2  | 
+|  C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | C,,2 [C,E,G,]2 :| 
+V:3 accordionTab
+|: C+8'2 c+9 >+7' | C+[89]2 c+z2 | C+[89]2 c+z2 | G-[89]2 g-z2 | G-8'2 g-9 >-7' | G-[89]2 g-z2 | G-[89]2 g-z2 | C+[78]2 c+z2 :| 
+|: C+z (4 >+7 c+8 >+7' >+9 ) | C+[8'a]2 c+z2 | C+[8'a]2 c+z2 | G-[8'b]2 g-a >-8' | G-9 >-7' g-9 >-8' | G-[8'b]2 g-z2 | G-[9a]2 g-z2 | C+[89]2 c+8' >+9 | 
+| C+7' >+7' c+8 >+7' | C+[89]2 c+z2 | C+[89]2 c+z2 | G-[89]2 g-7 >-8 | G-7' >-9 g-8' >-a | G-[8'b]2 g-a >-8' | G-9 >-9 g-7' >-8 | C+72 c+[89]2 :| 
