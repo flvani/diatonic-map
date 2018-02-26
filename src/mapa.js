@@ -1514,6 +1514,7 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
                 if( info ) info.innerHTML=SITE.siteVersion;
                 that.iframe.style.height = this.contentDocument.body.clientHeight+"px";
                 that.helpWindow.topDiv.style.opacity = "1";
+                that.helpWindow.dataDiv.style.overflow = "hidden";
                 loader.stop();
             });
         }
