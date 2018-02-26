@@ -9,6 +9,8 @@ if (!window.SITE)
 
 SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
 
+    document.body.style.overflow = 'hidden';
+    
     var that = this;
     this.ypos = 0; // esta variável é usada para ajustar o scroll durante a execução do midi
     this.lastStaffGroup = -1; // também auxilia no controle de scroll
@@ -228,6 +230,13 @@ SITE.Mapa.prototype.resize = function() {
     var h = (winH - s1.clientHeight - (s2.clientHeight - this.tuneContainerDiv.clientHeight) -78 -14 -2 ); 
     
     this.tuneContainerDiv.style.height = Math.max(h,200) +"px";
+    
+    this.renderedTune.div.style.height = (Math.max(h,200)-5) +"px";
+    (this.renderedTune.ps) && this.renderedTune.ps.update();
+    this.renderedChord.div.style.height = (Math.max(h,200)-5) +"px";
+    (this.renderedChord.ps) && this.renderedChord.ps.update();
+    this.renderedPractice.div.style.height = (Math.max(h,200)-5) +"px";
+    (this.renderedPractice.ps) && this.renderedPractice.ps.update();
     
     this.media.posiciona();
 
@@ -640,18 +649,18 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
 };
 
 SITE.Mapa.prototype.setScrolling = function(player) {
-    if( !this.tuneContainerDiv || player.currAbsElem.staffGroup === this.lastStaffGroup ) return;
+    if( !this.activeTab || player.currAbsElem.staffGroup === this.lastStaffGroup ) return;
     
     this.lastStaffGroup = player.currAbsElem.staffGroup;
     
     var fixedTop = player.printer.staffgroups[0].top;
-    var vp = this.tuneContainerDiv.clientHeight - fixedTop;
+    var vp = this.activeTab.div.clientHeight - fixedTop;
     var top = player.printer.staffgroups[player.currAbsElem.staffGroup].top-12;
     var bottom = top + player.printer.staffgroups[player.currAbsElem.staffGroup].height;
 
     if( bottom > vp+this.ypos || this.ypos > top-fixedTop ) {
         this.ypos = top;
-        this.tuneContainerDiv.scrollTop = this.ypos;    
+        this.activeTab.div.scrollTop = this.ypos;    
     }
 };
 
@@ -995,6 +1004,17 @@ SITE.Mapa.prototype.renderTAB = function( tab ) {
     
     tab.printer.addSelectListener(this);
     this.accordion.clearKeyboard(true);
+    
+    tab.ps = new PerfectScrollbar( tab.div, {
+        handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
+        wheelSpeed: 1,
+        wheelPropagation: false,
+        suppressScrollX: false,
+        minScrollbarLength: 100,
+        swipeEasing: true,
+        scrollingThreshold: 500
+    });
+    
     
 };
 
@@ -1357,8 +1377,8 @@ SITE.Mapa.prototype.printPreview = function (html, divsToHide, landscape ) {
 
         this.changePageOrientation(landscape? 'landscape': 'portrait');
 
-        dv.style.display = 'block';
         dv.innerHTML = html;
+        dv.style.display = 'block';
 
         var printMedia = window.matchMedia( 'print' );
         
@@ -1371,12 +1391,11 @@ SITE.Mapa.prototype.printPreview = function (html, divsToHide, landscape ) {
                 divsToHide.forEach( function( div ) {
                     var hd = document.getElementById(div.substring(1));
                     hd.style.opacity = 1;
-                    
                 });
             }
         });
         
-        window.print();
+        window.setTimeout( function () { window.print(); }, 200 );
         
     }    
 };
@@ -1451,6 +1470,7 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
     
     this.helpWindow.dataDiv.innerHTML = '<object data="'+url+'" type="text/html" ></object>';
     this.iframe = this.helpWindow.dataDiv.getElementsByTagName("object")[0];
+    
     var loader = this.startLoader( "About" );
     
     this.iframe.style.width = options.width+"px";
@@ -1463,15 +1483,29 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
             that.iframe.addEventListener("load", function () { 
                 that.helpWindow.topDiv.style.opacity = "1";
                 that.iframe.style.height = options.height+"px";
-                loader.stop();
-                //this.contentDocument.body.className+="customScrollBar";
+                
                 var header = this.contentDocument.getElementById('helpHeader');
+                var frm = this.contentDocument.getElementById('helpFrame');
                 var container = this.contentDocument.getElementById('helpContainer');
                 if( header ) header.style.display = 'none';
+                if( frm ) frm.style.overflow = 'hidden';
                 if( container ) {
                     container.style.top = '0';
+                    container.style.height = (options.height-18)+"px";;
+                    container.style.overflow = 'hidden';
                     container.style.border = '1px solid rgba(255, 153, 34, 0.2)';
+                    var v = new PerfectScrollbar( container, {
+                        handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
+                        wheelSpeed: 1,
+                        wheelPropagation: false,
+                        suppressScrollX: false,
+                        minScrollbarLength: 100,
+                        swipeEasing: true,
+                        scrollingThreshold: 500
+                    });
                 }
+                
+                loader.stop();
             });    
         } else { // auto determina a altura
             that.iframe.addEventListener("load", function () { 

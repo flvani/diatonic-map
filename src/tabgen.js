@@ -193,6 +193,7 @@ SITE.TabGen.prototype.resize = function( ) {
     
     this.Div.topDiv.style.height = Math.max(h,200) +"px";
     this.Div.topDiv.style.width = Math.max(w,400) +"px";
+    
 };
 
 SITE.TabGen.prototype.updateSelection = function (force) {

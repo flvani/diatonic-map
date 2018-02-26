@@ -88,7 +88,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
 
     this.studioCanvasDiv = document.createElement("DIV");
     this.studioCanvasDiv.setAttribute("id", interfaceParams.studioCanvasDiv );
-    this.studioCanvasDiv.setAttribute("class", "studioCanvasDiv customScrollBar" );
+    this.studioCanvasDiv.setAttribute("class", "studioCanvasDiv" );
    
     this.canvasDiv = document.createElement("DIV");
     this.canvasDiv.setAttribute("id", canvas_id);
@@ -98,6 +98,16 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.renderedTune.div = this.canvasDiv;
     
     this.Div.dataDiv.appendChild(this.studioCanvasDiv);
+    
+    this.ps = new PerfectScrollbar( this.studioCanvasDiv, {
+        handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
+        wheelSpeed: 1,
+        wheelPropagation: false,
+        suppressScrollX: false,
+        minScrollbarLength: 100,
+        swipeEasing: true,
+        scrollingThreshold: 500
+    });
     
     
     if( interfaceParams.onchange ) {
@@ -411,6 +421,8 @@ SITE.Estudio.prototype.resize = function( ) {
     
     this.posicionaTeclado();
     this.editorWindow.resize();
+    
+    (this.ps) && this.ps.update();
     
 };
 

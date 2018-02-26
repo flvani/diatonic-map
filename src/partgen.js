@@ -135,6 +135,17 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     
     this.Div.dataDiv.appendChild(this.studioCanvasDiv);
     
+    this.ps = new PerfectScrollbar( this.studioCanvasDiv, {
+        handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
+        wheelSpeed: 1,
+        wheelPropagation: false,
+        suppressScrollX: false,
+        minScrollbarLength: 100,
+        swipeEasing: true,
+        scrollingThreshold: 500
+    });
+    
+    
    // this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
     //this.printButton = document.getElementById(interfaceParams.printBtn);
     
@@ -343,6 +354,9 @@ SITE.PartGen.prototype.resize = function( ) {
     
     //this.posicionaTeclado();
     this.editorWindow.resize();
+    
+    (this.ps) && this.ps.update();
+    
 };
 
 //SITE.PartGen.prototype.posicionaTeclado = function() {
@@ -481,7 +495,11 @@ SITE.PartGen.prototype.fireChanged = function() {
         this.warningsDiv.innerHTML = "";
         this.abcDiv.innerHTML = "";
         this.renderedTune.div.innerHTML = "";
+        delete this.renderedTune.abc.midi;
     }   
+    
+    this.resize();
+
 };
 
 SITE.PartGen.prototype.printABC = function() {

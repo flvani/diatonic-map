@@ -133,7 +133,7 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
     var h = '\
 <html>\n\
     <head>\n\
-        <title>Mapa para acordões diatônicos - Repertório indexado</title>\n\
+        <title>Mapa para Acordões Diatônicos - Repertório Indexado</title>\n\
         <meta charset="UTF-8">\n\
         <meta name="robots" content="index,follow">\n\
         <meta name="revisit-after" content="7 days">\n\
@@ -148,13 +148,15 @@ acordeão diatônico, gaita de oito baixos, gaita ponto, notação musical, apre
             .destaque {font-style: italic; font-weight: bold;}\n\
             table.interna {border-collapse: collapse; width:calc(100% - 10px); min-width:'+(map?450:650)+'px; max-width:1024px; margin:3px; }\n\
             table.interna tr {font-family: Arial; background: #dfdfdf;}\n\
+            table.interna tr:nth-child(even) { background-color:  #c0c0c0; }\n\
             table.interna th {background: blue; color: white; text-align: left; padding: 3px;}\n\
             table.interna td {text-align: left; padding: 3px;}\n\
             table.interna img { width: 40px;}\n\
-            table.interna .par {background: #c0c0c0;}\n\
             table.interna .center {text-align: center;}\n\
             table.interna .title {font-weight:bold;}\n\
             table.interna .composer {font-style:italic;}\n\
+            table.interna .abc_link { color: black; text-decoration: none; } \n\
+            table.interna .abc_link:hover {  color: blue;   text-decoration: none; }\n\
         </style>\n\
     </head>\n\
 <body>\n\
@@ -162,7 +164,7 @@ acordeão diatônico, gaita de oito baixos, gaita ponto, notação musical, apre
                     
 if( ! map ) {
 h += '\
-<h1>Mapa para acordões diatônicos</h1>\n\
+<h1>Mapa para Acordões Diatônicos</h1>\n\
 <p class="credit">Desenvolvido por: <span class="destaque">Flávio Vani</span>\n\
 <br>Coordenação musical: <span class="destaque">prof. Cezar Ferreira</span></p>\n\
 <p>Esta página apresenta, em ordem alfabética, todo o repertório do site. O site é composto de partituras para acordeão diatônico com \n\
@@ -177,7 +179,8 @@ h += '<h2>Repertório Geral</h2>\n\
 ';
     
     for( var r = 0; r < repertorio.geral.length; r ++ ) {
-        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
+//        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
+        h += '<tr>'
                 +'<td class="title" >'+repertorio.geral[r].title+'</td>'
                 + (map? '\n': '<td class="composer" >'+repertorio.geral[r].composer+'</td>\n' )
                 +'<td class="center">' + this.makeAnchor( map, 'GAITA_MINUANO_GC', repertorio.geral[r].geral  ) 
@@ -193,7 +196,8 @@ h += '<h2>Repertório Geral</h2>\n\
 ';
                     
     for( var r = 0; r < repertorio.transportada.length; r ++ ) {
-        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
+//        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
+        h += '<tr>'
             +'<td class="title" >'+repertorio.transportada[r].title+'</td>'
             + (map? '\n': '<td class="composer" >'+repertorio.transportada[r].composer+'</td>\n')
             +'<td class="center">' + this.makeAnchor( map, 'GAITA_MINUANO_BC_TRANSPORTADA', repertorio.transportada[r].geral ) 
@@ -208,7 +212,8 @@ h += '<h2>Repertório Geral</h2>\n\
 ';
                     
     for( var r = 0; r < repertorio.portuguesa.length; r ++ ) {
-        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
+//        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
+        h += '<tr>'
             +'<td class="title" >'+repertorio.portuguesa[r].title+'</td>'
             + (map? '\n': '<td class="composer" >'+repertorio.portuguesa[r].composer+'</td>\n')
             +'<td class="center">' + this.makeAnchor( map, 'CONCERTINA_PORTUGUESA', repertorio.portuguesa[r].geral ) 
@@ -223,7 +228,8 @@ h += '<h2>Repertório Geral</h2>\n\
 ';
                     
     for( var r = 0; r < repertorio.corona.length; r ++ ) {
-        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
+//        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
+        h += '<tr>'
             +'<td class="title" >'+repertorio.corona[r].title+'</td>'
             + (map? '\n': '<td class="composer" >'+repertorio.corona[r].composer+'</td>\n')
             +'<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_II', repertorio.corona[r].geral ) 
@@ -252,6 +258,17 @@ h += '<h2>Repertório Geral</h2>\n\
         this.win.setVisible(true);
         
         this.win.dataDiv.innerHTML = h;
+        
+        var ps = new PerfectScrollbar( this.win.dataDiv, {
+            handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
+            wheelSpeed: 1,
+            wheelPropagation: false,
+            suppressScrollX: false,
+            minScrollbarLength: 100,
+            swipeEasing: true,
+            scrollingThreshold: 500
+        });
+      
         
         if(novo) {
             

@@ -102,6 +102,16 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
     this.renderedTune.div = this.canvasDiv;
     
     this.Div.dataDiv.appendChild(this.studioCanvasDiv);
+    
+    this.ps = new PerfectScrollbar( this.studioCanvasDiv, {
+        handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
+        wheelSpeed: 1,
+        wheelPropagation: false,
+        suppressScrollX: false,
+        minScrollbarLength: 100,
+        swipeEasing: true,
+        scrollingThreshold: 500
+    });
 
     this.fileLoadABC = document.getElementById('fileLoadABC');
     this.fileLoadABC.addEventListener('change', function(event) { that.carregaPartitura(event); }, false);        
@@ -272,6 +282,9 @@ SITE.PartEdit.prototype.resize = function( ) {
     
     this.posicionaTeclado();
     this.editorWindow.resize();
+    
+    (this.ps) && this.ps.update();
+    
 };
 
 SITE.PartEdit.prototype.posicionaTeclado = function() {
@@ -413,14 +426,15 @@ SITE.PartEdit.prototype.fireChanged = function(transpose) {
         FILEMANAGER.saveLocal( 'ultimaPartituraEditada', text );
 
         this.parseABC(text, transpose);
-        
         this.printABC();
         
     } else {
         this.editorWindow.container.setSubTitle( "" );
         this.warningsDiv.innerHTML = "";
         this.renderedTune.div.innerHTML = "";
+        delete this.renderedTune.abc.midi;
     }   
+    this.resize();
 };
 
 SITE.PartEdit.prototype.parseABC = function(text, transpose) {
