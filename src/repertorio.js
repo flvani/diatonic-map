@@ -253,7 +253,7 @@ h += '<h2>Repertório Geral</h2>\n\
                     top: "10px", left: "800px", width: 'auto', height: "80%", title: 'IDXREPERTOIRE'}
                 , null 
             );
-            this.win.dataDiv.className = "draggableData customScrollBar";
+            this.win.dataDiv.className = "draggableData";
         }
         this.win.setVisible(true);
         

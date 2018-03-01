@@ -1089,8 +1089,6 @@ exports.scrollbarWidth = function(document) {
     inner.style.display = "block";
 
     var outer = exports.createElement("ace_outer");
-    outer.className ='customScrollBar';
-    
     var style = outer.style;
 
     style.position = "absolute";
@@ -1117,7 +1115,8 @@ exports.scrollbarWidth = function(document) {
 
     body.removeChild(outer);
 
-    return noScrollbar-withScrollbar;
+    return 0; // flavio - perfect-scrollbar não gasta espaço
+    //return noScrollbar-withScrollbar;
 };
 
 if (typeof document === "undefined") {
@@ -12150,7 +12149,7 @@ var Editor = function(renderer, session) {
     };
     this.onDocumentChange = function(delta) {
         var wrap = this.session.$useWrapMode;
-        var lastRow = (delta.start.row == delta.end.row ? delta.end.row : Infinity);
+        var lastRow = (delta.start.row === delta.end.row ? delta.end.row : Infinity);
         this.renderer.updateLines(delta.start.row, lastRow, wrap);
 
         this._signal("change", delta);
@@ -14068,6 +14067,7 @@ var Text = function(parentEl) {
     this.element = dom.createElement("div");
     this.element.className = "ace_layer ace_text-layer";
     parentEl.appendChild(this.element);
+    
     this.$updateEolChar = this.$updateEolChar.bind(this);
 };
 
@@ -14183,8 +14183,8 @@ var Text = function(parentEl) {
     };
 
     this.updateLines = function(config, firstRow, lastRow) {
-        if (this.config.lastRow != config.lastRow ||
-            this.config.firstRow != config.firstRow) {
+        if (this.config.lastRow !== config.lastRow ||
+            this.config.firstRow !== config.firstRow) {
             this.scrollLines(config);
         }
         this.config = config;
@@ -14234,15 +14234,18 @@ var Text = function(parentEl) {
         }
     };
 
-    this.scrollLines = function(config) {
+    this.scrollLines = function(config, ps) {
+        
         var oldConfig = this.config;
         this.config = config;
-
+        
         if (!oldConfig || oldConfig.lastRow < config.firstRow)
             return this.update(config);
-
+        
         if (config.lastRow < oldConfig.firstRow)
             return this.update(config);
+        
+        if( ps ) ps.hideY();
 
         var el = this.element;
         if (oldConfig.firstRow < config.firstRow)
@@ -14265,6 +14268,7 @@ var Text = function(parentEl) {
             var fragment = this.$renderLinesFragment(config, oldConfig.lastRow + 1, config.lastRow);
             el.appendChild(fragment);
         }
+        ps.update();
     };
 
     this.$renderLinesFragment = function(config, firstRow, lastRow) {
@@ -14808,13 +14812,25 @@ var EventEmitter = require("./lib/event_emitter").EventEmitter;
 var MAX_SCROLL_H = 0x8000;
 var ScrollBar = function(parent) {
     this.element = dom.createElement("div");
-    this.element.className = "customScrollBar ace_scrollbar ace_scrollbar" + this.classSuffix;
+    this.element.className = "ace_scrollbar ace_scrollbar" + this.classSuffix;
    
     this.inner = dom.createElement("div");
     this.inner.className = "ace_scrollbar-inner";
     this.element.appendChild(this.inner);
 
     parent.appendChild(this.element);
+
+    this.ps = new PerfectScrollbar( this.element, {
+         handlers: [ 'click-rail', 'drag-thumb' ]
+        ,wheelSpeed: 0
+        ,wheelPropagation: false
+        ,suppressScrollX: false
+        ,minScrollbarLength: 100
+        ,swipeEasing: true
+        ,scrollingThreshold: 500
+        ,margin: (this.classSuffix === '-v'? "2px 0px 9px 0px" : "0px 9px 0px 2px" )
+        ,aceOn: true
+    });
     
     this.setVisible(false);
     this.skipEvent = false;
@@ -14852,13 +14868,15 @@ oop.inherits(VScrollBar, ScrollBar);
     this.onScroll = function() {
         if (!this.skipEvent) {
             this.scrollTop = this.element.scrollTop;
-            if (this.coeff != 1) {
+            if (this.coeff !== 1) {
                 var h = this.element.clientHeight / this.scrollHeight;
                 this.scrollTop = this.scrollTop * (1 - h) / (this.coeff - h);
             }
             this._emit("scroll", {data: this.scrollTop});
         }
         this.skipEvent = false;
+        this.ps.update();
+
     };
     this.getWidth = function() {
         return this.isVisible ? this.width : 0;
@@ -14872,8 +14890,8 @@ oop.inherits(VScrollBar, ScrollBar);
         if (height > MAX_SCROLL_H) {
             this.coeff = MAX_SCROLL_H / height;
             height = MAX_SCROLL_H;
-        } else if (this.coeff != 1) {
-            this.coeff = 1
+        } else if (this.coeff !== 1) {
+            this.coeff = 1;
         }
         this.inner.style.height = height + "px";
     };
@@ -15536,7 +15554,7 @@ var VirtualRenderer = function(container, theme) {
     this.content = dom.createElement("div");
     this.content.className = "ace_content";
     this.scroller.appendChild(this.content);
-
+    
     this.$gutterLayer = new GutterLayer(this.$gutter);
     this.$gutterLayer.on("changeGutterWidth", this.onGutterResize.bind(this));
 
@@ -15565,15 +15583,6 @@ var VirtualRenderer = function(container, theme) {
 
     this.scrollTop = 0;
     this.scrollLeft = 0;
-
-//    this.sbar = new PerfectScrollbar( this.content, {
-//        wheelSpeed: 1,
-//        wheelPropagation: false,
-//        minScrollbarLength: 20,
-//        swipeEasing: true,
-//        scrollingThreshold: 0
-//    });
-
 
     this.cursorPos = {
         row : 0,
@@ -15742,6 +15751,9 @@ var VirtualRenderer = function(container, theme) {
             this.onResize();
     };
     this.onResize = function(force, gutterWidth, width, height) {
+        
+        var self = this;
+        
         if (this.resizing > 2)
             return;
         else if (this.resizing > 0)
@@ -15769,17 +15781,10 @@ var VirtualRenderer = function(container, theme) {
 
         if (this.resizing)
             this.resizing = 0;
+        
         this.scrollBarV.scrollLeft = this.scrollBarV.scrollTop = null;
         
-//        if(this.sbar) {
-//            var v = el.scrollTop;
-//            var h = el.scrollLeft;
-//            el.scrollTop = 10000;
-//            el.scrollLeft = 10000;
-//            el.scrollTop = v;
-//            el.scrollLeft = h;
-//            this.sbar.update();
-//        }
+        window.setTimeout( function() { self.updateScrollBars(); }, 100 );
 
     };
     
@@ -16048,8 +16053,10 @@ var VirtualRenderer = function(container, theme) {
         this.scrollBarV.setScrollTop(this.scrollTop + this.scrollMargin.top);
     };
     this.$updateScrollBarH = function() {
+        this.scrollBarH.ps.hideX();
         this.scrollBarH.setScrollWidth(this.layerConfig.width + 2 * this.$padding + this.scrollMargin.h);
         this.scrollBarH.setScrollLeft(this.scrollLeft + this.scrollMargin.left);
+        this.scrollBarH.ps.update();
     };
     
     this.$frozen = false;
@@ -16124,8 +16131,9 @@ var VirtualRenderer = function(container, theme) {
         if (changes & this.CHANGE_SCROLL) {
             if (changes & this.CHANGE_TEXT || changes & this.CHANGE_LINES)
                 this.$textLayer.update(config);
-            else
-                this.$textLayer.scrollLines(config);
+            else{
+                this.$textLayer.scrollLines(config, this.scrollBarV.ps);
+            }
 
             if (this.$showGutter)
                 this.$gutterLayer.update(config);
@@ -16487,14 +16495,15 @@ var VirtualRenderer = function(container, theme) {
     };
     this.scrollToY = function(scrollTop) {
         if (this.scrollTop !== scrollTop) {
-            this.$loop.schedule(this.CHANGE_SCROLL);
             this.scrollTop = scrollTop;
+            this.$loop.schedule(this.CHANGE_SCROLL);
         }
     };
     this.scrollToX = function(scrollLeft) {
-        if (this.scrollLeft !== scrollLeft)
+        if (this.scrollLeft !== scrollLeft) {
             this.scrollLeft = scrollLeft;
-        this.$loop.schedule(this.CHANGE_H_SCROLL);
+            this.$loop.schedule(this.CHANGE_H_SCROLL);
+        }
     };
     this.scrollTo = function(x, y) {
         this.session.setScrollTop(y);
@@ -16504,6 +16513,17 @@ var VirtualRenderer = function(container, theme) {
         deltaY && this.session.setScrollTop(this.session.getScrollTop() + deltaY);
         deltaX && this.session.setScrollLeft(this.session.getScrollLeft() + deltaX);
     };
+    this.updateScrollBars = function() {
+        var y = this.session.getScrollTop();
+        var x = this.session.getScrollLeft();
+        this.scrollBarV.ps.update();
+        this.scrollBarH.ps.update();
+        this.session.setScrollTop(10000);
+        this.session.setScrollTop(y);
+        this.session.setScrollLeft(10000);
+        this.session.setScrollLeft(x);
+    };
+    
     this.isScrollableBy = function(deltaX, deltaY) {
         if (deltaY < 0 && this.session.getScrollTop() >= 1 - this.scrollMargin.top)
            return true;
@@ -19133,39 +19153,14 @@ exports.version = "1.2.6";
         this.$rules = {
             start: [
                 {
-                    token: ['directive', 'directive'],
-                    regex: '(%%)([^%\\\\]*)',
-                    comment: 'ABCX Directive'
+                    token: 'compiler.directive',
+                    regex: '(%%[^%]*)',
+                    comment: 'ABCX directive'
                 },
                 {
                     token: 'comment.italic',
-                    regex: '%.*',
-                    comment: 'ABCX Comment'
-                },
-                {
-                    token: ['information.lyrics.strong', 'information.lyrics'],
-                    regex: '^([Ww]:)([^%\\\\]*)',
-                    comment: 'Lyrics lines'
-                },
-                {
-                    token: ['keyword', 'information.variable'],
-                    regex: '^(V:)([^\\s\\\\]*)',
-                    comment: 'Voice lines'
-                },
-                {
-                    token: ['barline.text', 'keyword', 'information.variable', 'barline.text'],
-                    regex: '(\\[)([A-Z]:)(.*?)(\\])',
-                    comment: 'Inline fields'
-                },
-                {
-                    token: ['keyword', 'information.variable'],
-                    regex: '^([A-Za-z]:)([^%\\\\]*)',
-                    comment: 'Header fileds'
-                },
-                {
-                    token: 'barline.operator.strong',
-                    regex: '[\\[:]*[|:][|\\]:]*(?:\\[?[0-9]+)?|\\[[0-9]+',
-                    comment: 'Bar lines'
+                    regex: '(%.*)',
+                    comment: 'ABCX comment'
                 },
                 {
                     token: 'string.strong',
@@ -19173,24 +19168,54 @@ exports.version = "1.2.6";
                     comment: 'ABCX annotation'
                 },
                 {
-                    token: ['attribute.attribute','information.variable'],
-                    regex: '([\\s].*?[\\=])([^\\s\\\\]*)',
-                    comment: 'ABCX attribute'
-                },
-                {
-                    token: ['accent.constant', 'pitch.constant', 'duration.constant.numeric'],
-                    regex: '([\\^=_]*)([A-Ga-gzx>][,\']*)([0-9]*[\./]*[0-9]*)',
-                    comment: 'Notes'
-                },
-                {
-                    token: ['bass.constant', 'bellows.constant.bellows', 'buttons.constant', 'duration.constant.numeric'],
-                    regex: '([A-Ga-gzxZX>]*[♭♯]*[,\']*)([+-])([0-9abc>xz][\']*)([0-9]*[\.\/><0-9]*)',
-                    comment: 'ABCX tablature elements'
-                },
-                {
                     token: 'decoration.strong',
-                    regex: '([!\\+].*?[!\\+])',
+                    regex: '(!\\S+!|\\+\\S+\\+)',
                     comment: 'ABCX decoration'
+                },
+                {
+                    token: 'delimiters.string.strong',
+                    regex: '(\\-|\\+|\\(|\\))',
+                    comment: 'ABCX delimiters 1'
+                },
+                {
+                    token: ['barline.text', 'keyword.strong', 'information.variable', 'barline.text'],
+                    regex: '(\\[)([A-Z]\\:)(.*?)(\\])',
+                    comment: 'ABCX inline fields'
+                },
+                {
+                    token: 'delimiters.variable.strong',
+                    regex: '(\\[|\\])',
+                    comment: 'ABCX delimiters 2'
+                },
+                {
+                    token: 'barline.operator.strong',
+                    regex: '(\\[\\||\\|\\]|\\:\\||\\|)\\:?[0-9]?',
+                    comment: 'ABCX bar lines'
+                },
+                {
+                    token: ['keyword.strong', 'information.variable'],
+                    regex: '^(V:)([\\S])',
+                    comment: 'ABCX voice lines'
+                },
+                {
+                    token: ['', 'attribute.attribute','information.variable'],
+                    regex: '(V:\\S.*?:)?([A-Za-z]+\=)(\\"*.?\\S*.?\\".*?|\\S*.?)',
+                    comment: 'ABCX attribute variable'
+                },
+                    {
+                    token: ['information.lyrics.strong', 'information.lyrics'],
+                    regex: '^([Ww]:)([^%]*)',
+                    comment: 'ABCX lyrics lines'
+                },
+                {
+                    token: ['keyword.strong', 'information.variable'],
+                    regex: '^([A-Za-z]:)([^%]*)',
+                    comment: 'ABCX header fields'
+                },
+                {
+                    token: ['accent.modifier', 'pitch.constant', 'pitch.constant','accent.modifier', 'duration.constant.numeric'],
+                    regex: '(?:([\\^=_])?([0-9A-Ga-gzx>])([♭♯m]?)([,\']*)([0-9][\\/\\.]?[0-9]?)?)',
+                    comment: 'ABCX musical notes'
                 }
             ]
         };
@@ -19443,8 +19468,8 @@ color: darkblue;\
 .ace-abcx .ace_constant.ace_numeric {\
 color: rgb(6, 150, 14);\
 }\
-.ace-abcx .ace_constant.ace_bellows {\
-color: red;\
+.ace-abcx .ace_modifier {\
+color: #994400;\
 }\
 .ace-abcx .ace_string {\
 color: #ff0000 \
@@ -19461,6 +19486,7 @@ color: #708 \
 .ace-abcx .ace_lyrics {\
 color: #994400;\
 }";
+    
 
 exports.cssClass = "ace-abcx";
 

@@ -1155,6 +1155,11 @@ var PerfectScrollbar = function PerfectScrollbar(element, userSettings) {
 
   this.scrollbarXRail = div(cls.element.rail('x'));
   element.appendChild(this.scrollbarXRail);
+  
+  if( this.settings["margin"] ) {
+      this.scrollbarXRail.style.margin = this.settings["margin"];
+  }
+  
   this.scrollbarX = div(cls.element.thumb('x'));
   this.scrollbarXRail.appendChild(this.scrollbarX);
   this.scrollbarX.setAttribute('tabindex', 0);
@@ -1183,6 +1188,11 @@ var PerfectScrollbar = function PerfectScrollbar(element, userSettings) {
 
   this.scrollbarYRail = div(cls.element.rail('y'));
   element.appendChild(this.scrollbarYRail);
+  
+  if( this.settings["margin"] ) {
+      this.scrollbarYRail.style.margin = this.settings["margin"];
+  }
+  
   this.scrollbarY = div(cls.element.thumb('y'));
   this.scrollbarYRail.appendChild(this.scrollbarY);
   this.scrollbarY.setAttribute('tabindex', 0);
@@ -1234,8 +1244,22 @@ var PerfectScrollbar = function PerfectScrollbar(element, userSettings) {
   updateGeometry(this);
 };
 
-PerfectScrollbar.prototype.update = function update () {
-  if (!this.isAlive) {
+PerfectScrollbar.prototype.hideX = function  () {
+    this.element.classList.remove(cls.state.active('x'));
+};
+PerfectScrollbar.prototype.showX = function  () {
+    this.element.classList.add(cls.state.active('x'));
+};
+
+PerfectScrollbar.prototype.hideY = function  () {
+    this.element.classList.remove(cls.state.active('y'));
+};
+PerfectScrollbar.prototype.showY = function  () {
+    this.element.classList.add(cls.state.active('y'));
+};
+
+PerfectScrollbar.prototype.update = function  () {
+  if (!this.isAlive /*|| this.settings['aceOn']*/ ) {
     return;
   }
 
@@ -1268,10 +1292,10 @@ PerfectScrollbar.prototype.update = function update () {
 };
 
 PerfectScrollbar.prototype.onScroll = function onScroll (e) {
-  if (!this.isAlive) {
+  if (!this.isAlive ) {
     return;
   }
-
+  
   updateGeometry(this);
   processScrollDiff(this, 'top', this.element.scrollTop - this.lastScrollTop);
   processScrollDiff(

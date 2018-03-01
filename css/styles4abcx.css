@@ -772,42 +772,6 @@ and open the template in the editor.
     height: 18px;
 }
 
-
-
-.customScrollBar::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-    opacity: 0;
-    background-color: transparent;
-}
-
-.customScrollBar::-webkit-scrollbar-track {
-     margin: 1px;
-    -box-shadow: inset 1px 1px 6px rgba(0,0,0,0.1);
-    -moz-box-shadow: inset 1px 1px 6px rgba(0,0,0,0.1);
-    -webkit-box-shadow: inset 1px 1px 6px rgba(0,0,0,0.1);
-     border-radius: 6px;
-     background-color: transparent;
-     opacity: 0
-}
-
-.customScrollBar::-webkit-scrollbar-track:hover {
-    background-color: rgba(255, 153, 34, 0.2);
-}
- 
-.customScrollBar::-webkit-scrollbar-thumb {
-  width: 5px;
-  height: 5px;
-  border-radius: 6px;
-  outline: 1px solid slategrey;
-  background-color: rgba(255, 153, 34, 0.6);
-} 
-
-.customScrollBar::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(255, 153, 34, 1);
-}
-
-
 .pushbutton-group {
     position: absolute;
     display: block;
@@ -918,3 +882,4 @@ and open the template in the editor.
 .dialog .text-group input[type="text"] {
   width: 300px;   
 }
+

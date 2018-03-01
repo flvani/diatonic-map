@@ -10108,10 +10108,8 @@ ABCXJS.edit.EditArea.prototype.setVisible = function (visible) {
 };
 
 ABCXJS.edit.EditArea.prototype.resize = function () {
-    
     this.container.resize();
     this.aceEditor.resize();
-    
 };
 
 ABCXJS.edit.EditArea.prototype.setOptions = function (editorOptions, rendererOptions ) {
@@ -12727,6 +12725,11 @@ var PerfectScrollbar = function PerfectScrollbar(element, userSettings) {
 
   this.scrollbarXRail = div(cls.element.rail('x'));
   element.appendChild(this.scrollbarXRail);
+  
+  if( this.settings["margin"] ) {
+      this.scrollbarXRail.style.margin = this.settings["margin"];
+  }
+  
   this.scrollbarX = div(cls.element.thumb('x'));
   this.scrollbarXRail.appendChild(this.scrollbarX);
   this.scrollbarX.setAttribute('tabindex', 0);
@@ -12755,6 +12758,11 @@ var PerfectScrollbar = function PerfectScrollbar(element, userSettings) {
 
   this.scrollbarYRail = div(cls.element.rail('y'));
   element.appendChild(this.scrollbarYRail);
+  
+  if( this.settings["margin"] ) {
+      this.scrollbarYRail.style.margin = this.settings["margin"];
+  }
+  
   this.scrollbarY = div(cls.element.thumb('y'));
   this.scrollbarYRail.appendChild(this.scrollbarY);
   this.scrollbarY.setAttribute('tabindex', 0);
@@ -12806,8 +12814,22 @@ var PerfectScrollbar = function PerfectScrollbar(element, userSettings) {
   updateGeometry(this);
 };
 
-PerfectScrollbar.prototype.update = function update () {
-  if (!this.isAlive) {
+PerfectScrollbar.prototype.hideX = function  () {
+    this.element.classList.remove(cls.state.active('x'));
+};
+PerfectScrollbar.prototype.showX = function  () {
+    this.element.classList.add(cls.state.active('x'));
+};
+
+PerfectScrollbar.prototype.hideY = function  () {
+    this.element.classList.remove(cls.state.active('y'));
+};
+PerfectScrollbar.prototype.showY = function  () {
+    this.element.classList.add(cls.state.active('y'));
+};
+
+PerfectScrollbar.prototype.update = function  () {
+  if (!this.isAlive /*|| this.settings['aceOn']*/ ) {
     return;
   }
 
@@ -12840,10 +12862,10 @@ PerfectScrollbar.prototype.update = function update () {
 };
 
 PerfectScrollbar.prototype.onScroll = function onScroll (e) {
-  if (!this.isAlive) {
+  if (!this.isAlive ) {
     return;
   }
-
+  
   updateGeometry(this);
   processScrollDiff(this, 'top', this.element.scrollTop - this.lastScrollTop);
   processScrollDiff(
@@ -13017,11 +13039,9 @@ DRAGGABLE.ui.Window = function( parent, aButtons, options, callback, aToolBarBut
     this.calcMinHeight = function () {
         this.minHeight = (this.menuDiv ? this.menuDiv.clientHeight : 0 ) 
            + (this.toolBar && this.toolBar.style.display !== 'none' ? this.toolBar.clientHeight : 0 ) 
-           + (this.bottomBar && this.bottomBar.style.display !== 'none' ? this.bottomBar.clientHeight : 0 );
+           + (this.bottomBar && this.bottomBar.style.display !== 'none' ? this.bottomBar.clientHeight+3 : 0 );
     };
     
-//    this.calcMinHeight();
-
     if( this.alternativeResize || this.hasStatusBar ) {
 
         this.divResize = function (e) {
@@ -13620,13 +13640,14 @@ DRAGGABLE.ui.DropdownMenu = function (topDiv, options, menu) {
         e1.appendChild(e3);
 
         this.sbar = new PerfectScrollbar( e3, {
-            handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
-            wheelSpeed: 1,
-            wheelPropagation: false,
-            suppressScrollX: true,
-            minScrollbarLength: 100,
-            swipeEasing: true,
-            scrollingThreshold: 500
+             handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch']
+            ,wheelSpeed: 1
+            ,wheelPropagation: false
+            ,suppressScrollX: true
+            ,minScrollbarLength: 100
+            ,swipeEasing: true
+            ,scrollingThreshold: 500
+            ,margin: "4px 0 2px 0"
         });
         
         this.headers[ddmId].div = e3;

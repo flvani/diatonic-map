@@ -122,7 +122,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     
     this.studioCanvasDiv = document.createElement("DIV");
     this.studioCanvasDiv.setAttribute("id", 't2pStudioCanvasDiv' );
-    this.studioCanvasDiv.setAttribute("class", "studioCanvasDiv customScrollBar" );
+    this.studioCanvasDiv.setAttribute("class", "studioCanvasDiv" );
    
     this.canvasDiv = document.createElement("DIV");
     this.canvasDiv.setAttribute("id", canvas_id);

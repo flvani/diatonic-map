@@ -1461,7 +1461,6 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
           , { listener: this, method:'helpCallback' }
         );
         this.helpWindow.dataDiv.style.height = "auto";
-        //this.helpWindow.dataDiv.className+=" customScrollBar";
     }
 
     this.helpWindow.setTitle(title, SITE.translator);
