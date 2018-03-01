@@ -9059,6 +9059,8 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
     
     var estilo = 
 '\n\
+   .abc_link { font-weight: normal;  text-decoration: none; }\n\
+   .abc_link:hover { stroke: blue;  font-weight: normal;  text-decoration: none; }\n\
    .abc_title {\n\
         font-size: 18px;\n\
         font-weight: bold;\n\
