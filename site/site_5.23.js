@@ -624,7 +624,7 @@ SITE.Media.prototype.show = function(tab) {
                 var mId = (this.mediaWindow.id*10 + r);
                 
                 this.youTubeURL = (aUrl[r].match(/www.youtube-nocookie.com/g)!== null);
-                this.isPDF = (aUrl[r].match(/.*pdf$/)!== null);
+                this.isPDF = (aUrl[r].match(/.*pdf/)!== null);
                 
                 var par=aUrl[r].match(/\&.*\;/g);
                 
