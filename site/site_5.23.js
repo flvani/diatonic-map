@@ -1774,15 +1774,20 @@ SITE.Mapa.prototype.renderTAB = function( tab ) {
     tab.printer.addSelectListener(this);
     this.accordion.clearKeyboard(true);
     
-    tab.ps = new PerfectScrollbar( tab.div, {
-        handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
-        wheelSpeed: 1,
-        wheelPropagation: false,
-        suppressScrollX: false,
-        minScrollbarLength: 100,
-        swipeEasing: true,
-        scrollingThreshold: 500
-    });
+    tab.div.scrollTop = 0;
+    
+    if( tab.ps ) 
+        tab.ps.update();
+    else    
+        tab.ps = new PerfectScrollbar( tab.div, {
+            handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
+            wheelSpeed: 1,
+            wheelPropagation: false,
+            suppressScrollX: false,
+            minScrollbarLength: 100,
+            swipeEasing: true,
+            scrollingThreshold: 500
+        });
     
     
 };
@@ -2148,23 +2153,18 @@ SITE.Mapa.prototype.printPreview = function (html, divsToHide, landscape ) {
 
         dv.innerHTML = html;
         dv.style.display = 'block';
-
-        var printMedia = window.matchMedia( 'print' );
         
-        printMedia.addListener( function(pm) {
+        window.setTimeout( function () { 
+            window.print(); 
+            
+            dv.style.display = 'none';
 
-            if( ! pm.matches ) {
+            divsToHide.forEach( function( div ) {
+                var hd = document.getElementById(div.substring(1));
+                hd.style.opacity = 1;
+            });
                 
-                dv.style.display = 'none';
-                
-                divsToHide.forEach( function( div ) {
-                    var hd = document.getElementById(div.substring(1));
-                    hd.style.opacity = 1;
-                });
-            }
-        });
-        
-        window.setTimeout( function () { window.print(); }, 200 );
+        }, 200 );
         
     }    
 };
@@ -2406,6 +2406,9 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.renderedTune.div = this.canvasDiv;
     
     this.Div.dataDiv.appendChild(this.studioCanvasDiv);
+    
+    if(this.ps)
+        this.ps.destroy();
     
     this.ps = new PerfectScrollbar( this.studioCanvasDiv, {
         handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
@@ -3373,6 +3376,9 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     
     this.Div.dataDiv.appendChild(this.studioCanvasDiv);
     
+    if( this.ps )
+        this.ps.destroy();
+    
     this.ps = new PerfectScrollbar( this.studioCanvasDiv, {
         handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
         wheelSpeed: 1,
@@ -4067,6 +4073,9 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
     this.renderedTune.div = this.canvasDiv;
     
     this.Div.dataDiv.appendChild(this.studioCanvasDiv);
+    
+    if( this.ps )
+        this.ps.destroy();
     
     this.ps = new PerfectScrollbar( this.studioCanvasDiv, {
         handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],

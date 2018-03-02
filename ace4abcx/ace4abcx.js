@@ -19189,7 +19189,7 @@ exports.version = "1.2.6";
                 },
                 {
                     token: 'barline.operator.strong',
-                    regex: '(\\[\\||\\|\\]|\\:\\||\\|)\\:?[0-9]?',
+                    regex: '(\\[\\||\\|\\]|\\:\\||\\||/)\\:?[0-9]?',
                     comment: 'ABCX bar lines'
                 },
                 {
@@ -19214,7 +19214,7 @@ exports.version = "1.2.6";
                 },
                 {
                     token: ['accent.modifier', 'pitch.constant', 'pitch.constant','accent.modifier', 'duration.constant.numeric'],
-                    regex: '(?:([\\^=_])?([0-9A-Ga-gzx>])([♭♯m]?)([,\']*)([0-9][\\/\\.]?[0-9]?)?)',
+                    regex: '(?:([\\^=_])?([0-9A-Ga-gzx>])([♭♯m]?)([,\']*)([0-9\\/\\.][\\/\\.]?[0-9]?)?)',
                     comment: 'ABCX musical notes'
                 }
             ]

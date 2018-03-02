@@ -99,6 +99,9 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     
     this.Div.dataDiv.appendChild(this.studioCanvasDiv);
     
+    if(this.ps)
+        this.ps.destroy();
+    
     this.ps = new PerfectScrollbar( this.studioCanvasDiv, {
         handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
         wheelSpeed: 1,
