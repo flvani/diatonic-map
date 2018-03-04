@@ -5,10 +5,11 @@ X:1049
 %barsperstaff 6
 %staffsep 5
 %%pagenumbering
-T:Vira virou (v1)
+T:Vira virou
 C:Kleiton & Kledir
 C:(c: Kleiton Ramil)
 Z:Flávio Vani
+F:/diatonic-map/vira.virou.png&T:Vira-virou - Imagem;
 F:https://www.youtube-nocookie.com/embed/ntWDtNmsnvg&T:Aulas de Gaita-Ponto - Teoria 1 - INTERVALOS (maiores, menores e justos);
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 M:3/4
@@ -16,32 +17,32 @@ L:1/8
 Q:76
 K:C
 V:1 treble
-|: "Am" e/2f/2 e/2f/2 e/2f/2 | "Dm(F)" d2 z | "G7" d/2e/2 d/2e/2 d/2e/2 | "C" c2 z | "E7" d/2e/2 e2 | "F" e/2f/2 f2 | "G7" fcB | "C" c3 :| 
-| e/2e/2 e/2e/2 e/2e/2 | e d2 | d/2d/2 d/2d/2 d/2d/2 | d c2 | c B2 | B A2 | GGF | G3 |
+|: "Am" e/2f/2 e/2f/2 e/2f/2 | "Dm" e/2f/2 d z | "G7" d/2e/2 d/2e/2 d/2e/2 | "C" c2 z | "E7" d/2e/2 e2 | "F" d/2e/2 e2 | "G7" ged | "C" e3 :| 
+| e/2e/2 e/2e/2 e/2f/2 | e d2 | d/2d/2 d/2d/2 d/2e/2 | d c2 | c B2 | B A2 | GGF | G3 |
 w: Vou~vol- * tar na prima- * ve-ra e~era * tu-do que~eu * que-ria, le-vo ter-ra no-va da-qui.
-| e/2e/2 e/2e/2 e/2e/2 | e d2 | d/2d/2 d/2d/2 d/2d/2 | d c2 | c B2 | B A2 | GGF | G3 |
+| e/2e/2 e/2e/2 e/2f/2 | e d2 | d/2d/2 d/2d/2 d/2e/2 | d c2 | c B2 | B A2 | GGF | G3 |
 w: Quero * ver  o passa- * re-do, pe-los por- * tos de Lis-boa, vo-a, vo-a, que~eu * chego  já.
-| e/2e/2 e/2e/2 e/2e/2 | e d2 | d/2d/2 d/2d/2 d/2d/2 | d c2 | B/2B/2 B/2B/2 B/2B/2 | B A2 | G/2A/2 A/2B/2 B/2f/2 | f e2 |
+| e/2e/2 e/2e/2 e/2f/2 | e d2 | d/2d/2 d/2d/2 d/2e/2 | d c2 | B/2B/2 B/2B/2 B/2c/2 | B A2 | G/2A/2 B/2c/2 d/2f/2 | f e2 |
 w:Ai, se~ alguém * segura~o * le-me, desta * nave~in- * candes- * cente, * que'in- * cendeia *  minha * vida, * que~era * via- * jante * lenta, *
-| e/2e/2 e/2e/2 e/2e/2 | e d2 | d/2d/2 d/2d/2 d/2e/2 | e3 | c3- | c2 z | 
-w:tão~fa- * minta * da a-le-gria, que~hoje~é * porto *  de par-ti-da 
+| e/2e/2 e/2e/2 e/2f/2 | e d2 | d/2d/2 d/2d/2 d/2e/2 | f3- | f3 | d3- | d3 | 
+w:tão~fa- * minta * da a-le-gria, que~hoje~é * porto *  de par-ti- * da 
 |: g3 | fed | c3 | Ace | d3 | edc | d3- | d2 z |
 w: Ah! Vi-ra, vi-rou, meu co-ra-ção na-ve-ga-dor! *
 | g3 | fed | c3 | Ace | d3- | d3 | c3 :|
 w: Ah! Gi-ra, gi-rou, es-sa ga-le- * ra!
 V:2 bass
 |: A,, [A,CE] [A,CE] | D,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] | E,, [E,^G,B,] [E,G,B,] | F,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] :|
-| A,, [A,CE] [A,CE] | D,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] | E,, [E,^G,B,] [E,G,B,] | F,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] |
-| A,, [A,CE] [A,CE] | D,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] | E,, [E,^G,B,] [E,G,B,] | F,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] |
-| A,, [A,CE] [A,CE] | D,, [F,A,C] [F,A,C] | E,, [E,^G,B,] [E,G,B,] | A,, [A,CE] [A,CE]  | G,, [A,CE] [A,CE]  | F,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | A,, [C,E,G,] [C,E,G,] |
-| A,, [A,CE] [A,CE] | D,, [F,A,C] [F,A,C] | E,, [E,^G,B,] [E,G,B,] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] |
-|: C,, [C,E,G,] [C,E,G,] | G,, [E,^G,B,] [E,G,B,] | A,, [A,CE] [A,CE] | G,, [A,CE] [A,CE] | D,, [D,^F,A,] [D,F,A,] | F,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] |
-| F,, [F,A,C] [F,A,C] | G,, [E,^G,B,] [E,G,B,] | A,, [A,CE] [A,CE] | G,, [A,CE] [A,CE] | F,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] :|
+|  A,, [A,CE] [A,CE] | D,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] | E,, [E,^G,B,] [E,G,B,] | F,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] |
+|  A,, [A,CE] [A,CE] | D,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] | E,, [E,^G,B,] [E,G,B,] | F,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] |
+|  A,, [A,CE] [A,CE] | D,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] | E,, [E,^G,B,] [E,G,B,] | F,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | A,, [C,E,G,] [C,E,G,] |
+|  A,, [A,CE] [A,CE] | D,, [F,A,C] [F,A,C] | E,, [E,^G,B,] [E,G,B,] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] |
+|: C,, [C,E,G,] [C,E,G,] | G,, [E,^G,B,] [E,G,B,] | A,, [A,CE] [A,CE] | G,, [A,CE] [A,CE] | D,, [F,A,C] [F,A,C] | D,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] |
+|  C,, [C,E,G,] [C,E,G,] | G,, [E,^G,B,] [E,G,B,] | A,, [A,CE] [A,CE] | G,, [A,CE] [A,CE] | D,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] :|
 V:3 accordionTab
-|: A-90.5 >-8'0.5 a-90.5 >-8'0.5 a-90.5 >-8'0.5 | D-7' f-> f-z | G-7'0.5 >-90.5 g-7'0.5 >-90.5 g-7'0.5 >-90.5 | C+6' c+> c+z | E+80.5 >+7'0.5 e+7' e+> | F-90.5 >-8'0.5 f-8' f-> | G-8' g-8 g-6' | C+6' c+> c+> :|
-| A-90.5 >-90.5 a-90.5 >-90.5 a-90.5 >-90.5 | D-9 f-7' f-> | G-7'0.5 >-7'0.5 g-7'0.5 >-7'0.5 g-7'0.5 >-7'0.5 | C+8 c+6' c+> | E+6' e+7 e+> | F-6' f-7 f-> | G-5' g-5' g-4' | C+5' c+> c+> |
-| A-90.5 >-90.5 a-90.5 >-90.5 a-90.5 >-90.5 | D-9 f-7' f-> | G-7'0.5 >-7'0.5 g-7'0.5 >-7'0.5 g-7'0.5 >-7'0.5 | C+8 c+6' c+> | E+6' e+7 e+> | F-6' f-7 f-> | G-5' g-5' g-4' | C+5' c+> c+> |
-| A-90.5 >-90.5 a-90.5 >-90.5 a-90.5 >-90.5 | D-9 f-7' f-> | E+80.5 >+80.5 e+80.5 >+80.5 e+80.5 >+80.5 | A-7' a-8 a-> | G-6'0.5 >-6'0.5 a-6'0.5 >-6'0.5 a-6'0.5 >-6'0.5 | F-6' f-7 f-> | G-5'0.5 >-70.5 g-70.5 >-6'0.5 g-6'0.5 >-8'0.5 | A-8' c+7' c+> |
-| A-90.5 >-90.5 a-90.5 >-90.5 a-90.5 >-90.5 | D-9 f-7' f-> | E+80.5 >+80.5 e+80.5 >+80.5 e+80.5 >+7'0.5 | F+7' f+> f+> | F+6' f+> f+> | F+> f+> f+z |
-|: C+8' c+> c+> | G-8' e+7' e+8 | A-8 a-> a-> | G-7 a-8 a-9 | D-7' d-> d-> | F-9 f-7' f-8 | G+8 g+> g+> | G+> g+> g+z |
-| F+8' f+> f+> | G-8' e+7' e+8 | A-8 a-> a-> | G-7 a-8 a-9 | F+8 f+> f+> | G+> g+> g+> | C+6' c+> c+> :|
+|: A-90.5 >-8'0.5 a-90.5 >-8'0.5 a-90.5 >-8'0.5 | D-90.5 >-8'0.5 f-7' f-z | G-7'0.5 >-90.5 g-7'0.5 >-90.5 g-7'0.5 >-90.5 | C+6' c+> c+z | E+80.5 >+7'0.5 e+7' e+> | F-7'0.5 >-90.5 f-9 f-> | G-9' g-9 g-7' | C+7' c+> c+> :|
+| A-90.5 >-90.5 a-90.5 >-90.5 a-90.5 >-8'0.5 | D-9 f-7' f-> | G-7'0.5 >-7'0.5 g-7'0.5 >-7'0.5 g-7'0.5 >-90.5 | C+8 c+6' c+> | E+6' e+7 e+> | F-6' f-7 f-> | G-5' g-5' g-4' | C+5' c+> c+> |
+| A-90.5 >-90.5 a-90.5 >-90.5 a-90.5 >-8'0.5 | D-9 f-7' f-> | G-7'0.5 >-7'0.5 g-7'0.5 >-7'0.5 g-7'0.5 >-90.5 | C+8 c+6' c+> | E+6' e+7 e+> | F-6' f-7 f-> | G-5' g-5' g-4' | C+5' c+> c+> |
+| A-90.5 >-90.5 a-90.5 >-90.5 a-90.5 >-8'0.5 | D-9 f-7' f-> | G-7'0.5 >-7'0.5 g-7'0.5 >-7'0.5 g-7'0.5 >-90.5 | C+8 c+6' c+> | E+70.5 >+70.5 e+70.5 >+70.5 e+70.5 >+6'0.5 | F-6' f-7 f-> | G-5'0.5 >-70.5 g-6'0.5 >-80.5 g-7'0.5 >-8'0.5 | A-8' c+7' c+> |
+| A-90.5 >-90.5 a-90.5 >-90.5 a-90.5 >-8'0.5 | D-9 f-7' f-> | E+80.5 >+80.5 e+80.5 >+80.5 e+80.5 >+7'0.5 | F-8' f-> f-> | F-> f-> f-> | G-7' g-> g-> | G-> g-> g-> |
+|: C+8' c+> c+> | G-8' e+7' e+8 | A-8 a-> a-> | G-7 a-8 a-9 | D-7' f-> f-> | D-9 f-7' f-8 | G+8 g+> g+> | G+> g+> g+z |
+|  C+8' c+> c+> | G-8' e+7' e+8 | A-8 a-> a-> | G-7 a-8 a-9 | D-7' f-> f-> | G-> g-> g-> | C+6' c+> c+> :|
