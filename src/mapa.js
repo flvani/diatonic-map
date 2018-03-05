@@ -1372,32 +1372,33 @@ SITE.Mapa.prototype.changePageOrientation = function (orientation) {
 SITE.Mapa.prototype.printPreview = function (html, divsToHide, landscape ) {
     
     var dv = document.getElementById('printPreviewDiv');
+    var savedDisplays = {};
     
-    if (window.matchMedia ) {
+    divsToHide.forEach( function( div ) {
+        var hd = document.getElementById(div.substring(1));
+        savedDisplays[div.substring(1)] = hd.style.display;
+        hd.style.display = "none";
         
+    });
+
+    this.changePageOrientation(landscape? 'landscape': 'portrait');
+
+    dv.innerHTML = html;
+    dv.style.display = 'block';
+
+    setTimeout( function () { 
+        
+        window.print(); 
+
+        dv.style.display = 'none';
+
         divsToHide.forEach( function( div ) {
             var hd = document.getElementById(div.substring(1));
-            hd.style.opacity = 0;
+            hd.style.display = savedDisplays[div.substring(1)];
         });
 
-        this.changePageOrientation(landscape? 'landscape': 'portrait');
-
-        dv.innerHTML = html;
-        dv.style.display = 'block';
-        
-        window.setTimeout( function () { 
-            window.print(); 
-            
-            dv.style.display = 'none';
-
-            divsToHide.forEach( function( div ) {
-                var hd = document.getElementById(div.substring(1));
-                hd.style.opacity = 1;
-            });
-                
-        }, 200 );
-        
-    }    
+    });
+    
 };
 
 SITE.Mapa.prototype.resizeActiveWindow = function() {

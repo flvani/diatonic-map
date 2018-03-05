@@ -6,20 +6,6 @@ and open the template in the editor.
 /* 
     Created on : 07/04/2015, 19:06:40
 */
-
-.printPreviewClass {
-    position:absolute;
-    display:none;
-    top:0;
-    left:0;
-    margin: 0;
-    padding: 0;
-    width:100%; 
-    height: 100%; 
-    background-color: #fff;
-    z-index: 1000;
-}
-
 .studioDiv {
     position: absolute;
     display:none;

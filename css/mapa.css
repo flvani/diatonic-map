@@ -56,7 +56,6 @@ body {
     text-decoration: none;
 }    
 
-
 .oldVersion:hover,
 .topSettings:hover {
     color:#ff9922;
@@ -174,7 +173,6 @@ body {
     border-color: lightpink;
 }
 
-
 .btn-group input[type="text"] {
     margin-top:0px;
     font-family: "menuFont";
@@ -225,3 +223,17 @@ body {
 .tips a:hover {
     font-weight: bold;
 }
+
+.printPreviewClass {
+    position:absolute;
+    display:none;
+    top:0;
+    left:0;
+    margin: 0;
+    padding: 0;
+    width:100%; 
+    height: 100%; 
+    background-color: #fff;
+    z-index: 1000;
+}
+

@@ -3,6 +3,9 @@ X:1051
 %%papersize A4
 %%tabinferenceopts -2
 %%pagenumbering
+%barsperstaff 3
+%%landscape
+%%stretchlast
 T:J'ai du bon tabac
 C:Folcore Francês (Séc. XVII)
 C:(Paroles pour Abbé de L'Attaignant)

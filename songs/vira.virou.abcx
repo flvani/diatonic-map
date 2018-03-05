@@ -1,9 +1,9 @@
 X:1049
 %%barnumbers 0
 %%papersize A4
+%%staffsep 20
 %%tabinferenceopts -2
 %barsperstaff 6
-%staffsep 5
 %%pagenumbering
 T:Vira virou
 C:Kleiton & Kledir
