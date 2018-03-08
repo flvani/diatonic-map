@@ -572,48 +572,9 @@ SITE.PartGen.prototype.unhighlight = function(abcelem) {
 };
 
 SITE.PartGen.prototype.updateSelection = function (force) {
-    return;
     // não é possível, por hora, selecionar o elemento da partitura a partir da tablatura
-    var that = this;
-    if( force ) {
-        var selection = that.editorWindow.getSelection();
-        try {
-            that.renderedTune.printer.rangeHighlight(selection);
-        } catch (e) {
-        } // maybe printer isn't defined yet?
-        delete this.updating;
-    } else {
-        if( this.updating ) return;
-        this.updating = true;
-        setTimeout( that.updateSelection(true), 300 );
-    }
+    return;
 };
-
-//SITE.PartGen.prototype.keyboardCallback = function( e ) {
-//    switch(e) {
-//        case 'MOVE':
-//            var k = this.keyboardWindow.topDiv.style;
-//            SITE.properties.partGen.keyboard.left = k.left;
-//            SITE.properties.partGen.keyboard.top = k.top;
-//            break;
-//        case 'ROTATE':
-//            this.accordion.rotateKeyboard(this.keyboardWindow.dataDiv);
-//            SITE.properties.partGen.keyboard.transpose = this.accordion.render_opts.transpose;
-//            SITE.properties.partGen.keyboard.mirror = this.accordion.render_opts.mirror;
-//            break;
-//        case 'ZOOM':
-//            this.accordion.scaleKeyboard(this.keyboardWindow.dataDiv);
-//            SITE.properties.partGen.keyboard.scale = this.accordion.render_opts.scale;
-//            break;
-//        case 'GLOBE':
-//            this.accordion.changeNotation();
-//            SITE.properties.partGen.keyboard.label = this.accordion.render_opts.label;
-//            break;
-//        case 'CLOSE':
-//            this.showKeyboard(false);
-//            break;
-//    }
-//};
 
 SITE.PartGen.prototype.salvaPartitura = function() {
     if (FILEMANAGER.requiredFeaturesAvailable()) {

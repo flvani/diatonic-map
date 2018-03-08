@@ -1,12 +1,12 @@
 
-@font-face { font-family: 'titleFont';          src: url('./RockSalt.ttf') format('truetype'); }
-@font-face { font-family: 'menuFont';           src: url('./Milonga-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'titleFont';          src: url('https://flvani.github.io/diatonic-map/fontsGoogle/RockSalt.ttf') format('truetype'); }
+@font-face { font-family: 'menuFont';           src: url('https://flvani.github.io/diatonic-map/fontsGoogle/Milonga-Regular.ttf') format('truetype'); }
 
-@font-face { font-family: 'subMenuFont';        src: url('./AllertaStencil-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'subMenuFont';        src: url('https://flvani.github.io/diatonic-map/fontsGoogle/AllertaStencil-Regular.ttf') format('truetype'); }
 
-@font-face { font-family: 'subMenuFont2';       src: url('./Righteous-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'subMenuFont2';       src: url('https://flvani.github.io/diatonic-map/fontsGoogle/Righteous-Regular.ttf') format('truetype'); }
 
-@font-face { font-family: 'abcFont';            src: url('./Merienda-Regular.ttf') format('truetype'); }
+@font-face { font-family: 'abcFont';            src: url('https://flvani.github.io/diatonic-map/fontsGoogle/Merienda-Regular.ttf') format('truetype'); }
 
 /*
 @font-face { font-family: 'atual01';              src: url('./Neucha.ttf') format('truetype'); }

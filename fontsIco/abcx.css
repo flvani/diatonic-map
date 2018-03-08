@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'abcx';
-  src: url('./abcx.ttf?78578307') format('truetype'),
-       url('./abcx.svg?78578307#abcx') format('svg');
+  src: url('https://flvani.github.io/diatonic-map/fontsIco/abcx.ttf?78578307') format('truetype'),
+       url('https://flvani.github.io/diatonic-map/fontsIco/abcx.svg?78578307#abcx') format('svg');
 }
 
 /* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */

@@ -528,8 +528,6 @@ SITE.PartEdit.prototype.unhighlight = function(abcelem) {
 };
 
 SITE.PartEdit.prototype.updateSelection = function (force) {
-    return;
-    // não é possível, por hora, selecionar o elemento da partitura a partir da tablatura
     var that = this;
     if( force ) {
         var selection = that.editorWindow.getSelection();
