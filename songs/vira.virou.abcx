@@ -28,7 +28,7 @@ w:Ai, se~ alguém * segura~o * le-me, desta * nave~in- * candes- * cente, * que'
 w:tão~fa- * minta * da a-le-gria, que~hoje~é * porto *  de par-ti- * da 
 |: g3 | fed | c3 | Ace | d3 | edc | d3- | d2 z |
 w: Ah! Vi-ra, vi-rou, meu co-ra-ção na-ve-ga-dor! *
-| g3 | fed | c3 | Ace | d3- | d3 | c3 :|
+| g3 | fed | c3 | Ace | d3- | d3 | c3- | c2 z :|
 w: Ah! Gi-ra, gi-rou, es-sa ga-le- * ra!
 V:2 bass
 |: A,, [A,CE] [A,CE] | D,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] | E,, [E,^G,B,] [E,G,B,] | F,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] :|
@@ -37,7 +37,7 @@ V:2 bass
 |  A,, [A,CE] [A,CE] | D,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] | E,, [E,^G,B,] [E,G,B,] | F,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | A,, [C,E,G,] [C,E,G,] |
 |  A,, [A,CE] [A,CE] | D,, [F,A,C] [F,A,C] | E,, [E,^G,B,] [E,G,B,] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] |
 |: C,, [C,E,G,] [C,E,G,] | G,, [E,^G,B,] [E,G,B,] | A,, [A,CE] [A,CE] | G,, [A,CE] [A,CE] | D,, [F,A,C] [F,A,C] | D,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] |
-|  C,, [C,E,G,] [C,E,G,] | G,, [E,^G,B,] [E,G,B,] | A,, [A,CE] [A,CE] | G,, [A,CE] [A,CE] | D,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] :|
+|  C,, [C,E,G,] [C,E,G,] | G,, [E,^G,B,] [E,G,B,] | A,, [A,CE] [A,CE] | G,, [A,CE] [A,CE] | D,, [F,A,C] [F,A,C] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] :|
 V:3 accordionTab
 |: A-90.5 >-8'0.5 a-90.5 >-8'0.5 a-90.5 >-8'0.5 | D-90.5 >-8'0.5 f-7' f-z | G-7'0.5 >-90.5 g-7'0.5 >-90.5 g-7'0.5 >-90.5 | C+6' c+> c+z | E+80.5 >+7'0.5 e+7' e+> | F-7'0.5 >-90.5 f-9 f-> | G-9' g-9 g-7' | C+7' c+> c+> :|
 | A-90.5 >-90.5 a-90.5 >-90.5 a-90.5 >-8'0.5 | D-9 f-7' f-> | G-7'0.5 >-7'0.5 g-7'0.5 >-7'0.5 g-7'0.5 >-90.5 | C+8 c+6' c+> | E+6' e+7 e+> | F-6' f-7 f-> | G-5' g-5' g-4' | C+5' c+> c+> |
@@ -45,4 +45,4 @@ V:3 accordionTab
 | A-90.5 >-90.5 a-90.5 >-90.5 a-90.5 >-8'0.5 | D-9 f-7' f-> | G-7'0.5 >-7'0.5 g-7'0.5 >-7'0.5 g-7'0.5 >-90.5 | C+8 c+6' c+> | E+70.5 >+70.5 e+70.5 >+70.5 e+70.5 >+6'0.5 | F-6' f-7 f-> | G-5'0.5 >-70.5 g-6'0.5 >-80.5 g-7'0.5 >-8'0.5 | A-8' c+7' c+> |
 | A-90.5 >-90.5 a-90.5 >-90.5 a-90.5 >-8'0.5 | D-9 f-7' f-> | E+80.5 >+80.5 e+80.5 >+80.5 e+80.5 >+7'0.5 | F-8' f-> f-> | F-> f-> f-> | G-7' g-> g-> | G-> g-> g-> |
 |: C+8' c+> c+> | G-8' e+7' e+8 | A-8 a-> a-> | G-7 a-8 a-9 | D-7' f-> f-> | D-9 f-7' f-8 | G+8 g+> g+> | G+> g+> g+z |
-|  C+8' c+> c+> | G-8' e+7' e+8 | A-8 a-> a-> | G-7 a-8 a-9 | D-7' f-> f-> | G-> g-> g-> | C+6' c+> c+> :|
+|  C+8' c+> c+> | G-8' e+7' e+8 | A-8 a-> a-> | G-7 a-8 a-9 | D-7' f-> f-> | G-> g-> g-> | C+6' c+> c+> | C+> c+> c+z :|

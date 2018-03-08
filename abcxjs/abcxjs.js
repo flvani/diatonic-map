@@ -11308,7 +11308,7 @@ ABCXJS.midi.Player.prototype.startPlay = function(what) {
   
     var self = this;
     
-    this.doPlay();
+    //this.doPlay();
     this.playInterval = window.setInterval(function() { self.doPlay(); }, this.tempo);
     
     return true;
@@ -11386,7 +11386,7 @@ ABCXJS.midi.Player.prototype.startDidacticPlay = function(what, type, value, val
             break;
     }
   
-    this.doDidacticPlay(criteria);
+    //this.doDidacticPlay(criteria);
     this.playInterval = window.setInterval(function() { that.doDidacticPlay(criteria); }, this.tempo);
     return true;
 };
