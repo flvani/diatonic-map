@@ -1,0 +1,25 @@
+X:2101
+%%barnumbers 0
+%%papersize A4
+%%tabinferenceopts +1
+%%pagenumbering
+%%restsintab
+T:Alouette (club)
+C:French-Canadian Folk Song
+Z:Flávio Vani
+F:https://www.youtube-nocookie.com/embed/Q5tyhuy7Lq8&T:Alouette;
+F:http://flvani.github.io/diatonic-map/alouette.png
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:4/4
+L:1/4
+Q:160
+K:F
+V:1 clef=treble
+| "F" F7/4 G/4 A A | "C" G3/4F/4 G3/4A/4 F C | "F" F7/4 G/4 A A | "C" G3/4F/4 G3/4A/4 F2 +fine+ |
+| F3/4F/4 F3/4A/4 c3/4c/4 c | z4 | c3/4c/4 c z z | c3/4c/4 c z z | c B A G  +dcalfine+ |
+V:2 clef=bass
+| F,, [F,A,C] F,, [F,A,C] | C,, [C,E,G,] F,, [F,A,C] | F,, [F,A,C] F,, [F,A,C] | C,, [C,E,G,] F,, [F,A,C] |
+| z4 | C,3/4D,/4 C,3/4B,,/4 A,,3/4G,,/4 F,, | z z  C,,3/4C,,/4 C,, | z z  C,,3/4C,,/4 C,, | C,, C,, C,, C,, |
+V:3 clef=accordionTab
+| F+4' f+>0.75 >+60.25 F+5' f+5' | C-4'0.75 >-50.25 c-4'0.75 >-60.25 F+4' f+4 | F+4' f+>0.75 >+60.25 F+5' f+5' | C-4'0.75 >-50.25 c-4'0.75 >-60.25 F+4' f+> |
+| z+4'0.75 z+4'0.25 z+4'0.75 z+5'0.25 z-6'0.75 z-6'0.25 z-6' | C-z0.75 D-z0.25 C-z0.75 B♭-z0.25 A+z0.75 G-z0.25 F+z | z+6'0.75 z+6'0.25 z+6' C-z0.75 C-z0.25 C-z |z+6'0.75 z+6'0.25 z+6' C-z0.75 C-z0.25 C-z | C-6' C-5' C-6 C-4' |

@@ -1,0 +1,27 @@
+X:2100
+%%barnumbers 0
+%%papersize A4
+%%tabinferenceopts -2
+%barsperstaff 6
+%staffsep 5
+%%pagenumbering
+T:Oh, my darling Clementine! (club)
+C:American Folk Ballad
+C:(c: 1884 - Percy Montrose)
+Z:Flávio Vani
+F:https://vignette.wikia.nocookie.net/piano-tiles/images/b/b3/Comparison_OMDC_and_HPN.png/revision/latest?cb=20150830045033
+F:http://flvani.github.io/diatonic-map/clementine.png
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:3/4
+L:1/4
+Q:120
+K:F
+V:1 clef=treble
+| z2 F3/4F/4 |: "F" F C A3/4A/4 | A F F3/4A/4 | c3/2 c/2 B/2A/2 | "C" G2 G3/4A/4 |
+| B B A3/4G/4 | "F"  A F F3/4A/4 | "C" G3/2 C/2 E/2G/2 |1 "F" F2 F3/4F/4 :|2 "F" F3 |
+V:2 clef=bass
+| z2 z  |: F,, [F,A,C] z | F,, [F,A,C] z | F,, [F,A,C] z | C,, [C,E,G,] z |
+| C,, [C,E,G,] z | F,, [F,A,C] z | C,, [C,E,G,] z |1 F,, [F,A,C] z :|2 F,,3 |
+V:3 clef=accordionTab
+| z-z2 z-50.75 z-50.25 |: F+4' f+4 z+5'0.75 z+5'0.25 | F+5' f+4' z+4'0.75 z+5'0.25 | F+6' f+>0.5 >+6'0.5 z-5'0.5 z-60.5 | C-4' c-> z-4'0.75 z-60.25 |
+| C-5' c-5' z+5'0.75 z+60.25 | F+5' f+4' z+4'0.75 z+5'0.25 | C+6 c+>0.5 >+40.5 z-3'0.5 z-4'0.5 |1 F+4' f+> z+4'0.75 z+4'0.25 :|2 F+4'3 |
