@@ -609,7 +609,6 @@ SITE.Media.prototype.show = function(tab) {
                 this.tabDiv = document.createElement('div');
                 this.tabDiv.className='media-tabs';
                 this.mediaWindow.topDiv.appendChild(this.tabDiv);
-                //this.mediaWindow.topDiv.style.overflow = 'visible';
             } else {
                 this.tabDiv.innerHTML = "";
                 this.mediaWindow.dataDiv.innerHTML = "";
