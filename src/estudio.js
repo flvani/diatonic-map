@@ -899,13 +899,13 @@ SITE.Estudio.prototype.onModelChanged = function(loader) {
 
 SITE.Estudio.prototype.highlight = function(abcelem) {
     if( !this.midiPlayer.playing) {
-        if(SITE.properties.studio.editor.visible) {
-            this.editorWindow.setSelection(abcelem);
-        }    
         if(SITE.properties.studio.keyboard.visible ) {
             this.accordion.clearKeyboard(true);
             this.midiParser.setSelection(abcelem);
         }
+        if(SITE.properties.studio.editor.visible) {
+            this.editorWindow.setSelection(abcelem);
+        }    
     }    
 };
 

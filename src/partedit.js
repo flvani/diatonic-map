@@ -511,13 +511,15 @@ SITE.PartEdit.prototype.printABC = function() {
 };
 
 SITE.PartEdit.prototype.highlight = function(abcelem) {
-    if(SITE.properties.partEdit.editor.visible && !this.midiPlayer.playing) {
-        this.editorWindow.setSelection(abcelem);
-    }    
-    if(SITE.properties.partEdit.keyboard.visible && !this.midiPlayer.playing) {
-        this.accordion.clearKeyboard(true);
-        this.midiParser.setSelection(abcelem);
-    }    
+    if( !this.midiPlayer.playing ) {
+        if(SITE.properties.partEdit.keyboard.visible ) {
+            this.accordion.clearKeyboard(true);
+            this.midiParser.setSelection(abcelem);
+        }    
+        if(SITE.properties.partEdit.editor.visible ) {
+            this.editorWindow.setSelection(abcelem);
+        }    
+    }
 };
 
 // limpa apenas a janela de texto. Os demais elementos são controlados por tempo 
