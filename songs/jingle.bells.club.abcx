@@ -1,0 +1,32 @@
+X:2050
+%%barnumbers 1
+%%papersize A4
+%%tabinferenceopts -2
+%%barsperstaff 7
+%%pagenumbering
+T:Jingle Bells (club)
+T:(Bate o sino)
+C:James Lord Pierpont
+C:(Arranged by Ian Cantor)
+Z:Flávio Vani
+F:http://ia800207.us.archive.org/5/items/Cantorion_sheet_music_collection/6599df62f0f2879cc6984d74bcbd2117.pdf&T:Jingle Bells;
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:2/4
+L:1/8
+Q:120
+K:C
+V:1 clef=treble
+| "C" Ge dc | G3 G/2G/2 | Ge dc | "F" A4 | Af ed | "G" B4 |
+| gg fd | "C" e4 | Ge dc | G4 | Ge dc |
+| "F" A3 A | Af ed | "G" gg gg | ag fd |
+| "C" c2 g2 |: ee e2 | ee e2 | eg c3/2d/2 | e4 | ff f3/2f/2 | fe ee/2e/2 |1 ed de | d2 g2 :|2 gg fd | c4 +D.C.+ |
+V:2 clef=bass
+| C,,2 [C,E,G,][C,E,G,] | C,,2 [C,E,G,][C,E,G,] | C,,2 [C,E,G,][C,E,G,] | F,,2 [F,A,C][F,A,C] | F,,2 [F,A,C] D,, | G,,2 [G,B,D][G,B,D] |
+| G,,2 [G,B,D][G,B,D] | C,,2 [C,E,G,][C,E,G,] | C,,2 [C,E,G,][C,E,G,] | C,,2 [C,E,G,][C,E,G,] | C,,2 [C,E,G,][C,E,G,] |
+| F,,2 [F,A,C][F,A,C] | F,,2 [F,A,C]D,, | G,,2 [G,B,D][G,B,D] | G,,2 [G,B,D][G,B,D] |
+| [C,E,G,] 2 G,,2 |: C,,2 G,,2 | C,,2 G,,2 | C,,2 G,,2 | C,,2 G,,2 | D,,2 G,,2 | C,,2 G,,2 |1 D,,4 | G,,4 :|2 D,,2 G,,2 | C,,2 [C,E,G,]2 |
+V:3 accordionTab
+| C-4' >-7' c-8 c-6' | C-4'2 c-> c-4'0.5 >-4'0.5 | C+6 >+8 c-8 c-6' | F+5'2 f+> f+> | F+5' >+7' f+8 D-8 | G-72 g-> g-> | 
+| G-8' >-8' g-9 g-8 | C+82 c+> c+> | C+6 >+8 c-8 c-6' | C-4'2 c-> c-> | C-4' >-7' c-8 c+7 | 
+| F+5'2 f+> f+5' | F+5' >+7' f+8 D-8 | G-8' >-8' g-8' g-8' | G-a >-8' g-9 g-8 | 
+| c+6'2 G-8'2 |: C-7' >-7' G-7'2 | C-7' >-7' G-7'2 | C+8 >+9 G-6'1.5 >-80.5 | C-7'2 G->2 | D-9 >-9 G-91.5 >-90.5 | C+7' >+8 G-7' >-7'0.5 >-7'0.5 |1 D-7' >-8 >-8 >-7' | G-82 >-8'2 :|2 D-8' >-8' G-9 >-8 | C-6'2 c->2 | 

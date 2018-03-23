@@ -1,0 +1,48 @@
+X:2049
+%%barnumbers 0
+%%papersize A4
+%%staffsep 20
+%%tabinferenceopts -2
+%barsperstaff 6
+%%pagenumbering
+T:Vira virou (club)
+C:Kleiton & Kledir
+C:(c: Kleiton Ramil)
+Z:Flávio Vani
+%F:/diatonic-map/vira.virou.png&T:Vira-virou - Imagem;
+%F:https://www.youtube-nocookie.com/embed/ntWDtNmsnvg&T:Aulas de Gaita-Ponto - Teoria 1 - INTERVALOS (maiores, menores e justos);
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:3/4
+L:1/8
+Q:76
+K:F
+V:1 treble
+|: "Dm" a/2b/2 a/2b/2 a/2b/2 | "Gm" a/2b/2 g z | "C7" g/2a/2 g/2a/2 g/2a/2 | "F" f2 z | "A7" g/2a/2 a2 | "A#" g/2a/2 a2 | "C7" c'ag | "F" a3 :| 
+| a/2a/2 a/2a/2 a/2b/2 | a g2 | g/2g/2 g/2g/2 g/2a/2 | g f2 | f e2 | e d2 | ccB | c3 |
+w: Vou~vol- * tar na prima- * ve-ra e~era * tu-do que~eu * que-ria, le-vo ter-ra no-va da-qui.
+| a/2a/2 a/2a/2 a/2b/2 | a g2 | g/2g/2 g/2g/2 g/2a/2 | g f2 | f e2 | e d2 | ccB | c3 |
+w: Quero * ver  o passa- * re-do, pe-los por- * tos de Lis-boa, vo-a, vo-a, que~eu * chego  já.
+| a/2a/2 a/2a/2 a/2b/2 | a g2 | g/2g/2 g/2g/2 g/2a/2 | g f2 | e/2e/2 e/2e/2 e/2f/2 | e d2 | c/2d/2 e/2f/2 g/2b/2 | b a2 |
+w:Ai, se~ alguém * segura~o * le-me, desta * nave~in- * candes- * cente, * que'in- * cendeia *  minha * vida, * que~era * via- * jante * lenta, *
+| a/2a/2 a/2a/2 a/2b/2 | a g2 | g/2g/2 g/2g/2 g/2a/2 | b3- | b3 | g3- | g3 | 
+w:tão~fa- * minta * da a-le-gria, que~hoje~é * porto *  de par-ti- * da 
+|: c'3 | bag | f3 | dfa | g3 | agf | g3- | g2 z |
+w: Ah! Vi-ra, vi-rou, meu co-ra-ção na-ve-ga-dor! *
+| c'3 | bag | f3 | dfa | g3- | g3 | f3- | f2 z :|
+w: Ah! Gi-ra, gi-rou, es-sa ga-le- * ra!
+V:2 bass
+|: D,, [D,F,A,] [D,F,A,] | G,, [B,DF] [B,DF] | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] | A,, [A,_DE] [A,DE] | B,, [B,DF] [B,DF] | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] :|
+|  D,, [D,F,A,] [D,F,A,] | G,, [B,DF] [B,DF] | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] | A,, [A,_DE] [A,DE] | B,, [B,DF] [B,DF] | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] |
+|  D,, [D,F,A,] [D,F,A,] | G,, [B,DF] [B,DF] | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] | A,, [A,_DE] [A,DE] | B,, [B,DF] [B,DF] | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] |
+|  D,, [D,F,A,] [D,F,A,] | G,, [B,DF] [B,DF] | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] | A,, [A,_DE] [A,DE] | B,, [B,DF] [B,DF] | C,, [C,E,G,] [C,E,G,] | D,, [F,A,C] [F,A,C] |
+|  D,, [D,F,A,] [D,F,A,] | G,, [B,DF] [B,DF] | A,, [A,_DE] [A,DE] | B,, [B,DF] [B,DF] | B,, [B,DF] [B,DF] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] |
+|: F,, [F,A,C] [F,A,C] | C,, [A,_DE] [A,DE] | D,, [D,F,A,] [D,F,A,] | C,, [D,F,A,] [D,F,A,] | G,, [B,DF] [B,DF] | G,, [B,DF] [B,DF] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] |
+|  F,, [F,A,C] [F,A,C] | C,, [A,_DE] [A,DE] | D,, [D,F,A,] [D,F,A,] | C,, [D,F,A,] [D,F,A,] | G,, [B,DF] [B,DF] | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] :|
+V:3 accordionTab
+|: D-a0.5 >-9'0.5 dm-a0.5 >-9'0.5 dm-a0.5 >-9'0.5 | G-a0.5 >-9'0.5 b♭-8' b♭-z | C-8'0.5 >-a0.5 c-8'0.5 >-a0.5 c-8'0.5 >-a0.5 | F+7' f+> f+z | A+90.5 >+8'0.5 a+8' a+> | B♭-8'0.5 >-a0.5 b♭-a b♭-> | C-a' c-a c-8' | F+8' f+> f+> :| 
+| D-a0.5 >-a0.5 dm-a0.5 >-a0.5 dm-a0.5 >-9'0.5 | G-a b♭-8' b♭-> | C-8'0.5 >-8'0.5 c-8'0.5 >-8'0.5 c-8'0.5 >-a0.5 | F+9 f+7' f+> | A+7' a+8 a+> | B♭-7' b♭-8 b♭-> | C-6' c-6' c-5' | F+6' f+> f+> | 
+| D-a0.5 >-a0.5 dm-a0.5 >-a0.5 dm-a0.5 >-9'0.5 | G-a b♭-8' b♭-> | C-8'0.5 >-8'0.5 c-8'0.5 >-8'0.5 c-8'0.5 >-a0.5 | F+9 f+7' f+> | A+7' a+8 a+> | B♭-7' b♭-8 b♭-> | C-6' c-6' c-5' | F+6' f+> f+> | 
+| D-a0.5 >-a0.5 dm-a0.5 >-a0.5 dm-a0.5 >-9'0.5 | G-a b♭-8' b♭-> | C-8'0.5 >-8'0.5 c-8'0.5 >-8'0.5 c-8'0.5 >-a0.5 | F+9 f+7' f+> | A+80.5 >+80.5 a+80.5 >+80.5 a+80.5 >+7'0.5 | B♭-7' b♭-8 b♭-> | C-6'0.5 >-80.5 c-7'0.5 >-90.5 c-8'0.5 >-9'0.5 | D-9' f+8' f+> | 
+| D-a0.5 >-a0.5 dm-a0.5 >-a0.5 dm-a0.5 >-9'0.5 | G-a b♭-8' b♭-> | A+90.5 >+90.5 a+90.5 >+90.5 a+90.5 >+8'0.5 | B♭-9' b♭-> b♭-> | B♭-> b♭-> b♭-> | C-8' c-> c-> | C-> c-> c-> | 
+|: F+9' f+> f+> | C-9' a+8' a+9 | D-9 dm-> dm-> | C-8 dm-9 dm-a | G-8' b♭-> b♭-> | G-a b♭-8' b♭-9 | C+9 c+> c+> | C+> c+> c+z | 
+| F+9' f+> f+> | C-9' a+8' a+9 | D-9 dm-> dm-> | C-8 dm-9 dm-a | G-8' b♭-> b♭-> | C-> c-> c-> | F+7' f+> f+> | F+> f+> f+z :| 

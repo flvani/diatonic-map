@@ -1,0 +1,61 @@
+X:1053
+%%barnumbers 0
+%%papersize A4
+%%tabinferenceopts +2
+%%barsperstaff 4
+%%staffsep 5
+T:Ovo de Codorna
+C:Luiz Gonzaga
+C:(c: Severino Ramos)
+Z:Flávio Vani
+%F:https://www.youtube-nocookie.com/embed/MkCAj4l32sg&T:Partitura;
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:4/4
+L:1/8
+Q:1/4=120
+K:G
+V:1 clef=treble
+| z E [GB]E |: +segno+ "G" [GB]E[GB]E [GB]EGB | "D7" [Fd]4 z [df] [df][ce] |
+| "C" [ce]2 z [Bd] "D7" [Bd][Ac][Ac][GB] |1 "G" [Bd]4 z E [GB]E :|2 "G" [GB]2 d/2c/2B/2A/2 G/2z/2 E [GB]E |
+w:| | | * * * * * * Eu quero * |
+|: "G" [GB]E[GB]E [GB]EGB | "D7" [Fd]4 z [df] [df][ce] | "C" [ce]2 z [Bd] "D7" [Bd][Ac][Ac][GB] |
+w:um ovo de co-dor-na pra co-mer! * O~meu~pro-* ble-ma ele tem que re-sol-
+|1 "G" [Bd]4 z E [GB]E :|2 "G" [GB]2 z2 edcB |  G2 z B AGFE |
+w:-ver! * Eu que-ro | ver! Eu tô ma-du-rão, pas-sei da flor da~i-
+| "D7" D2 z2  AGFE | "C" C2 z C "D7" DEFG | "G" BB z2 edcB |
+w:dade, * mas ain-da te-nho al-gu-ma mo-ci-da-de. Vou cui-dar de
+| G2 z B AGFE | "D7" D4 z D FA | "C" CCEG "D7" BAAG +dacoda+ |
+w:mim pra não a-con-te-cer. Vou com-prar ovo de co-dor-na pra co-
+| "G" G4 z +dsalcoda+ E [GB]E +coda+ | "G" G4 z4  | 
+w:mer | mer 
+V:2 clef=bass
+| z4 |: G,,2 [G,B,D]2  G,,2 [G,B,D]2 | D,,2 [D,F,A,]2 D,,2 [D,F,A,]2 |
+| C,,2 [C,E,G,]2 D,,2 [D,F,A,]2 |1 G,,2 [G,B,D]2  G,,2 [G,B,D]2 :|2 G,,2 [G,B,D]2  G,,2 [G,B,D]2 |
+|: G,,2 [G,B,D]2  G,,2 [G,B,D]2 | D,,2 [D,F,A,]2 D,,2 [D,F,A,]2 | C,,2 [C,E,G,]2 D,,2 [D,F,A,]2 |
+|1 G,,2 [G,B,D]2  G,,2 [G,B,D]2 :|2 G,,2 [G,B,D]2  G,,2 [G,B,D]2 | G,,2 [G,B,D]2  G,,2 [G,B,D]2 |
+| D,,2 [D,F,A,]2 D,,2 [D,F,A,]2 | C,,2 [C,E,G,]2 D,,2 [D,F,A,]2 | G,,2 [G,B,D]2  G,,2 [G,B,D]2 |
+| G,,2 [G,B,D]2  G,,2 [G,B,D]2 | D,,2 [D,F,A,]2 D,,2 [D,F,A,]2 | C,,2 [C,E,G,]2 D,,2 [D,F,A,]2 |
+|1 G,,2 [G,B,D]2  G,,2 [G,B,D]2 |2 G,,4 z4 |
+W:Eu já procurei
+W:Um doutor meu amigo
+W:Ele me falou:
+W:-Pode contar comigo!
+W:Ele me ensinou
+W:E eu passo pra você
+W:Vou lhe dar ovo de codorna pra comer
+W:
+W:Eu andava triste
+W:Quase apavorado
+W:Estavam me fazendo
+W:De um pobre coitado
+W:Minha companheira
+W:Tá feliz porque
+W:Eu comprei ovo de codorna pra comer
+V:3 clef=accordionTab
+| z+z z+4' z+[5'7] z+4' |: G+[5'7] >+4' g+[5'7] >+4' G+[5'7] >+4' g+5' >+7 | D-[67']2 d-[>>]2 D-z >-[7'a] d-[7'a] >-[89] |
+| C+[6'7']2 c+z >+[78] D-[6'7'] >-[78] d-[78] >-[5'6'] |1 G-[6'7']2 g-[>>]2 G+z >+4' g+[5'7] >+4' :|2 G-[5'6']2 g-7'0.5 >-80.5 >-6'0.5 >-70.5 G+60.5 >+z0.5 >+4' g+[5'7] >+4' |
+|: G+[5'7] >+4' g+[5'7] >+4' G+[5'7] >+4' g+5' >+7 | D-[67']2 d-[>>]2 D-z >-[7'a] d-[7'a] >-[89] | C+[6'7']2 c+z >+[78] D-[6'7'] >-[78] d-[78] >-[5'6'] |
+|1 G-[6'7']2 g-[>>]2 G+z >+4' g+[5'7] >+4' :|2 G-[5'6']2 g-z2 G+7' >+8 g+6' >+7 | G+62 g+z >+7 G-7 >-5' g-6 >-5 |
+| D-3'2 d-z2 D-7 >-5' d-6 >-5 | C+3'2 c+z >+3' D-3' >-5 d-6 >-5' | G+7 >+7 g+z2 G+7' >+8 g+6' >+7 |
+| G-5'2 g-z >-6' G-7 >-5' g-6 >-5 | D-3'2 d->2 D-z >-3' d-6 >-7 | C+3' >+3' c+4' >+5' D-6' >-7 d-7 >-5' |
+| G-5'2 g->2 G+z >+4' g+[5'7] >+4' | G-5'4 z+z4 |
