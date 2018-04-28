@@ -8,10 +8,10 @@ T:(Coração verde-amarelo)
 C:Produção: Sentimental Filmes
 C:(Letra Original: Tavito & Aldir Blanc)
 Z:Flávio Vani
-F:https://www.youtube-nocookie.com/embed/D9y6Ny-pcaI&T:Em Russo;
+F:https://www.youtube-nocookie.com/embed/hd3p4lpjD50&T:Em Russo;
 F:https://www.youtube-nocookie.com/embed/uVHizPEdb5A&T:Pronúncia;
 F:https://www.youtube-nocookie.com/embed/Hkgxl74MCRM&T:Em Russo com tradução;
-F:http://3.bp.blogspot.com/-0R0cbXekYGQ/U31G2-dwvsI/AAAAAAAAFzY/vOWDW-26TXc/s1600/Coração+Verde+e+Amarelo+-++Tema+da+Seleção+da+Rede+Globo.jpg
+%F:http://3.bp.blogspot.com/-0R0cbXekYGQ/U31G2-dwvsI/AAAAAAAAFzY/vOWDW-26TXc/s1600/Coração+Verde+e+Amarelo+-++Tema+da+Seleção+da+Rede+Globo.jpg
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 M:4/4
 L:1/8
@@ -27,13 +27,12 @@ w:хоть мо-ё   сер-дце тре-пе-щет    в~гру-ди   * Бр
 w:khôt ma-yo sierd-tsa trie-pie-scha f~gru-di, * Bra-zi-li-ya, të- * vpe-re-di! Ya znayú    sma- | di 
 w:até  que meu co-ra-ção vi-bra no peito,      * É vo-cê  na  fren-* te, Bra-sil! Eu sei~q. pos- | sil!
 V:2 bass
-| C,,2 [C,E,G,]2 G,,2 [C,E,G,]2 |:  C,,2 [C,E,G,]2 G,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 G,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 G,,2 [G,B,D]2 | D,,2 [F,A,C]2 D,,2 [F,A,C]2 | 
-| D,,2 [F,A,C]2 D,,2 [G,B,D]2 | G,,2 [G,B,D]2 A,,4 | D,,4 G,,4 |1 C,,2 [C,E,G,]2 G,,2 [C,E,G,]2  :|2  [C,E,G,]8 |
+| C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 |:  C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 C,,2 [G,B,D]2 | D,,2 [F,A,C]2 D,,2 [F,A,C]2 | 
+| D,,2 [F,A,C]2 D,,2 [G,B,D]2 | G,,2 [G,B,D]2 A,,2 z2 | D,,2 [D,F,A,]2 G,,2 [G,B,D]2 |1 C,,2 [C,E,G,]2 G,,2 [C,E,G,]2  :|2  [C,E,G,]8 |
 W:Я знаю, смогу проявить свой напор,
 W:За голом-гол мы  посмотрим повтор
 W:И верю, хоть моё сердце трепещет в груди
 W:Бразилия, ты-впереди!
 V:3 accordionTab
-| C+z2 c+5'2 G+4'2 c+5'2 |: C+4'2 c+3' >+5 G+4' >+5 c+3' >+4' | C+z2 c+5'2 G+4'2 c+5'2 | C+4'2 c+3' >+5 G+4' >+5 g-4 >-4' | D-z2 f-72 D-4'2 f-72 |
-| D-4'2 f-3' >-5 D-4' >-5' g-7 >-6' | G-72 g-5 >-7 A->2 >-z >-7 | D-7 >-5' >-4' >-5 G-> >-3' >-5'2 |1 C+3'2 c+5'2 G+4'2 c+5'2 :|2 c+3'8 |
-
+| C+z2 c+5'2 C+4'2 c+5'2 |: C+4'2 c+3' >+5 C+4' >+5 c+3' >+4' | C+z2 c+5'2 C+4'2 c+5'2 | C+4'2 c+3' >+5 C+4' >+5 g-4 >-4' | D-z2 f-72 D-4'2 f-72 |
+| D-4'2 f-3' >-5 D-4' >-5' g-7 >-6' | G-72 g-5 >-7 A->2 z-z >-7 | D-7 >-5' d-4' >-5 G-> >-3' g-5'2 |1 C+3'2 c+5'2 G+4'2 c+5'2 :|2 c+3'8 |

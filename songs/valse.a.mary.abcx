@@ -1,0 +1,26 @@
+X:160
+%%barnumbers 0
+%%papersize A4
+T:Valse à Mary
+C:B. Loffet
+L:1/8
+Q:140
+M:3/4
+K:C
+Z:Bernard Loffet, Created with TablEdit http://www.tabledit.com/, 
+F:http://diato.org/tablat/tab51.gif
+V:1 treble
+|: Ac ed dc | A3 B cd | ec g^f df | e3 d B2|
+| Ac ed dc | A3 B cd | e2 dc de | B6 :|: fe fa ge |
+|c3 B A2 | dc de ^fd | e2 ed B2 | fe fa ge |
+| c3 B Ac | ee dc d^f | e6 :| Ac ed dc |A6 |  
+V:2 bass
+|: A,,2 [A,CE]2 [A,CE]2 | A,,2 [A,CE]2 [A,CE]2 | C,,2 [C,E,G,] z [D,^F,A,]2 | E,,2 [E,^G,B,]2 [E,^G,B,]2 |
+|  A,,2 [A,CE]2 [A,CE]2 | A,,2 [A,CE]2 [A,CE]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | E,,2 [E,^G,B,]2 [E,^G,B,]2 :|: F,,2 [F,A,C]2 [F,A,C]2 |
+|  A,,2 [A,CE]2 [A,CE]2 | D,,2 [D,^F,A,]2 [D,^F,A,]2 | E,,2 [E,^G,B,]2 [E,^G,B,]2 | F,,2 [F,A,C]2 [F,A,C]2 |
+|  A,,2 [A,CE]2 [A,CE]2 | C,,2 [C,E,G,]2 [D,^F,A,]2 | E,,2 [E,^G,B,]2 [E,^G,B,]2 :|  A,,2 [A,CE]2 [A,CE]2 | A,,2 [A,CE]2 [A,CE]2 |
+V:3 accordionTab
+|: A-7 >-8 am-9 >-7' am-7' >-8 | A-72 am-> >-6' am-8 >-7' | C+7' >+6' c+9 z-a d-7' >-a | E+7'2 e+> >+8 e+72 |
+| A-7 >-8 am-9 >-7' am-7' >-8 | A-72 am-> >-6' am-8 >-7' | C+7'2 c+8 >+6' c+8 >+7' | E+72 e+>2 e+>2 :|: F-8' >-9 f-8' >-b f+9 >+7' |
+| A-82 am-> >-6' am-72 | D-7' >-8 d-7' >-9 d-a >-7' | E+7'2 e+7' >+8 e+72 | F-8' >-9 f-8' >-b f+9 >+7' |
+| A-82 am-> >-6' am-7 >-8 | C+7' >+7' c+8 >+6' d-7' >-a | E+7'2 e+>2 e+>2 :| A-7 >-8 am-9 >-7' am-7' >-8 | A-72 am->2 am->2 |
