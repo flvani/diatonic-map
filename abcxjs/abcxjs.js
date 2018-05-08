@@ -11290,6 +11290,8 @@ ABCXJS.midi.Player.prototype.startPlay = function(what) {
     //flavio - pq no IOS tenho que tocar uma nota antes de qualquer pausa
     if(this.currentTime === 0 ) {
         MIDI.stopAllNotes();
+        // flavio - to be compliant with autoplay-policy-changes #webaudio
+        MIDI.resume();
         MIDI.noteOn(0, 40, 1, 0);
         MIDI.noteOff(0, 40, 0.01);
         MIDI.noteOn(1, 40, 1, 0);
