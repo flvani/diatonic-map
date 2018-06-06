@@ -1,0 +1,19 @@
+X:1054
+%%barnumbers 1
+%%papersize A4
+%barsperstaff 5
+%%landscape
+T:Timbre de Galo (introdução)
+C:Pedro Ortaça
+F:https://www.youtube-nocookie.com/embed/qt8kTkCT-CE&T:Timbre de Galo;
+F:https://flvani.github.io/diatonic-map/tab.timbre.de.galo.png&T:Tablatura original;
+L:1/8
+Q:"Vanera   " 1/8=200
+M:2/4
+K:G
+V:1 treble
+| z GBd |: [GBe][GBd] [GBe]g | [FAd][FAc] [FAd]f | [FAd][FAc] [FAd]f | [GBe][GBd] [GBe]g | [GBe][GBd] [GBe]g | [FAd][FAc] [FAd]f | d0.5e0.5d0.5c0.5 B0.5c0.5B0.5A0.5 | G2 z2 :| 
+V:2 bass
+| z4 |: G,,1.5[G,B,D]0.5 G,,[G,B,D] | D,,1.5[D,F,A,]0.5 D,,[D,F,A,] | D,,1.5[D,F,A,]0.5 D,,[D,F,A,] | G,,1.5[G,B,D]0.5 G,,[G,B,D] | G,,1.5[G,B,D]0.5 G,,[G,B,D] | D,,1.5[D,F,A,]0.5 D,,[D,F,A,] | D,,1.5[D,F,A,]0.5 D,,[D,F,A,] | G,,1.5[G,B,D]0.5 G,,[G,B,D] :| 
+V:3 accordionTab
+| z+z z+6 z+7 z+8 |: G+[677'] >+[678].5 g+[>>>].5 G+[677'] g+9 | D-[677'] >-[678].5 d-[>>>].5 D-[677'] d-a | D-[677'] >-[678].5 d-[>>>].5 D-[677'] d-a | G+[677'] >+[678].5 g+[>>>].5 G+[677'] g+9 | G+[677'] >+[678].5 g+[>>>].5 G+[677'] g+9 | D-[677'] >-[678].5 d-[>>>].5 D-[677'] d-a | D-7'.5 >-9.5 >-7'.5 d-8.5 D-6'.5 >-8.5 d-6'.5 >-7.5 | G+61.5 g+>.5 G+z g+z :| 
