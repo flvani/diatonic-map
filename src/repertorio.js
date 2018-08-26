@@ -95,8 +95,16 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
         }
          
         for (var t in this.accordion.loaded.songs.items ) {
+            
+            if( this.accordion.loaded.songs.details[t].hidden ) {
+                continue; //não mostra itens hidden
+            }
 
-            var title = t.replace( '(corona)', '' ).replace( '(club)', '' ).replace( '(transportada)', '' ).replace( '(portuguesa)', '' ).trim();
+            var title = t.replace( '(corona)', '' )
+                            .replace( '(club)', '' )
+                            .replace( '(transportada)', '' )
+                            .replace( '(portuguesa)', '' ).trim();
+                    
             var composer = this.accordion.loaded.songs.details[t].composer;
             var id = this.accordion.loaded.songs.details[t].id;
 

@@ -22,7 +22,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     DIATONIC.map.color.close = SITE.properties.colors.close;
     DIATONIC.map.color.open = SITE.properties.colors.open;
     
-    this.loadByIdx = this.songId = interfaceParams.songId;
+    this.loadByIdx = this.songId = interfaceParams.songId; // debug = '2054';
     
     this.keyboardDiv = interfaceParams.keyboardDiv;
     
@@ -336,6 +336,7 @@ SITE.Mapa.prototype.doLoadOriginalRepertoire = function (loader) {
     
     if(  this.songId ) {
         title = this.accordion.loaded.songs.ids[this.songId];
+        this.accordion.loaded.songs.details[title].hidden = false; // carrega mesmo invisivel
         delete this.songId; // load once
     }
     
@@ -837,9 +838,18 @@ SITE.Mapa.prototype.doCarregaRepertorioLocal = function(files) {
                 accordion.songs.sortedIndex.push(tunebook.tunes[t].title);
             } 
             // add or replace content
+            
+            var id = tunebook.tunes[t].id;
+            var hidden = false;
+            if( id.toLowerCase().charAt(0) === 'h' ) {
+                id = id.substr(1);
+                // neste caso, mostra mesmo que marcado como hidden.
+                hidden = false;
+            }
+            
             accordion.songs.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
-            accordion.songs.details[tunebook.tunes[t].title] = { composer: tunebook.tunes[t].composer, id: tunebook.tunes[t].id };
-            accordion.songs.ids[tunebook.tunes[t].id] = tunebook.tunes[t].title;
+            accordion.songs.details[tunebook.tunes[t].title] = { composer: tunebook.tunes[t].composer, id: id, hidden: hidden };
+            accordion.songs.ids[id] = tunebook.tunes[t].title;
 
             if(! first ) {
                 // marca a primeira das novas canções para ser selecionada
@@ -957,6 +967,10 @@ SITE.Mapa.prototype.loadABCList = function(type) {
             waterbug.show();
         } else {
             vid = items.details[title].id;
+        }
+        
+        if(items.details[title].hidden){
+            continue;
         }
         
         var m = tab.menu.addItemSubMenu( tab.ddmId, cleanedTitle +'|'+type+'#'+vid);
