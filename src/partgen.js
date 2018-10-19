@@ -76,16 +76,16 @@ SITE.PartGen = function( mapa, interfaceParams ) {
 
     this.media = new SITE.Media( this.Div.dataDiv,  interfaceParams.btShowMedia, SITE.properties.partGen.media ); 
 
-//    this.keyboardWindow = new DRAGGABLE.ui.Window( 
-//        this.Div.dataDiv
-//       ,[ 'move', 'rotate', 'zoom', 'globe']
-//       ,{title: '', translator: SITE.translator, statusbar: false
-//            , top: SITE.properties.partGen.keyboard.top
-//            , left: SITE.properties.partGen.keyboard.left
-//       } 
-//      ,{listener: this, method: 'keyboardCallback'}
-//    );
-//    
+    this.keyboardWindow = new DRAGGABLE.ui.Window( 
+        this.Div.dataDiv
+       ,[ 'move', 'rotate', 'zoom', 'globe']
+       ,{title: '', translator: SITE.translator, statusbar: false
+            , top: SITE.properties.partGen.keyboard.top
+            , left: SITE.properties.partGen.keyboard.left
+       } 
+      ,{listener: this, method: 'keyboardCallback'}
+    );
+    
     this.accordion.setRenderOptions({
         draggable: true
        ,show: false // SITE.properties.partGen.keyboard.visible
@@ -149,7 +149,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     });
     
     
-   // this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
+    this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
     //this.printButton = document.getElementById(interfaceParams.printBtn);
     
     this.fileLoadTab = document.getElementById('fileLoadTab');
@@ -174,12 +174,12 @@ SITE.PartGen = function( mapa, interfaceParams ) {
         that.showEditor();
     }, false);
     
-//    this.showMapButton.addEventListener("click", function (evt) {
-//        evt.preventDefault();
-//        this.blur();
-//        that.showKeyboard();
-//    }, false);
-//    
+    this.showMapButton.addEventListener("click", function (evt) {
+        evt.preventDefault();
+        this.blur();
+        that.showKeyboard();
+    }, false);
+    
 
 //    this.printButton.addEventListener("click", function(evt) {
 //        evt.preventDefault();
@@ -317,8 +317,8 @@ SITE.PartGen.prototype.setup = function(options) {
         this.editorWindow.container.dispatchAction('POPIN');
     }
 
-    //this.showKeyboard(SITE.properties.partGen.keyboard.visible);
-    //this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
+    this.showKeyboard(SITE.properties.partGen.keyboard.visible);
+    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
     
     this.resize();
     
@@ -355,30 +355,30 @@ SITE.PartGen.prototype.resize = function( ) {
 
     this.studioCanvasDiv.style.height = t-(w+e+c+6) +"px";
     
-    //this.posicionaTeclado();
+    this.posicionaTeclado();
     this.editorWindow.resize();
     
     (this.ps) && this.ps.update();
     
 };
 
-//SITE.PartGen.prototype.posicionaTeclado = function() {
-//    
-//    if( ! SITE.properties.studio.keyboard.visible ) return;
-//    
-//    var w = window.innerWidth;
-//    
-//    var k = this.keyboardWindow.topDiv;
-//    var x = parseInt(k.style.left.replace('px', ''));
-//    
-//    if( x + k.offsetWidth > w ) {
-//        x = (w - (k.offsetWidth + 50));
-//    }
-//    
-//    if(x < 0) x = 10;
-//    
-//    k.style.left = x+"px";
-//};
+SITE.PartGen.prototype.posicionaTeclado = function() {
+    
+    if( ! SITE.properties.partGen.keyboard.visible ) return;
+    
+    var w = window.innerWidth;
+    
+    var k = this.keyboardWindow.topDiv;
+    var x = parseInt(k.style.left.replace('px', ''));
+    
+    if( x + k.offsetWidth > w ) {
+        x = (w - (k.offsetWidth + 50));
+    }
+    
+    if(x < 0) x = 10;
+    
+    k.style.left = x+"px";
+};
 
 
 SITE.PartGen.prototype.closePartGen = function(save) {
@@ -413,23 +413,23 @@ SITE.PartGen.prototype.showEditor = function(show) {
     this.resize();
 };
 
-//SITE.PartGen.prototype.showKeyboard = function(show) {
-//    SITE.properties.partGen.keyboard.visible = 
-//            (typeof show === 'undefined'? ! SITE.properties.partGen.keyboard.visible : show );
-//    
-//    this.accordion.render_opts.show = SITE.properties.partGen.keyboard.visible;
-//    
-//    if(SITE.properties.partGen.keyboard.visible) {
-//        this.keyboardWindow.setVisible(true);
-//        this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
-//        document.getElementById('t2pI_showMap').setAttribute('class', 'ico-folder-open' );
-//        this.posicionaTeclado();
-//    } else {
-//        this.accordion.render_opts.show = false;
-//        this.keyboardWindow.setVisible(false);
-//        document.getElementById('t2pI_showMap').setAttribute('class', 'ico-folder' );
-//    }
-//};
+SITE.PartGen.prototype.showKeyboard = function(show) {
+    SITE.properties.partGen.keyboard.visible = 
+            (typeof show === 'undefined'? ! SITE.properties.partGen.keyboard.visible : show );
+    
+    this.accordion.render_opts.show = SITE.properties.partGen.keyboard.visible;
+    
+    if(SITE.properties.partGen.keyboard.visible) {
+        this.keyboardWindow.setVisible(true);
+        this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
+        document.getElementById('t2pI_showMap').setAttribute('class', 'ico-folder-open' );
+        this.posicionaTeclado();
+    } else {
+        this.accordion.render_opts.show = false;
+        this.keyboardWindow.setVisible(false);
+        document.getElementById('t2pI_showMap').setAttribute('class', 'ico-folder' );
+    }
+};
 
 SITE.PartGen.prototype.editorCallback = function (action, elem) {
     switch(action) {
@@ -553,6 +553,32 @@ SITE.PartGen.prototype.parseABC = function() {
     }
 };        
 
+SITE.PartGen.prototype.keyboardCallback = function( e ) {
+    switch(e) {
+        case 'MOVE':
+            var k = this.keyboardWindow.topDiv.style;
+            SITE.properties.partEdit.keyboard.left = k.left;
+            SITE.properties.partEdit.keyboard.top = k.top;
+            break;
+        case 'ROTATE':
+            this.accordion.rotateKeyboard(this.keyboardWindow.dataDiv);
+            SITE.properties.partEdit.keyboard.transpose = this.accordion.render_opts.transpose;
+            SITE.properties.partEdit.keyboard.mirror = this.accordion.render_opts.mirror;
+            break;
+        case 'ZOOM':
+            this.accordion.scaleKeyboard(this.keyboardWindow.dataDiv);
+            SITE.properties.partEdit.keyboard.scale = this.accordion.render_opts.scale;
+            break;
+        case 'GLOBE':
+            this.accordion.changeNotation();
+            SITE.properties.partEdit.keyboard.label = this.accordion.render_opts.label;
+            break;
+        case 'CLOSE':
+            this.showKeyboard(false);
+            break;
+    }
+};
+
 SITE.PartGen.prototype.highlight = function(abcelem) {
     // não é possível, por hora, selecionar o elemento da tablatura a partir da partitura
     //if(SITE.properties.partGen.editor.visible) {
@@ -637,7 +663,7 @@ SITE.PartGen.prototype.startPlay = function( type, value ) {
         
     } else {
         
-        //this.accordion.clearKeyboard();
+        this.accordion.clearKeyboard();
         if(type==="normal") {
             this.blockEdition(true);
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {

@@ -54,6 +54,7 @@ SITE.Media.prototype.callback = function( e ) {
             SITE.SaveProperties();
             this.mediaWindow.setVisible(true);
             this.resize();
+            this.posiciona();
             if(this.showMediaButton)
                 this.showMediaButton.style.display = 'none';
             break;

@@ -484,7 +484,7 @@ SITE.Mapa.prototype.openTab2Part = function () {
             ,{   // interfaceParams
                 partGenDiv: 'partGenDiv'
                ,controlDiv: 't2pControlDiv-raw' 
-               //,showMapBtn: 't2pShowMapBtn'
+               ,showMapBtn: 't2pShowMapBtn'
                //,printBtn:'t2pPrintBtn'
                ,showEditorBtn: 't2pShowEditorBtn'
                ,updateBtn:'t2pForceRefresh'

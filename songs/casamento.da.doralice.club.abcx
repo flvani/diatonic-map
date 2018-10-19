@@ -1,0 +1,37 @@
+X:h2056
+%%barnumbers 0
+%%papersize A4
+%%barsperstaff 9
+%%score 1 (2 2a) 3
+F:https://www.youtube-nocookie.com/embed/-QWv3qs7dVE
+T:Casamento da Doralice (club)
+C:Adelar & Honeide Bertussi
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+R:Bugio
+L:1/8
+Q:1/4=90
+M:2/4
+K:F
+V:1 treble
+|: +segno+ [FA][GB] [Ac][Bd] | [ce] z z2 | [ce] z [Bd] z | [cA] z z2 | [Bd] z [cA] z | [GB] z z2 | [cA] z [GB] z |1 [FA] z z2 +fine+ :| 
+|2 [FA] z z c |: [cA] z2 c | [cB] z2 c | cd Bc | A z2 c | de cA | B z2 c | cd Bc |1 A z2 c :| 
+|2 A z3 |: [FA][GB] [Ac][Bd] | [ce] z z2 | [ce] z [Bd] z | [cA] z z2 | [Bd] z [cA] z | [GB] z z2 | [cA] z [GB] z |1 [FA] z z2 :|2 [FA] z1.5 c/2d/2e/2 | 
+|: f1.5f/2 d1.5d/2 | cB/2A/2 G/2F/2 E/2D/2 | [Ec]1.5[Ec]/2 [DB]1.5[DB]/2 | [CA] z1.5 c/2d/2e/2 | f1.5f/2 d1.5d/2 | cB/2A/2 G/2F/2 E/2D/2 | [ce][Bd] [cA][GB]|1 [FA] z1.5 c/2d/2e/2 :|2 [FA] z3 +dsalfine+ | 
+V:2 bass stem=down
+|: F,, z3 | z C,,/2C,,/2 C,,2 | z C,,/2C,,/2 z C,, | z F,,/2F,,/2 F,,2 | z F,,/2F,,/2 z F,, | z C,,/2C,,/2 C,,2 | z C,,/2C,,/2 z C,, |1 z F,,/2F,,/2 F,,2 :| 
+|2 z F,,/2F,,/2 F,, z |: F,,1.5[F,A,C]/2 F,, z | C,,1.5[C,E,G,]/2 C,, z | C,,1.5[C,E,G,]/2 C,, z | F,,1.5[F,A,C]/2 F,, z | D,,1.5[D,F,A,]/2 D,, z | C,,1.5[C,E,G,]/2 C,, z | C,,1.5[C,E,G,]/2 C,, z |1 F,,1.5[F,A,C]/2 F,, z :| 
+|2 F,,1.5[F,A,C]/2 F,, z |: F,, z3 | z C,,/2C,,/2 C,,2 | z C,,/2C,,/2 z C,, | z F,,/2F,,/2 F,,2 | z F,,/2F,,/2 z F,, | z C,,/2C,,/2 C,,2 | z C,,/2C,,/2 z C,, |1 z F,,/2F,,/2 F,,2 :|2 z F,,/2F,,/2F,,/2 z1.5 | 
+|: F,,[F,A,C] D,,[D,F,A,] | C,,1.5[C,E,G,]/2 C,,[C,E,G,] | C,,[C,E,G,] C,,[C,E,G,] | F,,1.5[F,A,C]/2 F,,/2z/2D,, | F,,[F,A,C] D,,[D,F,A,] | C,,1.5[C,E,G,]/2 C,,[C,E,G,] | C,,1.5[C,E,G,]/2 C,,[C,E,G,] |1 F,,1.5[F,A,C]/2 F,,/2 z1.5 :|2 F,,1.5[F,A,C]/2 F,, z | 
+V:2a bass stem=up
+|: [F,A,C] x3 | x [C,E,G,]/2[C,E,G,]/2 [C,E,G,]2 | x [C,E,G,]/2[C,E,G,]/2 x [C,E,G,] | x [F,A,C]/2[F,A,C]/2 [F,A,C]2 | x [F,A,C]/2[F,A,C]/2 x [F,A,C] | x [C,E,G,]/2[C,E,G,]/2 [C,E,G,]2 | x [C,E,G,]/2[C,E,G,]/2 x [C,E,G,] |1 x [F,A,C]/2[F,A,C]/2 [F,A,C]2 :|
+|2 x [F,A,C]/2[F,A,C]/2 [F,A,C] z  |: x4 | x4 | x4 | x4 | x4 | x4 | x4 |1 x4 :|
+|2 x4 |: [F,A,C] x3 | x [C,E,G,]/2[C,E,G,]/2 [C,E,G,]2 | x [C,E,G,]/2[C,E,G,]/2 x [C,E,G,] | x [F,A,C]/2[F,A,C]/2 [F,A,C]2 | x [F,A,C]/2[F,A,C]/2 x [F,A,C] | x [C,E,G,]/2[C,E,G,]/2 [C,E,G,]2 | x [C,E,G,]/2[C,E,G,]/2 x [C,E,G,] |1 x [F,A,C]/2[F,A,C]/2 [F,A,C]2 :|2 x [F,A,C]/2[F,A,C]/2[F,A,C]/2 x3/2 |
+|: x4 | x4 | x4 | x4 | x4 | x4 | x4 |1 x4 :|2 x4 |
+V:3 accordionTab
+V:3 accordionTab
+|: Ff+[4'5'] z-[4'5'] z+[5'6'] z-[5'8] | z-[6'7'] Cc+z.5 Cc+z.5 Cc+z2 | z-[6'7'] Cc+z.5 Cc+z.5 z-[5'8] Cc+z | z-[6'6] Ff+z.5 Ff+z.5 Ff+z2 | z-[5'8] Ff+z.5 Ff+z.5 z-[6'6] Ff+z | z-[4'5'] Cc+z.5 Cc+z.5 Cc+z2 | z-[6'6] Cc+z.5 Cc+z.5 z-[4'5'] Cc+z |1 z-[56] Ff+z.5 Ff+z.5 Ff+z2 :| 
+|2 z-[56] Ff+z.5 Ff+z.5 Ff+z z+6' |: F+[6'5'] >+z.5 f+z.5 F+z z-6' | C-[6'5'] >-z.5 c-z.5 C-z z-6' | C-6' >-8.5 c->.5 C-5' z-6' | F+5' >+z.5 f+z.5 F+z z-6' | D-8 >-7'.5 dm->.5 D-6' z-6 | C-5' >-z.5 c-z.5 C-z z-6' | C-6' >-8.5 c->.5 C-5' z-6' |1 F+5' >+z.5 f+z.5 F+z z+6' :| 
+|2 F+5' >+z.5 f+z.5 F+z z+z |: Ff+[4'5'] z-[4'5'] z+[5'6'] z-[5'8] | z-[6'7'] Cc+z.5 Cc+z.5 Cc+z2 | z-[6'7'] Cc+z.5 Cc+z.5 z-[5'8] Cc+z | z-[6'6] Ff+z.5 Ff+z.5 Ff+z2 | z-[5'8] Ff+z.5 Ff+z.5 z-[6'6] Ff+z | z-[4'5'] Cc+z.5 Cc+z.5 Cc+z2 | z-[6'6] Cc+z.5 Cc+z.5 z-[4'5'] Cc+z |1 z-[56] Ff+z.5 Ff+z.5 Ff+z2 :|2 z-[56] Ff+z.5 Ff+z.5 Ff+z.5 z-6'.5 z-8.5 z-7'.5 | 
+|: F+7' f+>.5 >+7'.5 D-8 dm->.5 >-8.5 | C-6' >-5'.5 c-6.5 C-4'.5 >-5.5 c-3'.5 >-4.5 | C-[3'6'] c-[>>].5 >-[3'6'].5 C-[45'] c-[>>].5 >-[45'].5 | F+[3'5'] >+z.5 f+z.5 F+z.5 z-6'.5 D-8.5 >-7'.5 | F+7' f+>.5 >+7'.5 D-8 dm->.5 >-8.5 | C-6' >-5'.5 c-6.5 C-4'.5 >-5.5 c-3'.5 >-4.5 | C-[6'7'] >-[5'8].5 c-[>>].5 C-[6'6] c-[4'5'] |1 F+[4'5'] >+z.5 f+z.5 F+z.5 z-6'.5 z-8.5 z-7'.5 :|2 F+[4'5'] >+z.5 f+z.5 F+z z+z | 

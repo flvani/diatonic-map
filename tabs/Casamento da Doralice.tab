@@ -1,0 +1,42 @@
+%%barnumbers 1
+%%papersize A4
+%barsperstaff 4
+%stretchlast
+%landscape
+%tabInferenceOpts +1
+F:https://www.youtube-nocookie.com/embed/-QWv3qs7dVE
+T:Casamento da Doralice completo
+C:Adelar & Honeide Bertussi
+C:(arrj. Cezar Ferreira)
+L:1/8
+Q:1/4=90
+M:2/4
+K:C
+ 
+|: C  z        | z  G. G   G | z  G. G  z  G | z  C. C  C | z  C. C  z  C | z  G. G  G | z  G. G  z  G |1 z C. C  C :|
+|  3'.   4'.   |    z      z |    z        z |    z     z |    z        z |    z     z |    z        z |    z     z  |
+/  4'    5'    |             |               |            |               |            |               |             |
+|     3'    4' | 5'          | 5'       4'   | 5'         | 4'       5'   | 3'         | 5'       3'   |  4          |
+/     4'    7  | 6'          | 6'       7    | 5          | 7        5    | 4'         | 5        4'   |  5          |
++                   .5 .5  2      .5 .5           .5 .5 2      .5 .5           .5 .5 2      .5 .5           .5 .5  2  %
+
+|2 z C. C  C z  |: C.    c  C z  | G.    g  G  z  | G.    g  G  z  | C.    c C z  | A.   am  A  z | G.    g  G  z  | G.    g  G  z  |1 C.    c  C z  :|
+|    z     z 5' |: 5' z          |                |                | 4' z         |               |                |                |  4' z       5'  |
+/               |: 4'            |                |                |              |               |                |                |                 |
+|  4            |:            5' | 5' z        5' | 5'.7     4'.5' |           5' | 7.6'     5'.5 | 4' z        5' | 5'.7     4'.5' |                 |
+/  5            |:               | 4'             |                |              |               |                |                |                 |
++    .5 .5            .5 .5           .5 .5            .5 .5            .5 .5         .5 .5            .5 .5            .5 .5             .5 .5       
+
+|2 C.    c  C z |: C  z        | z  G. G   G | z  G. G  z  G | z  C. C  C | z  C. C  z  C | z  G. G  G | z  G. G  z  G |1 z C. C  C :|2 z C. C. C  z        |
+|  4' z         |  3'.   4'.   |    z      z |    z        z |    z     z |    z        z |    z     z |    z        z |    z     z  |    z                 |
+/               |  4'    5'    |             |               |            |               |            |               |             |                      |
+|               |     3'    4' | 5'          | 5'       4'   | 5'         | 4'       5'   | 3'         | 5'       3'   |  4          |  4          5'.7. 6' |
+/               |     4'    7  | 6'          | 6'       7    | 5          | 7        5    | 4'         | 5        4'   |  5          |  5                   |
++     .5 .5                         .5 .5  2      .5 .5           .5 .5 2      .5 .5           .5 .5 2      .5 .5           .5 .5 2       .5 .5 .5 .5 .5 .5  
+
+|: C. c     A.am    | G.    g  G.    g     | G. g     G. g     | C.    c  C. z. A     | C. c     A.am    | G.    g  G.    g     | G.    g  G. g  |1 C.    c  C  z        :|2 C.    c  C z  |
+|  6'.   6'         |                      |                   | 2' z                 | 6'.   6'         |                      |                |  3' z                  |  3' z          |
+/                   |                      |                   | 4'                   |                  |                      |                |  4'                    |  4'            |
+|           7.   7  | 5'.4'.5  3'.4  2'.3  | 2'.   2' 3.    3  |             5'.7. 6' |          7.   7  | 5'.4'.5  3'.4  2'.3  | 5'.4'    5'.3'.|              5'.7. 6'  |                |
+/                   |                      | 5'    5' 4'    4' |                      |                  |                      | 6' 7     5  4' |                        |                |
++     .5 .5   .5 .5      .5 .5 .5 .5 .5 .5      .5 .5    .5 .5      .5 .5 .5 .5 .5 .5      .5 .5   .5 .5      .5 .5 .5 .5 .5 .5      .5 .5             .5 .5 .5 .5 .5 .5        .5 .5       

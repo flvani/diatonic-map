@@ -292,7 +292,7 @@ SITE.PartEdit.prototype.resize = function( ) {
 
 SITE.PartEdit.prototype.posicionaTeclado = function() {
     
-    if( ! SITE.properties.studio.keyboard.visible ) return;
+    if( ! SITE.properties.partEdit.keyboard.visible ) return;
     
     var w = window.innerWidth;
     
