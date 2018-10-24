@@ -33,6 +33,7 @@ ABCXJS.Tab2Part = function (toClub, fromClub ) {
     this.spaces = "-.\ \t";
 
     this.bassOctave = 2;
+    this.inTriplet = false;
     this.init();
     
     this.addWarning = function ( msg ) {
@@ -73,9 +74,13 @@ ABCXJS.Tab2Part.prototype.parse = function (text, keyboard, toClub, fromClub ) {
     this.toClub = toClub;
     this.fromClub = fromClub;
     
-    this.addLine('%%barnumbers 1');
+    this.addLine('%%barnumbers 0');
     this.addLine('%%papersize A4');
-
+    this.addLine('%barsperstaff 6');
+    this.addLine('%pagenumbering');
+    this.addLine('%stretchlast');
+    this.addLine('%landscape');
+    
     while((!this.hasErrors) && this.currLine < this.tabLines.length) {
         if( this.skipEmptyLines() ) {
             this.parseLine();
@@ -125,10 +130,10 @@ ABCXJS.Tab2Part.prototype.extractLines = function () {
 
 ABCXJS.Tab2Part.prototype.parseLine = function () {
     //var header = lines[l].match(/^([CKLMT]\:*[^\r\n\t]*)/g); - assim não remove comentarios
-    var header = this.tabLines[this.currLine].match(/^([ACFKLMNTQZ]\:*[^\r\n\t\%]*)/g);
+    var header = this.tabLines[this.currLine].match(/^([ACRFKLMNTQZ]\:*[^\r\n\t\%]*)/g);
     
     if( header ) {
-        var key = this.tabLines[this.currLine].match(/^([ACFKLMNTQZ]\:)/g);
+        var key = this.tabLines[this.currLine].match(/^([ACRFKLMNTQZ]\:)/g);
         switch( key[0] ) {
             case 'K:': 
                 var k = ABCXJS.parse.denormalizeAcc(header[0].trim().substr(2));
@@ -394,7 +399,25 @@ ABCXJS.Tab2Part.prototype.addBassElem = function (idx, el, bas ) {
                 str = this.getTabNote(note.pitch, this.bassOctave, true );
             }
             
-            str += (el.token.duration!==1? el.token.duration:"") 
+            var duration = el.token.duration * (this.inTriplet?2/3:1);
+            var cDuration = ""; // para duration == 1 a saída é vazia.
+            if ( duration !== 1 ) { // diferente de 1
+                cDuration = "" + duration;
+                if( duration % 1 !== 0  ) { // não inteiro 
+                    var resto = ""+(duration-duration%0.001); 
+                    switch( resto ) {
+                       case '1.499': cDuration = '3/2'; break;
+                       case '0.666': cDuration = '2/3'; break;
+                       case '0.499': cDuration =  '/2'; break;
+                       case '0.333': cDuration =  '/3'; break;
+                       case '0.249': cDuration =  '/4'; break;
+                       case '0.166': cDuration =  '/6'; break;
+                       case '0.124': cDuration =  '/8'; break;
+                    }
+                }
+            }
+            
+            str += cDuration
                     + (el.token.lastChar.indexOf( '-' ) >=0 ?"-":"")
                         + (el.token.lastChar.indexOf( '.' ) >=0 ?"":" ");
             
@@ -663,8 +686,6 @@ ABCXJS.Tab2Part.prototype.posiciona = function(staffs) {
 ABCXJS.Tab2Part.prototype.read = function(staffs) {
     var st = 0, ret = 0;
     
-    this.endByTriplet = false; // marca o final de todos os elementos da coluna, visto que o triplet está acabando aqui
-    
     for( var j = 0; j < staffs.length; j ++ ) {
         var source = staffs[j];
         switch( source.st ) {
@@ -785,10 +806,6 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
         var endingChar = this.tabLines[ll.l].charAt(this.endColumn);
         var endInSpace = this.spaces.indexOf( endingChar ) >= 0;
         
-        if( endingChar === ')' || endingChar === '(' ) {
-            this.endByTriplet = true;
-        }
-            
         if( this.barEnding || ll.pos >= this.tabLines[ll.l].length || !endInSpace ) {
             afinal = true;
         }
@@ -800,6 +817,7 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
         if( syms.indexOf( strToken.charAt(0) )>= 0 ) {
             if(strToken.charAt(0)=== '(' || strToken.charAt(0)=== ')' ) {
                 type='triplet';
+                this.inTriplet = (strToken.charAt(0)=== '(' );
             } else {
                 type='bar';
                 this.barAccidentals = [];
