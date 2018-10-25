@@ -19168,14 +19168,24 @@ exports.version = "1.2.6";
                     comment: 'ABCX annotation'
                 },
                 {
+                    token: ['keyword.strong', 'information.variable'],
+                    regex: '^(V:)([\\S])',
+                    comment: 'ABCX voice lines'
+                },
+                {
+                    token: 'delimiters.string',
+                    regex: '(^\\+.*)',
+                    comment: 'Tablature duration lines'
+                },
+                {
                     token: 'decoration.strong',
                     regex: '(!\\S+!|\\+\\S+\\+)',
                     comment: 'ABCX decoration'
                 },
                 {
-                    token: 'delimiters.string.strong',
-                    regex: '(\\-|\\+|\\(|\\))',
-                    comment: 'ABCX delimiters 1'
+                    token: ['delimiters.variable.strong', 'duration.constant.numeric', 'duration.constant.numeric'],
+                    regex: '(\\])([0-9\\/\\.])([\\/\\.]?[0-9]?)',
+                    comment: 'Chord duration'
                 },
                 {
                     token: ['barline.text', 'keyword.strong', 'information.variable', 'barline.text'],
@@ -19183,19 +19193,14 @@ exports.version = "1.2.6";
                     comment: 'ABCX inline fields'
                 },
                 {
+                    token: 'delimiters.string.strong',
+                    regex: '(\\-|\\+|\\(|\\))',
+                    comment: 'ABCX delimiters 1'
+                },
+                {
                     token: 'delimiters.variable.strong',
                     regex: '(\\[|\\])',
                     comment: 'ABCX delimiters 2'
-                },
-                {
-                    token: 'barline.operator.strong',
-                    regex: '(\\[\\||\\|\\]|\\:\\||\\||/)\\:?[0-9]?',
-                    comment: 'ABCX bar lines'
-                },
-                {
-                    token: ['keyword.strong', 'information.variable'],
-                    regex: '^(V:)([\\S])',
-                    comment: 'ABCX voice lines'
                 },
                 {
                     token: ['', 'attribute.attribute','information.variable'],
@@ -19208,6 +19213,11 @@ exports.version = "1.2.6";
                     comment: 'ABCX lyrics lines'
                 },
                 {
+                    token: 'duration.constant.numeric',
+                    regex: '(^\\+.*)',
+                    comment: 'Tablature duration lines'
+                },
+                {
                     token: ['keyword.strong', 'information.variable'],
                     regex: '^([A-Za-z]:)([^%]*)',
                     comment: 'ABCX header fields'
@@ -19216,6 +19226,11 @@ exports.version = "1.2.6";
                     token: ['accent.modifier', 'pitch.constant', 'pitch.constant','accent.modifier', 'duration.constant.numeric'],
                     regex: '(?:([\\^=_])?([0-9A-Ga-gzx>])([♭♯m]?)([,\']*)([0-9\\/\\.][\\/\\.]?[0-9]?)?)',
                     comment: 'ABCX musical notes'
+                },
+                {
+                    token: 'barline.operator.strong',
+                    regex: '(\\[\\||\\|\\]|\\:\\||\\||^/)\\:?[0-9]?',
+                    comment: 'ABCX bar lines'
                 }
             ]
         };

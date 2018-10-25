@@ -2,7 +2,7 @@ X:1012
 %%barnumbers 0
 %%papersize A4
 %%pagenumbering
-%%staffsep 20
+%%barsperstaff 6
 T:Prenda Minha
 C:Tradicional
 Z:Flávio Vani
@@ -12,20 +12,17 @@ L:1/8
 Q:120
 K:G
 V:1 clef=treble
+| z2 (3DGB |: d2 B2 B2 (3DGc | B2 A2 A2 d3/2e/2 | d2 c2 B2 A2 |1 B4 z2 (3DGB :|2 G8 |] G2 G2 GGFE |
+| DDCB, A,A,B,C | D2 F2 D2 C2 | B,8 | G2 G2 GGFE | DDCB, A,A,B,C | 
+| D2 F2 D2 C2 | B,6 B,C | D2 E2 E2 D2 | CCCB, A,A,A,B, | C2 D2 D2 C2 |
+| B,6 B,C | D2 E2 E2 D2 | CCCB, A,A,A,B, | C2 D2 D2 C2 | B,8 |]
 V:2 clef=bass
-[V:1]| (3DGB  | d2B2B2 (3DGc                  | B2A2A2 d3/2e1/2                | d2 c2 B2 A2                   |            B4 z2  (3DGB   |
-[V:2]| z2     | "G"G,,2 [G,B,D]2 [G,B,D]2 z2  | "D"D,,2 [D,F,A,]2 [D,F,A,]2 z2 | D,,2 [D,F,A,]2 D,,2 [D,F,A,]2 | "G"G,,2 [G,B,D]2 [G,B,D]2 z2 |
-[V:1]| d2B2B2 (3DGc               | B2A2A2 d3/2e1/2             | d2 c2 B2 A2                   | G8 |] G2 G2 GGFE |
-[V:2]| G,,2 [G,B,D]2 [G,B,D]2 z2  | "D"D,,2 [D,F,A,]2 [D,F,A,]2 z2 | D,,2 [D,F,A,]2 D,,2 [D,F,A,]2 | "G"G,,2 [G,B,D]2 [G,B,D]4 |] G,,2 [G,B,D]2 [G,B,D]2 z2  | 
-[V:1]| DDCB, A,A,B,C  | D2 F2 D2 C2 | B,8 | G2 G2 GGFE | DDCB, A,A,B,C  | 
-[V:2]| "D"D,,2 [D,F,A,]2 [D,F,A,]2 z2 | D,,2 [D,F,A,]2 D,,2 [D,F,A,]2 | "G"G,,2 [G,B,D]2 [G,B,D]4 | G,,2 [G,B,D]2 [G,B,D]2 z2  | "D"D,,2 [D,F,A,]2 [D,F,A,]2 z2 |
-[V:1]| D2 F2 D2 C2 | B,6  B,C | D2 E2 E2 D2 | CCCB, A,A,A,B, | C2 D2 D2 C2 |
-[V:2]| D,,2 [D,F,A,]2 D,,2 [D,F,A,]2 | "G"G,,2 [G,B,D]2 [G,B,D]2 z2 | G,,2 [G,B,D]2 [G,B,D]2 z2 |"D"D,,2 [D,F,A,]2 [D,F,A,]2 z2 | D,,2 [D,F,A,]2  [D,F,A,]2 z2 |
-[V:1]| B,6  B,C |  D2 E2 E2 D2 | CCCB, A,A,A,B, | C2 D2 D2 C2 | B,8 |]
-[V:2]|"G"G,,2 [G,B,D]2 [G,B,D]2 z2  | G,,2 [G,B,D]2 [G,B,D]2 z2  | "D"D,,2 [D,F,A,]2 [D,F,A,]2 z2 | D,,2 [D,F,A,]2 [D,F,A,]2 z2 | G,,2 [G,B,D]2 [G,B,D]2 z2  |]
-V:3 accordionTab
-| (3 z+5 z+6 z+7 ) | G+82 g+72 g+72 (3 z-3' z-5' z-8 ) | D-6'2 d-72 d-72 z-7'1.5 z-90.5 | D-7'2 d-82 D-6'2 d-72 | G+72 g+>2 g+z2 (3 z+5 z+6 z+7 ) |
-| G+82 g+72 g+72 (3 z-3' z-5' z-8 ) | D-6'2 d-72 d-72 z-7'1.5 z-90.5 | D-7'2 d-82 D-6'2 d-72 | G+62 g+>2 g+>4 |] G+62 g+62 g+6 >+6 z-6 z-5 |
+| z4 |: "G"G,,2 [G,B,D]2 [G,B,D]2 z2 | "D"D,,2 [D,F,A,]2 [D,F,A,]2 z2 | D,,2 [D,F,A,]2 D,,2 [D,F,A,]2 |1 "G"G,,2 [G,B,D]2 [G,B,D]2 z2 :|2  "G"G,,2 [G,B,D]2 [G,B,D]4 |] G,,2 [G,B,D]2 [G,B,D]2 z2 | 
+| "D"D,,2 [D,F,A,]2 [D,F,A,]2 z2 | D,,2 [D,F,A,]2 D,,2 [D,F,A,]2 | "G"G,,2 [G,B,D]2 [G,B,D]4 | G,,2 [G,B,D]2 [G,B,D]2 z2 | "D"D,,2 [D,F,A,]2 [D,F,A,]2 z2 |
+| D,,2 [D,F,A,]2 D,,2 [D,F,A,]2 | "G"G,,2 [G,B,D]2 [G,B,D]2 z2 | G,,2 [G,B,D]2 [G,B,D]2 z2 |"D"D,,2 [D,F,A,]2 [D,F,A,]2 z2 | D,,2 [D,F,A,]2 [D,F,A,]2 z2 |
+|"G"G,,2 [G,B,D]2 [G,B,D]2 z2 | G,,2 [G,B,D]2 [G,B,D]2 z2 | "D"D,,2 [D,F,A,]2 [D,F,A,]2 z2 | D,,2 [D,F,A,]2 [D,F,A,]2 z2 | G,,2 [G,B,D]2 [G,B,D]2 z2 |]
+V:3 clef=accordionTab
+| z+z2 (3 z+5 z+6 z+7 ) |: G+82 g+72 g+72 (3 z-3' z-5' z-8 ) | D-6'2 d-72 d-72 z-7'1.5 z-90.5 | D-7'2 d-82 D-6'2 d-72 |1 G+72 g+>2 g+z2 (3 z+5 z+6 z+7 ) :|2 G+62 g+>2 g+>4 |] G+62 g+62 g+6 >+6 z-6 z-5 |
 | D-3' >-3' d-4 >-2' d-3 >-3 z-2' z-4 | D-3'2 d-62 D-3'2 d-42 | G+42 g+>2 g+>4 | G+62 g+62 g+6 >+6 z-6 z-5 | D-3' >-3' d-4 >-2' d-3 >-3 z-2' z-4 |
 | D-3'2 d-62 D-3'2 d-42 | G+42 g+>2 g+>2 z+4 z+3' | G+52 g+4'2 g+4'2 z+52 | D-4 >-4 d-4 >-2' d-3 >-3 z-3 z-2' | D-42 d-3'2 d-3'2 z-42 |
 | G+42 g+>2 g+>2 z+4 z+3' | G+52 g+4'2 g+4'2 z+52 | D-4 >-4 d-4 >-2' d-3 >-3 z-3 z-2' | D-42 d-3'2 d-3'2 z-42 | G+42 g+>2 g+>2 z+>2 |]
