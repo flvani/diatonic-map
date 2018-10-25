@@ -5265,7 +5265,7 @@ ABCXJS.Tab2Part.prototype.addNotes = function(staffs) {
     }
     
     if( this.columnDuration && this.columnDuration.length ) {
-        this.addTabElem(this.columnDuration);
+        this.addTabElem(parseFloat(this.columnDuration));
     }
     
     this.addTabElem(' ');
@@ -5309,25 +5309,7 @@ ABCXJS.Tab2Part.prototype.addBassElem = function (idx, el, bas ) {
                 str = this.getTabNote(note.pitch, this.bassOctave, true );
             }
             
-            var duration = el.token.duration * (this.inTriplet?2/3:1);
-            var cDuration = ""; // para duration == 1 a saída é vazia.
-            if ( duration !== 1 ) { // diferente de 1
-                cDuration = "" + duration;
-                if( duration % 1 !== 0  ) { // não inteiro 
-                    var resto = ""+(duration-duration%0.001); 
-                    switch( resto ) {
-                       case '1.499': cDuration = '3/2'; break;
-                       case '0.666': cDuration = '2/3'; break;
-                       case '0.499': cDuration =  '/2'; break;
-                       case '0.333': cDuration =  '/3'; break;
-                       case '0.249': cDuration =  '/4'; break;
-                       case '0.166': cDuration =  '/6'; break;
-                       case '0.124': cDuration =  '/8'; break;
-                    }
-                }
-            }
-            
-            str += cDuration
+            str += this.handleDuration(el.token.duration*(this.inTriplet?2/3:1))
                     + (el.token.lastChar.indexOf( '-' ) >=0 ?"-":"")
                         + (el.token.lastChar.indexOf( '.' ) >=0 ?"":" ");
             
@@ -5343,12 +5325,32 @@ ABCXJS.Tab2Part.prototype.addTrebleElem = function (el) {
     } else {
         str = this.getPitch(el);
         
-        str += (el.token.duration!==1? el.token.duration:"") 
+        str += this.handleDuration(el.token.duration)
                 + (el.token.lastChar.indexOf( '-' ) >=0 ?"-":"")
                     + (el.token.lastChar.indexOf( '.' ) >=0 ?"":" ");
 
         this.parsedLines[this.currStaff].treble += str;
     }
+};
+
+ABCXJS.Tab2Part.prototype.handleDuration = function (nDur) {
+    var cDur = ""; // para duration == 1 a saída é vazia.
+    if ( nDur !== 1 ) { // diferente de 1
+        cDur = "" + nDur;
+        if( nDur % 1 !== 0  ) { // não inteiro 
+            var resto = ""+(nDur-nDur%0.001); 
+            switch( resto ) {
+               case '1.499': cDur = '3/2'; break;
+               case '0.666': cDur = '2/3'; break;
+               case '0.499': cDur =  '/2'; break;
+               case '0.333': cDur =  '/3'; break;
+               case '0.249': cDur =  '/4'; break;
+               case '0.166': cDur =  '/6'; break;
+               case '0.124': cDur =  '/8'; break;
+            }
+        }
+    }
+    return cDur; 
 };
 
 ABCXJS.Tab2Part.prototype.getPitch = function (el) {
