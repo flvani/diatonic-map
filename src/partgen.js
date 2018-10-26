@@ -164,9 +164,28 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     this.savePartButton = document.getElementById(interfaceParams.savePartBtn);
 
     // player control
+    this.gotoMeasureButton = document.getElementById(interfaceParams.gotoMeasureBtn);
     this.playButton = document.getElementById(interfaceParams.playBtn);
     this.stopButton = document.getElementById(interfaceParams.stopBtn);
     this.currentPlayTimeLabel = document.getElementById(interfaceParams.currentPlayTimeLabel);
+    
+    this.gotoMeasureButton.addEventListener("keypress", function (evt) {
+        if (evt.keyCode === 13) {
+            that.startPlay('repeat', this.value, 200 );
+        }
+    }, false);
+
+    this.gotoMeasureButton.addEventListener("focus", function (evt) {
+        if (this.value === SITE.translator.getResource("gotoMeasure").val) {
+            this.value = "";
+        }
+    }, false);
+
+    this.gotoMeasureButton.addEventListener("blur", function (evt) {
+        if (this.value === "") {
+            this.value = SITE.translator.getResource("gotoMeasure").val;
+        }
+    }, false);
     
     this.showEditorButton.addEventListener("click", function (evt) {
         evt.preventDefault();
@@ -235,6 +254,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     
     this.playerCallBackOnPlay = function( player ) {
         var strTime = player.getTime().cTime;
+        //if(that.gotoMeasureButton && ! parseInt(that.untilMeasureButton.value))
         if(that.gotoMeasureButton)
             that.gotoMeasureButton.value = player.currentMeasure;
         if(that.currentPlayTimeLabel)
@@ -265,6 +285,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
         this.blur();
         that.blockEdition(false);
         if(that.currentPlayTimeLabel)
+            that.gotoMeasureButton.value = SITE.translator.getResource("gotoMeasure").val;
             that.currentPlayTimeLabel.innerHTML = "00:00.00";
         that.midiPlayer.stopPlay();
     }, false);
@@ -646,7 +667,7 @@ SITE.PartGen.prototype.blockEdition = function( block ) {
     }
 };
 
-SITE.PartGen.prototype.startPlay = function( type, value ) {
+SITE.PartGen.prototype.startPlay = function( type, value, valueF  ) {
     this.ypos = this.studioCanvasDiv.scrollTop;
     this.lastStaffGroup = -1;
     
@@ -671,7 +692,7 @@ SITE.PartGen.prototype.startPlay = function( type, value ) {
                 this.playButton.innerHTML =  '&#160;<i class="ico-pause"></i>&#160;';
             }
         } else {
-            if( this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value ) ) {
+            if( this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value, valueF  ) ) {
             }
         }
     }

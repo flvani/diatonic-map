@@ -492,6 +492,7 @@ SITE.Mapa.prototype.openTab2Part = function () {
                ,saveBtn:'t2pSaveBtn'
                ,editPartBtn:'t2pOpenInPartEditBtn'
                ,savePartBtn:'t2pSavePartBtn'
+               ,gotoMeasureBtn: "t2pGotoMeasureBtn"
                ,playBtn: "t2pPlayBtn"
                ,stopBtn: "t2pStopBtn"
                ,currentPlayTimeLabel: "t2pCurrentPlayTimeLabel"

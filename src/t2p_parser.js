@@ -74,12 +74,15 @@ ABCXJS.Tab2Part.prototype.parse = function (text, keyboard, toClub, fromClub ) {
     this.toClub = toClub;
     this.fromClub = fromClub;
     
-    this.addLine('%%barnumbers 0');
-    this.addLine('%%papersize A4');
-    this.addLine('%barsperstaff 6');
-    this.addLine('%pagenumbering');
-    this.addLine('%stretchlast');
-    this.addLine('%landscape');
+    this.directives = { 
+         landscape:     '%landscape'  
+        ,stretchlast:   '%stretchlast'  
+        ,pagenumbering: '%pagenumbering'  
+        ,staffsep:      '%staffsep 20'  
+        ,barsperstaff:  '%barsperstaff 6'  
+        ,papersize:     '%%papersize A4'  
+        ,barnumbers:    '%%barnumbers 0'
+    };
     
     while((!this.hasErrors) && this.currLine < this.tabLines.length) {
         if( this.skipEmptyLines() ) {
@@ -116,14 +119,21 @@ ABCXJS.Tab2Part.prototype.parse = function (text, keyboard, toClub, fromClub ) {
     }
     
     
+    // se restaram diretivas nesta lista
+    for (var d in this.directives) {
+        this.abcText = this.directives[d] + '\n' + this.abcText;
+    }
+    
     return this.abcText;
 };
 
 ABCXJS.Tab2Part.prototype.extractLines = function () {
     var v = this.tabText.split('\n');
     v.forEach( function(linha, i) { 
-        var l = linha.split('%');
-        v[i] = l[0].trim(); 
+        if( linha.charAt(0) !== '%' ) {
+            var l = linha.split('%');
+            v[i] = l[0].trim(); 
+        }
     } );
     return v;
 };
@@ -131,8 +141,22 @@ ABCXJS.Tab2Part.prototype.extractLines = function () {
 ABCXJS.Tab2Part.prototype.parseLine = function () {
     //var header = lines[l].match(/^([CKLMT]\:*[^\r\n\t]*)/g); - assim não remove comentarios
     var header = this.tabLines[this.currLine].match(/^([ACRFKLMNTQZ]\:*[^\r\n\t\%]*)/g);
+    var commentOrDirective = this.tabLines[this.currLine].match(/^\%/);
     
-    if( header ) {
+    if( commentOrDirective ) {
+        var found = false;
+        for (var d in this.directives) {
+            if( this.tabLines[this.currLine].includes( d ) ) {
+                this.directives[d] = this.tabLines[this.currLine];
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            this.addLine( this.tabLines[this.currLine] );
+        }
+        
+    } else if ( header ) {
         var key = this.tabLines[this.currLine].match(/^([ACRFKLMNTQZ]\:)/g);
         switch( key[0] ) {
             case 'K:': 
@@ -162,7 +186,7 @@ ABCXJS.Tab2Part.prototype.parseLine = function () {
 
 ABCXJS.Tab2Part.prototype.skipEmptyLines = function () {
     while(this.currLine < this.tabLines.length) {
-        if(  this.tabLines[this.currLine].charAt(0) !== '%' && this.tabLines[this.currLine].match(/^[\s\r\t]*$/) === null ) {
+        if(  /*this.tabLines[this.currLine].charAt(0) !== '%' && */ this.tabLines[this.currLine].match(/^[\n\r\t]*$/) === null ) {
            return true;
         };
         this.currLine++;

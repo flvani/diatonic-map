@@ -1261,6 +1261,7 @@ SITE.Mapa.prototype.openTab2Part = function () {
                ,saveBtn:'t2pSaveBtn'
                ,editPartBtn:'t2pOpenInPartEditBtn'
                ,savePartBtn:'t2pSavePartBtn'
+               ,gotoMeasureBtn: "t2pGotoMeasureBtn"
                ,playBtn: "t2pPlayBtn"
                ,stopBtn: "t2pStopBtn"
                ,currentPlayTimeLabel: "t2pCurrentPlayTimeLabel"
@@ -3420,9 +3421,28 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     this.savePartButton = document.getElementById(interfaceParams.savePartBtn);
 
     // player control
+    this.gotoMeasureButton = document.getElementById(interfaceParams.gotoMeasureBtn);
     this.playButton = document.getElementById(interfaceParams.playBtn);
     this.stopButton = document.getElementById(interfaceParams.stopBtn);
     this.currentPlayTimeLabel = document.getElementById(interfaceParams.currentPlayTimeLabel);
+    
+    this.gotoMeasureButton.addEventListener("keypress", function (evt) {
+        if (evt.keyCode === 13) {
+            that.startPlay('repeat', this.value, 200 );
+        }
+    }, false);
+
+    this.gotoMeasureButton.addEventListener("focus", function (evt) {
+        if (this.value === SITE.translator.getResource("gotoMeasure").val) {
+            this.value = "";
+        }
+    }, false);
+
+    this.gotoMeasureButton.addEventListener("blur", function (evt) {
+        if (this.value === "") {
+            this.value = SITE.translator.getResource("gotoMeasure").val;
+        }
+    }, false);
     
     this.showEditorButton.addEventListener("click", function (evt) {
         evt.preventDefault();
@@ -3491,6 +3511,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     
     this.playerCallBackOnPlay = function( player ) {
         var strTime = player.getTime().cTime;
+        //if(that.gotoMeasureButton && ! parseInt(that.untilMeasureButton.value))
         if(that.gotoMeasureButton)
             that.gotoMeasureButton.value = player.currentMeasure;
         if(that.currentPlayTimeLabel)
@@ -3521,6 +3542,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
         this.blur();
         that.blockEdition(false);
         if(that.currentPlayTimeLabel)
+            that.gotoMeasureButton.value = SITE.translator.getResource("gotoMeasure").val;
             that.currentPlayTimeLabel.innerHTML = "00:00.00";
         that.midiPlayer.stopPlay();
     }, false);
@@ -3902,7 +3924,7 @@ SITE.PartGen.prototype.blockEdition = function( block ) {
     }
 };
 
-SITE.PartGen.prototype.startPlay = function( type, value ) {
+SITE.PartGen.prototype.startPlay = function( type, value, valueF  ) {
     this.ypos = this.studioCanvasDiv.scrollTop;
     this.lastStaffGroup = -1;
     
@@ -3927,7 +3949,7 @@ SITE.PartGen.prototype.startPlay = function( type, value ) {
                 this.playButton.innerHTML =  '&#160;<i class="ico-pause"></i>&#160;';
             }
         } else {
-            if( this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value ) ) {
+            if( this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value, valueF  ) ) {
             }
         }
     }
@@ -4984,12 +5006,15 @@ ABCXJS.Tab2Part.prototype.parse = function (text, keyboard, toClub, fromClub ) {
     this.toClub = toClub;
     this.fromClub = fromClub;
     
-    this.addLine('%%barnumbers 0');
-    this.addLine('%%papersize A4');
-    this.addLine('%barsperstaff 6');
-    this.addLine('%pagenumbering');
-    this.addLine('%stretchlast');
-    this.addLine('%landscape');
+    this.directives = { 
+         landscape:     '%landscape'  
+        ,stretchlast:   '%stretchlast'  
+        ,pagenumbering: '%pagenumbering'  
+        ,staffsep:      '%staffsep 20'  
+        ,barsperstaff:  '%barsperstaff 6'  
+        ,papersize:     '%%papersize A4'  
+        ,barnumbers:    '%%barnumbers 0'
+    };
     
     while((!this.hasErrors) && this.currLine < this.tabLines.length) {
         if( this.skipEmptyLines() ) {
@@ -5026,14 +5051,21 @@ ABCXJS.Tab2Part.prototype.parse = function (text, keyboard, toClub, fromClub ) {
     }
     
     
+    // se restaram diretivas nesta lista
+    for (var d in this.directives) {
+        this.abcText = this.directives[d] + '\n' + this.abcText;
+    }
+    
     return this.abcText;
 };
 
 ABCXJS.Tab2Part.prototype.extractLines = function () {
     var v = this.tabText.split('\n');
     v.forEach( function(linha, i) { 
-        var l = linha.split('%');
-        v[i] = l[0].trim(); 
+        if( linha.charAt(0) !== '%' ) {
+            var l = linha.split('%');
+            v[i] = l[0].trim(); 
+        }
     } );
     return v;
 };
@@ -5041,8 +5073,22 @@ ABCXJS.Tab2Part.prototype.extractLines = function () {
 ABCXJS.Tab2Part.prototype.parseLine = function () {
     //var header = lines[l].match(/^([CKLMT]\:*[^\r\n\t]*)/g); - assim não remove comentarios
     var header = this.tabLines[this.currLine].match(/^([ACRFKLMNTQZ]\:*[^\r\n\t\%]*)/g);
+    var commentOrDirective = this.tabLines[this.currLine].match(/^\%/);
     
-    if( header ) {
+    if( commentOrDirective ) {
+        var found = false;
+        for (var d in this.directives) {
+            if( this.tabLines[this.currLine].includes( d ) ) {
+                this.directives[d] = this.tabLines[this.currLine];
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            this.addLine( this.tabLines[this.currLine] );
+        }
+        
+    } else if ( header ) {
         var key = this.tabLines[this.currLine].match(/^([ACRFKLMNTQZ]\:)/g);
         switch( key[0] ) {
             case 'K:': 
@@ -5072,7 +5118,7 @@ ABCXJS.Tab2Part.prototype.parseLine = function () {
 
 ABCXJS.Tab2Part.prototype.skipEmptyLines = function () {
     while(this.currLine < this.tabLines.length) {
-        if(  this.tabLines[this.currLine].charAt(0) !== '%' && this.tabLines[this.currLine].match(/^[\s\r\t]*$/) === null ) {
+        if(  /*this.tabLines[this.currLine].charAt(0) !== '%' && */ this.tabLines[this.currLine].match(/^[\n\r\t]*$/) === null ) {
            return true;
         };
         this.currLine++;

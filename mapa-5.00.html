@@ -197,13 +197,14 @@ notação abc, tablatura " />
                     <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
                 </button>
             </div>
-            <div id="group" style="width:100%; margin: 0; padding: 0;" >
+            <div id="group" style="width:100%; margin: 0; padding: 0; display: inline-block;" >
                 <div id="t2pDivNormalPlayControls" class="btn-subgroup" >
+                    <input id="t2pGotoMeasureBtn" type="text" data-translate="gotoMeasure" value="Ir para..." style="float: left;" />
                     <button id="t2pPlayBtn" data-translate="playBtn" onclick="">&#160;<i class="ico-play"></i>&#160;</button>
                     <button id="t2pStopBtn" data-translate="stopBtn" onclick="">&#160;<i class="ico-stop"></i>&#160;</button>
                     <label id="t2pCurrentPlayTimeLabel" style="width: 90px;" >00:00:00</label>
                 </div>
-                <div id="t2pDivChecks" class="btn-subgroup" >
+                <div id="t2pDivChecks" class="btn-subgroup" style="padding: 3px;" >
                     <input type="checkbox" id="ckShowABC" checked >&#160;<span data-translate="chkShowABCXText" >Mostrar o texto ABCX</span>
                     <span id="convertToClub" style="display: none;"><input type="checkbox" id="ckConvertToClub">&#160;<span data-translate="chkConvertToClub">Converter para Club IIIM (br)</span></span>
                     <span id="convertFromClub" style="display: none;"><input type="checkbox" id="ckConvertFromClub">&#160;<span data-translate="chkConvertFromClub">Converter de Club IIIM (br)</span></span>
