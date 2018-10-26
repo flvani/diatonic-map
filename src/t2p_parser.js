@@ -792,6 +792,7 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
                         case 'g': token = 'c'; break;
                         case 'A': token = 'D'; break;
                         case 'a': token = 'd'; break;
+                        case 'am': token = 'dm'; break;
                     }
                 } else {
                     //move para o botão imediatamente abaixo
@@ -812,6 +813,7 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
                         case 'c': token = 'g'; break;
                         case 'D': token = 'A'; break;
                         case 'd': token = 'a'; break;
+                        case 'dm': token = 'am'; break;
                         case 'F': token = 'C'; break;
                         case 'f': token = 'c'; break;
                         case 'G': token = 'D'; break;
