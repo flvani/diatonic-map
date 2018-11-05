@@ -718,6 +718,7 @@ SITE.PartGen.prototype.setScrolling = function(player) {
 
 SITE.PartGen.prototype.getDemoText = function() {
     return "\
+%hidefingering\n\
 T:Hino do Grêmio\n\
 C:Lupicínio Rodrigues\n\
 C:(adapt. Cezar Ferreira)\n\
@@ -726,13 +727,15 @@ Q:140\n\
 M:4/4\n\
 K:C\n\
 |: C c       C  c       | G  g  G g | C c       C  c       | G  g G g       |\n\
-|: 9 7'  8   6' 8   7'  |           | 9 7'  8   6' 8   7'  |                |\n\
-|:                      | 7' 5'   z |                      | 7'   z 9   8'  |\n\
+|: 9 7'. 8   6' 8.  7'  |           | 9 7'. 8   6' 8.  7'  |                |\n\
+|:                      | 7' 5'   z |                      | 7'   z 9.  8'  |\n\
 +  2 1.5 0.5 2  1.5 0.5   2  2  2 2   2 1.5 0.5 2  1.5 0.5   2  2 2 1.5 0.5\n\
+f: 5 3   4   2  4   3     3  2    *   5 3   4   2  4   3     3      3   2\n\
 \n\
-| C  z   z   A  z   z   | F   f  F f       | C  g       G  g       | C  c C c :|\n\
-| 8'                    |                  | 8'                    | 6'     z :|\n\
-|    10  9'  11 9'  11  | 10' 11 z 9   8'  |    11  9'  7' 8'  9   |          :|\n\
-+ 2  1.5 0.5 2  1.5 0.5   2   2  2 1.5 0.5   2  1.5 0.5 2  1.5 0.5   2  2 2 2\n";
+|  C  z   z   A  z   z   | F   f  F f       | C  g       G  g       | C  c C c :|\n\
+|  8'                    |                  | 8'                    | 6'     z :|\n\
+|     10. 9'  11 9'. 11  | 10' 11 z 9.  8'  |    11. 9'  7' 8'. 9   |          :|\n\
++  2  1.5 0.5 2  1.5 0.5   2   2  2 1.5 0.5   2  1.5 0.5 2  1.5 0.5   2  2 2 2\n\
+f: 2  4   3   5  3   5     4   5  * 2   3     2  5   3   2  3   4     2\n";
     
 };

@@ -25,9 +25,9 @@ notação abc, tablatura " />
         <link rel="stylesheet" href="fontsIco/abcx.css" />
         <link rel="stylesheet" href="fontsGoogle/fonts.css" />
         
-        <link rel="stylesheet" href="css/styles4abcx_5.27-min.css" />
+        <link rel="stylesheet" href="css/styles4abcx_5.30-min.css" />
         
-        <link rel="stylesheet" href="site/site_5.28-min.css" />
+        <link rel="stylesheet" href="site/site_5.30-min.css" />
         
         <!-- Google Analytics -->
         <script>
@@ -56,25 +56,25 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jslib/MIDI.js"></script-->
         <script type="text/javascript" src="jslib/MIDI_5.25-min.js"></script>
         
-        <!-- console personalizada para Javascript -->
-        <script type="text/javascript" src="jslib/waterbug.js"></script> 
-        
         <!-- Kelly color picker  -->
         <script type="text/javascript" src="jslib/html5kellycolorpicker.min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_5.27-min.js"></script>
+        <script type="text/javascript" src="file/filemanager_5.30-min.js"></script>
         
         <!-- suporte mapas de acordeões -->
-        <script type="text/javascript" src="diatonic/diatonic_5.27-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic_5.30-min.js"></script>
         
         <!-- ACE Editor -->
-        <script type="text/javascript" src="ace4abcx/ace4abcx_5.27-min.js"></script>
+        <script type="text/javascript" src="ace4abcx/ace4abcx_5.30-min.js"></script>
        
         <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.27-min.js" ></script>
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.30-min.js" ></script>
         
-        <script id="mainSITE" type="text/javascript" src="site/site_5.28.js"></script>
+        <!-- console personalizada para Javascript -->
+        <script type="text/javascript" src="jslib/waterbug.js"></script> 
+        
+        <script id="mainSITE" type="text/javascript" src="site/site_5.30.js"></script>
 
         <div id="topBar" class="topBar gradiente" >
             <span data-translate="appName" class="topTitle">Mapa para Acordeões Diatônicos</span>
@@ -244,8 +244,6 @@ notação abc, tablatura " />
             
             document.getElementById("divABCXversion").innerHTML = '<i>Powered by ABCXJS version '+SITE.abcxVersion+'</i>';
             
-            waterbug.log("WATERBUG - console"); 
-
             var debug=false; // eliminar esta variável assim que possível
             
             var myMap;

@@ -352,6 +352,8 @@ SITE.ResetProperties = function() {
         }
     };
     
+    FILEMANAGER.saveLocal( 'ultimaTablaturaEditada', '' );
+    FILEMANAGER.saveLocal( 'ultimaPartituraEditada', '' );
     SITE.SaveProperties();
     
 };

@@ -1,0 +1,30 @@
+X:h2056
+%%tabinferenceopts +3
+%%barnumbers 0
+%%barsperstaff 6
+%%papersize A4
+T:Anunciação (club)
+C:Alceu Valença
+M:2/4
+R:Baião
+L:1/8
+Q:100
+K:C
+V:melodia clef=treble
+|: "C" z c de | fe dc | Ac dc | "Dm" d4- | d3 z | z c de | fe dc |
+| "F" Ae dc | "C" c4- | c3 z :|: "C" z c de | fe dc | Ac dc | "Dm" d2 d2- | d2 z2 |
+| z c de | fe dc | "F" Ae dc | "C" d c3- | c2 z2 | "C" z c de | fe dc | Ac dc | 
+| "Dm" d2 d2- | d2 z2 | z c de | fe dc | "F" Ae dc |1 "C" d c3- | c2 z2 :|2 "C" d c3- | c2 c2 |
+|: g4- | g2 a2 | "Am" e4- | e3 z | "Bb" z d fe | "F" Ac dc |1 c4- | c2 c2 :|2 c4- | c2 z2 +D.C.+ |
+V:baixo clef=bass
+|: C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] |
+| F,,3/2[F,A,C]/2 F,,[F,A,C] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] :|: C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] |
+| D,,3/2[D,F,A,]/2 D,,[D,F,A,] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] | F,,3/2[F,A,C]/2 F,,[F,A,C] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] |
+| D,,3/2[D,F,A,]/2 D,,[D,F,A,] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] | F,,3/2[F,A,C]/2 F,,[F,A,C] |1 C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] :|2 C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] |
+|: C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | A,,3/2[C,E,G,]/2 A,,[C,E,G,] | A,,3/2[C,E,G,]/2 A,,[C,E,G,] | _B,,3/2[_B,DF]/2 B,,[B,DF] | F,,3/2[F,A,C]/2 F,,[F,A,C] |1 C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] :|2  C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] |
+V:acordeon accordionTab
+|: C+z >+6'0.5 c+>0.5 C+5'' c+8 | C+7' >+80.5 c+>0.5 C+5'' c+6' | C+5' >+6'0.5 c+>0.5 C+5'' c+6' | D-81.5 dm->0.5 D-> dm-> | D->1.5 dm->0.5 D-> dm-z | D-z >-6'0.5 dm->0.5 D-8 dm-7' | D-9 >-7'0.5 dm->0.5 D-8 dm-6' |
+| F+5' >+80.5 f+>0.5 F+5'' f+6' | C+6'1.5 c+>0.5 C+> c+> | C+>1.5 c+>0.5 C+> c+z :|: C+z >+6'0.5 c+>0.5 C+5'' c+8 | C+7' >+80.5 c+>0.5 C+5'' c+6' | C+5' >+6'0.5 c+>0.5 C+5'' c+6' | D-81.5 dm->0.5 D-8 dm-> | D->1.5 dm->0.5 D-z dm-z |
+| D-z >-6'0.5 dm->0.5 D-8 dm-7' | D-9 >-7'0.5 dm->0.5 D-8 dm-6' | F+5' >+80.5 f+>0.5 F+5'' f+6' | C+5'' >+6'0.5 c+>0.5 C+> c+> | C+>1.5 c+>0.5 C+z c+z | C+z >+6'0.5 c+>0.5 C+5'' c+8 | C+7' >+80.5 c+>0.5 C+5'' c+6' | C+5' >+6'0.5 c+>0.5 C+5'' c+6' |
+| D-81.5 dm->0.5 D-8 dm-> | D->1.5 dm->0.5 D-z dm-z | D-z >-6'0.5 dm->0.5 D-8 dm-7' | D-9 >-7'0.5 dm->0.5 D-8 dm-6' | F+5' >+80.5 f+>0.5 F+5'' f+6' |1 C+5'' >+6'0.5 c+>0.5 C+> c+> | C+>1.5 c+>0.5 C+z c+z :|2 C+5'' >+6'0.5 c+>0.5 C+> c+> | C+>1.5 c+>0.5 C+6' c+z |
+|: C-8'1.5 c->0.5 C-> c-> | C->1.5 c->0.5 C-a c-> | A+81.5 c+>0.5 A+> c+> | A+>1.5 c+>0.5 A+> c+z | B♭-z >-80.5 b♭->0.5 B♭-9 b♭-7' | F+5' >+6'0.5 f+>0.5 F+5'' f+6' |1 C+6'1.5 c+>0.5 C+> c+> | C+>1.5 c+>0.5 C+6' c+> :|2 C+6'1.5 c+>0.5 C+> c+> | C+>1.5 c+>0.5 C+z c+z |

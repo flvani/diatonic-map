@@ -16,6 +16,7 @@ ABCXJS.Tab2PartLine = function () {
     this.basses = [];
     this.treble = "";
     this.tablature = "";
+    this.fingeringLine = "";
 };
 
 ABCXJS.Tab2Part = function (toClub, fromClub ) {
@@ -28,7 +29,7 @@ ABCXJS.Tab2Part = function (toClub, fromClub ) {
     this.barAccidentals = [];
     this.barBassAccidentals = [];
     
-    this.startSyms = "|/+%";
+    this.startSyms = "|/+%f";
     this.barSyms = ":]|[";
     this.spaces = "-.\ \t";
 
@@ -92,11 +93,15 @@ ABCXJS.Tab2Part.prototype.parse = function (text, keyboard, toClub, fromClub ) {
     }
     
     if( ! this.hasErrors ) {
+        
         //adicionar vozes treble
         this.addLine( 'V:1 treble' );
         var t= "";
         this.parsedLines.forEach( function(item) {
            t += item.treble  + '\n';   
+           if( item.fingeringLine ) {
+               t += item.fingeringLine  + '\n';   
+           }
         });
         this.addLine( t.slice(0,-1) );
 
@@ -621,6 +626,10 @@ ABCXJS.Tab2Part.prototype.idStaff = function () {
                 valid = false;
                 this.durationLine = this.currLine;
                 break;
+            case 'f':
+                valid = false;
+                this.parsedLines[this.currStaff].fingeringLine = this.tabLines[this.currLine];
+                break;
             case '%':
                 valid = false;
                 // ignora comentario
@@ -870,7 +879,7 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
     if( this.columnDuration && this.columnDuration.length ) {
         dur = parseFloat(this.columnDuration);
     }
-    
+
     return { str: strToken, aStr: tokens, duration: dur, barNumber: this.currBar, type:type, afinal: afinal, added: false, lastChar: lastChar };
 };
 

@@ -21,10 +21,12 @@ M:2/4
 K:F
 V:1 treble
 | z [df][ce][Bd] |: [Ac][ce] [Bd][cA] | [GB][ce] [Bd][cA] | [GB][Bd] [cA][GB] | [FA][Bd] [cA][GB] | [FA][cA] [GB][FA] | [EG][ce] [Bd][cA] | [GB][Bd] [cA][GB] |1 [FA] [df][ce][Bd] :| 
-|2 [FA] z3/2 c/2c/2a/2 |: f c/2c/2c/2 e/2d/2c/2 | bg g/2b/2 b/2g/2 | e c/2c/2c/2 e/2d/2c/2 | af/2f/2 z/2 c/2c/2a/2 | f c/2c/2c/2 e/2d/2c/2 | b g/2g/2b/2 g/2e/2d/2 | c/2c/2d/2c/2 =B/2c/2d/2e/2 |1 f[fac']/2[fac']/2 z/2 c/2c/2a/2 :| 
+|2 [P:Parte II] [FA] z3/2 c/2c/2a/2 |: f c/2c/2c/2 e/2d/2c/2 | bg g/2b/2 b/2g/2 | e c/2c/2c/2 e/2d/2c/2 | af/2f/2 z/2 c/2c/2a/2 | f c/2c/2c/2 e/2d/2c/2 | b g/2g/2b/2 g/2e/2d/2 | c/2c/2d/2c/2 =B/2c/2d/2e/2 |1 f[fac']/2[fac']/2 z/2 c/2c/2a/2 :| 
 |2 f [df][ce][Bd] |: [Ac][ce] [Bd][cA] | [GB][ce] [Bd][cA] | [GB][Bd] [cA][GB] | [FA][Bd] [cA][GB] | [FA][cA] [GB][FA] | [EG][ce] [Bd][cA] | [GB][Bd] [cA][GB] |1 [FA] [df][ce][Bd] :| 
-|2 [FA] z3/2 A/2B/2c/2 |: dc/2B/2 (3 G/2A/2B/2 (3 =B/2c/2d/2 | dc/2 z c/2c/2d/2 | e/2d/2c/2d/2 e/2f/2g/2a/2 | a z3/2 a/2d'/2a/2 | 
+|2 [P:Parte III] [FA] z3/2 A/2B/2c/2 |: dc/2B/2 (3 G/2A/2B/2 (3 =B/2c/2d/2 | dc/2 z c/2c/2d/2 | e/2d/2c/2d/2 e/2f/2g/2a/2 | a z3/2 a/2d'/2a/2 | 
+f: * * 3  2  3 | 5 4 3  2 3 2 4 3 5 | 5 3 2 2 4 | 3 4 2 4 3 4 3 3 | 3 2 5 2
 | c'a/2a/2 d'a/2a/2 | c'b/2b/2 e'2 | z/2 c'/2e'/2 d'/2c'/2b/2 a/2g/2 |1 f[fac']/2[fac']/2 z/2 A/2B/2c/2 :| 
+f: 3 2 2 5 2 2 | 3 2 2 4 | * 3 4 5 3 2 4 3 | 2 234 234  *  3 2 3
 |2 f [df][ce][Bd] |: [Ac][ce] [Bd][cA] | [GB][ce] [Bd][cA] | [GB][Bd] [cA][GB] | [FA][Bd] [cA][GB] | [FA][cA] [GB][FA] | [EG][ce] [Bd][cA] | [GB][Bd] [cA][GB] |1 [FA] [df][ce][Bd] :|2 [FAc]4 | 
 V:2 bass
 | z4 |: F,, z3 | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | F,,z/2[C,E,G,]/2 C,,[C,E,G,] | F,,z/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] |1 F,, z3 :| 

@@ -55,9 +55,6 @@ notação abc, tablatura " />
         <!-- suporte a MIDI -->
         <script type="text/javascript" src="jslib/MIDI.js"></script>
         
-        <!-- console personalizada para Javascript -->
-        <script type="text/javascript" src="jslib/waterbug.js"></script> 
-        
         <!-- Kelly color picker  -->
         <script type="text/javascript" src="jslib/html5kellycolorpicker.js"></script>
         
@@ -72,6 +69,9 @@ notação abc, tablatura " />
        
         <!-- suporte a arquivos ABC -->
         <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs.js" ></script>
+        
+        <!-- console personalizada para Javascript -->
+        <script type="text/javascript" src="jslib/waterbug.js"></script> 
         
         <script id="mainSITE" type="text/javascript" src="src/mapa.js"></script>
         <script type="text/javascript" src="src/media.js"></script>
@@ -250,8 +250,6 @@ notação abc, tablatura " />
             
             document.getElementById("divABCXversion").innerHTML = '<i>Powered by ABCXJS version '+SITE.abcxVersion+'</i>';
             
-            waterbug.log("WATERBUG - console"); 
-
             var debug=false; // eliminar esta variável assim que possível
             
             var myMap;

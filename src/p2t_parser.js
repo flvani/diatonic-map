@@ -110,6 +110,9 @@ ABCXJS.Part2Tab.prototype.init = function () {
     this.currBar = 0;
     this.warnings = [];
     this.inTab = false;
+    this.inTreble = false;
+    this.trebleVoice = "";
+    this.fingerLine = [];
     this.lastParsed = { notes: undefined, tabLine: undefined };
     this.finalTabLines = [];
 };
@@ -140,7 +143,13 @@ ABCXJS.Part2Tab.prototype.parse = function (text, keyboard ) {
         for( var r =0; r <tabL[t].open.length; r++){
             this.addLine( tabL[t].open[r]);
         }
-        this.addLine( tabL[t].duration+'\n');
+        this.addLine( tabL[t].duration );
+        
+        if( this.fingerLine[t] && this.fingerLine[t] !== "" ) {
+            this.addLine( this.fingerLine[t]+'\n');
+        } else {
+            this.addLine( '\n' );
+        }
     }
         
     return this.tabText;
@@ -163,10 +172,18 @@ ABCXJS.Part2Tab.prototype.parseLine = function () {
         var key = this.partLines[this.currLine].match(/^([ACFKLMNTQVZ]\:)/g);
         switch( key[0] ) {
             case 'V:': 
-                 var x = header[0].match(/accordionTab/g);
-                 if( x !== null ) {
-                    this.inTab = true;
-                 }
+                 var a = (header[0].match(/accordionTab/g) !== null);
+                 var b = (header[0].match(/bass/g) !== null);
+                 var t = (header[0].match(/treble/g) !== null);
+                 
+                this.inTab = a;
+                this.inTreble = t || ! (a || b);
+                
+                if( this.inTreble ) {
+                    var v = this.partLines[this.currLine].match(/^(V:\S.)/);
+                    this.trebleVoice = v[0].trim();
+                }
+                
                  break;
             case 'T:': 
                 if(!this.title)
@@ -185,7 +202,24 @@ ABCXJS.Part2Tab.prototype.parseLine = function () {
         if( this.inTab ) {
            //Salva as linhas para inserção ao final - há relações inter linhas
            this.finalTabLines.push( this.parseTab() );
+        } else {
+            var v = this.partLines[this.currLine].match(/\[(V:\S)\]/);
+            var f = (this.partLines[this.currLine].match(/^(f\:)/g) !== null);
+            var w = (this.partLines[this.currLine].match(/^(w\:)/g) !== null);
+            
+            if( v ) 
+                this.inTreble = ( this.trebleVoice !== "" && v[1] === this.trebleVoice );
+             
+            
+            if( this.inTreble ) {
+                if( f ) 
+                    this.fingerLine[this.fingerLine.length-1] = this.partLines[this.currLine];
+                else if( ! w )
+                    this.fingerLine.push("");
+                
+            }
         }
+        
     }
 };
 
