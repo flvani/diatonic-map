@@ -1,37 +1,49 @@
 X:2016
 %%barnumbers 0
 %%papersize A4
+%%tabinferenceopts -2
 T:Xote Laranjeira (club)
 C:Tradicional
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
 Z:Flávio Vani
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/nSVVrA134o8
 M:C
 L:1/8
 Q:120
-K:C
+K:F
 P: Parte I - Introdução
 V:1 clef=treble
 V:2 clef=bass
-[V:1]|z GAB|:[ce][ce][ce][ce] [ce][ce][ce][Bd] | [ce]2 [ce]2   z  GAB   | [ce][ce][ce][ce] [ce][ce][ce][ce] |
-[V:2]|z4   |: C,,2 [C,E,G,]2 C,,2 [C,E,G,]2    | C,,2 [C,E,G,]2 C,, z3  | C,,2 [C,E,G,]2 C,,2 [C,E,G,]2     |
-[V:1]|[Bd]2 [Bd]2 z [G][G][A] | [Bd]2 [Bd]2 [Ac]2 [Ac]2       | [GB]2 [GB]2 [FA]2 [FA]2       | [EG]2 [EG]2 [DF]2 [DF]2        |1 [CE]2 [CEG]2 z  GAB   :|     
-[V:2]| G,,2 [G,B,D]2 G,,  z3  |  G,,2 [G,B,D]2  F,,2 [F,A,C]2 |  G,,2 [G,B,D]2  F,,2 [F,A,C]2 |  C,,2 [C,E,G,]2 G,,2 [G,B,D]2  |1 C,,2 [C,E,G,]2 C,, z3 :| 
-[V:1]| [CE]2 [CEG]2 z  GFE   |: DG,GG, FG,ED                | CG,GG, EG,FE             | DG,GG, FG,ED                |1 [C]2 [CEG]2 z  GFE    :|
-[V:2]| C,,2 [C,E,G,]2 C,, z3 |: G,,2 [G,B,D]2 G,,2 [G,B,D]2 | C,,2 [C,E,G,]2 C,,2 A,,2 | G,,2 [G,B,D]2 G,,2 [G,B,D]2 |1 C,,2 [C,E,G,]2 C,, z3 :|
+[V:1]|z cde|:[fa][fa][fa][fa] [fa][fa][fa][eg] | [fa]2 [fa]2   z  cde   | [fa][fa][fa][fa] [fa][fa][fa][fa] | [eg]2 [eg]2 z [c][c][d] |
+[V:2]|z4   |: F,,2 [F,A,C]2 F,,2 [F,A,C]2    | F,,2 [F,A,C]2 F,, z3  | F,,2 [F,A,C]2 F,,2 [F,A,C]2     | C,,2 [C,E,G,]2 C,,  z3   |
+[V:1]| [eg]2 [eg]2 [df]2 [df]2       | [ce]2 [ce]2 [Bd]2 [Bd]2       | [Ac]2 [Ac]2 [GB]2 [GB]2        |1 [FA]2 [FAc]2 z  cde   :|2 [FA]2 [FAc]2 z  cBA   |        
+[V:2]|  C,,2 [C,E,G,]2  B,,2 [B,DF]2 |  C,,2 [C,E,G,]2  B,,2 [B,DF]2 |  F,,2 [F,A,C]2 C,,2 [C,E,G,]2  |1 F,,2 [F,A,C]2 F,, z3 :|2 F,,2 [F,A,C]2 F,, z3 | 
+[V:1]|: GCcC BCAG                | FCcC ACBA             | GCcC BCAG                 |1 [F]2 [FAc]2 z  cBA    :|
+[V:2]|: C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 F,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 |1 F,,2 [F,A,C]2 F,, z3 :|
 %%newpage
-[V:1]| [P: Parte II] C2 C2 z GA"C"B|: [ce]2[eg]2[eg]2[df]2 | [ce]2 [ce]2 z GAB | [ce]2[eg]2[eg]2[eg]2 |
-w: * * Mas deixe estar que eu vou me~em-bo-ra, eu vou vol-tar pro meu rin-
-[V:2]| C,,2 [C,E,G,]2 C,, z3 |: C,,2 [C,E,G,]2 C,,2 [G,B,D]2 | C,,2 [C,E,G,]2 C,, z3 | C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 |
-[V:1]| "G7"[df]4  z GGA| [Bd]2 [Bd]2 "F"[Ac]2 [Ac]2 | "G7"[GB]2 [GB]2 "F"[FA]2 [FA]2 | "C"[EG]2 [EG]2 "G7"[DF]2 [DF]2 |1 "C"[CE]4 z  GAB  :|
-w: cão. * Pra be-ber á-gua dos teus o-lhos, san-gue do teu co-ra-ção * Mas deixe estar
-w: cão. * Que~é pra co-mer chur-ras-co gor-do, to-mar ma-te, chi-mar- ~ ~ ~ ~
-[V:2]| G,,2 [G,B,D]2 G,,  z3  |  G,,2 [G,B,D]2  F,,2 [F,A,C]2 |  G,,2 [G,B,D]2  F,,2 [F,A,C]2 |  C,,2 [C,E,G,]2 G,,2 [G,B,D]2  |1 C,,2 [C,E,G,]2 C,, z3 :| 
-[V:1]| [CE]4 z  GFE   |: DG,GG, FG,ED                | CG,GG, EG,FE             | DG,GG, FG,ED                |1 [C]2 [CEG]2 z  GFE    :|2 [C]2 [CEG]2 z2 z2      |
-w: rão.
-[V:2]| C,,2 [C,E,G,]2 C,, z3 |: G,,2 [G,B,D]2 G,,2 [G,B,D]2 | C,,2 [C,E,G,]2 C,,2 A,,2 | G,,2 [G,B,D]2 G,,2 [G,B,D]2 |1 C,,2 [C,E,G,]2 C,, z3 :|2 C,,2 [C,E,G,]2 C,,2 z2 | 
-V:Tab accordionTab
+[V:1]|2 [P: Parte II] F2 F2 z cd"F"e|: [fa]2[ac']2[ac']2[gb]2 | [fa]2 [fa]2 z cde | [fa]2[ac']2[ac']2[ac']2 | "C7"[gb]4  z ccd|
+w: * * Mas~deixe~estar * * que eu vou m'~em-bo-ra, eu vou~vol -tar pro meu rin-cão. * Pra~beber 
+w:  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  Que~é~pra~co-
+[V:2]|2 F,,2 [F,A,C]2 F,, z3 |: F,,2 [F,A,C]2 F,,2 [C,E,G,]2 | F,,2 [F,A,C]2 F,, z3 | F,,2 [F,A,C]2 F,,2 [F,A,C]2 | C,,2 [C,E,G,]2 C,,  z3  |
+[V:1]| [eg]2 [eg]2 "A#"[df]2 [df]2 | "C7"[ce]2 [ce]2 "A#"[Bd]2 [Bd]2 | "F"[Ac]2 [Ac]2 "C7"[GB]2 [GB]2 |1 "F"[FA]4 z  cde  :|2 [FA]4 z  cBA |
+w:á-gua dos teus o-lhos, san-gue do teu co-ra-ção * Mas~deixe~estar * * ...
+w:mer chur-ras-co gor-do, to-mar ma-te~e chi-mar- ~ ~ ~ ~ rão.
+[V:2]|  C,,2 [C,E,G,]2  B,,2 [B,DF]2 |  C,,2 [C,E,G,]2  B,,2 [B,DF]2 |  F,,2 [F,A,C]2 C,,2 [C,E,G,]2  |1 F,,2 [F,A,C]2 F,, z3 :|2 F,,2 [F,A,C]2 F,, z3 | 
+[V:1]|: GCcC BCAG                | FCcC ACBA             | GCcC BCAG                |1 [F]2 [FAc]2 z  cBA    :|2 [F]2 [FAc]2 z2 z2      |
+[V:2]|: C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 F,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 |1 F,,2 [F,A,C]2 F,, z3 :|2 F,,2 [F,A,C]2 F,,2 z2 | 
 W: Mas deixe estar que eu vou me embora, eu vou me embora pra fronteira
 W: Que é pra comer churrasco gordo, tomar café de chaleira.
 W: Mas deixe estar que eu vou me embora, eu vou me embora pra fronteira
 W: Mas eu hei de levar comigo este xote laranjeira.
+W: Mas deixe estar que eu vou me embora, eu vou me embora pra fronteira
+W: Que é pra comer churrasco gordo, tomar café de chaleira.
+W: Mas deixe estar que eu vou me embora, eu vou me embora pra fronteira
+W: Mas eu hei de levar comigo este xote laranjeira.
+V:Tab accordionTab
+| z-z z-6' z-8 z-7' |: F+[7'8'] >+[7'8'] f+[7'8'] >+[7'8'] F+[7'8'] >+[7'8'] f+[7'8'] >+[89] | F+[7'8']2 f+[7'8']2 F+z z-6' z-8 z-7' | F+[7'8'] >+[7'8'] f+[7'8'] >+[7'8'] F+[7'8'] >+[7'8'] f+[7'8'] >+[7'8'] | C-[7'8']2 c-[7'8']2 C-z z-6' z-6' z-8 | 
+| C-[7'8']2 c-[7'8']2 B♭-[89]2 b♭-[89]2 | C-[6'7']2 c-[6'7']2 B♭-[5'8]2 b♭-[5'8]2 | F+[5'6']2 f+[5'6']2 C-[4'5']2 c-[4'5']2 |1 F+[4'5']2 f+[4'5'6']2 F+z z-6' z-8 z-7' :|2 F+[4'5']2 f+[4'5'6']2 F+z z-6' z-5' z-6 | 
+|: C-4' >-2' c-6' >-2' C-5' >-2' c-6 >-4' | F+4' >+3' f+6' >+3' F+5' >+3' c-5' >-6 | C-4' >-2' c-6' >-2' C-5' >-2' c-6 >-4' |1 F+4'2 f+[4'5'6']2 F+z z-6' z-5' z-6 :| 
+|2 F+4'2 f+4'2 F+z z-6' z-8 z-7' |: F+[7'8']2 f+[8'9']2 F+[8'9']2 c-[8'9']2 | F+[7'8']2 f+[7'8']2 F+z z-6' z-8 z-7' | F+[7'8']2 f+[8'9']2 F+[8'9']2 f+[8'9']2 | C-[8'9']2 c-[>>]2 C-z z-6' z-6' z-8 | 
+| C-[7'8']2 c-[7'8']2 B♭-[89]2 b♭-[89]2 | C-[6'7']2 c-[6'7']2 B♭-[5'8]2 b♭-[5'8]2 | F+[5'6']2 f+[5'6']2 C-[4'5']2 c-[4'5']2 |1 F+[4'5']2 f+[>>]2 F+z z-6' z-8 z-7' :|2 F+[4'5']2 f+[>>]2 F+z z-6' z-5' z-6 | 
+|: C-4' >-2' c-6' >-2' C-5' >-2' c-6 >-4' | F+4' >+3' f+6' >+3' F+5' >+3' c-5' >-6 | C-4' >-2' c-6' >-2' C-5' >-2' c-6 >-4' |1 F+4'2 f+[4'5'6']2 F+z z-6' z-5' z-6 :|2 F+4'2 f+[4'5'6']2 F+z2 z+z z+z | 
