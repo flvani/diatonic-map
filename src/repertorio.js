@@ -231,7 +231,7 @@ h += '<h2>Repertório Geral</h2>\n\
     h += '\
 </table>\n\
 <br><h2>Corona</h2>\n\
-<h3>Tablaturas para acordeão Corona II A/D/G</h3>\n\
+<h3>Tablaturas para acordeões Corona Series A/D/G</h3>\n\
 <table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">A/D/G</th></tr>\n\
 ';
                     
