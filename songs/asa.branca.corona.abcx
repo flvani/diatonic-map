@@ -1,0 +1,37 @@
+﻿X:4003
+%%barnumbers 0
+%%papersize a4
+%%pagenumbering
+%%staffsep 10
+%%tabinferenceopts -2
+T:Asa Branca (corona)
+C:Luiz Gonzaga & Humberto Teixeira
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/nth-lbmb7ys
+M:C
+L:1/4
+Q:180
+K:D
+V:1 treble
+V:2 bass
+[V:1]| z2 d e | f2 a2                     | a2 f2                     | g2 g2                   | 
+w:Quan-do olhei a~ter-ra ar-den-do
+[V:2]| z4     | D,,3/2 [D,F,A,]/2 D,, [D,F,A,] | D,,3/2 [D,F,A,]/2 D,, [D,F,A,] | G,,3/2 [G,B,D]/2 G,, [G,B,D] |
+[V:1]| z2 d e                  | f2 a2                     | a2 g2                     | f4                      | 
+w:Qual fo-guei-ra de São João
+[V:2]| G,,3/2 [G,B,D]/2 G,, [G,B,D] | D,,3/2 [D,F,A,]/2 D,, [D,F,A,] | A,,3/2 [A,CE]/2 A,, [A,CE] | D,,3/2 [D,F,A,]/2 D,, [D,F,A,] |
+[V:1]|: z d d e                   | f2 a2                     | z a g f              | d2 g2                        | 
+w:Eu per-gun-tei, ai, a Deus do céu, ai
+[V:2]|: D,,3/2 [D,F,A,]/2 D,, [D,F,A,] | D,,3/2 [D,F,A,]/2 D,, [D,F,A,] |  B,,3/2 [B,,D,F,]/2 B,, [B,,D,F,] | G,,3/2 [G,B,D]/2 G,, [G,B,D] |
+[V:1]| z g f e                 | e2 f2                   | z e e d                 |1 d4                       :|
+w:Por que ta-ma-nha ju-di-a-ção
+[V:2]| G,,3/2 [G,B,D]/2 G,, [G,B,D] | A,,3/2 [A,CE]/2 A,, [A,CE] | A,,3/2 [A,CE]/2 A,, [A,CE] |1 D,,3/2 [D,F,A,]/2 D,, [D,F,A,] :|
+[V:1]|:2 d2  d' a                 | bgaf                       | gefd                    | edBd                   :| d4                         |]
+[V:2]|:2  D,,3/2 [D,F,A,]/2 D,, [D,F,A,] | B,,3/2 [B,,D,F,]/2 B,, [B,,D,F,]  | G,,3/2 [G,B,D]/2 G,, [G,B,D] | A,,3/2 [A,CE]/2 A,, [A,CE] :|  D,,3/2 [D,F,A,]/2 D,, [D,F,A,] |]
+V:3 accordionTab
+| z-z2 z-7 z-7' | D-81.5 d->0.5 D-7'' d-> | D+81.5 d+>0.5 D+7' d+> | G+6''1.5 g+>0.5 G+6'' g+> |
+| G+z1.5 g+z0.5 G+6' g+7 | D-81.5 d->0.5 D-7'' d-> | A-7''1.5 a->0.5 A-8' a-> | D+7'1.5 d+>0.5 D+> d+> |
+|: D+z >+6'0.5 d+>0.5 D+6' d+7 | D-81.5 d->0.5 D-7'' d-> | B-z >-7''0.5 bm->0.5 B-8' bm-8 | G+6'1.5 g+>0.5 G+6'' g+> |
+| G+z >+6''0.5 g+>0.5 G+7' g+7 | A-7'1.5 a->0.5 A-8 a-> | A-z >-7'0.5 a->0.5 A-7' a-7 |1 D+6'1.5 d+>0.5 D+> d+> :|
+|:2 D+6'1.5 d+>0.5 D+9' d+8 | B-9' >-8'0.5 bm->0.5 B-7'' bm-8 | G+6'' >+70.5 g+>0.5 G+7' g+6' | A+7 >+6'0.5 a+>0.5 A+4'' a+6' :| D-71.5 d->0.5 D-> d-> |]

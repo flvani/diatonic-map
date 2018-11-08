@@ -1,10 +1,9 @@
 X:4002
-T:Xote Laranjeira (corona)
 %%barnumbers 0
 %%papersize A4
 %%pagenumbering
 %%tabinferenceopts -2
-T:Xote Laranjeira
+T:Xote Laranjeira (corona)
 C:Tradicional
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
 Z:Flávio Vani
@@ -39,3 +38,9 @@ W: Que é pra comer churrasco gordo, tomar café de chaleira.
 W: Mas deixe estar que eu vou me embora, eu vou me embora pra fronteira
 W: Mas eu hei de levar comigo este xote laranjeira.
 V:Tab accordionTab
+| z-z z-7 z-7' z-8 |: G+[6''7''] >+[6''7''] g+[6''7''] >+[6''7''] G+[6''7''] >+[6''7''] g+[6''7''] >+[7'8] | G+[6''7'']2 g+[6''7'']2 G+z z-7 z-7' z-8 | G+[6''7''] >+[6''7''] g+[6''7''] >+[6''7''] G+[6''7''] >+[6''7''] g+[6''7''] >+[6''7''] | D-[87'']2 d-[87'']2 D-z z-7 z-7 z-7' |
+| D-[87'']2 d-[87'']2 C-[7'8']2 c-[7'8']2 | D+[6'7']2 d+[6'7']2 C-[4''7']2 c-[4''7']2 | G+[4''6']2 g+[4''6']2 D-[3''4'']2 d-[3''4'']2 |1 G+[3''4'']2 g+[3''4''6']2 G+z z-7 z-7' z-8 :|2 G+[3''4'']2 g+[3''4''6']2 G+z z-7 z-4'' z-5' |
+|: D-3'' >-3 d-7 >-3 D-4'' >-3 d-5' >-3'' | G+3'' >+3' g+6' >+3' G+4'' >+3' d-4'' >-5' | D-3'' >-3 d-7 >-3 D-4'' >-3 d-5' >-3'' |1 G+3''2 g+[3''4''6']2 G+z z-7 z-4'' z-5' :|
+|2 G+3''2 g+3''2 G+z z-7 z-7' z-8 |: G+[6''7'']2 g+[7''9']2 G+[7''9']2 d-[7''8'']2 | G+[6''7'']2 g+[6''7'']2 G+z z+6' z+7 z+7' | G+[6''7'']2 g+[7''9']2 G+[7''9']2 g+[7''9']2 | D-[7''8'']2 d-[>>]2 D-z z-7 z-7 z-7' |
+| D-[87'']2 d-[87'']2 C-[7'8']2 c-[7'8']2 | D+[6'7']2 d+[6'7']2 C-[4''7']2 c-[4''7']2 | G+[4''6']2 g+[4''6']2 D-[3''4'']2 d-[3''4'']2 |1 G+[3''4'']2 g+[>>]2 G+z z-7 z-7' z-8 :|2 G+[3''4'']2 g+[>>]2 G+z z-7 z-4'' z-5' |
+|: D-3'' >-3 d-7 >-3 D-4'' >-3 d-5' >-3'' | G+3'' >+3' g+6' >+3' G+4'' >+3' d-4'' >-5' | D-3'' >-3 d-7 >-3 D-4'' >-3 d-5' >-3'' |1 G+3''2 g+[3''4''6']2 G+z z-7 z-4'' z-5' :|2 G+3''2 g+[3''4''6']2 G+z2 z+z2 |
