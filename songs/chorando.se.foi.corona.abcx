@@ -23,11 +23,11 @@ V:1 treble
 |: aa ag | c2 ce | b2 ag | c2 eg | f2 ed | d2 ed | e4- | e z3 :| 
 |: B/2[Ge] [Ge]/2[Ge] z | B/2[Ge] [Ge]/2[Ge] z | d/2[Bg] [Bg]/2[Bg] z | d/2[Bg] [Bg]/2[Bg] z :| 
 |: aa ag | c2 ce | b2 ag | c2 eg | f2 ed | d2 ed | e4- | e z3 +D.C.+ :| 
-V:2 bass
+V:2 bass stem=up
 |: E,,[E,G,B,] z [E,G,B,] | E,,[E,G,B,] z [E,G,B,] | C,,[C,E,G,] z [C,E,G,] | D,,[D,F,A,] z [D,F,A,] | G,,[G,B,D] z [G,B,D] | G,,[G,B,D] z [G,B,D] :| 
-|: A,,[C,E,G,] z [C,E,G,] | A,,[C,E,G,] z [C,E,G,] | A,,[C,E,G,] z [C,E,G,] | A,,[C,E,G,] z [C,E,G,] | D,,[D,F,A,] z [D,F,A,] | D,,[D,F,A,] z [D,F,A,] | E,,[E,G,B,] z [E,G,B,] | E,, [B,^DF] z [B,DF] :| 
+|: A,,[C,E,G,] z [C,E,G,] | A,,[C,E,G,] z [C,E,G,] | A,,[C,E,G,] z [C,E,G,] | A,,[C,E,G,] z [C,E,G,] | D,,[D,F,A,] z [D,F,A,] | D,,[D,F,A,] z [D,F,A,] | E,,[E,G,B,] z [E,G,B,] | E,,[B,^DF] z [B,DF] :| 
 |: E,,[E,G,B,] z [E,G,B,] | E,,[E,G,B,] z [E,G,B,] | G,,[G,B,D] z [G,B,D] | G,,[G,B,D] z [G,B,D] :| 
-|: A,,[C,E,G,] z [C,E,G,] | A,,[C,E,G,] z [C,E,G,] | A,,[C,E,G,] z [C,E,G,] | A,,[C,E,G,] z [C,E,G,] | D,,[D,F,A,] z [D,F,A,] | D,,[D,F,A,] z [D,F,A,] | E,,[E,G,B,] z [E,G,B,] | E,, [B,^DF] z [B,DF] :| 
+|: A,,[C,E,G,] z [C,E,G,] | A,,[C,E,G,] z [C,E,G,] | A,,[C,E,G,] z [C,E,G,] | A,,[C,E,G,] z [C,E,G,] | D,,[D,F,A,] z [D,F,A,] | D,,[D,F,A,] z [D,F,A,] | E,,[E,G,B,] z [E,G,B,] | E,,[B,^DF] z [B,DF] :| 
 V:3 accordionTab
 |: E-9' em-> z-> em-7'' | E-8' em-8 z-7' em-z | C+7 c+6'' z+7' c+7 | D+6' d+7 z+6' d+5 | G+4'' g+> z+> g+> | G+> g+> z+> g+z :|
 |: A-7'' c-7'' z-7'' c-8' | A-4'' c-> z-4'' c-7' | A+7'' c+> z+8 c+6'' | A-4'' c-> z-7' c-8' | D-8 d-> z-7' d-7 | D+6' d+> z+7 d+6' | E-7' em-> z-> em-> | E-> b+z z+z b+z :|

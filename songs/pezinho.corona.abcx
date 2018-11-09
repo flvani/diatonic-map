@@ -4,7 +4,7 @@ X:4007
 %%pagenumbering
 %%landscape
 %%barsperstaff 10
-%%tabinferenceopts -3
+%%tabinferenceopts -4
 T:Pezinho (corona)
 C:Tradicional
 Z:Flávio Vani
@@ -28,7 +28,7 @@ V:2 bass
 |: D,,2 [D,F,A,]2 | D,,2 z2 |  A,,2 [A,CE]2 | A,,2 z2 | A,,2 [A,CE]2 |
 | A,,2 z2 |1 D,,2 [D,F,A,]2 | D,,2 z2 :|2 D,,2 [D,F,A,]2 | D,,2 z2 |
 V:3 accordionTab
-| z-z z-3'' z-3'' z-3'' |: D-4 >-3'' d-3'' >-3'' | D-5' >-3'' d-4' >-4 | A+52 a+42 | A+z >+4 z+4 z+4' |
-| A+3'' >+4' a+4 >+4' | A-4' >-4 a-4' >-3'' | D-42 d->2 |1 D-z >-3'' z-3'' z-3'' :|2 D+z2 z+5 z+5 |
-|: D+6'2 d+>2 | D+z >+6 z+4'' z+5 | A-6'2 a-4'2 | A-z2 z-3'' z-3'' | A-6'2 a->2 |
-| A+z >+4'' z+5 z+3'' |1 D+4''2 d+4'2 | D+z2 z+5 z+5 :|2 D-42 d->2 | D->2 z-z2 |
+| z-z z-3'' z-3'' z-3'' |: D-4 >-3'' d-3'' >-3'' | D-5' >-3'' d-4' >-4 | A+5'2 a+42 | A+z >+4 z+4 z+4' |
+| A+3'' >+4' a+4 >+4' | A+3'' >+4' a+3'' >+5 | D-42 d->2 |1 D-z >-3'' z-3'' z-3'' :|2 D-z2 z-3'' z-3'' |
+|: D-72 d->2 | D-z >-6' z-6 z-3'' | A+62 a+3''2 | A+z2 z+5 z+5 | A+62 a+>2 |
+| A+z >+4'' z+5 z+3'' |1 D-5'2 d-42 | D-z2 z-3'' z-3'' :|2 D-42 d->2 | D->2 z-z2 |
