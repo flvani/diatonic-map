@@ -1072,7 +1072,7 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             break;
         case 'GAITA_MINUANO_GC':
         case 'CONCERTINA_PORTUGUESA':
-        case 'GAITA_HOHNER_CORONA_II':
+        case 'GAITA_HOHNER_CORONA_SERIES':
         case 'GAITA_HOHNER_CLUB_IIIM_BR':
         case 'GAITA_MINUANO_BC_TRANSPORTADA':
         default: // as gaitas conhecidas e outras carregadas sob demanda
@@ -6556,7 +6556,7 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
              case 'GAITA_MINUANO_GC':
                 lista = repertorio.geral;
                 break;
-             case 'GAITA_HOHNER_CORONA_II':
+             case 'GAITA_HOHNER_CORONA_SERIES':
                 lista = repertorio.corona;
                 break;
              case 'CONCERTINA_PORTUGUESA':
@@ -6704,7 +6704,7 @@ h += '<h2>Repertório Geral</h2>\n\
     h += '\
 </table>\n\
 <br><h2>Corona</h2>\n\
-<h3>Tablaturas para acordeão Corona II A/D/G</h3>\n\
+<h3>Tablaturas para acordeões Corona Series A/D/G</h3>\n\
 <table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">A/D/G</th></tr>\n\
 ';
                     
@@ -6713,7 +6713,7 @@ h += '<h2>Repertório Geral</h2>\n\
         h += '<tr>'
             +'<td class="title" >'+repertorio.corona[r].title+'</td>'
             + (map? '\n': '<td class="composer" >'+repertorio.corona[r].composer+'</td>\n')
-            +'<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_II', repertorio.corona[r].geral ) 
+            +'<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_SERIES', repertorio.corona[r].geral ) 
             +'</td></tr>\n';
     }
     
