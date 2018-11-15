@@ -137,7 +137,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.stepMeasureButton = document.getElementById(playerParams.stepMeasureBtn);
     this.repeatButton = document.getElementById(playerParams.repeatBtn);
     this.clearButton = document.getElementById(playerParams.clearBtn);
-    this.tempoButton = document.getElementById(playerParams.tempoBtn);
+    this.tempoButton = document.getElementById(playerParams.tempoSld);
     
     this.showEditorButton.addEventListener("click", function (evt) {
         evt.preventDefault();
@@ -253,22 +253,30 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         that.startPlay('repeat', that.gotoMeasureButton.value, that.untilMeasureButton.value );
     }, false);
 
-    this.tempoButton.addEventListener("click", function (evt) {
-        evt.preventDefault();
-        this.blur();
-        var andamento = that.midiPlayer.adjustAndamento();
-        switch (andamento) {
-            case 1:
-                that.tempoButton.innerHTML = '&#160;&#160;1&#160;&#160';
-                break;
-            case 1 / 2:
-                that.tempoButton.innerHTML = '&#160;&#189;&#160;';
-                break;
-            case 1 / 4:
-                that.tempoButton.innerHTML = '&#160;&#188;&#160;';
-                break;
-        }
-    }, false);
+    this.slider = new DRAGGABLE.ui.Slider( this.tempoButton,
+        {
+            min: 10, max: 200, start:100, step:5, color: '#FF6B6B', bgcolor:'#FFAFAF', 
+            callback: function(v) { that.midiPlayer.setAndamento(v); } 
+        } 
+    );
+
+    
+//    this.tempoButton.addEventListener("click", function (evt) {
+//        evt.preventDefault();
+//        this.blur();
+//        var andamento = that.midiPlayer.adjustAndamento();
+//        switch (andamento) {
+//            case 1:
+//                that.tempoButton.innerHTML = '&#160;&#160;1&#160;&#160';
+//                break;
+//            case 1 / 2:
+//                that.tempoButton.innerHTML = '&#160;&#189;&#160;';
+//                break;
+//            case 1 / 4:
+//                that.tempoButton.innerHTML = '&#160;&#188;&#160;';
+//                break;
+//        }
+//    }, false);
 
 
     this.gotoMeasureButton.addEventListener("keypress", function (evt) {
@@ -602,17 +610,17 @@ SITE.Estudio.prototype.changePlayMode = function(mode) {
     SITE.properties.studio.mode = mode? mode : 
             (SITE.properties.studio.mode==="normal"? "learning":"normal");
     
+    this.midiPlayer.setAndamento( this.slider.getValue() );
+    
     if( SITE.properties.studio.mode === "normal" ) {
         $("#divDidacticPlayControls" ).hide();
         SITE.properties.studio.mode  = "normal";
         this.modeButton.innerHTML = '<i class="ico-listening" ></i>';
-        this.midiPlayer.resetAndamento(SITE.properties.studio.mode);
         $("#divNormalPlayControls" ).fadeIn();
     } else {
         $("#divNormalPlayControls" ).hide();
         SITE.properties.studio.mode  = "learning";
         this.modeButton.innerHTML = '<i class="ico-learning" ></i>';
-        this.midiPlayer.resetAndamento(SITE.properties.studio.mode);
         $("#divDidacticPlayControls" ).fadeIn();
     }
 };
@@ -816,6 +824,7 @@ SITE.Estudio.prototype.parseABC = function (transpose, force) {
     if (this.midiParser) {
         this.midiParser.parse(this.renderedTune.abc, this.accordion.loadedKeyboard);
         this.midiPlayer.reset();
+        this.midiPlayer.setAndamento( this.slider.getValue() );
         var warnings = this.midiParser.getWarnings();
         for (var j = 0; j < warnings.length; j++) {
             this.warnings.push(warnings[j]);

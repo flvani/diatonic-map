@@ -17,5 +17,5 @@ cp tmp/site.css site/site_$1.css
 cp tmp/site.js  site/site_$1.js
 
 echo "Compressing Site $1..."
-java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.2.jar  --line-break 7000 -o  site/site_$1-min.js tmp/site.js
-java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.2.jar  --line-break 7000 -o  site/site_$1-min.css tmp/site.css
+java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o  site/site_$1-min.js tmp/site.js
+java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o  site/site_$1-min.css tmp/site.css

@@ -1183,8 +1183,8 @@ window.ABCXJS.misc.isSafari = function() { // Safari 3.0+
 
 window.ABCXJS.misc.isIE = function() {
     
-    if( /*@cc_on!@*/false || !!document.documentMode  ) { // Internet Explorer 6-11
-      return true;
+    if( /* @ cc_on ! @ */ false || !! document.documentMode ) { // Internet Explorer 6-11
+      return true; 
     }
 
     if( navigator.appName.indexOf("Internet Explorer")!==-1 ){ // Yeah, he's using IE
@@ -8322,7 +8322,7 @@ ABCXJS.write.Layout.prototype.printNote = function(elem, nostem, dontDraw) { //s
         }
 
         // draw stem from the furthest note to a pitch above/below the stemmed note
-        if (/*!nostem flavio && */durlog <= -1) {
+        if ( /* ! nostem flavio && */ durlog <= -1 ) {
             p1 = (dir === "down") ? elem.minpitch - 7 : elem.minpitch + 1 / 3;
             // PER added stemdir test to make the line meet the note.
             if (p1 > 6 && !this.stemdir)
@@ -11742,20 +11742,6 @@ ABCXJS.midi.Parse.prototype.getButton = function( b ) {
  * and open the template in the editor.
  */
 
-/* TODO: 
- *      - Acertar as chamadas de callBack no Mapa - midplayer
- *      - Acertar chamada de posicionamento de scroll do editor - workspace
- *      - Verificar os impactos da alteração do textarea.appendstring - abc_editor
- *      - Verificar os impactos da mudança em - abc_graphelements
- *      - Verificar se é possível manter um pequeno delay antes de selecionar um botão para que seja
- *          perceptivel que o mesmo foi pressionado mais de uma vez
- *        NOTA: para isso é necessário na tablatura tenha informação de quanto tempo o botão ficará pressionado  
- *      - ok Modificar a execução nota a nota (antes estava melhor) ou verificar se é possível manter 
- *          os botões selecionados alem de verificar a questão do start/stop na play list
- *          NOTA: voltei ao padrão anterior
- *      - ok Enviar para o editor o sinal de  end of music (para mudar o label do botão play)
-*/
-
 if (!window.ABCXJS)
     window.ABCXJS = {};
 
@@ -11831,29 +11817,19 @@ ABCXJS.midi.Player.prototype.defineCallbackOnChangeBar = function( cb ) {
 };
 
 ABCXJS.midi.Player.prototype.resetAndamento = function(mode) {
-    if( mode==="normal" ){
-        this.currentTime = this.currentTime * this.currentAndamento;
-    } else {
-        this.currentTime = this.currentTime * (1/this.currentAndamento);
-    }
+    try{
+        this.currentTime = this.playlist[this.i].time*(1/this.currentAndamento);
+    } catch(e){
+    };
 };
 
-ABCXJS.midi.Player.prototype.adjustAndamento = function() {
-    switch(this.currentAndamento) {
-        case 1:
-            this.currentAndamento = 0.5;
-            this.currentTime = this.currentTime * 2;
-            break;
-        case 0.5:
-            this.currentTime = this.currentTime * 2;
-            this.currentAndamento = 0.25;
-            break;
-        case 0.25:
-            this.currentAndamento = 1;
-            this.currentTime = this.currentTime/4;
-            break;
-    }
-    return this.currentAndamento;
+ABCXJS.midi.Player.prototype.setAndamento = function(value) {
+    // aceita valores entre 10% e 200% do valor original
+    if(value < 10 ) value = 10;
+    if(value > 200 ) value = 200;
+    
+    this.currentAndamento = value/100.0; 
+    this.resetAndamento();
 };
 
 ABCXJS.midi.Player.prototype.stopPlay = function() {
@@ -11996,7 +11972,7 @@ ABCXJS.midi.Player.prototype.doPlay = function() {
     }
     
     while (!this.onError && this.playlist[this.i] &&
-           this.playlist[this.i].time <= this.currentTime) {
+           (this.playlist[this.i].time*(1/this.currentAndamento)) <= this.currentTime) {
         this.executa(this.playlist[this.i]);
         this.i++;
         this.handleBar();
@@ -12066,13 +12042,12 @@ ABCXJS.midi.Player.prototype.executa = function(pl) {
                     }
                     aqui=2;
                     if( self.type !== 'note' ) {
-                        //o andamento é considerado somente para o modo didatico
-                        var andamento = self.type?(1/self.currentAndamento):1;
-
-                        //limpa o botão uma fração de tempo antes do fim da nota - para dar ideia visual de botão pressionado/liberado antes da proxima nota
-                        var d = (elem.midipitch.mididuration * 0.1) > 0.5 ? (elem.midipitch.mididuration * 0.1) : 0.5;
                         
-                        elem.button.button.clear( self.calcTempo( (elem.midipitch.mididuration-d)*andamento ) + delay );
+                        var andamento = (1/self.currentAndamento);
+                        //limpa o botão uma fração de tempo antes do fim da nota para dar ideia visual de botão pressionado/liberado antes da proxima nota
+                        var delta = Math.max(elem.midipitch.mididuration * 0.1, 0.5);
+                        
+                        elem.button.button.clear( self.calcTempo( (elem.midipitch.mididuration-delta)*andamento ) + delay );
                     }    
                     aqui=3;
                }
@@ -13514,7 +13489,7 @@ if (! window.DRAGGABLE )
     window.DRAGGABLE  = {};
 
 if (! window.DRAGGABLE.ui )
-    window.DRAGGABLE.ui  = { windowId: 0, menuId: 0 };
+    window.DRAGGABLE.ui  = { windowId: 0, menuId: 0, slideId: 0, oneTimeCloseFunction : null, lastOpen: null };
         
 DRAGGABLE.ui.Window = function( parent, aButtons, options, callback, aToolBarButtons ) {
     
@@ -14122,7 +14097,7 @@ if (! window.DRAGGABLE )
     window.DRAGGABLE  = {};
 
 if (! window.DRAGGABLE.ui )
-    window.DRAGGABLE.ui  = { windowId: 0, menuId: 0, oneTimeCloseFunction : null, lastOpen: null };
+    window.DRAGGABLE.ui  = { windowId: 0, menuId: 0, slideId: 0, oneTimeCloseFunction : null, lastOpen: null };
         
 DRAGGABLE.ui.DropdownMenu = function (topDiv, options, menu) {
     var self = this;
@@ -14611,7 +14586,7 @@ if (! window.DRAGGABLE )
     window.DRAGGABLE  = {};
 
 if (! window.DRAGGABLE.ui )
-    window.DRAGGABLE.ui  = { windowId: 0, menuId: 0 };
+    window.DRAGGABLE.ui  = { windowId: 0, menuId: 0, slideId: 0, oneTimeCloseFunction : null, lastOpen: null };
 
 DRAGGABLE.ui.Alert = function( parent, action, text, description, options ) {
     
@@ -14875,6 +14850,165 @@ DRAGGABLE.ui.ColorPicker.prototype.activate = function( parent ) {
     this.container.topDiv.style.top = ( bounds.top + bounds.height/2  -120 ) + "px";
     this.container.topDiv.style.left = bounds.left + bounds.width + 5 + "px";
     this.container.setVisible(true);
+};
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+
+if (! window.DRAGGABLE )
+    window.DRAGGABLE  = {};
+
+if (! window.DRAGGABLE.ui )
+    window.DRAGGABLE.ui  = { windowId: 0, menuId: 0, slideId: 0, oneTimeCloseFunction : null, lastOpen: null };
+        
+DRAGGABLE.ui.Slider = function (topDiv, opts ) {
+
+   //min, max, start, step, pcolor, pbgcolor, callback ) {
+    
+    var self = this;
+    var leftInterval, rightInterval;
+    var mozStyle, webkStyle, btStyle;
+    var color = opts.color || 'black';
+    var bgcolor = opts.bgcolor || 'gray';
+    var speed = opts.speed || 100;
+    var callback = opts.callback;
+    
+    // identifica elementos de CSS padrão que podem ser alterados
+    for( let i in document.styleSheets ) {
+        var rules=document.styleSheets[i].cssRules? document.styleSheets[i].cssRules: document.styleSheets[i].rules;
+        
+        for (var r=0; rules &&r<rules.length; r++){
+            if(rules[r].selectorText===".slidebuttonDiv:hover") 
+                btStyle=rules[r].style;
+            if(rules[r].selectorText===".slider::-webkit-slider-thumb") 
+                webkStyle=rules[r].style;
+            if(rules[r].selectorText===".slider::-moz-range-thumb") 
+                mozStyle=rules[r].style;
+        }
+    }
+    
+    if(btStyle) 
+        btStyle.backgroundColor = color;
+    
+    if(webkStyle) 
+        webkStyle.backgroundColor = color;
+    
+    if( mozStyle )
+        mozStyle.backgroundColor = color;
+    
+    
+    this.step = opts.step || 1;
+    this.id = ++ DRAGGABLE.ui.slideId;
+    this.container = ( typeof topDiv === 'object' ) ? topDiv : document.getElementById(topDiv);
+    this.container.className = "slidecontainer";
+    this.container.id = "slider" + this.id;
+    
+    var d1 = document.createElement('div');
+    d1.className = "layer1";
+    d1.style.backgroundColor = bgcolor;
+    this.container.appendChild(d1);
+    
+    var d2 = document.createElement('div');
+    d2.className = "layer2";    
+    this.container.appendChild(d2);
+    
+    this.label = document.createElement('label');
+    d1.appendChild(this.label);
+    this.label.className = "slidelabel";
+    
+    this.slider = document.createElement('input');
+    
+    this.leftButton = document.createElement('div');
+    var llabel = document.createElement('label');
+    this.leftButton.appendChild(llabel);
+    d2.appendChild(this.leftButton);
+    this.leftButton.className = 'slidebuttonDiv';
+    llabel.className = 'slidebutton rev180dg';
+    llabel.innerHTML = '<i class="ico-open-right" data-toggle="toggle"></i>';
+    
+    var l = document.createElement('div');
+    l.appendChild(this.slider);
+    d2.append(l);
+    
+    this.rightButton = document.createElement('div');
+    var rlabel = document.createElement('label');
+    this.rightButton.appendChild(rlabel);
+    d2.appendChild(this.rightButton);
+    this.rightButton.className = 'slidebuttonDiv';
+    rlabel.className = 'slidebutton normal';
+    rlabel.innerHTML = '<i class="ico-open-right" data-toggle="toggle"></i>';
+    
+    this.slider.type="range";
+    this.slider.className = "slider";
+    this.slider.min = opts.min || 0;
+    this.slider.max = opts.max || 100;
+    this.slider.value = opts.start || 100;
+    this.slider.step = 1;
+    self.label.innerHTML = (opts.start || 100) + '%';
+    
+    var setV = function (v) {
+        self.slider.value = v;
+        self.label.innerHTML = self.slider.value+"%";
+        (callback) && callback(v);
+    };
+    
+    this.slider.oninput = function(e) {
+        self.slider.step = self.step;
+        setV(parseInt(this.value));
+        e.stopPropagation();
+        e.preventDefault();
+        self.slider.step = 1;
+    };
+    
+    this.leftButton.onmousedown = function(e) {
+        leftInterval = setInterval( function() {
+            setV(parseInt(self.slider.value)-1);
+        }, speed);
+        e.stopPropagation();
+        e.preventDefault();
+    };
+    
+    this.leftButton.onmouseup = function(e) {
+        clearInterval(leftInterval);    
+    };
+    this.leftButton.onmouout = function(e) {
+        clearInterval(leftInterval);    
+    };
+    
+    this.rightButton.onmousedown = function(e) {
+        rightInterval = setInterval( function() {
+            setV(parseInt(self.slider.value)+1);
+        }, speed);
+        e.stopPropagation();
+        e.preventDefault();
+    };
+    
+    this.rightButton.onmouseup = function(e) {
+        clearInterval(rightInterval);    
+    };
+    this.rightButton.onmouseout = function(e) {
+        clearInterval(rightInterval);    
+    };
+    
+};
+
+DRAGGABLE.ui.Slider.prototype.enable = function( ) {
+    this.container.style.pointerEvents = 'all';
+    this.container.style.backgroundColor = 'transparent';
+    this.container.style.opacity = '1';
+};
+
+DRAGGABLE.ui.Slider.prototype.disable = function( ) {
+    this.container.style.pointerEvents = 'none';
+    this.container.style.backgroundColor = 'gray';
+    this.container.style.opacity = '0.3';
+};
+
+DRAGGABLE.ui.Slider.prototype.getValue = function( ) {
+    return this.slider.value;
 };
 /* 
  * To change this license header, choose License Headers in Project Properties.

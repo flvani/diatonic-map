@@ -17,7 +17,7 @@ copy /b/y tmp\site.js site\site_%versao%.js
 
 
 @echo Compressing Site %versao% ...
-java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.2.jar  --line-break 7000 -o site\site_%versao%-min.js tmp\site.js
-java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.2.jar  --line-break 7000 -o site\site_%versao%-min.css tmp\site.css
+java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o site\site_%versao%-min.js tmp\site.js
+java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o site\site_%versao%-min.css tmp\site.css
 
 :fim

@@ -569,7 +569,7 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
               , stepBtn: "stepBtn"
               , repeatBtn: "repeatBtn"
               , stepMeasureBtn: "stepMeasureBtn"
-              , tempoBtn: "tempoBtn"
+              , tempoSld: "tempoSld"
               , GClefBtn: "GClefBtn"
               , FClefBtn: "FClefBtn"
               , currentPlayTimeLabel: "currentPlayTimeLabel2"

@@ -109,6 +109,7 @@ SITE.Translator.prototype.translate = function(container) {
                     }
                     break;
                 case 'BUTTON': 
+                case 'DIV': 
                 case 'I': 
                     item.title = vlr; 
                     break;

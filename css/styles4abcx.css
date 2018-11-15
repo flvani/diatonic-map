@@ -554,6 +554,15 @@ and open the template in the editor.
     -webkit-transition: max-height 0.5s ease-in-out;
     transition: max-height 0.5s ease-in-out;
 }
+
+.checkboxGroup {
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 2px;
+    height: 25px;
+    padding: 2px;
+    vertical-align: top;
+}
 /*
     To change this license header, choose License Headers in Project Properties.
     To change this template file, choose Tools | Templates
@@ -1043,5 +1052,128 @@ and open the template in the editor.
 
 .dialog .text-group input[type="text"] {
   width: 300px;   
+}
+
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 12/11/2018, 14:19:16
+    Author     : Flávio Vani
+*/
+.slidecontainer {
+    float: left;
+    height: 23px;
+    width: 134px; 
+    margin-top: 1px;
+    border-radius: 3px;
+}
+
+.slidecontainer > .layer1 {
+    z-index: 1;
+    width: 134px;
+    position:absolute;
+    height: 23px !important;
+    opacity: 1;
+    border-radius: 3px;
+    background: gray; 
+    background: #FFAFAF; 
+}
+.slidecontainer > .layer2 {
+    z-index: 2;
+    width: 134px; 
+    position:absolute;
+    
+}
+
+.slidelabel {
+    width: 134px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    margin-top: 4px !important;
+    text-align: center !important;
+}
+
+.slidebutton {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 23px !important;
+    font-size: 18px !important;
+    cursor: pointer !important; 
+}
+
+.slidebuttonDiv {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 23px !important;
+    width: 17px !important;
+    float: left;
+}
+
+.slidebuttonDiv:hover {
+    background-color: transparent;
+}
+
+.slider {
+    margin: 0;
+    padding: 0;
+    float:left;
+    width: 100px; 
+    height: 23px; 
+    appearance: none;
+    -webkit-appearance: none;  /* Override default CSS styles */
+    -moz-appearance: none; /* Override default look */
+    background: #d3d3d3; /* Grey background */
+    outline: none; /* Remove outline */
+    border: none;
+    border-radius: 0;
+    opacity: 0.3; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 0.5; /* Fully shown on mouse-over */
+    cursor: pointer; /* Cursor on hover */
+}
+
+/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */ 
+.slider::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none; /* Override default look */
+    -moz-appearance: none; /* Override default look */
+    width: 23px; /* Set a specific slider handle width */
+    height: 23px; /* Slider handle height */
+}
+
+.slider::-webkit-slider-runnable-track {
+}
+
+.slider::-moz-range-thumb {
+    appearance: none;
+    -moz-appearance: none; /* Override default look */
+    -webkit-appearance: none; /* Override default look */
+    width: 23px; /* Set a specific slider handle width */
+    height: 23px; /* Slider handle height */
+    border: none; /* Remove outline */
+    border-radius: 0;
+}
+
+.slider::-moz-range-track {
+   width: 0;
+   height: 0;
+   background: none;
+   border: none;
+   border-radius: 0;
+}
+
+.rev180dg {
+  transform: rotate(180deg) translate(0px,2px);
+}
+
+.normal {
+  transform: translate(-1px,4px);
 }
 
