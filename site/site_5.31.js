@@ -2924,7 +2924,8 @@ SITE.Estudio.prototype.setScrolling = function(player) {
 
 SITE.Estudio.prototype.salvaMusica = function () {
     if (FILEMANAGER.requiredFeaturesAvailable()) {
-        this.parseABC(0, true );
+        this.fireChanged(0, {force:false, showProgress:true } );
+        //this.parseABC(0, true );
         var name = this.renderedTune.abc.metaText.title + ".abcx";
         var conteudo = this.getString();
         FILEMANAGER.download(name, conteudo);
