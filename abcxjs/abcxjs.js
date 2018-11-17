@@ -9110,38 +9110,38 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
    .abc_title {\n\
         font-size: 18px;\n\
         font-weight: bold;\n\
-        font-family: abcFont, serif;\n\
+        font-family: Merienda, serif;\n\
     }\n\
     \n\
     .abc_subtitle {\n\
         font-size: 16px;\n\
-        font-family: abcFont, serif;\n\
+        font-family: Merienda, serif;\n\
         font-style: italic;\n\
     }\n\
     \n\
     .abc_author {\n\
         font-size: 14px;\n\
-        font-family: abcFont, serif;\n\
+        font-family: Merienda, serif;\n\
         font-style: italic;\n\
         font-weight: bold;\n\
     }\n\
     \n\
     .abc_rhythm {\n\
         font-size: 12px;\n\
-        font-family: abcFont, serif;\n\
+        font-family: Merienda, serif;\n\
         font-style: italic;\n\
     }\n\
     \n\
     .abc_voice_header {\n\
         font-size: 12px;\n\
-        font-family: abcFont, serif;\n\
+        font-family: Merienda, serif;\n\
         font-style: italic;\n\
         font-weight: bold;\n\
     }\n\
     \n\
     .abc_tempo {\n\
         font-size: 12px;\n\
-        font-family: abcFont, serif;\n\
+        font-family: Merienda, serif;\n\
         font-weight: bold;\n\
     }\n\
     \n\
@@ -9152,13 +9152,13 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
     \n\
     .abc_lyrics {\n\
         font-size: 13px;\n\
-        font-family: abcFont, serif;\n\
+        font-family: Merienda, serif;\n\
         font-weight: normal;\n\
     }\n\
     \n\
     .abc_ending {\n\
         font-size: 10px;\n\
-        font-family: abcFont, serif;\n\
+        font-family: Merienda, serif;\n\
     }\n\
     \n\
     .abc_tabtext\n\
@@ -10431,8 +10431,8 @@ ABCXJS.edit.EditArea = function (editor_id, callback, options ) {
     this.currrentFontSize = '15px';
     this.aceEditor = ace.edit(this.container.dataDiv);
     this.aceEditor.setOptions( {highlightActiveLine: true, selectionStyle: "text", cursorStyle: "smooth"/*, maxLines: Infinity*/ } );
-    this.aceEditor.setOptions( {fontFamily: "monospace",  fontSize: this.currrentFontSize, fontWeight: "normal" });
-    this.aceEditor.setOptions( {tabSize: 4, useSoftTabs: false  });
+    this.aceEditor.setOptions( {fontFamily: "DejaVuSansMono",  fontSize: this.currrentFontSize, fontWeight: "normal" });
+    this.aceEditor.setOptions( {tabSize: 4, useSoftTabs: false, disableMonospaceOptimizations: true  });
     this.aceEditor.setOption("showInvisibles", false);
     this.aceEditor.renderer.setOptions( {highlightGutterLine: true, showPrintMargin: false, showFoldWidgets: false } );
     this.aceEditor.session.setNewLineMode('unix');

@@ -352,6 +352,8 @@ SITE.ResetProperties = function() {
         }
     };
     
+    FILEMANAGER.saveLocal( 'ultimaTablaturaEditada', '' );
+    FILEMANAGER.saveLocal( 'ultimaPartituraEditada', '' );
     SITE.SaveProperties();
     
 };
@@ -466,6 +468,7 @@ SITE.Translator.prototype.translate = function(container) {
                     }
                     break;
                 case 'BUTTON': 
+                case 'DIV': 
                 case 'I': 
                     item.title = vlr; 
                     break;
@@ -1069,7 +1072,7 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             break;
         case 'GAITA_MINUANO_GC':
         case 'CONCERTINA_PORTUGUESA':
-        case 'GAITA_HOHNER_CORONA_II':
+        case 'GAITA_HOHNER_CORONA_SERIES':
         case 'GAITA_HOHNER_CLUB_IIIM_BR':
         case 'GAITA_MINUANO_BC_TRANSPORTADA':
         default: // as gaitas conhecidas e outras carregadas sob demanda
@@ -1338,7 +1341,7 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
               , stepBtn: "stepBtn"
               , repeatBtn: "repeatBtn"
               , stepMeasureBtn: "stepMeasureBtn"
-              , tempoBtn: "tempoBtn"
+              , tempoSld: "tempoSld"
               , GClefBtn: "GClefBtn"
               , FClefBtn: "FClefBtn"
               , currentPlayTimeLabel: "currentPlayTimeLabel2"
@@ -2461,7 +2464,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.stepMeasureButton = document.getElementById(playerParams.stepMeasureBtn);
     this.repeatButton = document.getElementById(playerParams.repeatBtn);
     this.clearButton = document.getElementById(playerParams.clearBtn);
-    this.tempoButton = document.getElementById(playerParams.tempoBtn);
+    this.tempoButton = document.getElementById(playerParams.tempoSld);
     
     this.showEditorButton.addEventListener("click", function (evt) {
         evt.preventDefault();
@@ -2577,22 +2580,30 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         that.startPlay('repeat', that.gotoMeasureButton.value, that.untilMeasureButton.value );
     }, false);
 
-    this.tempoButton.addEventListener("click", function (evt) {
-        evt.preventDefault();
-        this.blur();
-        var andamento = that.midiPlayer.adjustAndamento();
-        switch (andamento) {
-            case 1:
-                that.tempoButton.innerHTML = '&#160;&#160;1&#160;&#160';
-                break;
-            case 1 / 2:
-                that.tempoButton.innerHTML = '&#160;&#189;&#160;';
-                break;
-            case 1 / 4:
-                that.tempoButton.innerHTML = '&#160;&#188;&#160;';
-                break;
-        }
-    }, false);
+    this.slider = new DRAGGABLE.ui.Slider( this.tempoButton,
+        {
+            min: 10, max: 200, start:100, step:5, color: '#FF6B6B', bgcolor:'#FFAFAF', 
+            callback: function(v) { that.midiPlayer.setAndamento(v); } 
+        } 
+    );
+
+    
+//    this.tempoButton.addEventListener("click", function (evt) {
+//        evt.preventDefault();
+//        this.blur();
+//        var andamento = that.midiPlayer.adjustAndamento();
+//        switch (andamento) {
+//            case 1:
+//                that.tempoButton.innerHTML = '&#160;&#160;1&#160;&#160';
+//                break;
+//            case 1 / 2:
+//                that.tempoButton.innerHTML = '&#160;&#189;&#160;';
+//                break;
+//            case 1 / 4:
+//                that.tempoButton.innerHTML = '&#160;&#188;&#160;';
+//                break;
+//        }
+//    }, false);
 
 
     this.gotoMeasureButton.addEventListener("keypress", function (evt) {
@@ -2913,7 +2924,8 @@ SITE.Estudio.prototype.setScrolling = function(player) {
 
 SITE.Estudio.prototype.salvaMusica = function () {
     if (FILEMANAGER.requiredFeaturesAvailable()) {
-        this.parseABC(0, true );
+        this.fireChanged(0, {force:false, showProgress:true } );
+        //this.parseABC(0, true );
         var name = this.renderedTune.abc.metaText.title + ".abcx";
         var conteudo = this.getString();
         FILEMANAGER.download(name, conteudo);
@@ -2926,17 +2938,17 @@ SITE.Estudio.prototype.changePlayMode = function(mode) {
     SITE.properties.studio.mode = mode? mode : 
             (SITE.properties.studio.mode==="normal"? "learning":"normal");
     
+    this.midiPlayer.setAndamento( this.slider.getValue() );
+    
     if( SITE.properties.studio.mode === "normal" ) {
         $("#divDidacticPlayControls" ).hide();
         SITE.properties.studio.mode  = "normal";
         this.modeButton.innerHTML = '<i class="ico-listening" ></i>';
-        this.midiPlayer.resetAndamento(SITE.properties.studio.mode);
         $("#divNormalPlayControls" ).fadeIn();
     } else {
         $("#divNormalPlayControls" ).hide();
         SITE.properties.studio.mode  = "learning";
         this.modeButton.innerHTML = '<i class="ico-learning" ></i>';
-        this.midiPlayer.resetAndamento(SITE.properties.studio.mode);
         $("#divDidacticPlayControls" ).fadeIn();
     }
 };
@@ -3140,6 +3152,7 @@ SITE.Estudio.prototype.parseABC = function (transpose, force) {
     if (this.midiParser) {
         this.midiParser.parse(this.renderedTune.abc, this.accordion.loadedKeyboard);
         this.midiPlayer.reset();
+        this.midiPlayer.setAndamento( this.slider.getValue() );
         var warnings = this.midiParser.getWarnings();
         for (var j = 0; j < warnings.length; j++) {
             this.warnings.push(warnings[j]);
@@ -3975,6 +3988,7 @@ SITE.PartGen.prototype.setScrolling = function(player) {
 
 SITE.PartGen.prototype.getDemoText = function() {
     return "\
+%hidefingering\n\
 T:Hino do Grêmio\n\
 C:Lupicínio Rodrigues\n\
 C:(adapt. Cezar Ferreira)\n\
@@ -3983,14 +3997,16 @@ Q:140\n\
 M:4/4\n\
 K:C\n\
 |: C c       C  c       | G  g  G g | C c       C  c       | G  g G g       |\n\
-|: 9 7'  8   6' 8   7'  |           | 9 7'  8   6' 8   7'  |                |\n\
-|:                      | 7' 5'   z |                      | 7'   z 9   8'  |\n\
+|: 9 7'. 8   6' 8.  7'  |           | 9 7'. 8   6' 8.  7'  |                |\n\
+|:                      | 7' 5'   z |                      | 7'   z 9.  8'  |\n\
 +  2 1.5 0.5 2  1.5 0.5   2  2  2 2   2 1.5 0.5 2  1.5 0.5   2  2 2 1.5 0.5\n\
+f: 5 3   4   2  4   3     3  2    *   5 3   4   2  4   3     3      3   2\n\
 \n\
-| C  z   z   A  z   z   | F   f  F f       | C  g       G  g       | C  c C c :|\n\
-| 8'                    |                  | 8'                    | 6'     z :|\n\
-|    10  9'  11 9'  11  | 10' 11 z 9   8'  |    11  9'  7' 8'  9   |          :|\n\
-+ 2  1.5 0.5 2  1.5 0.5   2   2  2 1.5 0.5   2  1.5 0.5 2  1.5 0.5   2  2 2 2\n";
+|  C  z   z   A  z   z   | F   f  F f       | C  g       G  g       | C  c C c :|\n\
+|  8'                    |                  | 8'                    | 6'     z :|\n\
+|     10. 9'  11 9'. 11  | 10' 11 z 9.  8'  |    11. 9'  7' 8'. 9   |          :|\n\
++  2  1.5 0.5 2  1.5 0.5   2   2  2 1.5 0.5   2  1.5 0.5 2  1.5 0.5   2  2 2 2\n\
+f: 2  4   3   5  3   5     4   5  * 2   3     2  5   3   2  3   4     2\n";
     
 };
 /* 
@@ -4948,6 +4964,7 @@ ABCXJS.Tab2PartLine = function () {
     this.basses = [];
     this.treble = "";
     this.tablature = "";
+    this.fingeringLine = "";
 };
 
 ABCXJS.Tab2Part = function (toClub, fromClub ) {
@@ -4960,7 +4977,7 @@ ABCXJS.Tab2Part = function (toClub, fromClub ) {
     this.barAccidentals = [];
     this.barBassAccidentals = [];
     
-    this.startSyms = "|/+%";
+    this.startSyms = "|/+%f";
     this.barSyms = ":]|[";
     this.spaces = "-.\ \t";
 
@@ -5024,11 +5041,15 @@ ABCXJS.Tab2Part.prototype.parse = function (text, keyboard, toClub, fromClub ) {
     }
     
     if( ! this.hasErrors ) {
+        
         //adicionar vozes treble
         this.addLine( 'V:1 treble' );
         var t= "";
         this.parsedLines.forEach( function(item) {
            t += item.treble  + '\n';   
+           if( item.fingeringLine ) {
+               t += item.fingeringLine  + '\n';   
+           }
         });
         this.addLine( t.slice(0,-1) );
 
@@ -5553,6 +5574,10 @@ ABCXJS.Tab2Part.prototype.idStaff = function () {
                 valid = false;
                 this.durationLine = this.currLine;
                 break;
+            case 'f':
+                valid = false;
+                this.parsedLines[this.currStaff].fingeringLine = this.tabLines[this.currLine];
+                break;
             case '%':
                 valid = false;
                 // ignora comentario
@@ -5724,6 +5749,7 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
                         case 'g': token = 'c'; break;
                         case 'A': token = 'D'; break;
                         case 'a': token = 'd'; break;
+                        case 'am': token = 'dm'; break;
                     }
                 } else {
                     //move para o botão imediatamente abaixo
@@ -5744,6 +5770,7 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
                         case 'c': token = 'g'; break;
                         case 'D': token = 'A'; break;
                         case 'd': token = 'a'; break;
+                        case 'dm': token = 'am'; break;
                         case 'F': token = 'C'; break;
                         case 'f': token = 'c'; break;
                         case 'G': token = 'D'; break;
@@ -5800,7 +5827,7 @@ ABCXJS.Tab2Part.prototype.getToken = function(staff) {
     if( this.columnDuration && this.columnDuration.length ) {
         dur = parseFloat(this.columnDuration);
     }
-    
+
     return { str: strToken, aStr: tokens, duration: dur, barNumber: this.currBar, type:type, afinal: afinal, added: false, lastChar: lastChar };
 };
 
@@ -6006,6 +6033,9 @@ ABCXJS.Part2Tab.prototype.init = function () {
     this.currBar = 0;
     this.warnings = [];
     this.inTab = false;
+    this.inTreble = false;
+    this.trebleVoice = "";
+    this.fingerLine = [];
     this.lastParsed = { notes: undefined, tabLine: undefined };
     this.finalTabLines = [];
 };
@@ -6036,7 +6066,13 @@ ABCXJS.Part2Tab.prototype.parse = function (text, keyboard ) {
         for( var r =0; r <tabL[t].open.length; r++){
             this.addLine( tabL[t].open[r]);
         }
-        this.addLine( tabL[t].duration+'\n');
+        this.addLine( tabL[t].duration );
+        
+        if( this.fingerLine[t] && this.fingerLine[t] !== "" ) {
+            this.addLine( this.fingerLine[t]+'\n');
+        } else {
+            this.addLine( '\n' );
+        }
     }
         
     return this.tabText;
@@ -6059,10 +6095,18 @@ ABCXJS.Part2Tab.prototype.parseLine = function () {
         var key = this.partLines[this.currLine].match(/^([ACFKLMNTQVZ]\:)/g);
         switch( key[0] ) {
             case 'V:': 
-                 var x = header[0].match(/accordionTab/g);
-                 if( x !== null ) {
-                    this.inTab = true;
-                 }
+                 var a = (header[0].match(/accordionTab/g) !== null);
+                 var b = (header[0].match(/bass/g) !== null);
+                 var t = (header[0].match(/treble/g) !== null);
+                 
+                this.inTab = a;
+                this.inTreble = t || ! (a || b);
+                
+                if( this.inTreble ) {
+                    var v = this.partLines[this.currLine].match(/^(V:\S.)/);
+                    this.trebleVoice = v[0].trim();
+                }
+                
                  break;
             case 'T:': 
                 if(!this.title)
@@ -6081,7 +6125,24 @@ ABCXJS.Part2Tab.prototype.parseLine = function () {
         if( this.inTab ) {
            //Salva as linhas para inserção ao final - há relações inter linhas
            this.finalTabLines.push( this.parseTab() );
+        } else {
+            var v = this.partLines[this.currLine].match(/\[(V:\S)\]/);
+            var f = (this.partLines[this.currLine].match(/^(f\:)/g) !== null);
+            var w = (this.partLines[this.currLine].match(/^(w\:)/g) !== null);
+            
+            if( v ) 
+                this.inTreble = ( this.trebleVoice !== "" && v[1] === this.trebleVoice );
+             
+            
+            if( this.inTreble ) {
+                if( f ) 
+                    this.fingerLine[this.fingerLine.length-1] = this.partLines[this.currLine];
+                else if( ! w )
+                    this.fingerLine.push("");
+                
+            }
         }
+        
     }
 };
 
@@ -6496,7 +6557,7 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
              case 'GAITA_MINUANO_GC':
                 lista = repertorio.geral;
                 break;
-             case 'GAITA_HOHNER_CORONA_II':
+             case 'GAITA_HOHNER_CORONA_SERIES':
                 lista = repertorio.corona;
                 break;
              case 'CONCERTINA_PORTUGUESA':
@@ -6644,7 +6705,7 @@ h += '<h2>Repertório Geral</h2>\n\
     h += '\
 </table>\n\
 <br><h2>Corona</h2>\n\
-<h3>Tablaturas para acordeão Corona II A/D/G</h3>\n\
+<h3>Tablaturas para acordeões Corona Series A/D/G</h3>\n\
 <table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">A/D/G</th></tr>\n\
 ';
                     
@@ -6653,7 +6714,7 @@ h += '<h2>Repertório Geral</h2>\n\
         h += '<tr>'
             +'<td class="title" >'+repertorio.corona[r].title+'</td>'
             + (map? '\n': '<td class="composer" >'+repertorio.corona[r].composer+'</td>\n')
-            +'<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_II', repertorio.corona[r].geral ) 
+            +'<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_SERIES', repertorio.corona[r].geral ) 
             +'</td></tr>\n';
     }
     

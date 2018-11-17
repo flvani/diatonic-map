@@ -99,7 +99,7 @@ body {
     position: relative;
     float: left;
     width: 100%;
-    font-family: 'titleFont';
+    font-family: 'RockSalt';
     font-weight: normal;
     font-size: 28px;
     text-align: left;
@@ -154,7 +154,7 @@ body {
     bottom: 2px; 
     right: 5px;
     color: rgba(0,0,0,0.8); 
-    font-family: 'abcFont'; 
+    font-family: 'Merienda'; 
     font-size:12px; 
 }
 
@@ -175,7 +175,7 @@ body {
 
 .btn-group input[type="text"] {
     margin-top:0px;
-    font-family: "menuFont";
+    font-family: "Merienda";
 }
 
 .btn-group button:hover {
@@ -210,7 +210,7 @@ body {
    border: 1px solid red;
    background-color: rgba(255,0,0,0.5 );
    color: white;
-   font-family: abcFont;
+   font-family: Merienda;
    font-size: 20px;
 }
 
