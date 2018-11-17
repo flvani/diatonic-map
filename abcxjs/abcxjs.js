@@ -10431,7 +10431,7 @@ ABCXJS.edit.EditArea = function (editor_id, callback, options ) {
     this.currrentFontSize = '15px';
     this.aceEditor = ace.edit(this.container.dataDiv);
     this.aceEditor.setOptions( {highlightActiveLine: true, selectionStyle: "text", cursorStyle: "smooth"/*, maxLines: Infinity*/ } );
-    this.aceEditor.setOptions( {fontFamily: "DejaVuSansMono", fontSize: this.currrentFontSize, fontWeight: "normal" });
+    this.aceEditor.setOptions( {fontFamily: "Mono", fontSize: this.currrentFontSize, fontWeight: "normal" });
     this.aceEditor.setOptions( {tabSize: 4, useSoftTabs: false, showInvisibles: false });
     this.aceEditor.renderer.setOptions( {highlightGutterLine: true, showPrintMargin: false, showFoldWidgets: false } );
     this.aceEditor.session.setNewLineMode('unix');
