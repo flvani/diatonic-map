@@ -11816,20 +11816,22 @@ ABCXJS.midi.Player.prototype.defineCallbackOnChangeBar = function( cb ) {
     this.callbackOnChangeBar = cb;
 };
 
-ABCXJS.midi.Player.prototype.resetAndamento = function(mode) {
-    try{
-        this.currentTime = this.playlist[this.i].time*(1/this.currentAndamento);
-    } catch(e){
-    };
-};
-
 ABCXJS.midi.Player.prototype.setAndamento = function(value) {
+    var that = this;
     // aceita valores entre 10% e 200% do valor original
     if(value < 10 ) value = 10;
     if(value > 200 ) value = 200;
     
-    this.currentAndamento = value/100.0; 
-    this.resetAndamento();
+    if( this.playing ) {
+        // newAndamento funciona como um flag para a rotina que 
+        this.newAndamento = value/100.0; 
+    } else {
+        try{
+            that.currentAndamento = value/100.0; 
+            that.currentTime = that.playlist[that.i].time*(1/that.currentAndamento);
+        } catch(e){
+        };
+    }
 };
 
 ABCXJS.midi.Player.prototype.stopPlay = function() {
@@ -12013,6 +12015,16 @@ ABCXJS.midi.Player.prototype.executa = function(pl) {
     var aqui;
 
     try {
+        
+        if( this.newAndamento ) {
+            try{
+                this.currentAndamento = this.newAndamento; 
+                this.currentTime = this.playlist[this.i].time*(1/this.currentAndamento);
+                delete this.newAndamento;
+            } catch(e){
+            };
+        }
+        
         if( pl.start ) {
             
             pl.item.pitches.forEach( function( elem ) {
@@ -14949,20 +14961,25 @@ DRAGGABLE.ui.Slider = function (topDiv, opts ) {
     this.slider.step = 1;
     self.label.innerHTML = (opts.start || 100) + '%';
     
-    var setV = function (v) {
+    var setV = function (v, call) {
         self.slider.value = v;
         self.label.innerHTML = self.slider.value+"%";
-        (callback) && callback(v);
+        (call) && (callback) && callback(v);
     };
     
     this.slider.oninput = function(e) {
         self.slider.step = self.step;
-        setV(parseInt(this.value));
+        setV(parseInt(this.value), true);
         e.stopPropagation();
         e.preventDefault();
         self.slider.step = 1;
     };
     
+    this.leftButton.onclick = function(e) {
+        setV(parseInt(self.slider.value)-1, true);
+        e.stopPropagation();
+        e.preventDefault();
+    };
     this.leftButton.onmousedown = function(e) {
         leftInterval = setInterval( function() {
             setV(parseInt(self.slider.value)-1);
@@ -14973,9 +14990,17 @@ DRAGGABLE.ui.Slider = function (topDiv, opts ) {
     
     this.leftButton.onmouseup = function(e) {
         clearInterval(leftInterval);    
+        (callback) && callback(self.slider.value);
     };
     this.leftButton.onmouout = function(e) {
         clearInterval(leftInterval);    
+        (callback) && callback(self.slider.value);
+    };
+    
+    this.rightButton.onclick = function(e) {
+        setV(parseInt(self.slider.value)+1, true);
+        e.stopPropagation();
+        e.preventDefault();
     };
     
     this.rightButton.onmousedown = function(e) {
@@ -14988,9 +15013,11 @@ DRAGGABLE.ui.Slider = function (topDiv, opts ) {
     
     this.rightButton.onmouseup = function(e) {
         clearInterval(rightInterval);    
+        (callback) && callback(self.slider.value);
     };
     this.rightButton.onmouseout = function(e) {
         clearInterval(rightInterval);    
+        (callback) && callback(self.slider.value);
     };
     
 };
