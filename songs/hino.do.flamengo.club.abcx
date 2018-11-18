@@ -2,9 +2,9 @@ X:h2054
 %%barnumbers 1
 %%papersize A4
 %%barsperstaff 7
+%%tabInferenceOpts -2
 %%stretchlast
 %landscape
-%%tabInferenceOpts -2
 R:Marcha
 T:Hino do Flamengo (club)
 C:Lamartine Babo
@@ -22,7 +22,7 @@ w:maior pra- * zer vê-lo bri-lhar, * se-ja na ter- * ra,
 |"F" cA Fd- | "D7" d z A2 | "C7" c2 B2 | F2 G2 |
 w:se-ja no mar. * Ven-cer, ven-cer, ven-cer! U-ma 
 | "F" [FAc] z AA | B2 Ac- | "C7" c G2 B | AG cA | "F" [FAc]4 |
-w:cer! U-ma  vez Fla- men-go, Fla-men-go a-té mor-rer!
+w:cer! U-ma  vez Fla- men-*go, Fla-men-go até mor-rer!
 V:2 bass
 | z4 | F,,2 [F,A,C] z | C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 |
 | F,,2 [F,A,C]2 | B,,2 [B,DF]2 | B,,2 [B,DF] z | F,,2 [F,A,C]2 | F,,2 [F,A,C]2 |
