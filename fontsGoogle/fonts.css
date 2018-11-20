@@ -10,6 +10,10 @@
 /*abc font*/
 @font-face { font-family: 'Merienda';       src: url('https://flvani.github.io/diatonic-map/fontsGoogle/Merienda-Regular.ttf') format('truetype'); }
 
+/*editor font*/
+@font-face { font-family: 'DejaVuSansMono';       src: url('https://flvani.github.io/diatonic-map/fontsGoogle/DejaVuSansMono.ttf') format('truetype'); }
+
+
 /*
 @font-face { font-family: 'atual01';              src: url('./Neucha.ttf') format('truetype'); }
 @font-face { font-family: 'atual02';              src: url('./Spirax-Regular.ttf') format('truetype'); }
