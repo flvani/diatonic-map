@@ -1,4 +1,4 @@
-X:1051
+X:4009
 %%barnumbers 1
 %%papersize A4
 %%tabinferenceopts -2
@@ -6,7 +6,7 @@ X:1051
 %barsperstaff 3
 %%landscape
 %%stretchlast
-T:J'ai du bon tabac
+T:J'ai du bon tabac (corona)
 C:Folcore Francês (Séc. XVII)
 C:(Paroles pour Abbé de L'Attaignant)
 Z:Flávio Vani
@@ -16,16 +16,16 @@ N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 M:2/4
 L:1/8
 Q:"Vivace " 1/4=176 
-K:G
+K:D
 V:1 clef=treble
-| "G" GA BG | "D7" A2 AB | c2 c2 | "G" B2 B2 | GA BG | "D7" A2 AB |
+| "D" de fd | "A7" e2 ef | g2 g2 | "D" f2 f2 | de fd | "A7" e2 ef |
 w:J'ai du bon ta-bac dans ma ta-ba-tiè-re, J'ai du bon ta-bac, tu n'en
-| c2 d2 | "G" G4 +fine+ |: "D7" d2 dc | "G" B2 AB | c2 d2 | "D7" A4 +dcalfine+ :|
+| g2 a2 | "D" d4 +fine+ |: "A7" a2 ag | "D" f2 ef | g2 a2 | "A7" e4 +dcalfine+ :|
 w:au-ras pas. J'en ai du fin et du bien râ-pé,
 w: * * *  Mais ce n'est pas pour ton vi-lain nez!
 V:2 clef=bass
-| G,,2 [G,B,D]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | D,,2 [D,F,A,]2 |
-| D,,2 [D,F,A,]2 | G,,2 [G,B,D]2 |: D,,2 [D,F,A,]2 |  G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | D,,2 [D,F,A,]2 :|
+| D,,2 [D,F,A,]2 | A,,2 [A,CE]2 | A,,2 [A,CE]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | A,,2 [A,CE]2 |
+| A,,2 [A,CE]2 | D,,2 [D,F,A,]2 |: A,,2 [A,CE]2 |  D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | A,,2 [A,CE]2 :|
 V:3 clef=accordionTab
-| G-5' >-7 g+7 >+6  | D-72 d-7 >-6' | D-82 d-82 | G+72 g+72 | G-5' >-7 g+7 >+6 | D-72 d-7 >-6' |
-| D-82 d-7'2 | G+62 g+>2 |: D-7'2 d-7' >-8 | G-6'2 g-7 >-6' | G+6'2 g+82 | D-72 d->2 :|
+| D+6' >+7 d+7' >+6' | A-7'2 a-7' >-8 | A-8'2 a-8'2 | D+7'2 d+7'2 | D+6' >+7 d+7' >+6' | A-7'2 a-7' >-8 |
+| A-8'2 a-7''2 | D+6'2 d+>2 |: A-7''2 a-7'' >-8' | D+7'2 d+7 >+7' |  D+6''2 d+82 | A-7'2 a->2 :|
