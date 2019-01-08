@@ -1,9 +1,0 @@
-{
-    "liveServer.settings.donotShowInfoMsg": true
-    ,"liveServer.settings.NoBrowser": false
-    ,"liveServer.settings.root": "../"
-    ,"liveServer.settings.port": 8080
-    ,"liveServer.settings.mount": [
-        ["/diatonic-map", "/diatonic-map" ]
-    ]
-}

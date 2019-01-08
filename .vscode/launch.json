@@ -1,19 +1,28 @@
 {
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
         {
             "name": "Run Mapa Debug",
             "type": "chrome",
             "request": "launch",
-            "url": "http://127.0.0.1:8080/diatonic-map/mapa-debug.html",
+            "url": "http://127.0.0.1:8181/diatonic-map/mapa-debug.html",
+            "webRoot": "${workspaceFolder}/"
+        },
+        {
+            "name": "Run Draw the Dots",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://127.0.0.1:8181/abcxjs/workspace.html",
             "webRoot": "${workspaceFolder}/"
         },
         {
             "name": "Load Repertório Indexado",
             "type": "chrome",
             "request": "launch",
-            "file": "${workspaceFolder}/html/repertorio.indexado.pt_BR.html"
+            "url": "http://127.0.0.1:8181//diatonic-map/html/repertorio.indexado.pt_BR.html",
         },
     ]
 }
