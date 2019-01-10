@@ -5,23 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Run Mapa Debug",
             "type": "chrome",
             "request": "launch",
-            "url": "http://127.0.0.1:8181/diatonic-map/mapa-debug.html",
-            "webRoot": "${workspaceFolder}/"
+            "name": "Mapa Debug",
+            "url": "http://localhost:8080/diatonic-map/mapa-debug.html",
+            "webRoot": "${workspaceFolder}"
         },
         {
-            "name": "Run Draw the Dots",
             "type": "chrome",
             "request": "launch",
-            "url": "http://127.0.0.1:8181/abcxjs/workspace.html",
-            "webRoot": "${workspaceFolder}/"
-        },
-        {
-            "name": "Load Repertório Indexado",
-            "type": "chrome",
-            "request": "launch",
+            "name": "Repertório Indexado",
             "url": "http://127.0.0.1:8181//diatonic-map/html/repertorio.indexado.pt_BR.html",
         },
     ]
