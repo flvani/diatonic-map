@@ -222,7 +222,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         that.blockEdition(false);
         if(that.currentPlayTimeLabel)
            that.currentPlayTimeLabel.innerHTML = "00:00.00";
-        that.midiPlayer.stopPlay();
+        that.studioStopPlay();
     }, false);
 
     this.clearButton.addEventListener("click", function (evt) {
@@ -232,7 +232,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         that.accordion.clearKeyboard(true);
         that.currentPlayTimeLabel.innerHTML = "00:00.00";
         that.blockEdition(false);
-        that.midiPlayer.stopPlay();
+        that.studioStopPlay();
     }, false);
 
 
@@ -250,12 +250,13 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.repeatButton.addEventListener("click", function (evt) {
         evt.preventDefault();
         this.blur();
-        that.startPlay('repeat', that.gotoMeasureButton.value, that.untilMeasureButton.value );
+        if(!that.midiPlayer.playing)
+            that.startPlay('repeat', that.gotoMeasureButton.value, that.untilMeasureButton.value );
     }, false);
 
     this.slider = new DRAGGABLE.ui.Slider( this.tempoButton,
         {
-            min: 10, max: 200, start:100, step:5, color: '#FF6B6B', bgcolor:'#FFAFAF', 
+            min: 25, max: 200, start:100, step:5, color: '#FF6B6B', bgcolor:'#FFAFAF', 
             callback: function(v) { that.midiPlayer.setAndamento(v); } 
         } 
     );
@@ -524,13 +525,17 @@ SITE.Estudio.prototype.studioCallback = function( e ) {
     }
 };
 
+SITE.Estudio.prototype.studioStopPlay = function( e ) {
+    this.midiPlayer.stopPlay();
+};
+
 SITE.Estudio.prototype.closeEstudio = function(save) {
     var loader = this.mapa.startLoader( "CloseStudio" );
     var self = this;
     loader.start(  function() { 
         (save) && SITE.SaveProperties();
         self.setVisible(false);
-        self.midiPlayer.stopPlay();
+        self.studioStopPlay();
         self.mapa.openMapa( self.getString() );
         loader.stop();
     }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
