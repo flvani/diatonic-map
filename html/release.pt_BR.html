@@ -41,7 +41,34 @@
         <div id="helpContainer" class="helpContent" style="top:0; border-color:orange;" >
             <h1>Notas de Lançamento<br>
             </h1>
-            
+<h2>Versão 5.33<br></h2>
+<p>Fevereiro/2019: Nova semântica para o botão <b>"Repetir o intervalo"</b><br>
+</p>
+<ul>
+    <li>O botão <b>"Repetir o intervalo"</b>, no modo didático do <b>"Estúdio ABCX"</b>, agora executa em loop infinito até que seja pressionado botão parar. O intervalo 
+        que será executado dependerá de como foram preenchidos os campos <b>"ir para"</b> e <b>"até"</b>. Se apenas o campo <b>"ir para"</b> estiver preenchido, então o compasso
+        indicado será executado continuamente; se ambos os campos estiverem preenchidos, o intervalo será repetido continuamente. No entanto, se em vez de
+        pressionar o botão <b>"Repetir o intervalo"</b>, for pressionado <b>"enter"</b>, o intervalo (ou compasso) será executado semente uma vez.
+    </li>
+</ul>
+                        
+<h2>Versão 5.31<br></h2>
+<p>Novembro/2018: Incluída notação para dedilhado<br>
+</p>
+<ul>
+    <li>Partituras e tablaturas podem ter informação sobre o dedilhado a ser usado 
+        com a mão direita. A linha <b>"f:"</b> pode ser usada para descrever o dedilhado. 
+        Considera-se o polegar o dedo número 1 e o dedo mínimo, o número 5.
+        A notação é muito similiar à utilizada para incluir letras (<i>lyrics</i>) na partitura (<b>"w:"</b>).
+        Além da notação para um dedo de cada vez, quando mais de uma nota for executada 
+        simultaneamente, é possível combinar os numeros, por exemplo, 25 (denotando o dedilhado com o dedo indicador e o dedo mínimo) 
+        ou 234 (um acorde formado com os dedos indicador, médio e anular) e assim por diante.
+  </li>
+  <li>A nova diretiva <b>%%hidefingering</b> foi incluída para que se possa omitir o dedilhado na hora da impressão, se for conveniente.<br>
+  <li>Novo controle deslizante para modificar o andamento. Valores possíveis entre 10% e 200%.</li>    
+  <li>A <i>Waterbug console</i> foi melhorada, incluíndo agora uma janela própria. Esta console é mostrada sempre que acontece algum erro inesperado no ambiente.<br>
+  </li>
+</ul>
 <h2>Versão 5.31<br></h2>
 <p>Novembro/2018: Incluída notação para dedilhado<br>
 </p>

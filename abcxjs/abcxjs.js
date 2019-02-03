@@ -12003,12 +12003,17 @@ ABCXJS.midi.Player.prototype.doDidacticPlay = function(criteria) {
         this.executa(this.playlist[this.i]);
         this.i++;
         this.handleBar();
-        if(this.type === 'repeat' && ! criteria() ) { // continua repetindo ate um evento externo interromper
-            this.currentMeasure = this.initMeasure;
-            this.i = this.measures[this.currentMeasure];
-            this.currentTime = this.playlist[this.i].time*(1/this.currentAndamento);
+
+        if( this.type == 'repeat' ) { // loop until external event
+            if(!this.onError && !( this.playlist[this.i] && criteria() ) ) {
+                this.currentMeasure = this.initMeasure;
+                this.i = this.measures[this.currentMeasure];
+                this.currentTime = this.playlist[this.i].time*(1/this.currentAndamento);
+                this.currentTime += this.ticksPerInterval;
+            }
         }
     }
+
     if(this.onError) {
         this.stopPlay();
     } else if( this.playlist[this.i] && criteria() ) {

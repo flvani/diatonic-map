@@ -33,7 +33,7 @@
             ,"tip" : "Wiedergeben bis zu Takt" }
         ,"stepBtn": "Schritt für Schritt"
         ,"stepMeasureBtn": "den Takt wiedergeben"
-        ,"repeatBtn": "den Takt wiederholen"
+        ,"repeatBtn": "wiederholt das Intervall"
         ,"description": "Lernprogramm für diatonische Akkordeons"
         ,"oldVersion": "Verwenden Sie die vorherige Version"
         ,"topSettings": "Einstellungen"

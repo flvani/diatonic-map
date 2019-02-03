@@ -33,7 +33,7 @@
             ,"tip" : "Exécuter jusqu'à la mesure" }
         ,"stepBtn": "Pas à pas"
         ,"stepMeasureBtn": "Exécuter la mesure"
-        ,"repeatBtn": "Répétée la mesure"
+        ,"repeatBtn": "Répète l'intervalle"
         ,"description": "Une carte de référence pour l'apprentissage des accordéons diatoniques"
         ,"oldVersion": "Utilisez la version précédente"
         ,"topSettings": "Paramètres"

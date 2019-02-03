@@ -33,7 +33,7 @@
            ,"tip" : "Executar até o compasso" }
         ,"stepBtn": "Passo-a-passo"
         ,"stepMeasureBtn": "Executar o compasso"
-        ,"repeatBtn": "Repetir o compasso"
+        ,"repeatBtn": "Repetir o intervalo"
         ,"description": "Um mapa de referência para a aprendizagem de acordeões diatônicos"
         ,"oldVersion": "Usar a versão anterior"
         ,"topSettings": "Ajustes"

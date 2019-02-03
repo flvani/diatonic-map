@@ -33,7 +33,7 @@
             ,"tip" : "Ejecutar hasta el compás" }
         ,"stepBtn": "Paso a paso"
         ,"stepMeasureBtn": "Ejecutar el compás"
-        ,"repeatBtn": "Repetir el compás"
+        ,"repeatBtn": "Repetir el intervalo"
         ,"description": "Un mapa de referencia para el aprendizaje de acordeones diatónicos"
         ,"oldVersion": "Utilizar la versión anterior"
         ,"topSettings": "Ajustes"

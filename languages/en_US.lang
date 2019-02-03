@@ -33,7 +33,7 @@
             ,"tip" : "Play up to the bar" }
         ,"stepBtn": "Step by step"
         ,"stepMeasureBtn": "Play the bar"
-        ,"repeatBtn": "Replay the bar"
+        ,"repeatBtn": "Repeat the interval"
         ,"description": "A reference guide to diatonic accordion learning"
         ,"oldVersion": "Use the previous version"
         ,"topSettings": "Settings"

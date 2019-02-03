@@ -33,7 +33,7 @@
             ,"tip" : "Eseguire fino alla battuta" }
         ,"stepBtn": "Passo dopo passo"
         ,"stepMeasureBtn": "Eseguire la battuta"
-        ,"repeatBtn": "Ripetere la battuta"
+        ,"repeatBtn": "Ripetere l'intervallo"
         ,"description": "Un mappa di riferimento per l'apprendimento di fisarmoniche diatoniche"
         ,"oldVersion": "Utilizzare la versione precedente"
         ,"topSettings": "Impostazioni"
