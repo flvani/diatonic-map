@@ -1,0 +1,57 @@
+X:2058
+%%barnumbers 1
+%%papersize A4
+%%barsperstaff 6
+%%staffsep 25
+%%pagenumbering
+%stretchlast
+%landscape
+T:Querência Amada
+C:Teixeirinha
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+Z:Flávio Vani
+F:https://www.youtube-nocookie.com/embed/Q9ZAlLHjt-4
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:2/4
+L:1/8
+Q:120
+K:G
+V:1 treble
+ G | +segno+ [eg]2 z F | [df]2 z F | [df][df] [df][ce] | [Bd]2 z E | 
+| [ce]D [Bd]C | [Ac][Ac] [Ac]D | [Bd]D [Bd][Ac] | [GB]2 z G | [eg][eg] [eg]F | 
+| [df][df] [df]F | [df][df] [df][ce] | [Bd]2 z E | [ce][ce] [ce][Bd] | [Ac][Ac] [Ac]B/2c/2 | 
+| [Bd][Bd] [Bd][Ac] | [GB]D/2G/2 B/2G/2B/2d/2 | g2 z2 | D2 CB, | D2 CB, | 
+| D2 z2 | z4 | E2 DC | E2 DC | E2 z2 | 
+| z4 | F2 ED | F2 ED | F2 z2 | 
+| z4 | E2 EE | D2 DC | B,2 z D | 
+| G2- GF | F2 z D | F2- FE | D2 z B, | 
+| EE ED | CC CA, | DD DC | B,2 z D | 
+| GG GF | FF FD | FF FF | G2 z C/2D/2 | 
+| EE ED | CC FF | FF FE | [DF][CE] [CE][B,D] | 
+| [B,D][A,C] [A,C][G,B,] | [G,B,]2 z G +dasegno+ | 
+V:2 bass
+ z | G,,2 [G,B,D] z | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,B,D] z | 
+| G,,2 [G,B,D]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,B,D] z | G,,2 [G,B,D]2 | 
+| D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,B,D] z | C,,2 [C,E,G,] z | D,,2 [D,F,A,]2 | 
+| D,,2 [D,F,A,]2 | G,,2 G,,2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | 
+| G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | 
+| C,,2 [C,E,G,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | 
+| D,,2 [D,F,A,]2 | C,,2 [C,E,G,]2 | D,,2 [D,F,A,]2 | G,,2 [G,B,D]2 | 
+| z4 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,B,D]2 | 
+| G,,2 [G,B,D]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,B,D]2 | 
+| G,,2 [G,B,D] z | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | G,,2 [G,B,D]2 | 
+| C,,2 [C,E,G,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | 
+| D,,2 [D,F,A,] z | G,,2 [G,B,D]2 | 
+V:3 accordionTab
+ z+6 | G+[7'8']2 g+z z-6 | D-[7'a]2 d-z >-6 | D-[7'a] >-[7'a] d-[7'a] >-[89] | G+[78]2 g+z z-5 | 
+| G-[89] >-3' g-[6'7'] >-4 | D-[78] >-[78] d-[78] >-3' | D-[6'7'] >-3' d-[6'7'] >-[78] | G+[67]2 g+z z+6 | G+[7'8'] >+[7'8'] g+[7'8'] >-6 | 
+| D-[7'a] >-[7'a] d-[7'a] >-6 | D-[7'a] >-[7'a] d-[7'a] >-[89] | G+[78]2 g+z z+4' | C+[6'7'] >+[6'7'] c+[6'7'] z-[6'7'] | D-[78] >-[78] d-[78] >-6'0.5 >-80.5 | 
+| D-[6'7'] >-[6'7'] d-[6'7'] >-[78] | G+[67] >+50.5 >+60.5 G+70.5 >+60.5 >+70.5 >+80.5 | G+92 g+z2 | G-3'2 g-4 >-2' | G-3'2 g-4 >-2' | 
+| G-3'2 g-z2 | G-z2 g-z2 | C+4'2 c+5 >+3' | C+4'2 c+5 >+3' | C+4'2 c+z2 | 
+| C+z2 c+z2 | D-62 d-5 >-3' | D-62 d-5 >-3' | D-62 d-z2 | 
+| D-z2 d-z2 | C+4'2 c+4' >+4' | D-3'2 d-3' >-4 | G+42 g+z >+5 | 
+| z+62 z+> z-6 | D-62 d-z >-3' | D-62 d-> >-5 | G+52 g+z >+4 | 
+| G+4' >+4' g+4' >+5 | D-4 >-4 d-4 >-3 | D-3' >-3' d-3' >-4 | G+42 g+z >+5 | 
+| G+6 >+6 g+6 z-6 | D-6 >-6 d-6 >-3' | D-6 >-6 d-6 >-6 | G+62 g+z >+3'0.5 >+50.5 | 
+| C+4' >+4' c+4' >+5 | D-4 >-4 d-6 >-6 | D-6 >-6 d-6 >-5 | D-[3'6] >-[45] d-[45] >-[2'3'] | 
+| D-[2'3'] >-[34] d-[34] z+[34] | G+[34]2 g+z >+6 |
