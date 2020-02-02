@@ -1,0 +1,57 @@
+%%barnumbers 0
+%%papersize A4
+%barsperstaff 6
+%staffsep 20
+%pagenumbering
+%stretchlast
+%landscape
+X:2059
+T:Lembranças (club)
+C:Telmo de Lima Freitas
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+F:https://www.youtube-nocookie.com/embed/O5iLr5esTGI
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+Z:Flávio Vani
+L:1/4
+Q:160
+M:3/4
+K:C
+V:1 treble
+| z [ca] z/2 [ca]/2 | [ca] [Ge] z/2 [ca]/2 | [ca] [Ge] [Af] | [Bg] z z | z [Bg] z/2 [Bg]/2 | [Bg] [Fd] z/2 [Bg]/2 | 
+f:* 24    24    24 24    24    24 24 24   24         24    24   24 25    24
+| [Bg] [Fd] [Ge] | [Af] z z | z [Af] z/2 [Af]/2 |: [Af] [Ge] z/2 [Ge]/2 | [Ge] [Fd] [Ec] | [Ge] [Fd] z | 
+f: 24 25 25   35         24    24    24 24    24   24 25 25   25 25
+| z [Ge] z/2 [Ge]/2 | [Ge] [Fd] z/2 [Fd]/2 | [Fd] [Ec] [DB] | [Ec] z z |1 z [Af] z/2 [Af]/2 :|2 z a3/2 a/2 | 
+f:   25    25   25 25    25   25 25 25   35          24     24      4     4
+| a e z/2 a/2 | a e f | g z z | z g z/2 g/2 | g d z/2 g/2 | g d f | 
+f:4  3      4    4  3  2    4          4     4    4  3     4    4  3  4
+| e z z | z f z/2 f/2 |: f e z/2 e/2 | e d c | e d z | z e z/2 e/2 | 
+f:3         3     3     3 4     4    3  4 2    3  4       3     3
+| e d z/2 d/2 | d c B | c z z |1 z f z/2 f/2 :|2 z a z/2 a/2 | 
+f:3  4    4    4 2 3   3           3      3       4     4
+| a e z/2 a/2 | a e f | g z z | z g z/2 g/2 | g d z/2 g/2 | g d e | 
+f:4  3      4    4  3  2    4          4     4    4  3     4    4  3  2
+| f z z | z f z/2 f/2 |: f e z/2 e/2 | e d c | e d z | z e z/2 e/2 | 
+f:2          3     3     3 4     4    4  4 2    3  4       3     3
+| e d z/2 d/2 | d c B | c z z |1 z f z/2 f/2 :| 
+f:3  4    4    4 2 3   3           3      3
+V:2 bass
+| C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | 
+| G,, [G,B,D] [G,B,D] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] |: F,, [F,A,C] [F,A,C] | F,, [C,E,G,] [C,E,G,] | G,, [G,B,D] [G,B,D] | 
+| G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] |1 C,, [C,E,G,] [C,E,G,] :|2 C,, [C,E,G,] [C,E,G,] | 
+| C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | 
+| C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] |: C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | 
+| G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] |1 C,, [C,E,G,] [C,E,G,] :|2 C,, [C,E,G,] [C,E,G,] | 
+| C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | 
+| F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] |: F,, [F,A,C] [F,A,C] | F,, [C,E,G,] [C,E,G,] | G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | 
+| G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] |1 C,, [C,E,G,] [C,E,G,] :| 
+V:3 accordionTab
+| C+z c+[78'] c+z0.5 >+[78']0.5 | C+[78'] c+[68] c+z0.5 >+[78']0.5 | C+[78'] c+[68] c+[5'7'] | G-[78'] g-z g-z | G-z g-[78'] g-z0.5 >-[78']0.5 | G-[78'] g-[58] g-z0.5 >-[78']0.5 | 
+| G-[78'] g-[58] g-[4'7'] | F+[5'7'] f+z f+z | F+z f+[5'7'] f+z0.5 >+[5'7']0.5 |: F+[5'7'] f+[68] f+z0.5 >+[68]0.5 | F+[68] c-[58] c-[3'6'] | G-[4'7'] g-[58] g-z | 
+| G-z g-[4'7'] g-z0.5 >-[4'7']0.5 | G-[4'7'] g-[58] g-z0.5 >-[58]0.5 | G-[58] g-[3'6'] g-[47] | C+[57] c+z c+z |1 C+z c+[5'7'] c+z0.5 >+[5'7']0.5 :|2 C+z c+8' c+>0.5 >+8'0.5 | 
+| C+8' c+8 c+z0.5 >+8'0.5 | C+8' c+8 c+7' | G-8' g-z g-z | G-z g-8' g-z0.5 >-8'0.5 | G-8' g-8 g-z0.5 >-8'0.5 | G-8' g-8 g-9 | 
+| C+8 c+z c+z | C+z c+7' c+z0.5 >+7'0.5 |: C+7' c+8 c+z0.5 >+80.5 | C-7' c-8 c-6' | G-7' g-8 g-z | G-z g-7' g-z0.5 >-7'0.5 | 
+| G-7' g-8 g-z0.5 >-80.5 | G-8 g-6' g-7 | C+7 c+z c+z |1 C+z c+7' c+z0.5 >+7'0.5 :|2 C+z c+8' c+z0.5 >+8'0.5 | 
+| C+8' c+8 c+z0.5 >+8'0.5 | C+8' c+8 c+7' | G-8' g-z g-z | G-z g-8' g-z0.5 >-8'0.5 | G-8' g-8 g-z0.5 >-8'0.5 | G-8' g-8 g-7' | 
+| F+7' f+z f+z | F+z f+7' f+z0.5 >+7'0.5 |: F+7' f+8 f+z0.5 >+80.5 | F+8 c-8 c-6' | G-7' g-8 g-z | G-z g-7' g-z0.5 >-7'0.5 | 
+| G-7' g-8 g-z0.5 >-80.5 | G-8 g-6' g-7 | C+7 c+z c+z |1 C+z c+7' c+z0.5 >+7'0.5 :| 

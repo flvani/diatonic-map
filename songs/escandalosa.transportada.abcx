@@ -1,0 +1,35 @@
+%barsperstaff 6
+%staffsep 29
+%pagenumbering
+%stretchlast
+%landscape
+%hidefingering
+%%barnumbers 0
+%%papersize A4
+X:4010
+T:Escandalosa (transportada)
+C: Zé Jovino
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+F:https://www.youtube-nocookie.com/embed/tM6E2eEHyC0
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+L:1/8
+Q:"Quadrilha  " 1/4=100
+%Q:160
+M:2/4
+K:C
+V:1 treble
+| z cBA |: z/2 G/2^F/2G/2 A3/2G/2 | G2 B,D | GF/2E/2 D/2F/2E/2D/2 | 
+| Cc BA | z/2 G/2^F/2G/2 A3/2G/2 | G2 B,D | GF/2^C/2 DE | 
+| z CEG | d^c =c^A | z G/2C/2 EG | cB ^A=A | 
+| z [FA] z/2 D/2F/2A/2 | cF/2D/2 A/2F/2G | z C/2E/2 GE/2C/2 | GF/2E/2 DG/2C/2 | z cBA :| 
+V:2 bass
+| C,,2 [C,E,G,] z |: C,,2 A,, z | G,,2 [G,B,D] z | G,, z [D,F,A,]2 | 
+| C,,2 [C,E,G,] z | C,,2 A,, z | G,,2 [G,B,D] z | G,, z [D,F,A,] z | 
+| C,,2 [C,E,G,]2 | _B,,2 [C,E,G,] z | C,,2 [C,E,G,]2 | C,, z [_B,DF]2 | 
+| F,,2 [F,A,C]2 | F,,2 [F,A,C] z | C,,2 [C,E,G,]2 | G,, z [D,F,A,] z | C,,2 [C,E,G,] z :| 
+V:3 accordionTab
+| C+z >+6' c+7 z-5' |: C+z0.5 >+5'0.5 >+60.5 >+5'0.5 A-5' z->0.5 z+5'0.5 | G+5'2 g+4 z-3' | G+5' z-4'0.5 z-50.5 dm-3'0.5 >-4'0.5 >-50.5 >-3'0.5 | 
+| C+3' >+6' c+7 z-5' | C+z0.5 >+5'0.5 >+60.5 >+5'0.5 A-5' z->0.5 z+5'0.5 | G+5'2 g+4 z-3' | G+5' z-4'0.5 z-40.5 dm-3' z+4' | 
+| C+z >+3' c+4' >+5' | B♭-7' >-8 c+6' z-7 | C+z >+5'0.5 >+3'0.5 c+4' >+5' | C+6' z-6' b♭-7 >-5' | 
+| F+z >-[4'5'] f+z0.5 >-3'0.5 >-4'0.5 >-5'0.5 | F+6' >-4'0.5 >-3'0.5 f-5'0.5 >-4'0.5 z+5' | C+z >+3'0.5 >+4'0.5 c+5' >+4'0.5 >+3'0.5 | G+5' z-4'0.5 z-50.5 dm-3' z+5'0.5 z+3'0.5 | C+z >+6' c+7 z-5' :| 

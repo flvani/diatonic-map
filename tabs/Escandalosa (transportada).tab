@@ -1,0 +1,39 @@
+%%barnumbers 0
+%%papersize A4
+%barsperstaff 6
+%%staffsep 29
+%%pagenumbering
+%%stretchlast
+%landscape
+%hidefingering
+%X:4010
+T:Escandalosa (transportada)
+C: Zé Jovino.
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+L:1/8 
+Q:"Quadrilha  " 1/4=100
+%Q:160
+M:2/4
+K:C
+| C    c z  |: C            A  z     | G  g z  | G   z     dm          |
+| z 6'.7.   |  z  5'.6. 5'        5' | 5' 4.   | 5'.                   |
+|        5' |               5'.      |      3' |     4'.5  3'.4'.5. 3' |
++              .5 .5 .5 .5     .5 .5   2             .5 .5 .5 .5 .5 .5  
+
+| C     c z  | C            A  z     | G  g z  | G   z     dm z        |
+| 3'.6' 7.   | z  5'.6. 5'        5' | 5' 4.   | 5'.          4'       |
+|         5' |              5'.      |      3' |     4'.4  3'.         |
++              .5 .5 .5 .5     .5 .5   2             .5 .5              
+
+| C    c     | Bb    c  z | C         c     | C  z  bb    |
+| z 3' 4'.5' |       6'.  | z  5'.3'  4'.5' | 6'.         |
+|            | 7'.8     7 |                 |    6' 7. 5' |
++                              .5 .5
+
+| F    f           | F        f     z  | C       c        | G  z     dm z     | C    c z  :|
+| z    z           | 6'.            5' | z 3'.4' 5'.4'.3' | 5'.         5'.3' | z 6'.7.    |
+|   4'    3'.4'.5' |    4'.3' 5'.4'.   |                  |    4'.5  3'.      |        5'  |
+/   5'             |                   |                  |                   |            |
++      .5 .5 .5 .5      .5 .5 .5 .5        .5 .5    .5 .5 |    .5 .5    .5 .5 
