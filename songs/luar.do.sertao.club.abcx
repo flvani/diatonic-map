@@ -2,21 +2,23 @@ X:2033
 %%barnumbers 1
 %%papersize A4
 %%tabinferenceopts -2
-%%barsperstaff 5
+%%barsperstaff 4
 %staffsep 5
+%%stretchlast
 %%pagenumbering
 T:Luar do Sertão (club)
-C:Catulo da paixão cearence
+C:Catulo da Paixão Cearence
 Z:Flávio Vani
 %F:/diatonic-map/luar.1.jpg
 %F:/diatonic-map/luar.2.pdf
+F:https://www.youtube-nocookie.com/embed/AZnm88Wtpng
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 M:4/4
 L:1/8
-Q:100
+Q:90
 K:F
 V:1 treble
-| z2 z c | +segno+ "F" f3 "Dm" g a3 g | "Gm" b3 a "Bb" g3 f | "C7" e3  d c2 B2 | "F" A6- "C7" Ac | "F" f3 "Dm" g a3 g | "Gm" b3 a "Bb" g3 f | "C7" e3  d c2 g2 |
+| z2 z c |: +segno+ "F" f3 "Dm" g a3 g | "Gm" b3 a "Bb" g3 f |1 "C7" e3  d c2 B2 | "F" A6- "C7" Ac :|2 "C7" e3  d c2 g2 |
 w: Não há, oh gente, oh, não, lu-ar co-mo'es-te do ser-tão * Não há, oh gente, oh, não, lu-ar co-mo'es-te  do ser-
 | "F" f4- "C7" fcde | "F" fffg "Dm" aaag | "Gm" bbba "Bb" gggf | "C7" gfed edcB | "F" A4- "C7" Acde | "F" fffg "Dm" aaag |
 w: tão  * Oh que sau-da-de do lu-ar da mi-nha terra,* lá na serra * branque-* jando * folhas * secas * pelo * chão Este * luar * cá da cida- * de é tão * 
@@ -24,12 +26,13 @@ w: tão  * Oh que sau-da-de do lu-ar da mi-nha terra,* lá na serra * branque-* 
 w:estra-nho, * não~tem * aquela * * sau-da-de do luar do meu ser-tão.
 | "F" A6- "C7" Ac | "F" f3 "Dm" g a3 g | "Gm" b3 a "Bb" g3 f | "C7" e3  d c2 g2 | "F" f8 +fine+|
 V:2 bass
-| z4 | F,,3[F,A,C] D,,3 [D,F,A,] | G,,3 [B,DF] B,,3 [B,DF] | C,,3 [C,E,G,] C,,2 [C,E,G,]2 |  F,,3[F,A,C] C,,2 [C,E,G,]2 | F,,3[F,A,C] D,,3 [D,F,A,] | G,,3 [B,DF] B,,3 [B,DF] | C,,3 [C,E,G,] C,,2 [C,E,G,]2 |
-| F,,3[F,A,C] C,,2 [C,E,G,]2 | F,,3[F,A,C] D,,2 [D,F,A,]2 | G,,3 [B,,D,F,] B,,2 [B,,D,F,]2 | C,,3 [C,E,G,] C,,2 [C,E,G,]2 | F,,3[F,A,C] C,,2 [C,E,G,]2 | F,,3[F,A,C] D,,2 [D,F,A,]2 |
-| G,,3 [B,DF] B,,2 [B,DF]2 | C,,3 [C,E,G,] C,,2 [C,E,G,]2 | F,,3[F,A,C] C,,2 [C,E,G,]2 | F,,3[F,A,C] D,,3 [D,F,A,] | G,,3 [B,DF] B,,3 [B,DF] | C,,3 [C,E,G,] C,,2 [C,E,G,]2 |
-| F,,3[F,A,C] C,,2 [C,E,G,]2 | F,,3[F,A,C] D,,3 [D,F,A,] | G,,3 [B,DF] B,,3 [B,DF] | C,,3 [C,E,G,] C,,2 [C,E,G,]2 |  [F,A,C]8 |
+| z2 z z |: F,,2 [F,A,C]2 D,,2 [D,F,A,]2 | G,,2 [B,DF]2 B,,2 [B,DF]2 |1 C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 C,,2 [C,E,G,]2 :|2 C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 | 
+| F,,2 [F,A,C]2 C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 D,,2 [D,F,A,]2 | G,,2 [B,DF]2 B,,2 [B,DF]2 | C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 D,,2 [D,F,A,]2 | 
+| G,,2 [B,DF]2 B,,2 [B,DF]2 | C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 D,,2 [D,F,A,]2 | G,,2 [B,DF]2 B,,2 [B,DF]2 | C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 | 
+| F,,2 [F,A,C]2 C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 D,,2 [D,F,A,]2 | G,,2 [B,DF]2 B,,2 [B,DF]2 | C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 | [F,A,C]8 | 
 V:3 accordionTab
-| z-z2 z-z z+6' | F+7'3 f+9 D-a3 d-8' | G-9'3 b♭-a B♭-8'3 b♭-9 | C-7'3 c-8 C-6'2 c-5'2 | F+5'3 f+> C+>2 c+> >+6' | F+7'3 f+9 D-a3 d-8' | G-9'3 b♭-a B♭-8'3 b♭-9 | C-7'3 c-8 C-6'2 c-8'2 | 
-| F+7'3 f+> C+> >+7 c-8 >-7' | F+7' >+7' >+7' f+9 D-a >-a d-a >-8' | G-9' >-9' >-9' b♭-a B♭-8' >-8' b♭-8' >-9 | C-8' >-9 >-7' c-8 C-7' >-8 c-6' >-5' | F+5'3 f+> C+> >+6' c-8 >-7' | F+7' >+7' >+7' f+9 D-a >-a d-a >-8' | 
-| G-9' >-9' >-9' b♭-a B♭-8' >-8' b♭-8' >-9 | C-8' >-9 >-7' c-8 C-7' >-8 c-6' >-8' | F+7'3 f+> C+>2 c+> >+7 | F+7'3 f+9 D-a3 d-8' | G-9'3 b♭-a B♭-8'3 b♭-9 | C-7'3 c-8 C-6'2 c-5'2 | 
-| F+5'3 f+> C+>2 c+> >+6' | F+7'3 f+9 D-a3 d-8' | G-9'3 b♭-a B♭-8'3 b♭-9 | C-7'3 c-8 C+72 c+92 | f+7'8 | 
+| z-z2 z-z z+6' |: F+7'2 f+> >+9 D-a2 dm-> >-8' | G-9'2 b♭-> >-a B♭-8'2 b♭-> >-9 |1 C-7'2 c-> >-8 C-6'2 c-5'2 | F+5'2 f+>2 C+>2 c+> >+6' :|2 C-7'2 c-> >-8 C-6'2 c-8'2 | 
+| F+7'2 f+>2 C+> >+7 c-8 >-7' | F+7' >+7' f+7' >+9 D-a >-a dm-a >-8' | G-9' >-9' b♭-9' >-a B♭-8' >-8' b♭-8' >-9 | C-8' >-9 c-7' >-8 C-7' >-8 c-6' >-5' | F+5'2 f+>2 C+> >+6' c-8 >-7' | F+7' >+7' f+7' >+9 D-a >-a dm-a >-8' | 
+| G-9' >-9' b♭-9' >-a B♭-8' >-8' b♭-8' >-9 | C-8' >-9 c-7' >-8 C-7' >-8 c-6' >-8' | F+7'2 f+>2 C+>2 c+> >+7 | F+7'2 f+> >+9 D-a2 dm-> >-8' | G-9'2 b♭-> >-a B♭-8'2 b♭-> >-9 | C-7'2 c-> >-8 C-6'2 c-5'2 | 
+| F+5'2 f+>2 C+>2 c+> >+6' | F+7'2 f+> >+9 D-a2 dm-> >-8' | G-9'2 b♭-> >-a B♭-8'2 b♭-> >-9 | C-7'2 c-> >-8 C+72 c+92 | f+7'8 |
+
