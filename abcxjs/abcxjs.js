@@ -418,10 +418,14 @@ window.ABCXJS.data.Tune = function() {
                                 }
                             }
                         }    
-                        if( barNumThisLine > limite ) {
-                            // move o excesso para a proxima linha, 
+                        var excesso = barNumThisLine - limite;
+                        var ultimaLinha = (i === this.lines.length - 1 );
+
+                        // move o excesso para a proxima linha.
+                        // no caso da última linha, só se sobrar mais de 1 compasso.
+                        if( (!ultimaLinha && excesso > 0 ) || ( ultimaLinha && excesso > 1 )) {
                             // se necessário cria uma nova linha.
-                            if (i === this.lines.length - 1) {
+                            if ( ultimaLinha ) {
                                 var cp = JSON.parse(JSON.stringify(this.lines[i]));
                                 this.lines.push(window.ABCXJS.parse.clone(cp));
                                 for (var ss = 0; ss < this.lines[i + 1].staffs.length; ss++) {

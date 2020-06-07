@@ -1,0 +1,52 @@
+%%barnumbers 0
+%papersize legal
+%%barsperstaff 5
+%staffsep 20
+%pagenumbering
+%%stretchlast
+%landscape
+X:1064
+%hidefingering
+T:Chalana
+C:Mario Zan
+C:(adapt. Cezar Ferreira)
+F:https://www.youtube-nocookie.com/embed/B3ssOl-NTcQ&T:Chalana - Introdução;
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+L:1/8
+Q:150
+M:6/8
+K:G
+V:1 treble
+| z G/2B/2 | dG/2B/2 dG/2B/2 dA/2c/2 | dA/2c/2 dA/2c/2 dA/2c/2 | dA/2c/2 dA/2c/2 dG/2B/2 | dG/2B/2 dG/2B/2 dG/2B/2 | 
+| dG/2B/2 dG/2B/2 dd | [df][df]c [ce][ce]B | [Bd][Bd]A [Ac][Ac]G | [GB]5  D | 
+| BB BB z c | d4 z f | f2 d2 c2 | B4 z D | 
+| BB BB z c | d4 z d | d2 c2 B2 | A4 z2 | 
+|: +segno+ ee ee ed | e4 z2 | dd dd dc | d4 z2 | 
+| AA AA dd | f3 eed | d3 ccB | B4 z2 +fine+ :| 
+| dd dd db | b4 z2 | bb aa gg | f4 z2 | 
+| ee ee eg | g3ggf | f3 eed | d4 z2 | 
+| BB BB Bc | d3 ffe | e3 ddc | c4 z2 | 
+| ff ff fe | f3 eed | d3 ccB | B4 z2  +dsalfine+ | 
+V:2 bass
+| z2 | G,,[G,B,D] G,,[G,B,D] G,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z | G,,[G,B,D] G,,[G,B,D] G,, z | 
+| G,,[G,B,D] G,,[G,B,D] G,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z | G,,[G,B,D] G,,[G,B,D] G,, z | 
+| G,,[G,B,D] G,,[G,B,D] G,, z | G,,[G,B,D] G,,[G,B,D] G,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z | G,,[G,B,D] G,,[G,B,D] G,, z | 
+| G,,[G,B,D] G,,[G,B,D] G,, z | G,,[G,B,D] G,,[G,B,D] G,, z | G,,[G,B,D] G,,[G,B,D] G,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z | 
+|: C,,[C,E,G,] C,,[C,E,G,] C,, z | C,,[C,E,G,] C,,[C,E,G,] C,, z | G,,[G,B,D] G,,[G,B,D] G,, z | G,,[G,B,D] G,,[G,B,D] G,, z | 
+| D,,[D,F,A,] D,,[D,F,A,] D,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z | G,,[G,B,D] G,,[G,B,D] G,, z :| 
+| G,,[G,B,D] G,,[G,B,D] G,, z | G,,[G,B,D] G,,[G,B,D] G,, z | G,,[G,B,D] G,,[G,B,D] G,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z | 
+| C,,[C,E,G,] C,,[C,E,G,] C,, z | C,,[C,E,G,] C,,[C,E,G,] C,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z | G,,[G,B,D] G,,[G,B,D] G,, z | 
+| G,,[G,B,D] G,,[G,B,D] G,, z | G,,[G,B,D] G,,[G,B,D] G,, z | G,,[G,B,D] G,,[G,B,D] G,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z | 
+| D,,[D,F,A,] D,,[D,F,A,] D,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z | G,,[G,B,D] G,,[G,B,D] G,, z | 
+V:3 accordionTab
+| z+z z+60.5 z+70.5 | G+8 g+60.5 >+70.5 G+8 g+60.5 >+70.5 G+8 z-70.5 z-80.5 | D-7' d-70.5 >-80.5 D-7' d-70.5 >-80.5 D-7' z-70.5 z-80.5 | D-7' d-70.5 >-80.5 D-7' d-70.5 >-80.5 D-7' z+60.5 z+70.5 | G+8 g+60.5 >+70.5 G+8 g+60.5 >+70.5 G+8 z+60.5 z+70.5 | 
+| G+8 g+60.5 >+70.5 G+8 g+60.5 >+70.5 G+8 z-7' | D-[7'a] d-[7'a] D-8 d-[89] D-[89] z-6' | D-[6'7'] d-[6'7'] D-7 d-[78] D-[78] z+6 | G+[67] g+[>>] G+[>>] g+[>>] G+[>>] z+5 | 
+| G+7 g+7 G+7 g+7 G+z z+6' | G+8 g+> G+> g+> G+z z-a | D-a d-> D-7' d-> D-8 z-> | G+7 g+> G+> g+> G+z z+5 | 
+| G+7 g+7 G+7 g+7 G+z z+6' | G+8 g+> G+> g+> G+z z-7' | G-7' g-> G-8 g-> G-6' z-> | D-7 d-> D-> d-> D-z z-z | 
+|: C+7' c+7' C+7' c+7' C+7' z+8 | C+7' c+> C+> c+> C+z z+z | G-7' g-7' G-7' g-7' G-7' z-8 | G-7' g-> G-> g-> G-z z-z | 
+| D-7 d-7 D-7 d-7 D-7' z-7' | D-a d-> D-> d-9 D-9 z-7' | D-7' d-> D-> d-8 D-8 z+7 | G+7 g+> G+> g+> G+z z+z :| 
+| G+8 g+8 G+8 g+8 G+8 z+a | G+a g+> G+> g+> G+z z+z | G-a' g-a' G-b g-b G-9' z-9' | D-a d-> D-> d-> D-z z-z | 
+| C+7' c+7' C+7' c+7' C+7' z+8' | C+8' c+> C+> c+8' C+8' z-a | D-a d-> D-> d-9 D-9 z+8 | G+8 g+> G+> g+> G+z z+z | 
+| G+7 g+7 G+7 g+7 G+7 z+6' | G-7' g-> G-> g-a G-a z-9 | G-9 g-> G-> g-7' G-7' z-8 | D-8 d-> D-> d-> D-z z-z | 
+| D-a d-a D-a d-a D-a z-9 | D-a d-> D-> d-9 D-9 z-7' | D-7' d-> D-> d-8 D-8 z+7 | G+7 g+> G+> g+> G+z z+z | 
