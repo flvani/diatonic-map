@@ -1,0 +1,39 @@
+X:1060
+%%barnumbers 0
+%%papersize A4
+%barsperstaff 6
+%staffsep 20
+%pagenumbering
+%%stretchlast
+%landscape
+%%hidefingering
+T:Boi Barroso
+C:Folclore regional
+C:(adapt. Cezar Ferreira)
+F:https://www.youtube-nocookie.com/embed/yk0ZjEsL4WQ&T:Parte I;
+F:https://www.youtube-nocookie.com/embed/A1-Wqh8mGm0&T:Parte II;
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+Z:Flávio Vani.
+L:1/8
+Q:100
+M:2/4
+K:G
+V:1 treble
+| dc |: +segno+ BB Bc | dd dc | Be ed | c2 cB | 
+f: 4 2 3 3 3 2 4 4 4 2 3 3 3 4 4 4 3
+| AA AB | cc cB | Ad dc |1 B2 dc :|:2 B2 z2 | 
+f: 3 3 3 2 4 4 4 2 3 3 3 4 3 4 2 3
+| z B cd | e2 f2 | z e dc | B2 d2 | z d cB | 
+f: 3 2 4 2 5 4 2 3 2 3 3 2 3
+| A2 c2 | z d dc  +dacoda+ :| B2 dc +dsalcoda+ +coda+ |B2 z2 |
+f: 3 3 3 3 4 3 3 4 2
+V:2 bass
+| z2 |: G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | D,,2 [D,F,A,]2 | 
+| D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 |1 G,,2 [G,B,D]2 :|:2 G,,2 [G,B,D]2 | 
+| G,,2 [G,B,D]2 | C,,2 [A,CE]2 | A,,2 [A,CE]2 | G,,2 [G,B,D]2 | G,,2 [G,B,D]2 | 
+| D,,2 [D,F,A,]2 | D,,2 [D,F,A,]2 :| G,,2 [G,B,D]2 | G,,2 [G,B,D]2 |
+V:3 accordionTab
+| z+8 z+6' |: G+7 >+7 g+7 >+6' | G+8 >+8 g+8 >+6' | G+7 >+7' g+7' >+8 | D-82 d-8 >-6' | 
+| D-7 >-7 d-7 >-6' | D-8 >-8 d-8 >-6' | D-7 >-7' d-7' >-8 |1 G+72 g+8 >+6' :|:2 G+72 g+z2 | 
+| G+z >+7 g+6' >+8 | C+7'2 am-a2 | A-z >-9 am-7' >-8 | G+72 g+82 | G+z >+8 g+6' >+7 | 
+| D-72 d-82 | D-z >-7' d-7' >-8 :|2 G+72 g+8 >+6' |  G+72 g+z2 |
