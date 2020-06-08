@@ -1,0 +1,34 @@
+%%barnumbers 0
+%%stretchlast
+%hidefingering
+X:1062
+T:Xote 2
+C:Sadi Cardoso
+C:(adapt. Cezar Ferreira)
+F:https://www.youtube-nocookie.com/embed/vZLW38SdlSI&T:Xote 2 - Parte I;
+F:https://www.youtube-nocookie.com/embed/Ut2wIvCr2XQ&T:Xote 2 - Parte II;
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+L:1/8
+Q:60
+M:2/4
+K:G
+V:1 treble
+|: B,0.75B,/4 B,0.75C/4 D[EG] | [EG][EG] [DF]2 | A,0.75A,/4 A,0.75B,/4 C[DF] | [DF][DF] [G,B,E]2 | 
+f: 3 3 3 2 4 34         |  34 34 25   | 3 3 3 2 4 25         | 25 25 234
+| B,0.75B,/4 B,0.75C/4 D[G,B,E] | [G,B,E][G,B,E] [F,A,D]2 | A,0.75A,/4 A,0.75B,/4 C[F,A,D] | [F,A,D][F,A,D] [G,B,D]2 :| 
+f: 3 3 3 2 4 234       | 234 234 234 | 3 3 3 2 4 234     |   234 234 234
+|: z/2 D/2B,/2 G,/2E z | [G,B,E] z [F,A,D] z | z/2 C/2A,/2 F,/2D z |  [F,A,D] z [G,B,D] z | 
+f:  4 3 2   4       | 234   234   | 4 3 2         4 | 234 234   | 
+| z/2 D/2B,/2 G,/2E z | [G,B,E] z [F,A,D] D,0.75F,/4 | G,0.75A,/4 B,0.75C/4 [DF][CE] | [B,D][A,C] [G,B,]2 +dacapo+ :| 
+f: 4 3 2        4 | 234       234 2 3 | 2 3 4 3     25 34 | 23 23 23  |
+V:2 bass
+|: G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] G,,[G,B,D]  | 
+|  G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] G,,[G,B,D] :| 
+|: G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] G,,[G,B,D]  |
+|  G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] G,,[G,B,D] :| 
+V:3 accordionTab
+|: G+40.75 >+40.25 g+40.75 >+3'0.25 G+5 g+[4'5'] | G+[4'5'] g+[4'5'] D-[3'6] d-[>>] | D-30.75 >-30.25 d-30.75 >-2'0.25 D-4 d-[3'6] | D-[3'6] d-[3'6] G+[344'] g+[>>>] | 
+| G+40.75 >+40.25 g+40.75 >+3'0.25 G+5 g+[344'] | G+[344'] g+[344'] D-[233'] d-[>>>] | D-30.75 >-30.25 d-30.75 >-2'0.25 D-4 d-[233'] | D-[233'] d-[233'] G+[345] g+[>>>] :| 
+|: G+z0.5 >+50.5 g+40.5 >+30.5 G+4' g+z | G+[344'] g+z D-[233'] d-z | D-z0.5 >-40.5 d-30.5 >-20.5 D-3' d-z |  D-[233'] d-z G+[345] g+z |
+| G+z0.5 >+50.5 g+40.5 >+30.5 G+4' g+z | G+[344'] g+z D-[233'] d-10.75 >-20.25 | D-1'0.75 >-30.25 d-2'0.75 >-40.25 D-[3'6] d-[45] | D-[2'3'] d-[34] G+[34] g+[>>] :|
