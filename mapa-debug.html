@@ -261,6 +261,11 @@ notação abc, tablatura " />
                 myMap.silencia();
             };
             
+            window.onfocus = function() {
+                if( !myMap ) return;
+                myMap.setFocus();
+            };
+            
             window.onresize = function() {
                 if( !myMap ) return;
                 myMap.resizeActiveWindow();

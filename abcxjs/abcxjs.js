@@ -11865,23 +11865,27 @@ ABCXJS.midi.Player.prototype.pausePlay = function(nonStop) {
     this.playing = false;
 };
 
+ABCXJS.midi.Player.prototype.doResume = function(nonStop) {
+    MIDI.stopAllNotes();
+    // to be compliant with autoplay-policy-changes #webaudio
+    MIDI.resume();
+    // não pergunte pq: no IOS tenho que tocar uma nota para garantir que não começe com pausa.
+    MIDI.noteOn(0, 40, 1, 0);
+    MIDI.noteOff(0, 40, 0.01);
+    MIDI.noteOn(1, 40, 1, 0);
+    MIDI.noteOff(1, 40, 0.01);
+    MIDI.noteOn(2, 40, 1, 0);
+    MIDI.noteOff(2, 40, 0.01);
+};
+
 ABCXJS.midi.Player.prototype.startPlay = function(what) {
 
     if(this.playing || !what ) return false;
     
-    //flavio - pq no IOS tenho que tocar uma nota antes de qualquer pausa
     if(this.currentTime === 0 ) {
-        MIDI.stopAllNotes();
-        // flavio - to be compliant with autoplay-policy-changes #webaudio
-        MIDI.resume();
-        MIDI.noteOn(0, 40, 1, 0);
-        MIDI.noteOff(0, 40, 0.01);
-        MIDI.noteOn(1, 40, 1, 0);
-        MIDI.noteOff(1, 40, 0.01);
-        MIDI.noteOn(2, 40, 1, 0);
-        MIDI.noteOff(2, 40, 0.01);
+        this.doResume();
     }
-    
+     
     this.playlist = what.playlist;
     this.tempo    = what.tempo;
     this.printer  = what.printer;
@@ -11910,11 +11914,9 @@ ABCXJS.midi.Player.prototype.startDidacticPlay = function(what, type, value, val
     if(this.playing) return false;
 
     if(this.currentTime === 0 ) {
-        //flavio - pq no IOS tenho que tocar uma nota antes de qualquer pausa
-        MIDI.noteOn(0, 21, 0, 0);
-        MIDI.noteOff(0, 21, 0.01);
+        this.doResume();
     }
-    
+     
     this.playlist = what.playlist;
     this.tempo    = what.tempo;
     this.printer  = what.printer;
@@ -14148,6 +14150,8 @@ DRAGGABLE.ui.DropdownMenu = function (topDiv, options, menu) {
     
     this.id = ++ DRAGGABLE.ui.menuId;
     
+    this.Lastkey = { time: 0, key: 0, label: "" }; // controla última pesquisa feita no menu.
+
     this.container = ( typeof topDiv === 'object' ) ? topDiv : document.getElementById(topDiv);
     this.listener = opts.listener || null;
     this.method = opts.method || null;
@@ -14393,18 +14397,54 @@ DRAGGABLE.ui.DropdownMenu.prototype.searchInMenu = function (ddm, key ) {
 
     if( this.headers[ddm] === undefined ) return;
 
-    var toSel;
+    var toSel = "";
     var acts = this.headers[ddm].labelList;
-    var chr = String.fromCharCode(key);
+    var chr = String.fromCharCode(key).toUpperCase();
+    var agora = new Date().getTime();
+    var validade  = 3000; // 3 segundos
 
-    for( var item in acts ) {
-         if( item.startsWith(chr) ){
-            toSel = item;
-            break;
+    // tecla repetida, dentro da validade, então busque o próximo da mesma letra inicial
+    var findNext = ( this.Lastkey.key === key && this.Lastkey.time > ( agora - validade ) );
+
+    if( findNext ) {
+        var next = false;
+        for( var item in acts ) {
+            if(  next ) {
+                if( item.startsWith(chr) ) {
+                    toSel = item;
+                    break;
+                }
+            } else if( this.headers[ddm].highlightItem && item === this.Lastkey.label ) {
+                next = true;
+            }
+        }
+    } else {
+        var previo = "";
+        //tenta encontrar um que comece com a letra procurada
+        for( var item in acts ) {
+            if( previo === "" ) previo = item; // registra o primeiro item para usar abaixo
+            if( item.startsWith(chr) ){
+               toSel = item;
+               break;
+            }
+        }
+        //se não encontrar, para no último menor que a letra procurada
+        if( toSel === "" ) {
+            for( var item in acts ) {
+                if( item.charAt(0) >= chr ){
+                    toSel = previo;
+                    break;
+                }
+                previo = item;
+            }
         }
     }
-    this.highlightItem(ddm, this.headers[ddm].labelList[toSel]);
-    
+
+    if( toSel !== "" ) {
+        this.highlightItem(ddm, this.headers[ddm].labelList[toSel]);
+        this.Lastkey = { time: agora, key: key, label: toSel }
+    }
+
 };
 
 
@@ -14455,12 +14495,11 @@ DRAGGABLE.ui.DropdownMenu.prototype.highlightItem = function (ddm, up) {
         acts[toSel].className = 'hover';
     }
         
-    if( acts[toSel].offsetTop+acts[toSel].clientHeight >  menu.div.scrollTop + menu.div.clientHeight ) {
-        menu.div.scrollTop = acts[toSel].offsetTop+acts[toSel].clientHeight-menu.div.clientHeight;
+    if( acts[toSel].offsetTop+acts[toSel].clientHeight >=  menu.div.scrollTop + menu.div.clientHeight ) {
+        menu.div.scrollTop = acts[toSel].offsetTop+(1.9*acts[toSel].clientHeight)-menu.div.clientHeight;
     }
     if( acts[toSel].offsetTop <  menu.div.scrollTop ) {
         menu.div.scrollTop = acts[toSel].offsetTop;
-        //return toSel;
     }    
     return true;
 };
@@ -14959,7 +14998,7 @@ DRAGGABLE.ui.Slider = function (topDiv, opts ) {
     
     // identifica elementos de CSS padrão que podem ser alterados
     for( var i in document.styleSheets ) {
-        if(document.styleSheets[i].href.includes('styles4abcx')){
+        if(document.styleSheets[i].href && document.styleSheets[i].href.includes('styles4abcx')){
             rules=document.styleSheets[i].cssRules? document.styleSheets[i].cssRules: document.styleSheets[i].rules;
             break;
         }

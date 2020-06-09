@@ -213,7 +213,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.playButton.addEventListener("click", function (evt) {
         evt.preventDefault();
         this.blur();
-        that.startPlay('normal');
+        window.setTimeout(function(){ that.startPlay( 'normal' );}, 0 );
     }, false);
 
     this.stopButton.addEventListener("click", function (evt) {

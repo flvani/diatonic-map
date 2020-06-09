@@ -1456,6 +1456,17 @@ SITE.Mapa.prototype.silencia = function(force) {
     }
 };
 
+SITE.Mapa.prototype.setFocus = function() {
+    if(this.studio && window.getComputedStyle(this.studio.Div.parent).display !== 'none') {
+        this.studio.editorWindow.aceEditor.focus();
+    } else if(this.tab2part && window.getComputedStyle(this.tab2part.Div.parent).display !== 'none') {      
+        this.tab2part.editorWindow.aceEditor.focus();
+    } else if(this.ABC2part && window.getComputedStyle(this.ABC2part.Div.parent).display !== 'none') {      
+        this.ABC2part.editorWindow.aceEditor.focus();
+    } else {
+    }
+}
+
 SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
     var that = this;
     options = options || {};
