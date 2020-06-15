@@ -1,12 +1,12 @@
 %%barnumbers 0
-%papersize legal
+%%papersize A4
 %%barsperstaff 5
-%staffsep 20
-%pagenumbering
+%%staffsep 20
+%%pagenumbering
 %%stretchlast
+%hidefingering
 %landscape
 X:1064
-%hidefingering
 T:Chalana
 C:Mario Zan
 C:(adapt. Cezar Ferreira)
