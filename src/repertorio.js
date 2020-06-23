@@ -293,14 +293,14 @@ h += '<h2>Repertório Geral</h2>\n\
 };        
 
 SITE.Repertorio.prototype.makeAnchor = function( map, accordionId, songId  ) {
-    var path = '/diatonic-map/';
-    var anchor = '<img alt="nao" src="/diatonic-map/images/nao.png" >';
+    var path = '/';
+    var anchor = '<img alt="nao" src="/images/nao.png" >';
     if( songId > 0 ) {
         if( map ) {
-            anchor = '<img alt="sim" src="/diatonic-map/images/sim.png" data-song="'+accordionId+'#'+songId+'" >';
+            anchor = '<img alt="sim" src="/images/sim.png" data-song="'+accordionId+'#'+songId+'" >';
         } else {
             anchor = '<a href="'+path+'?accordion='+accordionId+'&id='
-                        +songId+'"><img alt="sim" src="/diatonic-map/images/sim.png" ></a>';
+                        +songId+'"><img alt="sim" src="/images/sim.png" ></a>';
         }
     }
         

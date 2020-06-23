@@ -11,7 +11,7 @@ window.dataLayer = window.dataLayer || [];
 
 
 SITE.ga = function () {
-    if( ga && window.location.href.indexOf( 'flvani.github.io') >= 0
+    if( ga && window.location.href.indexOf( 'www.diatonicmap.com.br') >= 0
            && SITE.getVersion('mainSITE', '' ) !== 'debug' 
            && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) {
         ga.apply(this, arguments);

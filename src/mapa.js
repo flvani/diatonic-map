@@ -275,28 +275,28 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             this.repertoireWin.geraIndex(this);
             break;
         case 'JUMPS':
-            this.showHelp('HelpTitle', 'JUMPS', '/diatonic-map/html/sinaisRepeticao.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'JUMPS', '/html/sinaisRepeticao.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'ABCX':
-            this.showHelp('HelpTitle', 'ABCX', '/diatonic-map/html/formatoABCX.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'ABCX', '/html/formatoABCX.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'ESTUDIO':
-            this.showHelp('HelpTitle', 'ESTUDIO', '/diatonic-map/html/estudioABCX.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'ESTUDIO', '/html/estudioABCX.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TABS':
-            this.showHelp('HelpTitle', 'TABS', '/diatonic-map/html/tablatura.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'TABS', '/html/tablatura.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TABSTRANSPORTADA':
-            this.showHelp('HelpTitle', 'TABSTRANSPORTADA', '/diatonic-map/html/tablaturaTransportada.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'TABSTRANSPORTADA', '/html/tablaturaTransportada.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'MAPS':
-            this.showHelp('HelpTitle', 'MAPS', '/diatonic-map/html/mapas.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'MAPS', '/html/mapas.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TUTORIAL':
-            this.showHelp('HelpTitle', 'TUTORIAL', '/diatonic-map/html/tutoriais.pt_BR.html', { width: '1024', height: '600', print:false } );
+            this.showHelp('HelpTitle', 'TUTORIAL', '/html/tutoriais.pt_BR.html', { width: '1024', height: '600', print:false } );
             break;
         case 'ABOUT':
-            this.showHelp('AboutTitle', '', '/diatonic-map/html/about.pt_BR.html', { width: '800', print:false } );
+            this.showHelp('AboutTitle', '', '/html/about.pt_BR.html', { width: '800', print:false } );
             break;
         case 'GAITA_MINUANO_GC':
         case 'CONCERTINA_PORTUGUESA':

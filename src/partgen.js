@@ -490,7 +490,7 @@ SITE.PartGen.prototype.t2pCallback = function( e ) {
             this.closePartGen(true);
             break;
         case 'HELP':
-            this.mapa.showHelp('HelpTitle', 'PartGenTitle', '/diatonic-map/html/geradorPartitura.pt_BR.html', { width: '1024', height: '600' } );
+            this.mapa.showHelp('HelpTitle', 'PartGenTitle', '/html/geradorPartitura.pt_BR.html', { width: '1024', height: '600' } );
     }
 };
 
