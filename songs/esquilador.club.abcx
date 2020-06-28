@@ -1,0 +1,64 @@
+%%barnumbers 0
+%%papersize A4
+%%barsperstaff 5
+%%staffsep 20
+%%pagenumbering
+%%stretchlast
+%hidefingering
+%landscape
+X:2063
+T:Esquilador (club)
+C:Telmo de Lima Freitas
+C:(adapt. Cezar Ferreira)
+F:https://www.youtube-nocookie.com/embed/itkpcV9ZyJE&T:Esquilador;
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+L:1/8
+Q:160
+M:3/4
+K:F
+V:1 treble
+|: f'a f'a f'a | e'g e'g e'g | d'f d'f d'f | c'f c'f c'f | 
+| bd bd bd | ac ac ac | gB gB gB | [Af]6 :| 
+| cc cc cc | ff ff ff | ee ee dd | c6 | 
+| cc cc cc | ff ff ff | ee ee dd | 
+| c2 cc ff | BB BB cB | AA cc cc | 
+| =BB BB BB | c2 cc cc | dB BB BB | 
+| cA cc cc | cc cc BB | A2 AA AA | 
+| dd dd dA | dd dd dd | ee ee fe | 
+| d2 AA AA | dd dd dA | dd dd dd | 
+| ee ee fe | d2 dd dd | ff ff eg | cc cc cc | 
+| =BB BB BB | c2 cc cc | dB BB BB | 
+| cA cc cc | cc cc BB  | A2 z4 +dcalfine+ | 
+|: f'a f'a f'a | e'g e'g e'g | d'f d'f d'f | c'f c'f c'f | 
+| bd bd bd | ac ac ac | gB gB gB |1 [Af]6 :|2 +fermata+ [A,FAf]6 +fine+ |  
+V:2 bass
+|: F,,2 [F,A,C]2 [F,A,C]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | B,,2 [B,DF]2 [B,DF]2 | F,,2 [F,A,C]2 [F,A,C]2 | 
+| B,,2 [B,DF]2 [B,DF]2 | F,,2 [F,A,C]2 [F,A,C]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | F,,2 [F,A,C]2 [F,A,C]2 :| 
+| F,,2 [F,A,C]2 [F,A,C]2 | B,,2 [B,DF]2 [B,DF]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | F,,2 [F,A,C]2 [F,A,C]2 | 
+| F,,2 [F,A,C]2 [F,A,C]2 | B,,2 [B,DF]2 [B,DF]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | 
+| F,,2 [F,A,C]2 [F,A,C]2 | B,,2 [B,DF]2 [B,DF]2 | F,,2 [F,A,C]2 [F,A,C]2 | 
+| G,,2 [G,=B,D]2 [G,B,D]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | B,,2 [B,DF]2 [B,DF]2 | 
+| F,,2 [F,A,C]2 [F,A,C]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | F,,2 [F,A,C]2 [F,A,C]2 | 
+| D,,2 [D,F,A,]2 [D,F,A,]2 | D,,2 [D,F,A,]2 [D,F,A,]2 |  A,,2 [A,^CE]2 [A,CE]2 | 
+| D,,2 [D,F,A,]2 [D,F,A,]2 | D,,2 [D,F,A,]2 [D,F,A,]2 | D,,2 [D,F,A,]2 [D,F,A,]2 | 
+| A,,2 [A,^CE]2 [A,CE]2 | D,,2 [D,F,A,]2 [D,F,A,]2 | B,,2 [B,DF]2 [B,DF]2 | F,,2 [F,A,C]2 [F,A,C]2 | 
+| G,,2 [G,=B,D]2 [G,B,D]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | B,,2 [B,DF]2 [B,DF]2 | 
+| F,,2 [F,A,C]2 [F,A,C]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | F,,2 [F,A,C]2 [F,A,C]2 | 
+|: F,,2 [F,A,C]2 [F,A,C]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | B,,2 [B,DF]2 [B,DF]2 | F,,2 [F,A,C]2 [F,A,C]2 | 
+| B,,2 [B,DF]2 [B,DF]2 | F,,2 [F,A,C]2 [F,A,C]2 | C,,2 [C,E,G,]2 [C,E,G,]2 |1 F,,2 [F,A,C]2 [F,A,C]2 :|2 F,,6 |
+V:3 accordionTab
+|: F+a' >+8' f+a' >+8' f+a' >+8' | C-b' >-8' c-b' >-8' c-b' >-8' | B♭-c >-9 b♭-c >-9 b♭-c >-9 | F+9' >+7' f+9' >+7' f+9' >+7' | 
+| B♭-9' >-8 b♭-9' >-8 b♭-9' >-8 | F+8' >+6' f+8' >+6' f+8' >+6' | C-8' >-5' c-8' >-5' c-8' >-5' | F+[5'7']2 f+[>>]2 f+[>>]2 :| 
+| F+6' >+6' f+6' >+6' f+6' >+6' | B♭-9 >-9 b♭-9 >-9 b♭-9 >-9 | C-7' >-7' c-7' >-7' c-8 >-8 | F+6'2 f+>2 f+>2 | 
+| F+6' >+6' f+6' >+6' f+6' >+6' | B♭-9 >-9 b♭-9 >-9 b♭-9 >-9 | C-7' >-7' c-7' >-7' c-8 >-8 | 
+| F+6'2 f+6' >+6' f+7' >+7' | B♭-5' >-5' b♭-5' >-5' b♭-6' >-5' | F+5' >+5' f+6' >+6' f+6' >+6' | 
+| G-7 >-7 g-7 >-7 g-7 >-7 | C-6'2 c-6' >-6' c-6' >-6' | B♭-8 >-5' b♭-5' >-5' b♭-5' >-5' | 
+| F+6' >+5' f+6' >+6' f+6' >+6' | C-6' >-6' c-6' >-6' c-5' >-5' | F+5'2 f+5' >+5' f+5' >+5' | 
+| D-8 >-8 dm-8 >-8 dm-8 >-6 | D-8 >-8 dm-8 >-8 dm-8 >-8 | A+8 >+8 a+8 >+8 a+7' >+8 | 
+| D-82 dm-6 >-6 dm-6 >-6 | D-8 >-8 dm-8 >-8 dm-8 >-6 | D-8 >-8 dm-8 >-8 dm-8 >-8 | 
+| A+8 >+8 a+8 >+8 a+7' >+8 | D-82 dm-8 >-8 dm-8 >-8 | B♭-9 >-9 b♭-9 >-9 b♭-7' >-8' | F+6' >+6' f+6' >+6' f+6' >+6' | 
+| G-7 >-7 g-7 >-7 g-7 >-7 | C-6'2 c-6' >-6' c-6' >-6' | B♭-8 >-5' b♭-5' >-5' b♭-5' >-5' | 
+| F+6' >+5' f+6' >+6' f+6' >+6' | C-6' >-6' c-6' >-6' c-5' >-5' | F+5'2 f+z2 f+z2 | 
+|: F+a' >+8' f+a' >+8' f+a' >+8' | C-b' >-8' c-b' >-8' c-b' >-8' | B♭-c >-9 b♭-c >-9 b♭-c >-9 | F+9' >+7' f+9' >+7' f+9' >+7' | 
+| B♭-9' >-8 b♭-9' >-8 b♭-9' >-8 | F+8' >+6' f+8' >+6' f+8' >+6' | C-8' >-5' c-8' >-5' c-8' >-5' |1 F+[5'7']2 f+[>>]2 f+[>>]2 :|2 F+[2'4'5'7']6 |

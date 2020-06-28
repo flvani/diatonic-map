@@ -1,0 +1,33 @@
+%%barnumbers 0
+%%stretchlast
+X:2062
+T:Xote 2 (club)
+C:Sadi Cardoso
+C:(adapt. Cezar Ferreira)
+F:https://www.youtube-nocookie.com/embed/vZLW38SdlSI&T:Xote 2 - Parte I;
+F:https://www.youtube-nocookie.com/embed/Ut2wIvCr2XQ&T:Xote 2 - Parte II;
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+L:1/8
+Q:60
+M:2/4
+K:C
+V:1 treble
+|: E0.75E/4 E0.75F/4 G[Ac] | [Ac][Ac] [GB]2 | D0.75D/4 D0.75E/4 F[GB] | [GB][GB] [CEA]2 | 
+f: 3 3 3 2 4 34         |  34 34 25   | 3 3 3 2 4 25         | 25 25 234
+| E0.75E/4 E0.75F/4 G[CEA] | [CEA][CEA] [B,DG]2 | D0.75D/4 D0.75E/4 F[B,DG] | [B,DG][B,DG] [CEG]2 :| 
+f: 3 3 3 2 4 234       | 234 234 234 | 3 3 3 2 4 234     |   234 234 234
+|: z/2 G/2E/2 C/2A z | [CEA] z [B,DG] z | z/2 F/2D/2 B,/2G z |  [B,DG] z [CEG] z | 
+f:  4 3 2   4       | 234   234   | 4 3 2         4 | 234 234   | 
+| z/2 G/2E/2 C/2A z | [CEA] z [B,DG] G,0.75B,/4 | C0.75D/4 E0.75F/4 [GB][FA] | [EG][DF] [CE]2 +dacapo+ :| 
+f: 4 3 2        4 | 234       234 2 3 | 2 3 4 3     25 34 | 23 23 23  |
+V:2 bass
+|: C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] C,,[C,E,G,]  | 
+|  C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] C,,[C,E,G,] :| 
+|: C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] C,,[C,E,G,]  |
+|  C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] C,,[C,E,G,] :| 
+V:3 accordionTab
+|: C+50.75 >+50.25 c+50.75 >+4'0.25 C+6 c+[5'6'] | C+[5'6'] c+[5'6'] G-[4'7] g-[>>] | G-40.75 >-40.25 g-40.75 >-3'0.25 G-5 g-[4'7] | G-[4'7] g-[4'7] C+[455'] c+[>>>] | 
+| C+50.75 >+50.25 c+50.75 >+4'0.25 C+6 c+[455'] | C+[455'] c+[455'] G-[344'] g-[>>>] | G-40.75 >-40.25 g-40.75 >-3'0.25 G-5 g-[344'] | G-[344'] g-[344'] C+[456] c+[>>>] :| 
+|: C+z0.5 >+60.5 c+50.5 >+40.5 C+5' c+z | C+[455'] c+z G-[344'] g-z | G-z0.5 >-50.5 g-40.5 >-30.5 G-4' g-z | G-[344'] g-z C+[456] c+z | 
+| C+z0.5 >+60.5 c+50.5 >+40.5 C+5' c+z | C+[455'] c+z G-[344'] g-20.75 >-30.25 | G-2'0.75 >-40.25 g-3'0.75 >-50.25 G-[4'7] g-[56] | G-[3'4'] g-[45] C+[45] c+[>>] :| 
