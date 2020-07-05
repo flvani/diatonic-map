@@ -8251,13 +8251,31 @@ ABCXJS.write.Layout.prototype.printNote = function(elem, nostem, dontDraw) { //s
         var sum = 0;
         for (p = 0, pp = elem.pitches.length; p < pp; p++) {
             sum += elem.pitches[p].verticalPos;
+            //tentativa de garantir que as notas da ligadura usem hastes na mesma direcao
+            if(elem.pitches[p].startTie) {
+                this.lastTie = "up";
+            }
+            //tentativa de garantir que as notas da ligadura usem hastes na mesma direcao
+            if(elem.pitches[p].endTie) {
+                this.useLastTie = true;
+            }
         }
         elem.averagepitch = sum / elem.pitches.length;
         elem.minpitch = elem.pitches[0].verticalPos;
         elem.maxpitch = elem.pitches[elem.pitches.length - 1].verticalPos;
-        var dir = (elem.averagepitch >= 6) ? "down" : "up";
-        if (this.stemdir)
-            dir = this.stemdir;
+        var dir = this.stemdir? this.stemdir : ((elem.averagepitch >= 6) ? "down" : "up");
+
+        //tentativa de garantir que as notas da ligadura usem hastes na mesma direcao
+        if(this.useLastTie) {
+            dir = this.lastTie ?  this.lastTie : dir;
+            delete this.useLastTie;
+            delete this.lastTie;
+        }
+        
+        //tentativa de garantir que as notas da ligadura usem hastes na mesma direcao
+        if(this.lastTie) {
+            this.lastTie=dir;
+        }
 
         // determine elements of chords which should be shifted
         for (p = (dir === "down") ? elem.pitches.length - 2 : 1; (dir === "down") ? p >= 0 : p < elem.pitches.length; p = (dir === "down") ? p - 1 : p + 1) {
