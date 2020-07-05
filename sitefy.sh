@@ -13,5 +13,6 @@ FILES="./site ./soundfont ./ace4abcx ./fontsGoogle ./fontsIco ./chords ./accordi
 for f in $FILES
 do
 	echo "Processing $f"
+    rm -r ../site-hostinger/$f
     cp -pr $f ../site-hostinger/
 done
