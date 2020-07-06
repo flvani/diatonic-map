@@ -236,7 +236,7 @@ notação abc, tablatura " />
         <div id="printPreviewDiv" class="printPreviewClass"></div>
         <div id="tipsDiv" class="tips" ><a href="html/release.pt_BR.html" target="_blank"><span data-translate="ReleaseNotesNotice"></span></a></div>
         <div id="clustrmaps-widget" style="display: none;">
-            <script type="text/javascript" id="clustrmaps" src="//cdn.clustrmaps.com/map_v2.js?cl=dbf6ff&w=a&t=m&d=D4AJLMj2W1mzi-LEyEXyJLGZqZvgz5ePllcOXY7yeaE&cmn=ffba3b&cmo=ff3a3a&co=5bace6"></script>
+            <--script type="text/javascript" id="clustrmaps" src="https://cdn.clustrmaps.com/map_v2.js?cl=dbf6ff&w=a&t=m&d=D4AJLMj2W1mzi-LEyEXyJLGZqZvgz5ePllcOXY7yeaE&cmn=ffba3b&cmo=ff3a3a&co=5bace6"></script>
         </div>
         
         <script id="mainScript" type="text/javascript">
@@ -270,6 +270,10 @@ notação abc, tablatura " />
                 myMap.resizeActiveWindow();
             }, false);
             
+            $(document).ready(function() { // to avoid ajax cache
+                $.ajaxSetup({ cache: false });
+            });
+
             window.onload = function () {
                 
                 SITE.LoadProperties();

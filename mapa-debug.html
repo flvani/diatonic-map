@@ -276,6 +276,10 @@ notação abc, tablatura " />
                 myMap.resizeActiveWindow();
             }, false);
             
+            $(document).ready(function() { // to avoid ajax cache
+                $.ajaxSetup({ cache: false });
+            });
+
             window.onload = function () {
                 
                 SITE.LoadProperties();
