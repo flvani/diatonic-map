@@ -524,11 +524,12 @@ window.ABCXJS.data.Tune = function() {
                             var bari = ai[vi.el];
                             vi.el++;
 
-                            if( bar.type !== bari.type )  {
+                            if( bar.type !== bari.type  || bar.repeat !== bari.repeat )  {
                                 addWarning('Line: '+(i+1)+', Staff: '+(vi.sf+1)+' - Ajustando tipo de barra de compasso '+bar.barNumber+'.');
                                 bari.type = bar.type;
+                                bari.repeat = bar.repeat;
                             }
-                            
+
                             if( bar.startEnding && bar.startEnding !== bari.startEnding )  {
                                 addWarning('Line: '+(i+1)+', Staff: '+(vi.sf+1)+' - Ajustando ending do compasso '+bar.barNumber+'.');
                                 bari.startEnding = bar.startEnding;
@@ -1246,6 +1247,102 @@ window.ABCXJS.parse.clone = function(obj) {
     throw new Error("Unable to copy obj! Its type isn't supported.");
 };
 
+
+window.ABCXJS.parse.getBarLine = function(line, i) {
+    var ii = i;
+    var dd = 2; // conta repeticoes ao acrescentar múltiplos ":" à esquerda da barra
+    switch (line.charAt(i)) {
+        case ']':
+            ++i;
+            switch (line.charAt(i)) {
+                case '|': return {len: 2, token: "bar_thick_thin"};
+                case '[':
+                    ++i;
+                    if ((line.charAt(i) >= '1' && line.charAt(i) <= '9') || line.charAt(i) === '"')
+                        return {len: 2, token: "bar_invisible"};
+                    return {len: 1, warn: "Unknown bar symbol"};
+                default:
+                    return {len: 1, token: "bar_invisible"};
+            }
+            break;
+        case ':':
+            ++i;
+            while(line.charAt(i)===':') {++i; dd++;}
+            switch (line.charAt(i)) {
+                case '|':	// :|
+                    ++i;
+                    switch (line.charAt(i)) {
+                        case ']':	// :|]
+                            ++i;
+                            switch (line.charAt(i)) {
+                                case '|':	// :|]|
+                                    ++i;
+                                    if (line.charAt(i) === ':') {
+                                        while(line.charAt(i)===':') {++i;}
+                                        return {len: i-ii, token: "bar_dbl_repeat", repeat: dd};
+                                    }
+                                    return {len: i-ii, token: "bar_right_repeat", repeat: dd};
+                                default:
+                                    return {len: i-ii, token: "bar_right_repeat", repeat: dd};
+                            }
+                            break;
+                        case ':':	// :|:
+                            while(line.charAt(i)===':') {++i;}
+                            return {len: i-ii, token: "bar_dbl_repeat", repeat: dd };
+                        case '|':	// :||
+                            ++i;
+                            if (line.charAt(i) === ':') { //:||:
+                                while(line.charAt(i)===':') {++i;}
+                                return {len: i-ii, token: "bar_dbl_repeat", repeat: dd};
+                            }
+                            return {len: i-ii, token: "bar_right_repeat", repeat: dd};
+                        default:
+                            return {len: i-ii, token: "bar_right_repeat", repeat: dd };
+                    }
+                    break;
+                default:
+                    return {len: i-ii, token: "bar_dbl_repeat"};
+            }
+            break;
+        case '[':	// [
+            ++i;
+            if (line.charAt(i) === '|') {	// [|
+                ++i;
+                switch (line.charAt(i)) {
+                    case ':': // [|:
+                       while(line.charAt(i)===':') {++i;}
+                       return {len: i-ii, token: "bar_left_repeat"};
+                    case ']': return {len: 3, token: "bar_invisible"};
+                    default: return {len: 2, token: "bar_thick_thin"};
+                }
+            } else {
+                if ((line.charAt(i) >= '1' && line.charAt(i) <= '9') || line.charAt(i) === '"')
+                    return {len: 1, token: "bar_invisible"};
+                return {len: 0};
+            }
+            break;
+        case '|':	// |
+            ++i;
+            switch (line.charAt(i)) {
+                case ']': return {len: 2, token: "bar_thin_thick"};
+                case '|': // ||
+                    ++i;
+                    if (line.charAt(i) === ':') { // ||:
+                        while(line.charAt(i)===':') {++i;}
+                        return {len: i-ii, token: "bar_left_repeat"};
+                    }
+                    return {len: 2, token: "bar_thin_thin"};
+                case ':':	// |:
+                    while(line.charAt(i)===':') {++i;}
+                    return { len: i-ii, token: "bar_left_repeat"};
+                default: return {len: 1, token: "bar_thin"};
+            }
+            break;
+    }
+    return {len: 0};
+};
+
+
 window.ABCXJS.parse.normalizeAcc = function ( cKey ) {
     return cKey.replace(/([ABCDEFG])#/g,'$1♯').replace(/([ABCDEFG])b/g,'$1♭');
 };
@@ -1911,13 +2008,13 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
         // It can also be a quoted string. It is unclear whether that construct requires '[', but it seems like it would. otherwise it would be confused with a regular chord.
         if (line.charAt(curr_pos + ret.len) === '"' && line.charAt(curr_pos + ret.len - 1) === '[') {
             var ending = tokenizer.getBrackettedSubstring(line, curr_pos + ret.len, 5);
-            return [ret.len + ending[0], ret.token, ending[1]];
+            return [ret.len + ending[0], ret.token, ret.repeat, ending[1]];
         }
         var retRep = tokenizer.getTokenOf(line.substring(curr_pos + ret.len), "1234567890-,");
         if (retRep.len === 0 || retRep.token[0] === '-')
-            return [orig_bar_len, ret.token];
+            return [orig_bar_len, ret.token, ret.repeat];
 
-        return [ret.len + retRep.len, ret.token, retRep.token];
+        return [ret.len + retRep.len, ret.token, ret.repeat, retRep.token];
     };
 
     var letter_to_open_slurs_and_triplets = function(line, i) {
@@ -2889,7 +2986,7 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                         this.addTuneElement('note', startOfLine, i, i + ret[0], el);
                         el = {};
                     }
-                    var bar = {type: ret[1]};
+                    var bar = {type: ret[1], repeat: ret[2]};
                     if (bar.type.length === 0)
                         warn("Unknown bar type", line, i);
                     else {
@@ -2900,8 +2997,8 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                                 multilineVars.staves[multilineVars.currentVoice.staffNum].inEnding[multilineVars.currentVoice.index] = false;
                             }
                         }
-                        if (ret[2]) {
-                            bar.startEnding = ret[2];
+                        if (ret[3]) {
+                            bar.startEnding = ret[3];
                             if (multilineVars.staves[multilineVars.currentVoice.staffNum].inEnding[multilineVars.currentVoice.index]) {
                                 bar.endDrawEnding = true;
                                 bar.endEnding = true;
@@ -5449,7 +5546,20 @@ window.ABCXJS.parse.tokenizer = function() {
 
 	// This returns one of the legal bar lines
 	// This is called alot and there is no obvious tokenable items, so this is broken apart.
-	this.getBarLine = function(line, i) {
+    this.getBarLine = function(line, i ){
+		//var bn = this.getBarLine_original(line, i);
+		var bn = ABCXJS.parse.getBarLine(line, i);  
+
+		// originalmente não havia informação sobre quantidade de repeticoes
+		if( ! bn.repeat ) {
+           bn.repeat = 1;
+		}
+
+		return bn;
+
+	}
+/*
+	this.getBarLine_original = function(line, i) {
 		switch (line.charAt(i)) {
 			case ']':
 				++i;
@@ -5529,6 +5639,7 @@ window.ABCXJS.parse.tokenizer = function() {
 		}
 		return {len: 0};
 	};
+*/
 
 	// this returns all the characters in the string that match one of the characters in the legalChars string
 	this.getTokenOf = function(str, legalChars) {
@@ -8880,6 +8991,8 @@ ABCXJS.write.Layout.prototype.printBarLine = function (elem) {
     var secondthin = (elem.type === "bar_left_repeat" || elem.type === "bar_thick_thin" || elem.type === "bar_thin_thin" || elem.type === "bar_dbl_repeat");
     var seconddots = (elem.type === "bar_left_repeat" || elem.type === "bar_dbl_repeat");
 
+    var anyJumpDecoUpper = false; // indica a presença de decorações na parte superior - inibe a impressão do barnumber
+
     // limit positioning of slurs
     if (firstdots || seconddots) {
         for (var slur in this.slurs) {
@@ -8899,6 +9012,10 @@ ABCXJS.write.Layout.prototype.printBarLine = function (elem) {
     if (firstthin) {
         anchor = new ABCXJS.write.RelativeElement(null, dx, 1, 2, {"type": "bar", "pitch2": topbar, linewidth: 0.6});
         abselem.addRight(anchor);
+        if( elem.repeat > 2 && this.tuneCurrStaff == 0) {
+            abselem.addChild(new ABCXJS.write.RelativeElement(elem.repeat+"x", 0, -5, 12, {type: "part"}));
+            anyJumpDecoUpper = true;
+        }
     }
 
     if (elem.type === "bar_invisible") {
@@ -8917,7 +9034,6 @@ ABCXJS.write.Layout.prototype.printBarLine = function (elem) {
         dx += 5;
     }
 
-    var anyJumpDecoUpper = false;
     if (elem.jumpDecoration) {
         for(var j=0; j< elem.jumpDecoration.length; j++ ) {
             if(( elem.jumpDecoration[j].upper && this.isFirstVoice() ) || ( !elem.jumpDecoration[j].upper && this.isLastVoice() ) ) {
@@ -11352,6 +11468,8 @@ ABCXJS.midi.Parse.prototype.handleBar = function (elem) {
       return false;
     }
     
+    this.maxPass = elem.repeat;
+
     if( elem.barNumber ) {
         this.addBarNumber = elem.barNumber; 
     }
@@ -15647,9 +15765,15 @@ ABCXJS.tablature.Parse.prototype.getBarLine = function() {
   
   token.token = this.line.substr( p, this.i-p );
   this.finished =  this.i >= this.line.length;
-  
-  // validar o tipo de barra
-  token.type = validBars[token.token];
+
+  //tratar multiplos ":" -- para efeito de tipo de barra, somente um ":" de cada lado é considerado
+  var i = 0; f = token.token.length;
+  while( token.token.charAt(i) === ':') ++i;
+  while( token.token.charAt(f-1) === ':') --f;
+
+  token.repeat = (i>f) ? 2 : i + 1;
+  token.type = validBars[(i>f)?token.token:token.token.substring(i-1,f+1)];
+
   this.invalid = !token.type;
 
   if(! this.invalid) {
@@ -16272,7 +16396,7 @@ ABCXJS.tablature.Infer.prototype.addTABChild = function(token, line ) {
     if (token.el_type !== "note") {
         var xf = 0;
         if( this.barTypes[token.type] ){
-            xf = this.registerLine(this.barTypes[token.type] + 
+            xf = this.registerLine((token.repeat>2?":".repeat(token.repeat-2):"")+this.barTypes[token.type] + 
                     (token.startEnding?token.startEnding:"") + " ");
         } else {
             throw new Error( 'ABCXJS.tablature.Infer.prototype.addTABChild(token_type): ' + token.type );
