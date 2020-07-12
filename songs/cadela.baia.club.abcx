@@ -1,0 +1,23 @@
+﻿X:2019
+%%barnumbers 0
+%%papersize A4
+%%pagenumbering
+T:Cadela Baia (Introdução) (club)
+C:Mano Lima
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/TbJtZrBx9pY
+M:2/4
+L:1/16
+Q:80
+K:F
+V:1 clef=treble
+| z CFA |: cCFA cCFA | cCEG cCEG | cCEG cCEG | 
+| cCFA cCFA | cCFA cCFA | cCEG cCEG | cCEG cBAG | F z3 CFA :| 
+V:2 bass
+| z4 |: F,,3[F,A,C] F,,2[F,A,C]2 | C,,3[C,,E,,G,,] C,,2[C,,E,,G,,]2 | C,,3[C,,E,,G,,] C,,2[C,,E,,G,,]2 | 
+| F,,3[F,A,C] F,,2[F,A,C]2 | F,,3[F,A,C] F,,2[F,A,C]2 | C,,3[C,,E,,G,,] C,,2[C,,E,,G,,]2 | C,,3[C,,E,,G,,] C,,2[C,,E,,G,,]2 | F,,2[F,A,C] F,,2[F,A,C]2 :| 
+V:3 accordionTab
+| z+z z+3' z+4' z+5' |: F+6' >+3' >+4' f+5' F+6' >+3' f+4' >+5' | C-6' >-2' >-3' c-4' C-6' >-2' c-3' >-4' | C-6' >-2' >-3' c-4' C-6' >-2' c-3' >-4' | 
+| F+6' >+3' >+4' f+5' F+6' >+3' f+4' >+5' | F+6' >+3' >+4' f+5' F+6' >+3' f+4' >+5' | C-6' >-2' >-3' c-4' C-6' >-2' c-3' >-4' | C-6' >-2' >-3' c-4' C-6' >-5' c-6 >-4' | F+4' >+z f+z F+z >+3' f+4' >+5' :| 

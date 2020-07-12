@@ -1,0 +1,31 @@
+%%barnumbers 0
+%%papersize A4
+%barsperstaff 5
+%staffsep 20
+%pagenumbering
+%stretchlast
+%landscape
+X:2055
+T:Bella Ciao (club)
+C:Folclore Italiano
+C:(adapt. Cezar Ferreira)
+F:https://www.youtube-nocookie.com/embed/QSKXmUXiAvM&T:Bella Ciao - Parte I;
+F:https://www.youtube-nocookie.com/embed/jlxztnV4PUw&T:Bella Ciao - Parte II;
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+L:1/8
+Q:120
+M:4/4
+K:Dm
+V:1 treble
+| z Ade |: fd- d2 z Ade | fd z2 z Ade | f2 ed f2 ed | a2 a2 aa ga | 
+| bb- b2 z bag | ba- a2 z agf | e2 a2 f2 e2 |1 d4 z Ade :| 
+|:2 d4 z dcB | A4 z gfe | d4 z dcB | A=B cd eg fe :| d4 | 
+V:2 bass
+| z4 |: D,,[D,F,A,] D,,[D,F,A,] D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] A,,2 D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] D,,[D,F,A,] D,,[D,F,A,] | 
+| G,,[B,DF] G,,[B,DF] G,,[B,DF] G,,[B,DF] | D,,[D,F,A,] D,,[D,F,A,] D,,[D,F,A,] D,,[D,F,A,] | A,,[A,^CE] A,,[A,CE] A,,[A,CE] A,,[A,CE] |1 D,,[D,F,A,] D,,[D,F,A,] D,,[D,F,A,] D,,[D,F,A,] :| 
+|:2 D,,[D,F,A,] D,,[D,F,A,] D,,[D,F,A,] D,,[D,F,A,] | A,,[A,^CE] A,,[A,CE] A,,[A,CE] A,,[A,CE] | D,,[D,F,A,] D,,[D,F,A,] D,,[D,F,A,] D,,[D,F,A,] | A,, z G,, z F,, z A,, z :| D,,4 | 
+V:3 accordionTab
+| z-z z-6 z-8 z-7' |: D-9 dm-8 D-> dm-> D-z dm-6 D-8 dm-7' | D-9 dm-8 A+z2 D-z dm-6 D-8 dm-7' | D-9 dm-> D-7' dm-8 D-9 dm-> D-7' dm-8 | D-a dm-> D-a dm-> D-a dm-a D-8' dm-a | 
+| G-9' b♭-9' G-> b♭-> G-z b♭-9' G-a b♭-8' | D-9' dm-a D-> dm-> D-z dm-a D-8' dm-9 | A+8 a+> A+8' a+> A+7' a+> A+8 a+> |1 D-8 dm-> D-> dm-> D-z dm-6 D-8 dm-7' :| 
+|:2 D-8 dm-> D-> dm-> D-z dm-8 D-6' dm-5' | A+5' a+> A+> a+> A+z a+9 A+7' a+8 | D-8 dm-> D-> dm-> D-z dm-8 D-6' dm-5' | A+5' z-7 G-6' z-8 F+8 z+9 A+7' z+8 :| D-84 | 
