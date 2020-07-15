@@ -448,16 +448,6 @@ notação abc, tablatura " />
                 SITE.ga( 'send', 'pageview' );
                 SITE.ga( 'send', 'event', 'Configuration', 'language', SITE.properties.options.language, { nonInteraction: true } );
                 
-//                SITE.myGtag('event', 'page_view', {send_to: GAID });
-//                SITE.myGtag('event', 'language', {
-//                  send_to : 'outros',
-//                  event_category: 'Configuration',
-//                  event_action: 'language',
-//                  event_label: SITE.properties.options.language,
-//                  event_value: 0,
-//                  nonInteraction: true 
-//                });                
-                
                 if( SITE.getDate() <= 20170909 ) {
                     $('#tipsDiv').fadeIn('slow');
                     setTimeout(function() { $('#tipsDiv').fadeOut('slow'); }, 15000);
