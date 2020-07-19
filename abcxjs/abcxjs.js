@@ -57,31 +57,54 @@ ABCXJS.TuneBook = function(book) {
 
 	// Now, the tune ends at a blank line, so truncate it if needed. There may be "intertune" stuff.
 	window.ABCXJS.parse.each(This.tunes, function(tune) {
-		var end = tune.abc.indexOf('\n\n');
+        
+        var end = tune.abc.indexOf('\n\n');
+        
 		if (end > 0)
-			tune.abc = tune.abc.substring(0, end);
+            tune.abc = tune.abc.substring(0, end);
+            
 		tune.pure = tune.abc;
 		tune.abc = directives + tune.abc;
 
-		// for the user's convenience, parse and store the title separately. The title is between the first T: and the next \n
-		var title = tune.pure.split("T:");
-		if (title.length > 1) {
-			title = title[1].split("\n");
-			tune.title = title[0].replace(/^\s+|\s+$/g, '');;
-		} else
-			tune.title = "";
+		// for the user's convenience parse and store some details separately.
+        var arrDir = tune.abc.split('\n');
+        var composer = ''
+        var title = ''
+        var id = ''
+        var continua = true;
 
-		// for the user's convenience, parse and store the title separately. The title is between the first T: and the next \n
-		var comps = tune.pure.split("C:");
-                tune.composer = "";
-                for( var c = 1; c <  comps.length; c ++ ) {
-                    var aux = comps[c].split("\n");
-                    tune.composer += (c>1?'<br>':'') + aux[0].replace(/^\s+|\s+$/g, '');
-		} 
+        for( var r = 0; r < arrDir.length && continua; r++ ) {
+            var line = arrDir[r];
+            var ll = line.substring(0,2);
+            var auxi = '';
+            switch(ll) {
+                case 'C:' :
+                    auxi = line.substring(2,line.length);
+                    if(composer.length>0) {
+                        composer += '<br>' + auxi.replace(/^\s+|\s+$/g, '');
+                    } else {
+                        composer = auxi.replace(/^\s+|\s+$/g, '');
+                    }
+                    break;
+                case 'T:':
+                    if(title.length>0) break;
+                    auxi = line.substring(2,line.length);
+                    title = auxi.replace(/^\s+|\s+$/g, '');
+                    break;
+                case 'X:':
+                    if(id.length>0) break;
+                    auxi = line.substring(2,line.length);
+                    id = auxi.replace(/^\s+|\s+$/g, '');
+                    break;
+                case 'V:':  
+                    continua = false;
+                    break; // suponho que ao chegar na voz, já tenho tudo q preciso deste arquivo
+            }
+        }
 
-		// for the user's convenience, parse and store the id separately. The id is between the first X: and the next \n
-		var id = tune.pure.substring(2,tune.pure.indexOf("\n"));
-		tune.id = id.replace(/^\s+|\s+$/g, '');
+        tune.title = title;
+        tune.composer = composer
+		tune.id = id;
 	});
 };
 
