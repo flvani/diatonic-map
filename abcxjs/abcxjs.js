@@ -32,9 +32,12 @@ ABCXJS.TuneBook = function(book) {
 	var This = this;
 	var directives = "";
 	book = window.ABCXJS.parse.strip(book);
+	
 	var tunes = book.split("\nX:");
+
 	for (var i = 1; i < tunes.length; i++)	// Put back the X: that we lost when splitting the tunes.
 		tunes[i] = "X:" + tunes[i];
+	
 	// Keep track of the character position each tune starts with.
 	var pos = 0;
 	This.tunes = [];
