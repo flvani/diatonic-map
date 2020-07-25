@@ -356,7 +356,8 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
 
 SITE.Estudio.prototype.setup = function( tab, accordionId) {
     
-    this.mapa.closeMapa();
+    if(this.mapa)
+        this.mapa.closeMapa();
     
     this.accordion.loadById(accordionId);
     
@@ -530,15 +531,20 @@ SITE.Estudio.prototype.studioStopPlay = function( e ) {
 };
 
 SITE.Estudio.prototype.closeEstudio = function(save) {
-    var loader = this.mapa.startLoader( "CloseStudio" );
     var self = this;
-    loader.start(  function() { 
-        (save) && SITE.SaveProperties();
+    if(!this.mapa){
         self.setVisible(false);
         self.studioStopPlay();
-        self.mapa.openMapa( self.getString() );
-        loader.stop();
-    }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
+    } else {
+        var loader = this.mapa.startLoader( "CloseStudio" );
+        loader.start(  function() { 
+            (save) && SITE.SaveProperties();
+            self.setVisible(false);
+            self.studioStopPlay();
+            self.mapa.openMapa( self.getString() );
+            loader.stop();
+        }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
+    }
 };
         
 SITE.Estudio.prototype.setVisible = function(  visible ) {
