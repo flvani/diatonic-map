@@ -171,5 +171,8 @@
         ,"ErrLoadingDescription1": "Veuillez essayer de recharger cette page."
         ,"ErrLoadingDescription2": "Si le problème persiste, écrivez un e-mail à:"
         ,"ReleaseNotesNotice": "Il y a une nouvelle version: voir les notes de version."
+        ,"Open": "Open"
+        ,"Accordion":"Accordion"
+        ,"Song": "Song"
     }
 }

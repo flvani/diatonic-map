@@ -10,7 +10,7 @@ teste.
         <title data-translate="appName" >Mapa para Acordeões Diatônicos</title>
         <meta charset="UTF-8" />
         <link rel="icon" type="image/icon" href="images/favicon.ico"/>
-        <meta name="viewport" content="width=device-height, initial-scale=0.5, minimum-scale=0.5, maximum-scale=1.0 user-scalable=yes" />
+        <meta name="viewport" content="width=device-height, initial-scale=0.8, minimum-scale=0.5, maximum-scale=0.8 user-scalable=yes" />
         
         <meta name="robots" content="index,follow"/>
         <meta name="revisit-after" content="7 days"/>
@@ -25,11 +25,31 @@ notação abc, tablatura " />
         <link rel="stylesheet" href="fontsIco/abcx.css" />
         <link rel="stylesheet" href="fontsGoogle/fonts.css" />
         
-        <link rel="stylesheet" href="css/styles4abcx_5.41-min.css" />
+        <link rel="stylesheet" href="css/styles4abcx_5.43-min.css" />
         
         <link rel="stylesheet" href="site/site_5.35-min.css" />
-        
         <style>
+            .rounded-corners {
+                min-width: 420px;
+                background: -moz-linear-gradient(left, #003050 0%, black 100%);
+                background: -webkit-linear-gradient(left, #003050 0%, black 100%);
+                background: -o-linear-gradient(left, #003050 0%, black 100%);
+                background: -ms-linear-gradient(left, #003050 0%, black 100%);
+                background: linear-gradient(left, #003050 0%, black 100%);
+            }
+            .rounded-corners > h1 {
+                background:transparent;
+                
+                position: absolute;
+                width:fit-content;
+                left: 0px;
+                top: -38px;
+                font-size: 20px;
+                padding: 0 5px 0 5px;
+            }
+        </style>
+
+        <!--style>
             .rounded-corners {
                 border: 0.5rem solid purple;
                 padding: 1rem;
@@ -46,7 +66,7 @@ notação abc, tablatura " />
                 margin-left:5px;
                 background:white;
             }            
-        </style>
+        </style-->
         
         <!-- Google Analytics -->
         <script>
@@ -79,16 +99,16 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jslib/html5kellycolorpicker.min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_5.41-min.js"></script>
+        <script type="text/javascript" src="file/filemanager_5.43-min.js"></script>
         
         <!-- suporte mapas de acordeões -->
-        <script type="text/javascript" src="diatonic/diatonic_5.41-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic_5.43-min.js"></script>
         
         <!-- ACE Editor -->
-        <script type="text/javascript" src="ace4abcx/ace4abcx_5.41-min.js"></script>
+        <script type="text/javascript" src="ace4abcx/ace4abcx_5.43-min.js"></script>
        
         <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.41-min.js" ></script>
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.43-min.js" ></script>
         
         <!-- console personalizada para Javascript -->
         <script type="text/javascript" src="jslib/waterbug.js"></script> 
@@ -105,30 +125,33 @@ notação abc, tablatura " />
             <a id="topSettings" class="topSettings" style="right: 20px;" ><i class="ico-cogs" title="Ajustes" data-translate="topSettings" ></i></a>
         </div> <!-- topBar -->
 
-        <div id="mapaDiv" class="" style="display: none; margin-top: 10px;">
+        <div id="mapaDiv" class="" style="display: none; margin-top: 10px; padding: 8px;">
             <div class="dropdown-group" style="display: block;">
-                <!--input id="fileLoadMap" type="file" accept="text/abc" multiple="multiple" style="display: none;"/-->
-                <div  class="rounded-corners"><h1>Gaita</h1>
-                <div id="menuGaitas" class="topMenu rounded-corners"></div>
-                <div id="menuSongs" class="topMenu rounded-corners"></div>
+                <div style="float: left; position: relative; width: 220px; height: 220px;" >
+                    <div id="accordionImageDiv" class="accordionImageStyle" style="left: 0;"></div>
+                </div>    
+                <br>
+                <div id="menuGaitas" class="topMenu"></div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <div id="menuSongs" class="topMenu"></div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <div class="dropdown rounded-corners" style="width: fit-content; min-width: 100px;" >
+                    <button id="openBtn"><i class="ico-folder-open"></i>&#160;<span data-translate="Open">Abrir</span></button>
                 </div>
-
             </div>
-            <div class="rounded-corners" style="float: left; position: relative; height: 200px;" >
-                <div id="accordionImageDiv" class="accordionImageStyle" style="left: 0;"></div>
-                <div id="divABCXversion" class="abcxVersionStyle"></div>
-             </div>    
-        </div> <!-- mapaDiv -->
-        
+            <div id="divABCXversion" class="abcxVersionStyle" style="right: 20px; bottom: 20px;"></div>
+        </div>
 
         <div id="studioDiv" class="studioDiv" ></div>
         <div id="studioControlDiv" style="display:none;">
             <div id="controlDiv1" class="btn-subgroup" >
-                <button id="showEditorBtn" data-translate="showEditorTip"><i id="I_showEditor" class="ico-folder"></i>&#160;<span data-translate="showEditorBtn">Editor</span></button>
                 <button id="showMapBtn" data-translate="showMapTip"><i id="I_showMap" class="ico-folder"></i>&#160;<span data-translate="showMapBtn">Teclado</span></button>
-                <button id="forceRefresh" data-translate="forceRefreshBtn" ><i class="ico-bolt"></i>&#160<span data-translate="forceRefreshBtn">Atualizar</span></button>
-                <button id="saveBtn" data-translate="savePartTip"><i class="ico-download"></i>&#160;<span data-translate="saveBtn">Salvar</span></button>
-                <button id="printBtn" data-translate="printPreviewTip"><i class="ico-printer"></i>&#160;<span data-translate="printBtn">Impimir</span></button>
                 <button id="modeBtn" data-translate="modeBtn" ><i class="ico-listening" ></i></button>
                 <button id="timerBtn" data-translate="timerBtn" ><i class="ico-timer-00" ></i></button>
                 <button id="GClefBtn" data-translate="GClefBtn" ><i class="ico-clef-treble" ></i></button>
@@ -166,7 +189,7 @@ notação abc, tablatura " />
             SITE.abcxVersion = SITE.getVersion('mainABCX', '' ); // Obtem e mostra a versão corrente da lib ABCX 
             SITE.siteVersion = SITE.getVersion('mainSITE', 'v' ); // Obtem e mostra a versão corrente da lib do site
             
-            document.getElementById("divABCXversion").innerHTML = '<i>Powered by ABCXJS version '+SITE.abcxVersion+'</i>';
+            document.getElementById("divABCXversion").innerHTML = '<i>Diatonic Map v 0.1 Powered by ABCXJS version '+SITE.abcxVersion+'</i>';
             
             var debug=false; // eliminar esta variável assim que possível
             
@@ -289,10 +312,8 @@ notação abc, tablatura " />
             }
             
             function createApp() {
-                var accordionId = SITE.findGetParameter("accordion");
-                var songId = SITE.findGetParameter("id");
                 
-                var accordion = accordionId || FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
+                var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
 
                 myApp = new SITE.App(
                     {   // interfaceParams
@@ -303,7 +324,7 @@ notação abc, tablatura " />
                       , mapMenuGaitasDiv: 'menuGaitas'
                       , mapMenuSongsTitle: 'Música'
                       , mapMenuSongsDiv: 'menuSongs'
-                      , songId: songId
+                      , openBtn: 'openBtn'
                       , accordion_options: {
                              id: accordion
                             ,accordionMaps: DIATONIC.map.accordionMaps

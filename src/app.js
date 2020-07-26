@@ -33,11 +33,15 @@ SITE.App = function( interfaceParams, tabParams, playerParams ) {
     
     this.accordionSelector = new ABCXJS.edit.AccordionSelector( 
         interfaceParams.mapMenuGaitasDiv, interfaceParams.mapMenuGaitasDiv, 
-        { listener:that, method: 'menuCallback' }
+        { listener:that, method: 'menuCallback', label: 'Acordeão' }
     );
 
     this.tab.title = FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.songs.title')
                      || this.accordion.loaded.getFirstSong();
+
+    this.openBtn = document.getElementById(interfaceParams.openBtn) ;
+    this.openBtn.addEventListener("touchstart", function(event) {  that.openEstudio(); }, false);
+    this.openBtn.addEventListener("click", function(event) { that.openEstudio(); }, false);
 
     this.songSelector = document.getElementById(interfaceParams.mapMenuSongsDiv) ;
 
@@ -62,8 +66,8 @@ SITE.App = function( interfaceParams, tabParams, playerParams ) {
     
     this.setVisible(true);
     this.resize();
+
     //waterbug.show();
-    //this.openEstudio();
     
 };
 
@@ -76,7 +80,7 @@ SITE.App.prototype.songSelectorPopulate = function() {
 
     this.menuSongs = new DRAGGABLE.ui.DropdownMenu( 
           this.songSelector
-        , {listener:this, method: 'showABC', translate:false }
+        , {listener:this, method: 'showABC', translate:false, label: 'Música' }
         , [{title: '...', ddmId: this.tab.ddmId, itens: []}]
     );
     
@@ -191,11 +195,11 @@ SITE.App.prototype.openEstudio = function (button, event) {
                ,studioCanvasDiv: 'studioCanvasDiv'
                ,generate_tablature: 'accordion'
                ,showMapBtn: 'showMapBtn'
-               ,showEditorBtn: 'showEditorBtn'
-               ,showTextBtn: 'showTextBtn'
-               ,printBtn:'printBtn'
-               ,saveBtn:'saveBtn'
-               ,forceRefresh:'forceRefresh'
+               //,showEditorBtn: 'showEditorBtn'
+               //,showTextBtn: 'showTextBtn'
+               //,printBtn:'printBtn'
+               //,saveBtn:'saveBtn'
+               //,forceRefresh:'forceRefresh'
                ,btShowMedia: 'buttonShowMedia2'
                ,accordion_options: {
                      id: this.accordion.getId()
@@ -205,7 +209,7 @@ SITE.App.prototype.openEstudio = function (button, event) {
                          transpose:false
                         ,mirror:false
                         ,scale:0.8
-                        ,draggable:true
+                        ,draggable:false
                         ,show:false
                         ,label:false
                     }
@@ -488,7 +492,7 @@ SITE.App.prototype.showSettings = function() {
         this.settings.window = new DRAGGABLE.ui.Window( 
               null 
             , null
-            , {title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, top: "300px", left: x+"px", height:'400px',  width: width+'px', zIndex: 50} 
+            , {title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, top: "80px", left: x+"px", height:'400px',  width: width+'px', zIndex: 50} 
             , {listener: this, method: 'settingsCallback'}
         );
 

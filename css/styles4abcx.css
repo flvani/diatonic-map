@@ -364,7 +364,7 @@ and open the template in the editor.
     display: block;
     float:left;
     text-align: left;
-    vertical-align: middle;
+    /*vertical-align: middle;*/
     font-family: 'Milonga','Arial';
     font-weight: normal;
     font-size: 20px;
@@ -563,7 +563,25 @@ and open the template in the editor.
     padding: 2px;
     vertical-align: top;
 }
-/*
+
+
+.rounded-corners {
+    border: 2px solid;
+    padding: 5px;
+    padding-top: 8px;
+    margin: 0;
+    border-radius: 5px;
+ }
+
+.rounded-corners > h1 {
+    background:white;
+    position: absolute;
+    width:fit-content;
+    left: 8px;
+    top: -28px;
+    font-size: 20px;
+    padding: 0 5px 0 5px;
+}  /*
     To change this license header, choose License Headers in Project Properties.
     To change this template file, choose Tools | Templates
     and open the template in the editor.

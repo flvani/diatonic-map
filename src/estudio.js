@@ -5,6 +5,10 @@ if (!window.SITE)
 SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     
     this.mapa = mapa;
+
+    if(!mapa){
+        this.isApp = true;
+    }
     
     this.ypos = 0; // controle de scrollf
     this.lastStaffGroup = -1; // controle de scroll
@@ -138,50 +142,44 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.repeatButton = document.getElementById(playerParams.repeatBtn);
     this.clearButton = document.getElementById(playerParams.clearBtn);
     this.tempoButton = document.getElementById(playerParams.tempoSld);
-    
-    this.showEditorButton.addEventListener("click", function (evt) {
-        evt.preventDefault();
-        this.blur();
-        that.showEditor();
-    }, false);
-    
+
     this.showMapButton.addEventListener("click", function (evt) {
         evt.preventDefault();
         this.blur();
         that.showKeyboard();
     }, false);
-    
-    this.forceRefreshButton.addEventListener("click", function (evt) {
-        evt.preventDefault();
-        this.blur();
-        that.fireChanged(0, {force:true, showProgress:true } );
-    }, false);
-    
-    this.saveButton.addEventListener("click", function (evt) {
-        evt.preventDefault();
-        this.blur();
-        that.salvaMusica();
-    }, false);
-    
-    this.printButton.addEventListener("click", function (evt) {
-        evt.preventDefault();
-        this.blur();
-        
-        SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
-        
-//        SITE.myGtag( 'event', 'print', {
-//          send_to : 'acessos',
-//          event_category: 'Mapa5',
-//          event_action: 'print',
-//          event_label: that.renderedTune.title,
-//          event_value: 0,
-//          nonInteraction: false 
-//        });                
-        
-        that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#studioDiv"], that.renderedTune.abc.formatting.landscape);
-        return;
 
-    }, false);
+    if(!this.isApp){
+        this.showEditorButton.addEventListener("click", function (evt) {
+            evt.preventDefault();
+            this.blur();
+            that.showEditor();
+        }, false);
+    
+        this.forceRefreshButton.addEventListener("click", function (evt) {
+            evt.preventDefault();
+            this.blur();
+            that.fireChanged(0, {force:true, showProgress:true } );
+        }, false);
+        
+        this.saveButton.addEventListener("click", function (evt) {
+            evt.preventDefault();
+            this.blur();
+            that.salvaMusica();
+        }, false);
+        
+        this.printButton.addEventListener("click", function (evt) {
+            evt.preventDefault();
+            this.blur();
+            
+            SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
+            
+           
+            that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#studioDiv"], that.renderedTune.abc.formatting.landscape);
+            return;
+    
+        }, false);
+    }
 
     this.modeButton.addEventListener('click', function (evt) {
         evt.preventDefault();
@@ -262,24 +260,6 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     );
 
     
-//    this.tempoButton.addEventListener("click", function (evt) {
-//        evt.preventDefault();
-//        this.blur();
-//        var andamento = that.midiPlayer.adjustAndamento();
-//        switch (andamento) {
-//            case 1:
-//                that.tempoButton.innerHTML = '&#160;&#160;1&#160;&#160';
-//                break;
-//            case 1 / 2:
-//                that.tempoButton.innerHTML = '&#160;&#189;&#160;';
-//                break;
-//            case 1 / 4:
-//                that.tempoButton.innerHTML = '&#160;&#188;&#160;';
-//                break;
-//        }
-//    }, false);
-
-
     this.gotoMeasureButton.addEventListener("keypress", function (evt) {
         if (evt.keyCode === 13) {
             that.startPlay('goto', this.value, that.untilMeasureButton.value);
@@ -378,24 +358,31 @@ SITE.Estudio.prototype.setup = function( tab, accordionId) {
     this.Div.setSubTitle( '- ' + this.accordion.getTxtModel() );
     this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
     
-    this.showEditor(SITE.properties.studio.editor.visible);
+    if(!this.isApp){
+        this.showEditor(SITE.properties.studio.editor.visible);
     
-    this.editorWindow.container.setSubTitle( '- ' + tab.title );
-    this.editorWindow.restartUndoManager();
-    
-    if(SITE.properties.studio.editor.floating) {
-        if( SITE.properties.studio.editor.maximized ) {
-            this.editorWindow.setFloating(true);
-            this.editorWindow.container.dispatchAction('MAXIMIZE');
+        this.editorWindow.container.setSubTitle( '- ' + tab.title );
+        this.editorWindow.restartUndoManager();
+        
+        if(SITE.properties.studio.editor.floating) {
+            if( SITE.properties.studio.editor.maximized ) {
+                this.editorWindow.setFloating(true);
+                this.editorWindow.container.dispatchAction('MAXIMIZE');
+            } else {
+                this.editorWindow.container.dispatchAction('POPOUT');
+            }
         } else {
-            this.editorWindow.container.dispatchAction('POPOUT');
+            this.editorWindow.container.dispatchAction('POPIN');
         }
-    } else {
-        this.editorWindow.container.dispatchAction('POPIN');
     }
 
-    this.showKeyboard(SITE.properties.studio.keyboard.visible);
+    if(this.isApp) {
+        this.showKeyboard(true);
+    } else {
+        this.showKeyboard(SITE.properties.studio.keyboard.visible);
+    }
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
+
     
     SITE.translator.translate( this.Div.topDiv );
 };

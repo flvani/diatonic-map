@@ -14723,14 +14723,18 @@ DRAGGABLE.ui.DropdownMenu = function (topDiv, options, menu) {
     this.listener = opts.listener || null;
     this.method = opts.method || null;
     this.translate = opts.translate || false;
-    
+    this.menuLabel = opts.label || null;
+    this.menuBorder = opts.border || false
+    this.menuBorderClass = opts.borderClass || 'rounded-corners'
+
     if (!this.container) {
         waterbug.log('Elemento ' + topDiv + ' não existe!');
         return;
     } else {
         this.container.innerHTML = "";
     }
-    
+
+  
     for ( var m = 0; m < menu.length; m++ ) {
         
         var ddmId = menu[m].ddmId || ('ddm' +this.id +m );
@@ -14738,6 +14742,18 @@ DRAGGABLE.ui.DropdownMenu = function (topDiv, options, menu) {
         var e1 = document.createElement("div");
         e1.setAttribute( "class", 'dropdown' );
         this.container.appendChild(e1);
+
+        //assumo por hora que, se tem label, tem borda
+        if( this.menuLabel ) {
+            var h = document.createElement("H1");
+            h.appendChild(document.createTextNode(this.menuLabel));
+            e1.appendChild(h);
+            this.menuBorder = true;
+        }
+
+        if(this.menuBorder){
+            e1.className += " " + this.menuBorderClass;
+        }
         
         var e2 = document.createElement("input");
         e2.setAttribute( "type", "checkbox" );
