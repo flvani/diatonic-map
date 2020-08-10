@@ -25,7 +25,7 @@ notação abc, tablatura " />
         <link rel="stylesheet" href="fontsIco/abcx.css" />
         <link rel="stylesheet" href="fontsGoogle/fonts.css" />
         
-        <link rel="stylesheet" href="css/styles4abcx_5.43-min.css" />
+        <link rel="stylesheet" href="css/styles4abcx_5.44-min.css" />
         
         <link rel="stylesheet" href="site/site_5.36-min.css" />
         
@@ -43,7 +43,9 @@ notação abc, tablatura " />
 
         </script>        
         <!-- End Google Analytics -->
-        
+
+        <!-- Cookie notice -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?tracking=1&always=1&refreshPage=1&showNoConsent=1&showPolicyLink=1&blocking=1&remember=180&privacyPage=https%3A%2F%2Fdiatonicmap.com.br%2Fprivacy"></script>         
         
     </head>
     <body>
@@ -60,16 +62,16 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jslib/html5kellycolorpicker.min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_5.43-min.js"></script>
+        <script type="text/javascript" src="file/filemanager_5.44-min.js"></script>
         
         <!-- suporte mapas de acordeões -->
-        <script type="text/javascript" src="diatonic/diatonic_5.43-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic_5.44-min.js"></script>
         
         <!-- ACE Editor -->
-        <script type="text/javascript" src="ace4abcx/ace4abcx_5.43-min.js"></script>
+        <script type="text/javascript" src="ace4abcx/ace4abcx_5.44-min.js"></script>
        
         <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.43-min.js" ></script>
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.44-min.js" ></script>
         
         <!-- console personalizada para Javascript -->
         <script type="text/javascript" src="jslib/waterbug.js"></script> 
@@ -336,6 +338,7 @@ notação abc, tablatura " />
                        // 'accordions/hohner.gc.accordion'
                        //,'accordions/hohner.cf.club.accordion'
                     ]
+                    ,{ isApp: false }
                     , function () { 
                         FILEMANAGER.waitResources( { 
                             onProgress: function(event) {

@@ -16,7 +16,7 @@ DIATONIC.map.color.background = 'none';
 DIATONIC.map.color.open = '#00ff00';
 DIATONIC.map.color.close = '#00b2ee';
 
-DIATONIC.map.loadAccordionMaps = function ( files, cb )  {
+DIATONIC.map.loadAccordionMaps = function ( files, opts, cb )  {
     
     if( ! DIATONIC.map.accordionMaps )
         DIATONIC.map.accordionMaps = [];
@@ -29,7 +29,7 @@ DIATONIC.map.loadAccordionMaps = function ( files, cb )  {
         $.getJSON( files[f], {  format: "json"  })
             .done(function( data ) {
                 FILEMANAGER.deregister('MAP', true);
-                DIATONIC.map.accordionMaps.push( new DIATONIC.map.AccordionMap(data) );
+                DIATONIC.map.accordionMaps.push( new DIATONIC.map.AccordionMap(data, false, opts) );
             })
             .fail(function( data, textStatus, error ) {
                 FILEMANAGER.deregister('MAP', false);
@@ -63,14 +63,14 @@ if (!window.DIATONIC)
 if (!window.DIATONIC.map)
     window.DIATONIC.map = {};
 
-DIATONIC.map.AccordionMap = function (res, local) {
+DIATONIC.map.AccordionMap = function (res, local, opts) {
     this.id = res.id;
     this.menuOrder = res.menuOrder;
     this.model = res.model;
     this.tuning = res.tuning;
     this.buttons = res.buttons;
     this.image = res.image || 'img/accordion.default.gif';
-    this.keyboard = new DIATONIC.map.Keyboard( res.keyboard, res.pedal );
+    this.keyboard = new DIATONIC.map.Keyboard( res.keyboard, res.pedal, opts );
     this.songPathList = res.songPathList;
     this.practicePathList = res.practicePathList;
     this.chordPathList = res.chordPathList;
@@ -220,7 +220,7 @@ if (!window.DIATONIC)
 if (!window.DIATONIC.map)
     window.DIATONIC.map = {};
 
-DIATONIC.map.Keyboard = function ( keyMap, pedalInfo, options ) {
+DIATONIC.map.Keyboard = function ( keyMap, pedalInfo, opts ) {
     
     this.pedalInfo = pedalInfo;
     this.layout = keyMap.layout;
@@ -230,6 +230,7 @@ DIATONIC.map.Keyboard = function ( keyMap, pedalInfo, options ) {
     this.noteToButtonsClose = {};
     this.legenda = {};
     this.baseLine = {}; // linha decorativa
+    this.opts = opts || {};
     
     this.limits = {minX:10000, minY:10000, maxX:0, maxY:0};
     
@@ -261,9 +262,12 @@ DIATONIC.map.Keyboard.prototype.setup = function (keyMap) {
     for (i = nIlheiras; i < nIlheiras + nIlheirasBaixo; i++) {
         this.keyMap[i] = new Array(keyMap.basses.open[i - nIlheiras].length);
     }
+    if( this.opts.isApp )
+        this.width = (nIlheiras + nIlheirasBaixo ) * (this.size) + 21 + 3; // printApp
+    else  
+        this.width = (nIlheiras + nIlheirasBaixo ) * (this.size) + this.size + 3;
 
-    this.width = (nIlheiras + nIlheirasBaixo + 1) * (this.size) +2;
-    this.height = (maiorIlheira) * (this.size) +2;
+    this.height = (maiorIlheira) * (this.size) + 3;
     
     var bassY = (maiorIlheiraBaixo === 4 ? 4 : 3 ) * this.size;
     bassY += (maiorIlheira-11)/2*this.size; // move meio botão baixo nas gaitas com mais botões
@@ -279,7 +283,10 @@ DIATONIC.map.Keyboard.prototype.setup = function (keyMap) {
             closeRow = keyMap.keys.close[j];
             bass = false;
         } else {
-            x = (j + 1.5) * (this.size);
+            if( this.opts.isApp )
+                x = (j + 0.5) * (this.size) + 21; // printApp
+            else   
+                x = (j + 0.5) * (this.size) + this.size; 
             yi = bassY;
             openRow = keyMap.basses.open[j - nIlheiras];
             closeRow = keyMap.basses.close[j - nIlheiras];
@@ -314,14 +321,20 @@ DIATONIC.map.Keyboard.prototype.setup = function (keyMap) {
         }
     }
     // posiciona linha decorativa
-    x = (nIlheiras+0.5) * (this.size);
+    if( this.opts.isApp )
+        x = (nIlheiras) * (this.size) + 12 //printApp
+    else    
+        x = (nIlheiras) * (this.size) + this.size/2;
+
     y = bassY - (0.5*this.size);
+
     this.baseLine = {x: x, yi:y, yf:y + ((maiorIlheiraBaixo+1) * this.size)};
     
     // adiciona o botão de legenda
     var raio=40;
     this.legenda = new DIATONIC.map.Button( this, this.limits.maxX-(raio+this.radius), this.limits.minY+raio, { radius: raio, borderWidth: 2 } );
 };
+
 
 DIATONIC.map.Keyboard.prototype.print = function ( div, render_opts, translator ) {
     
@@ -358,16 +371,18 @@ DIATONIC.map.Keyboard.prototype.print = function ( div, render_opts, translator 
     legenda_opts.kls = 'blegenda';
     this.legenda.draw( 'l00', this.paper, this.limits, legenda_opts );
     
+    var delta = this.opts.isApp ? 7: 10;
+
     if(render_opts.transpose) {
         sz = {w:this.height, h:this.width};
-        var mirr = render_opts.mirror ? this.baseLine.x : this.limits.maxX - (this.baseLine.x - this.limits.minX);
-        for (var x = mirr-10; x <= mirr+10; x+=10) {
+        var mirr = render_opts.mirror ? this.baseLine.x : this.limits.maxX - (this.baseLine.x - this.limits.minX)+2;
+        for (var x = mirr-delta; x <= mirr+delta; x+=delta) {
             this.drawLine(this.baseLine.yi, x, this.baseLine.yf, x);
         }
     } else {
         sz = {w:this.width, h:this.height};
-        var mirr = render_opts.mirror ? this.limits.maxX - (this.baseLine.x - this.limits.minX) : this.baseLine.x;
-        for (var x = mirr-10; x <= mirr+10; x+=10) {
+        var mirr = render_opts.mirror ? this.limits.maxX - (this.baseLine.x - this.limits.minX)+2 : this.baseLine.x                                                                                            ;
+        for (var x = mirr-delta; x <= mirr+delta; x+=delta) {
             this.drawLine(x, this.baseLine.yi, x, this.baseLine.yf);
         }
     }
@@ -392,6 +407,7 @@ DIATONIC.map.Keyboard.prototype.print = function ( div, render_opts, translator 
         }
     }
 };
+
 
 DIATONIC.map.Keyboard.prototype.drawLine = function(xi,yi,xf,yf) {
     this.paper.printLine(xi, yi, xf, yf );

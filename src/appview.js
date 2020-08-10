@@ -2,13 +2,16 @@
 if (!window.SITE)
     window.SITE = {};
 
-SITE.Estudio = function (mapa, interfaceParams, playerParams) {
+SITE.AppView = function (mapa, interfaceParams, playerParams) {
     
     this.mapa = mapa;
 
     if(!mapa){
         this.isApp = true;
     }
+
+    this.resize = this.resizeRight;
+    this.resize = this.resizeLeft;
     
     this.ypos = 0; // controle de scrollf
     this.lastStaffGroup = -1; // controle de scroll
@@ -26,10 +29,22 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.Div = new DRAGGABLE.ui.Window( 
           interfaceParams.studioDiv
         , null
-        , {translator: SITE.translator, statusbar: false, draggable: false, top: "3px", left: "1px", width: '100%', height: "100%", title: 'EstudioTitle'}
-        , {listener: this, method: 'studioCallback'}
+        , {
+            translator: SITE.translator, statusbar: false, draggable: false, 
+            top: "0", left: "0", width: '100%', height: "100%", title: 'EstudioTitle'
+          }
+        , {listener: this, method: 'appViewCallBack'}
     );
-    
+
+    this.keyboardWindow = new DRAGGABLE.ui.Window( 
+        interfaceParams.keyboardDiv
+       ,[  'rotate', 'globe']
+       ,{ title: '', translator: SITE.translator, statusbar: false, draggable: false, 
+          top: "3px", left: "1px"
+        } 
+       ,{listener: this, method: 'keyboardCallback'}
+    );
+
     this.Div.setVisible(true);
     this.Div.dataDiv.style.overflow = 'hidden';
     
@@ -44,7 +59,17 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
             throw new Error('Tablatura para ' + interfaceParams.generate_tablature + ' não suportada!');
         }
     }
-    
+
+    this.accordion.setRenderOptions({
+        draggable: false
+       ,show: SITE.properties.studio.keyboard.visible
+       ,transpose: SITE.properties.studio.keyboard.transpose
+       ,mirror: SITE.properties.studio.keyboard.mirror
+       ,scale: 0.8 
+       ,label: SITE.properties.studio.keyboard.label
+    });
+
+/*    
     this.editorWindow = new ABCXJS.edit.EditArea(
         this.Div.dataDiv
        ,{listener : this, method: 'editorCallback' }
@@ -55,36 +80,22 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         }
     );
     this.editorWindow.setVisible(false);
-
+*/
+    
     this.controlDiv = document.createElement("DIV");
     this.controlDiv.setAttribute("id", 'controlDiv' );
-    this.controlDiv.setAttribute("class", 'controlDiv btn-group' );
+    this.controlDiv.setAttribute("class", 'controlDiv btn-group draggableToolBar' );
+    
     this.Div.dataDiv.appendChild(this.controlDiv);
     
     this.controlDiv.innerHTML = document.getElementById(interfaceParams.studioControlDiv).innerHTML;
     document.getElementById(interfaceParams.studioControlDiv).innerHTML = "";
 
+    //this.controlDiv.style.fontColor="red";
+    this.controlDiv.style.paddingBottom="5px";
+
     this.media = new SITE.Media( this.Div.dataDiv, interfaceParams.btShowMedia, SITE.properties.studio.media ); 
-    
-    this.keyboardWindow = new DRAGGABLE.ui.Window( 
-        this.Div.dataDiv
-       ,[ 'move', 'rotate', 'zoom', 'globe']
-       ,{title: '', translator: SITE.translator, statusbar: false
-            , top: SITE.properties.studio.keyboard.top
-            , left: SITE.properties.studio.keyboard.left
-       } 
-      ,{listener: this, method: 'keyboardCallback'}
-    );
-    
-    this.accordion.setRenderOptions({
-        draggable: true
-       ,show: SITE.properties.studio.keyboard.visible
-       ,transpose: SITE.properties.studio.keyboard.transpose
-       ,mirror: SITE.properties.studio.keyboard.mirror
-       ,scale: SITE.properties.studio.keyboard.scale
-       ,label: SITE.properties.studio.keyboard.label
-    });
-    
+
     this.warningsDiv = document.createElement("DIV");
     this.warningsDiv.setAttribute("id", warnings_id);
     this.warningsDiv.setAttribute("class", "warningsDiv" );
@@ -97,12 +108,12 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.canvasDiv = document.createElement("DIV");
     this.canvasDiv.setAttribute("id", canvas_id);
     this.canvasDiv.setAttribute("class", "canvasDiv" );
+
     this.studioCanvasDiv.appendChild(this.canvasDiv);
-    
-    this.renderedTune.div = this.canvasDiv;
-    
     this.Div.dataDiv.appendChild(this.studioCanvasDiv);
     
+    this.renderedTune.div = this.canvasDiv;
+   
     if(this.ps)
         this.ps.destroy();
     
@@ -116,7 +127,6 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         scrollingThreshold: 500
     });
     
-    
     if( interfaceParams.onchange ) {
         this.onchangeCallback = interfaceParams.onchange;
     }
@@ -124,8 +134,10 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.saveButton = document.getElementById(interfaceParams.saveBtn);
     this.forceRefreshButton = document.getElementById(interfaceParams.forceRefresh);
     this.printButton = document.getElementById(interfaceParams.printBtn);
+    this.backButton = document.getElementById(interfaceParams.backBtn);
     this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
-    this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
+
+    //this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
 
     // player control
     this.modeButton = document.getElementById(playerParams.modeBtn);
@@ -143,18 +155,25 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.clearButton = document.getElementById(playerParams.clearBtn);
     this.tempoButton = document.getElementById(playerParams.tempoSld);
 
+    this.backButton.addEventListener("click", function (evt) {
+        evt.preventDefault();
+        that.closeEstudio();
+        this.blur();
+    }, false);
+
     this.showMapButton.addEventListener("click", function (evt) {
         evt.preventDefault();
         this.blur();
         that.showKeyboard();
+        that.resize();
     }, false);
 
     if(!this.isApp){
-        this.showEditorButton.addEventListener("click", function (evt) {
+/*         this.showEditorButton.addEventListener("click", function (evt) {
             evt.preventDefault();
             this.blur();
             that.showEditor();
-        }, false);
+        }, false); */
     
         this.forceRefreshButton.addEventListener("click", function (evt) {
             evt.preventDefault();
@@ -168,18 +187,19 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
             that.salvaMusica();
         }, false);
         
-        this.printButton.addEventListener("click", function (evt) {
-            evt.preventDefault();
-            this.blur();
-            
-            SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
-            
-           
-            that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#studioDiv"], that.renderedTune.abc.formatting.landscape);
-            return;
-    
-        }, false);
     }
+
+    this.printButton.addEventListener("click", function (evt) {
+        evt.preventDefault();
+        this.blur();
+        
+        SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
+        
+       
+        that.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#mapaDiv" ], that.renderedTune.abc.formatting.landscape);
+        return;
+
+    }, false);
 
     this.modeButton.addEventListener('click', function (evt) {
         evt.preventDefault();
@@ -217,7 +237,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.stopButton.addEventListener("click", function (evt) {
         evt.preventDefault();
         this.blur();
-        that.blockEdition(false);
+        //that.blockEdition(false);
         if(that.currentPlayTimeLabel)
            that.currentPlayTimeLabel.innerHTML = "00:00.00";
         that.studioStopPlay();
@@ -229,7 +249,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         that.renderedTune.printer.clearSelection();
         that.accordion.clearKeyboard(true);
         that.currentPlayTimeLabel.innerHTML = "00:00.00";
-        that.blockEdition(false);
+        //that.blockEdition(false);
         that.studioStopPlay();
     }, false);
 
@@ -316,7 +336,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         that.playButton.innerHTML = '&#160;<i class="ico-play"></i>&#160;';
         that.renderedTune.printer.clearSelection();
         that.accordion.clearKeyboard(true);
-        that.blockEdition(false);
+        //that.blockEdition(false);
         if( warns ) {
             var wd =  document.getElementById("warningsDiv");
             var txt = "";
@@ -334,7 +354,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     
 };
 
-SITE.Estudio.prototype.setup = function( tab, accordionId) {
+SITE.AppView.prototype.setup = function( tab, accordionId) {
     
     if(this.mapa)
         this.mapa.closeMapa();
@@ -353,13 +373,17 @@ SITE.Estudio.prototype.setup = function( tab, accordionId) {
     this.setTimerIcon( 0 );
     
     this.setVisible(true);
-    this.setString(tab.text);
+    //this.setString(tab.text);
     this.fireChanged(0, {force:true} );
-    this.Div.setSubTitle( '- ' + this.accordion.getTxtModel() );
+
+    this.Div.setTitle( tab.title );
+    this.Div.setSubTitle( '- ' + this.accordion.getTxtModel() + ' ' +  this.accordion.getTxtTuning() );
+
     this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
+
     
-    if(!this.isApp){
-        this.showEditor(SITE.properties.studio.editor.visible);
+/*     if(!this.isApp){
+        //this.showEditor(SITE.properties.studio.editor.visible);
     
         this.editorWindow.container.setSubTitle( '- ' + tab.title );
         this.editorWindow.restartUndoManager();
@@ -375,37 +399,41 @@ SITE.Estudio.prototype.setup = function( tab, accordionId) {
             this.editorWindow.container.dispatchAction('POPIN');
         }
     }
-
+ */
     if(this.isApp) {
         this.showKeyboard(true);
     } else {
         this.showKeyboard(SITE.properties.studio.keyboard.visible);
     }
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
-
     
+    this.resize();
+
     SITE.translator.translate( this.Div.topDiv );
 };
 
-SITE.Estudio.prototype.resize = function( ) {
+SITE.AppView.prototype.resizeLeft = function( ) {
     
-    // redimensiona a workspace
     var winH = window.innerHeight
                 || document.documentElement.clientHeight
                 || document.body.clientHeight;
 
     var winW = window.innerWidth
-            || document.documentElement.clientWidth
-            || document.body.clientWidth;
+                || document.documentElement.clientWidth
+                || document.body.clientWidth;
 
-    // -paddingTop 78
-    var h = (winH -78 - 10 ); 
-    var w = (winW - 8 ); 
-    
-    this.Div.topDiv.style.left = "3px";
-    this.Div.topDiv.style.top = "82px";
+    var w = (winW - 2 ); 
+    var h = (winH - 4 ); 
+    var l = SITE.properties.studio.keyboard.visible? this.keyboardWindow.topDiv.clientWidth+1 : 0;
+
+    this.keyboardWindow.topDiv.style.top=0;
+    this.keyboardWindow.topDiv.style.left=0;
+    this.keyboardWindow.topDiv.style.height = Math.max(h,200) +"px";
+
+    this.Div.topDiv.style.top=0;
+    this.Div.topDiv.style.left= l+"px";
     this.Div.topDiv.style.height = Math.max(h,200) +"px";
-    this.Div.topDiv.style.width = Math.max(w,400) +"px";
+    this.Div.topDiv.style.width = Math.max(w-l,400) +"px";
    
     var w = 0, e = 0;
     var c = this.controlDiv.clientHeight;
@@ -414,21 +442,55 @@ SITE.Estudio.prototype.resize = function( ) {
     if(! SITE.properties.showWarnings) {
         w = this.warningsDiv.clientHeight;
     }
-    
-    if(! SITE.properties.studio.editor.floating) {
-        e = this.editorWindow.container.topDiv.clientHeight+4;
-    }
 
     this.studioCanvasDiv.style.height = t-(w+e+c+6) +"px";
-    
-    this.posicionaTeclado();
-    this.editorWindow.resize();
+
+    this.media.posiciona();
     
     (this.ps) && this.ps.update();
     
 };
 
-SITE.Estudio.prototype.showKeyboard = function(show) {
+SITE.AppView.prototype.resizeRight = function( ) {
+    
+    var winH = window.innerHeight
+                || document.documentElement.clientHeight
+                || document.body.clientHeight;
+
+    var winW = window.innerWidth
+            || document.documentElement.clientWidth
+            || document.body.clientWidth;
+
+    var w = (winW - 2 ); 
+    var h = (winH - 4 ); 
+    var l = SITE.properties.studio.keyboard.visible? this.keyboardWindow.topDiv.clientWidth+1 : 0;
+        
+    this.keyboardWindow.topDiv.style.top=0;
+    this.keyboardWindow.topDiv.style.left= (w-l+1)+"px";
+    this.keyboardWindow.topDiv.style.height = Math.max(h,200) +"px";
+
+    this.Div.topDiv.style.top=0;
+    this.Div.topDiv.style.left=0;
+    this.Div.topDiv.style.height = Math.max(h,200) +"px";
+    this.Div.topDiv.style.width = Math.max(w-l,400) +"px";
+    
+    var w = 0, e = 0;
+    var c = this.controlDiv.clientHeight;
+    var t = this.Div.dataDiv.clientHeight;
+    
+    if(! SITE.properties.showWarnings) {
+        w = this.warningsDiv.clientHeight;
+    }
+
+    this.studioCanvasDiv.style.height = t-(w+e+c+6) +"px";
+
+    this.media.posiciona();
+    
+    (this.ps) && this.ps.update();
+    
+};
+
+SITE.AppView.prototype.showKeyboard = function(show) {
     SITE.properties.studio.keyboard.visible = 
             (typeof show === 'undefined'? ! SITE.properties.studio.keyboard.visible : show );
     
@@ -437,16 +499,18 @@ SITE.Estudio.prototype.showKeyboard = function(show) {
     if(SITE.properties.studio.keyboard.visible) {
         this.keyboardWindow.setVisible(true);
         this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
-        document.getElementById('I_showMap').setAttribute('class', 'ico-folder-open' );
-        this.posicionaTeclado();
+        this.showMapButton.innerHTML = '<i class="ico-keyboard" ></i>';
+        //this.posicionaTeclado();
     } else {
         this.accordion.render_opts.show = false;
         this.keyboardWindow.setVisible(false);
-        document.getElementById('I_showMap').setAttribute('class', 'ico-folder' );
+        this.showMapButton.innerHTML = '<i class="ico-keyboard" style="opacity:0.5;"></i>'+
+                                                         '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px"></i>';
     }
 };
 
-SITE.Estudio.prototype.showEditor = function(show) {
+/* 
+SITE.AppView.prototype.showEditor = function(show) {
     SITE.properties.studio.editor.visible = 
             (typeof show === 'undefined'? ! SITE.properties.studio.editor.visible : show );
     
@@ -460,8 +524,7 @@ SITE.Estudio.prototype.showEditor = function(show) {
     }
     this.resize();
 };
-
-SITE.Estudio.prototype.editorCallback = function (action, elem) {
+SITE.AppView.prototype.editorCallback = function (action, elem) {
     switch(action) {
         case '0': 
             break;
@@ -506,8 +569,9 @@ SITE.Estudio.prototype.editorCallback = function (action, elem) {
             break;
     }
 };
+ */
 
-SITE.Estudio.prototype.studioCallback = function( e ) {
+SITE.AppView.prototype.appViewCallBack = function( e ) {
     switch(e) {
         case 'CLOSE':
             this.closeEstudio(true);
@@ -515,58 +579,39 @@ SITE.Estudio.prototype.studioCallback = function( e ) {
     }
 };
 
-SITE.Estudio.prototype.studioStopPlay = function( e ) {
+SITE.AppView.prototype.studioStopPlay = function( e ) {
     this.midiPlayer.stopPlay();
 };
 
-SITE.Estudio.prototype.closeEstudio = function(save) {
-    var self = this;
-    if(!this.mapa){
-        self.setVisible(false);
-        self.studioStopPlay();
-    } else {
-        var loader = this.mapa.startLoader( "CloseStudio" );
-        loader.start(  function() { 
-            (save) && SITE.SaveProperties();
-            self.setVisible(false);
-            self.studioStopPlay();
-            self.mapa.openMapa( self.getString() );
-            loader.stop();
-        }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
-    }
+SITE.AppView.prototype.closeEstudio = function(save) {
+    this.setVisible(false);
+    this.keyboardWindow.setVisible(false);
+    this.studioStopPlay();
 };
         
-SITE.Estudio.prototype.setVisible = function(  visible ) {
+SITE.AppView.prototype.setVisible = function(  visible ) {
     this.Div.parent.style.display = visible?'block':'none';
 };
 
-SITE.Estudio.prototype.setAutoRefresh = function( value ) {
-    this.editorWindow.setCompileOnChange(value);
+SITE.AppView.prototype.setAutoRefresh = function( value ) {
+    //this.editorWindow.setCompileOnChange(value);
 };
 
-SITE.Estudio.prototype.getString = function() {
-    return this.editorWindow.getString();
-};
+//SITE.AppView.prototype.getString = function() {
+//  return this.editorWindow.getString();
+//};
 
-SITE.Estudio.prototype.setString = function(str) {
-    this.editorWindow.setString(str);
-};
+//SITE.AppView.prototype.setString = function(str) {
+//    this.editorWindow.setString(str);
+//};
 
-SITE.Estudio.prototype.keyboardCallback = function( e ) {
+SITE.AppView.prototype.keyboardCallback = function( e ) {
     switch(e) {
-        case 'MOVE':
-            var k = this.keyboardWindow.topDiv.style;
-            SITE.properties.studio.keyboard.left = k.left;
-            SITE.properties.studio.keyboard.top = k.top;
-            break;
         case 'ROTATE':
+            this.accordion.rotateKeyboard(this.keyboardWindow.dataDiv);
             this.accordion.rotateKeyboard(this.keyboardWindow.dataDiv);
             SITE.properties.studio.keyboard.transpose = this.accordion.render_opts.transpose;
             SITE.properties.studio.keyboard.mirror = this.accordion.render_opts.mirror;
-            break;
-        case 'ZOOM':
-            this.accordion.scaleKeyboard(this.keyboardWindow.dataDiv);
-            SITE.properties.studio.keyboard.scale = this.accordion.render_opts.scale;
             break;
         case 'GLOBE':
             this.accordion.changeNotation();
@@ -574,11 +619,12 @@ SITE.Estudio.prototype.keyboardCallback = function( e ) {
             break;
         case 'CLOSE':
             this.showKeyboard(false);
+            this.resize();
             break;
     }
 };
 
-SITE.Estudio.prototype.setScrolling = function(player) {
+SITE.AppView.prototype.setScrolling = function(player) {
     if( !this.studioCanvasDiv || !player.currAbsElem || player.currAbsElem.staffGroup === this.lastStaffGroup ) return;
     
     this.lastStaffGroup = player.currAbsElem.staffGroup;
@@ -595,7 +641,8 @@ SITE.Estudio.prototype.setScrolling = function(player) {
     }
 };
 
-SITE.Estudio.prototype.salvaMusica = function () {
+/* 
+SITE.AppView.prototype.salvaMusica = function () {
     if (FILEMANAGER.requiredFeaturesAvailable()) {
         this.fireChanged(0, {force:false, showProgress:true } );
         //this.parseABC(0, true );
@@ -606,7 +653,9 @@ SITE.Estudio.prototype.salvaMusica = function () {
         alert(SITE.translator.getResource("err_saving"));
     }
 };
-SITE.Estudio.prototype.changePlayMode = function(mode) {
+*/
+
+SITE.AppView.prototype.changePlayMode = function(mode) {
     
     SITE.properties.studio.mode = mode? mode : 
             (SITE.properties.studio.mode==="normal"? "learning":"normal");
@@ -626,7 +675,8 @@ SITE.Estudio.prototype.changePlayMode = function(mode) {
     }
 };
 
-SITE.Estudio.prototype.posicionaTeclado = function() {
+SITE.AppView.prototype.posicionaTeclado = function() {
+    return;
     
     if( ! SITE.properties.studio.keyboard.visible ) return;
     
@@ -644,7 +694,7 @@ SITE.Estudio.prototype.posicionaTeclado = function() {
     k.style.left = x+"px";
 };
 
-SITE.Estudio.prototype.blockEdition = function( block ) {
+/* SITE.AppView.prototype.blockEdition = function( block ) {
     this.editorWindow.setReadOnly(!block);
     this.editorWindow.container.dispatchAction('READONLY');
     if( block ) {
@@ -653,9 +703,9 @@ SITE.Estudio.prototype.blockEdition = function( block ) {
         this.editorWindow.clearEditorHighLightStyle();
         this.editorWindow.aceEditor.focus();
     }
-};
+}; */
 
-SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
+SITE.AppView.prototype.startPlay = function( type, value, valueF ) {
     this.ypos = this.studioCanvasDiv.scrollTop;
     this.lastStaffGroup = -1;
     var that = this;
@@ -669,20 +719,20 @@ SITE.Estudio.prototype.startPlay = function( type, value, valueF ) {
         } else {
             this.midiPlayer.pausePlay(true);
         }    
-        this.blockEdition(false);
+        //this.blockEdition(false);
         
     } else {
         this.accordion.clearKeyboard();
-        if (type === "normal" ) {
-            this.blockEdition(true);
-        }
+        //if (type === "normal" ) {
+        //    this.blockEdition(true);
+        //}
         
         // esse timeout é só para garantir o tempo para iniciar o play
         window.setTimeout(function(){that.StartPlayWithTimer(that.renderedTune.abc.midi, type, value, valueF, SITE.properties.studio.timerOn ? 10 : 0); }, 0 );
     }
 };
 
-SITE.Estudio.prototype.setBassIcon = function() {
+SITE.AppView.prototype.setBassIcon = function() {
     if( SITE.properties.studio.bassOn ) {
         this.FClefButton.innerHTML = '<i class="ico-clef-bass" ></i>';
     } else {
@@ -691,7 +741,7 @@ SITE.Estudio.prototype.setBassIcon = function() {
     }
 };
 
-SITE.Estudio.prototype.setTrebleIcon = function() {
+SITE.AppView.prototype.setTrebleIcon = function() {
     if( SITE.properties.studio.trebleOn ) {
         this.GClefButton.innerHTML = '<i class="ico-clef-treble" ></i>';
     } else {
@@ -700,7 +750,7 @@ SITE.Estudio.prototype.setTrebleIcon = function() {
     }
 };
 
-SITE.Estudio.prototype.setTimerIcon = function( value ) {
+SITE.AppView.prototype.setTimerIcon = function( value ) {
     value = value || 0;
     
     var ico = '00';
@@ -727,7 +777,7 @@ SITE.Estudio.prototype.setTimerIcon = function( value ) {
     }
 };
 
-SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, counter ) {
+SITE.AppView.prototype.StartPlayWithTimer = function(midi, type, value, valueF, counter ) {
      var that = this;
     
     if( type !== 'note' && SITE.properties.studio.timerOn && counter > 0 ) {
@@ -741,16 +791,7 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
                 
                 SITE.ga('send', 'event', 'Mapa5', 'play', this.renderedTune.title);
-                
-//                SITE.myGtag( 'event', 'play', {
-//                  send_to : 'acessos',
-//                  event_category: 'Mapa5',
-//                  event_action: 'play',
-//                  event_label: this.renderedTune.title,
-//                  event_value: 0,
-//                  nonInteraction: false 
-//                });                
-                
+               
                 this.playButton.title = SITE.translator.getResource("pause");
                 this.playButton.innerHTML = '&#160;<i class="ico-pause"></i>&#160;';
             }
@@ -759,24 +800,14 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
             
             SITE.ga('send', 'event', 'Mapa5', 'didactic-play', this.renderedTune.title);
             
-//            SITE.myGtag( 'event', 'didactic-play', {
-//              send_to : 'acessos',
-//              event_category: 'Mapa5',
-//              event_action: 'didactic-play',
-//              event_label: this.renderedTune.title,
-//              event_value: 0,
-//              nonInteraction: false 
-//            });                
-            
-            
             this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value, valueF );
         }
     }
 };
 
-SITE.Estudio.prototype.parseABC = function (transpose, force) {
+SITE.AppView.prototype.parseABC = function (transpose, force) {
 
-    var text = this.getString();
+    var text = this.renderedTune.text; // this.getString(); sempre igula
 
     this.warnings = [];
 
@@ -810,12 +841,12 @@ SITE.Estudio.prototype.parseABC = function (transpose, force) {
     }
 
     // transposição e geracao de tablatura podem ter alterado o texto ABC
-    if (text !== this.initialText)
-        this.setString(this.renderedTune.text);
+    //if (text !== this.initialText)
+    //    this.setString(this.renderedTune.text);
 
-    if (this.transposer && this.editorWindow.keySelector) {
-        this.editorWindow.keySelector.populate(this.transposer.keyToNumber(this.transposer.getKeyVoice(0)));
-    }
+    //if (this.transposer && this.editorWindow.keySelector) {
+    //    this.editorWindow.keySelector.populate(this.transposer.keyToNumber(this.transposer.getKeyVoice(0)));
+    //}
 
     var warnings = this.abcParser.getWarnings() || [];
     for (var j = 0; j < warnings.length; j++) {
@@ -836,12 +867,12 @@ SITE.Estudio.prototype.parseABC = function (transpose, force) {
 
 };
 
-SITE.Estudio.prototype.onChange = function() {
+SITE.AppView.prototype.onChange = function() {
     this.studioCanvasDiv.scrollTop = this.lastYpos;
     this.resize();
 };
 
-SITE.Estudio.prototype.fireChanged = function (transpose, _opts) {
+SITE.AppView.prototype.fireChanged = function (transpose, _opts) {
     
     if( this.changing ) return;
     
@@ -859,7 +890,7 @@ SITE.Estudio.prototype.fireChanged = function (transpose, _opts) {
     }
 };
 
-SITE.Estudio.prototype.modelChanged = function(showProgress) {
+SITE.AppView.prototype.modelChanged = function(showProgress) {
     var self = this;
     if(showProgress) {
         var loader = this.mapa.startLoader( "ModelChanged" );
@@ -869,7 +900,7 @@ SITE.Estudio.prototype.modelChanged = function(showProgress) {
     }    
 };
 
-SITE.Estudio.prototype.onModelChanged = function(loader) {
+SITE.AppView.prototype.onModelChanged = function(loader) {
     
     this.renderedTune.div.innerHTML = "";
     this.renderedTune.div.style.display = "none";
@@ -902,42 +933,85 @@ SITE.Estudio.prototype.onModelChanged = function(loader) {
     }
     
     this.media.show(this.renderedTune);
-    
+        
     delete this.changing;
     
 };
 
-SITE.Estudio.prototype.highlight = function(abcelem) {
+SITE.AppView.prototype.highlight = function(abcelem) {
     if( !this.midiPlayer.playing) {
         if(SITE.properties.studio.keyboard.visible ) {
             this.accordion.clearKeyboard(true);
             this.midiParser.setSelection(abcelem);
         }
-        if(SITE.properties.studio.editor.visible) {
+/*         if(SITE.properties.studio.editor.visible) {
             this.editorWindow.setSelection(abcelem);
-        }    
+        }   */  
     }    
 };
 
 // limpa apenas a janela de texto. Os demais elementos são controlados por tempo 
-SITE.Estudio.prototype.unhighlight = function(abcelem) {
-    if(SITE.properties.studio.editor.visible) {
+SITE.AppView.prototype.unhighlight = function(abcelem) {
+/*     if(SITE.properties.studio.editor.visible) {
         this.editorWindow.clearSelection(abcelem);
     }    
-};
+ */};
 
-SITE.Estudio.prototype.updateSelection = function (force) {
+SITE.AppView.prototype.updateSelection = function (force) {
     var that = this;
     if( force ) {
-        var selection = that.editorWindow.getSelection();
+/*         var selection = that.editorWindow.getSelection();
         try {
             that.renderedTune.printer.rangeHighlight(selection);
         } catch (e) {
         } // maybe printer isn't defined yet?
-        delete this.updating;
+ */        delete this.updating;
     } else {
         if( this.updating ) return;
         this.updating = true;
         setTimeout( that.updateSelection(true), 300 );
     }
+};
+
+SITE.AppView.prototype.printPreview = function (html, divsToHide, landscape ) {
+    
+    var dv = document.getElementById('printPreviewDiv');
+    var savedDisplays = {};
+    
+    divsToHide.forEach( function( div ) {
+        var hd = document.getElementById(div.substring(1));
+        savedDisplays[div.substring(1)] = hd.style.display;
+        hd.style.display = "none";
+        
+    });
+
+    this.changePageOrientation(landscape? 'landscape': 'portrait');
+
+    dv.innerHTML = html;
+    dv.style.display = 'block';
+
+    setTimeout( function () { 
+        
+        var gadget = new cloudprint.Gadget();
+        gadget.setPrintDocument("text/html", "Print", dv.innerHTML);
+        //  gadget.setPrintDocument("url", $('title').html(), window.location.href, "utf-8");
+        gadget.openPrintDialog();
+        //window.print(); 
+
+        dv.style.display = 'none';
+
+        divsToHide.forEach( function( div ) {
+            var hd = document.getElementById(div.substring(1));
+            hd.style.display = savedDisplays[div.substring(1)];
+        });
+
+    });
+    
+};
+
+SITE.AppView.prototype.changePageOrientation = function (orientation) {
+    var style = document.createElement('style');
+    document.head.appendChild(style);
+    style.innerHTML = '@page {margin: 1cm; size: ' + orientation + '}';
+
 };

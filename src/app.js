@@ -1,8 +1,18 @@
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+/*
+FAZER
+
+Icone do teclado
+Iconne do menu Android
+Ver se é possível abrir o teclado numerico
+
+*/
 
 if (!window.SITE)
     window.SITE = {};
@@ -187,14 +197,17 @@ SITE.App.prototype.openEstudio = function (button, event) {
     }
     
     if( ! this.studio ) {
-        this.studio = new SITE.Estudio(
+        this.studio = new SITE.AppView(
             null
             ,{   // interfaceParams
                 studioDiv: 'studioDiv'
+               ,keyboardDiv: 'kebyoardDiv'
                ,studioControlDiv: 'studioControlDiv'
                ,studioCanvasDiv: 'studioCanvasDiv'
                ,generate_tablature: 'accordion'
+               ,backBtn: 'backBtn'
                ,showMapBtn: 'showMapBtn'
+               ,printBtn: 'printBtn'
                //,showEditorBtn: 'showEditorBtn'
                //,showTextBtn: 'showTextBtn'
                //,printBtn:'printBtn'
@@ -485,14 +498,15 @@ SITE.App.prototype.showSettings = function() {
                 || document.documentElement.clientWidth
                 || document.body.clientWidth;    
         
-    var x = winW/2 - width/2;
+    //var x = winW/2 - width/2;
+    var x = 70;
     
     if(!this.settings) {
         this.settings = {};
         this.settings.window = new DRAGGABLE.ui.Window( 
               null 
             , null
-            , {title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, top: "80px", left: x+"px", height:'400px',  width: width+'px', zIndex: 50} 
+            , {title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, top: "40px", left: x+"px", height:'400px',  width: width+'px', zIndex: 50} 
             , {listener: this, method: 'settingsCallback'}
         );
 
@@ -502,6 +516,15 @@ SITE.App.prototype.showSettings = function() {
 //                <th colspan="2">Acordeão:</th><td><div id="settingsAcordeonsMenu" class="topMenu"></div></td>\
 //              </tr>\
 
+/*         var cookieValue = document.cookie.match(/(;)?cookiebar=([^;]*);?/)[2];
+        var cookieSets = ""
+        if (cookieValue == 'CookieDisallowed') { 
+            cookieSets = '<td></td><td>&nbsp;<a href="#" onclick="document.cookie=\'cookiebar=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/\'; setupCookieBar(); return false;">Click aqui para habilitar cookies</a><td>'
+        } else if (cookieValue == 'CookieAllowed') { 
+            cookieSets = '<td></td><td>&nbsp;<a href="#" onclick="document.cookie=\'cookiebar=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/\'; setupCookieBar(); return false;">Click aqui para desabilitar cookies</a><td>'
+        }
+
+ */
         this.settings.window.dataDiv.innerHTML= '\
         <div class="menu-group">\
             <table>\
@@ -535,13 +558,13 @@ SITE.App.prototype.showSettings = function() {
               <tr>\
                 <td> </td><td colspan="2"><input id="chkAutoRefresh" type="checkbox">&nbsp;<span data-translate="PrefsPropsCKAutoRefresh" >'+SITE.translator.getResource('PrefsPropsCKAutoRefresh')+'</span></td>\
               </tr>\
-            </table>\
+              </table>\
         </div>\
         <div id="pg" class="pushbutton-group" style="right: 0; bottom: 0;" >\
             <div id="botao1"></div>\n\
             <div id="botao2"></div>\n\
             <div id="botao3"></div>\n\
-        </div>';
+    </div>';
         
         this.settings.window.addPushButtons([
             'botao1|apply',
@@ -683,37 +706,6 @@ SITE.App.prototype.changePageOrientation = function (orientation) {
 
 };
 
-SITE.App.prototype.printPreview = function (html, divsToHide, landscape ) {
-    
-    var dv = document.getElementById('printPreviewDiv');
-    var savedDisplays = {};
-    
-    divsToHide.forEach( function( div ) {
-        var hd = document.getElementById(div.substring(1));
-        savedDisplays[div.substring(1)] = hd.style.display;
-        hd.style.display = "none";
-        
-    });
-
-    this.changePageOrientation(landscape? 'landscape': 'portrait');
-
-    dv.innerHTML = html;
-    dv.style.display = 'block';
-
-    setTimeout( function () { 
-        
-        window.print(); 
-
-        dv.style.display = 'none';
-
-        divsToHide.forEach( function( div ) {
-            var hd = document.getElementById(div.substring(1));
-            hd.style.display = savedDisplays[div.substring(1)];
-        });
-
-    });
-    
-};
 
 SITE.App.prototype.resizeActiveWindow = function() {
     if(this.studio && window.getComputedStyle(this.studio.Div.parent).display !== 'none') {
@@ -736,9 +728,9 @@ SITE.App.prototype.silencia = function(force) {
 };
 
 SITE.App.prototype.setFocus = function() {
-    if(this.studio && window.getComputedStyle(this.studio.Div.parent).display !== 'none') {
+/*     if(this.studio && window.getComputedStyle(this.studio.Div.parent).display !== 'none') {
         this.studio.editorWindow.aceEditor.focus();
-    }
+    } */
 }
 
 SITE.App.prototype.showHelp = function ( title, subTitle, url, options ) {
@@ -819,22 +811,5 @@ SITE.App.prototype.showHelp = function ( title, subTitle, url, options ) {
             });
         }
     }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
-};
-
-SITE.App.prototype.helpCallback = function ( action ) {
-    if( action === 'CLOSE' ) {
-        this.helpWindow.setVisible(false);
-    } else if( action === 'PRINT' ) {
-        var container = this.iframe.contentDocument.getElementById('helpContainer');
-        if( container ) {
-            //var t = container.style.top;
-            //container.style.top = '0';
-            this.printPreview( container.innerHTML, [ "#"+this.helpWindow.topDiv.id, "#topBar","#mapaDiv"], false );
-            //var header = this.iframe.contentDocument.getElementById('helpHeader');
-            //if( header ) header.style.display = 'none';
-            //container.style.top = t;
-        }
-    }
-//    console.log( action );
 };
 

@@ -191,6 +191,8 @@ SITE.TabGen.prototype.resize = function( ) {
     var h = (winH -78 - 10 ); 
     var w = (winW - 8 ); 
     
+    this.Div.topDiv.style.left = "3px";
+    this.Div.topDiv.style.top = "82px";
     this.Div.topDiv.style.height = Math.max(h,200) +"px";
     this.Div.topDiv.style.width = Math.max(w,400) +"px";
     

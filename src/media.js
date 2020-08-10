@@ -244,9 +244,16 @@ SITE.Media.prototype.posiciona = function () {
     if( ! this.mediaWindow.topDiv || this.mediaWindow.topDiv.style.display === 'none' ) 
         return;
     
-    var w = window.innerWidth;
+    //var w = window.innerWidth;
+    var w = document.body.clientWidth
+            || document.documentElement.clientWidth
+            || window.innerWidth;
+
+    // linha acrescentada para tratar layout da app
+    w = Math.min(w, this.mediaWindow.parent.clientWidth);
     
     var k = this.mediaWindow.topDiv;
+
     var x = parseInt(k.style.left.replace('px', ''));
     var xi = x;
     

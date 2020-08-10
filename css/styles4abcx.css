@@ -779,7 +779,7 @@ and open the template in the editor.
     position:fixed;
     display:none;
     min-width: 200px;
-    width: auto;
+    width: fit-content;
     height: auto;
     min-height: 60px;
     z-index: 100;
