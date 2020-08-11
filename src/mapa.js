@@ -114,9 +114,9 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.gaitaNamePlaceHolder = document.getElementById(interfaceParams.accordionNamePlaceHolder);
     this.gaitaImagePlaceHolder = document.getElementById(interfaceParams.accordionImagePlaceHolder);
     
-    this.printButton.addEventListener("touchstart", function(event) {  that.printPartiture(this, event); }, false);
+    //this.printButton.addEventListener("touchstart", function(event) {  that.printPartiture(this, event); }, false);
     this.printButton.addEventListener("click", function(event) { that.printPartiture(this, event); }, false);
-    this.toolsButton.addEventListener("touchstart", function(event) { that.openEstudio(this, event); }, false);
+    //this.toolsButton.addEventListener("touchstart", function(event) { that.openEstudio(this, event); }, false);
     this.toolsButton.addEventListener("click", function(event) { that.openEstudio(this, event); }, false);
     this.fileLoadMap.addEventListener('change', function(event) { that.loadMap(event); }, false);        
     this.fileLoadRepertoire.addEventListener('change', function(event) { that.carregaRepertorioLocal(event); }, false);        

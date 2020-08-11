@@ -24,66 +24,16 @@ notação abc, tablatura " />
         
         <link rel="stylesheet" href="fontsIco/fontsAbcx.css" />
         <link rel="stylesheet" href="fontsGoogle/fontsGoogle.css" />
-
+        
         <link rel="stylesheet" href="css/styles4abcx_5.45-min.css" />
         
-        <link rel="stylesheet" href="site/site_5.35-min.css" />
-        <style>
-            .rounded-corners {
-                min-width: 510px;
-                background: -moz-linear-gradient(left, #003050 0%, black 100%);
-                background: -webkit-linear-gradient(left, #003050 0%, black 100%);
-                background: -o-linear-gradient(left, #003050 0%, black 100%);
-                background: -ms-linear-gradient(left, #003050 0%, black 100%);
-                background: linear-gradient(left, #003050 0%, black 100%);
-            }
-            .rounded-corners > h1 {
-                background:transparent;
-                position: absolute;
-                width:fit-content;
-                left: 0px;
-                top: -38px;
-                font-size: 20px;
-                padding: 0 5px 0 5px;
-            }
+        <link rel="stylesheet" href="app/libapp_0.3-min.css" />
 
-            .rounded-corners > button {
-                width: 100%;
-            }
-
-            .dropdown-menu > ul {
-                font-size: 24px;
-            }
-
-            .slideContainer {
-                width: 160px !important;
-            }
-
-            .slidecontainer > .layer1 {
-                width: 160px !important;
-            }
-            .slidecontainer > .layer2 {
-                width: 160px !important;
-            }
-
-            .slidebuttonDiv {
-                width: 30px !important;
-            }
-
-            .slidebutton {
-                font-size: 24px !important;
-            }
-
-            .slidelabel {
-                font-size: 22px !important;
-            }
-
-        </style>
-
+        <!-- Google Analytics -->
         <script>
-            
+
             window.GAID = 'UA-62839199-4';
-            
+
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
@@ -91,7 +41,7 @@ notação abc, tablatura " />
 
             ga('create', GAID, 'auto');
 
-        </script>        
+        </script>
         <!-- End Google Analytics -->
         
         <!-- Cookie notice 
@@ -100,17 +50,16 @@ notação abc, tablatura " />
     </head>
     <body>
         
-        <script src="https://www.google.com/cloudprint/client/cpgadget.js"></script>
+        <!--script src="https://www.google.com/cloudprint/client/cpgadget.js"></script-->
 
         <script type="text/javascript" src="jslib/proto_noconflict.js" ></script>
         <script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
         
         
-        <!-- suporte a MIDI >
-        <script type="text/javascript" src="jslib/MIDI.js"></script-->
+        <!-- suporte a MIDI -->
         <script type="text/javascript" src="jslib/MIDI_5.25-min.js"></script>
         
-        <!-- Kelly color picker  -->
+        <!-- Kelly color picker -->
         <script type="text/javascript" src="jslib/html5kellycolorpicker.min.js"></script>
         
         <!-- suporte a arquivos -->
@@ -119,21 +68,13 @@ notação abc, tablatura " />
         <!-- suporte mapas de acordeões -->
         <script type="text/javascript" src="diatonic/diatonic_5.45-min.js"></script>
         
-        <!-- ACE Editor -->
-        <script type="text/javascript" src="ace4abcx/ace4abcx_5.45-min.js"></script>
-       
         <!-- suporte a arquivos ABC -->
         <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.45-min.js" ></script>
         
         <!-- console personalizada para Javascript -->
         <script type="text/javascript" src="jslib/waterbug.js"></script> 
         
-        <script id="mainSITE" type="text/javascript" src="src/app.js"></script>
-        <script type="text/javascript" src="src/appview.js"></script>
-        <script type="text/javascript" src="src/media.js"></script>
-        <script type="text/javascript" src="src/properties.js"></script>
-        <script type="text/javascript" src="src/translate.js"></script>
-        <script type="text/javascript" src="src/repertorio.js"></script>
+        <script id="mainSITE" type="text/javascript" src="app/libapp_0.3-min.js"></script>
 
         <div id="topBar" class="topBar gradiente" >
             <span data-translate="appName" class="topTitle" style="left: 80px; line-height:63px; font-size: 32px;">Mapa para Acordeões Diatônicos</span>
@@ -147,15 +88,9 @@ notação abc, tablatura " />
                 </div>    
                 <br>
                 <div id="menuGaitas" class="topMenu"></div>
-                <br>
-                <br>
-                <br>
-                <br>
+                <br><br><br><br>
                 <div id="menuSongs" class="topMenu"></div>
-                <br>
-                <br>
-                <br>
-                <br>
+                <br><br><br><br>
                 <div class="dropdown rounded-corners" style="width: fit-content; min-width: 100px;" >
                     <button id="openBtn"><i class="ico-folder-open"></i>&#160;<span data-translate="Open">Abrir</span></button>
                 </div>
@@ -185,9 +120,9 @@ notação abc, tablatura " />
                 <button id="stepBtn" data-translate="stepBtn" >&#160;<i class="ico-play"></i>&#160;</button>
                 <button id="stepMeasureBtn" data-translate="stepMeasureBtn" >&#160;<i class="ico-forward"></i>&#160;</button>
                 <div style="float:left; margin-top: 3px; font-size: 20px;">
-                    <input id="gotoMeasureBtn" type="number" data-translate="gotoMeasure" value="Ir para..." style="font-size: 18px; width: 3em;" />
+                    <input id="gotoMeasureBtn" type="number" data-translate="gotoMeasure" value="1" style="font-size: 18px; width: 3em;" />
                     <b>..</b>
-                    <input id="untilMeasureBtn" type="number" data-translate="untilMeasure" value="até..." style="font-size: 18px; width: 3em;" />
+                    <input id="untilMeasureBtn" type="number" data-translate="untilMeasure" value="100" style="font-size: 18px; width: 3em;" />
                 </div>
                 <button id="repeatBtn" data-translate="repeatBtn" >&#160;<i class="ico-repeat-cw"></i>&#160;</button>
                 <button id="clearBtn" data-translate="clearBtn" >&#160;<i class="ico-stop"></i>&#160;</button>
@@ -207,35 +142,35 @@ notação abc, tablatura " />
         
         <div id="printPreviewDiv" class="printPreviewClass"></div>
         <div id="tipsDiv" class="tips" ><a href="html/release.pt_BR.html" target="_blank"><span data-translate="ReleaseNotesNotice"></span></a></div>
-        <div id="clustrmaps-widget" style="display: none;">
-            <script type="text/javascript" id="clustrmaps" src="https://cdn.clustrmaps.com/map_v2.js?cl=dbf6ff&w=a&t=m&d=D4AJLMj2W1mzi-LEyEXyJLGZqZvgz5ePllcOXY7yeaE&cmn=ffba3b&cmo=ff3a3a&co=5bace6"></script>
-        </div>
         
         <script id="mainScript" type="text/javascript">
             
             SITE.abcxVersion = SITE.getVersion('mainABCX', '' ); // Obtem e mostra a versão corrente da lib ABCX 
             SITE.siteVersion = SITE.getVersion('mainSITE', 'v' ); // Obtem e mostra a versão corrente da lib do site
             
-            document.getElementById("divABCXversion").innerHTML = '<i>Diatonic Map v0.2 Powered by ABCXJS version '+SITE.abcxVersion+'</i>';
-
-            //document.getElementById("divPrivacy").innerHTML =
-            //    <a href="privacy/index.html" target="_blank" style="width:33%; display:block; float: left;"><!--span data-translate="ReleaseNotesNotice"></span-->Privacy Policy</a>
-            //    <a href="privacy/terms.n.conditions.html" target="_blank" style="width:33%; display:block; float: left;"><!--span data-translate="ReleaseNotesNotice"></span-->Terms & Conditions</a>
+            document.getElementById("divABCXversion").innerHTML = '<i>Diatonic App '+SITE.siteVersion+' Powered by ABCXJS version '+SITE.abcxVersion+'</i>';
 
             var debug=false; // eliminar esta variável assim que possível
             
             var myApp;
+
+            window.onAppResumeEvent = new Event('appResumeEvent');
+            window.onAppStopEvent = new Event('appStopEvent');
+
+            window.addEventListener('appResumeEvent', function () {
+            }, false);
+
+            window.addEventListener('appStopEvent', function () {
+                if( !myApp ) return;
+                myApp.silencia();
+            }, false);
+
 
             window.onblur = function() {
                 if( !myApp ) return;
                 myApp.silencia();
             };
             
-/*             window.onfocus = function() {
-                if( !myApp ) return;
-                myApp.setFocus();
-            };
- */            
             window.onresize = function() {
                 if( !myApp ) return;
                 myApp.resizeActiveWindow();
@@ -275,18 +210,8 @@ notação abc, tablatura " />
                     );    
                     return;
                 }
-        
-                console.log( 
-                      '\nChrome: ' + ABCXJS.misc.isChrome() 
-                    + '\nCromium: ' + ABCXJS.misc.isChromium() 
-                    + '\nFirefox: ' + ABCXJS.misc.isFirefox()  
-                    + '\nIE: ' + ABCXJS.misc.isIE() 
-                    + '\nEdge: ' + ABCXJS.misc.isEdge() 
-                    + '\nOpera: ' + ABCXJS.misc.isOpera() 
-                    + '\nSafari: ' + ABCXJS.misc.isSafari() + '\n '
-                );
-        
-                MIDI.widget = new sketch.ui.Timer({
+
+               MIDI.widget = new sketch.ui.Timer({
                     size:180
                     //, container: document.getElementById('mapaDiv')
                     , cor1:SITE.properties.colors.close, cor2: SITE.properties.colors.open});
@@ -365,7 +290,7 @@ notação abc, tablatura " />
                     }
                 );
                 
-                SITE.ga('send', 'pageview');
+                //SITE.ga('send', 'pageview');
                 SITE.ga('send', 'event', 'Configuration', 'language', SITE.properties.options.language, { nonInteraction: true } );
                 
                 if( SITE.getDate() <= 20170909 ) {

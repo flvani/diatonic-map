@@ -11,10 +11,17 @@ window.dataLayer = window.dataLayer || [];
 
 
 SITE.ga = function () {
-    if( ga && window.location.href.indexOf( 'diatonicmap.com.br') >= 0
+    if( ga && ( window.location.href.indexOf( 'diatonicmap.com.br') >= 0 || window.location.href.indexOf( 'android_asset') >= 0 )
            && SITE.getVersion('mainSITE', '' ) !== 'debug' 
            && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) {
-        ga.apply(this, arguments);
+        if (window.AnalyticsApplication) {
+            // Call Android interface
+            window.AnalyticsApplication.logEvent(JSON.stringify(arguments));
+        } else {
+            // No Android interface found
+            console.log("No native APIs found.");
+            ga.apply(this, arguments);
+        }
     } else {
         console.log('Funcao ga não definida.');
     }
@@ -739,9 +746,16 @@ SITE.Media.prototype.posiciona = function () {
     if( ! this.mediaWindow.topDiv || this.mediaWindow.topDiv.style.display === 'none' ) 
         return;
     
-    var w = window.innerWidth;
+    //var w = window.innerWidth;
+    var w = document.body.clientWidth
+            || document.documentElement.clientWidth
+            || window.innerWidth;
+
+    // linha acrescentada para tratar layout da app
+    w = Math.min(w, this.mediaWindow.parent.clientWidth);
     
     var k = this.mediaWindow.topDiv;
+
     var x = parseInt(k.style.left.replace('px', ''));
     var xi = x;
     
@@ -886,9 +900,9 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.gaitaNamePlaceHolder = document.getElementById(interfaceParams.accordionNamePlaceHolder);
     this.gaitaImagePlaceHolder = document.getElementById(interfaceParams.accordionImagePlaceHolder);
     
-    this.printButton.addEventListener("touchstart", function(event) {  that.printPartiture(this, event); }, false);
+    //this.printButton.addEventListener("touchstart", function(event) {  that.printPartiture(this, event); }, false);
     this.printButton.addEventListener("click", function(event) { that.printPartiture(this, event); }, false);
-    this.toolsButton.addEventListener("touchstart", function(event) { that.openEstudio(this, event); }, false);
+    //this.toolsButton.addEventListener("touchstart", function(event) { that.openEstudio(this, event); }, false);
     this.toolsButton.addEventListener("click", function(event) { that.openEstudio(this, event); }, false);
     this.fileLoadMap.addEventListener('change', function(event) { that.loadMap(event); }, false);        
     this.fileLoadRepertoire.addEventListener('change', function(event) { that.carregaRepertorioLocal(event); }, false);        
@@ -1939,6 +1953,12 @@ SITE.Mapa.prototype.showSettings = function() {
 //                <th colspan="2">Acordeão:</th><td><div id="settingsAcordeonsMenu" class="topMenu"></div></td>\
 //              </tr>\
 
+        var cookieValue = document.cookie.match(/(;)?cookiebar=([^;]*);?/)[2];
+        var cookieSets = ""
+        if (cookieValue == 'CookieDisallowed') { // CookieAllowed
+            cookieSets = '<td></td><td>&nbsp;<a href="#" onclick="document.cookie=\'cookiebar=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/\'; setupCookieBar(); return false;">Click aqui para habilitar cookies</a><td>'
+        }
+
         this.settings.window.dataDiv.innerHTML= '\
         <div class="menu-group">\
             <table>\
@@ -1972,14 +1992,16 @@ SITE.Mapa.prototype.showSettings = function() {
               <tr>\
                 <td> </td><td colspan="2"><input id="chkAutoRefresh" type="checkbox">&nbsp;<span data-translate="PrefsPropsCKAutoRefresh" >'+SITE.translator.getResource('PrefsPropsCKAutoRefresh')+'</span></td>\
               </tr>\
+              <tr>'+ cookieSets +'</tr>\
             </table>\
         </div>\
         <div id="pg" class="pushbutton-group" style="right: 0; bottom: 0;" >\
             <div id="botao1"></div>\n\
             <div id="botao2"></div>\n\
             <div id="botao3"></div>\n\
-        </div>';
-        
+        </div>' ;
+    
+
         this.settings.window.addPushButtons([
             'botao1|apply',
             'botao2|reset|PrefsReset',
@@ -2740,6 +2762,8 @@ SITE.Estudio.prototype.resize = function( ) {
     var h = (winH -78 - 10 ); 
     var w = (winW - 8 ); 
     
+    this.Div.topDiv.style.left = "3px";
+    this.Div.topDiv.style.top = "82px";
     this.Div.topDiv.style.height = Math.max(h,200) +"px";
     this.Div.topDiv.style.width = Math.max(w,400) +"px";
    
@@ -3638,6 +3662,8 @@ SITE.PartGen.prototype.resize = function( ) {
     var h = (winH -78 - 10 ); 
     var w = (winW - 8 ); 
     
+    this.Div.topDiv.style.left = "3px";
+    this.Div.topDiv.style.top = "82px";
     this.Div.topDiv.style.height = Math.max(h,200) +"px";
     this.Div.topDiv.style.width = Math.max(w,400) +"px";
    
@@ -4286,6 +4312,8 @@ SITE.PartEdit.prototype.resize = function( ) {
     var h = (winH -78 - 10 ); 
     var w = (winW - 8 ); 
     
+    this.Div.topDiv.style.left = "3px";
+    this.Div.topDiv.style.top = "82px";
     this.Div.topDiv.style.height = Math.max(h,200) +"px";
     this.Div.topDiv.style.width = Math.max(w,400) +"px";
    
@@ -4884,6 +4912,8 @@ SITE.TabGen.prototype.resize = function( ) {
     var h = (winH -78 - 10 ); 
     var w = (winW - 8 ); 
     
+    this.Div.topDiv.style.left = "3px";
+    this.Div.topDiv.style.top = "82px";
     this.Div.topDiv.style.height = Math.max(h,200) +"px";
     this.Div.topDiv.style.width = Math.max(w,400) +"px";
     

@@ -50,7 +50,7 @@ SITE.App = function( interfaceParams, tabParams, playerParams ) {
                      || this.accordion.loaded.getFirstSong();
 
     this.openBtn = document.getElementById(interfaceParams.openBtn) ;
-    this.openBtn.addEventListener("touchstart", function(event) {  that.openEstudio(); }, false);
+    //this.openBtn.addEventListener("touchstart", function(event) {  that.openEstudio(); }, false);
     this.openBtn.addEventListener("click", function(event) { that.openEstudio(); }, false);
 
     this.songSelector = document.getElementById(interfaceParams.mapMenuSongsDiv) ;
@@ -249,7 +249,7 @@ SITE.App.prototype.openEstudio = function (button, event) {
     }
 
     if( tab.text ) {
-        SITE.ga('send', 'event', 'Mapa5', 'tools', tab.title);
+        SITE.ga('send', 'event', 'Mapa5', 'view', tab.title);
         
         
         var loader = this.startLoader( "OpenEstudio" );
