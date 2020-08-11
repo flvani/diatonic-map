@@ -1169,8 +1169,8 @@ SITE.Mapa.prototype.showSettings = function() {
 
         var cookieValue = document.cookie.match(/(;)?cookiebar=([^;]*);?/)[2];
         var cookieSets = ""
-        if (cookieValue == 'CookieDisallowed') { // CookieAllowed
-            cookieSets = '<td></td><td>&nbsp;<a href="#" onclick="document.cookie=\'cookiebar=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/\'; setupCookieBar(); return false;">Click aqui para habilitar cookies</a><td>'
+        if (cookieValue ) { // CookieAllowed
+            cookieSets = '&nbsp;<a href="#" onclick="document.cookie=\'cookiebar=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/\'; setupCookieBar(); return false;">Click aqui para redefinir preferências de cookies</a>'
         }
 
         this.settings.window.dataDiv.innerHTML= '\
@@ -1206,7 +1206,7 @@ SITE.Mapa.prototype.showSettings = function() {
               <tr>\
                 <td> </td><td colspan="2"><input id="chkAutoRefresh" type="checkbox">&nbsp;<span data-translate="PrefsPropsCKAutoRefresh" >'+SITE.translator.getResource('PrefsPropsCKAutoRefresh')+'</span></td>\
               </tr>\
-              <tr>'+ cookieSets +'</tr>\
+              <tr><td></td><td colspan="2">'+ cookieSets +'</td></tr>\
             </table>\
         </div>\
         <div id="pg" class="pushbutton-group" style="right: 0; bottom: 0;" >\
