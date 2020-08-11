@@ -10,8 +10,10 @@ SITE.AppView = function (mapa, interfaceParams, playerParams) {
         this.isApp = true;
     }
 
-    this.resize = this.resizeRight;
-    this.resize = this.resizeLeft;
+    if( SITE.properties.options.keyboardRight )
+        this.resize = this.resizeRight;
+    else    
+        this.resize = this.resizeLeft;
     
     this.ypos = 0; // controle de scrollf
     this.lastStaffGroup = -1; // controle de scroll
@@ -84,7 +86,7 @@ SITE.AppView = function (mapa, interfaceParams, playerParams) {
     
     this.controlDiv = document.createElement("DIV");
     this.controlDiv.setAttribute("id", 'controlDiv' );
-    this.controlDiv.setAttribute("class", 'controlDiv btn-group draggableToolBar' );
+    this.controlDiv.setAttribute("class", 'controlDiv btn-group draggableToolBarApp' );
     
     this.Div.dataDiv.appendChild(this.controlDiv);
     
@@ -667,11 +669,13 @@ SITE.AppView.prototype.changePlayMode = function(mode) {
         SITE.properties.studio.mode  = "normal";
         this.modeButton.innerHTML = '<i class="ico-listening" ></i>';
         $("#divNormalPlayControls" ).fadeIn();
+        $("#spanShowMedia" ).fadeIn();
     } else {
         $("#divNormalPlayControls" ).hide();
         SITE.properties.studio.mode  = "learning";
         this.modeButton.innerHTML = '<i class="ico-learning" ></i>';
         $("#divDidacticPlayControls" ).fadeIn();
+        $("#spanShowMedia" ).hide();
     }
 };
 

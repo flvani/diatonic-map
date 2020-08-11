@@ -9,10 +9,7 @@ FILES="\
 ./file/filemanager_${v_abcx}-min.js ./css/styles4abcx_${v_abcx}-min.css  ./jquery/jquery-1.11.1.min.js ./jslib/MIDI_5.25-min.js ./jslib/proto_noconflict.js \
 ./jslib/html5kellycolorpicker.min.js"
 
-FOLDERS="./accordions ./chords ./songs ./practices ./fontsGoogle ./fontsIco ./images ./languages ./privacidade ./privacy ./soundfont"
-
-#./html
-
+FOLDERS="./accordions ./chords ./songs ./practices ./fontsGoogle ./fontsIco ./images ./languages ./privacidade ./privacy ./soundfont ./html"
 
 rm -rf $assets_folder/*
 

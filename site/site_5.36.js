@@ -128,6 +128,8 @@ SITE.LoadProperties = function() {
         SITE.properties.options.showWarnings = false;
         SITE.properties.options.showConsole = false;
         SITE.properties.options.pianoSound = false;
+        SITE.properties.options.autoRefresh = false;
+        SITE.properties.options.keyboardRight = false;
         
         salvar = true;
         
@@ -198,14 +200,6 @@ SITE.SaveProperties = function() {
         waterbug.show( 'Could not save the properties');
         SITE.ga('send', 'event', 'Error', 'html5storage', 'savingLocal', { nonInteraction: true } );
 
-//        SITE.myGtag('event', 'html5storage', {
-//          send_to : 'outros',
-//          event_category: 'Error',
-//          event_action: 'html5storage',
-//          event_label: 'savingLocal',
-//          event_value: 0,
-//          nonInteraction: true 
-//        });                
     }
 };
 
@@ -239,6 +233,7 @@ SITE.ResetProperties = function() {
         ,showConsole: false
         ,pianoSound: false
         ,autoRefresh: false
+        ,keyboardRight: false
     };
 
     SITE.properties.mediaDiv = {

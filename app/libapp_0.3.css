@@ -484,13 +484,14 @@ and open the template in the editor.
     display: inline-block;
     float:left;
 }.rounded-corners {
-    min-width: 510px;
+   /* min-width: 510px;*/
     background: -moz-linear-gradient(left, #003050 0%, black 100%);
     background: -webkit-linear-gradient(left, #003050 0%, black 100%);
     background: -o-linear-gradient(left, #003050 0%, black 100%);
     background: -ms-linear-gradient(left, #003050 0%, black 100%);
     background: linear-gradient(left, #003050 0%, black 100%);
 }
+
 .rounded-corners > h1 {
     background:transparent;
     position: absolute;
@@ -525,9 +526,22 @@ and open the template in the editor.
 }
 
 .slidebutton {
-    font-size: 24px !important;
+    font-size: 32px !important;
 }
 
 .slidelabel {
-    font-size: 22px !important;
+    font-size: 28px !important;
+    width: 100px;
+    left:15px !important;
+}
+
+.btn-subgroup {
+    display: inline-block;
+    height: 40px;
+    /*float:left;*/
+}
+
+.topSettings {
+    color:#ff9922;
+    font-size: 46px;
 }

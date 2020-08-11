@@ -829,7 +829,7 @@ and open the template in the editor.
     font-family: "abcx";
     font-size: 16px;
     position: relative;
-    display:inline-block;
+    /*display:inline-block;*/
     float:left;
     margin: 0;
     padding: 1px;
@@ -848,7 +848,7 @@ and open the template in the editor.
     display: block;
     float:left;
     text-align: left;
-    vertical-align: middle;
+    /*vertical-align: middle;*/
     font-family: 'Milonga','Arial';
     font-weight: normal;
     font-size: 28px;
@@ -866,6 +866,49 @@ and open the template in the editor.
     background-color: transparent;
     
 }
+
+
+.draggableToolBarApp {
+    clear: both;
+    font-family: "abcx";
+    height: 40px;
+    font-size: 16px;
+    position: relative;
+    display:inline-block;
+    margin: 0;
+    padding: 1px;
+    width: calc(100% - 2px);
+    height: auto; 
+    pointer-events: auto;
+    background: lightblue;
+    background-color: #EBEBEB;
+    background: #e9edf0;
+    border-bottom: 1px solid rgba(100,100,100,0.5);
+}
+
+.draggableToolBarApp button {
+    position: relative;
+    display: block;
+    float:left;
+    text-align: left;
+    font-family: 'Milonga','Arial';
+    font-weight: normal;
+    font-size: 32px;
+    line-height: 32px;
+    height: 32px;
+    width: auto;
+    text-shadow: 2px 1px 2px rgba(50, 50, 50, 0.8); 
+    left: 0;
+    margin: 0;
+    margin-left: 4px;
+    padding: 4px;
+    outline: none !important;
+    border: none;
+    color: black;
+    background-color: transparent;
+    
+}
+
 
 
 .draggableData {

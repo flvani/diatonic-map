@@ -11,10 +11,17 @@ window.dataLayer = window.dataLayer || [];
 
 
 SITE.ga = function () {
-    if( ga && window.location.href.indexOf( 'flvani.github.io') >= 0
+    if( ga && ( window.location.href.indexOf( 'diatonicmap.com.br') >= 0 || window.location.href.indexOf( 'android_asset') >= 0 )
            && SITE.getVersion('mainSITE', '' ) !== 'debug' 
            && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) {
-        ga.apply(this, arguments);
+        if (window.AnalyticsApplication) {
+            // Call Android interface
+            window.AnalyticsApplication.logEvent(JSON.stringify(arguments));
+        } else {
+            // No Android interface found
+            console.log("No native APIs found.");
+            ga.apply(this, arguments);
+        }
     } else {
         console.log('Funcao ga não definida.');
     }
@@ -121,6 +128,8 @@ SITE.LoadProperties = function() {
         SITE.properties.options.showWarnings = false;
         SITE.properties.options.showConsole = false;
         SITE.properties.options.pianoSound = false;
+        SITE.properties.options.autoRefresh = false;
+        SITE.properties.options.keyboardRight = false;
         
         salvar = true;
         
@@ -191,14 +200,6 @@ SITE.SaveProperties = function() {
         waterbug.show( 'Could not save the properties');
         SITE.ga('send', 'event', 'Error', 'html5storage', 'savingLocal', { nonInteraction: true } );
 
-//        SITE.myGtag('event', 'html5storage', {
-//          send_to : 'outros',
-//          event_category: 'Error',
-//          event_action: 'html5storage',
-//          event_label: 'savingLocal',
-//          event_value: 0,
-//          nonInteraction: true 
-//        });                
     }
 };
 
@@ -232,6 +233,7 @@ SITE.ResetProperties = function() {
         ,showConsole: false
         ,pianoSound: false
         ,autoRefresh: false
+        ,keyboardRight: false
     };
 
     SITE.properties.mediaDiv = {
@@ -739,9 +741,16 @@ SITE.Media.prototype.posiciona = function () {
     if( ! this.mediaWindow.topDiv || this.mediaWindow.topDiv.style.display === 'none' ) 
         return;
     
-    var w = window.innerWidth;
+    //var w = window.innerWidth;
+    var w = document.body.clientWidth
+            || document.documentElement.clientWidth
+            || window.innerWidth;
+
+    // linha acrescentada para tratar layout da app
+    w = Math.min(w, this.mediaWindow.parent.clientWidth);
     
     var k = this.mediaWindow.topDiv;
+
     var x = parseInt(k.style.left.replace('px', ''));
     var xi = x;
     
@@ -886,9 +895,9 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.gaitaNamePlaceHolder = document.getElementById(interfaceParams.accordionNamePlaceHolder);
     this.gaitaImagePlaceHolder = document.getElementById(interfaceParams.accordionImagePlaceHolder);
     
-    this.printButton.addEventListener("touchstart", function(event) {  that.printPartiture(this, event); }, false);
+    //this.printButton.addEventListener("touchstart", function(event) {  that.printPartiture(this, event); }, false);
     this.printButton.addEventListener("click", function(event) { that.printPartiture(this, event); }, false);
-    this.toolsButton.addEventListener("touchstart", function(event) { that.openEstudio(this, event); }, false);
+    //this.toolsButton.addEventListener("touchstart", function(event) { that.openEstudio(this, event); }, false);
     this.toolsButton.addEventListener("click", function(event) { that.openEstudio(this, event); }, false);
     this.fileLoadMap.addEventListener('change', function(event) { that.loadMap(event); }, false);        
     this.fileLoadRepertoire.addEventListener('change', function(event) { that.carregaRepertorioLocal(event); }, false);        
@@ -1047,28 +1056,28 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             this.repertoireWin.geraIndex(this);
             break;
         case 'JUMPS':
-            this.showHelp('HelpTitle', 'JUMPS', '/diatonic-map/html/sinaisRepeticao.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'JUMPS', '/html/sinaisRepeticao.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'ABCX':
-            this.showHelp('HelpTitle', 'ABCX', '/diatonic-map/html/formatoABCX.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'ABCX', '/html/formatoABCX.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'ESTUDIO':
-            this.showHelp('HelpTitle', 'ESTUDIO', '/diatonic-map/html/estudioABCX.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'ESTUDIO', '/html/estudioABCX.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TABS':
-            this.showHelp('HelpTitle', 'TABS', '/diatonic-map/html/tablatura.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'TABS', '/html/tablatura.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TABSTRANSPORTADA':
-            this.showHelp('HelpTitle', 'TABSTRANSPORTADA', '/diatonic-map/html/tablaturaTransportada.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'TABSTRANSPORTADA', '/html/tablaturaTransportada.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'MAPS':
-            this.showHelp('HelpTitle', 'MAPS', '/diatonic-map/html/mapas.pt_BR.html', { width: '1024', height: '600' } );
+            this.showHelp('HelpTitle', 'MAPS', '/html/mapas.pt_BR.html', { width: '1024', height: '600' } );
             break;
         case 'TUTORIAL':
-            this.showHelp('HelpTitle', 'TUTORIAL', '/diatonic-map/html/tutoriais.pt_BR.html', { width: '1024', height: '600', print:false } );
+            this.showHelp('HelpTitle', 'TUTORIAL', '/html/tutoriais.pt_BR.html', { width: '1024', height: '600', print:false } );
             break;
         case 'ABOUT':
-            this.showHelp('AboutTitle', '', '/diatonic-map/html/about.pt_BR.html', { width: '800', print:false } );
+            this.showHelp('AboutTitle', '', '/html/about.pt_BR.html', { width: '800', print:false } );
             break;
         case 'GAITA_MINUANO_GC':
         case 'CONCERTINA_PORTUGUESA':
@@ -1939,6 +1948,12 @@ SITE.Mapa.prototype.showSettings = function() {
 //                <th colspan="2">Acordeão:</th><td><div id="settingsAcordeonsMenu" class="topMenu"></div></td>\
 //              </tr>\
 
+        var cookieValue = document.cookie.match(/(;)?cookiebar=([^;]*);?/)[2];
+        var cookieSets = ""
+        if (cookieValue ) { // CookieAllowed
+            cookieSets = '&nbsp;<a href="#" onclick="document.cookie=\'cookiebar=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/\'; setupCookieBar(); return false;">Click aqui para redefinir preferências de cookies</a>'
+        }
+
         this.settings.window.dataDiv.innerHTML= '\
         <div class="menu-group">\
             <table>\
@@ -1972,14 +1987,16 @@ SITE.Mapa.prototype.showSettings = function() {
               <tr>\
                 <td> </td><td colspan="2"><input id="chkAutoRefresh" type="checkbox">&nbsp;<span data-translate="PrefsPropsCKAutoRefresh" >'+SITE.translator.getResource('PrefsPropsCKAutoRefresh')+'</span></td>\
               </tr>\
+              <tr><td></td><td colspan="2">'+ cookieSets +'</td></tr>\
             </table>\
         </div>\
         <div id="pg" class="pushbutton-group" style="right: 0; bottom: 0;" >\
             <div id="botao1"></div>\n\
             <div id="botao2"></div>\n\
             <div id="botao3"></div>\n\
-        </div>';
-        
+        </div>' ;
+    
+
         this.settings.window.addPushButtons([
             'botao1|apply',
             'botao2|reset|PrefsReset',
@@ -2343,6 +2360,10 @@ if (!window.SITE)
 SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     
     this.mapa = mapa;
+
+    if(!mapa){
+        this.isApp = true;
+    }
     
     this.ypos = 0; // controle de scrollf
     this.lastStaffGroup = -1; // controle de scroll
@@ -2476,50 +2497,44 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.repeatButton = document.getElementById(playerParams.repeatBtn);
     this.clearButton = document.getElementById(playerParams.clearBtn);
     this.tempoButton = document.getElementById(playerParams.tempoSld);
-    
-    this.showEditorButton.addEventListener("click", function (evt) {
-        evt.preventDefault();
-        this.blur();
-        that.showEditor();
-    }, false);
-    
+
     this.showMapButton.addEventListener("click", function (evt) {
         evt.preventDefault();
         this.blur();
         that.showKeyboard();
     }, false);
-    
-    this.forceRefreshButton.addEventListener("click", function (evt) {
-        evt.preventDefault();
-        this.blur();
-        that.fireChanged(0, {force:true, showProgress:true } );
-    }, false);
-    
-    this.saveButton.addEventListener("click", function (evt) {
-        evt.preventDefault();
-        this.blur();
-        that.salvaMusica();
-    }, false);
-    
-    this.printButton.addEventListener("click", function (evt) {
-        evt.preventDefault();
-        this.blur();
-        
-        SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
-        
-//        SITE.myGtag( 'event', 'print', {
-//          send_to : 'acessos',
-//          event_category: 'Mapa5',
-//          event_action: 'print',
-//          event_label: that.renderedTune.title,
-//          event_value: 0,
-//          nonInteraction: false 
-//        });                
-        
-        that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#studioDiv"], that.renderedTune.abc.formatting.landscape);
-        return;
 
-    }, false);
+    if(!this.isApp){
+        this.showEditorButton.addEventListener("click", function (evt) {
+            evt.preventDefault();
+            this.blur();
+            that.showEditor();
+        }, false);
+    
+        this.forceRefreshButton.addEventListener("click", function (evt) {
+            evt.preventDefault();
+            this.blur();
+            that.fireChanged(0, {force:true, showProgress:true } );
+        }, false);
+        
+        this.saveButton.addEventListener("click", function (evt) {
+            evt.preventDefault();
+            this.blur();
+            that.salvaMusica();
+        }, false);
+        
+        this.printButton.addEventListener("click", function (evt) {
+            evt.preventDefault();
+            this.blur();
+            
+            SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
+            
+           
+            that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#studioDiv"], that.renderedTune.abc.formatting.landscape);
+            return;
+    
+        }, false);
+    }
 
     this.modeButton.addEventListener('click', function (evt) {
         evt.preventDefault();
@@ -2600,24 +2615,6 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     );
 
     
-//    this.tempoButton.addEventListener("click", function (evt) {
-//        evt.preventDefault();
-//        this.blur();
-//        var andamento = that.midiPlayer.adjustAndamento();
-//        switch (andamento) {
-//            case 1:
-//                that.tempoButton.innerHTML = '&#160;&#160;1&#160;&#160';
-//                break;
-//            case 1 / 2:
-//                that.tempoButton.innerHTML = '&#160;&#189;&#160;';
-//                break;
-//            case 1 / 4:
-//                that.tempoButton.innerHTML = '&#160;&#188;&#160;';
-//                break;
-//        }
-//    }, false);
-
-
     this.gotoMeasureButton.addEventListener("keypress", function (evt) {
         if (evt.keyCode === 13) {
             that.startPlay('goto', this.value, that.untilMeasureButton.value);
@@ -2694,7 +2691,8 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
 
 SITE.Estudio.prototype.setup = function( tab, accordionId) {
     
-    this.mapa.closeMapa();
+    if(this.mapa)
+        this.mapa.closeMapa();
     
     this.accordion.loadById(accordionId);
     
@@ -2715,24 +2713,31 @@ SITE.Estudio.prototype.setup = function( tab, accordionId) {
     this.Div.setSubTitle( '- ' + this.accordion.getTxtModel() );
     this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
     
-    this.showEditor(SITE.properties.studio.editor.visible);
+    if(!this.isApp){
+        this.showEditor(SITE.properties.studio.editor.visible);
     
-    this.editorWindow.container.setSubTitle( '- ' + tab.title );
-    this.editorWindow.restartUndoManager();
-    
-    if(SITE.properties.studio.editor.floating) {
-        if( SITE.properties.studio.editor.maximized ) {
-            this.editorWindow.setFloating(true);
-            this.editorWindow.container.dispatchAction('MAXIMIZE');
+        this.editorWindow.container.setSubTitle( '- ' + tab.title );
+        this.editorWindow.restartUndoManager();
+        
+        if(SITE.properties.studio.editor.floating) {
+            if( SITE.properties.studio.editor.maximized ) {
+                this.editorWindow.setFloating(true);
+                this.editorWindow.container.dispatchAction('MAXIMIZE');
+            } else {
+                this.editorWindow.container.dispatchAction('POPOUT');
+            }
         } else {
-            this.editorWindow.container.dispatchAction('POPOUT');
+            this.editorWindow.container.dispatchAction('POPIN');
         }
-    } else {
-        this.editorWindow.container.dispatchAction('POPIN');
     }
 
-    this.showKeyboard(SITE.properties.studio.keyboard.visible);
+    if(this.isApp) {
+        this.showKeyboard(true);
+    } else {
+        this.showKeyboard(SITE.properties.studio.keyboard.visible);
+    }
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
+
     
     SITE.translator.translate( this.Div.topDiv );
 };
@@ -2752,6 +2757,8 @@ SITE.Estudio.prototype.resize = function( ) {
     var h = (winH -78 - 10 ); 
     var w = (winW - 8 ); 
     
+    this.Div.topDiv.style.left = "3px";
+    this.Div.topDiv.style.top = "82px";
     this.Div.topDiv.style.height = Math.max(h,200) +"px";
     this.Div.topDiv.style.width = Math.max(w,400) +"px";
    
@@ -2868,15 +2875,20 @@ SITE.Estudio.prototype.studioStopPlay = function( e ) {
 };
 
 SITE.Estudio.prototype.closeEstudio = function(save) {
-    var loader = this.mapa.startLoader( "CloseStudio" );
     var self = this;
-    loader.start(  function() { 
-        (save) && SITE.SaveProperties();
+    if(!this.mapa){
         self.setVisible(false);
         self.studioStopPlay();
-        self.mapa.openMapa( self.getString() );
-        loader.stop();
-    }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
+    } else {
+        var loader = this.mapa.startLoader( "CloseStudio" );
+        loader.start(  function() { 
+            (save) && SITE.SaveProperties();
+            self.setVisible(false);
+            self.studioStopPlay();
+            self.mapa.openMapa( self.getString() );
+            loader.stop();
+        }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
+    }
 };
         
 SITE.Estudio.prototype.setVisible = function(  visible ) {
@@ -3645,6 +3657,8 @@ SITE.PartGen.prototype.resize = function( ) {
     var h = (winH -78 - 10 ); 
     var w = (winW - 8 ); 
     
+    this.Div.topDiv.style.left = "3px";
+    this.Div.topDiv.style.top = "82px";
     this.Div.topDiv.style.height = Math.max(h,200) +"px";
     this.Div.topDiv.style.width = Math.max(w,400) +"px";
    
@@ -3776,7 +3790,7 @@ SITE.PartGen.prototype.t2pCallback = function( e ) {
             this.closePartGen(true);
             break;
         case 'HELP':
-            this.mapa.showHelp('HelpTitle', 'PartGenTitle', '/diatonic-map/html/geradorPartitura.pt_BR.html', { width: '1024', height: '600' } );
+            this.mapa.showHelp('HelpTitle', 'PartGenTitle', '/html/geradorPartitura.pt_BR.html', { width: '1024', height: '600' } );
     }
 };
 
@@ -4293,6 +4307,8 @@ SITE.PartEdit.prototype.resize = function( ) {
     var h = (winH -78 - 10 ); 
     var w = (winW - 8 ); 
     
+    this.Div.topDiv.style.left = "3px";
+    this.Div.topDiv.style.top = "82px";
     this.Div.topDiv.style.height = Math.max(h,200) +"px";
     this.Div.topDiv.style.width = Math.max(w,400) +"px";
    
@@ -4438,7 +4454,7 @@ SITE.PartEdit.prototype.a2pCallback = function( e ) {
             this.closePartEdit(true);
             break;
         case 'HELP':
-            //this.mapa.showHelp('HelpTitle', 'PartEditTitle', '/diatonic-map/html/geradorPartitura.pt_BR.html', { width: '1024', height: '600' } );
+            //this.mapa.showHelp('HelpTitle', 'PartEditTitle', '/html/geradorPartitura.pt_BR.html', { width: '1024', height: '600' } );
             alert( 'Not implemented yet!' );
     }
 };
@@ -4685,7 +4701,7 @@ SITE.PartEdit.prototype.getDemoText = function() {
     return '\
 X: 1\n\
 T:Oh! Susannah\n\
-F:/diatonic-map/images/susannah.tablatura.png\n\
+F:/images/susannah.tablatura.png\n\
 M:2/4\n\
 L:1/4\n\
 Q:100\n\
@@ -4891,6 +4907,8 @@ SITE.TabGen.prototype.resize = function( ) {
     var h = (winH -78 - 10 ); 
     var w = (winW - 8 ); 
     
+    this.Div.topDiv.style.left = "3px";
+    this.Div.topDiv.style.top = "82px";
     this.Div.topDiv.style.height = Math.max(h,200) +"px";
     this.Div.topDiv.style.width = Math.max(w,400) +"px";
     
@@ -6783,14 +6801,14 @@ h += '<h2>Repertório Geral</h2>\n\
 };        
 
 SITE.Repertorio.prototype.makeAnchor = function( map, accordionId, songId  ) {
-    var path = '/diatonic-map/';
-    var anchor = '<img alt="nao" src="/diatonic-map/images/nao.png" >';
+    var path = '/';
+    var anchor = '<img alt="nao" src="/images/nao.png" >';
     if( songId > 0 ) {
         if( map ) {
-            anchor = '<img alt="sim" src="/diatonic-map/images/sim.png" data-song="'+accordionId+'#'+songId+'" >';
+            anchor = '<img alt="sim" src="/images/sim.png" data-song="'+accordionId+'#'+songId+'" >';
         } else {
             anchor = '<a href="'+path+'?accordion='+accordionId+'&id='
-                        +songId+'"><img alt="sim" src="/diatonic-map/images/sim.png" ></a>';
+                        +songId+'"><img alt="sim" src="/images/sim.png" ></a>';
         }
     }
         

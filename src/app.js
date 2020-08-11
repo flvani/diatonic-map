@@ -43,7 +43,7 @@ SITE.App = function( interfaceParams, tabParams, playerParams ) {
     
     this.accordionSelector = new ABCXJS.edit.AccordionSelector( 
         interfaceParams.mapMenuGaitasDiv, interfaceParams.mapMenuGaitasDiv, 
-        { listener:that, method: 'menuCallback', label: 'Acordeão' }
+        { listener:that, method: 'menuCallback', label: 'Accordion' }
     );
 
     this.tab.title = FILEMANAGER.loadLocal('property.' + this.accordion.getId() + '.songs.title')
@@ -90,7 +90,7 @@ SITE.App.prototype.songSelectorPopulate = function() {
 
     this.menuSongs = new DRAGGABLE.ui.DropdownMenu( 
           this.songSelector
-        , {listener:this, method: 'showABC', translate:false, label: 'Música' }
+        , {listener:this, method: 'showABC', translate:false, label: 'Song' }
         , [{title: '...', ddmId: this.tab.ddmId, itens: []}]
     );
     
@@ -537,14 +537,14 @@ SITE.App.prototype.showSettings = function() {
               <tr>\
                 <td style="width:15px;"></td><td data-translate="PrefsColorHighlight" >'
                     +SITE.translator.getResource('PrefsColorHighlight')
-                        +'</td><td><input id="corRealce" type="text" ><input id="chkTransparency" type="checkbox">&nbsp;<span data-translate="PrefsColorTransparency" >'
+                        +'</td><td><input id="corRealce" type="text"readonly ><input id="chkTransparency" type="checkbox">&nbsp;<span data-translate="PrefsColorTransparency" >'
                             +SITE.translator.getResource('PrefsColorTransparency')+'</span></td>\
               </tr>\
               <tr>\
-                <td></td><td data-translate="PrefsColorClosingBellows" >'+SITE.translator.getResource('PrefsColorClosingBellows')+'</td><td><input id="foleFechando" type="text" ></td>\
+                <td></td><td data-translate="PrefsColorClosingBellows" >'+SITE.translator.getResource('PrefsColorClosingBellows')+'</td><td><input readonly id="foleFechando" type="text" ></td>\
               </tr>\
               <tr>\
-                <td></td><td data-translate="PrefsColorOpeningBellows" >'+SITE.translator.getResource('PrefsColorOpeningBellows')+'</td><td><input id="foleAbrindo" type="text" ></td>\
+                <td></td><td data-translate="PrefsColorOpeningBellows" >'+SITE.translator.getResource('PrefsColorOpeningBellows')+'</td><td><input readonly id="foleAbrindo" type="text" ></td>\
               </tr>\
               <tr>\
                 <th colspan="2"><br><span data-translate="PrefsProps" >'+SITE.translator.getResource('PrefsProps')+'</span></th><td></td>\
@@ -553,9 +553,12 @@ SITE.App.prototype.showSettings = function() {
                 <td> </td><td colspan="2"><input id="chkPiano" type="checkbox">&nbsp;<span data-translate="PrefsPropsCKPiano" >'+SITE.translator.getResource('PrefsPropsCKPiano')+'</span></td>\
               </tr>\
               <tr>\
+                <td> </td><td colspan="2"><input id="chkKeyboardRight" type="checkbox">&nbsp;<span data-translate="PrefsPropsCKkeyboardAlignRight" >'+SITE.translator.getResource('PrefsPropsCKkeyboardAlignRight')+'</span></td>\
+              </tr>\
+              <tr style="display:none;">\
                 <td> </td><td colspan="2"><input id="chkWarnings" type="checkbox">&nbsp;<span data-translate="PrefsPropsCKShowWarnings" >'+SITE.translator.getResource('PrefsPropsCKShowWarnings')+'</span></td>\
               </tr>\
-              <tr>\
+              <tr style="display:none;">\
                 <td> </td><td colspan="2"><input id="chkAutoRefresh" type="checkbox">&nbsp;<span data-translate="PrefsPropsCKAutoRefresh" >'+SITE.translator.getResource('PrefsPropsCKAutoRefresh')+'</span></td>\
               </tr>\
               </table>\
@@ -583,7 +586,7 @@ SITE.App.prototype.showSettings = function() {
             ,  [ {title: 'Idioma', ddmId: 'menuIdiomas', itens: [] } ]
             );
     
-        this.picker = new DRAGGABLE.ui.ColorPicker(['corRealce', 'foleFechando', 'foleAbrindo'], {translator: SITE.translator});
+        this.picker = new DRAGGABLE.ui.ColorPicker(['corRealce', 'foleFechando', 'foleAbrindo'], {readonly: false, translator: SITE.translator});
       
         SITE.translator.menuPopulate(this.settings.menu, 'menuIdiomas');
         this.settings.lang = SITE.properties.options.language;
@@ -592,6 +595,7 @@ SITE.App.prototype.showSettings = function() {
         this.settings.corRealce = document.getElementById( 'corRealce');
         this.settings.closeColor = document.getElementById( 'foleFechando');
         this.settings.openColor = document.getElementById( 'foleAbrindo');
+        this.settings.keyboardRight = document.getElementById( 'chkKeyboardRight');
         this.settings.showWarnings = document.getElementById( 'chkWarnings');
         this.settings.autoRefresh = document.getElementById( 'chkAutoRefresh');
         this.settings.pianoSound = document.getElementById( 'chkPiano');
@@ -601,6 +605,7 @@ SITE.App.prototype.showSettings = function() {
     this.settings.closeColor.style.backgroundColor = this.settings.closeColor.value = SITE.properties.colors.close;
     this.settings.openColor.style.backgroundColor = this.settings.openColor.value = SITE.properties.colors.open ;
 
+    this.settings.keyboardRight.checked = SITE.properties.options.keyboardRight;
     this.settings.showWarnings.checked = SITE.properties.options.showWarnings;
     this.settings.autoRefresh.checked = SITE.properties.options.autoRefresh;
     this.settings.pianoSound.checked = SITE.properties.options.pianoSound;
@@ -632,6 +637,7 @@ SITE.App.prototype.settingsCallback = function (action, elem) {
             SITE.properties.colors.highLight = this.settings.corRealce.value;
             SITE.properties.colors.close = this.settings.closeColor.value;
             SITE.properties.colors.open = this.settings.openColor.value;
+            SITE.properties.options.keyboardRight = this.settings.keyboardRight.checked;
             SITE.properties.options.showWarnings = this.settings.showWarnings.checked;
             SITE.properties.options.autoRefresh = this.settings.autoRefresh.checked;
             SITE.properties.colors.useTransparency = this.settings.useTransparency.checked;
@@ -686,6 +692,12 @@ SITE.App.prototype.applySettings = function() {
     if (this.studio) {
         this.studio.setAutoRefresh(SITE.properties.options.autoRefresh);
         this.studio.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
+        
+        if( SITE.properties.options.keyboardRight )
+            this.studio.resize = this.studio.resizeRight;
+        else    
+            this.studio.resize = this.studio.resizeLeft;
+
     }
     
     this.resizeActiveWindow();

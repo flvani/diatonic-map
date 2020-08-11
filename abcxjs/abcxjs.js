@@ -14748,6 +14748,7 @@ DRAGGABLE.ui.DropdownMenu = function (topDiv, options, menu) {
         //assumo por hora que, se tem label, tem borda
         if( this.menuLabel ) {
             var h = document.createElement("H1");
+            h.setAttribute( "data-translate", this.menuLabel );
             h.appendChild(document.createTextNode(this.menuLabel));
             e1.appendChild(h);
             this.menuBorder = true;
@@ -15491,12 +15492,17 @@ DRAGGABLE.ui.ColorPicker = function( itens, options ) {
         , {listener : this, method: 'pickerCallBack' }
     );
 
+    var txtRO = ""
+    if(options.readonly) {
+        txtRO='readonly'
+    }
+
     this.container.dataDiv.innerHTML = '\
 <div class="picker-group">\
     <canvas id="colorPickerCanvas"></canvas><br>\
-    <input id="originalColor"></input>\
-    <input id="newColor"></input>\
-</div>';
+    <input id="originalColor" '+txtRO+' ></input>\
+    <input id="newColor" '+txtRO+' ></input>\
+</div>'; 
    
     this.originalColor = document.getElementById( 'originalColor' );
     this.newColor = document.getElementById( 'newColor' );

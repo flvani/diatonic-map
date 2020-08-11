@@ -1572,8 +1572,12 @@ function KellyColorPicker(cfg) {
         var scrollY = document.body.scrollTop + document.documentElement.scrollTop;
 
         if (e.touches) {
-            x = e.touches[0].clientX + scrollX;
-            y = e.touches[0].clientY + scrollY;
+            try{
+                x = e.touches[0].clientX + scrollX;
+                y = e.touches[0].clientY + scrollY;
+            } catch(e){
+
+            }
         } else {
             // e.pageX e.pageY e.x e.y bad for cross-browser
             x = e.clientX + scrollX;

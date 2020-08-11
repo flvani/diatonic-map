@@ -95,6 +95,7 @@
         ,"PrefsPropsCKPiano": "Utilizar sonidos de piano acústico"
         ,"PrefsPropsCKShowWarnings": "Mostrar advertencias y errores de compilación"
         ,"PrefsPropsCKAutoRefresh": "Actualizar la partitura automáticamente (experimental)"
+        ,"PrefsPropsCKkeyboardAlignRight": "Align keyboard right"
         ,"PrefsApply": "Aplicar"
         ,"PrefsReset": "Redefinir"
         ,"PrefsCancel": "Cancelar"

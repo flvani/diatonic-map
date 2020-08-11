@@ -25,7 +25,7 @@ notação abc, tablatura " />
         <link rel="stylesheet" href="fontsIco/fontsAbcx.css" />
         <link rel="stylesheet" href="fontsGoogle/fontsGoogle.css" />
         
-        <link rel="stylesheet" href="css/styles4abcx_5.45-min.css" />
+        <link rel="stylesheet" href="css/styles4abcx_5.46-min.css" />
         
         <link rel="stylesheet" href="app/libapp_0.3.css" />
 
@@ -64,16 +64,13 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jslib/html5kellycolorpicker.min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_5.45-min.js"></script>
+        <script type="text/javascript" src="file/filemanager_5.46-min.js"></script>
         
         <!-- suporte mapas de acordeões -->
-        <script type="text/javascript" src="diatonic/diatonic_5.45-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic_5.46-min.js"></script>
         
-        <!-- ACE Editor 
-        <script type="text/javascript" src="ace4abcx/ace4abcx_5.45-min.js"></script-->
-       
         <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.45-min.js" ></script>
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.46-min.js" ></script>
         
         <!-- console personalizada para Javascript -->
         <script type="text/javascript" src="jslib/waterbug.js"></script> 
@@ -85,7 +82,7 @@ notação abc, tablatura " />
         <script type="text/javascript" src="src/translate.js"></script>
 
         <div id="topBar" class="topBar gradiente" >
-            <span data-translate="appName" class="topTitle" style="left: 80px; line-height:63px; font-size: 32px;">Mapa para Acordeões Diatônicos</span>
+            <span data-translate="appName" class="topTitle" style="left: 70px; line-height:63px; font-size: 32px;">Mapa para Acordeões Diatônicos</span>
             <a id="topSettings" class="topSettings" style="left: 15px; width: fit-content" ><i class="ico-menu" title="Ajustes" data-translate="topSettings" ></i></a>
         </div> <!-- topBar -->
 
@@ -99,16 +96,15 @@ notação abc, tablatura " />
                 <br><br><br><br>
                 <div id="menuSongs" class="topMenu"></div>
                 <br><br><br><br>
-                <div class="dropdown rounded-corners" style="width: fit-content; min-width: 100px;" >
+                <div class="dropdown rounded-corners gradiente" style="width: fit-content; min-width: 100px;" >
                     <button id="openBtn"><i class="ico-folder-open"></i>&#160;<span data-translate="Open">Abrir</span></button>
                 </div>
             </div>
-            <div id="divPrivacy" class="abcxVersionStyle" style="left: 30px; bottom: 20px; font-size: 18px;">
-                <a href="privacy/index.html" target="_blank" style="width:33%; display:block; float: left;"><!--span data-translate="ReleaseNotesNotice"></span-->Privacy Policy</a>
-
-                <a href="privacy/terms.n.conditions.html" target="_blank" style="width:33%; display:block; float: left;"><!--span data-translate="ReleaseNotesNotice"></span-->Terms & Conditions</a>
+            <div id="divPrivacy" class="abcxVersionStyle" style="left: 20px; bottom: 20px; width:99%; font-size: 18px;">
+                <a id="aPolicy" href="privacy/index.html" target="_blank" style=" text-decoration: none; width:33%; display:block; float: left;"><!--span data-translate="ReleaseNotesNotice"></span-->Privacy Policy</a>
+                <a id="aTerms" href="privacy/terms.n.conditions.html" target="_blank" style=" text-decoration: none; width:fit-content; display:block; float: left;"><!--span data-translate="ReleaseNotesNotice"></span-->Terms & Conditions</a>
+                <a id="aVersion" href="html/about.pt_BR.html" target="_blank" style=" text-decoration: none; position:absolute; right: 30px; bottom: 0px; font-size: 18px;"><!--span data-translate="ReleaseNotesNotice"></span-->Diatonic App debug Powered by ABCXJS version 5.46</a>
             </div>
-            <div id="divABCXversion" class="abcxVersionStyle" style="right: 30px; bottom: 20px; font-size: 18px;"></div>
         </div>
 
         <div id="kebyoardDiv" style="z-index:101; height: fit-content;"></div>
@@ -125,41 +121,38 @@ notação abc, tablatura " />
                 <button id="FClefBtn" data-translate="FClefBtn" ><i class="ico-clef-bass" ></i></button>
             </div>
             <div id="divDidacticPlayControls"  class="btn-subgroup" style="display: none;" >
-                <button id="stepBtn" data-translate="stepBtn" >&#160;<i class="ico-play"></i>&#160;</button>
-                <button id="stepMeasureBtn" data-translate="stepMeasureBtn" >&#160;<i class="ico-forward"></i>&#160;</button>
-                <div style="float:left; margin-top: 3px; font-size: 20px;">
-                    <input id="gotoMeasureBtn" type="number" data-translate="gotoMeasure" value="Ir para..." style="font-size: 18px; width: 3em;" />
+                <button id="stepBtn" data-translate="stepBtn" ><i class="ico-play"></i>&#160;</button>
+                <button id="stepMeasureBtn" data-translate="stepMeasureBtn" ><i class="ico-forward"></i>&#160;</button>
+                <div style="float:left; margin-top: 8px; font-size: 20px;">
+                    <input id="gotoMeasureBtn" type="number" data-translate="gotoMeasure" value="1" style="font-size: 18px; width: 3em;" />
                     <b>..</b>
-                    <input id="untilMeasureBtn" type="number" data-translate="untilMeasure" value="até..." style="font-size: 18px; width: 3em;" />
+                    <input id="untilMeasureBtn" type="number" data-translate="untilMeasure" value="100" style="font-size: 18px; width: 3em;" />
                 </div>
                 <button id="repeatBtn" data-translate="repeatBtn" >&#160;<i class="ico-repeat-cw"></i>&#160;</button>
-                <button id="clearBtn" data-translate="clearBtn" >&#160;<i class="ico-stop"></i>&#160;</button>
+                <button id="clearBtn" data-translate="clearBtn" ><i class="ico-stop"></i></button>
             </div>
             <div id="divNormalPlayControls" class="btn-subgroup" >
                 <button id="playBtn2" data-translate="playBtn" >&#160;<i class="ico-play"></i>&#160;</button>
-                <button id="stopBtn2" data-translate="stopBtn" >&#160;<i class="ico-stop"></i>&#160;</button>
+                <button id="stopBtn2" data-translate="stopBtn" ><i class="ico-stop"></i></button>
             </div>
             <div id="divG1" class="btn-subgroup" >
-                <label id="currentPlayTimeLabel2" style="width: 115px; font-size: 20px; margin-top: 5px;" >00:00:00</label>
-                <div id="tempoSld" data-translate="tempoBtn" style="margin-top: 4px; width: 170px;"></div>
+                <label id="currentPlayTimeLabel2" style=" height: 40px; width: 115px; margin-top: 9px; font-size: 22px; " >00:00:00</label>
+                <div id="tempoSld" data-translate="tempoBtn" style="height: 40px; width: 170px; margin-top: 10px;"></div>
             </div>  
             <button id="buttonShowMedia2" style="float: left; display:none;">
-                <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
+                <i class="ico-vplayer"></i>&nbsp;<span id="spanShowMedia" data-translate="showMedia">Videoaula</span>
             </button>
         </div>  <!-- controlDiv - este bloco é tratado internamente -->  
         
         <div id="printPreviewDiv" class="printPreviewClass"></div>
         <div id="tipsDiv" class="tips" ><a href="html/release.pt_BR.html" target="_blank"><span data-translate="ReleaseNotesNotice"></span></a></div>
-        <!--div id="clustrmaps-widget" style="display: none;">
-            <script type="text/javascript" id="clustrmaps" src="https://cdn.clustrmaps.com/map_v2.js?cl=dbf6ff&w=a&t=m&d=D4AJLMj2W1mzi-LEyEXyJLGZqZvgz5ePllcOXY7yeaE&cmn=ffba3b&cmo=ff3a3a&co=5bace6"></script>
-        </div-->
         
         <script id="mainScript" type="text/javascript">
             
             SITE.abcxVersion = SITE.getVersion('mainABCX', '' ); // Obtem e mostra a versão corrente da lib ABCX 
             SITE.siteVersion = SITE.getVersion('mainSITE', 'v' ); // Obtem e mostra a versão corrente da lib do site
             
-            document.getElementById("divABCXversion").innerHTML = '<i>Diatonic App '+SITE.siteVersion+' Powered by ABCXJS version '+SITE.abcxVersion+'</i>';
+            document.getElementById("aVersion").innerHTML = '<i>Diatonic App '+SITE.siteVersion+' Powered by ABCXJS version '+SITE.abcxVersion+'</i>';
 
             var debug=false; // eliminar esta variável assim que possível
             
