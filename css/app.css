@@ -1,5 +1,5 @@
 .rounded-corners {
-   /* min-width: 510px;*/
+    min-width: 510px;
     background: -moz-linear-gradient(left, #003050 0%, black 100%);
     background: -webkit-linear-gradient(left, #003050 0%, black 100%);
     background: -o-linear-gradient(left, #003050 0%, black 100%);
