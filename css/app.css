@@ -60,3 +60,9 @@
     color:#ff9922;
     font-size: 46px;
 }
+
+.abcxVersionStyle a {
+    text-decoration: none;
+    font-family: 'Merienda'; 
+    font-size:18px; 
+}

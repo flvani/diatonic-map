@@ -175,5 +175,8 @@
         ,"Open": "Open"
         ,"Accordion":"Accordion"
         ,"Song": "Song"
+        ,"AboutAppTitle": "About this application"
+        ,"PrivacyTitle": "Privacy Policy"
+        ,"TermsTitle": "Terms  &amp; Conditions"
     }
 }

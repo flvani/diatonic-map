@@ -20,7 +20,7 @@ cp tmp/site.js  site/site_$1.js
 
 echo "Concatenating app files..."
 cat src/properties.js src/translate.js src/media.js src/appview.js src/app.js  > tmp/libapp.js
-cat css/media.css css/mapa.css css/studio.css css/app.css > tmp/libapp.css
+cat css/modal.css css/media.css css/mapa.css css/studio.css css/app.css > tmp/libapp.css
 
 cp tmp/libapp.css app/libapp_$2.css
 cp tmp/libapp.js  app/libapp_$2.js

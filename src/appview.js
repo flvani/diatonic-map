@@ -353,6 +353,8 @@ SITE.AppView = function (mapa, interfaceParams, playerParams) {
     this.midiPlayer.defineCallbackOnPlay( this.playerCallBackOnPlay );
     this.midiPlayer.defineCallbackOnEnd( this.playerCallBackOnEnd );
     this.midiPlayer.defineCallbackOnScroll( this.playerCallBackOnScroll );
+
+    //this.showKeyboard(SITE.properties.studio.keyboard.visible);
     
 };
 
@@ -402,11 +404,8 @@ SITE.AppView.prototype.setup = function( tab, accordionId) {
         }
     }
  */
-    if(this.isApp) {
-        this.showKeyboard(true);
-    } else {
-        this.showKeyboard(SITE.properties.studio.keyboard.visible);
-    }
+    this.showKeyboard(SITE.properties.studio.keyboard.visible);
+
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
     
     this.resize();
@@ -587,6 +586,7 @@ SITE.AppView.prototype.studioStopPlay = function( e ) {
 
 SITE.AppView.prototype.closeEstudio = function(save) {
     this.setVisible(false);
+    SITE.SaveProperties();
     this.keyboardWindow.setVisible(false);
     this.studioStopPlay();
 };

@@ -1134,6 +1134,8 @@ SITE.AppView = function (mapa, interfaceParams, playerParams) {
     this.midiPlayer.defineCallbackOnPlay( this.playerCallBackOnPlay );
     this.midiPlayer.defineCallbackOnEnd( this.playerCallBackOnEnd );
     this.midiPlayer.defineCallbackOnScroll( this.playerCallBackOnScroll );
+
+    //this.showKeyboard(SITE.properties.studio.keyboard.visible);
     
 };
 
@@ -1183,11 +1185,8 @@ SITE.AppView.prototype.setup = function( tab, accordionId) {
         }
     }
  */
-    if(this.isApp) {
-        this.showKeyboard(true);
-    } else {
-        this.showKeyboard(SITE.properties.studio.keyboard.visible);
-    }
+    this.showKeyboard(SITE.properties.studio.keyboard.visible);
+
     this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
     
     this.resize();
@@ -1368,6 +1367,7 @@ SITE.AppView.prototype.studioStopPlay = function( e ) {
 
 SITE.AppView.prototype.closeEstudio = function(save) {
     this.setVisible(false);
+    SITE.SaveProperties();
     this.keyboardWindow.setVisible(false);
     this.studioStopPlay();
 };
@@ -1807,14 +1807,7 @@ SITE.AppView.prototype.changePageOrientation = function (orientation) {
  * and open the template in the editor.
  */
 
-/*
-FAZER
 
-Icone do teclado
-Iconne do menu Android
-Ver se é possível abrir o teclado numerico
-
-*/
 
 if (!window.SITE)
     window.SITE = {};
@@ -1864,7 +1857,34 @@ SITE.App = function( interfaceParams, tabParams, playerParams ) {
         this.blur();
         that.showSettings();
     }, false );
-    
+
+    this.aPolicy = document.getElementById("aPolicy");
+    this.aTerms = document.getElementById("aTerms");
+    this.aVersion = document.getElementById("aVersion");
+
+    this.aPolicy.addEventListener("click", function(evt) {
+        evt.preventDefault();
+        this.blur();
+        //that.showModal('PrivacyTitle', '', 'privacy/index.html', { width: '1024', height: '600', print:false } );
+        that.showModal('PrivacyTitle', '', 'privacidade/index.html', { width: '800', height: '500', print:false } );
+    }, false );
+
+    this.aTerms.addEventListener("click", function(evt) {
+        evt.preventDefault();
+        this.blur();
+        //that.showModal('TermsTitle', '', 'privacy/terms.n.conditions.html', { width: '1024', height: '600', print:false } );
+        that.showModal('TermsTitle', '', 'privacidade/termos.e.condicoes.html', { width: '800', height: '500', print:false } );
+    }, false );
+
+    this.aVersion.addEventListener("click", function(evt) {
+        evt.preventDefault();
+        this.blur();
+        //that.showModal('AboutAppTitle', '', 'privacy/aboutApp.html', { width: '1024', height: '600', print:false } );
+        that.showModal('AboutAppTitle', '', 'privacidade/sobreApp.html', { width: '800', height: '500', print:false } );
+    }, false );
+
+   
+
     this.defineInstrument(true);
     
     this.showAccordionName();
@@ -2339,7 +2359,9 @@ SITE.App.prototype.showSettings = function() {
               <tr>\
                 <td style="width:15px;"></td><td data-translate="PrefsColorHighlight" >'
                     +SITE.translator.getResource('PrefsColorHighlight')
-                        +'</td><td><input id="corRealce" type="text"readonly ><input id="chkTransparency" type="checkbox">&nbsp;<span data-translate="PrefsColorTransparency" >'
+                        +'</td><td><input id="corRealce" type="text" readonly ><input id="chkTransparency" type="checkbox">&nbsp;\
+                        <a style="text-decoration:none; color:black;" href="#" onClick="(function(){document.getElementById(\'chkTransparency\').checked=!document.getElementById(\'chkTransparency\').checked})();return false;">\
+                        <span data-translate="PrefsColorTransparency" >'
                             +SITE.translator.getResource('PrefsColorTransparency')+'</span></td>\
               </tr>\
               <tr>\
@@ -2351,11 +2373,15 @@ SITE.App.prototype.showSettings = function() {
               <tr>\
                 <th colspan="2"><br><span data-translate="PrefsProps" >'+SITE.translator.getResource('PrefsProps')+'</span></th><td></td>\
               </tr>\
-              <tr>\
-                <td> </td><td colspan="2"><input id="chkPiano" type="checkbox">&nbsp;<span data-translate="PrefsPropsCKPiano" >'+SITE.translator.getResource('PrefsPropsCKPiano')+'</span></td>\
+              <tr style="height:40px;">\
+                <td> </td><td colspan="2"><input id="chkPiano" type="checkbox">&nbsp;\
+                <a style="text-decoration:none; color:black;" href="#" onClick="(function(){document.getElementById(\'chkPiano\').checked=!document.getElementById(\'chkPiano\').checked})();return false;">\
+                <span data-translate="PrefsPropsCKPiano" >'+SITE.translator.getResource('PrefsPropsCKPiano')+'</span></a></td>\
               </tr>\
               <tr>\
-                <td> </td><td colspan="2"><input id="chkKeyboardRight" type="checkbox">&nbsp;<span data-translate="PrefsPropsCKkeyboardAlignRight" >'+SITE.translator.getResource('PrefsPropsCKkeyboardAlignRight')+'</span></td>\
+                <td> </td><td colspan="2"><input id="chkKeyboardRight" type="checkbox">&nbsp;\
+                <a style="text-decoration:none; color:black;" href="#" onClick="(function(){document.getElementById(\'chkKeyboardRight\').checked=!document.getElementById(\'chkKeyboardRight\').checked})();return false;">\
+                <span data-translate="PrefsPropsCKkeyboardAlignRight" >'+SITE.translator.getResource('PrefsPropsCKkeyboardAlignRight')+'</span></td>\
               </tr>\
               <tr style="display:none;">\
                 <td> </td><td colspan="2"><input id="chkWarnings" type="checkbox">&nbsp;<span data-translate="PrefsPropsCKShowWarnings" >'+SITE.translator.getResource('PrefsPropsCKShowWarnings')+'</span></td>\
@@ -2369,8 +2395,11 @@ SITE.App.prototype.showSettings = function() {
             <div id="botao1"></div>\n\
             <div id="botao2"></div>\n\
             <div id="botao3"></div>\n\
-    </div>';
+        </div>';
+     
         
+
+
         this.settings.window.addPushButtons([
             'botao1|apply',
             'botao2|reset|PrefsReset',
@@ -2492,7 +2521,9 @@ SITE.App.prototype.applySettings = function() {
     //this.media.show(this.getActiveTab());
 
     if (this.studio) {
-        this.studio.setAutoRefresh(SITE.properties.options.autoRefresh);
+        
+        //this.studio.setAutoRefresh(SITE.properties.options.autoRefresh);
+
         this.studio.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
         
         if( SITE.properties.options.keyboardRight )
@@ -2547,7 +2578,7 @@ SITE.App.prototype.setFocus = function() {
     } */
 }
 
-SITE.App.prototype.showHelp = function ( title, subTitle, url, options ) {
+SITE.App.prototype.showModal = function ( title, subTitle, url, options ) {
     var that = this;
     options = options || {};
     options.width = typeof options.width === 'undefined'? '800' : options.width;
@@ -2560,70 +2591,107 @@ SITE.App.prototype.showHelp = function ( title, subTitle, url, options ) {
         
     var x = winW/2 - options.width/2;
     
-    if( ! this.helpWindow ) {
-        this.helpWindow = new DRAGGABLE.ui.Window(
+    if( ! this.modalWindow ) {
+        this.modalWindow = new DRAGGABLE.ui.Window(
             null
           , ['print|printBtn']
-          , {title: '', translator: SITE.translator, draggable: true, statusbar: false, top: "200px", left: x+"px", height:"auto", zIndex: 70}
-          , { listener: this, method:'helpCallback' }
+          , {title: '', translator: SITE.translator, draggable: true, statusbar: false, top: "30px" , height:"90%", left: "60px", width:"calc(90% - 60px)", zIndex: 70}
+          , { listener: this, method:'modalCallback' }
         );
-        this.helpWindow.dataDiv.style.height = "auto";
+        this.modalWindow.dataDiv.style.height = "auto";
+
+        this.modalWindow.dataDiv.innerHTML = 
+            '<object id="myFrame" data="" type="text/html" ></object> \
+             <div id="pg" class="pushbutton-group" style="right: 4px; bottom: 4px;" >\
+                <div id="btClose"></div>\n\
+             </div>';
+    
+        this.modalWindow.addPushButtons( [ 'btClose|close' ] );
     }
 
-    this.helpWindow.setTitle(title, SITE.translator);
-    this.helpWindow.setSubTitle(subTitle, SITE.translator);
-    this.helpWindow.setButtonVisible('PRINT', options.print );
-    
-    this.helpWindow.dataDiv.innerHTML = '<object data="'+url+'" type="text/html" ></object>';
-    this.iframe = this.helpWindow.dataDiv.getElementsByTagName("object")[0];
-    
-    var loader = this.startLoader( "About" );
-    
-    this.iframe.style.width = options.width+"px";
-    this.iframe.style.height = (options.height?options.height:400)+"px";
-    that.helpWindow.topDiv.style.opacity = "0";
-    that.helpWindow.setVisible(true);
+    this.modalWindow.setTitle(title, SITE.translator);
+    this.modalWindow.setSubTitle(subTitle, SITE.translator);
+    this.modalWindow.setButtonVisible('PRINT', options.print );
+
+    this.iframe = document.getElementById("myFrame");
+
+    this.modalWindow.topDiv.style.opacity = "0";
+    this.modalWindow.setVisible(true);
+    this.modalWindow.dataDiv.height = (this.modalWindow.topDiv.clientHeight-25)+"px";
+    this.iframe.style.width = "100%";
+    this.iframe.style.height =  (this.modalWindow.topDiv.clientHeight-25)+"px";
+    this.modalWindow.dataDiv.height = this.iframe.style.height;
+
+    this.info;
+    this.container;
+
+    var loader = this.startLoader( "Modal" );
+
+    that.iframe.setAttribute("data", url); 
+
+    that.iframe.addEventListener("load", function () { 
+        that.container = this.contentDocument.getElementById('modalContainer');
+        that.info = this.contentDocument.getElementById('siteVerI');
+        $(that.iframe).ready(function() { 
+
+            if( that.info ) that.info.innerHTML=SITE.siteVersion;
             
-    loader.start(  function() { 
-        if( options.height ) {
-            that.iframe.addEventListener("load", function () { 
-                that.helpWindow.topDiv.style.opacity = "1";
-                that.iframe.style.height = options.height+"px";
-                
-                var header = this.contentDocument.getElementById('helpHeader');
-                var frm = this.contentDocument.getElementById('helpFrame');
-                var container = this.contentDocument.getElementById('helpContainer');
-                if( header ) header.style.display = 'none';
-                if( frm ) frm.style.overflow = 'hidden';
-                if( container ) {
-                    container.style.top = '0';
-                    container.style.height = (options.height-18)+"px";;
-                    container.style.overflow = 'hidden';
-                    container.style.border = '1px solid rgba(255, 153, 34, 0.2)';
-                    var v = new PerfectScrollbar( container, {
-                        handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
-                        wheelSpeed: 1,
-                        wheelPropagation: false,
-                        suppressScrollX: false,
-                        minScrollbarLength: 100,
-                        swipeEasing: true,
-                        scrollingThreshold: 500
-                    });
+            if( that.container ) {
+
+                that.container.style.top = '0';
+                that.container.style.height = (that.modalWindow.dataDiv.clientHeight-70)+"px"
+                that.container.style.overflow = 'hidden';
+                that.container.style.border = '1px solid rgba(255, 153, 34, 0.2)';
+                var v = new PerfectScrollbar( that.container, {
+                    handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
+                    wheelSpeed: 1,
+                    wheelPropagation: false,
+                    suppressScrollX: false,
+                    minScrollbarLength: 100,
+                    swipeEasing: true,
+                    scrollingThreshold: 500
+                });
+
+                var anchors = that.container.getElementsByTagName("a");
+                for (var i = 0; i < anchors.length; i++) {
+                    anchors[i].onclick = function() {return false;};
                 }
-                
-                loader.stop();
-            });    
-        } else { // auto determina a altura
-            that.iframe.addEventListener("load", function () { 
-                this.contentDocument.body.style.overflow ="hidden";
-                var info = this.contentDocument.getElementById('siteVerI');
-                if( info ) info.innerHTML=SITE.siteVersion;
-                that.iframe.style.height = this.contentDocument.body.clientHeight+"px";
-                that.helpWindow.topDiv.style.opacity = "1";
-                that.helpWindow.dataDiv.style.overflow = "hidden";
-                loader.stop();
-            });
-        }
+            }
+            
+            that.modalWindow.topDiv.style.opacity = "1";
+            loader.stop();
+    });    
+
+    loader.start(  function() { 
+    
+
+        });
+
+
     }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
+
+
 };
 
+SITE.App.prototype.modalCallback = function ( action ) {
+    that = this;
+
+    if( action === 'CLOSE' ) {
+/*         $(that.iframe).ready(function() { // to avoid ajax cache
+            that.modalWindow.setVisible(false);
+        });
+ */        that.iframe.setAttribute("data", ""); 
+        that.modalWindow.setVisible(false);
+
+    } else if( action === 'PRINT' ) {
+        var container = this.iframe.contentDocument.getElementById('modalContainer');
+        if( container ) {
+            //var t = container.style.top;
+            //container.style.top = '0';
+            this.printPreview( container.innerHTML, [ "#"+this.modalWindow.topDiv.id, "#topBar","#mapaDiv"], false );
+            //var header = this.iframe.contentDocument.getElementById('modalHeader');
+            //if( header ) header.style.display = 'none';
+            //container.style.top = t;
+        }
+    }
+};

@@ -175,5 +175,8 @@
         ,"Open": "Abrir"
         ,"Accordion":"Acordeão"
         ,"Song": "Música"
+        ,"AboutAppTitle": "Sobre esta aplicação"
+        ,"PrivacyTitle": "Política de privacidade"
+        ,"TermsTitle": "Termos e Condições"
    }
 }
