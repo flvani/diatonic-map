@@ -1,0 +1,247 @@
+body { 
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+  padding:0;  
+  overflow: auto;
+}
+
+.modalContent  { 
+
+  text-align:justify;
+  text-justify:inter-word;
+
+  left: 0px;
+  margin: 2px;
+  padding: 2px;
+  position: relative;
+}
+
+.modalContent a {
+  color: #1dd2af;
+  color: blue;          
+  text-decoration: none;
+}
+
+.modalContent a:hover, 
+.modalContent a:focus {
+  color: #1dd2af;
+}            
+
+.modalContent h1 { 
+font-size: 33px;
+line-height: 50px;
+font-weight: bold;
+text-align: center;
+color:#ff9922;
+background: -moz-linear-gradient(left, #003050 0%, black 100%);
+background: -webkit-linear-gradient(left, #003050 0%, black 100%);
+background: -o-linear-gradient(left, #003050 0%, black 100%);
+background: -ms-linear-gradient(left, #003050 0%, black 100%);
+background: linear-gradient(left, #003050 0%, black 100%);
+}
+.modalContent h2 { 
+font-size: 22px;
+}
+
+.modalContent h3 { 
+font-size: 18px;
+font-weight: bold;
+text-align: left;
+}
+
+
+.modalContent h4 { 
+
+  position: relative;
+  float: left;
+  display: block;
+
+  margin: 9px;
+  margin-top : 0;
+  padding-top: 0;
+  margin-left : 0;
+  padding-left: 0;
+  line-height: 1em;
+
+  padding: 5px 10px;
+
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
+  text-shadow: 2px 2px 2px rgba(255,255,255,0.5);
+  letter-spacing: 1px;
+
+  border-radius: 5px;
+  box-shadow: 3px 3px 6px rgba(255, 153, 34, 0.6);
+
+  background: #003050;          
+  background: -moz-linear-gradient(left, #003050 0%, black 100%);
+  background: -webkit-linear-gradient(left, #003050 0%, black 100%);
+  background: -o-linear-gradient(left, #003050 0%, black 100%);
+  background: -ms-linear-gradient(left, #003050 0%, black 100%);
+  background: linear-gradient(left, #003050 0%, black 100%);
+  color: orange;
+  color: #ff9922;
+  cursor:default;
+
+}
+
+.modalContent h4 span { 
+  color: #385c5b;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: left;
+  text-shadow: 1px 1px 1px rgba(255,255,255,0.3);
+
+}
+.modalContent h4 a { 
+  font-size: 13px;
+  font-weight: bold;
+  color: orange;          
+  text-decoration: none;
+  text-shadow: 2px 2px 2px rgba(255,255,255,0.5);
+
+}
+.modalContent h4 a:hover, 
+.modalContent h4 a:focus {
+  color: red;
+}            
+
+.modalContent p {
+  text-indent: 0;
+  margin-right: 15px;
+}
+
+
+strong, b {
+  font-weight: bold;
+} 
+
+.modalContent .ok,.modalContent  .cancel {
+  min-width: 50px;
+  min-height: 20px;
+  background: #606061;
+  color: #FFFFFF;
+  line-height: 30px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: 1px 1px 3px #000;
+  -webkit-box-shadow: 1px 1px 3px #000;
+  box-shadow: 1px 1px 3px #000;
+  float:right;
+  margin-left:12px;
+}
+
+
+.modalContent .ok:hover { background: #189CDA; }
+
+.clear { float:none; clear: both; }
+
+
+/*
+* Container style for perfect scrollbar
+*/
+
+.ps {
+  overflow: hidden !important;
+  overflow-anchor: none;
+  -ms-overflow-style: none;
+  touch-action: auto;
+  -ms-touch-action: auto;
+}
+
+/*
+ * Scrollbar rail styles
+ */
+
+.ps__rail-x,
+.ps__rail-y {
+  /* please don't change 'position' */
+  position: absolute;
+  display: none;
+  opacity: 0.3; /* always visible, if active */
+  transition: background-color .2s linear, opacity .2s linear;
+  -webkit-transition: background-color .2s linear, opacity .2s linear;
+  border-radius: 6px;
+}  
+
+    
+.ps__rail-x {
+  /* there must be 'bottom' or 'top' for ps__rail-x */
+  bottom: 0;
+  height: 12px;
+}
+
+.ps__rail-y {
+  /* there must be 'right' or 'left' for ps__rail-y */
+  right: 0;
+  width: 12px;
+}
+
+.ps--active-x > .ps__rail-x,
+.ps--active-y > .ps__rail-y {
+  display: block;
+  background-color: transparent;
+}
+
+.ps:hover > .ps__rail-x,
+.ps:hover > .ps__rail-y,
+.ps--focus > .ps__rail-x,
+.ps--focus > .ps__rail-y,
+.ps--scrolling-x > .ps__rail-x,
+.ps--scrolling-y > .ps__rail-y {
+  opacity: 0.6;
+}
+
+.ps .ps__rail-x:hover,
+.ps .ps__rail-y:hover,
+.ps .ps__rail-x:focus,
+.ps .ps__rail-y:focus,
+.ps .ps__rail-x.ps--clicking,
+.ps .ps__rail-y.ps--clicking {
+  opacity: 1;
+}
+
+/*
+ * Scrollbar thumb styles
+ */
+.ps__thumb-x, 
+.ps__thumb-y {
+  /* please don't change 'position' */
+  position: absolute;
+  background-color: rgb(255, 153, 34);
+  border-radius: 6px;
+  transition: background-color .2s linear, height .2s ease-in-out;
+  -webkit-transition: background-color .2s linear, height .2s ease-in-out;
+}
+
+.ps__thumb-x {
+  /* there must be 'bottom' for ps__thumb-x */
+  bottom: 1px;
+  height: 10px;
+}
+
+.ps__thumb-y {
+  /* there must be 'right' for ps__thumb-y */
+  right: 1px;
+  width: 10px;
+}
+
+.ps__rail-x:hover > .ps__thumb-x,
+.ps__rail-y:hover > .ps__thumb-y,
+.ps__rail-x:focus > .ps__thumb-x,
+.ps__rail-y:focus > .ps__thumb-y,
+.ps__rail-x.ps--clicking .ps__thumb-x, 
+.ps__rail-y.ps--clicking .ps__thumb-y {
+  opacity: 1;
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .ps {
+    overflow: auto !important;
+  }
+}
