@@ -1,12 +1,12 @@
 #!/bin/sh
 
 v_abcx=5.46
-v_app=0.3
+v_app=0.4
 assets_folder="/home/flavio/Projetos/diatonic-app/app/src/main/assets"
 
 FILES="\
 ./app.html ./app/libapp_${v_app}-min.js ./app/libapp_${v_app}-min.css ./abcxjs/abcxjs_${v_abcx}-min.js ./diatonic/diatonic_${v_abcx}-min.js \
-./file/filemanager_${v_abcx}-min.js ./css/styles4abcx_${v_abcx}-min.css  ./jquery/jquery-1.11.1.min.js ./jslib/MIDI_5.25-min.js ./jslib/proto_noconflict.js \
+./file/filemanager_${v_abcx}-min.js ./css/modal.css ./css/styles4abcx_${v_abcx}-min.css  ./jquery/jquery-1.11.1.min.js ./jslib/MIDI_5.25-min.js ./jslib/proto_noconflict.js \
 ./jslib/html5kellycolorpicker.min.js ./jslib/waterbug.js"
 
 FOLDERS="./accordions ./chords ./songs ./practices ./fontsGoogle ./fontsIco ./images ./languages ./privacidade ./privacy ./soundfont ./html"

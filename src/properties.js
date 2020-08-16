@@ -9,19 +9,22 @@ if (!window.SITE)
 
 window.dataLayer = window.dataLayer || [];
 
-
 SITE.ga = function () {
     if( ga && ( window.location.href.indexOf( 'diatonicmap.com.br') >= 0 || window.location.href.indexOf( 'androidplatform') >= 0 )
            && SITE.getVersion('mainSITE', '' ) !== 'debug' 
            && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) {
+               
+            console.log("GA desabilitado!");
+            //ga.apply(this, arguments);
+        /*
         if (window.AnalyticsApplication) {
             // Call Android interface
             window.AnalyticsApplication.logEvent(JSON.stringify(arguments));
         } else {
             // No Android interface found
-            console.log("No native APIs found.");
-            ga.apply(this, arguments);
+            //console.log("No native APIs found.");
         }
+        */
     } else {
         console.log('Funcao ga não definida.');
     }

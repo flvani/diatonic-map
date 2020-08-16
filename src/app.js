@@ -1,12 +1,4 @@
 
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-
 if (!window.SITE)
     window.SITE = {};
 
@@ -772,7 +764,7 @@ SITE.App.prototype.showModal = function ( title, subTitle, url, options ) {
         this.modalWindow = new DRAGGABLE.ui.Window(
             null
           , ['print|printBtn']
-          , {title: '', translator: SITE.translator, draggable: true, statusbar: false, top: "30px" , height:"90%", left: "60px", width:"calc(90% - 60px)", zIndex: 70}
+          , {title: '', translator: SITE.translator, draggable: true, statusbar: false, top: "30px" , height:"90%", left: "60px", width:"calc(92% - 60px)", zIndex: 70}
           , { listener: this, method:'modalCallback' }
         );
         this.modalWindow.dataDiv.style.height = "auto";
@@ -787,7 +779,6 @@ SITE.App.prototype.showModal = function ( title, subTitle, url, options ) {
     }
 
     this.Back = this.modalClose;
-
 
     this.modalWindow.setTitle(title, SITE.translator);
     this.modalWindow.setSubTitle(subTitle, SITE.translator);
@@ -812,7 +803,7 @@ SITE.App.prototype.showModal = function ( title, subTitle, url, options ) {
     that.iframe.addEventListener("load", function () { 
         that.container = this.contentDocument.getElementById('modalContainer');
         that.info = this.contentDocument.getElementById('siteVerI');
-        $(that.iframe).ready(function() { 
+        $(that.iframe).ready(function() {
 
             if( that.info ) that.info.innerHTML=SITE.siteVersion;
             
@@ -840,24 +831,15 @@ SITE.App.prototype.showModal = function ( title, subTitle, url, options ) {
             
             that.modalWindow.topDiv.style.opacity = "1";
             loader.stop();
-    });    
-
-    loader.start(  function() { 
-    
-
-        });
-
-
+        });    
     }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
-
-
 };
+
 SITE.App.prototype.modalCallback = function ( action ) {
     that = this;
 
     if( action === 'CLOSE' ) {
         that.modalClose();
-
     } else if( action === 'PRINT' ) {
         var container = this.iframe.contentDocument.getElementById('modalContainer');
         if( container ) {
@@ -886,10 +868,8 @@ SITE.App.prototype.closeAppView = function() {
 };
 
 SITE.App.prototype.Close = function (  ) {
-    if(window.CloseMe)
-        window.CloseMe.closeApp();
+    window.DiatonicApp &&  window.DiatonicApp.closeApp();
 };
-
 
 SITE.App.prototype.goBackOrClose = function (  ) {
     return this.Back();
