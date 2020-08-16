@@ -14,8 +14,8 @@ SITE.ga = function () {
            && SITE.getVersion('mainSITE', '' ) !== 'debug' 
            && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) {
                
-            console.log("GA desabilitado!");
-            //ga.apply(this, arguments);
+            //console.log("GA desabilitado!");
+            ga.apply(this, arguments);
         /*
         if (window.AnalyticsApplication) {
             // Call Android interface
