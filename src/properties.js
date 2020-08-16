@@ -11,7 +11,7 @@ window.dataLayer = window.dataLayer || [];
 
 
 SITE.ga = function () {
-    if( ga && ( window.location.href.indexOf( 'diatonicmap.com.br') >= 0 || window.location.href.indexOf( 'android_asset') >= 0 )
+    if( ga && ( window.location.href.indexOf( 'diatonicmap.com.br') >= 0 || window.location.href.indexOf( 'androidplatform') >= 0 )
            && SITE.getVersion('mainSITE', '' ) !== 'debug' 
            && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) {
         if (window.AnalyticsApplication) {

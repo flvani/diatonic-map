@@ -2,13 +2,10 @@
 if (!window.SITE)
     window.SITE = {};
 
-SITE.AppView = function (mapa, interfaceParams, playerParams) {
+SITE.AppView = function (app, interfaceParams, playerParams) {
     
-    this.mapa = mapa;
-
-    if(!mapa){
-        this.isApp = true;
-    }
+    this.app = app;
+    this.isApp = true;
 
     if( SITE.properties.options.keyboardRight )
         this.resize = this.resizeRight;
@@ -159,7 +156,7 @@ SITE.AppView = function (mapa, interfaceParams, playerParams) {
 
     this.backButton.addEventListener("click", function (evt) {
         evt.preventDefault();
-        that.closeEstudio();
+        that.app.closeAppView();
         this.blur();
     }, false);
 
@@ -360,8 +357,8 @@ SITE.AppView = function (mapa, interfaceParams, playerParams) {
 
 SITE.AppView.prototype.setup = function( tab, accordionId) {
     
-    if(this.mapa)
-        this.mapa.closeMapa();
+    //if(this.app)
+    //    this.app.closeMapa();
     
     this.accordion.loadById(accordionId);
     
@@ -575,22 +572,15 @@ SITE.AppView.prototype.editorCallback = function (action, elem) {
 SITE.AppView.prototype.appViewCallBack = function( e ) {
     switch(e) {
         case 'CLOSE':
-            this.closeEstudio(true);
+            this.app.closeAppView();
             break;
     }
 };
-
+        
 SITE.AppView.prototype.studioStopPlay = function( e ) {
     this.midiPlayer.stopPlay();
 };
 
-SITE.AppView.prototype.closeEstudio = function(save) {
-    this.setVisible(false);
-    SITE.SaveProperties();
-    this.keyboardWindow.setVisible(false);
-    this.studioStopPlay();
-};
-        
 SITE.AppView.prototype.setVisible = function(  visible ) {
     this.Div.parent.style.display = visible?'block':'none';
 };
@@ -897,7 +887,7 @@ SITE.AppView.prototype.fireChanged = function (transpose, _opts) {
 SITE.AppView.prototype.modelChanged = function(showProgress) {
     var self = this;
     if(showProgress) {
-        var loader = this.mapa.startLoader( "ModelChanged" );
+        var loader = this.app.startLoader( "ModelChanged" );
         loader.start(  function() { self.onModelChanged(loader); }, '<br>&nbsp;&nbsp;&nbsp;Gerando partitura...<br><br>' );
     } else {
         self.onModelChanged();

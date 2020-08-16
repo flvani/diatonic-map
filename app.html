@@ -96,9 +96,9 @@ notação abc, tablatura " />
                 </div>
             </div>
             <div id="divPrivacy" class="abcxVersionStyle" style="left: 20px; bottom: 20px; width:100%;">
-                <a id="aPolicy"  href="" style="width:30%; display:block; float: left;"><span data-translate="PrivacyTitle"></span></a>
+                <a id="aPolicy"  href="" style="width:25%; display:block; float: left;"><span data-translate="PrivacyTitle"></span></a>
                 <a id="aTerms"   href="" style="width:fit-content; display:block; float: left;"><span data-translate="TermsTitle"></span--></a>
-                <a id="aVersion" href="" style="position:absolute; right: 30px; bottom: 0px;">Diatonic App debug Powered by ABCXJS version 5.46</a>
+                <a id="aVersion" href="" style="position:absolute; right: 40px; bottom: 0px;">Diatonic App debug Powered by ABCXJS version 5.46</a>
             </div>
         </div>
 
@@ -155,6 +155,7 @@ notação abc, tablatura " />
 
             window.onAppResumeEvent = new Event('appResumeEvent');
             window.onAppStopEvent = new Event('appStopEvent');
+            window.onAppBack = new Event('appBack');
 
             window.addEventListener('appResumeEvent', function () {
             }, false);
@@ -164,6 +165,10 @@ notação abc, tablatura " />
                 myApp.silencia();
             }, false);
 
+            window.addEventListener('appBack', function () {
+                if( !myApp ) return true;
+                myApp.goBackOrClose();
+            }, false);
 
             window.onblur = function() {
                 if( !myApp ) return;
@@ -289,7 +294,7 @@ notação abc, tablatura " />
                     }
                 );
                 
-                //SITE.ga('send', 'pageview');
+                SITE.ga('send', 'pageview');
                 SITE.ga('send', 'event', 'Configuration', 'language', SITE.properties.options.language, { nonInteraction: true } );
                 
                 if( SITE.getDate() <= 20170909 ) {
