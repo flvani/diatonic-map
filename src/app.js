@@ -186,7 +186,7 @@ SITE.App.prototype.openAppView = function (button, event) {
     
     if( ! this.appView ) {
         this.appView = new SITE.AppView(
-            null
+            this
             ,{   // interfaceParams
                 studioDiv: 'studioDiv'
                ,keyboardDiv: 'kebyoardDiv'

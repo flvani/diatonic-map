@@ -788,6 +788,8 @@ if (!window.SITE)
 
 SITE.AppView = function (app, interfaceParams, playerParams) {
     
+    var that = this;
+
     this.app = app;
     this.isApp = true;
 
@@ -799,7 +801,6 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
     this.ypos = 0; // controle de scrollf
     this.lastStaffGroup = -1; // controle de scroll
     this.lastYpos = 0; // controle de scroll
-    var that = this;
     
     var canvas_id = 'canvasDiv';
     var warnings_id = 'warningsDiv';
@@ -940,8 +941,8 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
 
     this.backButton.addEventListener("click", function (evt) {
         evt.preventDefault();
-        that.app.closeAppView();
         this.blur();
+        that.app.closeAppView();
     }, false);
 
     this.showMapButton.addEventListener("click", function (evt) {
@@ -1981,7 +1982,7 @@ SITE.App.prototype.openAppView = function (button, event) {
     
     if( ! this.appView ) {
         this.appView = new SITE.AppView(
-            null
+            this
             ,{   // interfaceParams
                 studioDiv: 'studioDiv'
                ,keyboardDiv: 'kebyoardDiv'
