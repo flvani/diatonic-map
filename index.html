@@ -25,9 +25,9 @@ notação abc, tablatura " />
         <link rel="stylesheet" href="fontsIco/fontsAbcx.css" />
         <link rel="stylesheet" href="fontsGoogle/fontsGoogle.css" />
 
-        <link rel="stylesheet" href="css/styles4abcx_5.46-min.css" />
+        <link rel="stylesheet" href="css/styles4abcx_5.47-min.css" />
         
-        <link rel="stylesheet" href="site/site_5.36-min.css" />
+        <link rel="stylesheet" href="site/site_5.40-min.css" />
         
         <!-- Google Analytics -->
         <script>
@@ -62,21 +62,21 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jslib/html5kellycolorpicker.min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_5.46-min.js"></script>
+        <script type="text/javascript" src="file/filemanager_5.47-min.js"></script>
         
         <!-- suporte mapas de acordeões -->
-        <script type="text/javascript" src="diatonic/diatonic_5.46-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic_5.47-min.js"></script>
         
         <!-- ACE Editor -->
-        <script type="text/javascript" src="ace4abcx/ace4abcx_5.46-min.js"></script>
+        <script type="text/javascript" src="ace4abcx/ace4abcx_5.47-min.js"></script>
        
         <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.46-min.js" ></script>
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_5.47-min.js" ></script>
         
         <!-- console personalizada para Javascript -->
         <script type="text/javascript" src="jslib/waterbug.js"></script> 
         
-        <script id="mainSITE" type="text/javascript" src="site/site_5.36.js"></script>
+        <script id="mainSITE" type="text/javascript" src="site/site_5.40.js"></script>
 
         <div id="topBar" class="topBar gradiente" >
             <span data-translate="appName" class="topTitle">Mapa para Acordeões Diatônicos</span>
@@ -174,11 +174,15 @@ notação abc, tablatura " />
                 <button id="playBtn2" data-translate="playBtn" >&#160;<i class="ico-play"></i>&#160;</button>
                 <button id="stopBtn2" data-translate="stopBtn" >&#160;<i class="ico-stop"></i>&#160;</button>
             </div>
-            <label id="currentPlayTimeLabel2" style="width: 90px;" >00:00:00</label>
-            <div id="tempoSld" data-translate="tempoBtn" ></div>
-            <button id="buttonShowMedia2" style="display:none;" >
-                <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
-            </button>
+            <div class="others-group">
+                <label id="currentPlayTimeLabel2" class="playtime-label">00:00:00</label>
+                <div id="tempoSld" data-translate="tempoBtn" ></div>
+            </div>
+            <div class="others-group">
+                    <button id="buttonShowMedia2" style="display:none;" >
+                    <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
+                </button>
+            </div>
         </div>  <!-- controlDiv - este bloco é tratado internamente -->  
         <div id="p2tControlDiv-raw" style="display:none;"> <!-- extrair tablatura -->  
             <div id="p2tControlDiv1" class="btn-subgroup" >

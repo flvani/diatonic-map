@@ -1,3 +1,15 @@
+.btn-subgroup {
+    display: inline-block;
+    height: 40px;
+    /*float:left;*/
+}
+
+.topSettings {
+    color:#ff9922;
+    font-size: 46px;
+}
+
+
 .rounded-corners {
     min-width: 510px;
     background: -moz-linear-gradient(left, #003050 0%, black 100%);
@@ -22,43 +34,7 @@
 }
 
 .dropdown-menu > ul {
-    font-size: 24px;
-}
-
-.slideContainer {
-    width: 160px !important;
-}
-
-.slidecontainer > .layer1 {
-    width: 160px !important;
-}
-.slidecontainer > .layer2 {
-    width: 160px !important;
-}
-
-.slidebuttonDiv {
-    width: 30px !important;
-}
-
-.slidebutton {
-    font-size: 32px !important;
-}
-
-.slidelabel {
-    font-size: 28px !important;
-    width: 100px;
-    left:15px !important;
-}
-
-.btn-subgroup {
-    display: inline-block;
-    height: 40px;
-    /*float:left;*/
-}
-
-.topSettings {
-    color:#ff9922;
-    font-size: 46px;
+    font-size: 28px;
 }
 
 .abcxVersionStyle a {
@@ -66,3 +42,11 @@
     font-family: 'Merienda'; 
     font-size:18px; 
 }
+
+.playtime-label{
+     height: 40px !important;  
+     width: 115px !important; 
+     margin-top: 9px !important; 
+     font-size: 22px !important;
+}
+

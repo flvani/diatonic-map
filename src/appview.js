@@ -274,11 +274,10 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
 
     this.slider = new DRAGGABLE.ui.Slider( this.tempoButton,
         {
-            min: 25, max: 200, start:100, step:5, color: '#FF6B6B', bgcolor:'#FFAFAF', 
+            min: 25, max: 200, start:100, step:25, speed:100, color: 'FF6B6B', bgcolor:'red', size:{w:180, h:35, tw:48},
             callback: function(v) { that.midiPlayer.setAndamento(v); } 
         } 
     );
-
     
     this.gotoMeasureButton.addEventListener("keypress", function (evt) {
         if (evt.keyCode === 13) {
