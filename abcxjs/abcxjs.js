@@ -15567,7 +15567,6 @@ DRAGGABLE.ui.ColorPicker.prototype.activate = function( parent ) {
  * and open the template in the editor.
  */
 
-
 if (! window.DRAGGABLE )
     window.DRAGGABLE  = {};
 
@@ -15576,155 +15575,73 @@ if (! window.DRAGGABLE.ui )
         
 DRAGGABLE.ui.Slider = function (topDiv, opts ) {
 
-   //min, max, start, step, pcolor, pbgcolor, callback ) {
-    
     var self = this;
-    var leftInterval, rightInterval;
-    var mozStyle, webkStyle, btStyle;
-    var color = opts.color || 'black';
-    var bgcolor = opts.bgcolor || 'gray';
-    var speed = opts.speed || 100;
-    var callback = opts.callback;
-    var rules = [];
-    
-    // identifica elementos de CSS padrão que podem ser alterados
-    for( var i in document.styleSheets ) {
-        if(document.styleSheets[i].href && document.styleSheets[i].href.includes('styles4abcx')){
-            try {
-                rules=document.styleSheets[i].cssRules? document.styleSheets[i].cssRules: document.styleSheets[i].rules;
-            } catch (e) {
-            }
-            break;
-        }
-    }
 
-    for (var r=0; r < rules.length; r++){
-        if(rules[r].selectorText===".slidebuttonDiv:hover") 
-            btStyle=rules[r].style;
-        if(rules[r].selectorText===".slider::-webkit-slider-thumb") 
-            webkStyle=rules[r].style;
-        if(rules[r].selectorText===".slider::-moz-range-thumb") 
-            mozStyle=rules[r].style;
-    }
+    self.color = opts.color || 'white';
+    self.bgcolor = opts.bgcolor || 'black';
+    self.opacity = opts.opacity || '30%'
+    self.speed = opts.speed || 100;
+    self.step = opts.step || 5;
+    self.size = opts.size || { w: 150, h:23, tw: 42 }
+    self.callback = opts.callback;
     
-    if(btStyle) 
-        btStyle.backgroundColor = color;
-    
-    if(webkStyle) 
-        webkStyle.backgroundColor = color;
-    
-    if( mozStyle )
-        mozStyle.backgroundColor = color;
-    
-    
-    this.step = opts.step || 1;
     this.id = ++ DRAGGABLE.ui.slideId;
     this.container = ( typeof topDiv === 'object' ) ? topDiv : document.getElementById(topDiv);
-    this.container.className = "slidecontainer";
+
+    this.container.className = "slide-container";
     this.container.id = "slider" + this.id;
+
+    this.tracker = document.createElement('div');
+    this.tracker.className = "slide-tracker";
+    this.tracker.id = "tracker" + this.id;
+    this.tracker.style.background = self.bgcolor;
+    this.tracker.style.opacity = self.opacity;
+    this.container.appendChild(this.tracker);
+
+    this.thumb = document.createElement('div');
+    this.thumb.className = "slide-thumb";
+    this.thumb.id = "thumb" + this.id;
+    this.container.appendChild(this.thumb);
     
-    var d1 = document.createElement('div');
-    d1.className = "layer1";
-    d1.style.backgroundColor = bgcolor;
-    this.container.appendChild(d1);
-    
-    var d2 = document.createElement('div');
-    d2.className = "layer2";    
-    this.container.appendChild(d2);
-    
-    this.label = document.createElement('label');
-    d1.appendChild(this.label);
-    this.label.className = "slidelabel";
-    
+    this.thumb.span = document.createElement('span');
+    this.thumb.span.style.color  =  self.color;
+    this.thumb.span.style.background  =  self.bgcolor;
+    this.thumb.span.style.width  = + self.size.tw + 'px';
+    this.thumb.span.style.height  = (self.size.h + 2) +  'px';
+    this.thumb.span.style.lineHeight  = (self.size.h + 2) +  'px';
+    this.thumb.span.style.marginTop  = '-1px';
+    this.thumb.span.style.paddingTop  = '1px';
+    this.thumb.span.innerHTML  = (opts.start + '%') || 100;
+    this.thumb.appendChild(this.thumb.span);
+
     this.slider = document.createElement('input');
-    
-    this.leftButton = document.createElement('div');
-    var llabel = document.createElement('label');
-    this.leftButton.appendChild(llabel);
-    d2.appendChild(this.leftButton);
-    this.leftButton.className = 'slidebuttonDiv';
-    llabel.className = 'slidebutton rev180dg';
-    llabel.innerHTML = '<i class="ico-open-right" data-toggle="toggle"></i>';
-    
-    var l = document.createElement('div');
-    l.appendChild(this.slider);
-    d2.appendChild(l);
-    
-    this.rightButton = document.createElement('div');
-    var rlabel = document.createElement('label');
-    this.rightButton.appendChild(rlabel);
-    d2.appendChild(this.rightButton);
-    this.rightButton.className = 'slidebuttonDiv';
-    rlabel.className = 'slidebutton normal';
-    rlabel.innerHTML = '<i class="ico-open-right" data-toggle="toggle"></i>';
-    
     this.slider.type="range";
-    this.slider.className = "slider";
     this.slider.min = opts.min || 0;
     this.slider.max = opts.max || 100;
     this.slider.value = opts.start || 100;
-    this.slider.step = 1;
-    self.label.innerHTML = (opts.start || 100) + '%';
+    this.slider.step = opts.step || 1;
+    this.container.appendChild(this.slider);
     
-    var setV = function (v, call) {
-        self.slider.value = v;
-        self.label.innerHTML = self.slider.value+"%";
-        (call) && (callback) && callback(v);
-    };
-    
+    this.container.style.height= self.size.h +"px"
+    this.container.style.width=self.size.w +"px"
+
     this.slider.oninput = function(e) {
-        self.slider.step = self.step;
-        setV(parseInt(this.value), true);
-        e.stopPropagation();
-        e.preventDefault();
-        self.slider.step = 1;
-    };
-    
-    this.leftButton.onclick = function(e) {
-        setV(parseInt(self.slider.value)-1, true);
+        self.setValue(this, true);
         e.stopPropagation();
         e.preventDefault();
     };
-    this.leftButton.onmousedown = function(e) {
-        leftInterval = setInterval( function() {
-            setV(parseInt(self.slider.value)-1);
-        }, speed);
-        e.stopPropagation();
-        e.preventDefault();
+
+	this.setValue = function(range, call) {
+        const
+            pct = Number( (range.value - range.min) / (range.max - range.min) ),
+            newPosition = 100 * (pct - 0.5),
+            newDelta =  self.size.tw * (0.5 - pct);
+
+        this.thumb.span.innerHTML = range.value+'%';
+        this.thumb.style.left = 'calc('+newPosition+'% + '+newDelta+'px)';
+
+        (call) && (self.callback) && self.callback(range.value);
     };
-    
-    this.leftButton.onmouseup = function(e) {
-        clearInterval(leftInterval);    
-        (callback) && callback(self.slider.value);
-    };
-    this.leftButton.onmouout = function(e) {
-        clearInterval(leftInterval);    
-        (callback) && callback(self.slider.value);
-    };
-    
-    this.rightButton.onclick = function(e) {
-        setV(parseInt(self.slider.value)+1, true);
-        e.stopPropagation();
-        e.preventDefault();
-    };
-    
-    this.rightButton.onmousedown = function(e) {
-        rightInterval = setInterval( function() {
-            setV(parseInt(self.slider.value)+1);
-        }, speed);
-        e.stopPropagation();
-        e.preventDefault();
-    };
-    
-    this.rightButton.onmouseup = function(e) {
-        clearInterval(rightInterval);    
-        (callback) && callback(self.slider.value);
-    };
-    this.rightButton.onmouseout = function(e) {
-        clearInterval(rightInterval);    
-        (callback) && callback(self.slider.value);
-    };
-    
 };
 
 DRAGGABLE.ui.Slider.prototype.enable = function( ) {
@@ -15734,13 +15651,13 @@ DRAGGABLE.ui.Slider.prototype.enable = function( ) {
 };
 
 DRAGGABLE.ui.Slider.prototype.disable = function( ) {
-    this.container.style.pointerEvents = 'none';
-    this.container.style.backgroundColor = 'gray';
-    this.container.style.opacity = '0.3';
+   this.container.style.pointerEvents = 'none';
+   this.container.style.backgroundColor = 'gray';
+   this.container.style.opacity = '0.3';
 };
 
 DRAGGABLE.ui.Slider.prototype.getValue = function( ) {
-    return this.slider.value;
+   return this.slider.value;
 };
 /* 
  * To change this license header, choose License Headers in Project Properties.
