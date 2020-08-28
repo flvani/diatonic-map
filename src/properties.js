@@ -133,6 +133,7 @@ SITE.LoadProperties = function() {
         SITE.properties.options.pianoSound = false;
         SITE.properties.options.autoRefresh = false;
         SITE.properties.options.keyboardRight = false;
+        SITE.properties.options.suppressTitles = false;
         
         salvar = true;
         
@@ -237,6 +238,7 @@ SITE.ResetProperties = function() {
         ,pianoSound: false
         ,autoRefresh: false
         ,keyboardRight: false
+        ,suppressTitles: false
     };
 
     SITE.properties.mediaDiv = {

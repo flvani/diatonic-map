@@ -6,10 +6,6 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     
     this.mapa = mapa;
 
-    if(!mapa){
-        this.isApp = true;
-    }
-    
     this.ypos = 0; // controle de scrollf
     this.lastStaffGroup = -1; // controle de scroll
     this.lastYpos = 0; // controle de scroll
@@ -149,37 +145,35 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         that.showKeyboard();
     }, false);
 
-    if(!this.isApp){
-        this.showEditorButton.addEventListener("click", function (evt) {
-            evt.preventDefault();
-            this.blur();
-            that.showEditor();
-        }, false);
+    this.showEditorButton.addEventListener("click", function (evt) {
+        evt.preventDefault();
+        this.blur();
+        that.showEditor();
+    }, false);
+
+    this.forceRefreshButton.addEventListener("click", function (evt) {
+        evt.preventDefault();
+        this.blur();
+        that.fireChanged(0, {force:true, showProgress:true } );
+    }, false);
     
-        this.forceRefreshButton.addEventListener("click", function (evt) {
-            evt.preventDefault();
-            this.blur();
-            that.fireChanged(0, {force:true, showProgress:true } );
-        }, false);
-        
-        this.saveButton.addEventListener("click", function (evt) {
-            evt.preventDefault();
-            this.blur();
-            that.salvaMusica();
-        }, false);
-        
-        this.printButton.addEventListener("click", function (evt) {
-            evt.preventDefault();
-            this.blur();
-            
-            SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
-            
-           
-            that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#studioDiv"], that.renderedTune.abc.formatting.landscape);
-            return;
+    this.saveButton.addEventListener("click", function (evt) {
+        evt.preventDefault();
+        this.blur();
+        that.salvaMusica();
+    }, false);
     
-        }, false);
-    }
+    this.printButton.addEventListener("click", function (evt) {
+        evt.preventDefault();
+        this.blur();
+        
+        SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
+        
+        
+        that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#studioDiv"], that.renderedTune.abc.formatting.landscape);
+        return;
+
+    }, false);
 
     this.modeButton.addEventListener('click', function (evt) {
         evt.preventDefault();
@@ -343,8 +337,6 @@ SITE.Estudio.prototype.setup = function( tab, accordionId) {
     this.renderedTune.abc = tab.abc;
     this.renderedTune.text = tab.text;
     this.renderedTune.title = tab.title;
-    this.studioCanvasDiv.scrollTop = 0;
-    
     
     this.changePlayMode(SITE.properties.studio.mode);
     this.setBassIcon();
@@ -355,33 +347,29 @@ SITE.Estudio.prototype.setup = function( tab, accordionId) {
     this.setString(tab.text);
     this.fireChanged(0, {force:true} );
     this.Div.setSubTitle( '- ' + this.accordion.getTxtModel() );
+    this.studioCanvasDiv.scrollTop = 0;
+
     this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
     
-    if(!this.isApp){
-        this.showEditor(SITE.properties.studio.editor.visible);
+    this.showEditor(SITE.properties.studio.editor.visible);
+
+    this.editorWindow.container.setSubTitle( '- ' + tab.title );
+    this.editorWindow.restartUndoManager();
     
-        this.editorWindow.container.setSubTitle( '- ' + tab.title );
-        this.editorWindow.restartUndoManager();
-        
-        if(SITE.properties.studio.editor.floating) {
-            if( SITE.properties.studio.editor.maximized ) {
-                this.editorWindow.setFloating(true);
-                this.editorWindow.container.dispatchAction('MAXIMIZE');
-            } else {
-                this.editorWindow.container.dispatchAction('POPOUT');
-            }
+    if(SITE.properties.studio.editor.floating) {
+        if( SITE.properties.studio.editor.maximized ) {
+            this.editorWindow.setFloating(true);
+            this.editorWindow.container.dispatchAction('MAXIMIZE');
         } else {
-            this.editorWindow.container.dispatchAction('POPIN');
+            this.editorWindow.container.dispatchAction('POPOUT');
         }
-    }
-
-    if(this.isApp) {
-        this.showKeyboard(true);
     } else {
-        this.showKeyboard(SITE.properties.studio.keyboard.visible);
+        this.editorWindow.container.dispatchAction('POPIN');
     }
-    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
 
+    this.showKeyboard(SITE.properties.studio.keyboard.visible);
+
+    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
     
     SITE.translator.translate( this.Div.topDiv );
 };

@@ -50,3 +50,118 @@
      font-size: 22px !important;
 }
 
+.slide-thumb > span {
+    opacity: 0.6;
+    font-size: 18px ;
+}
+
+.draggableToolBarApp {
+    clear: both;
+    font-family: "abcx";
+    height: 40px;
+    font-size: 16px;
+    position: relative;
+    display:inline-block;
+    margin: 0;
+    padding: 1px;
+    width: calc(100% - 2px);
+    height: auto; 
+    pointer-events: auto;
+    background: lightblue;
+    background-color: #EBEBEB;
+    background: #e9edf0;
+    border-bottom: 1px solid rgba(100,100,100,0.5);
+}
+
+.draggableToolBarApp button {
+    position: relative;
+    display: block;
+    float:left;
+    text-align: left;
+    font-family: 'Milonga','Arial';
+    font-weight: normal;
+    font-size: 32px;
+    line-height: 32px;
+    height: 32px;
+    width: auto;
+    text-shadow: 2px 1px 2px rgba(50, 50, 50, 0.8); 
+    left: 0;
+    margin: 0;
+    margin-left: 4px;
+    padding: 4px;
+    outline: none !important;
+    border: none;
+    color: red;
+    background-color: transparent;
+    
+}
+
+.keyboard-btn-group {
+    position: absolute; 
+    display:inline-block;
+    top: 0px;
+    margin-top: 2px;
+    margin-left: 5px;
+    font-family: "abcx";
+    height: 40px;
+    width: fit-content;
+    font-size: 16px;
+    margin: 0;
+    padding: 1px;
+    pointer-events: auto;
+    background: #e9edf0;
+/*
+    background: lightblue;
+    background-color: #EBEBEB;
+*/    
+}
+
+.keyboard-btn-group label,
+.keyboard-btn-group button {
+    position: relative;
+    display: block;
+    float:left;
+    text-align: left;
+    font-family: 'Milonga','Arial';
+    font-weight: normal;
+    font-size: 32px;
+    line-height: 32px;
+    height: 32px;
+    width: auto;
+    text-shadow: 2px 1px 2px rgba(50, 50, 50, 0.8); 
+    left: 0;
+    margin: 0;
+    margin-left: 4px;
+    padding: 4px;
+    outline: none !important;
+    border: none;
+    color: red;
+    background-color: transparent;
+
+}
+
+.keyboard-btn-group button:hover {
+    background: lavender;
+    cursor: pointer;
+}
+
+.circular { 
+    position: absolute; 
+    display:inline-block;
+    bottom:20px;
+    border-radius: 50%; 
+    z-index: -10 ; 
+    background: rgba(100, 100, 100, 0.5);    
+    box-shadow: 0 0 15px 15px rgba(100, 100, 100, 0.5);    
+    height: 80px; 
+    width: 80px;
+ }
+
+.circular img { 
+    position: relative;
+    border: none;
+    margin-top:-10px;
+    margin-left:-10px;
+    height:100px; 
+    width: 100px;
+}

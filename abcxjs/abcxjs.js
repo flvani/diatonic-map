@@ -14216,7 +14216,7 @@ DRAGGABLE.ui.Window = function( parent, aButtons, options, callback, aToolBarBut
     }
     
     this.calcMinHeight = function () {
-        this.minHeight = (this.menuDiv ? this.menuDiv.clientHeight : 0 ) 
+        this.minHeight = (this.menuDiv && this.menuDiv.style.display !== 'none' ? this.menuDiv.clientHeight : 0 ) 
            + (this.toolBar && this.toolBar.style.display !== 'none' ? this.toolBar.clientHeight : 0 ) 
            + (this.bottomBar && this.bottomBar.style.display !== 'none' ? this.bottomBar.clientHeight+3 : 0 );
     };
@@ -14391,8 +14391,12 @@ DRAGGABLE.ui.Window.prototype.setSize = function( width, height ) {
 DRAGGABLE.ui.Window.prototype.setVisible = function( visible ) {
     this.topDiv.style.display=(visible? 'block':'none');
     (visible) && this.focus();
-
 };
+
+DRAGGABLE.ui.Window.prototype.setMenuVisible = function( visible ) {
+    this.menuDiv.style.display=(visible? 'block':'none');
+    (visible) && this.focus();
+}
 
 DRAGGABLE.ui.Window.prototype.setToolBarVisible = function (visible) {
     if( this.toolBar ) {
@@ -15584,7 +15588,8 @@ DRAGGABLE.ui.Slider = function (topDiv, opts ) {
     self.step = opts.step || 5;
     self.size = opts.size || { w: 150, h:23, tw: 42 }
     self.callback = opts.callback;
-    
+    self.type = opts.type || 'perc';
+
     this.id = ++ DRAGGABLE.ui.slideId;
     this.container = ( typeof topDiv === 'object' ) ? topDiv : document.getElementById(topDiv);
 
@@ -15607,8 +15612,8 @@ DRAGGABLE.ui.Slider = function (topDiv, opts ) {
     this.thumb.span.style.color  =  self.color;
     this.thumb.span.style.background  =  self.bgcolor;
     this.thumb.span.style.width  = + self.size.tw + 'px';
-    this.thumb.span.style.height  = (self.size.h + 2) +  'px';
-    this.thumb.span.style.lineHeight  = (self.size.h + 2) +  'px';
+    this.thumb.span.style.height  = (self.size.h + 1) +  'px';
+    this.thumb.span.style.lineHeight  = (self.size.h + 1) +  'px';
     this.thumb.span.style.marginTop  = '-1px';
     this.thumb.span.style.paddingTop  = '1px';
     this.thumb.span.innerHTML  = (opts.start + '%') || 100;
@@ -15626,22 +15631,46 @@ DRAGGABLE.ui.Slider = function (topDiv, opts ) {
     this.container.style.width=self.size.w +"px"
 
     this.slider.oninput = function(e) {
-        self.setValue(this, true);
+        self.updateScreen(true);
         e.stopPropagation();
         e.preventDefault();
     };
 
-	this.setValue = function(range, call) {
+	this.setValue = function(val) {
+        this.slider.value = val;
+        this.updateScreen(false);
+    }
+
+	this.updateScreen = function(call) {
         const
-            pct = Number( (range.value - range.min) / (range.max - range.min) ),
+            pct = Number( (this.slider.value - this.slider.min) / (this.slider.max - this.slider.min) ),
             newPosition = 100 * (pct - 0.5),
             newDelta =  self.size.tw * (0.5 - pct);
 
-        this.thumb.span.innerHTML = range.value+'%';
+        this.setDisplay(this.slider.value);
+
         this.thumb.style.left = 'calc('+newPosition+'% + '+newDelta+'px)';
 
-        (call) && (self.callback) && self.callback(range.value);
+        (call) && (self.callback) && self.callback(this.slider.value);
     };
+
+	this.setDisplay = function(val) {
+        switch( this.type ) {
+            case 'perc':
+                this.thumb.span.innerHTML = val+'%';
+                break;
+            case 'bin':
+                this.thumb.span.innerHTML = val>0?'on':'off';
+                this.thumb.style.filter = (val>0?'none': "grayscale(1)");
+                this.tracker.style.filter = (val>0?'none': "grayscale(100%)");
+                break;
+            default:
+                this.thumb.span.innerHTML = val;
+                break;
+        }
+    };
+
+    self.updateScreen(false);
 };
 
 DRAGGABLE.ui.Slider.prototype.enable = function( ) {
@@ -15659,7 +15688,11 @@ DRAGGABLE.ui.Slider.prototype.disable = function( ) {
 DRAGGABLE.ui.Slider.prototype.getValue = function( ) {
    return this.slider.value;
 };
-/* 
+
+DRAGGABLE.ui.Slider.prototype.getBoolValue = function( ) {
+    return (this.slider.value != 0);
+ };
+ /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.

@@ -64,8 +64,6 @@ SITE.App = function( interfaceParams, tabParams, playerParams ) {
     
     this.setVisible(true);
     this.resize();
-
-    //waterbug.show();
     
 };
 
@@ -112,6 +110,7 @@ SITE.App.prototype.songSelectorPopulate = function() {
 
     if( !achou && items.sortedIndex.length > 0 ) {
         var title = items.sortedIndex[0];
+        this.tab.title = title;
         var cleanedTitle = title.replace(/\(.*\)/g,"").trim();
         this.menuSongs.setSubMenuTitle( this.tab.ddmId, cleanedTitle );
         this.menuSongs.selectItem(this.tab.ddmId, this.tab.type+'#'+items.details[title].id);
@@ -196,32 +195,20 @@ SITE.App.prototype.openAppView = function (button, event) {
                ,backBtn: 'backBtn'
                ,showMapBtn: 'showMapBtn'
                ,printBtn: 'printBtn'
-               //,showEditorBtn: 'showEditorBtn'
-               //,showTextBtn: 'showTextBtn'
-               //,printBtn:'printBtn'
-               //,saveBtn:'saveBtn'
-               //,forceRefresh:'forceRefresh'
-               ,btShowMedia: 'buttonShowMedia2'
+               ,btShowMedia: 'buttonShowMedia'
                ,accordion_options: {
                      id: this.accordion.getId()
                     ,accordionMaps: DIATONIC.map.accordionMaps
                     ,translator: SITE.translator 
-                    ,render_keyboard_opts:{
-                         transpose:false
-                        ,mirror:false
-                        ,scale:0.8
-                        ,draggable:false
-                        ,show:false
-                        ,label:false
-                    }
+                    ,render_keyboard_opts:{}
                 }
                ,onchange: function( appView ) { appView.onChange(); }
           } 
           , {   // playerParams
                 modeBtn: "modeBtn"
               , timerBtn: "timerBtn"
-              , playBtn: "playBtn2"
-              , stopBtn: "stopBtn2"
+              , playBtn: "playBtn"
+              , stopBtn: "stopBtn"
               , clearBtn: "clearBtn"
               , gotoMeasureBtn: "gotoMeasureBtn"
               , untilMeasureBtn: "untilMeasureBtn"
@@ -231,7 +218,7 @@ SITE.App.prototype.openAppView = function (button, event) {
               , tempoSld: "tempoSld"
               , GClefBtn: "GClefBtn"
               , FClefBtn: "FClefBtn"
-              , currentPlayTimeLabel: "currentPlayTimeLabel2"
+              , currentPlayTimeLabel: "currentPlayTimeLabel"
           } 
         );
     }
@@ -240,7 +227,7 @@ SITE.App.prototype.openAppView = function (button, event) {
 
     if( tab.text ) {
         SITE.ga('send', 'event', 'Mapa5', 'view', tab.title);
-        
+        console.log( 'view '+tab.title )
         
         var loader = this.startLoader( "openAppView" );
         loader.start(  function() { 
@@ -284,6 +271,7 @@ SITE.App.prototype.startPlay = function( type, value ) {
     }
 };
 
+/*
 SITE.App.prototype.setScrolling = function(player) {
     if( !this.activeTab || player.currAbsElem.staffGroup === this.lastStaffGroup ) return;
     
@@ -299,7 +287,7 @@ SITE.App.prototype.setScrolling = function(player) {
         this.activeTab.div.scrollTop = this.ypos;    
     }
 };
-
+*/
 
 SITE.App.prototype.showTab = function(tabString) {
     
@@ -441,8 +429,9 @@ SITE.App.prototype.startLoader = function(id, container, start, stop) {
 };
 
 SITE.App.prototype.defineInstrument = function(onlySet) {
+    var that = this;
     
-    var instrument = SITE.properties.options.pianoSound ?  "acoustic_grand_piano" : "accordion" ;
+    that.instrument = SITE.properties.options.pianoSound ?  "acoustic_grand_piano" : "accordion" ;
     
     var setInstrument = function () {
         var instrumentId = SITE.properties.options.pianoSound? 0: 21; // accordion
@@ -468,7 +457,7 @@ SITE.App.prototype.defineInstrument = function(onlySet) {
 
     MIDI.loadPlugin({
          soundfontUrl: "./soundfont/"
-        ,instruments: instrument
+        ,instruments: that.instrument
         ,onprogress: function( total, done, currentPercent ) {
             var percent = ((done*100)+currentPercent)/(total);
             MIDI.widget.setValue(Math.round(percent));
@@ -496,7 +485,7 @@ SITE.App.prototype.showSettings = function() {
         this.settings.window = new DRAGGABLE.ui.Window( 
               null 
             , null
-            , {title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, top: "40px", left: x+"px", height:'400px',  width: width+'px', zIndex: 50} 
+            , {title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, top: "40px", left: x+"px", height:'440px',  width: width+'px', zIndex: 50} 
             , {listener: this, method: 'settingsCallback'}
         );
 
@@ -519,43 +508,47 @@ SITE.App.prototype.showSettings = function() {
         <div class="menu-group">\
             <table>\
               <tr>\
-                <th colspan="2"><span data-translate="PrefsIdiom" >'+SITE.translator.getResource('PrefsIdiom')+'</span></th><th><div id="settingsLanguageMenu" class="topMenu"></div></th>\
+                <th colspan="2"><span data-translate="PrefsIdiom" >'+SITE.translator.getResource('PrefsIdiom')+'</span></th>\
+                <th><div id="settingsLanguageMenu" class="topMenu"></div></th>\
               </tr>\
               <tr>\
                 <th colspan="2"><br><span data-translate="PrefsColor" >'+SITE.translator.getResource('PrefsColor')+'</span></th><td></td>\
               </tr>\
               <tr>\
-                <td style="width:15px;"></td><td data-translate="PrefsColorHighlight" >'
-                    +SITE.translator.getResource('PrefsColorHighlight')
-                        +'</td><td><input id="corRealce" type="text" readonly ><input id="chkTransparency" type="checkbox">&nbsp;\
-                        <a style="text-decoration:none; color:black;" href="#" onClick="(function(){document.getElementById(\'chkTransparency\').checked=!document.getElementById(\'chkTransparency\').checked})();return false;">\
-                        <span data-translate="PrefsColorTransparency" >'
-                            +SITE.translator.getResource('PrefsColorTransparency')+'</span></td>\
+                <td style="width:15px;"></td><td data-translate="PrefsColorHighlight" >'+SITE.translator.getResource('PrefsColorHighlight')+'</td>\
+                <td><input id="corRealce" type="text" readonly ><div id="sldTransparency"></div>\
+                        <span data-translate="PrefsColorTransparency" >'+SITE.translator.getResource('PrefsColorTransparency')+'</span></td>\
               </tr>\
               <tr>\
-                <td></td><td data-translate="PrefsColorClosingBellows" >'+SITE.translator.getResource('PrefsColorClosingBellows')+'</td><td><input readonly id="foleFechando" type="text" ></td>\
+                <td></td><td data-translate="PrefsColorClosingBellows" >'+SITE.translator.getResource('PrefsColorClosingBellows')+'</td>\
+                <td><input readonly id="foleFechando" type="text" ></td>\
               </tr>\
               <tr>\
-                <td></td><td data-translate="PrefsColorOpeningBellows" >'+SITE.translator.getResource('PrefsColorOpeningBellows')+'</td><td><input readonly id="foleAbrindo" type="text" ></td>\
+                <td></td><td data-translate="PrefsColorOpeningBellows" >'+SITE.translator.getResource('PrefsColorOpeningBellows')+'</td>\
+                <td><input readonly id="foleAbrindo" type="text" ></td>\
               </tr>\
               <tr>\
                 <th colspan="2"><br><span data-translate="PrefsProps" >'+SITE.translator.getResource('PrefsProps')+'</span></th><td></td>\
               </tr>\
               <tr style="height:40px;">\
-                <td> </td><td colspan="2"><input id="chkPiano" type="checkbox">&nbsp;\
-                <a style="text-decoration:none; color:black;" href="#" onClick="(function(){document.getElementById(\'chkPiano\').checked=!document.getElementById(\'chkPiano\').checked})();return false;">\
+                <td> </td><td colspan="2"><div id="sldPianoSound"></div>\
                 <span data-translate="PrefsPropsCKPiano" >'+SITE.translator.getResource('PrefsPropsCKPiano')+'</span></a></td>\
               </tr>\
-              <tr>\
-                <td> </td><td colspan="2"><input id="chkKeyboardRight" type="checkbox">&nbsp;\
-                <a style="text-decoration:none; color:black;" href="#" onClick="(function(){document.getElementById(\'chkKeyboardRight\').checked=!document.getElementById(\'chkKeyboardRight\').checked})();return false;">\
+              <tr style="height:40px;">\
+                <td> </td><td colspan="2"><div id="sldKeyboardRight"></div>\
                 <span data-translate="PrefsPropsCKkeyboardAlignRight" >'+SITE.translator.getResource('PrefsPropsCKkeyboardAlignRight')+'</span></td>\
               </tr>\
-              <tr style="display:none;">\
-                <td> </td><td colspan="2"><input id="chkWarnings" type="checkbox">&nbsp;<span data-translate="PrefsPropsCKShowWarnings" >'+SITE.translator.getResource('PrefsPropsCKShowWarnings')+'</span></td>\
+              <tr style="height:40px;">\
+                <td> </td><td colspan="2"><div id="sldSuppressTitles"></div>\
+                <span data-translate="PrefsPropsChkSuppressTitles" >'+SITE.translator.getResource('PrefsPropsChkSuppressTitles')+'</span></td>\
               </tr>\
               <tr style="display:none;">\
-                <td> </td><td colspan="2"><input id="chkAutoRefresh" type="checkbox">&nbsp;<span data-translate="PrefsPropsCKAutoRefresh" >'+SITE.translator.getResource('PrefsPropsCKAutoRefresh')+'</span></td>\
+                <td> </td><td colspan="2"><input id="chkWarnings" type="checkbox">&nbsp;\
+                <span data-translate="PrefsPropsCKShowWarnings" >'+SITE.translator.getResource('PrefsPropsCKShowWarnings')+'</span></td>\
+              </tr>\
+              <tr style="display:none;">\
+                <td> </td><td colspan="2"><input id="chkAutoRefresh" type="checkbox">&nbsp;\
+                <span data-translate="PrefsPropsCKAutoRefresh" >'+SITE.translator.getResource('PrefsPropsCKAutoRefresh')+'</span></td>\
               </tr>\
               </table>\
         </div>\
@@ -565,8 +558,21 @@ SITE.App.prototype.showSettings = function() {
             <div id="botao3"></div>\n\
         </div>';
      
-        
+        this.settings.sldTransparency = new DRAGGABLE.ui.Slider( document.getElementById( 'sldTransparency' ),
+            { min: 0, max: 1, start: 0, step:1, type: 'bin', speed:100, color: 'white', bgcolor:'red', size:{w:60 , h:25, tw:40}, callback: null } 
+        );
 
+        this.settings.sldPianoSound = new DRAGGABLE.ui.Slider( document.getElementById( 'sldPianoSound' ),
+            { min: 0, max: 1, start: 0, step:1, type: 'bin', speed:100, color: 'white', bgcolor:'red', size:{w:60 , h:25, tw:40}, callback: null } 
+        );
+
+        this.settings.sldKeyboardRight = new DRAGGABLE.ui.Slider( document.getElementById( 'sldKeyboardRight' ),
+            { min: 0, max: 1, start: 0, step:1, type: 'bin', speed:100, color: 'white', bgcolor:'red', size:{w:60 , h:25, tw:40}, callback: null } 
+        );
+
+        this.settings.sldSuppressTitles = new DRAGGABLE.ui.Slider( document.getElementById( 'sldSuppressTitles' ),
+            { min: 0, max: 1, start: 0, step:1, type: 'bin', speed:100, color: 'white', bgcolor:'red', size:{w:60 , h:25, tw:40}, callback: null } 
+        );
 
         this.settings.window.addPushButtons([
             'botao1|apply',
@@ -574,11 +580,6 @@ SITE.App.prototype.showSettings = function() {
             'botao3|cancel'
         ]);
                 
-//        var selector = new ABCXJS.edit.AccordionSelector( 
-//                'sel2', 'settingsAcordeonsMenu', {listener: this, method: 'settingsCallback'} );
-//        
-//        selector.populate(true, 'GAITA_HOHNER_CLUB_IIIM_BR');
-        
         this.settings.menu = new DRAGGABLE.ui.DropdownMenu(
                'settingsLanguageMenu'
             ,  { listener:this, method: 'settingsCallback', translate: false  }
@@ -588,27 +589,31 @@ SITE.App.prototype.showSettings = function() {
         this.picker = new DRAGGABLE.ui.ColorPicker(['corRealce', 'foleFechando', 'foleAbrindo'], {readonly: false, translator: SITE.translator});
       
         SITE.translator.menuPopulate(this.settings.menu, 'menuIdiomas');
+        
         this.settings.lang = SITE.properties.options.language;
 
-        this.settings.useTransparency =  document.getElementById( 'chkTransparency');
         this.settings.corRealce = document.getElementById( 'corRealce');
         this.settings.closeColor = document.getElementById( 'foleFechando');
         this.settings.openColor = document.getElementById( 'foleAbrindo');
-        this.settings.keyboardRight = document.getElementById( 'chkKeyboardRight');
+
         this.settings.showWarnings = document.getElementById( 'chkWarnings');
         this.settings.autoRefresh = document.getElementById( 'chkAutoRefresh');
-        this.settings.pianoSound = document.getElementById( 'chkPiano');
-    }            
+    }          
+
+    this.settings.originalLang = SITE.properties.options.language;
+    this.settings.originalPianoSound = SITE.properties.options.pianoSound;
     
     this.settings.corRealce.style.backgroundColor = this.settings.corRealce.value = SITE.properties.colors.highLight;
     this.settings.closeColor.style.backgroundColor = this.settings.closeColor.value = SITE.properties.colors.close;
     this.settings.openColor.style.backgroundColor = this.settings.openColor.value = SITE.properties.colors.open ;
 
-    this.settings.keyboardRight.checked = SITE.properties.options.keyboardRight;
+    this.settings.sldTransparency.setValue(SITE.properties.colors.useTransparency?"1":"0", false);
+    this.settings.sldPianoSound.setValue(SITE.properties.options.pianoSound?"1":"0", false);
+    this.settings.sldKeyboardRight.setValue(SITE.properties.options.keyboardRight?"1":"0", false);
+    this.settings.sldSuppressTitles.setValue(SITE.properties.options.suppressTitles?"1":"0", false);
+
     this.settings.showWarnings.checked = SITE.properties.options.showWarnings;
     this.settings.autoRefresh.checked = SITE.properties.options.autoRefresh;
-    this.settings.pianoSound.checked = SITE.properties.options.pianoSound;
-    this.settings.useTransparency.checked = SITE.properties.colors.useTransparency;
     
     this.settings.window.setVisible(true);
     
@@ -636,10 +641,15 @@ SITE.App.prototype.settingsCallback = function (action, elem) {
             SITE.properties.colors.highLight = this.settings.corRealce.value;
             SITE.properties.colors.close = this.settings.closeColor.value;
             SITE.properties.colors.open = this.settings.openColor.value;
-            SITE.properties.options.keyboardRight = this.settings.keyboardRight.checked;
+
+            SITE.properties.colors.useTransparency = this.settings.sldTransparency.getBoolValue();
+            SITE.properties.options.keyboardRight = this.settings.sldKeyboardRight.getBoolValue();
+            SITE.properties.options.suppressTitles = this.settings.sldSuppressTitles.getBoolValue();
+            SITE.properties.options.pianoSound = this.settings.sldPianoSound.getBoolValue();
+            SITE.properties.options.language = this.settings.lang;
+
             SITE.properties.options.showWarnings = this.settings.showWarnings.checked;
             SITE.properties.options.autoRefresh = this.settings.autoRefresh.checked;
-            SITE.properties.colors.useTransparency = this.settings.useTransparency.checked;
 
             this.picker.close();
             this.settings.window.setVisible(false);
@@ -671,28 +681,20 @@ SITE.App.prototype.settingsCallback = function (action, elem) {
 
 SITE.App.prototype.applySettings = function() {
 
-    if( this.settings.lang !== SITE.properties.options.language ) {
-        SITE.properties.options.language = this.settings.lang;
-        
+    if( this.settings.originalLang !== SITE.properties.options.language ) {
         SITE.ga('send', 'event', 'Configuration', 'changeLang', SITE.properties.options.language);
-
         SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
-    }
-    
-    if( this.settings.pianoSound.checked  !== SITE.properties.options.pianoSound ) {
-        SITE.properties.options.pianoSound = this.settings.pianoSound.checked;
-        SITE.ga('send', 'event', 'Configuration', 'changeInstrument', SITE.properties.options.pianoSound?'piano':'accordion');
-        
-        this.defineInstrument();
         this.setPrivacyLang();
     }
     
-    //this.media.show(this.getActiveTab());
+    if( this.settings.originalPianoSound !== SITE.properties.options.pianoSound ) {
+        SITE.ga('send', 'event', 'Configuration', 'changeInstrument', SITE.properties.options.pianoSound?'piano':'accordion');
+        this.defineInstrument();
+    }
+    
 
     if (this.appView) {
         
-        //this.appView.setAutoRefresh(SITE.properties.options.autoRefresh);
-
         this.appView.warningsDiv.style.display = SITE.properties.options.showWarnings ? 'block' : 'none';
         
         if( SITE.properties.options.keyboardRight )
@@ -700,6 +702,17 @@ SITE.App.prototype.applySettings = function() {
         else    
             this.appView.resize = this.appView.resizeLeft;
 
+        if( SITE.properties.options.suppressTitles ) {
+            this.appView.keyboardWindow.imagem.style.display='inline';
+            this.appView.keyboardWindow.extras.style.display='inline';
+        } else{
+            this.appView.keyboardWindow.imagem.style.display='none';
+            this.appView.keyboardWindow.extras.style.display='none';
+        }
+        this.appView.Div.setMenuVisible(!SITE.properties.options.suppressTitles);
+        this.appView.keyboardWindow.setMenuVisible(!SITE.properties.options.suppressTitles);
+        this.appView.keyboardMirrorElements()
+    
     }
     
     this.resizeActiveWindow();

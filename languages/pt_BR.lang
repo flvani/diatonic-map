@@ -178,5 +178,6 @@
         ,"AboutAppTitle": "Sobre esta aplicação"
         ,"PrivacyTitle": "Política de privacidade"
         ,"TermsTitle": "Termos e Condições"
+        ,"PrefsPropsChkSuppressTitles": "Suprimir títulos de janelas"
    }
 }
