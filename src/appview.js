@@ -9,17 +9,12 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
     this.app = app;
     this.isApp = true;
 
-    if( SITE.properties.options.keyboardRight )
-        this.resize = this.resizeRight;
-    else    
-        this.resize = this.resizeLeft;
-    
-    this.ypos = 0; // controle de scrollf
+    this.ypos = 0; // controle de scroll
     this.lastStaffGroup = -1; // controle de scroll
     this.lastYpos = 0; // controle de scroll
     
     var canvas_id = 'canvasDiv';
-    var warnings_id = 'warningsDiv';
+   //var warnings_id = 'warningsDiv';
 
     this.warnings = [];
     
@@ -110,14 +105,10 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
     this.controlDiv.innerHTML = document.getElementById(interfaceParams.studioControlDiv).innerHTML;
     document.getElementById(interfaceParams.studioControlDiv).innerHTML = "";
 
-    this.controlDiv.style.paddingBottom="5px";
-
+    this.controlDiv.style.borderBottom = "1px solid rgba(255, 153, 34, 0.4)"
+    this.Div.topDiv.style.borderLeft = "1px solid rgba(255, 153, 34, 0.4)"
+    
     this.media = new SITE.Media( this.Div.dataDiv, interfaceParams.btShowMedia, SITE.properties.studio.media ); 
-
-    this.warningsDiv = document.createElement("DIV");
-    this.warningsDiv.setAttribute("id", warnings_id);
-    this.warningsDiv.setAttribute("class", "warningsDiv" );
-    this.Div.dataDiv.appendChild(this.warningsDiv);
 
     this.studioCanvasDiv = document.createElement("DIV");
     this.studioCanvasDiv.setAttribute("id", interfaceParams.studioCanvasDiv );
@@ -154,8 +145,6 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
     this.printButton = document.getElementById(interfaceParams.printBtn);
     this.backButton = document.getElementById(interfaceParams.backBtn);
     this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
-
-    //this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
 
     // player control
     this.modeButton = document.getElementById(playerParams.modeBtn);
@@ -207,13 +196,11 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
     this.printButton.addEventListener("click", function (evt) {
         evt.preventDefault();
         this.blur();
-        
-        SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
-        
-       
-        that.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#mapaDiv" ], that.renderedTune.abc.formatting.landscape);
-        return;
-
+        that.printPreview(
+            that.renderedTune.div.innerHTML, 
+            ["#topBar","#mapaDiv", "#keyboardDiv", "#studioDiv" ], 
+            that.renderedTune.abc.formatting.landscape
+        );
     }, false);
 
     this.modeButton.addEventListener('click', function (evt) {
@@ -252,7 +239,6 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
     this.stopButton.addEventListener("click", function (evt) {
         evt.preventDefault();
         this.blur();
-        //that.blockEdition(false);
         if(that.currentPlayTimeLabel)
            that.currentPlayTimeLabel.innerHTML = "00:00.00";
         that.studioStopPlay();
@@ -264,10 +250,8 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         that.renderedTune.printer.clearSelection();
         that.accordion.clearKeyboard(true);
         that.currentPlayTimeLabel.innerHTML = "00:00.00";
-        //that.blockEdition(false);
         that.studioStopPlay();
     }, false);
-
 
     this.stepButton.addEventListener("click", function (evt) {
         evt.preventDefault();
@@ -289,7 +273,7 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
 
     this.slider = new DRAGGABLE.ui.Slider( this.tempoButton,
         {
-            min: 25, max: 200, start:100, step:25, speed:100, color: 'white', bgcolor:'red', size:{w:180, h:35, tw:60},
+            min: 25, max: 200, start:100, step:25, speed:100, color: 'white', bgcolor:'red' /*'#ff9922'*/, size:{w:180, h:35, tw:60},
             callback: function(v) { that.midiPlayer.setAndamento(v); } 
         } 
     );
@@ -350,14 +334,6 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         that.playButton.innerHTML = '&#160;<i class="ico-play"></i>&#160;';
         that.renderedTune.printer.clearSelection();
         that.accordion.clearKeyboard(true);
-        //that.blockEdition(false);
-        if( warns ) {
-            var wd =  document.getElementById("warningsDiv");
-            var txt = "";
-            warns.forEach(function(msg){ txt += msg + '<br/>'; });
-            wd.style.color = 'blue';
-            wd.innerHTML = txt;
-        }
     };
 
     this.midiParser = new ABCXJS.midi.Parse();
@@ -365,8 +341,6 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
     this.midiPlayer.defineCallbackOnPlay( this.playerCallBackOnPlay );
     this.midiPlayer.defineCallbackOnEnd( this.playerCallBackOnEnd );
     this.midiPlayer.defineCallbackOnScroll( this.playerCallBackOnScroll );
-
-    //this.showKeyboard(SITE.properties.studio.keyboard.visible);
     
 };
 
@@ -384,33 +358,17 @@ SITE.AppView.prototype.setup = function( tab, accordionId) {
     this.setTimerIcon( 0 );
     
     this.setVisible(true);
+    this.setKeyboardDetails();
+
     this.fireChanged(0, {force:true} );
     this.studioCanvasDiv.scrollTop = 0;
 
     this.Div.setTitle( tab.title );
     this.Div.setSubTitle( '- ' + this.accordion.getTxtModel() + ' ' +  this.accordion.getTxtTuning() );
 
-    this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
-
-    this.keyboardWindow.imagem.innerHTML = 
-        '<img src="'+this.app.accordion.loaded.image+'" alt="' +
-        this.app.accordion.getFullName() + ' ' + SITE.translator.getResource('keys') + '">';
-
-    if( SITE.properties.options.suppressTitles ) {
-        this.keyboardWindow.imagem.style.display='inline';
-        this.keyboardWindow.extras.style.display='inline';
-    } else{
-        this.keyboardWindow.imagem.style.display='none';
-        this.keyboardWindow.extras.style.display='none';
-    }
-
-    this.Div.setMenuVisible(!SITE.properties.options.suppressTitles);
-    this.keyboardWindow.setMenuVisible(!SITE.properties.options.suppressTitles);
-    this.keyboardMirrorElements()
+    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
 
     this.showKeyboard(SITE.properties.studio.keyboard.visible);
-    
-    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
     
     this.keyboardWindow.resize();
     this.Div.resize();
@@ -446,10 +404,6 @@ SITE.AppView.prototype.resizeLeft = function( ) {
     var c = this.controlDiv.clientHeight;
     var t = this.Div.dataDiv.clientHeight;
     
-    if(! SITE.properties.showWarnings) {
-        w = this.warningsDiv.clientHeight;
-    }
-
     this.studioCanvasDiv.style.height = t-(w+e+c+6) +"px";
 
     this.media.posiciona();
@@ -485,10 +439,6 @@ SITE.AppView.prototype.resizeRight = function( ) {
     var c = this.controlDiv.clientHeight;
     var t = this.Div.dataDiv.clientHeight;
     
-    if(! SITE.properties.showWarnings) {
-        w = this.warningsDiv.clientHeight;
-    }
-
     this.studioCanvasDiv.style.height = t-(w+e+c+6) +"px";
 
     this.media.posiciona();
@@ -507,7 +457,6 @@ SITE.AppView.prototype.showKeyboard = function(show) {
         this.keyboardWindow.setVisible(true);
         this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
         this.showMapButton.innerHTML = '<i class="ico-keyboard" ></i>';
-        //this.posicionaTeclado();
     } else {
         this.accordion.render_opts.show = false;
         this.keyboardWindow.setVisible(false);
@@ -516,95 +465,29 @@ SITE.AppView.prototype.showKeyboard = function(show) {
     }
 };
 
-/* 
-SITE.AppView.prototype.showEditor = function(show) {
-    SITE.properties.studio.editor.visible = 
-            (typeof show === 'undefined'? ! SITE.properties.studio.editor.visible : show );
+SITE.AppView.prototype.setKeyboardDetails = function( ) {
+
+    this.keyboardWindow.imagem.innerHTML = 
+        '<img src="'+this.app.accordion.loaded.image+'" alt="' +
+        this.app.accordion.getFullName() + ' ' + SITE.translator.getResource('keys') + '">';
+
+    if( SITE.properties.options.keyboardRight )
+        this.resize = this.resizeRight;
+    else    
+        this.resize = this.resizeLeft;
     
-    if(SITE.properties.studio.editor.visible) {
-        this.editorWindow.setVisible(true);
-        this.editorWindow.resize();
-        document.getElementById('I_showEditor').setAttribute('class', 'ico-folder-open' );
-    } else {
-        document.getElementById('I_showEditor').setAttribute('class', 'ico-folder' );
-        this.editorWindow.setVisible(false);
+    if( SITE.properties.options.suppressTitles ) {
+        this.keyboardWindow.imagem.style.display='inline';
+        this.keyboardWindow.extras.style.display='inline';
+    } else{
+        this.keyboardWindow.imagem.style.display='none';
+        this.keyboardWindow.extras.style.display='none';
     }
-    this.resize();
-};
-SITE.AppView.prototype.editorCallback = function (action, elem) {
-    switch(action) {
-        case '0': 
-            break;
-        case  '1':  case  '2':  case  '3':  case   '4': case   '5': case '6': 
-        case  '7':  case  '8':  case  '9':  case  '10': case  '11': 
-        case '-1':  case '-2':  case '-3':  case  '-4': case  '-5': case '-6': 
-        case '-7':  case '-8':  case '-9':  case '-10': case '-11': 
-            this.fireChanged( parseInt(action), {force:true} );
-           break;
-        case 'OCTAVEUP': 
-           this.fireChanged(12, {force:true} );
-           break;
-        case 'OCTAVEDOWN': 
-           this.fireChanged(-12, {force:true} );
-           break;
-        case 'REFRESH': 
-           this.fireChanged(0, {force:true} );
-           break;
-        case 'DOWNLOAD': 
-           this.salvaMusica();
-           break;
-        case 'MAXIMIZE': 
-            this.editorWindow.maximizeWindow( true, SITE.properties.studio.editor );
-            break;
-        case 'RESTORE': 
-            this.editorWindow.maximizeWindow( false, SITE.properties.studio.editor );
-            break;
-        case 'POPIN':
-            this.editorWindow.dockWindow(true, SITE.properties.studio.editor, 0, 0, "calc(100% - 5px)", "200px"  );
-            this.resize();
-            break;
-        case 'POPOUT':
-            this.editorWindow.dockWindow(false, SITE.properties.studio.editor );
-            this.resize();
-            break;
-        case 'RESIZE':
-        case 'MOVE':
-            this.editorWindow.retrieveProps( SITE.properties.studio.editor );
-            break;
-        case 'CLOSE':
-            this.showEditor(false);
-            break;
-    }
-};
- */
 
-SITE.AppView.prototype.appViewCallBack = function( e ) {
-    switch(e) {
-        case 'CLOSE':
-            this.app.closeAppView();
-            break;
-    }
-};
-        
-SITE.AppView.prototype.studioStopPlay = function( e ) {
-    this.midiPlayer.stopPlay();
-};
-
-SITE.AppView.prototype.setVisible = function(  visible ) {
-    this.Div.parent.style.display = visible?'block':'none';
-};
-
-//SITE.AppView.prototype.setAutoRefresh = function( value ) {
-    //this.editorWindow.setCompileOnChange(value);
-//};
-
-//SITE.AppView.prototype.getString = function() {
-//  return this.editorWindow.getString();
-//};
-
-//SITE.AppView.prototype.setString = function(str) {
-//    this.editorWindow.setString(str);
-//};
+    this.Div.setMenuVisible(!SITE.properties.options.suppressTitles);
+    this.keyboardWindow.setMenuVisible(!SITE.properties.options.suppressTitles);
+    this.keyboardMirrorElements()
+}
 
 SITE.AppView.prototype.keyboardMirrorElements = function( e ) {
 
@@ -645,6 +528,23 @@ SITE.AppView.prototype.keyboardCallback = function( e ) {
     }
 };
 
+
+SITE.AppView.prototype.appViewCallBack = function( e ) {
+    switch(e) {
+        case 'CLOSE':
+            this.app.closeAppView();
+            break;
+    }
+};
+        
+SITE.AppView.prototype.studioStopPlay = function( e ) {
+    this.midiPlayer.stopPlay();
+};
+
+SITE.AppView.prototype.setVisible = function(  visible ) {
+    this.Div.parent.style.display = visible?'block':'none';
+};
+
 SITE.AppView.prototype.setScrolling = function(player) {
     if( !this.studioCanvasDiv || !player.currAbsElem || player.currAbsElem.staffGroup === this.lastStaffGroup ) return;
     
@@ -661,20 +561,6 @@ SITE.AppView.prototype.setScrolling = function(player) {
         this.studioCanvasDiv.scrollTop = this.ypos;    
     }
 };
-
-/* 
-SITE.AppView.prototype.salvaMusica = function () {
-    if (FILEMANAGER.requiredFeaturesAvailable()) {
-        this.fireChanged(0, {force:false, showProgress:true } );
-        //this.parseABC(0, true );
-        var name = this.renderedTune.abc.metaText.title + ".abcx";
-        var conteudo = this.getString();
-        FILEMANAGER.download(name, conteudo);
-    } else {
-        alert(SITE.translator.getResource("err_saving"));
-    }
-};
-*/
 
 SITE.AppView.prototype.changePlayMode = function(mode) {
     
@@ -698,36 +584,6 @@ SITE.AppView.prototype.changePlayMode = function(mode) {
     }
 };
 
-SITE.AppView.prototype.posicionaTeclado = function() {
-    return;
-    
-    if( ! SITE.properties.studio.keyboard.visible ) return;
-    
-    var w = window.innerWidth;
-    
-    var k = this.keyboardWindow.topDiv;
-    var x = parseInt(k.style.left.replace('px', ''));
-    
-    if( x + k.offsetWidth > w ) {
-        x = (w - (k.offsetWidth + 50));
-    }
-    
-    if(x < 0) x = 10;
-    
-    k.style.left = x+"px";
-};
-
-/* SITE.AppView.prototype.blockEdition = function( block ) {
-    this.editorWindow.setReadOnly(!block);
-    this.editorWindow.container.dispatchAction('READONLY');
-    if( block ) {
-        this.editorWindow.setEditorHighLightStyle();
-    } else {
-        this.editorWindow.clearEditorHighLightStyle();
-        this.editorWindow.aceEditor.focus();
-    }
-}; */
-
 SITE.AppView.prototype.startPlay = function( type, value, valueF ) {
     this.ypos = this.studioCanvasDiv.scrollTop;
     this.lastStaffGroup = -1;
@@ -742,13 +598,9 @@ SITE.AppView.prototype.startPlay = function( type, value, valueF ) {
         } else {
             this.midiPlayer.pausePlay(true);
         }    
-        //this.blockEdition(false);
         
     } else {
         this.accordion.clearKeyboard();
-        //if (type === "normal" ) {
-        //    this.blockEdition(true);
-        //}
         
         // esse timeout é só para garantir o tempo para iniciar o play
         window.setTimeout(function(){that.StartPlayWithTimer(that.renderedTune.abc.midi, type, value, valueF, SITE.properties.studio.timerOn ? 10 : 0); }, 0 );
@@ -863,14 +715,6 @@ SITE.AppView.prototype.parseABC = function (transpose, force) {
         waterbug.show();
     }
 
-    // transposição e geracao de tablatura podem ter alterado o texto ABC
-    //if (text !== this.initialText)
-    //    this.setString(this.renderedTune.text);
-
-    //if (this.transposer && this.editorWindow.keySelector) {
-    //    this.editorWindow.keySelector.populate(this.transposer.keyToNumber(this.transposer.getKeyVoice(0)));
-    //}
-
     var warnings = this.abcParser.getWarnings() || [];
     for (var j = 0; j < warnings.length; j++) {
         this.warnings.push(warnings[j]);
@@ -939,10 +783,10 @@ SITE.AppView.prototype.onModelChanged = function(loader) {
     //this.renderedTune.printer.printTune( this.renderedTune.abc, {color:'black', backgroundColor:'#ffd'} );
     this.renderedTune.printer.printTune( this.renderedTune.abc ); 
     
-    if (this.warningsDiv) {
-        this.warningsDiv.style.color = this.warnings.length > 0 ? "red" : "green";
-        this.warningsDiv.innerHTML = (this.warnings.length > 0 ? this.warnings.join("<br/>") : "No warnings or errors.") ;
-    }
+    //if (this.warningsDiv) {
+    //    this.warningsDiv.style.color = this.warnings.length > 0 ? "red" : "green";
+    //    this.warningsDiv.innerHTML = (this.warnings.length > 0 ? this.warnings.join("<br/>") : "No warnings or errors.") ;
+    //}
     
     this.renderedTune.printer.addSelectListener(this);
     this.updateSelection();
@@ -998,40 +842,47 @@ SITE.AppView.prototype.updateSelection = function (force) {
 
 SITE.AppView.prototype.printPreview = function (html, divsToHide, landscape ) {
     
-    var dv = document.getElementById('printPreviewDiv');
-    var savedDisplays = {};
+    var that = this;
+
+    that.dvPrintPane = document.getElementById('printPreviewDiv');
+    that.divsToHide = divsToHide
+    that.savedDisplays = {};
     
     divsToHide.forEach( function( div ) {
         var hd = document.getElementById(div.substring(1));
-        savedDisplays[div.substring(1)] = hd.style.display;
+        that.savedDisplays[div.substring(1)] = hd.style.display;
         hd.style.display = "none";
         
     });
 
+    SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
+
     this.changePageOrientation(landscape? 'landscape': 'portrait');
 
-    dv.innerHTML = html;
-    dv.style.display = 'block';
+    that.dvPrintPane.innerHTML = html;
+    that.dvPrintPane.style.display = 'block';
 
     setTimeout( function () { 
-        
-        var gadget = new cloudprint.Gadget();
-        //gadget.setPrintDocument("text/html", "Print", window.location.href, "utf-8");
-//        gadget.setPrintDocument("text/html", "Print", dv.innerHTML);
-        gadget.setPrintDocument("url", $('title').html(), window.location.href, "utf-8");
-        gadget.openPrintDialog();
-        //window.print(); 
-
-        dv.style.display = 'none';
-
-        divsToHide.forEach( function( div ) {
-            var hd = document.getElementById(div.substring(1));
-            hd.style.display = savedDisplays[div.substring(1)];
-        });
-
+        if( window.DiatonicApp ) {
+            window.DiatonicApp.printPage(that.renderedTune.title);
+       } else {
+           window.print();
+           that.endPreview();
+           //setTimeout( function() {  }, 3000);
+       }
     });
-    
 };
+
+SITE.AppView.prototype.endPreview = function (html, divsToHide, landscape ) {
+    var that = this;
+
+    that.dvPrintPane.style.display = 'none';
+
+    that.divsToHide .forEach( function( div ) {
+        var hd = document.getElementById(div.substring(1));
+        hd.style.display = that.savedDisplays[div.substring(1)];
+    });
+}
 
 SITE.AppView.prototype.changePageOrientation = function (orientation) {
     var style = document.createElement('style');

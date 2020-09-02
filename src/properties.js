@@ -12,10 +12,13 @@ window.dataLayer = window.dataLayer || [];
 SITE.ga = function () {
     if( ga && ( window.location.href.indexOf( 'diatonicmap.com.br') >= 0 || window.location.href.indexOf( 'androidplatform') >= 0 )
            && SITE.getVersion('mainSITE', '' ) !== 'debug' 
-           && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) {
+           && SITE.getVersion('mainSITE', '' ) !== 'unknown' ) {
                
             //console.log("GA desabilitado!");
-            ga.apply(this, arguments);
+            if(SITE.debug)
+                console.log( 'App is in Debug mode'  )
+            else
+                ga.apply(this, arguments);
         /*
         if (window.AnalyticsApplication) {
             // Call Android interface

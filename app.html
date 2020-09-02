@@ -27,7 +27,7 @@ notação abc, tablatura " />
         
         <link rel="stylesheet" href="css/styles4abcx_5.48-min.css" />
         
-        <link rel="stylesheet" href="app/libapp_0.5-min.css" />
+        <link rel="stylesheet" href="app/libapp_1.0-min.css" />
 
         <!-- Google Analytics -->
         <script>
@@ -46,11 +46,11 @@ notação abc, tablatura " />
         
         <!-- Cookie notice 
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?tracking=1&always=1&showNoConsent=1&showPolicyLink=1&blocking=1&remember=180&privacyPage=https%3A%2F%2Fdiatonicmap.com.br%2Fprivacy"></script-->
+        <!--script src="https://www.google.com/cloudprint/client/cpgadget.js"></script-->
         
     </head>
     <body>
         
-        <script src="https://www.google.com/cloudprint/client/cpgadget.js"></script>
 
         <script type="text/javascript" src="jslib/proto_noconflict.js" ></script>
         <script type="text/javascript" src="jquery/jquery-1.11.1.min.js"></script>
@@ -74,7 +74,7 @@ notação abc, tablatura " />
         <!-- console personalizada para Javascript -->
         <script type="text/javascript" src="jslib/waterbug.js"></script> 
         
-        <script id="mainSITE" type="text/javascript" src="app/libapp_0.5-min.js"></script>
+        <script id="mainSITE" type="text/javascript" src="app/libapp_1.0-min.js"></script>
 
         <div id="topBar" class="topBar gradiente" >
             <span data-translate="appName" class="topTitle" style="left: 70px; line-height:63px; font-size: 32px;">Mapa para Acordeões Diatônicos</span>
@@ -102,14 +102,14 @@ notação abc, tablatura " />
             </div>
         </div>
 
-        <div id="kebyoardDiv" style="z-index:101; height: fit-content;"></div>
+        <div id="keyboardDiv" style="z-index:101; height: fit-content;"></div>
         <div id="studioDiv" class="studioDiv" style="z-index:101; height: fit-content;"></div>
 
         <div id="studioControlDiv" style="display:none;">
             <div id="controlDiv1" class="btn-subgroup" >
                 <button id="backBtn" ><i class="ico-home"></i></button>
                 <button id="showMapBtn" data-translate="showMapTip"><i class="ico-keyboard" ></i></button>
-                <button id="printBtn" data-translate="printPreviewTip" style="display: none;"><i class="ico-printer"></i></button>
+                <button id="printBtn" data-translate="printPreviewTip" style="display: inline;"><i class="ico-printer"></i></button>
                 <button id="modeBtn" data-translate="modeBtn" ><i class="ico-listening" ></i></button>
                 <button id="timerBtn" data-translate="timerBtn" ><i class="ico-timer-00" ></i></button>
                 <button id="GClefBtn" data-translate="GClefBtn" ><i class="ico-clef-treble" ></i></button>
@@ -155,11 +155,18 @@ notação abc, tablatura " />
             
             var myApp;
 
-            window.onAppResumeEvent = new Event('appResumeEvent');
+            window.onAppEndPreview = new Event('appEndPreview');
             window.onAppStopEvent = new Event('appStopEvent');
             window.onAppBack = new Event('appBack');
 
-            window.addEventListener('appResumeEvent', function () {
+            window.addEventListener('afterprint', (event) => {
+                //if( !myApp ) return;
+                //myApp.appView.endPreview();
+            });            
+            
+            window.addEventListener('appEndPreview', function () {
+                if( !myApp ) return;
+                myApp.appView.endPreview();
             }, false);
 
             window.addEventListener('appStopEvent', function () {
@@ -171,6 +178,7 @@ notação abc, tablatura " />
                 if( !myApp ) return true;
                 myApp.goBackOrClose();
             }, false);
+
 
             window.onblur = function() {
                 if( !myApp ) return;
@@ -199,7 +207,7 @@ notação abc, tablatura " />
             };
             
             function initApp() {
-                
+
                 SITE.translator.translate();
                 
                 if( ABCXJS.misc.isIE() ){
@@ -295,6 +303,8 @@ notação abc, tablatura " />
                         }
                     }
                 );
+                
+                SITE.debug = window.DiatonicApp && window.DiatonicApp.isDebug();
                 
                 SITE.ga('send', 'pageview');
                 SITE.ga('send', 'event', 'Configuration', 'language', SITE.properties.options.language, { nonInteraction: true } );

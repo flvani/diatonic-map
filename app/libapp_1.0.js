@@ -894,8 +894,9 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
     this.controlDiv.innerHTML = document.getElementById(interfaceParams.studioControlDiv).innerHTML;
     document.getElementById(interfaceParams.studioControlDiv).innerHTML = "";
 
-    this.controlDiv.style.paddingBottom="5px";
-
+    this.controlDiv.style.borderBottom = "1px solid rgba(255, 153, 34, 0.4)"
+    this.Div.topDiv.style.borderLeft = "1px solid rgba(255, 153, 34, 0.4)"
+    
     this.media = new SITE.Media( this.Div.dataDiv, interfaceParams.btShowMedia, SITE.properties.studio.media ); 
 
     this.studioCanvasDiv = document.createElement("DIV");
@@ -1061,7 +1062,7 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
 
     this.slider = new DRAGGABLE.ui.Slider( this.tempoButton,
         {
-            min: 25, max: 200, start:100, step:25, speed:100, color: 'white', bgcolor:'red', size:{w:180, h:35, tw:60},
+            min: 25, max: 200, start:100, step:25, speed:100, color: 'white', bgcolor:'red' /*'#ff9922'*/, size:{w:180, h:35, tw:60},
             callback: function(v) { that.midiPlayer.setAndamento(v); } 
         } 
     );
@@ -1810,6 +1811,32 @@ SITE.App.prototype.songSelectorPopulate = function() {
         this.menuSongs.setSubMenuTitle( this.tab.ddmId, cleanedTitle );
         this.menuSongs.selectItem(this.tab.ddmId, this.tab.type+'#'+items.details[title].id);
         this.tab.text = this.accordion.loaded.getAbcText(this.tab.type, title);
+    }
+};
+
+SITE.App.prototype.showABC = function(action) {
+    
+    var type, title, self = this;
+    var a = action.split('#');
+    
+    if( action.indexOf('#') >= 0 && parseInt(a[1]) > 0 ) {
+        type = a[0];
+        title = this.accordion.loaded[type].ids[ a[1] ];
+    } else {
+        waterbug.logError( 'ABCX not found!');
+        waterbug.show();
+        return;
+    }
+    
+    if( this.tab.title !== title && this.menuSongs.selectItem( this.tab.ddmId, action ) ) {
+        this.tab.title = title;
+        this.tab.text = this.accordion.loaded.getAbcText( type, title );
+        var cleanedTitle = title.replace(/\(.*\)/g,"").trim();
+        this.menuSongs.setSubMenuTitle( this.tab.ddmId, (cleanedTitle.length>43 ? cleanedTitle.substr(0,40) + "..." : cleanedTitle) );
+        if( !this.accordion.loaded.localResource)
+            FILEMANAGER.saveLocal( 'property.'+this.accordion.getId()+'.'+type+'.title', title );
+    } else {
+        console.log( 'Song title not found!');
     }
 };
 

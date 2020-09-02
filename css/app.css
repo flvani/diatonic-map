@@ -1,6 +1,6 @@
 .btn-subgroup {
     display: inline-block;
-    height: 40px;
+    height: 44px;
     /*float:left;*/
 }
 
@@ -8,7 +8,6 @@
     color:#ff9922;
     font-size: 46px;
 }
-
 
 .rounded-corners {
     min-width: 510px;
@@ -48,6 +47,9 @@
      width: 115px !important; 
      margin-top: 9px !important; 
      font-size: 22px !important;
+     color: #ff9922 !important;
+     color: red !important;
+
 }
 
 .slide-thumb > span {
@@ -58,19 +60,26 @@
 .draggableToolBarApp {
     clear: both;
     font-family: "abcx";
-    height: 40px;
+    height: 44px;
+    line-height: 44px;
+    width: calc(100% - 2px);
     font-size: 16px;
     position: relative;
     display:inline-block;
     margin: 0;
     padding: 1px;
-    width: calc(100% - 2px);
-    height: auto; 
     pointer-events: auto;
     background: lightblue;
     background-color: #EBEBEB;
     background: #e9edf0;
     border-bottom: 1px solid rgba(100,100,100,0.5);
+/*
+    background: -moz-linear-gradient(left, #003050 0%, black 100%) !important;
+    background: -webkit-linear-gradient(left, #003050 0%, black 100%) !important;
+    background: -o-linear-gradient(left, #003050 0%, black 100%) !important;
+    background: -ms-linear-gradient(left, #003050 0%, black 100%) !important;
+    background: linear-gradient(left, #003050 0%, black 100%) !important;
+*/    
 }
 
 .draggableToolBarApp button {
@@ -91,6 +100,7 @@
     padding: 4px;
     outline: none !important;
     border: none;
+    color: #ff9922;
     color: red;
     background-color: transparent;
     
@@ -126,7 +136,7 @@
     font-weight: normal;
     font-size: 32px;
     line-height: 32px;
-    height: 32px;
+    height: 44px;
     width: auto;
     text-shadow: 2px 1px 2px rgba(50, 50, 50, 0.8); 
     left: 0;
@@ -135,15 +145,28 @@
     padding: 4px;
     outline: none !important;
     border: none;
+    color: #ff9922;
     color: red;
     background-color: transparent;
 
 }
 
 .keyboard-btn-group button:hover {
+    height: 44px;
     background: lavender;
     cursor: pointer;
 }
+
+.btn-group button {
+    height: 44px;
+}
+
+.btn-group button:hover {
+    height: 44px;
+    background: lavender;
+    cursor: pointer;
+}
+
 
 .circular { 
     position: absolute; 
