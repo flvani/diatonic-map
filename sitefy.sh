@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-FILES="./privacy ./privacidade ./site ./soundfont ./ace4abcx ./fontsGoogle ./fontsIco ./chords ./accordions ./tabs ./images \
+FILES="./privacy ./privacidade ./app ./site ./soundfont ./ace4abcx ./fontsGoogle ./fontsIco ./chords ./accordions ./tabs ./images \
        ./css ./html ./src ./languages ./diatonic ./file ./practices ./repertorio ./songs ./abcxjs ./jslib ./jquery ./appexit \
        ./.htaccess ./mapa.html ./index.html ./mapa-5.00.html ./mapa-debug.html ./app.html"
 
