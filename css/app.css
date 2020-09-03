@@ -1,13 +1,22 @@
 .btn-subgroup {
-    display: inline-block;
     height: 44px;
-    /*float:left;*/
 }
 
 .topSettings {
     color:#ff9922;
     font-size: 46px;
 }
+
+.dropdown-menu  {
+    border-radius: 5px;
+}
+
+
+.dropdown-menu li {
+    font-size: 28px;
+    line-height: 28px;
+}
+
 
 .rounded-corners {
     min-width: 510px;
@@ -32,24 +41,10 @@
     width: 100%;
 }
 
-.dropdown-menu > ul {
-    font-size: 28px;
-}
-
 .abcxVersionStyle a {
     text-decoration: none;
     font-family: 'Merienda'; 
     font-size:18px; 
-}
-
-.playtime-label{
-     height: 40px !important;  
-     width: 115px !important; 
-     margin-top: 9px !important; 
-     font-size: 22px !important;
-     color: #ff9922 !important;
-     color: red !important;
-
 }
 
 .slide-thumb > span {
@@ -187,4 +182,20 @@
     margin-left:-10px;
     height:100px; 
     width: 100px;
+}
+
+.others-group{
+    height: 44px !important;  
+    line-height: 44px !important;  
+}
+
+.playtime-label{
+    height: 44px !important;  
+    line-height: 44px !important;  
+    width: 115px !important; 
+    font-size: 22px !important;
+    margin: 2px 4px 1px 4px;
+    color: #ff9922 !important;
+    color: red !important;
+
 }

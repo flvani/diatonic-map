@@ -339,7 +339,7 @@ SITE.App.prototype.showSettings = function() {
               </tr>\
               <tr>\
                 <td style="width:15px;"></td><td data-translate="PrefsColorHighlight" >'+SITE.translator.getResource('PrefsColorHighlight')+'</td>\
-                <td><input id="corRealce" type="text" readonly ><div id="sldTransparency"></div>\
+                <td><input id="corRealce" type="text" readonly >&nbsp;<div id="sldTransparency"></div>\
                         <span data-translate="PrefsColorTransparency" >'+SITE.translator.getResource('PrefsColorTransparency')+'</span></td>\
               </tr>\
               <tr>\

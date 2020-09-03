@@ -347,27 +347,32 @@ and open the template in the editor.
 
 .checkbox-group {
     display: inline-block;
+    vertical-align: top;
     margin-left: 10px;
     margin-top: 2px;
     height: 25px;
     padding: 2px;
-    vertical-align: top;
 }
 
 .others-group {
     display: inline-block;
-    vertical-align: top;
-    height: 25px;
+    vertical-align: middle;
+    height: 26px;
+    line-height: 26px;
+    padding: 0;
+    margin: 0;
 }
 
 .playtime-label {
-    display: inline-block !important;
-    width:90px !important;
-    text-align: right !important;
-    padding: 4px !important;
-    font-family: "Milonga", "Lucida Grande","Lucida Sans Unicode", Tahoma, Sans-Serif !important;
-    font-size: 16px !important;
-    margin: 2px 5px 1px 5px!important;
+    display: inline-block;
+    vertical-align: middle;
+    width:90px;
+    text-align: right;
+    line-height: 28px;
+    padding: 0;
+    margin: 0;
+    font-family: "Milonga", "Lucida Grande","Lucida Sans Unicode", Tahoma, Sans-Serif;
+    font-size: 16px;
 }
   
     
@@ -384,7 +389,11 @@ and open the template in the editor.
     margin-left: 5px;
 }
 
-.btn-group label,
+.btn-subgroup {
+    display: inline-block;
+    float: left;
+}
+
 .btn-group button,
 .dropdown-group button {
     position: relative;
@@ -421,13 +430,6 @@ and open the template in the editor.
     color: orange;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     background-color: transparent;
-}
-
-.btn-group label {
-    text-align: left;
-    padding-top: 6px;
-    height: 16px;
-    font-size: 16px;
 }
 
 .btn-group input[type="text"] {
@@ -1101,7 +1103,8 @@ and open the template in the editor.
 .slide-container {
   position: relative;
   display: inline-block;
-  margin: 3px 5px 1px 5px;
+  margin: 0;
+  margin-top: -2px;
   border-radius: 3px;
   font-family: "Milonga", "Lucida Grande","Lucida Sans Unicode", Tahoma, Sans-Serif !important;
 	font-size: 12px;

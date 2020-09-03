@@ -92,8 +92,3 @@ and open the template in the editor.
     -ms-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -o-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
 }
-
-.btn-subgroup {
-    display: inline-block;
-    float:left;
-}

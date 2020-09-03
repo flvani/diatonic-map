@@ -460,8 +460,8 @@ SITE.AppView.prototype.showKeyboard = function(show) {
     } else {
         this.accordion.render_opts.show = false;
         this.keyboardWindow.setVisible(false);
-        this.showMapButton.innerHTML = '<i class="ico-keyboard" style="opacity:0.5;"></i>'+
-                                                         '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px"></i>';
+        this.showMapButton.innerHTML = '<i class="ico-keyboard" style="opacity:0.5; filter: grayscale(1);"></i>'+
+                                                         '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px; filter: grayscale(1);"></i>';
     }
 };
 
@@ -611,8 +611,8 @@ SITE.AppView.prototype.setBassIcon = function() {
     if( SITE.properties.studio.bassOn ) {
         this.FClefButton.innerHTML = '<i class="ico-clef-bass" ></i>';
     } else {
-        this.FClefButton.innerHTML = '<i class="ico-clef-bass" style="opacity:0.5;"></i>'+
-                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px"></i>';
+        this.FClefButton.innerHTML = '<i class="ico-clef-bass" style="opacity:0.5; filter: grayscale(1);"></i>'+
+                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px; filter: grayscale(1);"></i>';
     }
 };
 
@@ -620,8 +620,8 @@ SITE.AppView.prototype.setTrebleIcon = function() {
     if( SITE.properties.studio.trebleOn ) {
         this.GClefButton.innerHTML = '<i class="ico-clef-treble" ></i>';
     } else {
-        this.GClefButton.innerHTML = '<i class="ico-clef-treble" style="opacity:0.5;"></i>'+
-                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px"></i>';
+        this.GClefButton.innerHTML = '<i class="ico-clef-treble" style="opacity:0.5; filter: grayscale(1);"></i>'+
+                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px; filter: grayscale(1);"></i>';
     }
 };
 
@@ -647,8 +647,8 @@ SITE.AppView.prototype.setTimerIcon = function( value ) {
             this.timerButton.innerHTML = '<i class="ico-timer-'+ico+'" ></i>';
         }
     } else {
-        this.timerButton.innerHTML = '<i class="ico-timer-00" style="opacity:0.5;"></i>'+
-                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px"></i>';
+        this.timerButton.innerHTML = '<i class="ico-timer-00" style="opacity:0.5; filter: grayscale(1);"></i>'+
+                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:6px; filter: grayscale(1);"></i>';
     }
 };
 

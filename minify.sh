@@ -5,8 +5,8 @@ die () {
 }
 
 [ "$#" -eq 2 ] || die "Call with a site version number and app version number argument in the form x.y"
-echo $1 | grep -E -q '^[1-9]\.[0-9]+$' || die "Version number argument required (x.y), $1 provided"
-echo $2 | grep -E -q '^[0-9]\.[0-9]+$' || die "Version number argument required (x.y), $2 provided"
+echo $1 | grep -E -q '^[1-9]\.[0-9]+$' || die "Site Version number argument required (x.y), $1 provided"
+echo $2 | grep -E -q '^[0-9]\.[0-9]\.[0-9]+$' || die "App Version number argument required (x.y.z), $2 provided"
 echo "Concatenating all files..."
 
 echo "Concatenating site files..."
