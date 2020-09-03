@@ -987,7 +987,7 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         this.blur();
         that.printPreview(
             that.renderedTune.div.innerHTML, 
-            ["#topBar","#mapaDiv", "#keyboardDiv", "#studioDiv" ], 
+            ["#topBar","#appDiv", "#keyboardDiv", "#studioDiv" ], 
             that.renderedTune.abc.formatting.landscape
         );
     }, false);
@@ -1285,11 +1285,11 @@ SITE.AppView.prototype.keyboardMirrorElements = function( e ) {
             this.keyboardWindow.extras.style.right = '';
             this.keyboardWindow.extras.style.left = '5px';
             this.keyboardWindow.imagem.style.right = '';
-            this.keyboardWindow.imagem.style.left = '20px';
+            this.keyboardWindow.imagem.style.left = '25px';
         } else{
             this.keyboardWindow.extras.style.right = '5px';
             this.keyboardWindow.extras.style.left = '';
-            this.keyboardWindow.imagem.style.right = '20px';
+            this.keyboardWindow.imagem.style.right = '25px';
             this.keyboardWindow.imagem.style.left = '';
         }
     }
@@ -1688,7 +1688,7 @@ SITE.App = function( interfaceParams, tabParams, playerParams ) {
     document.body.style.overflow = 'hidden';
     
     var that = this;
-    this.container = document.getElementById('mapaDiv')
+    this.container = document.getElementById('appDiv')
     this.tab = {title:'', text:'', ddmId:'menuSongs', type: 'songs' }
     
     this.Back = this.Close; // define a funcao a ser chamada quando o comando back é acioando no telefone
@@ -1967,7 +1967,7 @@ SITE.App.prototype.defineInstrument = function(onlySet) {
     
     MIDI.widget = new sketch.ui.Timer({
         size:180
-        //, container: document.getElementById('mapaDiv')
+        //, container: document.getElementById('appDiv')
         , cor1:SITE.properties.colors.close, cor2: SITE.properties.colors.open});
     
     MIDI.widget.setFormat( SITE.translator.getResource('loading'));
@@ -2332,7 +2332,7 @@ SITE.App.prototype.modalCallback = function ( action ) {
         // não implementado para o aplicativo
         //var container = this.iframe.contentDocument.getElementById('modalContainer');
         //if( container ) {
-        //    this.printPreview( container.innerHTML, [ "#"+this.modalWindow.topDiv.id, "#topBar","#mapaDiv"], false );
+        //    this.printPreview( container.innerHTML, [ "#"+this.modalWindow.topDiv.id, "#topBar","#appDiv"], false );
         //}
     }
 };

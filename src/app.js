@@ -7,7 +7,7 @@ SITE.App = function( interfaceParams, tabParams, playerParams ) {
     document.body.style.overflow = 'hidden';
     
     var that = this;
-    this.container = document.getElementById('mapaDiv')
+    this.container = document.getElementById('appDiv')
     this.tab = {title:'', text:'', ddmId:'menuSongs', type: 'songs' }
     
     this.Back = this.Close; // define a funcao a ser chamada quando o comando back é acioando no telefone
@@ -286,7 +286,7 @@ SITE.App.prototype.defineInstrument = function(onlySet) {
     
     MIDI.widget = new sketch.ui.Timer({
         size:180
-        //, container: document.getElementById('mapaDiv')
+        //, container: document.getElementById('appDiv')
         , cor1:SITE.properties.colors.close, cor2: SITE.properties.colors.open});
     
     MIDI.widget.setFormat( SITE.translator.getResource('loading'));
@@ -651,7 +651,7 @@ SITE.App.prototype.modalCallback = function ( action ) {
         // não implementado para o aplicativo
         //var container = this.iframe.contentDocument.getElementById('modalContainer');
         //if( container ) {
-        //    this.printPreview( container.innerHTML, [ "#"+this.modalWindow.topDiv.id, "#topBar","#mapaDiv"], false );
+        //    this.printPreview( container.innerHTML, [ "#"+this.modalWindow.topDiv.id, "#topBar","#appDiv"], false );
         //}
     }
 };

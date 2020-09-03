@@ -24,9 +24,7 @@ notação abc, tablatura " />
         
         <link rel="stylesheet" href="fontsIco/fontsAbcx.css" />
         <link rel="stylesheet" href="fontsGoogle/fontsGoogle.css" />
-        
         <link rel="stylesheet" href="css/styles4abcx_5.49-min.css" />
-        
         <link rel="stylesheet" href="app/libapp_1.0.1-min.css" />
 
         <!-- Google Analytics -->
@@ -81,10 +79,10 @@ notação abc, tablatura " />
             <a id="topSettings" class="topSettings" style="left: 15px; width: fit-content" ><i class="ico-menu" title="Ajustes" data-translate="topSettings" ></i></a>
         </div> <!-- topBar -->
 
-        <div id="mapaDiv" class="" style="display: none; margin-top: 10px; padding: 8px;">
+        <div id="appDiv" class="appDiv">
             <div class="dropdown-group" style="display: block;">
                 <div style="float: left; position: relative; width: 220px; height: 220px;" >
-                    <div id="accordionImageDiv" class="accordionImageStyle" style="left: 0;"></div>
+                    <div id="accordionImageDiv" class="accordionImageStyle"></div>
                 </div>    
                 <br>
                 <div id="menuGaitas" class="topMenu"></div>
@@ -118,10 +116,10 @@ notação abc, tablatura " />
             <div id="divDidacticPlayControls"  class="btn-subgroup" style="display: none;" >
                 <button id="stepBtn" data-translate="stepBtn" ><i class="ico-play"></i>&#160;</button>
                 <button id="stepMeasureBtn" data-translate="stepMeasureBtn" ><i class="ico-forward"></i>&#160;</button>
-                <div style="float:left; margin-top: 0px; font-size: 20px;">
-                    <input id="gotoMeasureBtn" type="number" data-translate="gotoMeasure" value="1" style="font-size: 18px; width: 3em;" />
+                <div class="input-group">
+                    <input id="gotoMeasureBtn" type="number" data-translate="gotoMeasure" value="1"/>
                     <b>..</b>
-                    <input id="untilMeasureBtn" type="number" data-translate="untilMeasure" value="100" style="font-size: 18px; width: 3em;" />
+                    <input id="untilMeasureBtn" type="number" data-translate="untilMeasure" value="100" />
                 </div>
                 <button id="repeatBtn" data-translate="repeatBtn" >&#160;<i class="ico-repeat-cw"></i>&#160;</button>
                 <button id="clearBtn" data-translate="clearBtn" ><i class="ico-stop"></i></button>
@@ -211,7 +209,7 @@ notação abc, tablatura " />
                 SITE.translator.translate();
                 
                 if( ABCXJS.misc.isIE() ){
-                    $('#mapaDiv').hide();
+                    $('#appDiv').hide();
                     
                     SITE.ga('send', 'event', 'Error', 'browser', 'MS-IE', { nonInteraction: true } );
                     
@@ -227,7 +225,7 @@ notação abc, tablatura " />
 
                MIDI.widget = new sketch.ui.Timer({
                     size:180
-                    //, container: document.getElementById('mapaDiv')
+                    //, container: document.getElementById('appDiv')
                     , cor1:SITE.properties.colors.close, cor2: SITE.properties.colors.open});
                 
                 MIDI.widget.setFormat( SITE.translator.getResource('loading'));
@@ -290,7 +288,7 @@ notação abc, tablatura " />
                     {   // interfaceParams
                         accordionImagePlaceHolder: 'accordionImageDiv'
                       , settingsMenu:'topSettings'
-                      , mapDiv: 'mapaDiv'
+                      , mapDiv: 'appDiv'
                       , mapMenuGaitasTitle: 'Acordeão'
                       , mapMenuGaitasDiv: 'menuGaitas'
                       , mapMenuSongsTitle: 'Música'

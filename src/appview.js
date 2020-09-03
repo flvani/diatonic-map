@@ -198,7 +198,7 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         this.blur();
         that.printPreview(
             that.renderedTune.div.innerHTML, 
-            ["#topBar","#mapaDiv", "#keyboardDiv", "#studioDiv" ], 
+            ["#topBar","#appDiv", "#keyboardDiv", "#studioDiv" ], 
             that.renderedTune.abc.formatting.landscape
         );
     }, false);
@@ -496,11 +496,11 @@ SITE.AppView.prototype.keyboardMirrorElements = function( e ) {
             this.keyboardWindow.extras.style.right = '';
             this.keyboardWindow.extras.style.left = '5px';
             this.keyboardWindow.imagem.style.right = '';
-            this.keyboardWindow.imagem.style.left = '20px';
+            this.keyboardWindow.imagem.style.left = '25px';
         } else{
             this.keyboardWindow.extras.style.right = '5px';
             this.keyboardWindow.extras.style.left = '';
-            this.keyboardWindow.imagem.style.right = '20px';
+            this.keyboardWindow.imagem.style.right = '25px';
             this.keyboardWindow.imagem.style.left = '';
         }
     }
