@@ -727,9 +727,7 @@ and open the template in the editor.
     -o-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
 }
 .btn-subgroup {
-    display: inline-block;
     height: 44px;
-    /*float:left;*/
 }
 
 .topSettings {
