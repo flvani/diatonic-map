@@ -55,7 +55,7 @@ SITE.getDate = function (){
 SITE.getVersion = function(tag, label) {
     var el = document.getElementById(tag);
     if(!el) return 'unknown';
-    var res = el.src.match(/\_[0-9]*\.[0-9]*/g);
+    var res = el.src.match(/\_[0-9]*\.[0-9]*[\.[0-9]*]*/g);
     return res ? label+res[0].substr(1) : 'debug';
 };
 
