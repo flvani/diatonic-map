@@ -2,7 +2,7 @@ X:4006
 %%barnumbers 0
 %%papersize A4
 %%pagenumbering
-%%staffsep 20
+%%staffsep 5
 %%tabinferenceopts -2
 T:Merceditas (corona)
 C:Ramón Sixto Rios
@@ -17,24 +17,24 @@ K:G
 P:Parte I
 V:Melodia treble
 | zEGB [ce][Bd] |: [A2c2] [Bd][Ac]- [Ac][Bd] | [A2c2] [Bd][ce]- [ce][Ac] | [G2B2] [Ac][GB]- [GB][Ac] |
-w: ¡Qué dulce en- can- to tiene, en mi _ re- cuer- do, Mer- _ ce- di- tas, a- _ ro- ma-
-w: ~ ~ ~ ~ ~ cam- po, allí _ muy le- jos, una _ tar- de, don- de _ cre
-| [G2B2] [Ac][Bd]- [Bd][GB] | [F2A2] [GB][FA]- [FA][GB] | [F2A2] [GB][Ac]- [Ac][FA] |1 [G6B6] | zEGB [ce][Bd] :|
-w:ma- da  flo- _ re- ci-  ta,  a- _  mor mí- o de _ una vez! La co- no- cí en~el
-w:cen los tri- _ ga- les, pro- vin- _ ci- a de San- _ ta ~ ~ ~ ~ ~ ~
+w: ¡Qué dulce~en- . can- to tiene, en mi . re- cuer- do, Mer- . ce- di- tas, a- . ro-
+w: . . . . . cam- po, allí . muy le- jos, una . tar- de, don- de . cre
+| [G2B2] [Ac][Bd]- [Bd][GB] | [F2A2] [GB][FA]- [FA][GB] | [FA]2 [GB][Ac] z [FA] |1 [GB]6 | zEGB [ce][Bd] :|
+w:ma- da  flo- . re- ci-  ta,  a- .  mor mí- o de una vez! La co- no- cí en~el
+w:cen los tri- . ga- les, pro- vin- . ci- a de San- ta . . . . . .
 |2 [EG] z [P:Parte II][GB][Ac] z [Ac] |: [GB] z [GB][Ac] z [GB]  | [FA] z [FA][GB] z [GB] | [FA] z [FA][GB] z [FA] | [GB] z [GB][Ac] z [Ac] |
-w:Fe. Y así na-ció nues-tro que-rer, con ilu-sión, con mu- cha fe, pe-ro no sé  
-w: ~ ~ ~ ~ la con lo- co  amor, a-sí lle-gué a com-pren-der, lo que~es su- 
+w:Fe. Y así na-ció  nues~tro . que-rer, con i-lu-sión, con mu- cha fe, pe-ro no 
+w: . . . . la con lo- co  amor, a-sí lle-gué a com-pren-der, lo que~es su- 
 | [GB] z [GB][Ac] z [Ac] | [B2g2b2] [Bgb][Afa]- [Afa][Afa] | [G2B2g2] [GBg][FAf]- [FAf][FAf] |1 [EG] z [GB][Ac] z [Ac] :|2 [E6G6e6] |
-w:por qué la flor se mar-chi- _ tó y mu- rien- _ do fué. Y amán- do- ~
-w:frir, lo que es querer, por-que _ le dí mi co- _ ra- ~ ~ ~ ~ zón.
+w:sé por qué la flor se mar-chi- . tó y murien- . do fué. Y amán- do- .
+w:frir, lo que~es que-rer, por-que . le dí mi co- . ra- . . . . zón.
 V:Baixo bass
-| z6 |: A,,[C,E,G,] A,,[C,E,G,] A,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z | G,,[G,B,D] C,,[C,E,G,] C,, z | 
-| C,,[C,E,G,] C,,[C,E,G,] C,, z | B,,[B,^DF] B,,[B,DF] B,,z | B,,[B,^DF] B,,z B,,z |1 E,,[E,G,B,] E,,[E,G,B,] E,, z | E,,[E,G,B,] E,,[E,G,B,] E,, z :|
-|2 E,,[E,G,B,] E,,[E,G,B,] E,, z |: E,,[E,G,B,] E,,[E,G,B,] E,, z | B,,[B,^DF] B,,z B,,z | B,,[B,^DF] B,,z B,,z | E,,[E,G,B,] E,,[E,G,B,] E,, z |
-| E,,[E,G,B,] E,,[E,G,B,] E,, z | B,,3 A,,3 | G,,3 B,,3 |1 E,,[E,G,B,] E,,[E,G,B,] E,, z :|2 E,,[E,G,B,] E,,[E,G,B,] E,, z |
+| z6 |: A,[C,E,G,] A,[C,E,G,] A, z | D,,[D,F,A,] D,,[D,F,A,] D,, z | G,[G,B,D] C,,[C,E,G,] C,, z | 
+| C,,[C,E,G,] C,,[C,E,G,] C,, z | B,,[B,^DF] B,,[B,DF] B,,z | B,,[B,^DF] B,,z B,,z |1 E,,[E,,G,,B,,] E,,[E,,G,,B,,] E,, z | E,,[E,,G,,B,,] E,,[E,,G,,B,,] E,, z :|
+|2 E,,[E,,G,,B,,] E,,[E,,G,,B,,] E,, z |: E,,[E,,G,,B,,] E,,[E,,G,,B,,] E,, z | B,,[B,^DF] B,,z B,,z | B,,[B,^DF] B,,z B,,z | E,,[E,,G,,B,,] E,,[E,,G,,B,,] E,, z |
+| E,,[E,,G,,B,,] E,,[E,,G,,B,,] E,, z | B,3 A,3 | G,3 B,3 |1 E,,[E,,G,,B,,] E,,[E,,G,,B,,] E,, z :|2 E,,[E,,G,,B,,] E,,[E,,G,,B,,] E,, z |
 V:Tablatura accordionTab
-| z-z z-3' z-4' z-5' z-[4''7'] z-[67] |: A-[3''4''] c-[>>] A-[5'7] c-[3''4''] A-[>>] z-[5'7] | D-[3''4''] d-[>>] D-[67] d-[4''7'] D-[>>] z-[3''4''] | G+[3''4''] g+[>>] C-[3''4''] c-[4'5'] C-[>>] z-[3''4''] |
-| C-[4'5'] c-[>>] C-[3''4''] c-[5'7] C-[>>] z-[4'5'] | B+[4'5'] b+[>>] B+[3''4''] b+[4'5] B+[>>] z+[3''4''] | B+[4'5] b+[>>] B+[3''4''] z-[3''4''] B-[>>] z-[43''] |1 E-[4'5'] em-[>>] E-[>>] em-[>>] E-[>>] z-[>>] | E-z em-3' E-4' em-5' E-[4''7'] z+[4''6'] :|
+| z-z z-3' z-4' z-5' z-[4''7'] z-[67] |: A-[3''4''] c-[>>] A-[5'7] c-[3''4''] A-[>>] z-[5'7] | D-[3''4''] d-[>>] D-[5'7] d-[4''7'] D-[>>] z-[3''4''] | G+[3''4''] g+[>>] C-[3''4''] c-[4'5'] C-[>>] z-[3''4''] |
+| C-[4'5'] c-[>>] C-[3''4''] c-[5'7] C-[>>] z-[4'5'] | B+[4'5'] b+[>>] B+[3''4''] b+[4'5] B+[>>] z+[3''4''] | B+[4'5] b+[>>] B+[3''4''] z-[3''4''] B-z z-[43''] |1 E-[4'5'] em-[>>] E-[>>] em-[>>] E-[>>] z-[>>] | E-z em-3' E-4' em-5' E-[4''7'] z-[5'7] :|
 |2 E-[3'4'] em-z E-[4'5'] em-[3''4''] E-z z-[3''4''] |: E-[4'5'] em-z E-[4'5'] em-[3''4''] E-z z-[4'5'] | B+[4'5] b+z B+[4'5] z+[3''4''] B+z z+[3''4''] | B+[4'5] b+z B+[4'5] z+[3''4''] B+z z+[4'5] | E-[4'5'] em-z E-[4'5'] em-[3''4''] E-z z-[3''4''] |
 | E-[4'5'] em-z E-[4'5'] em-[3''4''] E-z z-[3''4''] | B+[4''6''7'']2 >+[4''6''7''] A+[57'8] >+[>>>] >+[57'8] | G+[3''4''6'']2 >+[3''4''6''] B+[4'57'] >+[>>>] >+[4'57'] |1 E-[3'4'] em-z E-[4'5'] em-[3''4''] E-z z-[3''4''] :|2 E-[3'4'7'] em-[>>>] E-[>>>] em-[>>>] E-[>>>] z-[>>>] |

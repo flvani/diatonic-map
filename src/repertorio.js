@@ -36,6 +36,7 @@ SITE.Repertorio.prototype.compileAll = function() {
         for (var title in this.accordion.loaded.songs.items ) {
 
             waterbug.log(title);
+            console.log(title);
 
             abcParser.parse( this.accordion.loaded.songs.items[title] );
 
@@ -44,6 +45,7 @@ SITE.Repertorio.prototype.compileAll = function() {
 
             for (var j=0; j<w.length; j++) {
                 waterbug.logError( '   ' + w[j]);
+                console.log( '   ' + w[j]);
             }
 
             var tune = abcParser.getTune();
@@ -53,10 +55,13 @@ SITE.Repertorio.prototype.compileAll = function() {
             l += w.length;
             for (var j=0; j<w.length; j++) {
                 waterbug.logError( '   ' + w[j]);
+                console.log( '   ' + w[j]);
             }
 
             waterbug.log(l > 0 ? '': '--> OK' );
+            console.log(l > 0 ? '': '--> OK' );
             waterbug.log( '' );
+            console.log('');
         }
     }
     

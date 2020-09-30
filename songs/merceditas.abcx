@@ -2,7 +2,7 @@ X:1009
 %%barnumbers 0
 %%papersize A4
 %%pagenumbering
-%%staffsep 20
+%%staffsep 5
 T:Merceditas
 C:Ramón Sixto Rios
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
@@ -16,17 +16,17 @@ K:C
 P:Parte I
 V:Melodia treble
 | zA,CE [FA][EG] |: [D2F2] [EG][DF]- [DF][EG] | [D2F2] [EG][FA]- [FA][DF] | [C2E2] [DF][CE]- [CE][DF] |
-w: ¡Qué dulce en- can- to tiene, en mi _ re- cuer- do, Mer- _ ce- di- tas, a- _ ro- ma-
-w: ~ ~ ~ ~ ~ cam- po, allí _ muy le- jos, una _ tar- de, don- de _ cre
-| [C2E2] [DF][EG]- [EG][CE] | [B,2D2] [CE][B,D]- [B,D][CE] | [B,2D2] [CE][DF]- [DF][B,D] |1 [C6E6] | zA,CE [FA][EG] :|
-w:ma- da  flo- _ re- ci-  ta,  a- _  mor mí- o de _ una vez! La co- no- cí en~el
-w:cen los tri- _ ga- les, pro- vin- _ ci- a de San- _ ta ~ ~ ~ ~ ~ ~
+w: ¡Qué dulce~en- . can- to tiene, en mi . re- cuer- do, Mer- . ce- di- tas, a- . ro-
+w: . . . . . cam- po, allí . muy le- jos, una . tar- de, don- de . cre
+| [C2E2] [DF][EG]- [EG][CE] | [B,2D2] [CE][B,D]- [B,D][CE] | [B,D]2 [CE][DF] z [B,D] |1 [CE]6 | zA,CE [FA][EG] :|
+w:ma- da  flo- . re- ci-  ta,  a- .  mor mí- o de una vez! La co- no- cí en~el
+w:cen los tri- . ga- les, pro- vin- . ci- a de San- ta . . . . . .
 |2 [A,C] z [P:Parte II][CE][DF] z [DF] |: [CE] z [CE][DF] z [CE]  | [B,D] z [B,D][CE] z [CE] | [B,D] z [B,D][CE] z [B,D] | [CE] z [CE][DF] z [DF] |
-w:Fe. Y así na-ció nues-tro que-rer, con ilu-sión, con mu- cha fe, pe-ro no sé  
-w: ~ ~ ~ ~ la con lo- co  amor, a-sí lle-gué a com-pren-der, lo que~es su- 
+w:Fe. Y así na-ció  nues~tro . que-rer, con i-lu-sión, con mu- cha fe, pe-ro no 
+w: . . . . la con lo- co  amor, a-sí lle-gué a com-pren-der, lo que~es su- 
 | [CE] z [CE][DF] z [DF] | [E2c2e2] [Ece][DBd]- [DBd][DBd] | [C2E2c2] [CEc][B,DB]- [B,DB][B,DB] |1 [A,C] z [CE][DF] z [DF] :|2 [A,6C6A6] |
-w:por qué la flor se mar-chi- _ tó y mu- rien- _ do fué. Y amán- do- ~
-w:frir, lo que es querer, por-que _ le dí mi co- _ ra- ~ ~ ~ ~ zón.
+w:sé por qué la flor se mar-chi- . tó y murien- . do fué. Y amán- do- .
+w:frir, lo que~es que-rer, por-que . le dí mi co- . ra- . . . . zón.
 V:Baixo bass
 | z6 |: D,[F,A,C] D,[F,A,C] D, z | G,,[G,B,d,] G,,[G,B,d,] G,, z | C,[C,E,G,] F,,[F,A,C] F,, z | 
 | F,,[F,A,C] F,,[F,A,C] F,, z | E,,[E,^G,B,] E,,[E,^G,B,] E,,z | E,,[E,^G,B,] E,,z E,,z |1 A,,[A,,C,E,] A,,[A,,C,E,] A,, z | A,,[A,,C,E,] A,,[A,,C,E,] A,, z :|
@@ -34,7 +34,7 @@ V:Baixo bass
 | A,,[A,,C,E,] A,,[A,,C,E,] A,, z | E,3 D,3 | C,3 E,3 |1 A,,[A,,C,E,] A,,[A,,C,E,] A,, z :|2 A,,[A,,C,E,] A,,[A,,C,E,] A,, z |
 V:Tablatura accordionTab
 | z+z z-3 z-4 z-5 z-[4'7] z-[55'] |: D-[3'4'] f-[>>] D-[55'] f-[3'4'] D-[>>] z-[55'] | G-[3'4'] g-[>>] G-[55'] g-[4'7] G-[>>] z-[3'4'] | C+[3'4'] c+[>>] F-[3'4'] f-[45] F-[>>] z-[3'4'] |
-| F-[45] f-[>>] F-[3'4'] f-[55'] F-[>>] z-[45] | E+[45] e+[>>] E+[3'4'] e+[45] E+[>>] z+[3'4'] | E+[45] e+[>>] E+[3'4'] z-[3'4'] E+[z] z-[2'3'] |1 A-[45] a-[>>] A-[>>] a-[>>] A-[>>] z-[>>] | A-z a-3 A-4 a-5 A-[4'7] z-[55'] :|
-|2 A-[34] a-z A-[45] a-[3'4'] A-z z-[3'4'] |: A-[45] a-z A-[45] a-[3'4'] A-z z-[45] | E+[45] e+z E+[45] z+[3'4'] E+z z+[3'4'] | E+[45] e+z E+[45] z+[3'4'] E+z z+[45] | A-[45] a-z A-[45] a-[3'4'] A-z z-[3'4'] |
-| A-[45] a-z A-[45] a-[3'4'] A-z z-[3'4'] | E+[4'6'7']2 >+[4'6'7'] D-[3'6'7'] >-[>>>] >-[3'6'7'] | C+[3'4'6']2 >+[3'4'6'] E+[457] >+[>>>] >+[457] |1 A-[34] a-z A-[45] a-[3'4'] A-z z-[3'4'] :|2 A-[347] a-[>>>] A-[>>>] a-[>>>] A-[>>>] z-[>>>] |
+| F-[45] f-[>>] F-[3'4'] f-[55'] F-[>>] z-[45] | E+[45] e+[>>] E+[3'4'] e+[45] E+[>>] z+[3'4'] | E+[45] e+[>>] E+[3'4'] z-[3'4'] E+[z] z-[2'3'] |1 A-[45] am-[>>] A-[>>] am-[>>] A-[>>] z-[>>] | A-z am-3 A-4 am-5 A-[4'7] z-[55'] :|
+|2 A-[34] am-z A-[45] am-[3'4'] A-z z-[3'4'] |: A-[45] am-z A-[45] am-[3'4'] A-z z-[45] | E+[45] e+z E+[45] z+[3'4'] E+z z+[3'4'] | E+[45] e+z E+[45] z+[3'4'] E+z z+[45] | A-[45] am-z A-[45] am-[3'4'] A-z z-[3'4'] |
+| A-[45] am-z A-[45] am-[3'4'] A-z z-[3'4'] | E+[4'6'7']2 >+[4'6'7'] D-[3'6'7'] >-[>>>] >-[3'6'7'] | C+[3'4'6']2 >+[3'4'6'] E+[457] >+[>>>] >+[457] |1 A-[34] am-z A-[45] am-[3'4'] A-z z-[3'4'] :|2 A-[347] am-[>>>] A-[>>>] am-[>>>] A-[>>>] z-[>>>] |
 

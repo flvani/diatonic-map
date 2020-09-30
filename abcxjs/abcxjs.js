@@ -10604,25 +10604,26 @@ SVG.Printer.prototype.tabText = function( x, y, str, clss, anch ) {
 };
 
 SVG.Printer.prototype.text = function( x, y, str, clss, anch ) {
-   var t; 
-   var estilo = clss === 'abc_lyrics' ? '' : 'style="stroke:none; fill: '+this.color+';"' ;
    
    str = ""+str;
-   if( str.length===0) return;
+   if( str.length===0 ) return;
    
-   t = str.split('\n');
-   
+   var estilo = clss === 'abc_lyrics' ? '' : 'style="stroke:none; fill: '+this.color+';"' ;
+   var t = str.split('\n');
    anch = anch || 'start';
    x = x.toFixed(2);
    y = y.toFixed(2);
    
    this.svg_pages[this.currentPage] += '<g class="'+clss+'" '+estilo+' transform="translate('+x+' '+y+')">\n';
     if(t.length < 2) {
-       this.svg_pages[this.currentPage] += '<text text-anchor="'+anch+'" x="0" y="0" >'+t[0]+'</text>\n';
+        var stl = t[0].trim() === "."? 'style="opacity:0;"':'';
+        this.svg_pages[this.currentPage] += '<text text-anchor="'+anch+'" x="0" y="0" '+stl+' >'+t[0]+'</text>\n';
     } else {
        this.svg_pages[this.currentPage] += '<text text-anchor="'+anch+'" x="0" y="0">\n';
-       for(var i = 0; i < t.length; i++ )
-           this.svg_pages[this.currentPage] += '<tspan x="0" dy="1.2em" >'+(t[i].length===0 ? '&nbsp;' : t[i])+'</tspan>\n';
+       for(var i = 0; i < t.length; i++ ){
+           var stl = t[i].trim() === "."? 'style="opacity:0;"':'';
+           this.svg_pages[this.currentPage] += '<tspan x="0" dy="1.2em" '+stl+' >'+(t[i].length===0 ? '&nbsp;' : t[i])+'</tspan>\n';
+       }
        this.svg_pages[this.currentPage] += '</text>\n';
     }
     this.svg_pages[this.currentPage] += '</g>\n';

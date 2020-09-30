@@ -2,7 +2,7 @@ X:2017
 %%barnumbers 0
 %%papersize A4
 %%pagenumbering
-%%staffsep 20
+%%staffsep 5
 T:Merceditas (club)
 C:Ramón Sixto Rios
 %C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
@@ -16,17 +16,17 @@ K:F
 P:Parte I
 V:Melodia treble
 | zDFA [Bd][Ac] |: [GB]2 [Ac][GB]- [GB][Ac] | [GB]2 [Ac][Bd]- [Bd][GB] | [FA]2 [GB][FA]- [FA][GB] | 
-w: ¡Qué dulce en- can- to tiene, en mi _ re- cuer- do, Mer- _ ce- di- tas, a- _ ro- ma-
-w: ~ ~ ~ ~ ~ cam- po, allí _ muy le- jos, una _ tar- de, don- de _ cre
+w: ¡Qué dulce~en- . can- to tiene, en mi . re- cuer- do, Mer- . ce- di- tas, a- . ro-
+w: . . . . . cam- po, allí . muy le- jos, una . tar- de, don- de . cre
 | [FA]2 [GB][Ac]- [Ac][FA] | [EG]2 [FA][EG]- [EG][FA] | [EG]2 [FA][GB] z [EG] |1 [FA]6 | zDFA [Bd][Ac] :| 
-w:ma- da  flo- _ re- ci-  ta,  a- _  mor mí- o de _ una vez! La co- no- cí en~el
-w:cen los tri- _ ga- les, pro- vin- _ ci- a de San- _ ta ~ ~ ~ ~ ~ ~
-|2 [DF] z [P:Parte II][FA][GB] z [GB] |: [FA] z [FA][GB] z [FA] | [EG] z [EG][FA] z [FA] | [EG] z [EG][FA] z [EG] | [FA] z [FA][GB] z [GB] | 
-w:Fe. Y así na-ció nues-tro que-rer, con ilu-sión, con mu- cha fe, pe-ro no sé  
-w: ~ ~ ~ ~ la con lo- co  amor, a-sí lle-gué a com-pren-der, lo que~es su- 
+w:ma- da  flo- . re- ci-  ta,  a- .  mor mí- o de una vez! La co- no- cí en~el
+w:cen los tri- . ga- les, pro- vin- . ci- a de San- ta . . . . . .
+|2 [DF] z [P:Part II][FA][GB] z [GB] |: [FA] z [FA][GB] z [FA] | [EG] z [EG][FA] z [FA] | [EG] z [EG][FA] z [EG] | [FA] z [FA][GB] z [GB] | 
+w:Fe. Y así na-ció  nues~tro . que-rer, con i-lu-sión, con mu- cha fe, pe-ro no 
+w: . . . . la con lo- co  amor, a-sí lle-gué a com-pren-der, lo que~es su- 
 | [FA] z [FA][GB] z [GB] | [Afa]2 [Afa][Geg]- [Geg][Geg] | [FAf]2 [FAf][EGe]- [EGe][EGe] |1 [DF] z [FA][GB] z [GB] :|2 [DFd]6 | 
-w:por qué la flor se mar-chi- _ tó y mu- rien- _ do fué. Y amán- do- ~
-w:frir, lo que es querer, por-que _ le dí mi co- _ ra- ~ ~ ~ ~ zón.
+w:sé por qué la flor se mar-chi- . tó y murien- . do fué. Y amán- do- .
+w:frir, lo que~es que-rer, por-que . le dí mi co- . ra- . . . . zón.
 V:Baixo bass
 | z6 |: G,,[B,DF] G,,[B,DF] G,, z | C,,[C,E,G,] C,,[C,E,G,] C,, z | F,,[F,A,C] B,,[B,DF] B,, z | 
 | B,,[B,DF] B,,[B,DF] B,, z | A,,[A,^CE] A,,[A,^CE] A,, z | A,,[A,^CE] A,, z A,, z |1 D,,[D,F,A,] D,,[D,F,A,] D,, z | D,,[D,F,A,] D,,[D,F,A,] D,, z :| 
@@ -34,7 +34,7 @@ V:Baixo bass
 | D,,[D,F,A,] D,,[D,F,A,] D,, z | A,,3 G,,3 | F,,3 A,,3 |1 D,,[D,F,A,] D,,[D,F,A,] D,, z :|2 D,,[D,F,A,] D,,[D,F,A,] D,, z | 
 V:Tablatura accordionTab
 | z+z z-4 z-5 z-6 z-[5'8] z-[66'] |: G-[4'5'] b♭-[>>] G-[66'] b♭-[4'5'] G-[>>] z-[66'] | C-[4'5'] c-[>>] C-[66'] c-[5'8] C-[>>] z-[4'5'] | F+[4'5'] f+[>>] B♭-[4'5'] b♭-[56] B♭-[>>] z-[4'5'] | 
-| B♭-[56] b♭-[>>] B♭-[4'5'] b♭-[66'] B♭-[>>] z-[56] | A+[56] a+[>>] A+[4'5'] a+[56] A+[>>] z+[4'5'] | A+[56] a+[>>] A+[4'5'] z-[4'5'] A+z z-[3'4'] |1 D-[56] d-[>>] D-[>>] d-[>>] D-[>>] z-[>>] | D-z d-4 D-5 d-6 D-[5'8] z-[66'] :| 
-|2 D-[45] d-z D-[56] d-[4'5'] D-z z-[4'5'] |: D-[56] d-z D-[56] d-[4'5'] D-z z-[56] | A+[56] a+z A+[56] z+[4'5'] A+z z+[4'5'] | A+[56] a+z A+[56] z+[4'5'] A+z z+[56] | D-[56] d-z D-[56] d-[4'5'] D-z z-[4'5'] | 
-| D-[56] d-z D-[56] d-[4'5'] D-z z-[4'5'] | A+[5'7'8']2 >+[5'7'8'] G-[4'7'8'] >-[>>>] >-[4'7'8'] | F+[4'5'7']2 >+[4'5'7'] A+[568] >+[>>>] >+[568] |1 D-[45] d-z D-[56] d-[4'5'] D-z z-[4'5'] :|2 D-[458] d-[>>>] D-[>>>] d-[>>>] D-[>>>] z-[>>>] |
+| B♭-[56] b♭-[>>] B♭-[4'5'] b♭-[66'] B♭-[>>] z-[56] | A+[56] a+[>>] A+[4'5'] a+[56] A+[>>] z+[4'5'] | A+[56] a+[>>] A+[4'5'] z-[4'5'] A+z z-[3'4'] |1 D-[56] dm-[>>] D-[>>] dm-[>>] D-[>>] z-[>>] | D-z dm-4 D-5 dm-6 D-[5'8] z-[66'] :| 
+|2 D-[45] dm-z D-[56] dm-[4'5'] D-z z-[4'5'] |: D-[56] dm-z D-[56] dm-[4'5'] D-z z-[56] | A+[56] a+z A+[56] z+[4'5'] A+z z+[4'5'] | A+[56] a+z A+[56] z+[4'5'] A+z z+[56] | D-[56] dm-z D-[56] dm-[4'5'] D-z z-[4'5'] | 
+| D-[56] dm-z D-[56] dm-[4'5'] D-z z-[4'5'] | A+[5'7'8']2 >+[5'7'8'] G-[4'7'8'] >-[>>>] >-[4'7'8'] | F+[4'5'7']2 >+[4'5'7'] A+[568] >+[>>>] >+[568] |1 D-[45] dm-z D-[56] dm-[4'5'] D-z z-[4'5'] :|2 D-[458] dm-[>>>] D-[>>>] dm-[>>>] D-[>>>] z-[>>>] |
 
