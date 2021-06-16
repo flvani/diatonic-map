@@ -1,0 +1,32 @@
+%%barnumbers 0
+%%papersize A4
+%barsperstaff 6
+%%staffsep 20
+%%hidefingering
+X:1064
+T:Balaio
+C:Tradicional
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/XN70ctmbwGc&T:Parte 1;
+F:https://www.youtube-nocookie.com/embed/V2WBMRLvX4w&T:Parte 2;
+L:1/8
+Q:80
+M:2/4
+K:G
+V:1 treble
+| [P:Parte I] z d | +segno+  d/2BG/2 ED | c/2AF/2 ED | E/2EE/2 CC | D3/2 z3/2 d | d/2BG/2 ED |
+f: 5 5 * * 2 3 5 * * 2 2 3 * * 2 3 * 5
+| c/2AF/2 ED/2D/2 | EE [FC][FC] | [GB,]3/2 z3/2 [P:Parte II] D/2D/2 | GG AB | c3/2A/2 FD/2D/2 | EE CC |
+| D3/2 z3/2 D/2D/2 | GG AB | c3/2A/2 FD/2D/2 | EE [FC][FC] | [GB,]3/2 z3/2 d +dasegno+ | [P:Final] d/2BG/2 ED |
+| c/2AF/2 ED |  E/2EE/2 CC | D3/2 z3/2 d | d/2BG/2 ED | c/2AF/2 ED/2D/2 | EE [FC][FC] | +fermata+ [GB,]2 |
+V:2 bass
+| z2 | G,,3/2[G,B,D]/2 G,,[G,B,D] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] | G,,3/2[G,B,D]/2 G,,[G,B,D] | G,,3/2[G,B,D]/2 G,,[G,B,D] |
+| D,,3/2[D,F,A,]/2 D,,[D,F,A,] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] | G,,3/2[G,B,D]/2 G,,[G,B,D] | G,,3/2[G,B,D]/2 G,,[G,B,D] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] |
+| G,,3/2[G,B,D]/2 G,,[G,B,D] | G,,3/2[G,B,D]/2 G,,[G,B,D] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] | G,,3/2[G,B,D]/2 G,,[G,B,D] |G,,3/2[G,B,D]/2 G,,[G,B,D] |
+| D,,3/2[D,F,A,]/2 D,,[D,F,A,] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] | G,,3/2[G,B,D]/2 G,,[G,B,D] | G,,3/2[G,B,D]/2 G,,[G,B,D] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] | D,,3/2[D,F,A,]/2 D,,[D,F,A,] | G,,2 |
+V:3 accordionTab
+| z+z z+8 | G+80.5 >+7 g+60.5 G+4' g+5 | D-80.5 >-7 d-60.5 D-5 d-3' | D-50.5 >-5 d-50.5 D-4 d-4 | G+51.5 g+z0.5 G+z g+8 | G+80.5 >+7 g+60.5 G+4' g+5 |
+| D-80.5 >-7 d-60.5 D-5 d-3'0.5 >-3'0.5 |  D-5 >-50.5 d->0.5 D-[64] d-[64] | G+[64]1.5 g+z0.5 G+z g+50.5 >+50.5 | G+6 >+60.5 g+>0.5 G-7 g-6' | D-81.5 d-70.5 D-6 d-3'0.5 >-3'0.5 | D-5 >-50.5 d->0.5 D-4 d-4 |
+| G+51.5 g+z0.5 G+z g+50.5 >+50.5 |  G+6 >+60.5 g+>0.5 G-7 g-6' | D-81.5 d-70.5 D-6 d-3'0.5 >-3'0.5 | D-5 >-50.5 d->0.5 D-[64] d-[64] | G+[64]1.5 g+z0.5 G+z g+8 | G+80.5 >+7 g+60.5 G+4' g+5 |
+| D-80.5 >-7 d-60.5 D-5 d-3' |  D-50.5 >-5 d-50.5 D-4 d-4 | G+51.5 g+z0.5 G+z g+8 | G+80.5 >+7 g+60.5 G+4' g+5 | D-80.5 >-7 d-60.5 D-5 d-3'0.5 >-3'0.5 | D-5 >-50.5 d->0.5 D-[64] d-[64] | G+[64]2 |

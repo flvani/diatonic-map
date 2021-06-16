@@ -1,0 +1,29 @@
+%%barnumbers 0
+%%papersize A4
+%%staffsep 20
+%%hidefingering
+X:2064
+T:Balaio (club)
+C:Tradicional
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+L:1/8
+Q:80
+M:2/4
+K:C
+V:1 treble
+| [P:Parte I] z g | +segno+  g/2ec/2 AG | f/2dB/2 AG | A/2AA/2 FF | G3/2 z3/2 g | g/2ec/2 AG |
+f: 5 5 * * 2 3 5 * * 2 2 3 * * 2 3 * 5
+| f/2dB/2 AG/2G/2 | AA [BF][BF] | [cE]3/2 z3/2 [P:Parte II] G/2G/2 | cc de | f3/2d/2 BG/2G/2 | AA FF |
+| G3/2 z3/2 G/2G/2 | cc de | f3/2d/2 BG/2G/2 | AA [BF][BF] | [cE]3/2 z3/2 g +dasegno+ | [P:Final] g/2ec/2 AG |
+| f/2dB/2 AG |  A/2AA/2 FF | G3/2 z3/2 g | g/2ec/2 AG | f/2dB/2 AG/2G/2 | AA [BF][BF] | +fermata+ [cE]2 |
+V:2 bass
+| z2 | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | G,,3/2[G,B,D]/2 G,,[G,B,D] | G,,3/2[G,B,D]/2 G,,[G,B,D] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] |
+| G,,3/2[G,B,D]/2 G,,[G,B,D] | G,,3/2[G,B,D]/2 G,,[G,B,D] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | G,,3/2[G,B,D]/2 G,,[G,B,D] | G,,3/2[G,B,D]/2 G,,[G,B,D] |
+| C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | G,,3/2[G,B,D]/2 G,,[G,B,D] | G,,3/2[G,B,D]/2 G,,[G,B,D] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] |C,,3/2[C,E,G,]/2 C,,[C,E,G,] |
+| G,,3/2[G,B,D]/2 G,,[G,B,D] | G,,3/2[G,B,D]/2 G,,[G,B,D] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | C,,3/2[C,E,G,]/2 C,,[C,E,G,] | G,,3/2[G,B,D]/2 G,,[G,B,D] | G,,3/2[G,B,D]/2 G,,[G,B,D] | C,,2 |
+V:3 accordionTab
+| z+z z+9 | C+90.5 >+8 c+70.5 C+5' c+6 | G-90.5 >-8 g-70.5 G-6 g-4' | G-60.5 >-6 g-60.5 G-5 g-5 | C+61.5 c+z0.5 C+z c+9 | C+90.5 >+8 c+70.5 C+5' c+6 | 
+| G-90.5 >-8 g-70.5 G-6 g-4'0.5 >-4'0.5 | G-6 >-60.5 g->0.5 G-[75] g-[75] | C+[75]1.5 c+z0.5 C+z c+60.5 >+60.5 | C+7 >+70.5 c+>0.5 C-8 c-7' | G-91.5 g-80.5 G-7 g-4'0.5 >-4'0.5 | G-6 >-60.5 g->0.5 G-5 g-5 | 
+| C+61.5 c+z0.5 C+z c+60.5 >+60.5 | C+7 >+70.5 c+>0.5 C-8 c-7' | G-91.5 g-80.5 G-7 g-4'0.5 >-4'0.5 | G-6 >-60.5 g->0.5 G-[75] g-[75] | C+[75]1.5 c+z0.5 C+z c+9 | C+90.5 >+8 c+70.5 C+5' c+6 | 
+| G-90.5 >-8 g-70.5 G-6 g-4' | G-60.5 >-6 g-60.5 G-5 g-5 | C+61.5 c+z0.5 C+z c+9 | C+90.5 >+8 c+70.5 C+5' c+6 | G-90.5 >-8 g-70.5 G-6 g-4'0.5 >-4'0.5 | G-6 >-60.5 g->0.5 G-[75] g-[75] | C+[75]2 | 
