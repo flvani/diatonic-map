@@ -12,10 +12,13 @@ window.dataLayer = window.dataLayer || [];
 SITE.ga = function () {
     if( ga && ( window.location.href.indexOf( 'diatonicmap.com.br') >= 0 || window.location.href.indexOf( 'androidplatform') >= 0 )
            && SITE.getVersion('mainSITE', '' ) !== 'debug' 
-           && SITE.getVersion('mainSITE', '' ) !== 'unknown'  ) {
+           && SITE.getVersion('mainSITE', '' ) !== 'unknown' ) {
                
             //console.log("GA desabilitado!");
-            ga.apply(this, arguments);
+            if(SITE.debug)
+                console.log( 'App is in Debug mode'  )
+            else
+                ga.apply(this, arguments);
         /*
         if (window.AnalyticsApplication) {
             // Call Android interface
@@ -52,7 +55,7 @@ SITE.getDate = function (){
 SITE.getVersion = function(tag, label) {
     var el = document.getElementById(tag);
     if(!el) return 'unknown';
-    var res = el.src.match(/\_[0-9]*\.[0-9]*/g);
+    var res = el.src.match(/\_[0-9]*\.[0-9]*[\.[0-9]*]*/g);
     return res ? label+res[0].substr(1) : 'debug';
 };
 
@@ -133,6 +136,7 @@ SITE.LoadProperties = function() {
         SITE.properties.options.pianoSound = false;
         SITE.properties.options.autoRefresh = false;
         SITE.properties.options.keyboardRight = false;
+        SITE.properties.options.suppressTitles = false;
         
         salvar = true;
         
@@ -237,6 +241,7 @@ SITE.ResetProperties = function() {
         ,pianoSound: false
         ,autoRefresh: false
         ,keyboardRight: false
+        ,suppressTitles: false
     };
 
     SITE.properties.mediaDiv = {
@@ -493,6 +498,8 @@ SITE.Translator.prototype.sortLanguages = function () {
 };
 
 SITE.Translator.prototype.log = function(msg) {
+    if( msg.substr( 27, 7 ) === 'CORONA_' ) return;
+    if( msg.substr( 27, 7 ) === 'HOHNER_' ) return;
     if( msg.substr( 27, 6 ) === 'GAITA_' ) return;
     if( msg.substr( 27, 11 ) === 'CONCERTINA_' ) return;
     waterbug.log( msg );
@@ -1549,31 +1556,69 @@ SITE.Mapa.prototype.doLoadMap = function( files, loader ) {
     var accordion = this.accordion.loaded;
     
     if( newChords ) {
+        var objRet = { items:{}, ids: {}, details:{}, sortedIndex: [] };
         var tunebook = new ABCXJS.TuneBook(newChords);
         for (var t = 0; t < tunebook.tunes.length; t++) {
-            accordion.chords.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
-            accordion.chords.sortedIndex.push(tunebook.tunes[t].title);
-        }    
+            var tune = tunebook.tunes[t];
+            var id = tune.id;
+            var hidden = false;
+            if( id.toLowerCase().charAt(0) === 'h' ) {
+                id = id.substr(1);
+                hidden = true;
+            }
+            
+            objRet.ids[id] = tune.title;
+            objRet.items[tune.title] = tune.abc;
+            objRet.details[tune.title] = { composer: tune.composer, id: id, hidden: hidden  };
+            objRet.sortedIndex.push( tune.title );
+        }   
+        accordion.chords =  objRet;
         accordion.chords.sortedIndex.sort();
         this.renderedChord.title = accordion.getFirstChord();;
         this.loadABCList(this.renderedChord.tab);
     }
+
     if( newPractices ) {
+        var objRet = { items:{}, ids: {}, details:{}, sortedIndex: [] };
         var tunebook = new ABCXJS.TuneBook(newPractices);
         for (var t = 0; t < tunebook.tunes.length; t++) {
-            accordion.practices.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
-            accordion.practices.sortedIndex.push(tunebook.tunes[t].title);
-        }    
+            var tune = tunebook.tunes[t];
+            var id = tune.id;
+            var hidden = false;
+            if( id.toLowerCase().charAt(0) === 'h' ) {
+                id = id.substr(1);
+                hidden = true;
+            }
+            
+            objRet.ids[id] = tune.title;
+            objRet.items[tune.title] = tune.abc;
+            objRet.details[tune.title] = { composer: tune.composer, id: id, hidden: hidden  };
+            objRet.sortedIndex.push( tune.title );
+        }   
+        accordion.practices =  objRet;
         accordion.practices.sortedIndex.sort();
         this.renderedPractice.title = accordion.getFirstPractice();
         this.loadABCList(this.renderedPractice.tab);
     }
+    
     if( newTunes ) {
+        var objRet = { items:{}, ids: {}, details:{}, sortedIndex: [] };
         var tunebook = new ABCXJS.TuneBook(newTunes);
         for (var t = 0; t < tunebook.tunes.length; t++) {
-            accordion.songs.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
-            accordion.songs.sortedIndex.push(tunebook.tunes[t].title);
-        }    
+            var tune = tunebook.tunes[t];
+            var id = tune.id;
+            var hidden = false;
+            if( id.toLowerCase().charAt(0) === 'h' ) {
+                id = id.substr(1);
+                hidden = true;
+            }
+            
+            objRet.ids[id] = tune.title;
+            objRet.items[tune.title] = tune.abc;
+            objRet.details[tune.title] = { composer: tune.composer, id: id, hidden: hidden  };
+            objRet.sortedIndex.push( tune.title );
+        }   
+        accordion.songs =  objRet;
         accordion.songs.sortedIndex.sort();
         this.renderedTune.title = accordion.getFirstSong();
         this.loadABCList(this.renderedTune.tab);
@@ -2364,10 +2409,6 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     
     this.mapa = mapa;
 
-    if(!mapa){
-        this.isApp = true;
-    }
-    
     this.ypos = 0; // controle de scrollf
     this.lastStaffGroup = -1; // controle de scroll
     this.lastYpos = 0; // controle de scroll
@@ -2507,37 +2548,35 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         that.showKeyboard();
     }, false);
 
-    if(!this.isApp){
-        this.showEditorButton.addEventListener("click", function (evt) {
-            evt.preventDefault();
-            this.blur();
-            that.showEditor();
-        }, false);
+    this.showEditorButton.addEventListener("click", function (evt) {
+        evt.preventDefault();
+        this.blur();
+        that.showEditor();
+    }, false);
+
+    this.forceRefreshButton.addEventListener("click", function (evt) {
+        evt.preventDefault();
+        this.blur();
+        that.fireChanged(0, {force:true, showProgress:true } );
+    }, false);
     
-        this.forceRefreshButton.addEventListener("click", function (evt) {
-            evt.preventDefault();
-            this.blur();
-            that.fireChanged(0, {force:true, showProgress:true } );
-        }, false);
-        
-        this.saveButton.addEventListener("click", function (evt) {
-            evt.preventDefault();
-            this.blur();
-            that.salvaMusica();
-        }, false);
-        
-        this.printButton.addEventListener("click", function (evt) {
-            evt.preventDefault();
-            this.blur();
-            
-            SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
-            
-           
-            that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#studioDiv"], that.renderedTune.abc.formatting.landscape);
-            return;
+    this.saveButton.addEventListener("click", function (evt) {
+        evt.preventDefault();
+        this.blur();
+        that.salvaMusica();
+    }, false);
     
-        }, false);
-    }
+    this.printButton.addEventListener("click", function (evt) {
+        evt.preventDefault();
+        this.blur();
+        
+        SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
+        
+        
+        that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#studioDiv"], that.renderedTune.abc.formatting.landscape);
+        return;
+
+    }, false);
 
     this.modeButton.addEventListener('click', function (evt) {
         evt.preventDefault();
@@ -2612,12 +2651,11 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
 
     this.slider = new DRAGGABLE.ui.Slider( this.tempoButton,
         {
-            min: 25, max: 200, start:100, step:5, color: '#FF6B6B', bgcolor:'#FFAFAF', 
+            min: 25, max: 200, start:100, step:25, speed:100, color: 'white', bgcolor:'red', size:{w:150, h:23, tw:48},
             callback: function(v) { that.midiPlayer.setAndamento(v); } 
         } 
     );
 
-    
     this.gotoMeasureButton.addEventListener("keypress", function (evt) {
         if (evt.keyCode === 13) {
             that.startPlay('goto', this.value, that.untilMeasureButton.value);
@@ -2702,8 +2740,6 @@ SITE.Estudio.prototype.setup = function( tab, accordionId) {
     this.renderedTune.abc = tab.abc;
     this.renderedTune.text = tab.text;
     this.renderedTune.title = tab.title;
-    this.studioCanvasDiv.scrollTop = 0;
-    
     
     this.changePlayMode(SITE.properties.studio.mode);
     this.setBassIcon();
@@ -2714,33 +2750,29 @@ SITE.Estudio.prototype.setup = function( tab, accordionId) {
     this.setString(tab.text);
     this.fireChanged(0, {force:true} );
     this.Div.setSubTitle( '- ' + this.accordion.getTxtModel() );
+    this.studioCanvasDiv.scrollTop = 0;
+
     this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
     
-    if(!this.isApp){
-        this.showEditor(SITE.properties.studio.editor.visible);
+    this.showEditor(SITE.properties.studio.editor.visible);
+
+    this.editorWindow.container.setSubTitle( '- ' + tab.title );
+    this.editorWindow.restartUndoManager();
     
-        this.editorWindow.container.setSubTitle( '- ' + tab.title );
-        this.editorWindow.restartUndoManager();
-        
-        if(SITE.properties.studio.editor.floating) {
-            if( SITE.properties.studio.editor.maximized ) {
-                this.editorWindow.setFloating(true);
-                this.editorWindow.container.dispatchAction('MAXIMIZE');
-            } else {
-                this.editorWindow.container.dispatchAction('POPOUT');
-            }
+    if(SITE.properties.studio.editor.floating) {
+        if( SITE.properties.studio.editor.maximized ) {
+            this.editorWindow.setFloating(true);
+            this.editorWindow.container.dispatchAction('MAXIMIZE');
         } else {
-            this.editorWindow.container.dispatchAction('POPIN');
+            this.editorWindow.container.dispatchAction('POPOUT');
         }
-    }
-
-    if(this.isApp) {
-        this.showKeyboard(true);
     } else {
-        this.showKeyboard(SITE.properties.studio.keyboard.visible);
+        this.editorWindow.container.dispatchAction('POPIN');
     }
-    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
 
+    this.showKeyboard(SITE.properties.studio.keyboard.visible);
+
+    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
     
     SITE.translator.translate( this.Div.topDiv );
 };
@@ -6547,6 +6579,7 @@ SITE.Repertorio.prototype.compileAll = function() {
         for (var title in this.accordion.loaded.songs.items ) {
 
             waterbug.log(title);
+            console.log(title);
 
             abcParser.parse( this.accordion.loaded.songs.items[title] );
 
@@ -6555,6 +6588,7 @@ SITE.Repertorio.prototype.compileAll = function() {
 
             for (var j=0; j<w.length; j++) {
                 waterbug.logError( '   ' + w[j]);
+                console.log( '   ' + w[j]);
             }
 
             var tune = abcParser.getTune();
@@ -6564,10 +6598,13 @@ SITE.Repertorio.prototype.compileAll = function() {
             l += w.length;
             for (var j=0; j<w.length; j++) {
                 waterbug.logError( '   ' + w[j]);
+                console.log( '   ' + w[j]);
             }
 
             waterbug.log(l > 0 ? '': '--> OK' );
+            console.log(l > 0 ? '': '--> OK' );
             waterbug.log( '' );
+            console.log('');
         }
     }
     

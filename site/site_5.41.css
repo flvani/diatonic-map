@@ -385,14 +385,6 @@ body {
     z-index: 1000;
 }
 
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 07/04/2015, 19:06:40
-*/
 .studioDiv {
     position: absolute;
     display:none;
@@ -478,9 +470,4 @@ and open the template in the editor.
     -moz-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -ms-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -o-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-}
-
-.btn-subgroup {
-    display: inline-block;
-    float:left;
 }

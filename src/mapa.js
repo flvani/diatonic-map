@@ -765,31 +765,69 @@ SITE.Mapa.prototype.doLoadMap = function( files, loader ) {
     var accordion = this.accordion.loaded;
     
     if( newChords ) {
+        var objRet = { items:{}, ids: {}, details:{}, sortedIndex: [] };
         var tunebook = new ABCXJS.TuneBook(newChords);
         for (var t = 0; t < tunebook.tunes.length; t++) {
-            accordion.chords.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
-            accordion.chords.sortedIndex.push(tunebook.tunes[t].title);
-        }    
+            var tune = tunebook.tunes[t];
+            var id = tune.id;
+            var hidden = false;
+            if( id.toLowerCase().charAt(0) === 'h' ) {
+                id = id.substr(1);
+                hidden = true;
+            }
+            
+            objRet.ids[id] = tune.title;
+            objRet.items[tune.title] = tune.abc;
+            objRet.details[tune.title] = { composer: tune.composer, id: id, hidden: hidden  };
+            objRet.sortedIndex.push( tune.title );
+        }   
+        accordion.chords =  objRet;
         accordion.chords.sortedIndex.sort();
         this.renderedChord.title = accordion.getFirstChord();;
         this.loadABCList(this.renderedChord.tab);
     }
+
     if( newPractices ) {
+        var objRet = { items:{}, ids: {}, details:{}, sortedIndex: [] };
         var tunebook = new ABCXJS.TuneBook(newPractices);
         for (var t = 0; t < tunebook.tunes.length; t++) {
-            accordion.practices.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
-            accordion.practices.sortedIndex.push(tunebook.tunes[t].title);
-        }    
+            var tune = tunebook.tunes[t];
+            var id = tune.id;
+            var hidden = false;
+            if( id.toLowerCase().charAt(0) === 'h' ) {
+                id = id.substr(1);
+                hidden = true;
+            }
+            
+            objRet.ids[id] = tune.title;
+            objRet.items[tune.title] = tune.abc;
+            objRet.details[tune.title] = { composer: tune.composer, id: id, hidden: hidden  };
+            objRet.sortedIndex.push( tune.title );
+        }   
+        accordion.practices =  objRet;
         accordion.practices.sortedIndex.sort();
         this.renderedPractice.title = accordion.getFirstPractice();
         this.loadABCList(this.renderedPractice.tab);
     }
+    
     if( newTunes ) {
+        var objRet = { items:{}, ids: {}, details:{}, sortedIndex: [] };
         var tunebook = new ABCXJS.TuneBook(newTunes);
         for (var t = 0; t < tunebook.tunes.length; t++) {
-            accordion.songs.items[tunebook.tunes[t].title] = tunebook.tunes[t].abc;
-            accordion.songs.sortedIndex.push(tunebook.tunes[t].title);
-        }    
+            var tune = tunebook.tunes[t];
+            var id = tune.id;
+            var hidden = false;
+            if( id.toLowerCase().charAt(0) === 'h' ) {
+                id = id.substr(1);
+                hidden = true;
+            }
+            
+            objRet.ids[id] = tune.title;
+            objRet.items[tune.title] = tune.abc;
+            objRet.details[tune.title] = { composer: tune.composer, id: id, hidden: hidden  };
+            objRet.sortedIndex.push( tune.title );
+        }   
+        accordion.songs =  objRet;
         accordion.songs.sortedIndex.sort();
         this.renderedTune.title = accordion.getFirstSong();
         this.loadABCList(this.renderedTune.tab);

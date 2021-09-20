@@ -55,7 +55,7 @@ SITE.getDate = function (){
 SITE.getVersion = function(tag, label) {
     var el = document.getElementById(tag);
     if(!el) return 'unknown';
-    var res = el.src.match(/\_[0-9]*\.[0-9]*/g);
+    var res = el.src.match(/\_[0-9]*\.[0-9]*[\.[0-9]*]*/g);
     return res ? label+res[0].substr(1) : 'debug';
 };
 
@@ -498,6 +498,8 @@ SITE.Translator.prototype.sortLanguages = function () {
 };
 
 SITE.Translator.prototype.log = function(msg) {
+    if( msg.substr( 27, 7 ) === 'CORONA_' ) return;
+    if( msg.substr( 27, 7 ) === 'HOHNER_' ) return;
     if( msg.substr( 27, 6 ) === 'GAITA_' ) return;
     if( msg.substr( 27, 11 ) === 'CONCERTINA_' ) return;
     waterbug.log( msg );
@@ -987,7 +989,7 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         this.blur();
         that.printPreview(
             that.renderedTune.div.innerHTML, 
-            ["#topBar","#mapaDiv", "#keyboardDiv", "#studioDiv" ], 
+            ["#topBar","#appDiv", "#keyboardDiv", "#studioDiv" ], 
             that.renderedTune.abc.formatting.landscape
         );
     }, false);
@@ -1249,8 +1251,8 @@ SITE.AppView.prototype.showKeyboard = function(show) {
     } else {
         this.accordion.render_opts.show = false;
         this.keyboardWindow.setVisible(false);
-        this.showMapButton.innerHTML = '<i class="ico-keyboard" style="opacity:0.5;"></i>'+
-                                                         '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px"></i>';
+        this.showMapButton.innerHTML = '<i class="ico-keyboard" style="opacity:0.5; filter: grayscale(1);"></i>'+
+                                                         '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px; filter: grayscale(1);"></i>';
     }
 };
 
@@ -1285,11 +1287,11 @@ SITE.AppView.prototype.keyboardMirrorElements = function( e ) {
             this.keyboardWindow.extras.style.right = '';
             this.keyboardWindow.extras.style.left = '5px';
             this.keyboardWindow.imagem.style.right = '';
-            this.keyboardWindow.imagem.style.left = '20px';
+            this.keyboardWindow.imagem.style.left = '25px';
         } else{
             this.keyboardWindow.extras.style.right = '5px';
             this.keyboardWindow.extras.style.left = '';
-            this.keyboardWindow.imagem.style.right = '20px';
+            this.keyboardWindow.imagem.style.right = '25px';
             this.keyboardWindow.imagem.style.left = '';
         }
     }
@@ -1400,8 +1402,8 @@ SITE.AppView.prototype.setBassIcon = function() {
     if( SITE.properties.studio.bassOn ) {
         this.FClefButton.innerHTML = '<i class="ico-clef-bass" ></i>';
     } else {
-        this.FClefButton.innerHTML = '<i class="ico-clef-bass" style="opacity:0.5;"></i>'+
-                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px"></i>';
+        this.FClefButton.innerHTML = '<i class="ico-clef-bass" style="opacity:0.5; filter: grayscale(1);"></i>'+
+                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px; filter: grayscale(1);"></i>';
     }
 };
 
@@ -1409,8 +1411,8 @@ SITE.AppView.prototype.setTrebleIcon = function() {
     if( SITE.properties.studio.trebleOn ) {
         this.GClefButton.innerHTML = '<i class="ico-clef-treble" ></i>';
     } else {
-        this.GClefButton.innerHTML = '<i class="ico-clef-treble" style="opacity:0.5;"></i>'+
-                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px"></i>';
+        this.GClefButton.innerHTML = '<i class="ico-clef-treble" style="opacity:0.5; filter: grayscale(1);"></i>'+
+                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px; filter: grayscale(1);"></i>';
     }
 };
 
@@ -1436,8 +1438,8 @@ SITE.AppView.prototype.setTimerIcon = function( value ) {
             this.timerButton.innerHTML = '<i class="ico-timer-'+ico+'" ></i>';
         }
     } else {
-        this.timerButton.innerHTML = '<i class="ico-timer-00" style="opacity:0.5;"></i>'+
-                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px"></i>';
+        this.timerButton.innerHTML = '<i class="ico-timer-00" style="opacity:0.5; filter: grayscale(1);"></i>'+
+                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:6px; filter: grayscale(1);"></i>';
     }
 };
 
@@ -1688,7 +1690,7 @@ SITE.App = function( interfaceParams, tabParams, playerParams ) {
     document.body.style.overflow = 'hidden';
     
     var that = this;
-    this.container = document.getElementById('mapaDiv')
+    this.container = document.getElementById('appDiv')
     this.tab = {title:'', text:'', ddmId:'menuSongs', type: 'songs' }
     
     this.Back = this.Close; // define a funcao a ser chamada quando o comando back é acioando no telefone
@@ -1967,7 +1969,7 @@ SITE.App.prototype.defineInstrument = function(onlySet) {
     
     MIDI.widget = new sketch.ui.Timer({
         size:180
-        //, container: document.getElementById('mapaDiv')
+        //, container: document.getElementById('appDiv')
         , cor1:SITE.properties.colors.close, cor2: SITE.properties.colors.open});
     
     MIDI.widget.setFormat( SITE.translator.getResource('loading'));
@@ -2020,7 +2022,7 @@ SITE.App.prototype.showSettings = function() {
               </tr>\
               <tr>\
                 <td style="width:15px;"></td><td data-translate="PrefsColorHighlight" >'+SITE.translator.getResource('PrefsColorHighlight')+'</td>\
-                <td><input id="corRealce" type="text" readonly ><div id="sldTransparency"></div>\
+                <td><input id="corRealce" type="text" readonly >&nbsp;<div id="sldTransparency"></div>\
                         <span data-translate="PrefsColorTransparency" >'+SITE.translator.getResource('PrefsColorTransparency')+'</span></td>\
               </tr>\
               <tr>\
@@ -2332,7 +2334,7 @@ SITE.App.prototype.modalCallback = function ( action ) {
         // não implementado para o aplicativo
         //var container = this.iframe.contentDocument.getElementById('modalContainer');
         //if( container ) {
-        //    this.printPreview( container.innerHTML, [ "#"+this.modalWindow.topDiv.id, "#topBar","#mapaDiv"], false );
+        //    this.printPreview( container.innerHTML, [ "#"+this.modalWindow.topDiv.id, "#topBar","#appDiv"], false );
         //}
     }
 };

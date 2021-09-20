@@ -129,6 +129,8 @@ SITE.Translator.prototype.sortLanguages = function () {
 };
 
 SITE.Translator.prototype.log = function(msg) {
+    if( msg.substr( 27, 7 ) === 'CORONA_' ) return;
+    if( msg.substr( 27, 7 ) === 'HOHNER_' ) return;
     if( msg.substr( 27, 6 ) === 'GAITA_' ) return;
     if( msg.substr( 27, 11 ) === 'CONCERTINA_' ) return;
     waterbug.log( msg );
