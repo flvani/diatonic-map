@@ -88,6 +88,11 @@
         ,"pdfBtn": "Save PDF"
         ,"PreferencesTitle": "Preferences"
         ,"PrefsIdiom": "Language:"
+        ,"PrefsTabFormat": "Tablature format:"
+        ,"PrefsPropsOnlyNumbers": "Show only numbers"
+        ,"0TAB": "German Model"
+        ,"1TAB": "Numeric 1 (if available)"
+        ,"2TAB": "Numeric 2 (if available)"
         ,"PrefsColor": "Colors:"
         ,"PrefsColorHighlight": "Highlight Color"
         ,"PrefsColorTransparency": "use transparency"
@@ -179,5 +184,6 @@
         ,"PrivacyTitle": "Privacy Policy"
         ,"TermsTitle": "Terms  &amp; Conditions"
         ,"PrefsPropsChkSuppressTitles": "Suppress window titles"
+        ,"cookiePrefs":"Click here to reset cookie preferences"
     }
 }

@@ -192,6 +192,15 @@ SITE.LoadProperties = function() {
         
         salvar = true;
     }
+
+    if( SITE.properties.options.tabFormat === undefined ) {
+        salvar = true;
+        SITE.properties.options.tabFormat = 0;
+    }
+    if( SITE.properties.options.tabShowOnlyNumbers === undefined ) {
+        salvar = true;
+        SITE.properties.options.tabShowOnlyNumbers=false;
+    }
     
     if( salvar ) {
         SITE.SaveProperties();
@@ -242,6 +251,8 @@ SITE.ResetProperties = function() {
         ,autoRefresh: false
         ,keyboardRight: false
         ,suppressTitles: false
+        ,tabFormat: 0
+        ,tabShowOnlyNumbers: false
     };
 
     SITE.properties.mediaDiv = {

@@ -34,7 +34,10 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
     
     if (interfaceParams.generate_tablature) {
         if (interfaceParams.generate_tablature === 'accordion') {
-            this.accordion = new ABCXJS.tablature.Accordion(interfaceParams.accordion_options);
+            this.accordion = new window.ABCXJS.tablature.Accordion( 
+                  interfaceParams.accordion_options 
+                , SITE.properties.options.tabFormat 
+                ,!SITE.properties.options.tabShowOnlyNumbers  );
             if (interfaceParams.accordionNameSpan) {
                 this.accordionNameSpan = document.getElementById(interfaceParams.accordionNameSpan);
                 this.accordionNameSpan.innerHTML = this.accordion.getFullName();
@@ -502,7 +505,7 @@ SITE.PartEdit.prototype.printABC = function() {
     
     this.renderedTune.div.innerHTML = "";
     
-    this.renderedTune.printer = new ABCXJS.write.Printer( new SVG.Printer( this.renderedTune.div ) );
+    this.renderedTune.printer = new ABCXJS.write.Printer( new SVG.Printer( this.renderedTune.div ), {}, this.accordion.loadedKeyboard );
     
     this.renderedTune.printer.printABC(this.renderedTune.abc);
     

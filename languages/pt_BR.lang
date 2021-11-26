@@ -87,6 +87,11 @@
         ,"message": "Deixe uma mensagem"
         ,"pdfBtn": "Salvar em PDF"
         ,"PreferencesTitle": "Preferências"
+        ,"PrefsTabFormat": "Formato de Tablatura:"
+        ,"PrefsPropsOnlyNumbers": "Mostrar apenas números"
+        ,"0TAB": "Modelo Alemão"
+        ,"1TAB": "Numérica 1 (se disponível)"
+        ,"2TAB": "Numérica 2 (se disponível)"
         ,"PrefsIdiom": "Idioma:"
         ,"PrefsColor": "Cores:"
         ,"PrefsColorHighlight": "Cor de Realce"
@@ -179,5 +184,6 @@
         ,"PrivacyTitle": "Política de privacidade"
         ,"TermsTitle": "Termos e Condições"
         ,"PrefsPropsChkSuppressTitles": "Suprimir títulos de janelas"
+        ,"cookiePrefs":"Clique aqui para redefinir preferências de cookies"
    }
 }

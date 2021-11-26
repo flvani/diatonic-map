@@ -21,7 +21,10 @@ SITE.App = function( interfaceParams, tabParams, playerParams ) {
     
     this.settingsMenu = document.getElementById(interfaceParams.settingsMenu);
 
-    this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options );
+    this.accordion = new window.ABCXJS.tablature.Accordion( 
+          interfaceParams.accordion_options 
+        , SITE.properties.options.tabFormat 
+        ,!SITE.properties.options.tabShowOnlyNumbers  );
     
     this.accordionSelector = new ABCXJS.edit.AccordionSelector( 
         interfaceParams.mapMenuGaitasDiv, interfaceParams.mapMenuGaitasDiv, 
@@ -308,7 +311,7 @@ SITE.App.prototype.showSettings = function() {
 
     //window.waterbug && window.waterbug.show();
 
-    var width = 600;
+    var width = 620;
     var winW = window.innerWidth
                 || document.documentElement.clientWidth
                 || document.body.clientWidth;    
@@ -321,7 +324,7 @@ SITE.App.prototype.showSettings = function() {
         this.settings.popupWin = new DRAGGABLE.ui.Window( 
               null 
             , null
-            , {title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, top: "40px", left: x+"px", height:'440px',  width: width+'px', zIndex: 50} 
+            , {title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, top: "40px", left: x+"px", height:'530px',  width: width+'px', zIndex: 50} 
             , {listener: this, method: 'settingsCallback'}
         );
 
@@ -333,6 +336,14 @@ SITE.App.prototype.showSettings = function() {
               <tr>\
                 <th colspan="2"><span data-translate="PrefsIdiom" >'+SITE.translator.getResource('PrefsIdiom')+'</span></th>\
                 <th><div id="settingsLanguageMenu" class="topMenu"></div></th>\
+              </tr>\
+              <tr>\
+                <th colspan="2"><br><span data-translate="PrefsTabFormat" >'+SITE.translator.getResource('PrefsTabFormat')+'</span></th>\
+                <th><br><div id="settingsTabMenu" class="topMenu"></div></th>\
+              </tr>\
+              <tr style="height:40px;">\
+                <td> </td><td colspan="2"><div id="sldOnlyNumbers"></div>\
+                <span data-translate="PrefsPropsOnlyNumbers" >'+SITE.translator.getResource('PrefsPropsOnlyNumbers')+'</span></a></td>\
               </tr>\
               <tr>\
                 <th colspan="2"><br><span data-translate="PrefsColor" >'+SITE.translator.getResource('PrefsColor')+'</span></th><td></td>\
@@ -381,6 +392,10 @@ SITE.App.prototype.showSettings = function() {
             <div id="botao3"></div>\n\
         </div>';
      
+        this.settings.sldOnlyNumbers = new DRAGGABLE.ui.Slider( document.getElementById( 'sldOnlyNumbers' ),
+            { min: 0, max: 1, start: 0, step:1, type: 'bin', speed:100, color: 'white', bgcolor:'red', size:{w:60 , h:25, tw:40}, callback: null } 
+        );
+
         this.settings.sldTransparency = new DRAGGABLE.ui.Slider( document.getElementById( 'sldTransparency' ),
             { min: 0, max: 1, start: 0, step:1, type: 'bin', speed:100, color: 'white', bgcolor:'red', size:{w:60 , h:25, tw:40}, callback: null } 
         );
@@ -409,6 +424,20 @@ SITE.App.prototype.showSettings = function() {
             ,  [ {title: 'Idioma', ddmId: 'menuIdiomas', itens: [] } ]
             );
     
+        this.settings.tabMenu = new DRAGGABLE.ui.DropdownMenu(
+            'settingsTabMenu'
+            ,  { listener:this, method:'settingsCallback', translate: true }
+            ,  [{title: '...', ddmId: 'menuFormato',
+                    itens: [
+                        '&#160;Modelo Alemão|0TAB',
+                        '&#160;Numérica 1 (se disponível)|1TAB',
+                        '&#160;Numérica 2 (se disponível)|2TAB' 
+                    ]}]
+            );
+
+        this.settings.tabFormat = SITE.properties.options.tabFormat;
+        this.settings.tabMenu.setSubMenuTitle( 'menuFormato', this.settings.tabMenu.selectItem( 'menuFormato', this.settings.tabFormat.toString()+"TAB" ));
+
         this.picker = new DRAGGABLE.ui.ColorPicker(['corRealce', 'foleFechando', 'foleAbrindo'], {readonly: false, translator: SITE.translator});
       
         SITE.translator.menuPopulate(this.settings.menu, 'menuIdiomas');
@@ -423,6 +452,7 @@ SITE.App.prototype.showSettings = function() {
         this.settings.autoRefresh = document.getElementById( 'chkAutoRefresh');
     }          
 
+    this.settings.originalOnlyNumber = SITE.properties.options.tabShowOnlyNumbers;
     this.settings.originalLang = SITE.properties.options.language;
     this.settings.originalPianoSound = SITE.properties.options.pianoSound;
     
@@ -430,6 +460,7 @@ SITE.App.prototype.showSettings = function() {
     this.settings.closeColor.style.backgroundColor = this.settings.closeColor.value = SITE.properties.colors.close;
     this.settings.openColor.style.backgroundColor = this.settings.openColor.value = SITE.properties.colors.open ;
 
+    this.settings.sldOnlyNumbers.setValue(SITE.properties.options.tabShowOnlyNumbers?"1":"0", false);
     this.settings.sldTransparency.setValue(SITE.properties.colors.useTransparency?"1":"0", false);
     this.settings.sldPianoSound.setValue(SITE.properties.options.pianoSound?"1":"0", false);
     this.settings.sldKeyboardRight.setValue(SITE.properties.options.keyboardRight?"1":"0", false);
@@ -444,6 +475,12 @@ SITE.App.prototype.showSettings = function() {
 
 SITE.App.prototype.settingsCallback = function (action, elem) {
     switch (action) {
+        case '0TAB':
+        case '1TAB':
+        case '2TAB':
+            this.settings.tabFormat = action;
+            this.settings.tabMenu.setSubMenuTitle( 'menuFormato', this.settings.tabMenu.selectItem( 'menuFormato', action ));
+            break;
         case 'de_DE':
         case 'en_US':
         case 'es_ES':
@@ -468,6 +505,7 @@ SITE.App.prototype.settingsCallback = function (action, elem) {
             SITE.properties.colors.useTransparency = this.settings.sldTransparency.getBoolValue();
             SITE.properties.options.keyboardRight = this.settings.sldKeyboardRight.getBoolValue();
             SITE.properties.options.suppressTitles = this.settings.sldSuppressTitles.getBoolValue();
+            SITE.properties.options.tabShowOnlyNumbers = this.settings.sldOnlyNumbers.getBoolValue();
             SITE.properties.options.pianoSound = this.settings.sldPianoSound.getBoolValue();
             SITE.properties.options.language = this.settings.lang;
 
@@ -503,6 +541,18 @@ SITE.App.prototype.settingsCallback = function (action, elem) {
 };
 
 SITE.App.prototype.applySettings = function() {
+
+    //fazer os ajustes quando selecionar o formato de tablatura
+    if( parseInt(this.settings.tabFormat) !== SITE.properties.options.tabFormat || 
+        this.settings.originalOnlyNumber !== SITE.properties.options.tabShowOnlyNumbers ) 
+    {
+        SITE.properties.options.tabFormat = parseInt(this.settings.tabFormat);
+        this.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
+
+        if (this.appView) {
+            this.appView.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
+        }
+    }
 
     if( this.settings.originalLang !== SITE.properties.options.language ) {
         SITE.ga('send', 'event', 'Configuration', 'changeLang', SITE.properties.options.language);

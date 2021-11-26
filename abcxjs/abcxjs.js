@@ -8077,7 +8077,6 @@ ABCXJS.write.Layout = function(printer, bagpipes ) {
   this.tuneCurrVoice = 0; // current voice number on current staff
   this.tripletmultiplier = 1;
   this.printer = printer;	// TODO-PER: this is a hack to get access, but it tightens the coupling.
-  this.accordion = printer.accordion;
   this.glyphs = printer.glyphs;
 };
 
@@ -9638,7 +9637,7 @@ ABCXJS.write.color.useTransparency = true;
 
 //--------------------------------------------------------------------PRINTER
 
-ABCXJS.write.Printer = function (paper, params) {
+ABCXJS.write.Printer = function (paper, params, loadedKeyboard) {
 
     params = params || {};
     this.y = 0;
@@ -9654,8 +9653,8 @@ ABCXJS.write.Printer = function (paper, params) {
     this.paddingleft = params.paddingleft || 15;
     this.paddingright = params.paddingright || 30;
     this.editable = params.editable || false;
+    this.loadedKeyboard = loadedKeyboard || null; // preciso disso para gerar a pauta númerica (se houver)
     this.staffgroups = [];
-
 };
 
 ABCXJS.write.Printer.prototype.printABC = function (abctunes, options) {
@@ -10020,8 +10019,28 @@ ABCXJS.write.Printer.prototype.printText = function (x, offset, text, kls, ancho
 };
 
 ABCXJS.write.Printer.prototype.printTabText = function (x, offset, text, klass) {
+
     klass = klass || 'abc_tabtext';
-    this.paper.tabText(x, this.calcY(offset)+5, text, klass, 'middle');
+
+    //if( opcao tablatura !== alemã )
+    //btn.tabButton = (i + 1) + Array(j + 1).join("'");
+
+    var i = parseInt(text);
+    var j=(text.match(/'/g)||[]).length
+    var n=text;
+
+    if(this.loadedKeyboard.pautaNumerica && !isNaN(i) && this.loadedKeyboard.keyMap[j][i-1] && !this.loadedKeyboard.keyMap[j][i-1].closeNote.isBass){
+        var b = this.loadedKeyboard.keyMap[j][i-1]
+        var formato = this.loadedKeyboard.pautaNumericaFormato;
+        if( formato.overrides[b.tabButton] ){
+            n = formato.overrides[b.tabButton];
+         } else{
+            n =  i+formato.rule[j];
+         }
+    }
+
+
+    this.paper.tabText(x, this.calcY(offset)+5, n, klass, 'middle');
 };
 
 ABCXJS.write.Printer.prototype.printTabText2 = function (x, offset, text) {
@@ -10634,16 +10653,32 @@ SVG.Printer.prototype.printButton = function (id, x, y, options) {
     var scale = options.radius/26; // 26 é o raio inicial do botão
     var gid = 'p'+this.printerId+id;
     var estilo = 'stroke:'+options.borderColor+'; stroke-width:'+options.borderWidth+'px; fill: none;';
+    var estiloMini = 'stroke:'+options.borderColor+'; stroke-width:'+options.borderWidth+'px; fill: black;';
+
+    var linha = '<path style="'+estilo+'" d="m 2 34 l 52 -12" ></path>\n';
+    var circPautaNum  = '';
+    
+    if(options.pautaNumerica ) {
+        if( options.pautaNumericaMini) {
+            circPautaNum  = '<circle style="'+estiloMini+'" cx="46" cy="46" r="10"></circle>\n'
+        } else {
+            linha = ''
+        }
+    }
 
     var pathString = ABCXJS.write.sprintf( '<g id="%s" transform="translate(%.1f %.1f) scale(%.5f)">\n\
         <circle cx="28" cy="28" r="26" style="stroke:none; fill: %s;" ></circle>\n\
         <path id="%s_ac" style="stroke: none; fill: %s;" d="M 2 34 a26 26 0 0 1 52 -12"></path>\n\
         <path id="%s_ao" style="stroke: none; fill: %s;" d="M 54 22 a26 26 0 0 1 -52 12"></path>\n\
         <circle style="'+estilo+'" cx="28" cy="28" r="26"></circle>\n\
-        <path style="'+estilo+'" d="m 2 34 l 52 -12" ></path>\n\
-        <text id="%s_tc" class="%s" style="stroke:none; fill: black;" x="27" y="22" >...</text>\n\
-        <text id="%s_to" class="%s" style="stroke:none; fill: black;" x="27" y="44" >...</text>\n</g>\n',
-        gid, x, y, scale, options.fillColor, gid, options.closeColor, gid, options.openColor, gid, options.kls, gid, options.kls );
+        '+linha+'\
+        <text id="%s_tc" class="%s" style="stroke:none; fill: black;" x="27" y="22" ></text>\n\
+        <text id="%s_to" class="%s" style="stroke:none; fill: black;" x="27" y="44" ></text>\n\
+        <text id="%s_tn" class="%s" style="stroke:none; fill: black;" x="28" y="36" ></text>\n\
+        '+circPautaNum+'\
+        <text id="%s_tm" class="%s" style="stroke:none; fill: white;" x="46" y="50" ></text>\n\
+        </g>\n',
+        gid, x, y, scale, options.fillColor, gid, options.closeColor, gid, options.openColor, gid, options.kls, gid, options.kls, gid, options.klsN, gid, options.klsNMini );
         
     this.svg_pages[this.currentPage] += pathString;
     return gid;
@@ -15705,13 +15740,15 @@ if (!window.ABCXJS)
 if (!window.ABCXJS.tablature)
 	window.ABCXJS.tablature = {};
 
-ABCXJS.tablature.Accordion = function( params ) {
+ABCXJS.tablature.Accordion = function( params, pautaNumerica, pautaNumericaMini ) {
     
-    this.loaded       = undefined;
-    this.tabLines     = [];
-    this.accordions   = params.accordionMaps || [] ;
-    this.translator   = params.translator || null;
-    this.transposer   = new window.ABCXJS.parse.Transposer();
+    this.loaded        = undefined;
+    this.tabLines      = [];
+    this.accordions    = params.accordionMaps || [] ;
+    this.translator    = params.translator || null;
+    this.transposer    = new window.ABCXJS.parse.Transposer();
+    this.pautaNumerica = pautaNumerica || 0;
+    this.pautaNumericaMini = pautaNumericaMini || (pautaNumericaMini===undefined);
     
     if( this.accordions.length === 0 ) {
         throw new Error( 'No accordionMap found!');
@@ -15720,8 +15757,6 @@ ABCXJS.tablature.Accordion = function( params ) {
     this.render_opts = {};
     this.setRenderOptions( params.render_keyboard_opts, true );
 
-//    this.render_opts =  params.render_keyboard_opts;
-    
     if( params.id )
         this.loadById( params.id );
     else
@@ -15762,6 +15797,8 @@ ABCXJS.tablature.Accordion.prototype.loadById = function (id) {
 ABCXJS.tablature.Accordion.prototype.load = function (sel) {
     this.loaded = this.accordions[sel];
     this.loadedKeyboard = this.loaded.keyboard;
+    this.loadedKeyboard.setFormatoTab(this.pautaNumerica,this.pautaNumericaMini)
+
     return this.loaded;
 };
 
@@ -15821,9 +15858,19 @@ ABCXJS.tablature.Accordion.prototype.printKeyboard = function(div_id, options) {
     }
 };
 
+ABCXJS.tablature.Accordion.prototype.getFormatoTab = function () {
+    return this.pautaNumerica;
+};
+
+ABCXJS.tablature.Accordion.prototype.setFormatoTab = function (val,mini) {
+    this.pautaNumerica = val;
+    this.pautaNumericaMini = mini
+    this.loadedKeyboard.setFormatoTab(this.pautaNumerica,mini)
+};
+
 ABCXJS.tablature.Accordion.prototype.getId = function () {
     return this.loaded.getId();
-};
+}
 ABCXJS.tablature.Accordion.prototype.getFullName = function () {
     return this.loaded.getFullName();
 };
@@ -15839,7 +15886,6 @@ ABCXJS.tablature.Accordion.prototype.getTxtNumButtons = function () {
 ABCXJS.tablature.Accordion.prototype.getTxtTuning = function () {
     return this.loaded.getTxtTuning();
 };
-
 
 ABCXJS.tablature.Accordion.prototype.getNoteName = function( item, keyAcc, barAcc, bass ) {
     

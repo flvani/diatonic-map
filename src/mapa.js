@@ -31,7 +31,11 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.settingsMenu = document.getElementById(interfaceParams.settingsMenu);
     this.mapDiv = document.getElementById(interfaceParams.mapDiv);
 
-    this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options );
+    this.accordion = new window.ABCXJS.tablature.Accordion( 
+          interfaceParams.accordion_options 
+        , SITE.properties.options.tabFormat 
+        ,!SITE.properties.options.tabShowOnlyNumbers  );
+
     this.abcParser = new ABCXJS.parse.Parse( null, this.accordion );
     this.midiParser = new ABCXJS.midi.Parse();
     this.midiPlayer = new ABCXJS.midi.Player(this);
@@ -1050,7 +1054,7 @@ SITE.Mapa.prototype.renderTAB = function( tab ) {
     }
     
     var paper = new SVG.Printer( tab.div );
-    tab.printer = new ABCXJS.write.Printer(paper, this.printerparams );
+    tab.printer = new ABCXJS.write.Printer(paper, this.printerparams, this.accordion.loadedKeyboard );
             
     //tab.printer.printTune( tab.abc, {color:'black', backgroundColor:'#ffd' } ); 
     tab.printer.printTune( tab.abc ); 
@@ -1183,7 +1187,7 @@ SITE.Mapa.prototype.showSettings = function() {
 
     //window.waterbug && window.waterbug.show();
 
-    var width = 600;
+    var width = 620;
     var winW = window.innerWidth
                 || document.documentElement.clientWidth
                 || document.body.clientWidth;    
@@ -1195,27 +1199,31 @@ SITE.Mapa.prototype.showSettings = function() {
         this.settings.window = new DRAGGABLE.ui.Window( 
               null 
             , null
-            , {title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, top: "300px", left: x+"px", height:'400px',  width: width+'px', zIndex: 50} 
+            , {title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, top: "300px", left: x+"px", height:'480px',  width: width+'px', zIndex: 50} 
             , {listener: this, method: 'settingsCallback'}
         );
 
         this.settings.window.topDiv.style.zIndex = 101;
 
-//              <tr>\
-//                <th colspan="2">Acordeão:</th><td><div id="settingsAcordeonsMenu" class="topMenu"></div></td>\
-//              </tr>\
-
         var cookieValue = document.cookie.match(/(;)?cookiebar=([^;]*);?/)[2];
         var cookieSets = ""
         if (cookieValue ) { // CookieAllowed
-            cookieSets = '&nbsp;<a href="#" onclick="document.cookie=\'cookiebar=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/\'; setupCookieBar(); return false;">Click aqui para redefinir preferências de cookies</a>'
+            cookieSets = '&nbsp;<a href="#" onclick="document.cookie=\'cookiebar=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/\'; setupCookieBar(); return false;"><span data-translate="cookiePrefs" >'+SITE.translator.getResource('cookiePrefs')+'</span></a>'
         }
 
         this.settings.window.dataDiv.innerHTML= '\
         <div class="menu-group">\
             <table>\
               <tr>\
-                <th colspan="2"><span data-translate="PrefsIdiom" >'+SITE.translator.getResource('PrefsIdiom')+'</span></th><th><div id="settingsLanguageMenu" class="topMenu"></div></th>\
+                <th colspan="2"><span data-translate="PrefsIdiom" >'+SITE.translator.getResource('PrefsIdiom')+'</span></th>\
+                <th><div id="settingsLanguageMenu" class="topMenu"></div></th>\
+              </tr>\
+              <tr>\
+              <th colspan="2"><br><span data-translate="PrefsTabFormat" >'+SITE.translator.getResource('PrefsTabFormat')+'</span></th>\
+              <th><br><div id="settingsTabMenu" class="topMenu"></div></th>\
+              </tr>\
+              <tr>\
+                <td> </td><td colspan="2"><input id="chkOnlyNumbers" type="checkbox">&nbsp;<span data-translate="PrefsPropsOnlyNumbers" >'+SITE.translator.getResource('PrefsPropsOnlyNumbers')+'</span></td>\
               </tr>\
               <tr>\
                 <th colspan="2"><br><span data-translate="PrefsColor" >'+SITE.translator.getResource('PrefsColor')+'</span></th><td></td>\
@@ -1270,7 +1278,21 @@ SITE.Mapa.prototype.showSettings = function() {
             ,  { listener:this, method: 'settingsCallback', translate: false  }
             ,  [ {title: 'Idioma', ddmId: 'menuIdiomas', itens: [] } ]
             );
-    
+
+        this.settings.tabMenu = new DRAGGABLE.ui.DropdownMenu(
+            'settingsTabMenu'
+            ,  { listener:this, method:'settingsCallback', translate: true }
+            ,  [{title: '...', ddmId: 'menuFormato',
+                    itens: [
+                        '&#160;Modelo Alemão|0TAB',
+                        '&#160;Numérica 1 (se disponível)|1TAB',
+                        '&#160;Numérica 2 (se disponível)|2TAB' 
+                    ]}]
+            );
+
+        this.settings.tabFormat = SITE.properties.options.tabFormat;
+        this.settings.tabMenu.setSubMenuTitle( 'menuFormato', this.settings.tabMenu.selectItem( 'menuFormato', this.settings.tabFormat.toString()+"TAB" ));
+
         this.picker = new DRAGGABLE.ui.ColorPicker(['corRealce', 'foleFechando', 'foleAbrindo'], {translator: SITE.translator});
       
         SITE.translator.menuPopulate(this.settings.menu, 'menuIdiomas');
@@ -1283,12 +1305,16 @@ SITE.Mapa.prototype.showSettings = function() {
         this.settings.showWarnings = document.getElementById( 'chkWarnings');
         this.settings.autoRefresh = document.getElementById( 'chkAutoRefresh');
         this.settings.pianoSound = document.getElementById( 'chkPiano');
+        this.settings.chkOnlyNumbers = document.getElementById( 'chkOnlyNumbers');
+                
     }            
     
     this.settings.corRealce.style.backgroundColor = this.settings.corRealce.value = SITE.properties.colors.highLight;
     this.settings.closeColor.style.backgroundColor = this.settings.closeColor.value = SITE.properties.colors.close;
     this.settings.openColor.style.backgroundColor = this.settings.openColor.value = SITE.properties.colors.open ;
 
+    
+    this.settings.chkOnlyNumbers.checked = SITE.properties.options.tabShowOnlyNumbers;
     this.settings.showWarnings.checked = SITE.properties.options.showWarnings;
     this.settings.autoRefresh.checked = SITE.properties.options.autoRefresh;
     this.settings.pianoSound.checked = SITE.properties.options.pianoSound;
@@ -1300,6 +1326,12 @@ SITE.Mapa.prototype.showSettings = function() {
 
 SITE.Mapa.prototype.settingsCallback = function (action, elem) {
     switch (action) {
+        case '0TAB':
+        case '1TAB':
+        case '2TAB':
+            this.settings.tabFormat = action;
+            this.settings.tabMenu.setSubMenuTitle( 'menuFormato', this.settings.tabMenu.selectItem( 'menuFormato', action ));
+            break;
         case 'de_DE':
         case 'en_US':
         case 'es_ES':
@@ -1343,15 +1375,6 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             SITE.ResetProperties();
             SITE.ga('send', 'event', 'Configuration', 'reset', SITE.properties.version );
             
-//            SITE.myGtag( 'event', 'reset', {
-//              send_to : 'outros',
-//              event_category: 'Configuration',
-//              event_action: 'reset',
-//              event_label: SITE.properties.version,
-//              event_value: 0,
-//              nonInteraction: true 
-//            });  
-            
             this.applySettings();
             break;
         case 'RESET-NO':
@@ -1363,35 +1386,46 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
 
 SITE.Mapa.prototype.applySettings = function() {
 
+    if( parseInt(this.settings.tabFormat) !== SITE.properties.options.tabFormat ||
+        this.settings.chkOnlyNumbers.checked  !== SITE.properties.options.tabShowOnlyNumbers ) 
+    {
+        SITE.properties.options.tabShowOnlyNumbers= this.settings.chkOnlyNumbers.checked;
+        SITE.properties.options.tabFormat = parseInt(this.settings.tabFormat);
+        this.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
+        this.accordion.loadedKeyboard.reprint();
+        this.renderTAB( this.getActiveTab() );
+
+        if (this.studio) {
+            this.studio.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
+            this.studio.accordion.loadedKeyboard.reprint();
+            this.studio.renderedTune.printer.printTune( this.studio.renderedTune.abc ); 
+        }
+
+        if (this.tab2part) {
+            this.tab2part.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
+            this.tab2part.renderedTune.printer.printABC(this.renderedTune.abc);
+        }
+
+        if (this.ABC2part) {
+            this.ABC2part.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
+            this.ABC2part.renderedTune.printer.printABC(this.renderedTune.abc);
+        }
+            
+        //tratar também outros locais onde hajam teclado (tab editor, part editor)
+
+    }
     if( this.settings.lang !== SITE.properties.options.language ) {
         SITE.properties.options.language = this.settings.lang;
-        
+
         SITE.ga('send', 'event', 'Configuration', 'changeLang', SITE.properties.options.language);
-        
-//        SITE.myGtag( 'event', 'changeLang', {
-//          send_to : 'outros',
-//          event_category: 'Configuration',
-//          event_action: 'changeLang',
-//          event_label: SITE.properties.options.language,
-//          event_value: 0,
-//          nonInteraction: true 
-//        });
 
         SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
     }
     
+    
     if( this.settings.pianoSound.checked  !== SITE.properties.options.pianoSound ) {
         SITE.properties.options.pianoSound = this.settings.pianoSound.checked;
         SITE.ga('send', 'event', 'Configuration', 'changeInstrument', SITE.properties.options.pianoSound?'piano':'accordion');
-        
-//        SITE.myGtag( 'event', 'changeInstrument', {
-//          send_to : 'outros',
-//          event_category: 'Configuration',
-//          event_action: 'changeInstrument',
-//          event_label: SITE.properties.options.pianoSound?'piano':'accordion',
-//          event_value: 0,
-//          nonInteraction: true 
-//        });
         
         this.defineInstrument();
     }

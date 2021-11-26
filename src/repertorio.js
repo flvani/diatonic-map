@@ -20,7 +20,7 @@ SITE.Repertorio = function() {
            ,show:true
            ,label:false
        }
-    });
+    }, SITE.properties.options.tabFormat);
 };
 
 // Esta rotina foi criada como forma de verificar todos warnings de compilacao do repertório

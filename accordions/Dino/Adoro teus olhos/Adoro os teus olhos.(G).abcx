@@ -1,0 +1,22 @@
+X: 1
+%%tabinferenceopts -3
+%%stretchlast
+T:Adoro os teus olhos (G)
+C:Descante
+M:2/4
+L:1/8
+Q:"Andantino" 1/8=160
+F:https://www.youtube-nocookie.com/embed/VZwtG979AWs
+K:G
+V:1 treble
+| B | E3/2F/2 GG/2G/2 | AF- FF/2G/2 | 
+w:A-do-ro es-ses teus o-lhos, * como os 
+| AA/2A/2 AG/2A/2 | B2- BB | d3/2c/2 BA/2^G/2 |
+w:an-jos ado-ram a * De-us da-ri-a a quanto pos-
+| AF- FB | A3/2G/2 FE/2^D/2 | E2- EG |
+| E3/2[EG]/2 [EG][EG]/2[EG]/2 | [FA][^DF]- [DF][DF]/2[EG]/2 | [FA]3/2[FA]/2 [FA][EG]/2[FA]/2 |
+| [GB]2- [GB][GB] | [Bd]3/2[Ac]/2 [GB][FA]/2[^E^G]/2 | [FA][^DF]- [DF][DF]/2[GB]/2 |
+| [FA][FA]/2[EG]/2 [D^F][CE]/2[^B,D]/2 | E2- E +D.C.+ ||  z |
+%V:2 bass
+%| z | E, [G,B,D][G,B,D][G,B,D] | ^D, [F,A,B,][F,A,B,][F,A,B,] | B,, [F,A,B,][F,A,B,][F,A,C] |
+%V:3 accordionTab

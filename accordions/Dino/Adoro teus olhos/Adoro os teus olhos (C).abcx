@@ -1,0 +1,26 @@
+X: 1
+%%tabinferenceopts -2
+%%stretchlast
+%%barsperstaff 6
+T:Adoro os teus olhos (C)
+C:Descante
+M:2/4
+L:1/8
+Q:"Andantino   " 1/8=120
+F:https://www.youtube-nocookie.com/embed/VZwtG979AWs
+K:C
+V:1 treble
+ e | A3/2B/2 cc/2c/2 | dB- BB/2c/2 | 
+| dd/2d/2 dc/2d/2 | e2- ee | g3/2f/2 ed/2c/2 | dB- Be | 
+%|d3/2c/2 BA/2^G/2 | A2- Ac |
+%| A3/2[Ac]/2 [Ac][Ac]/2[Ac]/2 | [Bd][^GB]- [^GB][GB]/2[Ac]/2 | [Bd]3/2[Bd]/2 [Bd][Ac]/2[Bd]/2 |
+%| [ce]2- [ce][ce] | [eg]3/2[df]/2 [ce][Bd]/2[Ac]/2 | [Bd][^GB]- [^GB][GB]/2[ce]/2 |
+%| [Bd][Bd]/2[Ac]/2 ^GA/2B/2 | A2- A +D.C.+ ||  z |
+%w:A-do-ro es-ses teus o-lhos, * como os 
+%w:an-jos ado-ram a * De-us da-ri-a a quanto pos-
+V:2 stem=up bass
+ z | A,,[A,CE] A,,[A,CE] | E,,[E,^G,B,] E,,[E,^G,B,] |
+| E,,[E,^G,B,] E,,[E,^G,B,] | A,,[A,CE] A,,[A,CE] | A,,[A,CE] A,,[A,CE] | E,,[E,^G,B,] E,,[E,^G,B,] |
+V:3 accordionTab
+z-9 | A-7 am->0.5 >-6'0.5 A-8 am-80.5 >-80.5 | E+8 e+7 E+> e+70.5 >+6'0.5 |
+| E+8 e+80.5 >+80.5 E+8 e+6'0.5 >+80.5 | A-9 am-> A-> am-9 | A-7'' am->0.5 >-8'0.5 A-9 am-7'0.5 >-80.5 | E+8 e+7 E+> e+7' |

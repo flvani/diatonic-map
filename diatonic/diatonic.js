@@ -231,6 +231,12 @@ DIATONIC.map.Keyboard = function ( keyMap, pedalInfo, opts ) {
     this.legenda = {};
     this.baseLine = {}; // linha decorativa
     this.opts = opts || {};
+
+    // gaitas que terao a opcao para tablatura numerica portuguesa
+    this.numerica=keyMap.numerica||null;
+    this.pautaNumerica = 0;
+    this.pautaNumericaMini = true; 
+    this.pautaNumericaFormato = null;
     
     this.limits = {minX:10000, minY:10000, maxX:0, maxY:0};
     
@@ -316,7 +322,6 @@ DIATONIC.map.Keyboard.prototype.setup = function (keyMap) {
             if (!this.noteToButtonsClose[ noteVal ]) this.noteToButtonsClose[ noteVal ] = [];
             this.noteToButtonsClose[ noteVal ].push(btn.tabButton);
             
-            
             this.keyMap[j][i] = btn;
         }
     }
@@ -335,11 +340,17 @@ DIATONIC.map.Keyboard.prototype.setup = function (keyMap) {
     this.legenda = new DIATONIC.map.Button( this, this.limits.maxX-(raio+this.radius), this.limits.minY+raio, { radius: raio, borderWidth: 2 } );
 };
 
+DIATONIC.map.Keyboard.prototype.reprint = function () {
+    if(this.reprintData!==undefined)
+        this.print( this.reprintData.Div, this.reprintData.Render_opts, this.reprintData.Translator);
+}
 
-DIATONIC.map.Keyboard.prototype.print = function ( div, render_opts, translator ) {
+DIATONIC.map.Keyboard.prototype.print = function ( div, render_opts, translator  ) {
+
+    this.reprintData = { Div: div, Render_opts: render_opts, Translator: translator };
     
     var sz;
-    
+
     var estilo = 
 '   .keyboardPane {\n\
         padding:4px;\n\
@@ -353,10 +364,25 @@ DIATONIC.map.Keyboard.prototype.print = function ( div, render_opts, translator 
         font-weight: bold;\n\
         text-shadow: 0.5px 0.5px #ddd, -0.5px -0.5px 0 #ddd, 0.5px -0.5px 0 #ddd, -0.5px 0.5px 0 #ddd;\n\
     }\n\
+    .buttonN {\n\
+        font-family: sans-serif, arial;\n\
+        text-anchor: middle;\n\
+        font-size: 24px;\n\
+        font-weight: bold;\n\
+        text-shadow: 0.5px 0.5px #ddd, -0.5px -0.5px 0 #ddd, 0.5px -0.5px 0 #ddd, -0.5px 0.5px 0 #ddd;\n\
+    }\n\
+    .buttonNMini {\n\
+        font-family: AllertaStencil, sans-serif, arial;\n\
+        text-anchor: middle;\n\
+        font-size: 11px;\n\
+        font-weight: normal;\n\
+    }\n\
     .blegenda {\n\
         font-weight: normal;\n\
         font-size: 12px;\n\
     }';
+
+   //  text-shadow: 0.5px 0.5px #ddd, -0.5px -0.5px 0 #ddd, 0.5px -0.5px 0 #ddd, -0.5px 0.5px 0 #ddd;\n\
 
     var keyboardPane = document.createElement("div");
     keyboardPane.setAttribute( "class", 'keyboardPane' );
@@ -369,6 +395,9 @@ DIATONIC.map.Keyboard.prototype.print = function ( div, render_opts, translator 
     
     var legenda_opts = ABCXJS.parse.clone( render_opts );
     legenda_opts.kls = 'blegenda';
+    legenda_opts.klsN = 'buttonN';
+    legenda_opts.klsNMini = 'buttonNMini';
+    legenda_opts.pautaNumerica = false;
     this.legenda.draw( 'l00', this.paper, this.limits, legenda_opts );
     
     var delta = this.opts.isApp ? 7: 10;
@@ -389,6 +418,11 @@ DIATONIC.map.Keyboard.prototype.print = function ( div, render_opts, translator 
  
     var btn_opt = ABCXJS.parse.clone( render_opts );
     btn_opt.kls = 'button';
+    btn_opt.klsN = 'buttonN';
+    btn_opt.klsNMini = 'buttonNMini';
+
+    btn_opt.pautaNumerica = (this.pautaNumerica > 0);
+    btn_opt.pautaNumericaMini = this.pautaNumericaMini;
      
     for (var j = 0; j < this.keyMap.length; j++) {
         for (var i = 0; i < this.keyMap[j].length; i++) {
@@ -400,14 +434,25 @@ DIATONIC.map.Keyboard.prototype.print = function ( div, render_opts, translator 
     this.paper.endDoc();
 
     //binds SVG elements
-    this.legenda.setSVG(render_opts.label, 'Pull', 'Push', translator );
+    this.legenda.setSVG(render_opts.label, { pull: 'Pull', push: 'Push', translator: translator } );
     for (var j = 0; j < this.keyMap.length; j++) {
         for (var i = 0; i < this.keyMap[j].length; i++) {
-            this.keyMap[j][i].setSVG(render_opts.label); 
+            this.keyMap[j][i].setSVG( render_opts.label, { formatoNumerico: this.pautaNumericaFormato, mini: this.pautaNumericaMini } );
         }
     }
 };
 
+DIATONIC.map.Keyboard.prototype.setFormatoTab = function (val, isMini) {
+
+    if(  val && this.numerica ) {
+        this.pautaNumerica = val;
+        this.pautaNumericaFormato = this.numerica[val-1];
+        this.pautaNumericaMini = isMini;
+    } else {
+        this.pautaNumerica = 0;
+        this.pautaNumericaMini = true;
+    }
+}
 
 DIATONIC.map.Keyboard.prototype.drawLine = function(xi,yi,xf,yf) {
     this.paper.printLine(xi, yi, xf, yf );
@@ -475,7 +520,8 @@ DIATONIC.map.Keyboard.prototype.parseNote = function(txtNota, isBass) {
 DIATONIC.map.Keyboard.prototype.redraw = function(render_opts) {
     for (var j = 0; j < this.keyMap.length; j++) {
         for (var i = 0; i < this.keyMap[j].length; i++) {
-            this.keyMap[j][i].setText( render_opts.label );
+            if( this.pautaNumericaMini || !this.keyMap[j][i].isNumerica  )
+                this.keyMap[j][i].setText( render_opts.label );
         }
     }
 };
@@ -551,6 +597,11 @@ DIATONIC.map.Button.prototype.draw = function( id, printer, limits, options ) {
     options.openColor = (options.kls && options.kls === 'blegenda'? DIATONIC.map.color.open : 'none' );
     options.closeColor = (options.kls && options.kls === 'blegenda'? DIATONIC.map.color.close : 'none' );
     
+    if(this.closeNote && this.closeNote.isBass)
+        options.pautaNumerica = false;
+
+    this.isNumerica = options.pautaNumerica; 
+
     this.SVG.gid = printer.printButton( id, currX, currY, options );
 
 };
@@ -586,23 +637,47 @@ DIATONIC.map.Button.prototype.setClose = function(delay) {
     this.SVG.closeArc.style.setProperty( 'fill', DIATONIC.map.color.close );
 };
 
-DIATONIC.map.Button.prototype.setSVG = function(showLabel, pull, push, translator ) {
+DIATONIC.map.Button.prototype.setSVG = function( showLabel, opts ) {
     var b = this.SVG;
+    var n = 0;
+    var pull = opts.pull || null;
+    var push = opts.push || null;
+    var translator = opts.translator || null ;
+    var formato = opts.formatoNumerico || null;
+    var isMini = opts.mini;
+
     this.SVG.button = document.getElementById(b.gid);
-    this.SVG.openArc = document.getElementById(b.gid+'_ao');
+    this.SVG.openArc = document.getElementById(b.gid + '_ao');
+    this.SVG.closeArc = document.getElementById(b.gid + '_ac');
     this.SVG.openText = document.getElementById(b.gid+'_to');
-    this.SVG.closeArc = document.getElementById(b.gid+'_ac');
     this.SVG.closeText = document.getElementById(b.gid+'_tc');
-    
-    if( translator ) {
-        this.SVG.openText.setAttribute( 'data-translate', pull );
-        this.SVG.closeText.setAttribute( 'data-translate', push );
-        this.setText(showLabel, translator.getResource(pull), translator.getResource(push) ); 
-} else {
-        this.setText(showLabel, pull, push ); 
+    this.SVG.numericText = document.getElementById(b.gid + '_tn');
+    this.SVG.numericTextMini = document.getElementById(b.gid + '_tm');
+
+    if( this.isNumerica ){
+        if (formato.overrides[this.tabButton]) {
+            n = formato.overrides[this.tabButton];
+        } else {
+            var i = parseInt(this.tabButton);
+            var j = (this.tabButton.match(/'/g) || []).length
+            n = i + formato.rule[j];
+        }
+        if (isMini)
+            this.SVG.numericTextMini.textContent = n;
+        else
+            this.SVG.numericText.textContent = n;
     }
-    
-};
+
+    if ( !this.isNumerica || isMini ) {
+        if( translator ) {
+            this.SVG.openText.setAttribute( 'data-translate', pull );
+            this.SVG.closeText.setAttribute( 'data-translate', push );
+            this.setText(showLabel, translator.getResource(pull), translator.getResource(push) ); 
+        } else {
+            this.setText(showLabel, pull, push ); 
+        }
+    }
+}
 
 DIATONIC.map.Button.prototype.setText = function( showLabel, open, close ) {
     if(this.SVG.openText) {

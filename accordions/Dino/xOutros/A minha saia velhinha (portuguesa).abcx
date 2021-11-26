@@ -1,0 +1,38 @@
+X: 5004
+%%barnumbers 0
+%%tabinferenceopts +5
+%%staffsep 8
+T:A minha saia velhinha (portuguesa)
+C:popular: Minho
+N:recolhida em Marrancos, anos 70
+S:Jos Nuno Oliveira
+M: 3/8
+L: 1/8
+Q:1/4=110
+K:C
+V:1 treble
+F:https://www.youtube-nocookie.com/embed/NSgzwILTWv8
+| z2 "Dó" G  |:+segno+ e2e | eff | e2e | efe | "Sol" ddd |
+w:A mi-nha sai-a ve-lhi-nha to-da ro-ti-nha d'an-
+w: . go-ra te-nh'u-ma no-va fei-ti-nha na mo-da
+| ded |1 "Dó" c3-| c2G :|2 "Dó" c3-| c G G |
+w:dar a bai-lar * A- . . . .
+w: p'reu es-tre-.  . . ar . Ai, não
+|: A2G | E2C | E3- | EGG | A2G | B2G |
+w: o-lhes pa-ra mim . Ai, não o-lhes tan-to,
+| "Sol" FD2- | DFF | G2F | D2B, | D3 - |
+w: tan-to . Ai, não o-lhes pa-ra mim
+| DFF | G2F | B2F |1 "Dó" DC2- | C G G :|2 "Dó"  DC2- | C z G +dasegno+ |
+w:. Eu não sou o teu en-can-to * Ai, não
+V:2 bass
+| z3 |: C,,[C,E,G,][C,E,G,] | C,,[C,E,G,][C,E,G,] | C,,[C,E,G,][C,E,G,] | C,,[C,E,G,][C,E,G,] | G,, [G,B,D][G,B,D] |
+| G,, [G,B,D][G,B,D] |1 C,,[C,E,G,][C,E,G,] | C,,[C,E,G,][C,E,G,] :|2 C,,[C,E,G,][C,E,G,] | C,,[C,E,G,][C,E,G,] |
+|: C,,[C,E,G,][C,E,G,] | C,,[C,E,G,][C,E,G,] | C,,[C,E,G,][C,E,G,] | C,,[C,E,G,][C,E,G,] | C,,[C,E,G,][C,E,G,] | C,,[C,E,G,][C,E,G,] |
+| G,, [G,B,D][G,B,D] | G,, [G,B,D][G,B,D] | G,, [G,B,D][G,B,D] | G,, [G,B,D][G,B,D] | G,, [G,B,D][G,B,D] |
+| G,, [G,B,D][G,B,D] | G,, [G,B,D][G,B,D] | G,, [G,B,D][G,B,D] |1 C,,[C,E,G,][C,E,G,] | C,,[C,E,G,][C,E,G,] :|2 C,,[C,E,G,][C,E,G,] | C,,[C,E,G,][C,E,G,] |
+V:3 accordionTab
+| z+z2 z+6 |: C+7' c+> c+7' | C+7' c+6'' c+6'' | C+7' c+> c+7' | C+7' c+6'' c+7' | G-7' g-7' g-7' |
+| G-7' g-9 g-7' |1 C-8 c-> c-> | C-> c-> c-3'' :|2 C-8 c-> c-> | C-> c+6 c+6 |
+|: C+4'' c+> c+6 | C+4' c+> c+3' | C+4' c+> c+> | C+> c+6 c+6 | C+4'' c+> c-3'' | C-6' c-> c-3'' |
+| G-4' g-3' g-> | G-> g-4' g-4' | G-3'' g-> g-4' | G-3' g-> g+4 | G+5 g+> g+> |
+| G+> g+3'' g+3'' | G+6 g+> g+3'' | G+7 g+> g+3'' |1 C+5 c+3' c+> | C+> c-3'' c-3'' :|2 C-3' c-4 c-> | C-> c-z c-3'' |

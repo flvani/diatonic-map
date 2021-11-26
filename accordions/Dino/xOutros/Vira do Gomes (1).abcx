@@ -1,0 +1,30 @@
+%%barnumbers 0
+%%papersize A4
+%%tabinferenceopts +4
+%barsperstaff 6
+%staffsep 20
+%pagenumbering
+%stretchlast
+%landscape
+%hidefingering
+T:Vira do Gomes
+L:1/8
+Q:180
+M:3/4
+F:https://www.youtube-nocookie.com/embed/oFT071GEN6s
+K:F
+V:1 treble
+|: a4-a^g | a4-a^g | a4-aa | a2 ^g2 f2 |
+| g4-gf | g4-gf | g4-gg | g2 f2 _e2  |
+| f4-f_e | f4-f_e | f4-ff | f2 _e2 d2 |
+| ^c2 A2 [A^cf]2 | [A^cf]6- | [A^cf]6- | [A^cf]6 :|
+V:2 bass
+|: F,,2 [F,A,C]2 [F,A,C]2 | F,,2 [F,A,C]2 [F,A,C]2 | F,,2 [F,A,C]2 [F,A,C]2 | F,,2 [F,A,C]2 [F,A,C]2 |
+| C,,2 [C,E,G,]2 [C,E,G,]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | C,,2 [C,E,G,]2 [C,E,G,]2 |
+| B,,2 [B,,D,F,]2 [B,,D,F,]2 | B,,2 [B,,D,F,]2 [B,,D,F,]2 | B,,2 [B,,D,F,]2 [B,,D,F,]2 | B,,2 [B,,D,F,]2 [B,,D,F,]2 |
+| F,,2 [F,A,C]2 [F,A,C]2 | F,,2 [F,A,C]2 [F,A,C]2 | F,,2 [F,A,C]2 [F,A,C]2 | F,,2 [F,A,C]2 [F,A,C]2 :| 
+V:3 accordionTab
+|: F+7''2 f+>2 f+> >+8' | F+7''2 f+>2 f+> >+8' | F+7''2 f+>2 f+> >+7'' | F+7''2 f+8'2 f+6''2 |
+| C-7''2 c->2 c-> >-8' | C-7''2 c->2 c-> >-8' | C-7''2 c->2 c-> >-7'' | C-7''2 c-8'2 c-6''2 |
+| B♭-8'2 b♭->2 b♭-> >-6'' | B♭-8'2 b♭->2 b♭-> >-6'' | B♭-8'2 b♭->2 b♭-> >-8' | B♭-8'2 b♭-6''2 b♭-7'2 |
+| F+5''2 f+4''2 f+[4''5''6'']2 | F+[4''5''6'']2 f+[>>>]2 f+[>>>]2 | F+[>>>]2 f+[>>>]2 f+[>>>]2 | F+[>>>]2 f+[>>>]2 f+[>>>]2 :|

@@ -65,10 +65,10 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jslib/html5kellycolorpicker.min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_5.50-min.js"></script>
+        <script type="text/javascript" src="file/filemanager_5.51-min.js"></script>
         
         <!-- suporte mapas de acordeões -->
-        <script type="text/javascript" src="diatonic/diatonic_5.50-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic.js"></script>
         
         <!-- suporte a arquivos ABC -->
         <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs.js" ></script>
@@ -305,7 +305,7 @@ notação abc, tablatura " />
                 SITE.ga('send', 'pageview');
                 SITE.ga('send', 'event', 'Configuration', 'language', SITE.properties.options.language, { nonInteraction: true } );
                 
-                if( SITE.getDate() <= 20170909 ) {
+                if( SITE.getDate() <= 20220909 ) {
                     $('#tipsDiv').fadeIn('slow');
                     setTimeout(function() { $('#tipsDiv').fadeOut('slow'); }, 15000);
                 }
