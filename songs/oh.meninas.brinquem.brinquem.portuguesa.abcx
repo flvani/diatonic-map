@@ -1,0 +1,41 @@
+X:5007
+%%barnumbers 0
+%%tabinferenceopts +4
+%%barsperstaff 6
+%%pagenumbering
+T:Oh, meninas brinquem, brinquem! (portuguesa)
+C:Arrj. Jorge Xavier
+C:Folclore Português
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:2/4
+L:1/8
+Q:100
+K:C
+V:melodia treble
+|z2 B3/2d/2 |: "C" g2 g2 | z c' ge | "G" d2 B2 | z2 d3/2e/2 |
+| f2 f2 | z a fd | "C" c4 |1 z2 B3/2d/2 :|2  "C" z2 c'3/2b/2 |
+| +segno+  c'4 | zb ag | "G" f2 d2 | z2 b3/2a/2 | b4 |
+| z a ga | "C"  g2 e2 | z2 c'3/2b/2 | c'4 |  zb ag |
+| "G" f2 d2 | z2 b3/2a/2 | b4 | z a ga | "C"  g2 e2 |
+|: "C" z2 c3/2e/2 | g2 g2 | z c' ge | "G" d2 B2 | z2 d3/2e/2 |
+| f2 f2 | z a fd +dacoda+ || "C" c4 :| "C" z2 c'3/2b/2 +coda+ +dsalcoda+ |
+|2 c2 z2 | [Bdg]2 [ceg]2 |
+V:baixos bass
+|z4 |: C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] C,,[C,E,G,] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] |
+| G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | C,,[C,E,G,] C,,[C,E,G,] |1 C,,[C,E,G,] C,,[C,E,G,] :|2 C,,[C,E,G,] C,,[C,E,G,] |
+| C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] C,,[C,E,G,] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] |
+| G,,[G,B,D] G,,[G,B,D] | C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] C,,[C,E,G,] |
+| G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | C,,[C,E,G,] C,,[C,E,G,] |
+|: C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] C,,[C,E,G,] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] |
+| G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] || C,,[C,E,G,] C,,[C,E,G,] :| C,,[C,E,G,] C,,[C,E,G,] |
+|2 [C,,C,E,G,]2 z2 | [G,,G,B,D]2 [C,,C,E,G,]2 |
+V:tablatura accordionTab
+| z+z2 z-6'1.5 z-7'0.5 |: C+9 c+> C+9 c+> | C+z c+9' C+9 c+7' | G-7' g-> G-6' g-> | G-z g-z G-7' g->0.5 >-90.5 |
+| G-8' g-> G-8' g-> | G-z g-9' G-8' g-7' | C+6' c+> C+> c+> |1 C+z c+z C-6' c->0.5 >-7'0.5 :|2 C+z c+z C+9' c+>0.5 >+a0.5 |
+| C+9' c+> C+> c+> | C+z c+a C+7'' c+9 | G-8' g-> G-7' g-> | G-z g-z G-a' g->0.5 >-9'0.5 | G-a' g-> G-> g-> |
+| G-z g-9' G-7'' g-9' | C+9 c+> C+7' c+> | C+z c+z C+9' c+>0.5 >+a0.5 | C+9' c+> C+> c+> | C+z c+a C+7'' c+9 |
+| G-8' g-> G-7' g-> | G-z g-z G-a' g->0.5 >-9'0.5 | G-a' g-> G-> g-> | G-z g-9' G-7'' g-9' | C+9 c+> C+7' c+> |
+|: C+z c+z C+6' c+>0.5 >+7'0.5 | C+9 c+> C+9 c+> | C+z c+9' C+9 c+7' | G-7' g-> G-6' g-> | G-z g-z G-7' g->0.5 >-90.5 |
+| G-8' g-> G-8' g-> | G-z g-9' G-8' g-7' || C+6' c+> C+> c+> :| C+z c+z C+9' c+>0.5 >+a0.5 |
+|2 C+6'2 z+z2 | G-[6'7'7'']2 C+[6'7'9]2 |
