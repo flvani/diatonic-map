@@ -1,0 +1,52 @@
+X:5008
+%%barnumbers 0
+%%papersize A4
+%%tabinferenceopts +4
+%%staffsep 30
+%%pagenumbering
+%barsperstaff 8
+%stretchlast
+%landscape
+%hidefingering
+T:O passarinho
+C:Folclore Português
+L:1/8
+Q:110
+M:2/4
+F:https://www.youtube-nocookie.com/embed/kEkYpdhDOkU
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+K:G
+V:1 treble
+| zB BA|: "G" GB BB | GB ed | "D" d2 ff | fe ed | d2 dd | de dc |
+| "G" B4 | z B BA | GB BB | GB ed | "D" d2 ff | fe ed | d2 cc |
+| BA GF | "G" G4 |1 zB BA :|2 zd dB |: "G" Gd dB | Gd eg | "D" f4 |
+| zc cA | Fc cA | Fd fe | "G" d4 | zd dB | Gd dB | Gd ed |
+| "D" e2 ee | fe ed | dB BB | dc AF |1 "G" G4 | zd dB :|2 "G" G z dd |
+| dd dd | dB BG | GB cB |"D" A2 cc | cc cc | cA AF | FA BA |
+| "G" G2 dd | dd dd | dB BG | GG AB | "D" c2 ee | ee ee | "G" d2 BG |
+| Ge ee | "D" d2 cc | BA GF | "G" G4 | zB BA || "G" GB BB | GB ed |
+| "D" d2 ff | fe ed | d2 dd | de dc | "G" B4 | zB BA | GB BB |
+| GB ed | "D" d2 ff | fe ed | d2 cc | BA GF | GB dd | +fermata+ d2 z2 |]
+V:2 bass
+|z4 |: G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] |
+| G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] |
+| D,,[D,F,A,] D,,[D,F,A,] | G,,[G,B,D] G,,[G,B,D] |1 G,,[G,B,D] G,,[G,B,D] :|2 G,,[G,B,D] G,,[G,B,D] |: G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | D,,[D,F,A,] D,,[D,F,A,] |
+| D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] |
+| D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] |1 G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] :|2 G,,[G,B,D] G,,[G,B,D] |
+| G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | 
+| G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] |  G,,[G,B,D] G,,[G,B,D] |
+| G,,[G,B,D] G,,[G,B,D] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] || G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] |
+| D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] |
+| G,,[G,B,D] G,,[G,B,D] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | G,,[G,B,D] G,,[G,B,D] | [G,,G,B,D]2 z2 |]
+V:3 accordionTab
+| z+z z+7 z+7 z+4'' |: G+6 g+7 G+7 g+7 | G+6 g+7 G+7' g+8 | D-7' d-> D-a d-a | D-a d-9 D-9 d-7' | D-7' d-> D-7' d-7' | D-7' d-9 D-7' d-8 |
+| G+7 g+> G+> g+> | G+z g+7 G+7 g+4'' | G+6 g+7 G+7 g+7 | G+6 g+7 G+7' g+8 | D-7' d-> D-a d-a | D-a d-9 D-9 d-7' | D-7' d-> D-8 d-8 |
+| D-6' d-7 D-3'' d-6 | G+6 g+> G+> g+> |1 G+z g+7 G+7 g+4'' :|2 G+z g+8 G+8 g+7 |: G+6 g+8 G+8 g+7 | G-3'' g-7' G-9 g-7'' | D-a d-> D-> d-> |
+| D-z d-8 D-8 d-7 | D-6 d-8 D-8 d-7 | D-6 d-7' D-a d-9 | G+8 g+> G+> g+> | G+z g+8 G+8 g+7 | G+6 g+8 G+8 g+7 | G+6 g+8 G+7' g+8 |
+| D-9 d-> D-9 d-9 | D-a d-9 D-9 d-7' | D-7' d-6' D-6' d-6' | D-7' d-8 D-7 d-6 |1 G+6 g+> G+> g+> | G+z g+8 G+8 g+7 :|2 G+6 g+z G+8 g+8 |
+| G+8 g+8 G+8 g+8 | G-7' g-6' G-6' g-3'' | G-3'' g-6' G-8 g-6' | D-7 d-> D-8 d-8 | D-8 d-8 D-8 d-8 | D-8 d-7 D-7 d-6 | D-6 d-7 D-6' d-7 |
+| G+6 g+> G+8 g+8 | G+8 g+8 G+8 g+8 | G+8 g+7 G+7 g+6 | G+6 g+6 G+4'' g+7 | D-8 d-> D-9 d-9 | D-9 d-9 D-9 d-9 | G-7' g-> G-6' g-3'' |
+| G-3'' g-9 G-9 g-9 | D-7' d-> D-8 d-8 | D-6' d-7 D-3'' d-6 | G+6 g+> G+> g+> | G+z g+7 G+7 g+4'' || G+6 g+7 G+7 g+7 | G+6 g+7 G+7' g+8 |
+| D-7' d-> D-a d-a | D-a d-9 D-9 d-7' | D-7' d-> D-7' d-7' | D-7' d-9 D-7' d-8 | G+7 g+> G+> g+> | G+z g+7 G+7 g+4'' | G+6 g+7 G+7 g+7 |
+| G+6 g+7 G+7' g+8 | D-7' d-> D-a d-a | D-a d-9 D-9 d-7' | D-7' d-> D-8 d-8 | D-6' d-7 D-3'' d-6 | G+6 g+7 G+8 g+8 | Gg+82 z+z2 |]
