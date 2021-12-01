@@ -3,7 +3,7 @@ X:5005
 %%papersize A4
 %%tabinferenceopts -4
 %%barsperstaff 8
-%%staffsep 30
+%%staffsep 20
 %%pagenumbering
 %stretchlast
 %landscape
@@ -14,7 +14,7 @@ L:1/8
 Q:186
 M:3/4
 F:https://www.youtube-nocookie.com/embed/oFT071GEN6s
-Z:Flávio Vani
+Z:João Louro & Flávio Vani
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 K:F
 V:1 treble
