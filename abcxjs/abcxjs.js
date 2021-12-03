@@ -12775,12 +12775,14 @@ ABCXJS.midi.Player.prototype.getTime = function() {
     }
     
     var secs  = Math.floor(time/1000);
-    var ms    = Math.floor((time - secs*1000)/10);
+    var cs    = Math.floor((time - secs*1000)/10);
     var mins  = Math.floor(secs/60);
     var secs  = secs - mins*60;
-    var cTime  = pad(mins,2) + ':' + pad(secs,2) + '.' + pad(ms,2);
-    return {cTime: cTime, time: time };
+    var cTimeMiS  = pad(mins,2) + ':' + pad(secs,2) ;
+    var cTimeMiScs  = pad(mins,2) + ':' + pad(secs,2) + '.' + pad(cs,2);
+    return { cTime: cTimeMiS, cTimeMiScs: cTimeMiScs, time: time };
 };
+
 /*!
  * perfect-scrollbar v1.3.0
  * (c) 2017 Hyunje Jun

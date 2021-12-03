@@ -1045,7 +1045,7 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         evt.preventDefault();
         this.blur();
         if(that.currentPlayTimeLabel)
-           that.currentPlayTimeLabel.innerHTML = "00:00.00";
+           that.currentPlayTimeLabel.innerHTML = "00:00";
         that.studioStopPlay();
     }, false);
 
@@ -1054,7 +1054,7 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         this.blur();
         that.renderedTune.printer.clearSelection();
         that.accordion.clearKeyboard(true);
-        that.currentPlayTimeLabel.innerHTML = "00:00.00";
+        that.currentPlayTimeLabel.innerHTML = "00:00";
         that.studioStopPlay();
     }, false);
 

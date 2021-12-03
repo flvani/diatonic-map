@@ -167,7 +167,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.stopButton.addEventListener("click", function(evt) {
         evt.preventDefault();
         if(that.currentPlayTimeLabel)
-            that.currentPlayTimeLabel.innerHTML = "00:00.00";
+            that.currentPlayTimeLabel.innerHTML = "00:00";
         that.midiPlayer.stopPlay();
     }, false);
     
