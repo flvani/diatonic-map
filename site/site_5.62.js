@@ -2020,11 +2020,11 @@ SITE.Mapa.prototype.showSettings = function() {
                 <th colspan="2"><span data-translate="PrefsIdiom" >'+SITE.translator.getResource('PrefsIdiom')+'</span></th>\
                 <th><div id="settingsLanguageMenu" class="topMenu"></div></th>\
               </tr>\
-              <tr>\
+              <tr style="display:none;">\
               <th colspan="2"><br><span data-translate="PrefsTabFormat" >'+SITE.translator.getResource('PrefsTabFormat')+'</span></th>\
               <th><br><div id="settingsTabMenu" class="topMenu"></div></th>\
               </tr>\
-              <tr>\
+              <tr style="display:none;">\
                 <td> </td><td colspan="2"><input id="chkOnlyNumbers" type="checkbox">&nbsp;<span data-translate="PrefsPropsOnlyNumbers" >'+SITE.translator.getResource('PrefsPropsOnlyNumbers')+'</span></td>\
               </tr>\
               <tr>\
