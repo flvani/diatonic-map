@@ -483,7 +483,7 @@ body {
     background-color: mintcream; 
     width: auto;
     height: auto;
-    min-width: 1024px; 
+    min-width: 800px; 
     box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -webkit-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -moz-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
