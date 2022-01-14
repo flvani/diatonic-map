@@ -1,6 +1,6 @@
 #!/bin/sh
 
-v_abcx=5.62
+v_abcx=6.00
 v_app=2.0.0
 assets_folder="/home/flavio/Projetos/diatonic-app/app/src/main/assets"
 

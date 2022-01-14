@@ -1388,7 +1388,7 @@ var ts = 0;
 
 exports.addListener = function(elem, type, callback) {
     if (elem.addEventListener) {
-        return elem.addEventListener(type, callback, false);
+        return elem.addEventListener(type, callback, {passive:true} );
     }
     if (elem.attachEvent) {
         var wrapper = function() {
@@ -1463,7 +1463,7 @@ exports.addTouchMoveListener = function (el, callback) {
             var touchObj = e.changedTouches[0];
             startx = touchObj.clientX;
             starty = touchObj.clientY;
-        });
+        }, {passive:true}) ;
         exports.addListener(el, "touchmove", function (e) {
             var factor = 1,
             touchObj = e.changedTouches[0];

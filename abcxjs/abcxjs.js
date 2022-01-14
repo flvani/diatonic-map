@@ -12896,7 +12896,7 @@ EventElement.prototype.bind = function bind (eventName, handler) {
     this.handlers[eventName] = [];
   }
   this.handlers[eventName].push(handler);
-  this.element.addEventListener(eventName, handler, false);
+  this.element.addEventListener(eventName, handler, {passive:true});
 };
 
 EventElement.prototype.unbind = function unbind (eventName, target) {
@@ -14313,7 +14313,7 @@ DRAGGABLE.ui.Window = function( parent, aButtons, options, callback, aToolBarBut
 
         this.resizeCorner.addEventListener( 'mouseover', function() { self.resizeCorner.style.cursor='nwse-resize'; }, false);
         this.resizeCorner.addEventListener( 'mousedown', this.mouseResize, false);
-        this.resizeCorner.addEventListener('touchstart', this.mouseResize, false);
+        this.resizeCorner.addEventListener('touchstart', this.mouseResize, {passive:true});
     }
     
     this.divMove = function (e) {
@@ -14552,7 +14552,7 @@ DRAGGABLE.ui.Window.prototype.addTitle = function( id, title  ) {
         self.menuDiv.addEventListener( 'mouseover', function() { self.menuDiv.style.cursor='move'; }, false);
     }
     self.menuDiv.addEventListener( 'mousedown', self.mouseMove, false);
-    self.menuDiv.addEventListener('touchstart', self.mouseMove, false);
+    self.menuDiv.addEventListener('touchstart', self.mouseMove, {passive:true});
     
 };
 
@@ -14611,7 +14611,7 @@ DRAGGABLE.ui.Window.prototype.addAction = function( action, div, self ) {
     };
     
     div.addEventListener( 'click', f, false);
-    div.addEventListener( 'touchstart', f, false);
+    div.addEventListener( 'touchstart', f, {passive:true});
     div.addEventListener( 'mousedown', function(e) { e.preventDefault(); e.stopPropagation(); }, false);
 };
 
@@ -14824,7 +14824,7 @@ DRAGGABLE.ui.DropdownMenu = function (topDiv, options, menu) {
             e.stopPropagation(); 
             e.preventDefault(); 
             self.eventsCentral(this.getAttribute("data-ddm")); 
-        }, false);
+        }, {passive:true});
  
         e2.addEventListener("keydown",function(e) {
             e.stopPropagation(); 
@@ -15288,7 +15288,7 @@ DRAGGABLE.ui.DropdownMenu.prototype.addAction = function( ddm, action, div, self
        div.addEventListener( 'touchmove', swiping, false );
        e.preventDefault(); 
        e.stopPropagation(); 
-    }, false);
+    }, {passive:true});
     
     div.addEventListener( 'touchend', function (e) {
         
