@@ -969,7 +969,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.stopButton.addEventListener("click", function(evt) {
         evt.preventDefault();
         if(that.currentPlayTimeLabel)
-            that.currentPlayTimeLabel.innerHTML = "00:00.00";
+            that.currentPlayTimeLabel.innerHTML = "00:00";
         that.midiPlayer.stopPlay();
     }, false);
     
@@ -2020,11 +2020,11 @@ SITE.Mapa.prototype.showSettings = function() {
                 <th colspan="2"><span data-translate="PrefsIdiom" >'+SITE.translator.getResource('PrefsIdiom')+'</span></th>\
                 <th><div id="settingsLanguageMenu" class="topMenu"></div></th>\
               </tr>\
-              <tr>\
+              <tr style="display:none;">\
               <th colspan="2"><br><span data-translate="PrefsTabFormat" >'+SITE.translator.getResource('PrefsTabFormat')+'</span></th>\
               <th><br><div id="settingsTabMenu" class="topMenu"></div></th>\
               </tr>\
-              <tr>\
+              <tr style="display:none;">\
                 <td> </td><td colspan="2"><input id="chkOnlyNumbers" type="checkbox">&nbsp;<span data-translate="PrefsPropsOnlyNumbers" >'+SITE.translator.getResource('PrefsPropsOnlyNumbers')+'</span></td>\
               </tr>\
               <tr>\
@@ -2664,7 +2664,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         this.blur();
         that.blockEdition(false);
         if(that.currentPlayTimeLabel)
-           that.currentPlayTimeLabel.innerHTML = "00:00.00";
+           that.currentPlayTimeLabel.innerHTML = "00:00";
         that.studioStopPlay();
     }, false);
 
@@ -2673,7 +2673,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         this.blur();
         that.renderedTune.printer.clearSelection();
         that.accordion.clearKeyboard(true);
-        that.currentPlayTimeLabel.innerHTML = "00:00.00";
+        that.currentPlayTimeLabel.innerHTML = "00:00";
         that.blockEdition(false);
         that.studioStopPlay();
     }, false);
@@ -3670,7 +3670,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
         that.blockEdition(false);
         if(that.currentPlayTimeLabel)
             that.gotoMeasureButton.value = SITE.translator.getResource("gotoMeasure").val;
-            that.currentPlayTimeLabel.innerHTML = "00:00.00";
+            that.currentPlayTimeLabel.innerHTML = "00:00";
         that.midiPlayer.stopPlay();
     }, false);
     
@@ -4329,7 +4329,7 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
         this.blur();
         that.blockEdition(false);
         if(that.currentPlayTimeLabel)
-            that.currentPlayTimeLabel.innerHTML = "00:00.00";
+            that.currentPlayTimeLabel.innerHTML = "00:00";
         that.midiPlayer.stopPlay();
     }, false);
     

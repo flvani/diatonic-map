@@ -202,7 +202,7 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
         this.blur();
         that.blockEdition(false);
         if(that.currentPlayTimeLabel)
-            that.currentPlayTimeLabel.innerHTML = "00:00.00";
+            that.currentPlayTimeLabel.innerHTML = "00:00";
         that.midiPlayer.stopPlay();
     }, false);
     

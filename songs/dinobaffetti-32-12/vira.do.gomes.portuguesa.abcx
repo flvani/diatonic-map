@@ -3,7 +3,7 @@ X:5005
 %%papersize A4
 %%tabinferenceopts -4
 %%barsperstaff 8
-%%staffsep 30
+%%staffsep 20
 %%pagenumbering
 %stretchlast
 %landscape

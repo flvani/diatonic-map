@@ -23,12 +23,12 @@
     }
 ,"songPathList":
     [
-        "songs/asa.branca.transportada.abcx"
-       ,"songs/comeco.de.verao.transportada.abcx"
-       ,"songs/escandalosa.transportada.abcx"
-       ,"songs/numa.sala.de.reboco.transportada.abcx"
-       ,"songs/passeando.nos.oito.baixos.transportada.abcx"
-       ,"songs/sabino.e.lampiao.transportada.abcx"
+        "songs/transportada/asa.branca.transportada.abcx"
+       ,"songs/transportada/comeco.de.verao.transportada.abcx"
+       ,"songs/transportada/escandalosa.transportada.abcx"
+       ,"songs/transportada/numa.sala.de.reboco.transportada.abcx"
+       ,"songs/transportada/passeando.nos.oito.baixos.transportada.abcx"
+       ,"songs/transportada/sabino.e.lampiao.transportada.abcx"
     ]
 ,"practicePathList":
     [

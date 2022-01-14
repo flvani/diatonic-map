@@ -86,10 +86,10 @@ notação abc, tablatura " />
         <script type="text/javascript" src="src/p2t_parser.js"></script>
         <script type="text/javascript" src="src/repertorio.js"></script>
 
-        <div id="topBar" class="topBar gradiente" >
-           <span data-translate="appName" class="topTitle">Mapa para Acordeões Diatônicos</span>
-           <a id="downloadApp" href="https://play.google.com/store/apps/details?id=br.com.diatonicmap.app"  target="_blank" style="display: none; width: fit-content; top:10px; left:680px;" class="topSettings" ><img src="images/google.play.png" title="Baixe o aplicativo no Google Play"/></a>
-           <a id="topSettings" class="topSettings" ><i class="ico-cogs" title="Ajustes" data-translate="topSettings" ></i></a>
+        <div id="topBar" class="topBar gradiente" style="transform:scale(1,0.8);">
+            <span data-translate="appName" class="topTitle">Mapa para Acordeões Diatônicos</span>
+            <a id="downloadApp" href="https://play.google.com/store/apps/details?id=br.com.diatonicmap.app"  target="_blank" style="display: none; width: fit-content; top:10px; left:680px;" class="topSettings" ><img src="images/google.play.png" title="Baixe o aplicativo no Google Play"/></a>
+            <a id="topSettings" class="topSettings" ><i class="ico-cogs" title="Ajustes" data-translate="topSettings" ></i></a>
             <!--a class="oldVersion" href="mapa-4.22.html" data-translate="oldVersion" onclick="" >Usar a versão anterior</a-->
             <div class="dropdown-group">
                 <input id="fileLoadMap" type="file" accept="text/abc" multiple style="display: none;"/>
@@ -97,8 +97,8 @@ notação abc, tablatura " />
                 <div id="mapMenu" class="topMenu"></div>
             </div>
         </div> <!-- topBar -->
-        <div id="mapaDiv" class="mapaDiv">
-            <div id="section1" class="tabs">
+        <div id="mapaDiv" class="mapaDiv" style="transform:scale(0.8); transform-origin: top left;">
+            <div id="section1" class="tabs" >
                 <input type="radio" checked="checked" />
                 <label id="a_nome_gaita">...</label>
                 <div class="btn-group">
@@ -114,7 +114,12 @@ notação abc, tablatura " />
                     <div id="accordionImageDiv" class="accordionImageStyle"></div>
                     <div id="divABCXversion" class="abcxVersionStyle"></div>
                 </div>
-            </div>
+                <h3>Window size is <span class="window-size"></span></h3>
+                <p>Knowing this number you can make decisions based in breakpoints of window.</p>
+                <hr>
+                <h3>Screen size is <span class="screen-size"></span></h3>
+                <p>Here you have an idea of device screen size. </p>
+                </div>
             
             <div id="mapaWarningsDiv"></div>
 
@@ -140,7 +145,7 @@ notação abc, tablatura " />
                     </button>
                     <button id="buttonPlay" data-translate="playBtn" ><i class="ico-play"></i></button>
                     <button id="buttonStop" data-translate="stopBtn" ><i class="ico-stop"></i></button>
-                    <label id="currentPlayTimeLabel" class="playtime-label">00:00:00</label>
+                    <label id="currentPlayTimeLabel" class="playtime-label" style="margin-left: 10px;">00:00</label>
                 </div>
 
                 <div id="tuneContainerDiv" class="tv-container">
@@ -181,9 +186,7 @@ notação abc, tablatura " />
             <div id="divNormalPlayControls" class="btn-subgroup" >
                 <button id="playBtn2" data-translate="playBtn" >&#160;<i class="ico-play"></i>&#160;</button>
                 <button id="stopBtn2" data-translate="stopBtn" >&#160;<i class="ico-stop"></i>&#160;</button>
-            </div>
-            <div class="others-group">
-                <label id="currentPlayTimeLabel2" class="playtime-label">00:00:00</label>
+                <label id="currentPlayTimeLabel2" class="playtime-label" >00:00</label>
                 <div id="tempoSld" data-translate="tempoBtn" ></div>
             </div>
             <div class="others-group">
@@ -219,7 +222,7 @@ notação abc, tablatura " />
                     <input id="t2pGotoMeasureBtn" type="text" data-translate="gotoMeasure" value="Ir para..." style="float: left;" />
                     <button id="t2pPlayBtn" data-translate="playBtn" onclick="">&#160;<i class="ico-play"></i>&#160;</button>
                     <button id="t2pStopBtn" data-translate="stopBtn" onclick="">&#160;<i class="ico-stop"></i>&#160;</button>
-                    <label id="t2pCurrentPlayTimeLabel" class="playtime-label">00:00:00</label>
+                    <label id="t2pCurrentPlayTimeLabel" class="playtime-label">00:00</label>
                 </div>
                 <div id="t2pDivChecks" class="btn-subgroup" style="padding: 3px;" >
                     <input type="checkbox" id="ckShowABC" checked >&#160;<span data-translate="chkShowABCXText" >Mostrar o texto ABCX</span>
@@ -241,7 +244,9 @@ notação abc, tablatura " />
             <div id="a2pDivNormalPlayControls" class="btn-subgroup" >
                 <button id="a2pPlayBtn" data-translate="playBtn" onclick="">&#160;<i class="ico-play"></i>&#160;</button>
                 <button id="a2pStopBtn" data-translate="stopBtn" onclick="">&#160;<i class="ico-stop"></i>&#160;</button>
-                <label id="a2pCurrentPlayTimeLabel" class="playtime-label">00:00:00</label>
+            </div>
+            <div class="others-group" >
+                <label id="a2pCurrentPlayTimeLabel" class="playtime-label">00:00</label>
             </div>
             <button id="a2pbuttonShowMedia" style="display:none;" >
                 <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
@@ -249,7 +254,7 @@ notação abc, tablatura " />
         </div> <!-- a2pcontrolDiv - este bloco é tratado internamente -->
         
         <div id="printPreviewDiv" class="printPreviewClass"></div>
-        <div id="tipsDiv" class="tips" ><a href="html/release.pt_BR.html" target="_blank"><span data-translate="ReleaseNotesNotice"></span></a></div>
+        <div id="tipsDiv" class="tips" style="transform:scale(0.8);" ><a href="html/release.pt_BR.html" target="_blank" ><span data-translate="ReleaseNotesNotice"></span></a></div>
         <!--div id="tipsDiv" class="tips" >
             O aplicativo deste site já está disponível na loja do Google.<br><br>Clique aqui para instalar.<br>
             <a href="https://play.google.com/store/apps/details?id=br.com.diatonicmap.app"  target="_blank"  >
@@ -257,6 +262,24 @@ notação abc, tablatura " />
         </div-->
         
         <script id="mainScript" type="text/javascript">
+
+function sizeOfThings(){
+  var windowWidth = window.innerWidth;
+  var windowHeight = window.innerHeight;
+  
+  var screenWidth = screen.width;
+  var screenHeight = screen.height;
+  
+  document.querySelector('.window-size').innerHTML = windowWidth + 'x' + windowHeight;
+  document.querySelector('.screen-size').innerHTML = screenWidth + 'x' + screenHeight;
+
+};
+
+sizeOfThings();
+
+window.addEventListener('resize', function(){
+	sizeOfThings();
+});            
             
             SITE.abcxVersion = SITE.getVersion('mainABCX', '' ); // Obtem e mostra a versão corrente da lib ABCX 
             SITE.siteVersion = SITE.getVersion('mainSITE', 'v' ); // Obtem e mostra a versão corrente da lib do site

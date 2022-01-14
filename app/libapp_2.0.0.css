@@ -567,10 +567,10 @@ body {
 
 
 .playtime-label {
-    height: 44px !important;  
-    line-height: 44px !important;  
+    height: 20px !important;  
+    line-height: 20px !important;  
     width: 115px !important; 
-    font-size: 22px !important;
+    font-size: 28px !important;
     margin: 2px 4px 1px 4px;
     color: #ff9922 !important;
     color: red !important;

@@ -289,7 +289,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
         that.blockEdition(false);
         if(that.currentPlayTimeLabel)
             that.gotoMeasureButton.value = SITE.translator.getResource("gotoMeasure").val;
-            that.currentPlayTimeLabel.innerHTML = "00:00.00";
+            that.currentPlayTimeLabel.innerHTML = "00:00";
         that.midiPlayer.stopPlay();
     }, false);
     
