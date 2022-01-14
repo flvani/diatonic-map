@@ -224,30 +224,23 @@ SITE.Mapa.prototype.setup = function (tabParams) {
 SITE.Mapa.prototype.resize = function() {
    
     // redimensiona a tela partitura
-    var winH = /*screen.height || */ window.innerHeight
+    var winH = window.innerHeight
                 || document.documentElement.clientHeight
                 || document.body.clientHeight;    
    
-    var s0 = document.getElementById( 'topBar' );
     var s1 = document.getElementById( 'section1' );
     var s2 = document.getElementById( 'section2' );
-    var scale = 0.8;
-    var minS = 250*scale
-    var margens = 18;
-
-    //var h = (winH - s1.clientHeight - (s2.clientHeight - this.tuneContainerDiv.clientHeight) - (78 +14 +2)); 
-    // versão 2 var h = winH - (s0.clientHeight + s1.clientHeight + (s2.clientHeight - this.tuneContainerDiv.clientHeight)); 
-    var h = winH - ( s0.clientHeight + s1.clientHeight + (s2.clientHeight - this.tuneContainerDiv.clientHeight) + margens ) ; 
     
-    h = h*1.2;
-
-    this.tuneContainerDiv.style.height = Math.max(h,minS) +"px";
+    // -paddingTop 78 -margins 14 -shadow 2 
+    var h = (winH - s1.clientHeight - (s2.clientHeight - this.tuneContainerDiv.clientHeight) -78 -14 -2 ); 
     
-    this.renderedTune.div.style.height = (Math.max(h,minS)-5) +"px";
+    this.tuneContainerDiv.style.height = Math.max(h,200) +"px";
+    
+    this.renderedTune.div.style.height = (Math.max(h,200)-5) +"px";
     (this.renderedTune.ps) && this.renderedTune.ps.update();
-    this.renderedChord.div.style.height = (Math.max(h,minS)-5) +"px";
+    this.renderedChord.div.style.height = (Math.max(h,200)-5) +"px";
     (this.renderedChord.ps) && this.renderedChord.ps.update();
-    this.renderedPractice.div.style.height = (Math.max(h,minS)-5) +"px";
+    this.renderedPractice.div.style.height = (Math.max(h,200)-5) +"px";
     (this.renderedPractice.ps) && this.renderedPractice.ps.update();
     
     this.media.posiciona();

@@ -156,10 +156,6 @@ and open the template in the editor.
     Author     : Flávio Vani 
 */
 
-html {
-    height: calc( 100% - 75px);
-}
-
 body {
     font-family: 'Arial';
     font-size: 16px;
@@ -177,7 +173,13 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     /* fim - evita que textos fiquem selecionáveis */
-
+    /*
+    background:url("../images/background.fole.png");
+    background-repeat: repeat;
+    background-size:  100%, 100%;
+    background-origin: content-box;
+    background-color: #ededed;
+    */
     background-color: white;
 }
     
@@ -185,11 +187,20 @@ body {
     position:absolute; 
     top:10px; 
     right:20px; 
-    color:#ff9922;
-    font-size: 46px;
+    font-size: 50px;
+    color: #dab390;
 }    
 
+.oldVersion {
+    position:absolute; 
+    top:60px; 
+    right:10px; 
+    font-size: 14px;
+    color: #dab390;
+    text-decoration: none;
+}    
 
+.oldVersion:hover,
 .topSettings:hover {
     color:#ff9922;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -254,13 +265,7 @@ body {
     margin-top: 0px;
 }
 
-.appDiv {
-    display: none; 
-    margin-top: 10px; 
-    padding: 8px;    
-}
-
-/*    
+.mapaDiv {
     position:absolute;
     display: block;
     top: 75px;
@@ -269,9 +274,7 @@ body {
     z-index: 50;
     margin-left: 2px;
 }
-*/
 
-/*
 .keyboardContainerStyle {
     position: relative; 
     top: 0; 
@@ -282,12 +285,11 @@ body {
     height: auto; 
     width: auto;
 }
-*/
 
 .accordionImageStyle {
     position: absolute; 
     top: 0; 
-    left: 0; 
+    right: 0; 
     margin-right: 15px;
 }
 
@@ -296,17 +298,14 @@ body {
     bottom: 2px; 
     right: 5px;
     color: rgba(0,0,0,0.8); 
-}
-
-.abcxVersionStyle a {
-    text-decoration: none;
     font-family: 'Merienda'; 
-    font-size:18px; 
+    font-size:12px; 
 }
 
 .menu-group {
     margin:20px;
 }
+
 
 .btn-group b,
 .btn-group label,
@@ -323,45 +322,8 @@ body {
     font-family: "Merienda";
 }
 
-.btn-group button {
-    height: 44px;
-}
-
 .btn-group button:hover {
-    height: 40px;
-    background: lavender;
-    cursor: pointer;
-}
-
-.btn-subgroup {
-    height: 44px;
-}
-
-.others-group {
-    height: 44px !important;  
-    line-height: 44px !important;  
-}
-
-.input-group {
-    float:left; 
-    margin-top: -2px; 
-    font-size: 20px;
-    height: 44px !important;  
-    line-height: 44px !important;  
-}
-
-.input-group > input {
-    font-size: 18px; 
-    width: 3em;
-}
-
-.dButton > a { 
-    color: white; 
-    text-decoration: none 
-}
- 
-.dropdown-menu  {
-    border-radius: 5px;
+    background-color: lavenderblush;
 }
 
 .dropdown-menu .hover {
@@ -369,14 +331,14 @@ body {
     background-color: #D4482D;
 }
 
+.dButton > a { color: #dab390; text-decoration: none }
+.dButton > a { color: white; text-decoration: none }
+
+
 .dropdown-menu .selected {
     background:  #6E2518 !important;
 }
-
-.dropdown-menu li {
-    font-size: 28px;
-    line-height: 28px;
-}
+ 
 
 .tips {
    z-index: 1000;
@@ -400,6 +362,9 @@ body {
 .tips a:hover {
     color: white;
     text-decoration: none; 
+}
+
+.tips a:hover {
     font-weight: bold;
 }
 
@@ -414,167 +379,6 @@ body {
     height: 100%; 
     background-color: #fff;
     z-index: 1000;
-}
-
-.rounded-corners {
-    min-width: 510px;
-    background: -moz-linear-gradient(left, #003050 0%, black 100%);
-    background: -webkit-linear-gradient(left, #003050 0%, black 100%);
-    background: -o-linear-gradient(left, #003050 0%, black 100%);
-    background: -ms-linear-gradient(left, #003050 0%, black 100%);
-    background: linear-gradient(left, #003050 0%, black 100%);
-}
-
-.rounded-corners > h1 {
-    background:transparent;
-    position: absolute;
-    width:fit-content;
-    left: 0px;
-    top: -38px;
-    font-size: 20px;
-    padding: 0 5px 0 5px;
-}
-
-.rounded-corners > button {
-    width: 100%;
-}
-
-.slide-thumb > span {
-    opacity: 0.6;
-    font-size: 18px ;
-}
-
-.draggableToolBarApp {
-    clear: both;
-    font-family: "abcx";
-    height: 44px;
-    line-height: 44px;
-    width: calc(100% - 2px);
-    font-size: 16px;
-    position: relative;
-    display:inline-block;
-    margin: 0;
-    padding: 1px;
-    pointer-events: auto;
-    background: lightblue;
-    background-color: #EBEBEB;
-    background: #e9edf0;
-    border-bottom: 1px solid rgba(100,100,100,0.5);
-/*
-    background: -moz-linear-gradient(left, #003050 0%, black 100%) !important;
-    background: -webkit-linear-gradient(left, #003050 0%, black 100%) !important;
-    background: -o-linear-gradient(left, #003050 0%, black 100%) !important;
-    background: -ms-linear-gradient(left, #003050 0%, black 100%) !important;
-    background: linear-gradient(left, #003050 0%, black 100%) !important;
-*/    
-}
-
-.draggableToolBarApp button {
-    position: relative;
-    display: block;
-    float:left;
-    text-align: left;
-    font-family: 'Milonga','Arial';
-    font-weight: normal;
-    font-size: 32px;
-    line-height: 32px;
-    height: 32px;
-    width: auto;
-    text-shadow: 2px 1px 2px rgba(50, 50, 50, 0.8); 
-    left: 0;
-    margin: 0;
-    margin-left: 4px;
-    padding: 4px;
-    outline: none !important;
-    border: none;
-    color: #ff9922;
-    color: red;
-    background-color: transparent;
-    
-}
-
-.keyboard-btn-group {
-    position: absolute; 
-    display:inline-block;
-    top: 0px;
-    margin-top: 2px;
-    margin-left: 5px;
-    font-family: "abcx";
-    height: 40px;
-    width: fit-content;
-    font-size: 16px;
-    margin: 0;
-    padding: 1px;
-    pointer-events: auto;
-    background: #e9edf0;
-/*
-    background: lightblue;
-    background-color: #EBEBEB;
-*/    
-}
-
-.keyboard-btn-group label,
-.keyboard-btn-group button {
-    position: relative;
-    display: block;
-    float:left;
-    text-align: left;
-    font-family: 'Milonga','Arial';
-    font-weight: normal;
-    font-size: 32px;
-    line-height: 32px;
-    height: 44px;
-    width: auto;
-    text-shadow: 2px 1px 2px rgba(50, 50, 50, 0.8); 
-    left: 0;
-    margin: 0;
-    margin-left: 4px;
-    padding: 4px;
-    outline: none !important;
-    border: none;
-    color: #ff9922;
-    color: red;
-    background-color: transparent;
-
-}
-
-.keyboard-btn-group button:hover {
-    height: 44px;
-    background: lavender;
-    cursor: pointer;
-}
-
-.circular { 
-    position: absolute; 
-    display:inline-block;
-    bottom:20px;
-    border-radius: 50%; 
-    z-index: -10 ; 
-    background: rgba(100, 100, 100, 0.5);    
-    box-shadow: 0 0 15px 15px rgba(100, 100, 100, 0.5);    
-    height: 80px; 
-    width: 80px;
- }
-
-.circular img { 
-    position: relative;
-    border: none;
-    margin-top:-5px;
-    margin-left:-10px;
-    height:100px; 
-    width: 100px;
-}
-
-
-.playtime-label {
-    height: 20px !important;  
-    line-height: 20px !important;  
-    width: 115px !important; 
-    font-size: 28px !important;
-    margin: 2px 4px 1px 4px;
-    color: #ff9922 !important;
-    color: red !important;
-
 }
 
 .studioDiv {
@@ -596,8 +400,31 @@ body {
     /* font-size: 15px; */
     width: inherit;
     height: auto;
+    background-color: #dadada;
     background-color: #e9edf0;
-    background-color: #f1f1f1;
+    border-bottom: 1px solid rgba(255, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 153, 34, 0.2);
+/*
+    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
+    -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
+    -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
+    -ms-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
+    -o-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
+    */
+}
+
+.warningsDiv {
+    clear:both;
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    padding: 3px;
+    padding-left: 13px;
+    /* font-size: 15px; */
+    width: inherit;
+    height: auto;
+    background-color: #dadada;
+    background-color: #e9edf0;
     border-bottom: 1px solid rgba(255, 0, 0, 0.1);
     border-bottom: 1px solid rgba(255, 153, 34, 0.2);
 }
@@ -607,12 +434,14 @@ body {
     position: relative;
     display: block;
     margin: 0px;
+    /*
+    margin-top: 6px;
+    margin-left: 4px;
+    */
     width: auto;
     height: auto;
-    overflow-y: hidden;
+    overflow-y: auto;
     background-color: #e9edf0;
-    background-color: white;
-    
 }
 
 

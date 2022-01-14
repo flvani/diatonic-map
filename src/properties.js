@@ -193,6 +193,9 @@ SITE.LoadProperties = function() {
         salvar = true;
     }
 
+    //hardcode - anti-pipoca-roxa
+    SITE.properties.options.tabFormat = 0;
+
     if( SITE.properties.options.tabFormat === undefined ) {
         salvar = true;
         SITE.properties.options.tabFormat = 0;

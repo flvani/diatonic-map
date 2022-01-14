@@ -1,0 +1,46 @@
+X:1065
+%%barnumbers 0
+%%papersize A4
+%%tabinferenceopts +4
+%%barsperstaff 9
+%%staffsep 20
+%%pagenumbering
+%stretchlast
+%landscape
+%hidefingering
+T:Vira do Gomes
+C:Folclore Português
+L:1/8
+Q:186
+M:3/4
+F:https://www.youtube-nocookie.com/embed/oFT071GEN6s
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+K:C
+V:1 treble
+|: e4-ed | e4-ed | e4 e2 | e2 d2 c2 |
+| d4-dc | d4-dc | d4 d2 | d2 c2 B2  |
+| c4-cB | c4-cB | c4 c2 | c2 B2 A2 |
+| G2 E2 [EGc]2 | [EGc]6- | [EGc]6- | [EGc]6 :|
+|: f6- | f3  ede  | f4 f2  | f2 e2 d2 |
+| e6- | e3  dcd  | e4 e2  | e2 d2 c2 |
+| d2 dc BA | G2 GA Bc | d4 d2  | d2 c2 B2 |
+| c2 [ceg][ceg] [ceg][ceg] |[ceg]2 [ceg][ceg] [ceg][ceg] | [ceg]6 |1 [ceg]6 :|2 [ceg]6- | +fermata+ [ceg]6 |
+V:2 bass
+|: C,,2 [C,E,G,]2 [C,E,G,]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | C,,2 [C,E,G,]2 [C,E,G,]2 |
+| G,,2 [G,B,D]2 [G,B,D]2 | G,,2 [G,B,D]2 [G,B,D]2 | G,,2 [G,B,D]2 [G,B,D]2 | G,,2 [G,B,D]2 [G,B,D]2 |
+| F,,2 [F,A,C]2 [F,A,C]2 | F,,2 [F,A,C]2 [F,A,C]2 | F,,2 [F,A,C]2 [F,A,C]2 | F,,2 [F,A,C]2 [F,A,C]2 |
+| C,,2 [C,E,G,]2 [C,E,G,]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | C,,2 [C,E,G,]2 [C,E,G,]2 :| 
+|: F,,2 [F,A,C]2 [F,A,C]2 | F,,2 [F,A,C]2 [F,A,C]2 | F,,2 [F,A,C]2 [F,A,C]2 | F,,2 [F,A,C]2 [F,A,C]2 |
+| C,,2 [C,E,G,]2 [C,E,G,]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | C,,2 [C,E,G,]2 [C,E,G,]2 |
+| G,,2 [G,B,D]2 [G,B,D]2 | G,,2 [G,B,D]2 [G,B,D]2 | G,,2 [G,B,D]2 [G,B,D]2 | G,,2 [G,B,D]2 [G,B,D]2 |
+| C,,2 [C,E,G,]2 [C,E,G,]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | C,,2 [C,E,G,]2 [C,E,G,]2 |1 C,,2 [C,E,G,]2 [C,E,G,]2 :|2 C,,2 [C,E,G,]2 [C,E,G,]2 | [C,,C,E,G,]6 |
+V:3 accordionTab
+|: C+7'2 c+>2 c+> >+8 | C+7'2 c+>2 c+> >+8 | C+7'2 c+>2 c+7'2 | C+7'2 c+82 c+6'2 |
+| G-7'2 g->2 g-> >-8 | G-7'2 g->2 g-> >-8 | G-7'2 g->2 g-7'2 | G-7'2 g-82 g-6'2 |
+| F+6'2 f+>2 f+> >+7 | F+6'2 f+>2 f+> >+7 | F+6'2 f+>2 f+6'2 | F+6'2 f+72 f-72 |
+| C+5'2 c+4'2 c+[4'5'6']2 | C+[4'5'6']2 c+[>>>]2 c+[>>>]2 | C+[>>>]2 c+[>>>]2 c+[>>>]2 | C+[>>>]2 c+[>>>]2 c+[>>>]2 :|
+|: F-8'2 f->2 f->2 | F->2 f-> >-9 f-7' >-9 | F-8'2 f->2 f-8'2 | F-8'2 f-92 f-7'2 |
+| C+7'2 c+>2 c+>2 | C+>2 c+> >+8 c+6' >+8 | C+7'2 c+>2 c+7'2 | C+7'2 c+82 c+6'2 |
+| G-7'2 g-7' >-8 g-6' >-7 | G-5'2 g-5' >-7 g-6' >-8 | G-7'2 g->2 g-7'2 | G-7'2 g-82 g-6'2 |
+| C+6'2 c+[6'7'8'] >+[6'7'8'] c+[6'7'8'] >+[6'7'8'] | C+[6'7'8']2 c+[6'7'8'] >+[6'7'8'] c+[6'7'8'] >+[6'7'8'] | C+[6'7'8']2 c+[>>>]2 c+[>>>]2 |1 C+[6'7'8']2 c+[>>>]2 c+[>>>]2 :|2 C+[6'7'8']2 c+[>>>]2 c+[>>>]2 | Cc+[>>>]6 |
