@@ -1,0 +1,27 @@
+X:6004
+%%tabinferenceopts -8
+%%papersize A4
+%%barnumbers 0
+T:Bella Ciao (corona)
+C:Folclore Italiano
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+%F:https://www.youtube-nocookie.com/embed/QSKXmUXiAvM&T:Bella Ciao - Parte I;
+%F:https://www.youtube-nocookie.com/embed/jlxztnV4PUw&T:Bella Ciao - Parte II;
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+L:1/8
+Q:120
+M:4/4
+K:Am
+V:1 treble
+| z EAB |: cA- A2 z EAB | cA z2 z EAB | c2 BA c2 BA | e2 e2 ee de | 
+| ff- f2 z fed | fe- e2 z edc | B2 e2 c2 B2 |1 A4 z EAB :| 
+|:2 A4 z AGF | E4 z dcB | A4 z AGF | E^F GA Bd cB :| A4 | 
+V:2 bass
+| z4 |: A,,[A,CE] A,,[A,CE] A,,[A,CE] A,,[A,CE] | A,,[A,CE] E,,2 A,,[A,CE] A,,[A,CE] | A,,[A,CE] A,,[A,CE] A,,[A,CE] A,,[A,CE] | A,,[A,CE] A,,[A,CE] A,,[A,CE] A,,[A,CE] | 
+| D,,[D,F,A,] D,,[D,F,A,] D,,[D,F,A,] D,,[D,F,A,] | A,,[A,CE] A,,[A,CE] A,,[A,CE] A,,[A,CE] | E,,[E,^G,B,] E,,[E,G,B,] E,,[E,G,B,] E,,[E,G,B,] |1 A,,[A,CE] A,,[A,CE] A,,[A,CE] A,,[A,CE] :| 
+|:2 A,,[A,CE] A,,[A,CE] A,,[A,CE] A,,[A,CE] | E,,[E,^G,B,] E,,[E,G,B,] E,,[E,G,B,] E,,[E,G,B,] | A,,[A,CE] A,,[A,CE] A,,[A,CE] A,,[A,CE] | E,, z D,, z C,, z E,, z :| A,,4 | 
+V:3 accordionTab
+| z-z z-4 z-5' z-6' |: A-7 am-6 A-> am-> A-z am-4 A-5' am-6' | A-7 am-6 E+z2 A+z am-4 A-5' am-6' | A-7 am-> A-6' am-6 A-7 am-> A-6' am-6 | A-8 am-> A-8 am-> A-8 am-8 A-7' am-8 |
+| D-8' dm-8' D-> dm-> D-z dm-8' D-8 dm-7' | A-8' am-8 A-> am-> A-z am-8 A-7' am-7 | E+6 e+> E+7' e+> E+6' e+> E+6 e+> |1 A-5' am-> A-> am-> A-z am-4 A-5' am-6' :|
+|:2 A-5' am-> A-> am-> A-z am-5' A-3'' am-4' | E+4' e+> E+> e+> E+z e+7 E+6' e+6 | A-5' am-> A-> am-> A-z am-5' A-3'' am-4' | E+4' z+1' D-3'' z-5' C-6' z-7' E+6' z+6 :| A+4''4 |
