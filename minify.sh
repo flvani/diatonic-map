@@ -9,32 +9,15 @@ echo $1 | grep -E -q '^[1-9]\.[0-9]+$' || die "Site Version number argument requ
 echo $2 | grep -E -q '^[0-9]\.[0-9]\.[0-9]+$' || die "App Version number argument required (x.y.z), $2 provided"
 echo "Concatenating all files..."
 
-
-git ls-files -z | while IFS= read -rd '' f; do tail -c1 < "$f" | read -r _ || echo >> "$f"; done
-
-#!/bin/sh
-for f in songs/minuano/*.abcx
-do 
-c=$(tail -c 1 $f)
-if [ "$c" != "" ]; then
-echo '' >> $f
-fi
-done
-
-c=`tail -c 1 $1`
-if [ "$c" != "" ]; then
-    echo "no newline"
-fi
-
 #restaurar um conjunto de arquivos alterados por engano
 #for f in songs/minuano/*.abcx; do  git restore $f; fi; done
 
 #remover "BOM mark" e garantir newline ao final do arquivo
-for f in songs/minuano/*.abcx; do sed -i $'1s/^\uFEFF//' $f; if [ "$(tail -c 1 $f)" != "" ]; then echo '' >> $f; fi; done
+for f in songs/minuano/*.abcx; do sed -i $'s/^\uFEFF//' $f; if [ "$(tail -c 1 $f)" != "" ]; then echo '' >> $f; fi; done
 cat songs/minuano/*.abcx > songs/minuano.repertorio.abcx
 
 #remover "BOM mark" e garantir newline ao final do arquivo
-for f in songs/club-br/*.abcx; do sed -i $'1s/^\uFEFF//' $f; if [ "$(tail -c 1 $f)" != "" ]; then echo '' >> $f; fi; done
+for f in songs/club-br/*.abcx; do sed -i $'s/^\uFEFF//' $f; if [ "$(tail -c 1 $f)" != "" ]; then echo '' >> $f; fi; done
 cat songs/club-br/*.abcx > songs/club-br.repertorio.abcx
 
 echo "Concatenating site files..."
