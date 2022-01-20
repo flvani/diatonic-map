@@ -1,5 +1,5 @@
 {
-   "id":"GAITA_HOHNER_CORONA_SERIES"
+   "id":"GAITA_HOHNER_CORONA_ADG"
   ,"menuOrder" : 4
   ,"model":"Hohner Corona Series"
   ,"tuning":["A","D","G"]
@@ -22,15 +22,15 @@
     }
   ,"songPathList":
     [
-       "songs/corona/asa.branca.corona.abcx"
-      ,"songs/corona/chorando.se.foi.corona.abcx"
-      ,"songs/corona/despacito.corona.abcx"
-      ,"songs/corona/jai.du.bon.tabac.corona.abcx"
-      ,"songs/corona/jingle.bells.corona.abcx"
-      ,"songs/corona/maitia.nun.zira.corona.abcx"
-      ,"songs/corona/merceditas.corona.abcx"
-      ,"songs/corona/pezinho.corona.abcx"
-      ,"songs/corona/xote.laranjeira.corona.abcx"
+       "songs/corona-adg/asa.branca.corona.abcx"
+      ,"songs/corona-adg/chorando.se.foi.corona.abcx"
+      ,"songs/corona-adg/despacito.corona.abcx"
+      ,"songs/corona-adg/jai.du.bon.tabac.corona.abcx"
+      ,"songs/corona-adg/jingle.bells.corona.abcx"
+      ,"songs/corona-adg/maitia.nun.zira.corona.abcx"
+      ,"songs/corona-adg/merceditas.corona.abcx"
+      ,"songs/corona-adg/pezinho.corona.abcx"
+      ,"songs/corona-adg/xote.laranjeira.corona.abcx"
     ]
   ,"practicePathList":[]
   ,"chordPathList":[

@@ -73,28 +73,30 @@ SITE.Repertorio.prototype.compileAll = function() {
 SITE.Repertorio.prototype.geraIndex = function( map ) {
 
     var lista  = null;
-    var club   = false;
+    var tipo   = 'geral';
     var repertorio = { geral: [], transportada: [], corona: [], portuguesa: [] };
     
     for(var a = 0; a < this.accordion.accordions.length; a ++ ) {
         this.accordion.load( a );
         //var abcParser = new ABCXJS.parse.Parse( null, accordion );
 
-        club = false;
+        tipo   = 'geral';
         
         switch(this.accordion.loaded.id) {
-             case 'GAITA_HOHNER_CLUB_IIIM_BR':
-                club = true;
-             case 'GAITA_MINUANO_GC':
+            case 'GAITA_HOHNER_CLUB_IIIM_BR':
+                tipo = 'club';
+            case 'GAITA_MINUANO_GC':
                 lista = repertorio.geral;
                 break;
-             case 'GAITA_HOHNER_CORONA_SERIES':
+            case 'GAITA_HOHNER_CORONA_GCF':
+                tipo = 'gcf';
+            case 'GAITA_HOHNER_CORONA_ADG':
                 lista = repertorio.corona;
                 break;
-             case 'CONCERTINA_PORTUGUESA':
+            case 'CONCERTINA_PORTUGUESA':
                 lista = repertorio.portuguesa;
                 break;
-             case 'GAITA_MINUANO_BC_TRANSPORTADA':
+            case 'GAITA_MINUANO_BC_TRANSPORTADA':
                 lista = repertorio.transportada;
                 break;
         }
@@ -113,20 +115,25 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
             var composer = this.accordion.loaded.songs.details[t].composer;
             var id = this.accordion.loaded.songs.details[t].id;
 
-            if( ! club ) {
-                lista.push ( {title:title, composer:composer, geral: id, club: 0 } );
-            } else {
-                var idx = -1, l = 0;
-                while( idx === -1 && l < lista.length  ) {
-                    if( lista[l].title === title ) idx = l;
-                    l ++;
-                }
-                if( idx !== -1 ) {
-                    lista[idx].club = id;
-                } else {
-                    lista.push ( {title:title, composer:composer, geral: 0, club: id } );
-                }
+            switch(tipo){
+                case 'club':
+                case 'gcf':
+                    var idx = -1, l = 0;
+                    while( idx === -1 && l < lista.length  ) {
+                        if( lista[l].title === title ) idx = l;
+                        l ++;
+                    }
+                    if( idx !== -1 ) {
+                        lista[idx].outro = id;
+                    } else {
+                        lista.push ( {title:title, composer:composer, geral: 0, outro: id } );
+                    }
+                    break;
+                case 'geral':
+                    lista.push ( {title:title, composer:composer, geral: id, outro: 0 } );
+                
             }
+
         }
     }
 
@@ -192,12 +199,12 @@ h += '<h2>Repertório Geral</h2>\n\
 ';
     
     for( var r = 0; r < repertorio.geral.length; r ++ ) {
-//        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
+        idx=r+1;
         h += '<tr>'
-                +'<td class="title" >'+repertorio.geral[r].title+'</td>'
+                +'<td class="title" >'+idx+'.&nbsp;'+repertorio.geral[r].title+'</td>'
                 + (map? '\n': '<td class="composer" >'+repertorio.geral[r].composer+'</td>\n' )
                 +'<td class="center">' + this.makeAnchor( map, 'GAITA_MINUANO_GC', repertorio.geral[r].geral  ) 
-                +'</td>\n<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CLUB_IIIM_BR', repertorio.geral[r].club ) 
+                +'</td>\n<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CLUB_IIIM_BR', repertorio.geral[r].outro ) 
                 +'</td></tr>\n';
     }
     
@@ -209,7 +216,6 @@ h += '<h2>Repertório Geral</h2>\n\
 ';
                     
     for( var r = 0; r < repertorio.transportada.length; r ++ ) {
-//        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
         h += '<tr>'
             +'<td class="title" >'+repertorio.transportada[r].title+'</td>'
             + (map? '\n': '<td class="composer" >'+repertorio.transportada[r].composer+'</td>\n')
@@ -225,7 +231,6 @@ h += '<h2>Repertório Geral</h2>\n\
 ';
                     
     for( var r = 0; r < repertorio.portuguesa.length; r ++ ) {
-//        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
         h += '<tr>'
             +'<td class="title" >'+repertorio.portuguesa[r].title+'</td>'
             + (map? '\n': '<td class="composer" >'+repertorio.portuguesa[r].composer+'</td>\n')
@@ -236,17 +241,18 @@ h += '<h2>Repertório Geral</h2>\n\
     h += '\
 </table>\n\
 <br><h2>Corona</h2>\n\
-<h3>Tablaturas para acordeões Corona Series A/D/G</h3>\n\
-<table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">A/D/G</th></tr>\n\
+<h3>Tablaturas para acordeões Corona Series A/D/G e/ou G/F/C</h3>\n\
+<table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">A/D/G</th><th class="center">G/C/F</th></tr>\n\
 ';
-                    
+    
     for( var r = 0; r < repertorio.corona.length; r ++ ) {
-//        h += '<tr'+( ( r & 1) ? ' class="par"': '' ) +'>'
+        idx=r+1;
         h += '<tr>'
-            +'<td class="title" >'+repertorio.corona[r].title+'</td>'
-            + (map? '\n': '<td class="composer" >'+repertorio.corona[r].composer+'</td>\n')
-            +'<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_SERIES', repertorio.corona[r].geral ) 
-            +'</td></tr>\n';
+                +'<td class="title" >'+idx+'.&nbsp;'+repertorio.corona[r].title+'</td>'
+                + (map? '\n': '<td class="composer" >'+repertorio.corona[r].composer+'</td>\n' )
+                +'<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_ADG', repertorio.corona[r].geral  ) 
+                +'</td>\n<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_GCF', repertorio.corona[r].outro ) 
+                +'</td></tr>\n';
     }
     
     h += '\

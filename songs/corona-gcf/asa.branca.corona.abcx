@@ -1,0 +1,37 @@
+﻿X:6003
+%%barnumbers 0
+%%papersize a4
+%%pagenumbering
+%%staffsep 10
+%%tabinferenceopts -2
+T:Asa Branca (corona)
+C:Luiz Gonzaga & Humberto Teixeira
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+%F:https://www.youtube-nocookie.com/embed/nth-lbmb7ys
+M:C
+L:1/4
+Q:180
+K:C
+V:1 treble
+V:2 bass
+[V:1]| z2 c d | e2 g2                     | g2 e2                     | f2 f2                   | 
+w:Quan-do olhei a~ter-ra ar-den-do
+[V:2]| z4     | C,,3/2 [C,E,G,]/2 C,, [C,E,G,] | C,,3/2 [C,E,G,]/2 C,, [C,E,G,] | F,,3/2 [F,A,C]/2 F,, [F,A,C] |
+[V:1]| z2 c d                  | e2 g2                     | g2 f2                     | e4                      | 
+w:Qual fo-guei-ra de São João
+[V:2]| F,,3/2 [F,A,C]/2 F,, [F,A,C] | C,,3/2 [C,E,G,]/2 C,, [C,E,G,] | G,,3/2 [G,B,D]/2 G,, [G,B,D] | C,,3/2 [C,E,G,]/2 C,, [C,E,G,] |
+[V:1]|: z c c d                   | e2 g2                     | z g f e              | c2 f2                        | 
+w:Eu per-gun-tei, ai, a Deus do céu, ai
+[V:2]|: C,,3/2 [C,E,G,]/2 C,, [C,E,G,] | C,,3/2 [C,E,G,]/2 C,, [C,E,G,] |  A,,3/2 [A,,C,E,]/2 A,, [A,,C,E,] | F,,3/2 [F,A,C]/2 F,, [F,A,C] |
+[V:1]| z f e d                 | d2 e2                   | z d d c                 |1 c4                       :|
+w:Por que ta-ma-nha ju-di-a-ção
+[V:2]| F,,3/2 [F,A,C]/2 F,, [F,A,C] | G,,3/2 [G,B,D]/2 G,, [G,B,D] | G,,3/2 [G,B,D]/2 G,, [G,B,D] |1 C,,3/2 [C,E,G,]/2 C,, [C,E,G,] :|
+[V:1]|:2 c2  c' g                 | afge                       | fdec                    | dcAc                   :| c4                         |]
+[V:2]|:2  C,,3/2 [C,E,G,]/2 C,, [C,E,G,] | A,,3/2 [A,,C,E,]/2 A,, [A,,C,E,]  | F,,3/2 [F,A,C]/2 F,, [F,A,C] | G,,3/2 [G,B,D]/2 G,, [G,B,D] :|  C,,3/2 [C,E,G,]/2 C,, [C,E,G,] |]
+V:3 accordionTab
+| z-z2 z-7 z-7' | C-81.5 c->0.5 C-7'' c-> | C-7''1.5 c->0.5 C-8 c-> | F+6''1.5 f+>0.5 F+6'' f+> |
+| F+z1.5 f+z0.5 F+6' f+7 | C+7'1.5 c+>0.5 C+8 c+> | G-7''1.5 g->0.5 G-8' g-> | C-81.5 c->0.5 C-> c-> |
+|: C+z >+6'0.5 c+>0.5 C+6' c+7 | C-81.5 c->0.5 C-7'' c-> | A-z >-7''0.5 am->0.5 A-8' am-8 | F+6'1.5 f+>0.5 F+6'' f+> |
+| F+z >+6''0.5 f+>0.5 F+7' f+7 | G-7'1.5 g->0.5 G-8 g-> | G-z >-7'0.5 g->0.5 G-7' g-7 |1 C+6'1.5 c+>0.5 C+> c+> :|
+|:2 C+6'1.5 c+>0.5 C+9' c+8 | A-9' >-8'0.5 am->0.5 A-7'' am-8 | F+6'' >+70.5 f+>0.5 F+7' f+6' | G+7 >+6'0.5 g+>0.5 G+4'' g+6' :| C-71.5 c->0.5 C-> c-> |]

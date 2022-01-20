@@ -1,0 +1,45 @@
+{
+   "id":"GAITA_HOHNER_CORONA_GCF"
+  ,"menuOrder" : 5
+  ,"model":"Hohner Corona Series"
+  ,"tuning":["G","C","F"]
+  ,"buttons":["34","12"]
+  ,"pedal":[]
+  ,"image":"images/Hohner.Corona II.b.png"
+  ,"keyboard": 
+    {
+       "layout": [0.5, 0, 0.5]
+      ,"keys":
+      {
+        "close": [["C♯4", "G3", "B4", "D4", "G4", "B4", "D5", "G5", "B5", "D6", "G6"], 
+        ["F♯4", "G3", "C4", "E4", "G4", "C5", "E5", "G5", "C6", "E6", "G6", "C7"], 
+        ["E♭5", "C4", "F4", "A4", "C5", "F5", "A5", "C6", "F6", "A6", "C7"]]
+
+       , "open": [["E♭4", "A3", "C4", "E4", "F♯4", "A4", "C5", "E5", "F♯5", "A5", "C6"], 
+       ["G♯4", "B3", "D4", "F4", "A4", "B4", "D5", "F5", "A5", "B5", "D6", "F6"], 
+       ["C♯5", "E4", "G4", "B♭4", "D5", "E5", "G5", "B♭5", "D6", "E6", "G6"]]
+      }
+      ,"basses":
+      {
+        "close": [["e2", "E2", "a2", "A2", "b♭2", "B♭2"], ["g2", "G2", "c2", "C2", "f2", "F2"]]
+       , "open": [["a2:m", "A2", "d2:m", "D2", "b♭2", "B♭2"], ["d2", "D2", "g2", "G2", "c2", "C2"]]
+      }
+    }
+  ,"songPathList":
+    [
+       "songs/corona-gcf/asa.branca.corona.abcx"
+      ,"songs/corona-gcf/chorando.se.foi.corona.abcx"
+      ,"songs/corona-gcf/despacito.corona.abcx"
+      ,"songs/corona-gcf/maitia.nun.zira.corona.abcx"
+    ]
+  ,"songs-not-loaded":
+    [
+       "songs/corona-gcf/jai.du.bon.tabac.corona.abcx"
+      ,"songs/corona-gcf/jingle.bells.corona.abcx"
+      ,"songs/corona-gcf/merceditas.corona.abcx"
+      ,"songs/corona-gcf/pezinho.corona.abcx"
+      ,"songs/corona-gcf/xote.laranjeira.corona.abcx"
+    ]
+  ,"practicePathList":["practices/corona.gcf.prac2.abcx"]
+  ,"chordPathList":[ ]
+}

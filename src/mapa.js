@@ -305,7 +305,8 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             break;
         case 'GAITA_MINUANO_GC':
         case 'CONCERTINA_PORTUGUESA':
-        case 'GAITA_HOHNER_CORONA_SERIES':
+        case 'GAITA_HOHNER_CORONA_GCF':
+        case 'GAITA_HOHNER_CORONA_ADG':
         case 'GAITA_HOHNER_CLUB_IIIM_BR':
         case 'GAITA_MINUANO_BC_TRANSPORTADA':
         default: // as gaitas conhecidas e outras carregadas sob demanda

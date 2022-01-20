@@ -1,0 +1,48 @@
+X:1
+%%tabinferenceopts -9
+T:C Dur
+M:C
+L:1/4
+Q:100
+K:C
+V:melodia treble
+C D E F G A B c d e f g a b c'
+V:2 accordionTab
+-3 -3' -4 -4' -3'' -5' -6' -7 -7' -8 -8' -7'' -9' -a' -b
+
+X:2
+T:F Dur
+%%tabinferenceopts -9
+M:C
+L:1/4
+Q:100
+K:F
+V:melodia treble
+F G A B c d e f g a b c' d' e' f'
+V:tablatura accordionTab
+-4' -3'' -5' -4'' -7 -7' -6'' -8' -7'' -9' -8'' -b -b' -a'' -c'
+
+X:3
+T:G Dur
+%%tabinferenceopts -9
+M:C
+L:1/4
+Q:100
+K:G
+V:melodia treble
+G A B c d e f g a b c' d' e' f' g'
+V:2 accordionTab
+
+X:4
+T:G Dur -8
+%%tabinferenceopts -9
+M:C
+L:1/4
+Q:100
+K:G
+V:melodia treble
+G' A' B' C D E F G A B c d e f g
+V:2 accordionTab
++2 -2 -2' -3 -3' -4 -5 -3'' -5' -6' -7 -7' -8 -9 -7''
+
+

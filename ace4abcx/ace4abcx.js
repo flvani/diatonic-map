@@ -1388,7 +1388,10 @@ var ts = 0;
 
 exports.addListener = function(elem, type, callback) {
     if (elem.addEventListener) {
-        return elem.addEventListener(type, callback, {passive:true} );
+        var passivo=false;
+        if(type === "touchstart"|| type === "mousewheel") 
+          passivo = {passive:true};
+        return elem.addEventListener(type, callback, passivo);
     }
     if (elem.attachEvent) {
         var wrapper = function() {
@@ -1421,11 +1424,14 @@ exports.stopPropagation = function(e) {
 };
 
 exports.preventDefault = function(e) {
-    if (e.preventDefault)
-        e.preventDefault();
-    else
-        e.returnValue = false;
+    if( e.type !== "touchstart" && e.type !== "mousewheel" ) {
+        if (e.preventDefault )
+            e.preventDefault();
+        else
+            e.returnValue = false;
+    }
 };
+
 exports.getButton = function(e) {
     if (e.type == "dblclick")
         return 0;
@@ -1463,7 +1469,7 @@ exports.addTouchMoveListener = function (el, callback) {
             var touchObj = e.changedTouches[0];
             startx = touchObj.clientX;
             starty = touchObj.clientY;
-        }, {passive:true}) ;
+        });
         exports.addListener(el, "touchmove", function (e) {
             var factor = 1,
             touchObj = e.changedTouches[0];

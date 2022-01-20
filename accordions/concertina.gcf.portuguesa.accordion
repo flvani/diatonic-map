@@ -1,6 +1,6 @@
 {
    "id":"CONCERTINA_PORTUGUESA"
-  ,"menuOrder" : 5
+  ,"menuOrder" : 6
   ,"model":"Dino Baffetti"
   ,"tuning":["G","C","F"]
   ,"buttons":["33","12"]

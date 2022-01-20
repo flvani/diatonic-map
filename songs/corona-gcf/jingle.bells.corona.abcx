@@ -1,0 +1,30 @@
+X:4008
+%%barnumbers 1
+%%papersize A4
+%%tabinferenceopts +3
+%%barsperstaff 6
+%%pagenumbering
+T:Jingle Bells (corona)
+T:(Bate o sino)
+C:James Lord Pierpont
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:2/4
+L:1/8
+Q:120
+K:A
+V:1 clef=treble
+|: "A" Ec BA | E3 E/2E/2 | Ec BA | "D" F3 F/2F/2 | Fd cB |1 "E" G3 G/2G/2 |
+| ee dB | "A" c4 :|2 "E" ee ee | fe dB |
+| "A" A2 e2 |: cc c2 | cc c2 | ce A3/2B/2 | c4 | dd d3/2d/2 |
+| dc cc/2c/2 |1 cB Bc | B2 e2 :|2 ee dB | A4 +D.C.+ |
+V:2 clef=bass
+|: A,,2 [A,CE][A,CE] | A,,2 [A,CE][A,CE] | A,,2 [A,CE][A,CE] | D,,2 [D,F,A,][D,F,A,] | D,,2 [D,F,A,] [D,F,A,] |1 E,,2 [E,G,B,][E,G,B,] |
+| E,,2 [E,G,B,][E,G,B,] | A,,2 [A,CE][A,CE] :|2 E,,2 [E,G,B,][E,G,B,] | E,,2 [E,G,B,][E,G,B,] |
+| [A,CE] 2 E,,2 |: A,,2 E,,2 | A,,2 E,,2 | A,,2 E,,2 | A,,2 E,,2 | B,,2 E,,2 |
+| A,,2 E,,2 |1 B,,4 | E,,4 :|2 B,,2 E,,2 | A,,2 [A,CE]2 |
+V:3 clef=accordionTab
+|: A+4 >+6 a+4'' a+5 | A+42 a+> a+40.5 >+40.5 | A+4 >+6 a+4'' a+5 | D-42 d-> d-40.5 >-40.5 | D-4 >-7 d-6' d-6 |1 E-52 e-> e-50.5 >-50.5 |
+| E-7' >-7' e-7 e-6 | A+62 a+> a+> :|2 E-7' >-7' e-7' e-7' | E-8 >-7' e-7 e-6 |
+| a-3''2 E-7'2 |: A+6 >+6 E-6'2 | A+6 >+6 E-6'2 | A+6 >+7 E-3''1.5 >-5'0.5 | A-6'2 E->2 | B+6' >+6' E-71.5 >-70.5 |
+| A-7 >-6' E-6' >-6'0.5 >-6'0.5 |1 B+6 >+4'' >+4'' >+6 | E-62 >-7'2 :|2 B+7 >+7 E-7 >-6 | A+52 a+>2 |

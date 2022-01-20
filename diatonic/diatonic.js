@@ -196,7 +196,10 @@ DIATONIC.map.AccordionMap.prototype.loadABCX = function(pathList, cb ) {
             .fail(function( data, textStatus, error ) {
                 FILEMANAGER.deregister('ABCX', false);
                 var err = textStatus + ", " + error;
-                waterbug.log( "ABCX Load Failed:\nLoading: " + data.responseText.substr(1,40) + '...\nError:\n ' + err );
+                if( data && data.responseText !== undefined )
+                    waterbug.log( "ABCX Load Failed:\nLoading: " + data.responseText.substr(1,40) + '...\nError:\n ' + err );
+                else
+                    waterbug.log( "ABCX Load Failed:\nLoading: " + path + "...\nError:\n " + err );
             })
             .always(function() {
                 toLoad --;
