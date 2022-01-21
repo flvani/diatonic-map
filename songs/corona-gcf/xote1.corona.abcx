@@ -1,0 +1,35 @@
+X:6006
+%%tabinferenceopts +2
+%%barnumbers 0
+%%papersize A4
+%%barsperstaff 5
+%staffsep 20
+%pagenumbering
+%%stretchlast
+%landscape
+%%hidefingering
+T:Xote 1 (corona)
+C:Sadi Cardoso
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+%F:https://www.youtube-nocookie.com/embed/RMvBZLEx5Qc&T:Xote 1 - Parte I;
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+L:1/8
+Q:70
+M:2/4
+K:C
+V:1 treble
+| z/2 E/2F/2G/2 |: AG FE | G z3/2 D/2E/2F/2 | GF ED | 
+f: 3 2 4 3 4 2 3 2 3 2 4 3 4 2 3
+| [CEG] z3/2 E/2F/2G/2 :|: [Ac] z [EG] z | [GB] z [DF] z | [GB] z [DF] z | 
+f:234 3 2 4 34 23 25 23 25 23
+| [Ac] z [EG] z | [Ac] z [EG] z | [GB] z [DF] z | [EG] z [DF] z |1 [CE]2.5 E/2F/2G/2 :|2 [CEG]2 z2 |
+f: 34 23 34 23 25 23 23 23 23 3 2 4 234 
+V:2 bass
+| z2 |: C,,[C,E,G,] C,,[C,E,G,] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | 
+| C,,[C,E,G,] C,,[C,E,G,] :|: C,,[C,E,G,] C,,[C,E,G,] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | 
+| C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] C,,[C,E,G,] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] |1 C,,[C,E,G,] C,,[C,E,G,] :|2  C,,[C,E,G,] C,,2 |  
+V:3 accordionTab
+| z+z0.5 z+4'0.5 z+3''0.5 z+5'0.5 |: C+4'' c+5' C+3'' c+4' | G-3'' g-z G-z0.5 >-3'0.5 g-2''0.5 >-4'0.5 | G-3'' g-4' G-2'' g-3' |
+| C+[3'4'5'] c+z C+z0.5 >+4'0.5 c+3''0.5 >+5'0.5 :|: C+[4''5''] c+z C+[4'5'] c+z | G-[3''6'] g-z G-[3'4'] g-z | G-[3''6'] g-z G-[3'4'] g-z |
+| C+[4''5''] c+z C+[4'5'] c+z | C+[4''5''] c+z C+[4'5'] c+z | G-[3''6'] g-z  G-[3'4'] g-z | G-[2''3''] g-z G-[3'4'] g-z |1 C+[3'4'] c+[>>] C+[>>]0.5 >+4'0.5 c+3''0.5 >+5'0.5 :|2 C+[3'4'5'] c+[>>>] C+z2 |

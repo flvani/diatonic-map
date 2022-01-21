@@ -1,0 +1,40 @@
+X:6007
+%%tabinferenceopts +2
+%%barnumbers 0
+%%papersize A4
+%%barsperstaff 5
+%staffsep 20
+%pagenumbering
+%%stretchlast
+%landscape
+%%hidefingering
+T:Xote 2 (corona)
+C:Sadi Cardoso
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+%F:https://www.youtube-nocookie.com/embed/vZLW38SdlSI&T:Xote 2 - Parte I;
+%F:https://www.youtube-nocookie.com/embed/Ut2wIvCr2XQ&T:Xote 2 - Parte II;
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+L:1/8
+Q:60
+M:2/4
+K:G
+V:1 treble
+|: B0.75B/4 B0.75c/4 d[eg] | [eg][eg] [df]2 | A0.75A/4 A0.75B/4 c[df] | [df][df] [GBe]2 | 
+f: 3 3 3 2 4 34         |  34 34 25   | 3 3 3 2 4 25         | 25 25 234
+| B0.75B/4 B0.75c/4 d[GBe] | [GBe][GBe] [FAd]2 | A0.75A/4 A0.75B/4 c[FAd] | [FAd][FAd] [GBd]2 :| 
+f: 3 3 3 2 4 234       | 234 234 234 | 3 3 3 2 4 234     |   234 234 234
+|: z/2 d/2B/2 G/2e z | [GBe] z [FAd] z | z/2 c/2A/2 F/2d z |  [FAd] z [GBd] z | 
+f:  4 3 2   4       | 234   234   | 4 3 2         4 | 234 234   | 
+| z/2 d/2B/2 G/2e z | [GBe] z [FAd] D0.75F/4 | G0.75A/4 B0.75c/4 [df][ce] | [Bd][Ac] [GB]2 +dacapo+ :| 
+f: 4 3 2        4 | 234       234 2 3 | 2 3 4 3     25 34 | 23 23 23  |
+V:2 bass
+|: G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] G,,[G,B,D]  | 
+|  G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] G,,[G,B,D] :| 
+|: G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] G,,[G,B,D]  |
+|  G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] G,,[G,B,D] :| 
+V:3 accordionTab
+|: G+30.75 >+30.25 g+30.75 >+6'0.25 G+7 g+[7'8'] | G+[7'8'] g+[7'8'] D-[7'9] d-[>>] | D-60.75 >-60.25 d-60.75 >-6'0.25 D-7 d-[7'9] | D-[7'9] d-[7'9] G+[567'] g+[>>>] |
+| G+30.75 >+30.25 g+30.75 >+6'0.25 G+7 g+[567'] | G+[567'] g+[567'] D-[567'] d-[>>>] | D-60.75 >-60.25 d-60.75 >-6'0.25 D-7 d-[567'] | D-[567'] d-[567'] G+[567] g+[>>>] :|
+|: G+z0.5 >+70.5 g+60.5 >+50.5 G+7' g+z | G+[567'] g+z D-[567'] d-z | D-z0.5 >-70.5 d-60.5 >-50.5 D-7' d-z | D-[567'] d-z G+[567] g+z |
+| G+z0.5 >+70.5 g+60.5 >+50.5 G+7' g+z | G+[567'] g+z D-[567'] d-3'0.75 >-50.25 | D-3''0.75 >-5'0.25 d-6'0.75 >-70.25 D-[7'9] d-[78] | D-[6'7'] d-[67] G+[56] g+[>>] :|
