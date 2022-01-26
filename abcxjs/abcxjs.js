@@ -14827,7 +14827,7 @@ DRAGGABLE.ui.DropdownMenu = function (topDiv, options, menu) {
             e.stopPropagation(); 
             e.preventDefault(); 
             self.eventsCentral(this.getAttribute("data-ddm")); 
-        }, {passive:true});
+        }, {passive:false});
  
         e2.addEventListener("keydown",function(e) {
             e.stopPropagation(); 
