@@ -8,6 +8,7 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
 
     this.app = app;
     this.isApp = true;
+    this.parserparams = {};
 
     this.ypos = 0; // controle de scroll
     this.lastStaffGroup = -1; // controle de scroll

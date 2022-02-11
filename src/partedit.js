@@ -10,6 +10,7 @@ if (!window.SITE)
 SITE.PartEdit = function( mapa, interfaceParams ) {
     
     this.mapa = mapa;
+    this.parserparams = mapa.parserparams;
     
     var that = this;
     

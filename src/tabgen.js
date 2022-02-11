@@ -13,6 +13,8 @@ SITE.TabGen = function( mapa, interfaceParams ) {
     var that = this;
     this.mapa = mapa;
     this.accordion = mapa.accordion;
+    this.parserparams = mapa.parserparams;
+
     
     var warnings_id = 'p2tWarningsDiv';
 

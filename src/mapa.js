@@ -15,6 +15,9 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.ypos = 0; // esta variável é usada para ajustar o scroll durante a execução do midi
     this.lastStaffGroup = -1; // também auxilia no controle de scroll
     
+    // incluir ilheiras numeradas e hide fingering flavio2022
+    this.parserparams = {}
+    
     ABCXJS.write.color.useTransparency = SITE.properties.colors.useTransparency;
     ABCXJS.write.color.highLight = SITE.properties.colors.highLight;
     DIATONIC.map.color.fill = SITE.properties.colors.fill;

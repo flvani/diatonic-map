@@ -11,6 +11,7 @@ if (!window.SITE)
 SITE.PartGen = function( mapa, interfaceParams ) {
     
     this.mapa = mapa;
+    this.parserparams = mapa.parserparams;
     
     var that = this;
     

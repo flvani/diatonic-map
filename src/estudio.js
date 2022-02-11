@@ -5,6 +5,9 @@ if (!window.SITE)
 SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     
     this.mapa = mapa;
+    
+    // incluir ilheiras numeradas e hide fingering flavio2022
+    this.parserparams = {}
 
     this.ypos = 0; // controle de scrollf
     this.lastStaffGroup = -1; // controle de scroll
