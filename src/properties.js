@@ -196,6 +196,9 @@ SITE.LoadProperties = function() {
     //hardcode - anti-pipoca-roxa
     SITE.properties.options.tabFormat = 0;
 
+    SITE.properties.options.rowsNumbered=false;
+    SITE.properties.options.fingering=true;
+
     if( SITE.properties.options.tabFormat === undefined ) {
         salvar = true;
         SITE.properties.options.tabFormat = 0;

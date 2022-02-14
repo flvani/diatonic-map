@@ -140,7 +140,7 @@ V:3 accordionTab
 %%papersize A4
 %barsperstaff 6
 %%staffsep 20
-%%hidefingering
+%hidefingering
 X:1064
 T:Balaio
 C:Tradicional
@@ -207,7 +207,7 @@ X:1060
 %pagenumbering
 %%stretchlast
 %landscape
-%%hidefingering
+%hidefingering
 T:Boi Barroso
 C:Folclore regional
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
@@ -2435,7 +2435,7 @@ X:1056
 %pagenumbering
 %%stretchlast
 %landscape
-%%hidefingering
+%hidefingering
 T:Xote 1
 C:Sadi Cardoso
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)

@@ -131,6 +131,8 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
 
     // player control
     this.modeButton = document.getElementById(playerParams.modeBtn);
+    this.tabformatButton = document.getElementById(playerParams.tabformatBtn);
+    this.fingeringButton = document.getElementById(playerParams.fingeringBtn);
     this.timerButton = document.getElementById(playerParams.timerBtn);
     this.FClefButton = document.getElementById(playerParams.FClefBtn);
     this.GClefButton = document.getElementById(playerParams.GClefBtn);
@@ -185,6 +187,24 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         evt.preventDefault();
         this.blur();
         that.changePlayMode();
+    }, false);
+
+    this.tabformatButton.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        this.blur();
+        SITE.properties.options.rowsNumbered = !SITE.properties.options.rowsNumbered;
+        that.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
+        that.fireChanged(0, {force:true, showProgress:true } );
+    }, false);
+
+    this.fingeringButton.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        this.blur();
+        SITE.properties.options.fingering = !SITE.properties.options.fingering;
+        that.parserparams.hideFingering = !SITE.properties.options.fingering;
+
+        that.setFingeringIcon();
+        that.fireChanged(0, {force:true, showProgress:true } );
     }, false);
 
     this.timerButton.addEventListener('click', function (evt) {
@@ -720,6 +740,15 @@ SITE.Estudio.prototype.setTimerIcon = function( value ) {
     }
 };
 
+SITE.Estudio.prototype.setFingeringIcon = function( ) {
+    if( SITE.properties.options.fingering ) {
+        this.fingeringButton.innerHTML = '<i class="ico-alien-fingering" ></i>';
+    } else {
+        this.fingeringButton.innerHTML = '<i class="ico-alien-fingering" style="opacity:0.5;"></i>'+
+                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px"></i>';
+    }
+};
+
 SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, counter ) {
      var that = this;
     
@@ -876,7 +905,7 @@ SITE.Estudio.prototype.onModelChanged = function(loader) {
     var paper = new SVG.Printer( this.renderedTune.div );
     this.renderedTune.printer = new ABCXJS.write.Printer(paper, this.printerparams, this.accordion.loadedKeyboard );
     //this.renderedTune.printer.printTune( this.renderedTune.abc, {color:'black', backgroundColor:'#ffd'} );
-    this.renderedTune.printer.printTune( this.renderedTune.abc ); 
+    this.renderedTune.printer.printTune( this.renderedTune.abc, this.parserparams ); 
     
     if (this.warningsDiv) {
         this.warningsDiv.style.color = this.warnings.length > 0 ? "red" : "green";

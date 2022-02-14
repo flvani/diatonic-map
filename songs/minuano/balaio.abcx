@@ -2,7 +2,7 @@
 %%papersize A4
 %barsperstaff 6
 %%staffsep 20
-%%hidefingering
+%hidefingering
 X:1064
 T:Balaio
 C:Tradicional

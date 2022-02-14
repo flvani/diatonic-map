@@ -416,6 +416,7 @@ SITE.Mapa.prototype.openMapa = function (newABCText) {
     
     if( newABCText !== undefined ) {
         if( newABCText === tab.text )  {
+            this.renderTAB( tab );
             return;
         } else {
             tab.text = newABCText;
@@ -569,6 +570,8 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
           } 
           , {   // playerParams
                 modeBtn: "modeBtn"
+              , tabformatBtn: "tabformatBtn"
+              , fingeringBtn: "fingeringBtn"
               , timerBtn: "timerBtn"
               , playBtn: "playBtn2"
               , stopBtn: "stopBtn2"
@@ -1050,6 +1053,9 @@ SITE.Mapa.prototype.renderTAB = function( tab ) {
         return;
     }
     
+    this.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
+    this.parserparams.hideFingering = !SITE.properties.options.fingering;
+
     this.abcParser.parse( tab.text, this.parserparams );
     tab.abc = this.abcParser.getTune();
     tab.text = this.abcParser.getStrTune();

@@ -206,6 +206,8 @@ SITE.App.prototype.openAppView = function (button, event) {
           } 
           , {   // playerParams
                 modeBtn: "modeBtn"
+              , tabformatBtn: "tabformatBtn"
+              , fingeringBtn: "fingeringBtn"
               , timerBtn: "timerBtn"
               , playBtn: "playBtn"
               , stopBtn: "stopBtn"
@@ -741,7 +743,7 @@ SITE.App.prototype.setPrivacyLang = function (  ) {
         if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
             that.showModal('PrivacyTitle', '', 'privacidade/politica.html', { width: '800', height: '500', print:false } );
         } else {
-            that.showModal('TermsTitle', '', 'privacy/policy.html', { width: '800', height: '500', print:false } );
+            that.showModal('PrivacyTitle', '', 'privacy/policy.html', { width: '800', height: '500', print:false } );
         }
     }, false );
 

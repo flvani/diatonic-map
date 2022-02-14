@@ -1,0 +1,28 @@
+X:6008
+%%barnumbers 0
+%%papersize A4
+T:O du stille Zeit (corona)
+C:Melodie: Cesar Bresgen
+C:Text: Joseph von Eichendorff
+F:https://www.youtube-nocookie.com/embed/5E3_K0I-khQ
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+L:1/4
+Q:"Ruhig  " 1/4=90
+M:3/2
+K:F
+V:1 treble
+| C F F G A2 | F G A c B A | [M:2/2] G4 | 
+f: 2 3 4 3 4 2 4 3 4 3 4 2
+w: 1.~O du stil-le Zeit, kimmst, * eh wir's ge-dacht,
+w: 2.~In der Ein-sam-keit rauscht * es nun so sacht
+w:
+|: [M:3/2] A B/2c/2 d c A2 | F G/2A/2 B A F2 | c2 A F G G | [M:2/2] F4 :| 
+w: ü-ber~die * Ber-ge weit, ü-ber~die * Ber-ge weit, gu- * ~  * te Nacht!
+f: 2 2 5 3 5 2 2 2 4 3 4 2 5 4 3 2 2 2
+V:2 bass
+|  F,, [F,A,C] C,, [C,E,G,] F,, [F,A,C] | F,, [F,A,C] F,, [F,A,C] D,, [D,F,A,] | C,, [C,E,G,] C,, [C,E,G,] | 
+|: F,, [C,E,G,] B,, [B,DF] F,, [F,A,C] | F,, [C,E,G,] B,, [B,DF] F,, [F,A,C] | C,, [C,E,G,] D,, [D,F,A,] C,, [C,E,G,] | F,, [F,A,C] F,, [F,A,C] :| 
+V:3 accordionTab
+| F+2'' f+3'' C-4' c-3'' F+4'' f+> | F+3'' f+5' F+4'' f+5'' D-4'' dm-5' | C-3'' c-> C-> c-> | 
+|: F+4'' c-4''0.5 >-70.5 B♭-5'' b♭-7 F+4'' f+> | F+3'' c-3''0.5 >-5'0.5 B♭-4'' b♭-5' F+3'' f+> | C-7 c-> D-5' dm-4' C-3'' c-3'' | F+3'' f+> F+> f+> :| 

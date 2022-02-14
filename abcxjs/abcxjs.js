@@ -10094,7 +10094,7 @@ ABCXJS.write.Printer.prototype.printTabText = function (x, offset, text, klass) 
     //se for um numero da tablatura e o formato é para numerar as ilheiras faz as devidas mudanças
     if( this.currentTune.formatting.tabprintrowsnumbered && !isNaN(i) ){
         this.paper.tabText(x, this.calcY(offset)+7, i, klass, 'middle');
-        this.paper.tabText(x+6, this.calcY(offset)+2, j, 'abc_tabtext3', 'middle');
+        this.paper.tabText(x+6, this.calcY(offset)+2, j+1, 'abc_tabtext3', 'middle');
     } else {
         this.paper.tabText(x, this.calcY(offset)+5, n, klass, 'middle');
     }

@@ -140,7 +140,7 @@ V:3 accordionTab
 %%barnumbers 0
 %%papersize A4
 %%staffsep 20
-%%hidefingering
+%hidefingering
 X:2064
 T:Balaio (club)
 C:Tradicional
@@ -205,7 +205,7 @@ X:2060
 %pagenumbering
 %%stretchlast
 %landscape
-%%hidefingering
+%hidefingering
 T:Boi Barroso (club)
 C:Folclore regional
 %C:(adapt. Cezar Ferreira)
@@ -2479,7 +2479,7 @@ V:3 accordionTab
 %pagenumbering
 %%stretchlast
 %landscape
-%%hidefingering
+%hidefingering
 X:2056
 T:Xote 1 (club)
 C:Sadi Cardoso

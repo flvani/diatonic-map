@@ -68,8 +68,12 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         
         this.keyboardWindow.imagem  = document.createElement('div');
         this.keyboardWindow.imagem.style.display = 'none';
+        this.keyboardWindow.imagem.style.zIndex = '5000';
         this.keyboardWindow.imagem.className = 'circular';
         this.keyboardWindow.topDiv.appendChild(this.keyboardWindow.imagem );
+
+        SITE.translator.translate( this.keyboardWindow.extras );
+
     
     // flavio e a feiura - fim
 
@@ -152,6 +156,8 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
 
     // player control
     this.modeButton = document.getElementById(playerParams.modeBtn);
+    this.tabformatButton = document.getElementById(playerParams.tabformatBtn);
+    this.fingeringButton = document.getElementById(playerParams.fingeringBtn);
     this.timerButton = document.getElementById(playerParams.timerBtn);
     this.FClefButton = document.getElementById(playerParams.FClefBtn);
     this.GClefButton = document.getElementById(playerParams.GClefBtn);
@@ -211,6 +217,24 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         evt.preventDefault();
         this.blur();
         that.changePlayMode();
+    }, false);
+
+    this.tabformatButton.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        this.blur();
+        SITE.properties.options.rowsNumbered = !SITE.properties.options.rowsNumbered;
+        that.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
+        that.fireChanged(0, {force:true, showProgress:true } );
+    }, false);
+
+    this.fingeringButton.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        this.blur();
+        SITE.properties.options.fingering = !SITE.properties.options.fingering;
+        that.parserparams.hideFingering = !SITE.properties.options.fingering;
+
+        that.setFingeringIcon();
+        that.fireChanged(0, {force:true, showProgress:true } );
     }, false);
 
     this.timerButton.addEventListener('click', function (evt) {
@@ -472,7 +496,7 @@ SITE.AppView.prototype.showKeyboard = function(show) {
 SITE.AppView.prototype.setKeyboardDetails = function( ) {
 
     this.keyboardWindow.imagem.innerHTML = 
-        '<img src="'+this.app.accordion.loaded.image+'" alt="' +
+        '<img src="'+this.app.accordion.loaded.image+'" title="' +
         this.app.accordion.getFullName() + ' ' + SITE.translator.getResource('keys') + '">';
 
     if( SITE.properties.options.keyboardRight )
@@ -628,6 +652,17 @@ SITE.AppView.prototype.setTrebleIcon = function() {
                           '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px; filter: grayscale(1);"></i>';
     }
 };
+
+SITE.AppView.prototype.setFingeringIcon = function( ) {
+    if( SITE.properties.options.fingering ) {
+        this.fingeringButton.innerHTML = '<i class="ico-alien-fingering" ></i>';
+    } else {
+        this.fingeringButton.innerHTML = '<i class="ico-alien-fingering" style="opacity:0.5;"></i>'+
+                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px"></i>';
+    }
+};
+
+
 
 SITE.AppView.prototype.setTimerIcon = function( value ) {
     value = value || 0;
