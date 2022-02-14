@@ -1410,7 +1410,7 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
 //        });                
         
         
-        var loader = this.startLoader( "OpenEstudio" );
+        var loader = this.startLoader( "OpenEstudio", this.tuneContainerDiv );
         loader.start(  function() { 
             self.studio.setup( tab, self.accordion.getId() );
             loader.stop();
@@ -1666,12 +1666,16 @@ SITE.Mapa.prototype.restauraRepertorio = function() {
         // não é possível restaurar repertório para acordeão local;
         return;
     }
-    
-    accordion.songs = accordion.loadABCX( accordion.songPathList, function() {  
-        that.renderedTune.title = accordion.getFirstSong();
-        that.loadABCList(that.renderedTune.tab);
-        that.showTab('songsTab');
-    });
+
+    var loader = this.startLoader( "ReloadRepertoire", that.tuneContainerDiv );
+    loader.start(  function() { 
+        accordion.songs = accordion.loadABCX( accordion.songPathList, function() {  
+            that.renderedTune.title = accordion.getFirstSong();
+            that.loadABCList(that.renderedTune.tab);
+            that.showTab('songsTab');
+            loader.stop();
+        });
+    }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
 };
 
 SITE.Mapa.prototype.carregaRepertorioLocal = function(evt) {
@@ -1987,7 +1991,7 @@ SITE.Mapa.prototype.defineInstrument = function(onlySet) {
     
     MIDI.widget = new sketch.ui.Timer({
         size:180
-        //, container: document.getElementById('mapaDiv')
+        , container: document.getElementById('mapaDiv')
         , cor1:SITE.properties.colors.close, cor2: SITE.properties.colors.open});
     
     MIDI.widget.setFormat( SITE.translator.getResource('loading'));
@@ -2399,13 +2403,15 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
     this.helpWindow.dataDiv.innerHTML = '<object data="'+url+'" type="text/html" ></object>';
     this.iframe = this.helpWindow.dataDiv.getElementsByTagName("object")[0];
     
-    var loader = this.startLoader( "About" );
     
     this.iframe.style.width = options.width+"px";
     this.iframe.style.height = (options.height?options.height:400)+"px";
-    that.helpWindow.topDiv.style.opacity = "0";
+    //that.helpWindow.topDiv.style.opacity = "0";
+    //that.helpWindow.topDiv.style.opacity = "1";
     that.helpWindow.setVisible(true);
             
+    var loader = this.startLoader( "About", this.helpWindow.dataDiv );
+
     loader.start(  function() { 
         if( options.height ) {
             that.iframe.addEventListener("load", function () { 
@@ -2441,7 +2447,7 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
                 var info = this.contentDocument.getElementById('siteVerI');
                 if( info ) info.innerHTML=SITE.siteVersion;
                 that.iframe.style.height = this.contentDocument.body.clientHeight+"px";
-                that.helpWindow.topDiv.style.opacity = "1";
+                //that.helpWindow.topDiv.style.opacity = "1";
                 that.helpWindow.dataDiv.style.overflow = "hidden";
                 loader.stop();
             });
@@ -3006,12 +3012,12 @@ SITE.Estudio.prototype.closeEstudio = function(save) {
         self.setVisible(false);
         self.studioStopPlay();
     } else {
-        var loader = this.mapa.startLoader( "CloseStudio" );
+        var loader = this.mapa.startLoader( "CloseStudio", self.studioCanvasDiv );
         loader.start(  function() { 
             (save) && SITE.SaveProperties();
-            self.setVisible(false);
             self.studioStopPlay();
             self.mapa.openMapa( self.getString() );
+            self.setVisible(false);
             loader.stop();
         }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
     }
@@ -3352,7 +3358,7 @@ SITE.Estudio.prototype.fireChanged = function (transpose, _opts) {
 SITE.Estudio.prototype.modelChanged = function(showProgress) {
     var self = this;
     if(showProgress) {
-        var loader = this.mapa.startLoader( "ModelChanged" );
+        var loader = this.mapa.startLoader( "ModelChanged", self.studioCanvasDiv );
         loader.start(  function() { self.onModelChanged(loader); }, '<br>&nbsp;&nbsp;&nbsp;Gerando partitura...<br><br>' );
     } else {
         self.onModelChanged();
@@ -3843,9 +3849,9 @@ SITE.PartGen.prototype.posicionaTeclado = function() {
 
 SITE.PartGen.prototype.closePartGen = function(save) {
     var self = this;
-    var loader = this.mapa.startLoader( "ClosePartGen" );
+//    var loader = this.mapa.startLoader( "ClosePartGen", self.Div.dataDiv );
     
-    loader.start(  function() { 
+//    loader.start(  function() { 
         var text = self.editorWindow.getString();
         self.setVisible(false);
         self.editorWindow.setString("");
@@ -3854,10 +3860,9 @@ SITE.PartGen.prototype.closePartGen = function(save) {
         if(text !== "" ) 
             FILEMANAGER.saveLocal( 'ultimaTablaturaEditada', text );
         self.mapa.openMapa();
-        loader.stop();
-    }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
+//        loader.stop();
+//    }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
 };
-
 
 SITE.PartGen.prototype.showEditor = function(show) {
     SITE.properties.partGen.editor.visible = 
@@ -4494,12 +4499,11 @@ SITE.PartEdit.prototype.posicionaTeclado = function() {
     k.style.left = x+"px";
 };
 
-
 SITE.PartEdit.prototype.closePartEdit = function(save) {
     var self = this;
-    var loader = this.mapa.startLoader( "ClosePartEdit" );
+    //var loader = this.mapa.startLoader( "ClosePartEdit", self.Div.dataDiv );
     
-    loader.start(  function() { 
+    //loader.start(  function() { 
         var text = self.editorWindow.getString();
         self.setVisible(false);
         self.editorWindow.setString("");
@@ -4508,10 +4512,9 @@ SITE.PartEdit.prototype.closePartEdit = function(save) {
         if(text !== "" ) 
             FILEMANAGER.saveLocal( 'ultimaPartituraEditada', text );
         self.mapa.openMapa();
-        loader.stop();
-    }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
+    //    loader.stop();
+    //}, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
 };
-
 
 SITE.PartEdit.prototype.showEditor = function(show) {
     SITE.properties.partEdit.editor.visible = 
@@ -5064,12 +5067,22 @@ SITE.TabGen.prototype.updateSelection = function (force) {
     // não é possível, por hora, selecionar o elemento da partitura a partir da tablatura
 };
 
+SITE.TabGen.prototype.closeTabGen = function() {
+    var self = this;
+//    var loader = this.mapa.startLoader( "CloseTabGen", self.Div.dataDiv );
+    
+//    loader.start(  function() {
+        self.setVisible(false);
+        SITE.SaveProperties();
+        self.mapa.openMapa();
+//        loader.stop();
+//    }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
+};
+
 SITE.TabGen.prototype.p2tCallback = function( e ) {
     switch(e) {
         case 'CLOSE':
-            this.setVisible(false);
-            SITE.SaveProperties();
-            this.mapa.openMapa();
+            this.closeTabGen();
             break;
     }
 };
