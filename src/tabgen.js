@@ -205,12 +205,22 @@ SITE.TabGen.prototype.updateSelection = function (force) {
     // não é possível, por hora, selecionar o elemento da partitura a partir da tablatura
 };
 
+SITE.TabGen.prototype.closeTabGen = function() {
+    var self = this;
+//    var loader = this.mapa.startLoader( "CloseTabGen", self.Div.dataDiv );
+    
+//    loader.start(  function() {
+        self.setVisible(false);
+        SITE.SaveProperties();
+        self.mapa.openMapa();
+//        loader.stop();
+//    }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
+};
+
 SITE.TabGen.prototype.p2tCallback = function( e ) {
     switch(e) {
         case 'CLOSE':
-            this.setVisible(false);
-            SITE.SaveProperties();
-            this.mapa.openMapa();
+            this.closeTabGen();
             break;
     }
 };

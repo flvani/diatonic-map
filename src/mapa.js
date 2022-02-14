@@ -602,7 +602,7 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
 //        });                
         
         
-        var loader = this.startLoader( "OpenEstudio" );
+        var loader = this.startLoader( "OpenEstudio", this.tuneContainerDiv );
         loader.start(  function() { 
             self.studio.setup( tab, self.accordion.getId() );
             loader.stop();
@@ -858,12 +858,16 @@ SITE.Mapa.prototype.restauraRepertorio = function() {
         // não é possível restaurar repertório para acordeão local;
         return;
     }
-    
-    accordion.songs = accordion.loadABCX( accordion.songPathList, function() {  
-        that.renderedTune.title = accordion.getFirstSong();
-        that.loadABCList(that.renderedTune.tab);
-        that.showTab('songsTab');
-    });
+
+    var loader = this.startLoader( "ReloadRepertoire", that.tuneContainerDiv );
+    loader.start(  function() { 
+        accordion.songs = accordion.loadABCX( accordion.songPathList, function() {  
+            that.renderedTune.title = accordion.getFirstSong();
+            that.loadABCList(that.renderedTune.tab);
+            that.showTab('songsTab');
+            loader.stop();
+        });
+    }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
 };
 
 SITE.Mapa.prototype.carregaRepertorioLocal = function(evt) {
@@ -1179,7 +1183,7 @@ SITE.Mapa.prototype.defineInstrument = function(onlySet) {
     
     MIDI.widget = new sketch.ui.Timer({
         size:180
-        //, container: document.getElementById('mapaDiv')
+        , container: document.getElementById('mapaDiv')
         , cor1:SITE.properties.colors.close, cor2: SITE.properties.colors.open});
     
     MIDI.widget.setFormat( SITE.translator.getResource('loading'));
@@ -1591,13 +1595,15 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
     this.helpWindow.dataDiv.innerHTML = '<object data="'+url+'" type="text/html" ></object>';
     this.iframe = this.helpWindow.dataDiv.getElementsByTagName("object")[0];
     
-    var loader = this.startLoader( "About" );
     
     this.iframe.style.width = options.width+"px";
     this.iframe.style.height = (options.height?options.height:400)+"px";
-    that.helpWindow.topDiv.style.opacity = "0";
+    //that.helpWindow.topDiv.style.opacity = "0";
+    //that.helpWindow.topDiv.style.opacity = "1";
     that.helpWindow.setVisible(true);
             
+    var loader = this.startLoader( "About", this.helpWindow.dataDiv );
+
     loader.start(  function() { 
         if( options.height ) {
             that.iframe.addEventListener("load", function () { 
@@ -1633,7 +1639,7 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
                 var info = this.contentDocument.getElementById('siteVerI');
                 if( info ) info.innerHTML=SITE.siteVersion;
                 that.iframe.style.height = this.contentDocument.body.clientHeight+"px";
-                that.helpWindow.topDiv.style.opacity = "1";
+                //that.helpWindow.topDiv.style.opacity = "1";
                 that.helpWindow.dataDiv.style.overflow = "hidden";
                 loader.stop();
             });

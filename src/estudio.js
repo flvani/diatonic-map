@@ -538,12 +538,12 @@ SITE.Estudio.prototype.closeEstudio = function(save) {
         self.setVisible(false);
         self.studioStopPlay();
     } else {
-        var loader = this.mapa.startLoader( "CloseStudio" );
+        var loader = this.mapa.startLoader( "CloseStudio", self.studioCanvasDiv );
         loader.start(  function() { 
             (save) && SITE.SaveProperties();
-            self.setVisible(false);
             self.studioStopPlay();
             self.mapa.openMapa( self.getString() );
+            self.setVisible(false);
             loader.stop();
         }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
     }
@@ -884,7 +884,7 @@ SITE.Estudio.prototype.fireChanged = function (transpose, _opts) {
 SITE.Estudio.prototype.modelChanged = function(showProgress) {
     var self = this;
     if(showProgress) {
-        var loader = this.mapa.startLoader( "ModelChanged" );
+        var loader = this.mapa.startLoader( "ModelChanged", self.studioCanvasDiv );
         loader.start(  function() { self.onModelChanged(loader); }, '<br>&nbsp;&nbsp;&nbsp;Gerando partitura...<br><br>' );
     } else {
         self.onModelChanged();

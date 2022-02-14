@@ -152,12 +152,12 @@ notação abc, tablatura " />
                 <button id="forceRefresh" data-translate="forceRefreshBtn" ><i class="ico-bolt"></i>&#160<span data-translate="forceRefreshBtn">Atualizar</span></button>
                 <button id="saveBtn" data-translate="savePartTip"><i class="ico-download"></i>&#160;<span data-translate="saveBtn">Salvar</span></button>
                 <button id="printBtn" data-translate="printPreviewTip"><i class="ico-printer"></i>&#160;<span data-translate="printBtn">Impimir</span></button>
-                <button id="modeBtn" data-translate="modeBtn" ><i class="ico-listening" ></i></button>
                 <button id="tabformatBtn" data-translate="tabformatBtn" ><i class="ico-tabformat" ></i></button>
                 <button id="fingeringBtn" data-translate="fingeringBtn" ><i class="ico-alien-fingering" ></i></button>
                 <button id="timerBtn" data-translate="timerBtn" ><i class="ico-timer-00" ></i></button>
                 <button id="GClefBtn" data-translate="GClefBtn" ><i class="ico-clef-treble" ></i></button>
                 <button id="FClefBtn" data-translate="FClefBtn" ><i class="ico-clef-bass" ></i></button>
+                <button id="modeBtn" data-translate="modeBtn" ><i class="ico-listening" ></i></button>
             </div>
             <div id="divDidacticPlayControls"  class="btn-subgroup" style="display: none;" >
                 <button id="stepBtn" data-translate="stepBtn" >&#160;<i class="ico-play"></i>&#160;</button>
@@ -335,7 +335,7 @@ notação abc, tablatura " />
         
                 MIDI.widget = new sketch.ui.Timer({
                     size:180
-                    //, container: document.getElementById('mapaDiv')
+                    , container: document.getElementById('mapaDiv')
                     , cor1:SITE.properties.colors.close, cor2: SITE.properties.colors.open});
                 
                 MIDI.widget.setFormat( SITE.translator.getResource('loading'));

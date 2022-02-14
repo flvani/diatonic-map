@@ -314,12 +314,11 @@ SITE.PartEdit.prototype.posicionaTeclado = function() {
     k.style.left = x+"px";
 };
 
-
 SITE.PartEdit.prototype.closePartEdit = function(save) {
     var self = this;
-    var loader = this.mapa.startLoader( "ClosePartEdit" );
+    //var loader = this.mapa.startLoader( "ClosePartEdit", self.Div.dataDiv );
     
-    loader.start(  function() { 
+    //loader.start(  function() { 
         var text = self.editorWindow.getString();
         self.setVisible(false);
         self.editorWindow.setString("");
@@ -328,10 +327,9 @@ SITE.PartEdit.prototype.closePartEdit = function(save) {
         if(text !== "" ) 
             FILEMANAGER.saveLocal( 'ultimaPartituraEditada', text );
         self.mapa.openMapa();
-        loader.stop();
-    }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
+    //    loader.stop();
+    //}, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
 };
-
 
 SITE.PartEdit.prototype.showEditor = function(show) {
     SITE.properties.partEdit.editor.visible = 

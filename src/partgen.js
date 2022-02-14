@@ -410,9 +410,9 @@ SITE.PartGen.prototype.posicionaTeclado = function() {
 
 SITE.PartGen.prototype.closePartGen = function(save) {
     var self = this;
-    var loader = this.mapa.startLoader( "ClosePartGen" );
+//    var loader = this.mapa.startLoader( "ClosePartGen", self.Div.dataDiv );
     
-    loader.start(  function() { 
+//    loader.start(  function() { 
         var text = self.editorWindow.getString();
         self.setVisible(false);
         self.editorWindow.setString("");
@@ -421,10 +421,9 @@ SITE.PartGen.prototype.closePartGen = function(save) {
         if(text !== "" ) 
             FILEMANAGER.saveLocal( 'ultimaTablaturaEditada', text );
         self.mapa.openMapa();
-        loader.stop();
-    }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
+//        loader.stop();
+//    }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
 };
-
 
 SITE.PartGen.prototype.showEditor = function(show) {
     SITE.properties.partGen.editor.visible = 
