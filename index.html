@@ -24,24 +24,18 @@ notação abc, tablatura " />
         
         <link rel="stylesheet" href="fontsIco/fontsAbcx.css" />
         <link rel="stylesheet" href="fontsGoogle/fontsGoogle.css" />
-        <link rel="stylesheet" href="css/styles4abcx_6.03-min.css" />
-        <link rel="stylesheet" href="site/site_6.02-min.css" />
+        <link rel="stylesheet" href="css/styles4abcx_6.04-min.css" />
+        <link rel="stylesheet" href="site/site_6.04-min.css" />
         
-        <!-- Google Analytics -->
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-62839199-4"></script>
         <script>
-            
-            window.GAID = 'UA-62839199-4';
-            
-            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-            (i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
-            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-            ga('create', GAID, 'auto');
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
 
-        </script>        
-        <!-- End Google Analytics -->
-
+        </script>
+        
         <!-- Cookie notice -->
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?tracking=1&always=1&refreshPage=1&showNoConsent=1&showPolicyLink=1&blocking=1&remember=180&privacyPage=https%3A%2F%2Fdiatonicmap.com.br%2Fprivacy"></script>         
         
@@ -60,21 +54,21 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jslib/html5kellycolorpicker.min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_6.03-min.js"></script>
+        <script type="text/javascript" src="file/filemanager_6.04-min.js"></script>
         
         <!-- suporte mapas de acordeões -->
-        <script type="text/javascript" src="diatonic/diatonic_6.03-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic_6.04-min.js"></script>
         
         <!-- ACE Editor -->
-        <script type="text/javascript" src="ace4abcx/ace4abcx_6.03-min.js"></script>
+        <script type="text/javascript" src="ace4abcx/ace4abcx_6.04-min.js"></script>
        
         <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_6.03-min.js" ></script>
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_6.04-min.js" ></script>
         
         <!-- console personalizada para Javascript -->
         <script type="text/javascript" src="jslib/waterbug.js"></script> 
         
-        <script id="mainSITE" type="text/javascript" src="site/site_6.02-min.js"></script>
+        <script id="mainSITE" type="text/javascript" src="site/site_6.04-min.js"></script>
 
         <div id="topBar" class="topBar gradiente" >
             <span data-translate="appName" class="topTitle">Mapa para Acordeões Diatônicos</span>
@@ -153,7 +147,8 @@ notação abc, tablatura " />
                 <button id="saveBtn" data-translate="savePartTip"><i class="ico-download"></i>&#160;<span data-translate="saveBtn">Salvar</span></button>
                 <button id="printBtn" data-translate="printPreviewTip"><i class="ico-printer"></i>&#160;<span data-translate="printBtn">Impimir</span></button>
                 <button id="tabformatBtn" data-translate="tabformatBtn" ><i class="ico-tabformat" ></i></button>
-                <button id="fingeringBtn" data-translate="fingeringBtn" ><i class="ico-alien-fingering" ></i></button>
+                <button id="fingeringBtn" data-translate="fingeringBtn" ><i class="ico-alien-fingering2" ></i></button>
+                <button id="lyricsBtn" data-translate="lyricsBtn" ><i class="ico-letter-l" ></i></button>
                 <button id="timerBtn" data-translate="timerBtn" ><i class="ico-timer-00" ></i></button>
                 <button id="GClefBtn" data-translate="GClefBtn" ><i class="ico-clef-treble" ></i></button>
                 <button id="FClefBtn" data-translate="FClefBtn" ><i class="ico-clef-bass" ></i></button>
@@ -302,16 +297,11 @@ notação abc, tablatura " />
                 if( ABCXJS.misc.isIE() ){
                     $('#mapaDiv').hide();
                     
-                    SITE.ga('send', 'event', 'Error', 'browser', 'MS-IE', { nonInteraction: true } );
-                    
-//                    SITE.myGtag('event', 'browser', {
-//                      send_to : 'outros',
-//                      event_category: 'Error',
-//                      event_action: 'browser',
-//                      event_label: 'MS-IE',
-//                      event_value: 0,
-//                      nonInteraction: true 
-//                    });                
+                    SITE.ga( 'event', 'browser', { 
+                          'event_category': 'Error'  
+                         ,'event_label': 'MS-IE'
+                         ,'non_interaction': true
+                    });
                     
                     new DRAGGABLE.ui.Alert( 
                          null, null
@@ -367,16 +357,11 @@ notação abc, tablatura " />
                 if(!success) {
                     MIDI.widget.hide();
                     
-                    SITE.ga('send', 'event', 'Error', 'loading', 'resources', { nonInteraction: true } );
-                    
-//                    SITE.myGtag('event', 'loading', {
-//                      send_to : 'outros',
-//                      event_category: 'Error',
-//                      event_action: 'loading',
-//                      event_label: 'resources',
-//                      event_value: 0,
-//                      nonInteraction: true 
-//                    });                
+                    SITE.ga( 'event', 'loading', { 
+                          'event_category': 'Error'  
+                         ,'event_label': 'resources'
+                         ,'non_interaction': true
+                    });
                     
                     new DRAGGABLE.ui.Alert( 
                         null, null, 
@@ -450,18 +435,14 @@ notação abc, tablatura " />
                     } 
                 );
                 
-                SITE.ga('send', 'pageview');
-                SITE.ga('send', 'event', 'Configuration', 'language', SITE.properties.options.language, { nonInteraction: true } );
-                
-//                SITE.myGtag('event', 'page_view', {send_to: GAID });
-//                SITE.myGtag('event', 'language', {
-//                  send_to : 'outros',
-//                  event_category: 'Configuration',
-//                  event_action: 'language',
-//                  event_label: SITE.properties.options.language,
-//                  event_value: 0,
-//                  nonInteraction: true 
-//                });                
+                SITE.ga( 'set', 'page_path', '/mapa.html');
+                SITE.ga( 'event', 'page_view');
+
+                SITE.ga( 'event', 'language', { 
+                          'event_category': 'Configuration'  
+                         ,'event_label': SITE.properties.options.language 
+                         ,'non_interaction': true
+                });
                 
                 if( SITE.getDate() <= 20200922 ) {
                     $('#tipsDiv').fadeIn('slow');

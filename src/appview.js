@@ -156,8 +156,9 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
 
     // player control
     this.modeButton = document.getElementById(playerParams.modeBtn);
-    this.tabformatButton = document.getElementById(playerParams.tabformatBtn);
+    this.lyricsButton = document.getElementById(playerParams.lyricsBtn);
     this.fingeringButton = document.getElementById(playerParams.fingeringBtn);
+    this.tabformatButton = document.getElementById(playerParams.tabformatBtn);
     this.timerButton = document.getElementById(playerParams.timerBtn);
     this.FClefButton = document.getElementById(playerParams.FClefBtn);
     this.GClefButton = document.getElementById(playerParams.GClefBtn);
@@ -219,21 +220,34 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         that.changePlayMode();
     }, false);
 
-    this.tabformatButton.addEventListener('click', function (evt) {
+    this.lyricsButton.addEventListener('click', function (evt) {
+        if(that.midiPlayer.playing) that.studioStopPlay();
         evt.preventDefault();
         this.blur();
-        SITE.properties.options.rowsNumbered = !SITE.properties.options.rowsNumbered;
-        that.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
+        SITE.properties.options.lyrics = !SITE.properties.options.lyrics;
+        that.parserparams.hideLyrics = !SITE.properties.options.lyrics;
+
+        that.setLyricsIcon();
         that.fireChanged(0, {force:true, showProgress:true } );
     }, false);
 
     this.fingeringButton.addEventListener('click', function (evt) {
+        if(that.midiPlayer.playing) that.midiPlayer.stopPlay;
         evt.preventDefault();
         this.blur();
         SITE.properties.options.fingering = !SITE.properties.options.fingering;
         that.parserparams.hideFingering = !SITE.properties.options.fingering;
 
         that.setFingeringIcon();
+        that.fireChanged(0, {force:true, showProgress:true } );
+    }, false);
+
+    this.tabformatButton.addEventListener('click', function (evt) {
+        if(that.midiPlayer.playing) that.midiPlayer.stopPlay;
+        evt.preventDefault();
+        this.blur();
+        SITE.properties.options.rowsNumbered = !SITE.properties.options.rowsNumbered;
+        that.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
         that.fireChanged(0, {force:true, showProgress:true } );
     }, false);
 
@@ -653,15 +667,23 @@ SITE.AppView.prototype.setTrebleIcon = function() {
     }
 };
 
+SITE.AppView.prototype.setLyricsIcon = function( ) {
+    if( SITE.properties.options.lyrics ) {
+        this.lyricsButton.innerHTML = '<i class="ico-letter-l" ></i>';
+    } else {
+        this.lyricsButton.innerHTML = '<i class="ico-letter-l" style="opacity:0.5; filter: grayscale(1);"></i>'+
+                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px; filter: grayscale(1);"></i>';
+    }
+};
+
 SITE.AppView.prototype.setFingeringIcon = function( ) {
     if( SITE.properties.options.fingering ) {
         this.fingeringButton.innerHTML = '<i class="ico-alien-fingering" ></i>';
     } else {
-        this.fingeringButton.innerHTML = '<i class="ico-alien-fingering" style="opacity:0.5;"></i>'+
-                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px"></i>';
+        this.fingeringButton.innerHTML = '<i class="ico-alien-fingering" style="opacity:0.5; filter: grayscale(1);"></i>'+
+                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px; filter: grayscale(1);"></i>';
     }
 };
-
 
 
 SITE.AppView.prototype.setTimerIcon = function( value ) {
@@ -704,15 +726,21 @@ SITE.AppView.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
             this.midiPlayer.setPlayableClefs('TB');
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
                 
-                SITE.ga('send', 'event', 'Mapa5', 'play', this.renderedTune.title);
-               
+                SITE.ga( 'event', 'play', { 
+                    'event_category': 'Mapa'  
+                   ,'event_label': this.renderedTune.title
+                });
+         
                 this.playButton.title = SITE.translator.getResource("pause");
                 this.playButton.innerHTML = '&#160;<i class="ico-pause"></i>&#160;';
             }
         } else {
             this.midiPlayer.setPlayableClefs( (SITE.properties.studio.trebleOn?"T":"")+(SITE.properties.studio.bassOn?"B":"") );
             
-            SITE.ga('send', 'event', 'Mapa5', 'didactic-play', this.renderedTune.title);
+            SITE.ga( 'event', 'didactic-play', { 
+                'event_category': 'Mapa'  
+               ,'event_label': this.renderedTune.title
+            });
             
             this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value, valueF );
         }
@@ -894,7 +922,10 @@ SITE.AppView.prototype.printPreview = function (html, divsToHide, landscape ) {
         
     });
 
-    SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
+    SITE.ga( 'event', 'print', { 
+        'event_category': 'Mapa'  
+       ,'event_label': this.renderedTune.title
+    });
 
     this.changePageOrientation(landscape? 'landscape': 'portrait');
 

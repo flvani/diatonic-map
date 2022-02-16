@@ -131,8 +131,9 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
 
     // player control
     this.modeButton = document.getElementById(playerParams.modeBtn);
-    this.tabformatButton = document.getElementById(playerParams.tabformatBtn);
+    this.lyricsButton = document.getElementById(playerParams.lyricsBtn);
     this.fingeringButton = document.getElementById(playerParams.fingeringBtn);
+    this.tabformatButton = document.getElementById(playerParams.tabformatBtn);
     this.timerButton = document.getElementById(playerParams.timerBtn);
     this.FClefButton = document.getElementById(playerParams.FClefBtn);
     this.GClefButton = document.getElementById(playerParams.GClefBtn);
@@ -175,8 +176,10 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         evt.preventDefault();
         this.blur();
         
-        SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
-        
+        SITE.ga( 'event', 'print', { 
+            'event_category': 'Mapa'  
+           ,'event_label': that.renderedTune.title
+        });
         
         that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#studioDiv"], that.renderedTune.abc.formatting.landscape);
         return;
@@ -189,21 +192,34 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         that.changePlayMode();
     }, false);
 
-    this.tabformatButton.addEventListener('click', function (evt) {
+    this.lyricsButton.addEventListener('click', function (evt) {
+        if(that.midiPlayer.playing) that.studioStopPlay();
         evt.preventDefault();
         this.blur();
-        SITE.properties.options.rowsNumbered = !SITE.properties.options.rowsNumbered;
-        that.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
+        SITE.properties.options.lyrics = !SITE.properties.options.lyrics;
+        that.parserparams.hideLyrics = !SITE.properties.options.lyrics;
+
+        that.setLyricsIcon();
         that.fireChanged(0, {force:true, showProgress:true } );
     }, false);
 
     this.fingeringButton.addEventListener('click', function (evt) {
+        if(that.midiPlayer.playing) that.studioStopPlay();
         evt.preventDefault();
         this.blur();
         SITE.properties.options.fingering = !SITE.properties.options.fingering;
         that.parserparams.hideFingering = !SITE.properties.options.fingering;
 
         that.setFingeringIcon();
+        that.fireChanged(0, {force:true, showProgress:true } );
+    }, false);
+
+    this.tabformatButton.addEventListener('click', function (evt) {
+        if(that.midiPlayer.playing) that.studioStopPlay();
+        evt.preventDefault();
+        this.blur();
+        SITE.properties.options.rowsNumbered = !SITE.properties.options.rowsNumbered;
+        that.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
         that.fireChanged(0, {force:true, showProgress:true } );
     }, false);
 
@@ -699,8 +715,8 @@ SITE.Estudio.prototype.setBassIcon = function() {
     if( SITE.properties.studio.bassOn ) {
         this.FClefButton.innerHTML = '<i class="ico-clef-bass" ></i>';
     } else {
-        this.FClefButton.innerHTML = '<i class="ico-clef-bass" style="opacity:0.5;"></i>'+
-                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px"></i>';
+        this.FClefButton.innerHTML = '<i class="ico-clef-bass" style="opacity:0.5; filter: grayscale(1);"></i>'+
+                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px; filter: grayscale(1);"></i>';
     }
 };
 
@@ -708,8 +724,8 @@ SITE.Estudio.prototype.setTrebleIcon = function() {
     if( SITE.properties.studio.trebleOn ) {
         this.GClefButton.innerHTML = '<i class="ico-clef-treble" ></i>';
     } else {
-        this.GClefButton.innerHTML = '<i class="ico-clef-treble" style="opacity:0.5;"></i>'+
-                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px"></i>';
+        this.GClefButton.innerHTML = '<i class="ico-clef-treble" style="opacity:0.5; filter: grayscale(1);"></i>'+
+                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:3px; filter: grayscale(1);"></i>';
     }
 };
 
@@ -735,8 +751,17 @@ SITE.Estudio.prototype.setTimerIcon = function( value ) {
             this.timerButton.innerHTML = '<i class="ico-timer-'+ico+'" ></i>';
         }
     } else {
-        this.timerButton.innerHTML = '<i class="ico-timer-00" style="opacity:0.5;"></i>'+
-                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px"></i>';
+        this.timerButton.innerHTML = '<i class="ico-timer-00" style="opacity:0.5; filter: grayscale(1);"></i>'+
+                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px; filter: grayscale(1);"></i>';
+    }
+};
+
+SITE.Estudio.prototype.setLyricsIcon = function( ) {
+    if( SITE.properties.options.lyrics ) {
+        this.lyricsButton.innerHTML = '<i class="ico-letter-l" ></i>';
+    } else {
+        this.lyricsButton.innerHTML = '<i class="ico-letter-l" style="opacity:0.5; filter: grayscale(1);"></i>'+
+                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px; filter: grayscale(1);"></i>';
     }
 };
 
@@ -744,8 +769,8 @@ SITE.Estudio.prototype.setFingeringIcon = function( ) {
     if( SITE.properties.options.fingering ) {
         this.fingeringButton.innerHTML = '<i class="ico-alien-fingering" ></i>';
     } else {
-        this.fingeringButton.innerHTML = '<i class="ico-alien-fingering" style="opacity:0.5;"></i>'+
-                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px"></i>';
+        this.fingeringButton.innerHTML = '<i class="ico-alien-fingering" style="opacity:0.5; filter: grayscale(1);"></i>'+
+                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px; filter: grayscale(1);"></i>';
     }
 };
 
@@ -762,16 +787,10 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
             this.midiPlayer.setPlayableClefs('TB');
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
                 
-                SITE.ga('send', 'event', 'Mapa5', 'play', this.renderedTune.title);
-                
-//                SITE.myGtag( 'event', 'play', {
-//                  send_to : 'acessos',
-//                  event_category: 'Mapa5',
-//                  event_action: 'play',
-//                  event_label: this.renderedTune.title,
-//                  event_value: 0,
-//                  nonInteraction: false 
-//                });                
+                SITE.ga( 'event', 'play', { 
+                    'event_category': 'Mapa'  
+                   ,'event_label': this.renderedTune.title
+                });
                 
                 this.playButton.title = SITE.translator.getResource("pause");
                 this.playButton.innerHTML = '&#160;<i class="ico-pause"></i>&#160;';
@@ -779,18 +798,11 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
         } else {
             this.midiPlayer.setPlayableClefs( (SITE.properties.studio.trebleOn?"T":"")+(SITE.properties.studio.bassOn?"B":"") );
             
-            SITE.ga('send', 'event', 'Mapa5', 'didactic-play', this.renderedTune.title);
-            
-//            SITE.myGtag( 'event', 'didactic-play', {
-//              send_to : 'acessos',
-//              event_category: 'Mapa5',
-//              event_action: 'didactic-play',
-//              event_label: this.renderedTune.title,
-//              event_value: 0,
-//              nonInteraction: false 
-//            });                
-            
-            
+            SITE.ga( 'event', 'didactic-play', { 
+                'event_category': 'Mapa'  
+               ,'event_label': this.renderedTune.title
+            });
+
             this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value, valueF );
         }
     }

@@ -569,7 +569,10 @@ SITE.PartGen.prototype.parseABC = function() {
         this.editorWindow.container.setSubTitle('- ' + this.renderedTune.abc.metaText.title );
         if( ! this.GApartGen || this.GApartGen !== this.renderedTune.abc.metaText.title ) {
             this.GApartGen = this.renderedTune.abc.metaText.title;
-            SITE.ga('send', 'event', 'Mapa5', 'partGen', this.GApartGen );
+            SITE.ga( 'event', 'partGen', { 
+                'event_category': 'Mapa'  
+               ,'event_label': this.GApartGen 
+            });
         }
     } else
         this.editorWindow.container.setSubTitle( "" );

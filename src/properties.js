@@ -5,31 +5,30 @@
  */
           
 if (!window.SITE)
-    window.SITE = {};
+    window.SITE = { gtagInitiated : false };
 
 window.dataLayer = window.dataLayer || [];
 
 SITE.ga = function () {
-    if( ga && ( window.location.href.indexOf( 'diatonicmap.com.br') >= 0 || window.location.href.indexOf( 'androidplatform') >= 0 )
+
+    if( gtag && ( window.location.href.indexOf( 'diatonicmap.com.br') >= 0 || window.location.href.indexOf( 'androidplatform') >= 0 )
            && SITE.getVersion('mainSITE', '' ) !== 'debug' 
            && SITE.getVersion('mainSITE', '' ) !== 'unknown' ) {
                
             //console.log("GA desabilitado!");
             if(SITE.debug)
                 console.log( 'App is in Debug mode'  )
-            else
-                ga.apply(this, arguments);
-        /*
-        if (window.AnalyticsApplication) {
-            // Call Android interface
-            window.AnalyticsApplication.logEvent(JSON.stringify(arguments));
-        } else {
-            // No Android interface found
-            //console.log("No native APIs found.");
-        }
-        */
+            else{
+                if( !SITE.gtagInitiated ) {
+                    gtag('js', new Date());
+                    gtag('config', 'UA-62839199-4');
+                    SITE.gtagInitiated = true;
+                }
+
+                gtag(arguments[0],arguments[1],arguments[2]);
+            }
     } else {
-        console.log('Funcao ga não definida.');
+        console.log('Funcao gtag não definida.');
     }
 };
           
@@ -88,17 +87,11 @@ SITE.LoadProperties = function() {
     } catch(e) {
         waterbug.log( 'Could not load the properties.');
         waterbug.show( 'Could not save the properties');
-        SITE.ga('send', 'event', 'Error', 'html5storage', 'loadingLocal', { nonInteraction: true } );
-        
-//        SITE.myGtag('event', 'html5storage', {
-//          send_to : 'outros',
-//          event_category: 'Error',
-//          event_action: 'html5storage',
-//          event_label: 'loadingLocal',
-//          event_value: 0,
-//          nonInteraction: true 
-//        });                
-        
+        SITE.ga( 'event', 'html5storage', { 
+            'event_category': 'Error'  
+           ,'event_label': 'loadingLocal'
+           ,'non_interaction': true
+        });
     }
     
     var ver = SITE.getVersion('mainSITE', '' );
@@ -196,8 +189,9 @@ SITE.LoadProperties = function() {
     //hardcode - anti-pipoca-roxa
     SITE.properties.options.tabFormat = 0;
 
-    SITE.properties.options.rowsNumbered=false;
+    SITE.properties.options.lyrics=true;
     SITE.properties.options.fingering=true;
+    SITE.properties.options.rowsNumbered=false;
 
     if( SITE.properties.options.tabFormat === undefined ) {
         salvar = true;
@@ -220,8 +214,11 @@ SITE.SaveProperties = function() {
     } catch(e) {
         waterbug.log( 'Could not save the properties');
         waterbug.show( 'Could not save the properties');
-        SITE.ga('send', 'event', 'Error', 'html5storage', 'savingLocal', { nonInteraction: true } );
-
+        SITE.ga( 'event', 'html5storage', { 
+            'event_category': 'Error'  
+           ,'event_label': 'savingLocal'
+           ,'non_interaction': true
+        });
     }
 };
 

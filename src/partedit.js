@@ -478,7 +478,10 @@ SITE.PartEdit.prototype.parseABC = function(text, transpose) {
         this.editorWindow.container.setSubTitle('- ' + this.renderedTune.abc.metaText.title );
         if( ! this.GApartEdit || this.GApartEdit !== this.renderedTune.abc.metaText.title ) {
             this.GApartEdit = this.renderedTune.abc.metaText.title;
-            SITE.ga('send', 'event', 'Mapa5', 'partEdit', this.GApartEdit );
+            SITE.ga( 'event', 'partEdit', { 
+                'event_category': 'Mapa'  
+               ,'event_label': this.GApartEdit 
+            });
         }
         
     }else

@@ -361,17 +361,11 @@ SITE.Mapa.prototype.doLoadOriginalRepertoire = function (loader) {
     loader.stop();
     
     if( this.loadByIdx ) {
-        SITE.ga('send', 'event', 'Mapa5', 'index', this.getActiveTab().title);
-        
-//        SITE.myGtag( 'event', 'index', {
-//          send_to : 'acessos',
-//          event_category: 'Mapa5',
-//          event_action: 'index',
-//          event_label: this.getActiveTab().title,
-//          event_value: 0,
-//          nonInteraction: false 
-//        });                
-        
+        SITE.ga( 'event', 'index', { 
+            'event_category': 'Mapa'  
+           ,'event_label': this.getActiveTab().title
+        });
+
         if(! this.repertoireWin ) {
             this.repertoireWin = new SITE.Repertorio();
         }
@@ -388,17 +382,11 @@ SITE.Mapa.prototype.printPartiture = function (button, event) {
     button.blur();
     if(  currentABC.div.innerHTML )  {
         
-        SITE.ga('send', 'event', 'Mapa5', 'print', currentABC.title);
-        
-//        SITE.myGtag( 'event', 'print', {
-//          send_to : 'acessos',
-//          event_category: 'Mapa5',
-//          event_action: 'print',
-//          event_label: currentABC.title,
-//          event_value: 0,
-//          nonInteraction: false 
-//        });                
-        
+        SITE.ga( 'event', 'print', { 
+            'event_category': 'Mapa'  
+           ,'event_label': currentABC.title
+        });
+
         this.printPreview(currentABC.div.innerHTML, ["#topBar","#mapaDiv"], currentABC.abc.formatting.landscape );
     }
 };
@@ -570,8 +558,9 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
           } 
           , {   // playerParams
                 modeBtn: "modeBtn"
-              , tabformatBtn: "tabformatBtn"
+              , lyricsBtn: "lyricsBtn"
               , fingeringBtn: "fingeringBtn"
+              , tabformatBtn: "tabformatBtn"
               , timerBtn: "timerBtn"
               , playBtn: "playBtn2"
               , stopBtn: "stopBtn2"
@@ -590,18 +579,11 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
     }
 
     if( tab.text ) {
-        SITE.ga('send', 'event', 'Mapa5', 'tools', tab.title);
-        
-//        SITE.myGtag( 'event', 'tools', {
-//          send_to : 'acessos',
-//          event_category: 'Mapa5',
-//          event_action: 'tools',
-//          event_label: tab.title,
-//          event_value: 0,
-//          nonInteraction: false 
-//        });                
-        
-        
+        SITE.ga( 'event', 'tools', { 
+            'event_category': 'Mapa'  
+           ,'event_label': tab.title
+        });
+
         var loader = this.startLoader( "OpenEstudio", this.tuneContainerDiv );
         loader.start(  function() { 
             self.studio.setup( tab, self.accordion.getId() );
@@ -630,33 +612,20 @@ SITE.Mapa.prototype.startPlay = function( type, value ) {
         this.accordion.clearKeyboard();
         if(type==="normal") {
             if( this.midiPlayer.startPlay(currentABC.abc.midi) ) {
-                SITE.ga('send', 'event', 'Mapa5', 'play', currentABC.title);
-                
-//                SITE.myGtag( 'event', 'play', {
-//                  send_to : 'acessos',
-//                  event_category: 'Mapa5',
-//                  event_action: 'play',
-//                  event_label: currentABC.title,
-//                  event_value: 0,
-//                  nonInteraction: false 
-//                });                
+                SITE.ga( 'event', 'play', { 
+                    'event_category': 'Mapa'  
+                   ,'event_label': currentABC.title
+                });
 
                 this.playButton.title = SITE.translator.getResource("pause");
                 this.playButton.innerHTML =  '<i class="ico-pause"></i>';
             }
         } else {
             if( this.midiPlayer.startDidacticPlay(currentABC.abc.midi, type, value ) ) {
-                SITE.ga('send', 'event', 'Mapa5', 'didactic-play', currentABC.title);
-                
-//                SITE.myGtag( 'event', 'didactic-play', {
-//                  send_to : 'acessos',
-//                  event_category: 'Mapa5',
-//                  event_action: 'didactic-play',
-//                  event_label: currentABC.title,
-//                  event_value: 0,
-//                  nonInteraction: false 
-//                });                
-
+                SITE.ga( 'event', 'didactic-play', { 
+                    'event_category': 'Mapa'  
+                   ,'event_label': currentABC.title
+                });
             }
         }
     }
@@ -912,16 +881,10 @@ SITE.Mapa.prototype.doCarregaRepertorioLocal = function(files) {
                 first = true;
             }
             
-            SITE.ga('send', 'event', 'Mapa5', 'loadSong', tunebook.tunes[t].title);
-            
-//            SITE.myGtag( 'event', 'loadSong', {
-//              send_to : 'acessos',
-//              event_category: 'Mapa5',
-//              event_action: 'loadSong',
-//              event_label: tunebook.tunes[t].title,
-//              event_value: 0,
-//              nonInteraction: false 
-//            });                
+            SITE.ga( 'event', 'loadSong', { 
+                'event_category': 'Mapa'  
+               ,'event_label': tunebook.tunes[t].title
+            });
         }    
     }
 
@@ -1391,8 +1354,10 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             this.picker.close();
             this.settings.window.setVisible(false);
             SITE.ResetProperties();
-            SITE.ga('send', 'event', 'Configuration', 'reset', SITE.properties.version );
-            
+            SITE.ga( 'event', 'reset', { 
+                'event_category': 'Configuration'  
+               ,'event_label': SITE.properties.version
+            });
             this.applySettings();
             break;
         case 'RESET-NO':
@@ -1416,7 +1381,7 @@ SITE.Mapa.prototype.applySettings = function() {
         if (this.studio) {
             this.studio.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
             this.studio.accordion.loadedKeyboard.reprint();
-            this.studio.renderedTune.printer.printABC( this.studio.renderedTune.abc ); // falvio - era printTune
+            this.studio.renderedTune.printer.printABC( this.studio.renderedTune.abc ); // flavio - era printTune
         }
 
         if (this.tab2part) {
@@ -1435,15 +1400,20 @@ SITE.Mapa.prototype.applySettings = function() {
     if( this.settings.lang !== SITE.properties.options.language ) {
         SITE.properties.options.language = this.settings.lang;
 
-        SITE.ga('send', 'event', 'Configuration', 'changeLang', SITE.properties.options.language);
+        SITE.ga( 'event', 'changeLang', { 
+            'event_category': 'Configuration'  
+           ,'event_label': SITE.properties.options.language
+        });
 
         SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
     }
     
-    
     if( this.settings.pianoSound.checked  !== SITE.properties.options.pianoSound ) {
         SITE.properties.options.pianoSound = this.settings.pianoSound.checked;
-        SITE.ga('send', 'event', 'Configuration', 'changeInstrument', SITE.properties.options.pianoSound?'piano':'accordion');
+        SITE.ga( 'event', 'changeInstrument', { 
+            'event_category': 'Configuration'  
+           ,'event_label': SITE.properties.options.pianoSound?'piano':'accordion'
+        });
         
         this.defineInstrument();
     }

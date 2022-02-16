@@ -206,8 +206,9 @@ SITE.App.prototype.openAppView = function (button, event) {
           } 
           , {   // playerParams
                 modeBtn: "modeBtn"
-              , tabformatBtn: "tabformatBtn"
+              , lyricsBtn: "lyricsBtn"
               , fingeringBtn: "fingeringBtn"
+              , tabformatBtn: "tabformatBtn"
               , timerBtn: "timerBtn"
               , playBtn: "playBtn"
               , stopBtn: "stopBtn"
@@ -228,7 +229,11 @@ SITE.App.prototype.openAppView = function (button, event) {
     this.Back = this.closeAppView;
 
     if( self.tab.text ) {
-        SITE.ga('send', 'event', 'Mapa5', 'view', self.tab.title);
+        SITE.ga( 'event', 'view', { 
+            'event_category': 'Mapa'  
+           ,'event_label': self.tab.title
+        });
+
         console.log( 'view '+self.tab.title )
         
         var loader = this.startLoader( "openAppView" );
@@ -532,7 +537,10 @@ SITE.App.prototype.settingsCallback = function (action, elem) {
             this.picker.close();
             this.settings.popupWin.setVisible(false);
             SITE.ResetProperties();
-            SITE.ga('send', 'event', 'Configuration', 'reset', SITE.properties.version );
+            SITE.ga( 'event', 'reset', { 
+                'event_category': 'Configuration'  
+               ,'event_label': SITE.properties.version
+            });
             
             this.applySettings();
             break;
@@ -558,13 +566,19 @@ SITE.App.prototype.applySettings = function() {
     }
 
     if( this.settings.originalLang !== SITE.properties.options.language ) {
-        SITE.ga('send', 'event', 'Configuration', 'changeLang', SITE.properties.options.language);
+        SITE.ga( 'event', 'changeLang', { 
+            'event_category': 'Configuration'  
+           ,'event_label': SITE.properties.options.language
+        });
         SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
         this.setPrivacyLang();
     }
     
     if( this.settings.originalPianoSound !== SITE.properties.options.pianoSound ) {
-        SITE.ga('send', 'event', 'Configuration', 'changeInstrument', SITE.properties.options.pianoSound?'piano':'accordion');
+        SITE.ga( 'event', 'changeInstrument', { 
+            'event_category': 'Configuration'  
+           ,'event_label': SITE.properties.options.pianoSound?'piano':'accordion'
+        });
         this.defineInstrument();
     }
 

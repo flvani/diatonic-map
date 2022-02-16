@@ -5,31 +5,30 @@
  */
           
 if (!window.SITE)
-    window.SITE = {};
+    window.SITE = { gtagInitiated : false };
 
 window.dataLayer = window.dataLayer || [];
 
 SITE.ga = function () {
-    if( ga && ( window.location.href.indexOf( 'diatonicmap.com.br') >= 0 || window.location.href.indexOf( 'androidplatform') >= 0 )
+
+    if( gtag && ( window.location.href.indexOf( 'diatonicmap.com.br') >= 0 || window.location.href.indexOf( 'androidplatform') >= 0 )
            && SITE.getVersion('mainSITE', '' ) !== 'debug' 
            && SITE.getVersion('mainSITE', '' ) !== 'unknown' ) {
                
             //console.log("GA desabilitado!");
             if(SITE.debug)
                 console.log( 'App is in Debug mode'  )
-            else
-                ga.apply(this, arguments);
-        /*
-        if (window.AnalyticsApplication) {
-            // Call Android interface
-            window.AnalyticsApplication.logEvent(JSON.stringify(arguments));
-        } else {
-            // No Android interface found
-            //console.log("No native APIs found.");
-        }
-        */
+            else{
+                if( !SITE.gtagInitiated ) {
+                    gtag('js', new Date());
+                    gtag('config', 'UA-62839199-4');
+                    SITE.gtagInitiated = true;
+                }
+
+                gtag(arguments[0],arguments[1],arguments[2]);
+            }
     } else {
-        console.log('Funcao ga não definida.');
+        console.log('Funcao gtag não definida.');
     }
 };
           
@@ -88,17 +87,11 @@ SITE.LoadProperties = function() {
     } catch(e) {
         waterbug.log( 'Could not load the properties.');
         waterbug.show( 'Could not save the properties');
-        SITE.ga('send', 'event', 'Error', 'html5storage', 'loadingLocal', { nonInteraction: true } );
-        
-//        SITE.myGtag('event', 'html5storage', {
-//          send_to : 'outros',
-//          event_category: 'Error',
-//          event_action: 'html5storage',
-//          event_label: 'loadingLocal',
-//          event_value: 0,
-//          nonInteraction: true 
-//        });                
-        
+        SITE.ga( 'event', 'html5storage', { 
+            'event_category': 'Error'  
+           ,'event_label': 'loadingLocal'
+           ,'non_interaction': true
+        });
     }
     
     var ver = SITE.getVersion('mainSITE', '' );
@@ -196,8 +189,9 @@ SITE.LoadProperties = function() {
     //hardcode - anti-pipoca-roxa
     SITE.properties.options.tabFormat = 0;
 
-    SITE.properties.options.rowsNumbered=false;
+    SITE.properties.options.lyrics=true;
     SITE.properties.options.fingering=true;
+    SITE.properties.options.rowsNumbered=false;
 
     if( SITE.properties.options.tabFormat === undefined ) {
         salvar = true;
@@ -220,8 +214,11 @@ SITE.SaveProperties = function() {
     } catch(e) {
         waterbug.log( 'Could not save the properties');
         waterbug.show( 'Could not save the properties');
-        SITE.ga('send', 'event', 'Error', 'html5storage', 'savingLocal', { nonInteraction: true } );
-
+        SITE.ga( 'event', 'html5storage', { 
+            'event_category': 'Error'  
+           ,'event_label': 'savingLocal'
+           ,'non_interaction': true
+        });
     }
 };
 
@@ -964,8 +961,9 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
 
     // player control
     this.modeButton = document.getElementById(playerParams.modeBtn);
-    this.tabformatButton = document.getElementById(playerParams.tabformatBtn);
+    this.lyricsButton = document.getElementById(playerParams.lyricsBtn);
     this.fingeringButton = document.getElementById(playerParams.fingeringBtn);
+    this.tabformatButton = document.getElementById(playerParams.tabformatBtn);
     this.timerButton = document.getElementById(playerParams.timerBtn);
     this.FClefButton = document.getElementById(playerParams.FClefBtn);
     this.GClefButton = document.getElementById(playerParams.GClefBtn);
@@ -1027,21 +1025,34 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         that.changePlayMode();
     }, false);
 
-    this.tabformatButton.addEventListener('click', function (evt) {
+    this.lyricsButton.addEventListener('click', function (evt) {
+        if(that.midiPlayer.playing) that.studioStopPlay();
         evt.preventDefault();
         this.blur();
-        SITE.properties.options.rowsNumbered = !SITE.properties.options.rowsNumbered;
-        that.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
+        SITE.properties.options.lyrics = !SITE.properties.options.lyrics;
+        that.parserparams.hideLyrics = !SITE.properties.options.lyrics;
+
+        that.setLyricsIcon();
         that.fireChanged(0, {force:true, showProgress:true } );
     }, false);
 
     this.fingeringButton.addEventListener('click', function (evt) {
+        if(that.midiPlayer.playing) that.midiPlayer.stopPlay;
         evt.preventDefault();
         this.blur();
         SITE.properties.options.fingering = !SITE.properties.options.fingering;
         that.parserparams.hideFingering = !SITE.properties.options.fingering;
 
         that.setFingeringIcon();
+        that.fireChanged(0, {force:true, showProgress:true } );
+    }, false);
+
+    this.tabformatButton.addEventListener('click', function (evt) {
+        if(that.midiPlayer.playing) that.midiPlayer.stopPlay;
+        evt.preventDefault();
+        this.blur();
+        SITE.properties.options.rowsNumbered = !SITE.properties.options.rowsNumbered;
+        that.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
         that.fireChanged(0, {force:true, showProgress:true } );
     }, false);
 
@@ -1461,15 +1472,23 @@ SITE.AppView.prototype.setTrebleIcon = function() {
     }
 };
 
+SITE.AppView.prototype.setLyricsIcon = function( ) {
+    if( SITE.properties.options.lyrics ) {
+        this.lyricsButton.innerHTML = '<i class="ico-letter-l" ></i>';
+    } else {
+        this.lyricsButton.innerHTML = '<i class="ico-letter-l" style="opacity:0.5; filter: grayscale(1);"></i>'+
+                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px; filter: grayscale(1);"></i>';
+    }
+};
+
 SITE.AppView.prototype.setFingeringIcon = function( ) {
     if( SITE.properties.options.fingering ) {
         this.fingeringButton.innerHTML = '<i class="ico-alien-fingering" ></i>';
     } else {
-        this.fingeringButton.innerHTML = '<i class="ico-alien-fingering" style="opacity:0.5;"></i>'+
-                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px"></i>';
+        this.fingeringButton.innerHTML = '<i class="ico-alien-fingering" style="opacity:0.5; filter: grayscale(1);"></i>'+
+                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px; filter: grayscale(1);"></i>';
     }
 };
-
 
 
 SITE.AppView.prototype.setTimerIcon = function( value ) {
@@ -1512,15 +1531,21 @@ SITE.AppView.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
             this.midiPlayer.setPlayableClefs('TB');
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
                 
-                SITE.ga('send', 'event', 'Mapa5', 'play', this.renderedTune.title);
-               
+                SITE.ga( 'event', 'play', { 
+                    'event_category': 'Mapa'  
+                   ,'event_label': this.renderedTune.title
+                });
+         
                 this.playButton.title = SITE.translator.getResource("pause");
                 this.playButton.innerHTML = '&#160;<i class="ico-pause"></i>&#160;';
             }
         } else {
             this.midiPlayer.setPlayableClefs( (SITE.properties.studio.trebleOn?"T":"")+(SITE.properties.studio.bassOn?"B":"") );
             
-            SITE.ga('send', 'event', 'Mapa5', 'didactic-play', this.renderedTune.title);
+            SITE.ga( 'event', 'didactic-play', { 
+                'event_category': 'Mapa'  
+               ,'event_label': this.renderedTune.title
+            });
             
             this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value, valueF );
         }
@@ -1702,7 +1727,10 @@ SITE.AppView.prototype.printPreview = function (html, divsToHide, landscape ) {
         
     });
 
-    SITE.ga('send', 'event', 'Mapa5', 'print', that.renderedTune.title);
+    SITE.ga( 'event', 'print', { 
+        'event_category': 'Mapa'  
+       ,'event_label': this.renderedTune.title
+    });
 
     this.changePageOrientation(landscape? 'landscape': 'portrait');
 
@@ -1945,8 +1973,9 @@ SITE.App.prototype.openAppView = function (button, event) {
           } 
           , {   // playerParams
                 modeBtn: "modeBtn"
-              , tabformatBtn: "tabformatBtn"
+              , lyricsBtn: "lyricsBtn"
               , fingeringBtn: "fingeringBtn"
+              , tabformatBtn: "tabformatBtn"
               , timerBtn: "timerBtn"
               , playBtn: "playBtn"
               , stopBtn: "stopBtn"
@@ -1967,7 +1996,11 @@ SITE.App.prototype.openAppView = function (button, event) {
     this.Back = this.closeAppView;
 
     if( self.tab.text ) {
-        SITE.ga('send', 'event', 'Mapa5', 'view', self.tab.title);
+        SITE.ga( 'event', 'view', { 
+            'event_category': 'Mapa'  
+           ,'event_label': self.tab.title
+        });
+
         console.log( 'view '+self.tab.title )
         
         var loader = this.startLoader( "openAppView" );
@@ -2271,7 +2304,10 @@ SITE.App.prototype.settingsCallback = function (action, elem) {
             this.picker.close();
             this.settings.popupWin.setVisible(false);
             SITE.ResetProperties();
-            SITE.ga('send', 'event', 'Configuration', 'reset', SITE.properties.version );
+            SITE.ga( 'event', 'reset', { 
+                'event_category': 'Configuration'  
+               ,'event_label': SITE.properties.version
+            });
             
             this.applySettings();
             break;
@@ -2297,13 +2333,19 @@ SITE.App.prototype.applySettings = function() {
     }
 
     if( this.settings.originalLang !== SITE.properties.options.language ) {
-        SITE.ga('send', 'event', 'Configuration', 'changeLang', SITE.properties.options.language);
+        SITE.ga( 'event', 'changeLang', { 
+            'event_category': 'Configuration'  
+           ,'event_label': SITE.properties.options.language
+        });
         SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
         this.setPrivacyLang();
     }
     
     if( this.settings.originalPianoSound !== SITE.properties.options.pianoSound ) {
-        SITE.ga('send', 'event', 'Configuration', 'changeInstrument', SITE.properties.options.pianoSound?'piano':'accordion');
+        SITE.ga( 'event', 'changeInstrument', { 
+            'event_category': 'Configuration'  
+           ,'event_label': SITE.properties.options.pianoSound?'piano':'accordion'
+        });
         this.defineInstrument();
     }
 
