@@ -34,7 +34,7 @@ SITE.ga = function () {
                     gtag('config', 'UA-62839199-4');
                     SITE.gtagInitiated = true;
                 }
-                gtag(SITE.root+arguments[0],arguments[1],arguments[2]);
+                gtag(arguments[0],arguments[1],arguments[2]);
             }
     } else {
         console.log('Funcao gtag não definida.');
