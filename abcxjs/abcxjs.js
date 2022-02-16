@@ -2109,7 +2109,10 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
         if (words.charAt(words.length - 1) !== '-')
             words = words + ' ';	// Just makes it easier to parse below, since every word has a divider after it.
         var word_list = [];
-        staff.lyricsRows++;
+
+        if(!fingers)
+            staff.lyricsRows++;
+
         // first make a list of words from the string we are passed. A word is divided on either a space or dash.
         var last_divider = 0;
         var replace = false;
@@ -7177,11 +7180,14 @@ ABCXJS.write.StaffGroupElement.prototype.calcShiftAbove = function(voz) {
   return (abv+2) * ABCXJS.write.spacing.STEP;
 };
 
-ABCXJS.write.StaffGroupElement.prototype.calcHeight = function(voz) {
+ABCXJS.write.StaffGroupElement.prototype.calcHeight = function(voz, hideLyrics) {
     // calculo da altura da pauta + uma pequena folga
-    var h = (2+voz.stave.highest-voz.stave.lowest) * ABCXJS.write.spacing.STEP;
-    // inclui espaço para as linhas de texto
-    h += 14 * voz.stave.lyricsRows;
+    var h = (3+voz.stave.highest-voz.stave.lowest) * ABCXJS.write.spacing.STEP;
+
+    // inclui espaço para as linhas de texto - se existirem e estiverem visiveis
+    if( ! hideLyrics )
+        h += 15 * voz.stave.lyricsRows;
+
     return h;
 };
 
@@ -7239,7 +7245,7 @@ ABCXJS.write.StaffGroupElement.prototype.draw = function(printer, groupNumber) {
                 y += 5 ;
             }
 
-            h = this.calcHeight(this.voices[i]);
+            h = this.calcHeight(this.voices[i], printer.currentTune.formatting.hideLyrics);
 
             this.voices[i].stave.top = y;
             this.voices[i].stave.y = y + shiftabove;
@@ -8582,7 +8588,7 @@ ABCXJS.write.Layout.prototype.printNote = function(elem, nostem, dontDraw) { //s
             maxLen = Math.max( maxLen, (ly.syllable + ly.divider).length );
         });
         lyricStr = lyricStr.substring(1); // remove the first linefeed
-        abselem.addRight(new ABCXJS.write.RelativeElement(lyricStr, 0, maxLen * 5, -5, {type: "lyrics"}));
+        abselem.addRight(new ABCXJS.write.RelativeElement(lyricStr, 0, maxLen * 5, 0, {type: "lyrics"}));
     }
     
     if (elem.fingering !== undefined  && !this.tune.formatting.hideFingering) {
