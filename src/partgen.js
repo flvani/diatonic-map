@@ -21,7 +21,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
         , {translator: SITE.translator, statusbar: false, draggable: false, top: "3px", left: "1px", width: '100%', height: "100%", title: 'PartGenTitle'}
         , {listener: this, method: 't2pCallback'}
     );
-    
+
     this.Div.setVisible(true);
     this.Div.dataDiv.style.overflow = 'hidden';
     
@@ -569,10 +569,10 @@ SITE.PartGen.prototype.parseABC = function() {
         this.editorWindow.container.setSubTitle('- ' + this.renderedTune.abc.metaText.title );
         if( ! this.GApartGen || this.GApartGen !== this.renderedTune.abc.metaText.title ) {
             this.GApartGen = this.renderedTune.abc.metaText.title;
-            SITE.ga( 'event', 'partGen', { 
-                'event_category': 'Mapa'  
-               ,'event_label': this.GApartGen 
-            });
+            SITE.ga('event', 'page_view', {
+                page_title: this.GApartGen
+               ,page_path: SITE.root+'/tab2part'
+            })        
         }
     } else
         this.editorWindow.container.setSubTitle( "" );

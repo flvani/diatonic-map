@@ -15,7 +15,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.ypos = 0; // esta variável é usada para ajustar o scroll durante a execução do midi
     this.lastStaffGroup = -1; // também auxilia no controle de scroll
     
-    // incluir ilheiras numeradas e hide fingering flavio2022
+    // incluir ilheiras numeradas e hide fingering, hide lyrics flavio2022
     this.parserparams = {}
     
     ABCXJS.write.color.useTransparency = SITE.properties.colors.useTransparency;
@@ -210,7 +210,7 @@ SITE.Mapa.prototype.setup = function (tabParams) {
     
     this.midiPlayer.reset();
     this.accordion.loadById(tabParams.accordionId);
-    
+
     this.showAccordionName();
     this.showAccordionImage();
     this.accordionSelector.populate(false);
@@ -218,6 +218,11 @@ SITE.Mapa.prototype.setup = function (tabParams) {
     this.accordion.printKeyboard( this.keyboardDiv );
     this.loadOriginalRepertoire();
     this.resize();
+    
+    SITE.ga('event', 'page_view', {
+        page_title: this.getActiveTab().title
+       ,page_path: SITE.root+'/'+this.accordion.getId()
+    })        
     
     if (!this.accordion.loaded.localResource) { // não salva informação para acordeão local
         FILEMANAGER.saveLocal('property.accordion', this.accordion.getId());
@@ -361,11 +366,11 @@ SITE.Mapa.prototype.doLoadOriginalRepertoire = function (loader) {
     loader.stop();
     
     if( this.loadByIdx ) {
-        SITE.ga( 'event', 'index', { 
-            'event_category': 'Mapa'  
-           ,'event_label': this.getActiveTab().title
-        });
-
+        SITE.ga('event', 'page_view', {
+            page_title: this.getActiveTab().title
+           ,page_path: SITE.root+'/index/'+this.accordion.getId()
+        })        
+    
         if(! this.repertoireWin ) {
             this.repertoireWin = new SITE.Repertorio();
         }
@@ -579,10 +584,10 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
     }
 
     if( tab.text ) {
-        SITE.ga( 'event', 'tools', { 
-            'event_category': 'Mapa'  
-           ,'event_label': tab.title
-        });
+        SITE.ga('event', 'page_view', {
+                 page_title: tab.title
+                ,page_path: SITE.root+'/studioABCX/'+this.accordion.getId()
+          })        
 
         var loader = this.startLoader( "OpenEstudio", this.tuneContainerDiv );
         loader.start(  function() { 
@@ -936,6 +941,11 @@ SITE.Mapa.prototype.showABC = function(action) {
         loader.start(  function() { 
             self.midiPlayer.stopPlay();
             self.renderTAB( tab );
+            // flavio 2022 novo page view gtag
+            SITE.ga('event', 'page_view', {
+                page_title: tab.title
+               ,page_path: SITE.root+'/'+self.accordion.getId()
+            })        
             self.media.show( tab );
             self.tuneContainerDiv.scrollTop = 0;    
             loader.stop();
@@ -1020,8 +1030,9 @@ SITE.Mapa.prototype.renderTAB = function( tab ) {
         return;
     }
     
-    this.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
+    this.parserparams.hideLyrices = !SITE.properties.options.lyrics;
     this.parserparams.hideFingering = !SITE.properties.options.fingering;
+    this.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
 
     this.abcParser.parse( tab.text, this.parserparams );
     tab.abc = this.abcParser.getTune();
@@ -1183,6 +1194,11 @@ SITE.Mapa.prototype.showSettings = function() {
             , {title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, top: "300px", left: x+"px", height:'480px',  width: width+'px', zIndex: 50} 
             , {listener: this, method: 'settingsCallback'}
         );
+
+        SITE.ga('event', 'page_view', {
+            page_title: SITE.translator.getResource('PreferencesTitle')
+           ,page_path: SITE.root+'/settings'
+        })        
 
         this.settings.window.topDiv.style.zIndex = 101;
 
@@ -1557,6 +1573,11 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
         );
         this.helpWindow.dataDiv.style.height = "auto";
     }
+    
+    SITE.ga('event', 'page_view', {
+        page_title: SITE.translator.getResource(subTitle||title)
+       ,page_path: SITE.root+'/help'
+    })
 
     this.helpWindow.setTitle(title, SITE.translator);
     this.helpWindow.setSubTitle(subTitle, SITE.translator);

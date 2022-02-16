@@ -51,6 +51,10 @@ SITE.Media.prototype.callback = function( e ) {
             break;
         case 'OPEN':
             this.properties.visible = true;
+            SITE.ga('event', 'page_view', {
+                page_title: this.tabTitle
+               ,page_path: SITE.root+'/media'
+            })        
             SITE.SaveProperties();
             this.mediaWindow.setVisible(true);
             this.resize();
@@ -96,6 +100,7 @@ SITE.Media.prototype.show = function(tab) {
         
         if( url  !== this.url ) {
             this.url = url;
+            this.tabTitle = tab.abc.metaText.title;
             if(this.properties.width > 100 ) {
                 width = this.properties.width;
                 maxTitle = Math.round((width-100)/11); // aproximação

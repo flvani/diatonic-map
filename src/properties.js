@@ -5,11 +5,21 @@
  */
           
 if (!window.SITE)
-    window.SITE = { gtagInitiated : false };
+    window.SITE = { gtagInitiated : false, root: '/mapa' };
 
 window.dataLayer = window.dataLayer || [];
 
 SITE.ga = function () {
+
+    if( arguments[0] === 'set' && arguments[1] === 'page_path') {
+        SITE.root = arguments[2]
+    }
+    
+    {
+        //debug only
+        //console.log( 'gtag: ' + arguments[0] +', '+ arguments[1] +', '+  JSON.stringify(arguments[2], null, 4) )
+        //return;
+    }
 
     if( gtag && ( window.location.href.indexOf( 'diatonicmap.com.br') >= 0 || window.location.href.indexOf( 'androidplatform') >= 0 )
            && SITE.getVersion('mainSITE', '' ) !== 'debug' 
@@ -24,8 +34,7 @@ SITE.ga = function () {
                     gtag('config', 'UA-62839199-4');
                     SITE.gtagInitiated = true;
                 }
-
-                gtag(arguments[0],arguments[1],arguments[2]);
+                gtag(SITE.root+arguments[0],arguments[1],arguments[2]);
             }
     } else {
         console.log('Funcao gtag não definida.');

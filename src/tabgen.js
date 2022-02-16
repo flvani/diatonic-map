@@ -25,7 +25,7 @@ SITE.TabGen = function( mapa, interfaceParams ) {
             width: '100%', height: "100%", title: 'TabGenTitle'}
         , {listener: this, method: 'p2tCallback'}
     );
-    
+   
     this.Div.setVisible(true);
     this.Div.dataDiv.style.overflow = 'hidden';
     
@@ -151,6 +151,14 @@ SITE.TabGen.prototype.fireChanged = function() {
     this.title = "";
     var abcText = this.tabParser.parse(this.abcEditorWindow.getString(), this.accordion.loadedKeyboard );
     this.title = this.tabParser.title;
+    if( ! this.GAtabGen || this.GAtabGen !== this.tabParser.title ) {
+        this.GAtabGen = this.tabParser.title;
+        SITE.ga('event', 'page_view', {
+            page_title: this.GAtabGen
+           ,page_path: SITE.root+'/part2tab'
+        })        
+    }
+
     this.printTablature(abcText);
 };
 

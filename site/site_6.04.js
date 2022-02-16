@@ -5,11 +5,21 @@
  */
           
 if (!window.SITE)
-    window.SITE = { gtagInitiated : false };
+    window.SITE = { gtagInitiated : false, root: '/mapa' };
 
 window.dataLayer = window.dataLayer || [];
 
 SITE.ga = function () {
+
+    if( arguments[0] === 'set' && arguments[1] === 'page_path') {
+        SITE.root = arguments[2]
+    }
+    
+    {
+        //debug only
+        //console.log( 'gtag: ' + arguments[0] +', '+ arguments[1] +', '+  JSON.stringify(arguments[2], null, 4) )
+        //return;
+    }
 
     if( gtag && ( window.location.href.indexOf( 'diatonicmap.com.br') >= 0 || window.location.href.indexOf( 'androidplatform') >= 0 )
            && SITE.getVersion('mainSITE', '' ) !== 'debug' 
@@ -24,8 +34,7 @@ SITE.ga = function () {
                     gtag('config', 'UA-62839199-4');
                     SITE.gtagInitiated = true;
                 }
-
-                gtag(arguments[0],arguments[1],arguments[2]);
+                gtag(SITE.root+arguments[0],arguments[1],arguments[2]);
             }
     } else {
         console.log('Funcao gtag não definida.');
@@ -572,6 +581,10 @@ SITE.Media.prototype.callback = function( e ) {
             break;
         case 'OPEN':
             this.properties.visible = true;
+            SITE.ga('event', 'page_view', {
+                page_title: this.tabTitle
+               ,page_path: SITE.root+'/media'
+            })        
             SITE.SaveProperties();
             this.mediaWindow.setVisible(true);
             this.resize();
@@ -617,6 +630,7 @@ SITE.Media.prototype.show = function(tab) {
         
         if( url  !== this.url ) {
             this.url = url;
+            this.tabTitle = tab.abc.metaText.title;
             if(this.properties.width > 100 ) {
                 width = this.properties.width;
                 maxTitle = Math.round((width-100)/11); // aproximação
@@ -820,7 +834,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.ypos = 0; // esta variável é usada para ajustar o scroll durante a execução do midi
     this.lastStaffGroup = -1; // também auxilia no controle de scroll
     
-    // incluir ilheiras numeradas e hide fingering flavio2022
+    // incluir ilheiras numeradas e hide fingering, hide lyrics flavio2022
     this.parserparams = {}
     
     ABCXJS.write.color.useTransparency = SITE.properties.colors.useTransparency;
@@ -1015,7 +1029,7 @@ SITE.Mapa.prototype.setup = function (tabParams) {
     
     this.midiPlayer.reset();
     this.accordion.loadById(tabParams.accordionId);
-    
+
     this.showAccordionName();
     this.showAccordionImage();
     this.accordionSelector.populate(false);
@@ -1023,6 +1037,11 @@ SITE.Mapa.prototype.setup = function (tabParams) {
     this.accordion.printKeyboard( this.keyboardDiv );
     this.loadOriginalRepertoire();
     this.resize();
+    
+    SITE.ga('event', 'page_view', {
+        page_title: this.getActiveTab().title
+       ,page_path: SITE.root+'/'+this.accordion.getId()
+    })        
     
     if (!this.accordion.loaded.localResource) { // não salva informação para acordeão local
         FILEMANAGER.saveLocal('property.accordion', this.accordion.getId());
@@ -1166,11 +1185,11 @@ SITE.Mapa.prototype.doLoadOriginalRepertoire = function (loader) {
     loader.stop();
     
     if( this.loadByIdx ) {
-        SITE.ga( 'event', 'index', { 
-            'event_category': 'Mapa'  
-           ,'event_label': this.getActiveTab().title
-        });
-
+        SITE.ga('event', 'page_view', {
+            page_title: this.getActiveTab().title
+           ,page_path: SITE.root+'/index/'+this.accordion.getId()
+        })        
+    
         if(! this.repertoireWin ) {
             this.repertoireWin = new SITE.Repertorio();
         }
@@ -1384,10 +1403,10 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
     }
 
     if( tab.text ) {
-        SITE.ga( 'event', 'tools', { 
-            'event_category': 'Mapa'  
-           ,'event_label': tab.title
-        });
+        SITE.ga('event', 'page_view', {
+                 page_title: tab.title
+                ,page_path: SITE.root+'/studioABCX/'+this.accordion.getId()
+          })        
 
         var loader = this.startLoader( "OpenEstudio", this.tuneContainerDiv );
         loader.start(  function() { 
@@ -1741,6 +1760,11 @@ SITE.Mapa.prototype.showABC = function(action) {
         loader.start(  function() { 
             self.midiPlayer.stopPlay();
             self.renderTAB( tab );
+            // flavio 2022 novo page view gtag
+            SITE.ga('event', 'page_view', {
+                page_title: tab.title
+               ,page_path: SITE.root+'/'+self.accordion.getId()
+            })        
             self.media.show( tab );
             self.tuneContainerDiv.scrollTop = 0;    
             loader.stop();
@@ -1825,8 +1849,9 @@ SITE.Mapa.prototype.renderTAB = function( tab ) {
         return;
     }
     
-    this.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
+    this.parserparams.hideLyrices = !SITE.properties.options.lyrics;
     this.parserparams.hideFingering = !SITE.properties.options.fingering;
+    this.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
 
     this.abcParser.parse( tab.text, this.parserparams );
     tab.abc = this.abcParser.getTune();
@@ -1988,6 +2013,11 @@ SITE.Mapa.prototype.showSettings = function() {
             , {title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, top: "300px", left: x+"px", height:'480px',  width: width+'px', zIndex: 50} 
             , {listener: this, method: 'settingsCallback'}
         );
+
+        SITE.ga('event', 'page_view', {
+            page_title: SITE.translator.getResource('PreferencesTitle')
+           ,page_path: SITE.root+'/settings'
+        })        
 
         this.settings.window.topDiv.style.zIndex = 101;
 
@@ -2362,6 +2392,11 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
         );
         this.helpWindow.dataDiv.style.height = "auto";
     }
+    
+    SITE.ga('event', 'page_view', {
+        page_title: SITE.translator.getResource(subTitle||title)
+       ,page_path: SITE.root+'/help'
+    })
 
     this.helpWindow.setTitle(title, SITE.translator);
     this.helpWindow.setSubTitle(subTitle, SITE.translator);
@@ -3439,7 +3474,7 @@ SITE.PartGen = function( mapa, interfaceParams ) {
         , {translator: SITE.translator, statusbar: false, draggable: false, top: "3px", left: "1px", width: '100%', height: "100%", title: 'PartGenTitle'}
         , {listener: this, method: 't2pCallback'}
     );
-    
+
     this.Div.setVisible(true);
     this.Div.dataDiv.style.overflow = 'hidden';
     
@@ -3987,10 +4022,10 @@ SITE.PartGen.prototype.parseABC = function() {
         this.editorWindow.container.setSubTitle('- ' + this.renderedTune.abc.metaText.title );
         if( ! this.GApartGen || this.GApartGen !== this.renderedTune.abc.metaText.title ) {
             this.GApartGen = this.renderedTune.abc.metaText.title;
-            SITE.ga( 'event', 'partGen', { 
-                'event_category': 'Mapa'  
-               ,'event_label': this.GApartGen 
-            });
+            SITE.ga('event', 'page_view', {
+                page_title: this.GApartGen
+               ,page_path: SITE.root+'/tab2part'
+            })        
         }
     } else
         this.editorWindow.container.setSubTitle( "" );
@@ -4187,7 +4222,7 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
         , {translator: SITE.translator, statusbar: false, draggable: false, top: "3px", left: "1px", width: '100%', height: "100%", title: 'PartEditTitle'}
         , {listener: this, method: 'a2pCallback'}
     );
-    
+
     this.Div.setVisible(true);
     this.Div.dataDiv.style.overflow = 'hidden';
     
@@ -4400,6 +4435,7 @@ SITE.PartEdit.prototype.setup = function(options) {
     this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
     
     this.fireChanged();
+
     this.editorWindow.restartUndoManager();
     
     this.Div.setSubTitle( '- ' + this.accordion.getTxtModel() );
@@ -4645,10 +4681,10 @@ SITE.PartEdit.prototype.parseABC = function(text, transpose) {
         this.editorWindow.container.setSubTitle('- ' + this.renderedTune.abc.metaText.title );
         if( ! this.GApartEdit || this.GApartEdit !== this.renderedTune.abc.metaText.title ) {
             this.GApartEdit = this.renderedTune.abc.metaText.title;
-            SITE.ga( 'event', 'partEdit', { 
-                'event_category': 'Mapa'  
-               ,'event_label': this.GApartEdit 
-            });
+            SITE.ga('event', 'page_view', {
+                page_title: this.GApartEdit
+               ,page_path: SITE.root+'/abc2part'
+            })        
         }
         
     }else
@@ -4872,7 +4908,7 @@ SITE.TabGen = function( mapa, interfaceParams ) {
             width: '100%', height: "100%", title: 'TabGenTitle'}
         , {listener: this, method: 'p2tCallback'}
     );
-    
+   
     this.Div.setVisible(true);
     this.Div.dataDiv.style.overflow = 'hidden';
     
@@ -4998,6 +5034,14 @@ SITE.TabGen.prototype.fireChanged = function() {
     this.title = "";
     var abcText = this.tabParser.parse(this.abcEditorWindow.getString(), this.accordion.loadedKeyboard );
     this.title = this.tabParser.title;
+    if( ! this.GAtabGen || this.GAtabGen !== this.tabParser.title ) {
+        this.GAtabGen = this.tabParser.title;
+        SITE.ga('event', 'page_view', {
+            page_title: this.GAtabGen
+           ,page_path: SITE.root+'/part2tab'
+        })        
+    }
+
     this.printTablature(abcText);
 };
 

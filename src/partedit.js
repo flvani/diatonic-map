@@ -20,7 +20,7 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
         , {translator: SITE.translator, statusbar: false, draggable: false, top: "3px", left: "1px", width: '100%', height: "100%", title: 'PartEditTitle'}
         , {listener: this, method: 'a2pCallback'}
     );
-    
+
     this.Div.setVisible(true);
     this.Div.dataDiv.style.overflow = 'hidden';
     
@@ -233,6 +233,7 @@ SITE.PartEdit.prototype.setup = function(options) {
     this.warningsDiv.style.display =  SITE.properties.options.showWarnings? 'block':'none';
     
     this.fireChanged();
+
     this.editorWindow.restartUndoManager();
     
     this.Div.setSubTitle( '- ' + this.accordion.getTxtModel() );
@@ -478,10 +479,10 @@ SITE.PartEdit.prototype.parseABC = function(text, transpose) {
         this.editorWindow.container.setSubTitle('- ' + this.renderedTune.abc.metaText.title );
         if( ! this.GApartEdit || this.GApartEdit !== this.renderedTune.abc.metaText.title ) {
             this.GApartEdit = this.renderedTune.abc.metaText.title;
-            SITE.ga( 'event', 'partEdit', { 
-                'event_category': 'Mapa'  
-               ,'event_label': this.GApartEdit 
-            });
+            SITE.ga('event', 'page_view', {
+                page_title: this.GApartEdit
+               ,page_path: SITE.root+'/abc2part'
+            })        
         }
         
     }else

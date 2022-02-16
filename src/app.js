@@ -229,13 +229,11 @@ SITE.App.prototype.openAppView = function (button, event) {
     this.Back = this.closeAppView;
 
     if( self.tab.text ) {
-        SITE.ga( 'event', 'view', { 
-            'event_category': 'Mapa'  
-           ,'event_label': self.tab.title
-        });
+        SITE.ga('event', 'page_view', {
+            page_title: self.tab.title
+           ,page_path: SITE.root+'/'+self.accordion.getId()
+        })        
 
-        console.log( 'view '+self.tab.title )
-        
         var loader = this.startLoader( "openAppView" );
         loader.start(  function() { 
             self.appView.setup( self.tab, self.accordion.getId() );
@@ -335,6 +333,11 @@ SITE.App.prototype.showSettings = function() {
             , {title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, top: "40px", left: x+"px", height:'530px',  width: width+'px', zIndex: 50} 
             , {listener: this, method: 'settingsCallback'}
         );
+
+        SITE.ga('event', 'page_view', {
+            page_title: SITE.translator.getResource('PreferencesTitle')
+           ,page_path: SITE.root+'/settings'
+        })        
 
         this.settings.popupWin.topDiv.style.zIndex = 101;
 
@@ -754,6 +757,11 @@ SITE.App.prototype.setPrivacyLang = function (  ) {
     this.aPolicy.addEventListener("click", function(evt) {
         evt.preventDefault();
         this.blur();
+        SITE.ga('event', 'page_view', {
+            page_title: SITE.translator.getResource('PrivacyTitle')
+           ,page_path: SITE.root+'/help'
+        })
+
         if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
             that.showModal('PrivacyTitle', '', 'privacidade/politica.html', { width: '800', height: '500', print:false } );
         } else {
@@ -764,6 +772,11 @@ SITE.App.prototype.setPrivacyLang = function (  ) {
     this.aTerms.addEventListener("click", function(evt) {
         evt.preventDefault();
         this.blur();
+        SITE.ga('event', 'page_view', {
+            page_title: SITE.translator.getResource('TermsTitle')
+           ,page_path: SITE.root+'/help'
+        })
+
         if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
             that.showModal('TermsTitle', '', 'privacidade/termos.e.condicoes.html', { width: '800', height: '500', print:false } );
         } else {
@@ -774,6 +787,10 @@ SITE.App.prototype.setPrivacyLang = function (  ) {
     this.aVersion.addEventListener("click", function(evt) {
         evt.preventDefault();
         this.blur();
+        SITE.ga('event', 'page_view', {
+            page_title: SITE.translator.getResource('AboutAppTitle')
+           ,page_path: SITE.root+'/help'
+        })
         if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
             that.showModal('AboutAppTitle', '', 'privacidade/sobreApp.html', { width: '800', height: '500', print:false } );
         } else {
