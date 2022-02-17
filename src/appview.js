@@ -315,7 +315,7 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
 
     this.slider = new DRAGGABLE.ui.Slider( this.tempoButton,
         {
-            min: 25, max: 200, start:100, step:25, speed:100, color: 'white', bgcolor:'red' /*'#ff9922'*/, size:{w:180, h:35, tw:60},
+            min: 25, max: 200, start:100, step:25, speed:100, color: 'white', bgcolor:'red' /*'#ff9922'*/, size:{w:140, h:35, tw:60},
             callback: function(v) { that.midiPlayer.setAndamento(v); } 
         } 
     );

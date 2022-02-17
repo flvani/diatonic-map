@@ -204,7 +204,7 @@ body {
 
 .input-group > input {
     font-size: 18px; 
-    width: 3em;
+    width: 2.5em;
 }
 
 .dButton > a { 
@@ -421,7 +421,7 @@ body {
 .playtime-label {
     height: 20px !important;  
     line-height: 20px !important;  
-    width: 115px !important; 
+    width: 100px !important; 
     font-size: 28px !important;
     margin: 2px 4px 1px 4px;
     color: #ff9922 !important;
