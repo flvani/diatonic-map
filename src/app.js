@@ -735,7 +735,7 @@ SITE.App.prototype.modalClose = function () {
 SITE.App.prototype.closeAppView = function() {
     this.appView.setVisible(false);
     this.appView.keyboardWindow.setVisible(false);
-    this.appView.studioStopPlay();
+    this.appView.stopPlay();
     this.Back = this.Close;
     SITE.SaveProperties();
 };

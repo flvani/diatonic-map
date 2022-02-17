@@ -1033,41 +1033,45 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         );
     }, false);
 
+    this.lyricsButton.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        this.blur();
+        if(that.midiPlayer.playing) that.stopPlay();
+        //window.setTimeout(function(){
+            SITE.properties.options.lyrics = !SITE.properties.options.lyrics;
+            that.parserparams.hideLyrics = !SITE.properties.options.lyrics;
+            that.setLyricsIcon();
+            that.fireChanged(0, {force:true, showProgress:true } );
+        //}, 0 );
+    }, false);
+
+    this.fingeringButton.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        this.blur();
+        if(that.midiPlayer.playing) that.midiPlayer.stopPlay();
+        //window.setTimeout(function(){
+            SITE.properties.options.fingering = !SITE.properties.options.fingering;
+            that.parserparams.hideFingering = !SITE.properties.options.fingering;
+            that.setFingeringIcon();
+            that.fireChanged(0, {force:true, showProgress:true } );
+        //}, 0 );
+    }, false);
+
+    this.tabformatButton.addEventListener('click', function (evt) {
+        evt.preventDefault();
+        this.blur();
+        if(that.midiPlayer.playing) that.midiPlayer.stopPlay();
+        //window.setTimeout(function(){
+            SITE.properties.options.rowsNumbered = !SITE.properties.options.rowsNumbered;
+            that.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
+            that.fireChanged(0, {force:true, showProgress:true } );
+        //}, 0 );
+    }, false);
+
     this.modeButton.addEventListener('click', function (evt) {
         evt.preventDefault();
         this.blur();
         that.changePlayMode();
-    }, false);
-
-    this.lyricsButton.addEventListener('click', function (evt) {
-        if(that.midiPlayer.playing) that.studioStopPlay();
-        evt.preventDefault();
-        this.blur();
-        SITE.properties.options.lyrics = !SITE.properties.options.lyrics;
-        that.parserparams.hideLyrics = !SITE.properties.options.lyrics;
-
-        that.setLyricsIcon();
-        that.fireChanged(0, {force:true, showProgress:true } );
-    }, false);
-
-    this.fingeringButton.addEventListener('click', function (evt) {
-        if(that.midiPlayer.playing) that.midiPlayer.stopPlay;
-        evt.preventDefault();
-        this.blur();
-        SITE.properties.options.fingering = !SITE.properties.options.fingering;
-        that.parserparams.hideFingering = !SITE.properties.options.fingering;
-
-        that.setFingeringIcon();
-        that.fireChanged(0, {force:true, showProgress:true } );
-    }, false);
-
-    this.tabformatButton.addEventListener('click', function (evt) {
-        if(that.midiPlayer.playing) that.midiPlayer.stopPlay;
-        evt.preventDefault();
-        this.blur();
-        SITE.properties.options.rowsNumbered = !SITE.properties.options.rowsNumbered;
-        that.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
-        that.fireChanged(0, {force:true, showProgress:true } );
     }, false);
 
     this.timerButton.addEventListener('click', function (evt) {
@@ -1102,7 +1106,7 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         this.blur();
         if(that.currentPlayTimeLabel)
            that.currentPlayTimeLabel.innerHTML = "00:00";
-        that.studioStopPlay();
+        that.stopPlay();
     }, false);
 
     this.clearButton.addEventListener("click", function (evt) {
@@ -1111,7 +1115,7 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         that.renderedTune.printer.clearSelection();
         that.accordion.clearKeyboard(true);
         that.currentPlayTimeLabel.innerHTML = "00:00";
-        that.studioStopPlay();
+        that.stopPlay();
     }, false);
 
     this.stepButton.addEventListener("click", function (evt) {
@@ -1398,7 +1402,7 @@ SITE.AppView.prototype.appViewCallBack = function( e ) {
     }
 };
         
-SITE.AppView.prototype.studioStopPlay = function( e ) {
+SITE.AppView.prototype.stopPlay = function( e ) {
     this.midiPlayer.stopPlay();
 };
 
@@ -2516,7 +2520,7 @@ SITE.App.prototype.modalClose = function () {
 SITE.App.prototype.closeAppView = function() {
     this.appView.setVisible(false);
     this.appView.keyboardWindow.setVisible(false);
-    this.appView.studioStopPlay();
+    this.appView.stopPlay();
     this.Back = this.Close;
     SITE.SaveProperties();
 };
