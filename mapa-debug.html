@@ -164,10 +164,16 @@ notação abc, tablatura " />
                 <button id="tabformatBtn" data-translate="tabformatBtn" ><i class="ico-tabformat" ></i></button>
                 <button id="fingeringBtn" data-translate="fingeringBtn" ><i class="ico-alien-fingering2" ></i></button>
                 <button id="lyricsBtn" data-translate="lyricsBtn" ><i class="ico-letter-l" ></i></button>
-                <button id="timerBtn" data-translate="timerBtn" ><i class="ico-timer-00" ></i></button>
                 <button id="GClefBtn" data-translate="GClefBtn" ><i class="ico-clef-treble" ></i></button>
                 <button id="FClefBtn" data-translate="FClefBtn" ><i class="ico-clef-bass" ></i></button>
+                <button id="timerBtn" data-translate="timerBtn" ><i class="ico-timer-00" ></i></button>
+                <button ><div id="tempoSld" data-translate="tempoBtn" ></div></button>
                 <button id="modeBtn" data-translate="modeBtn" ><i class="ico-listening" ></i></button>
+            </div>
+            <div id="divNormalPlayControls" class="btn-subgroup" >
+                <button id="playBtn2" data-translate="playBtn" >&#160;<i class="ico-play"></i>&#160;</button>
+                <button id="stopBtn2" data-translate="stopBtn" >&#160;<i class="ico-stop"></i>&#160;</button>
+                <label id="currentPlayTimeLabel2" class="playtime-label" >00:00</label>
             </div>
             <div id="divDidacticPlayControls" class="btn-subgroup" style="display: none;" >
                 <button id="stepBtn" data-translate="stepBtn" >&#160;<i class="ico-play"></i>&#160;</button>
@@ -180,14 +186,8 @@ notação abc, tablatura " />
                 <button id="repeatBtn" data-translate="repeatBtn" >&#160;<i class="ico-repeat-cw"></i>&#160;</button>
                 <button id="clearBtn" data-translate="clearBtn" >&#160;<i class="ico-stop"></i>&#160;</button>
             </div>
-            <div id="divNormalPlayControls" class="btn-subgroup" >
-                <button id="playBtn2" data-translate="playBtn" >&#160;<i class="ico-play"></i>&#160;</button>
-                <button id="stopBtn2" data-translate="stopBtn" >&#160;<i class="ico-stop"></i>&#160;</button>
-                <label id="currentPlayTimeLabel2" class="playtime-label" >00:00</label>
-                <div id="tempoSld" data-translate="tempoBtn" ></div>
-            </div>
-            <div class="others-group">
-                    <button id="buttonShowMedia2" style="display:none;" >
+            <div class="btn-subgroup">
+                <button id="buttonShowMedia2" style="display:none;" >
                     <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
                 </button>
             </div>
@@ -210,9 +210,11 @@ notação abc, tablatura " />
                 <button id="t2pSaveBtn" data-translate="saveTabTip"><i class="ico-download"></i>&#160;<span data-translate="saveBtn">Salvar</span></button>
                 <button id="t2pOpenInPartEditBtn" data-translate="PartGenOpenInTip"><i class="ico-edit"></i>&#160;<span data-translate="PartGenOpenInBtn">Editar partitura</span></button>
                 <button id="t2pSavePartBtn" data-translate="savePartTip"><i class="ico-download"></i>&#160;<span data-translate="PartGenSavePartBtn">Salvar Partitura</span></button>
-                <button id="t2pbuttonShowMedia" style="display:none;" >
-                    <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
-                </button>
+                <div class="btn-subgroup">
+                    <button id="t2pbuttonShowMedia" style="display:none;" >
+                        <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
+                    </button>
+                </div>
             </div>
             <div id="group" style="width:100%; margin: 0; padding: 0; display: inline-block;" >
                 <div id="t2pDivNormalPlayControls" class="btn-subgroup" >
@@ -242,12 +244,14 @@ notação abc, tablatura " />
                 <button id="a2pPlayBtn" data-translate="playBtn" onclick="">&#160;<i class="ico-play"></i>&#160;</button>
                 <button id="a2pStopBtn" data-translate="stopBtn" onclick="">&#160;<i class="ico-stop"></i>&#160;</button>
             </div>
-            <div class="others-group" >
+            <div class="btn-subgroup" >
                 <label id="a2pCurrentPlayTimeLabel" class="playtime-label">00:00</label>
             </div>
-            <button id="a2pbuttonShowMedia" style="display:none;" >
-                <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
-            </button>
+            <div class="btn-subgroup">
+                <button id="a2pbuttonShowMedia" style="display:none;" >
+                    <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
+                </button>
+            </div>
         </div> <!-- a2pcontrolDiv - este bloco é tratado internamente -->
         
         <div id="printPreviewDiv" class="printPreviewClass"></div>

@@ -290,7 +290,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
 
     this.slider = new DRAGGABLE.ui.Slider( this.tempoButton,
         {
-            min: 25, max: 200, start:100, step:25, speed:100, color: 'white', bgcolor:'red', size:{w:150, h:23, tw:48},
+            min: 25, max: 200, start:100, step:25, speed:100, color: 'white', bgcolor:'red', size:{w:115, h:23, tw:48},
             callback: function(v) { that.midiPlayer.setAndamento(v); } 
         } 
     );

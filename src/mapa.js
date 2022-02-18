@@ -73,7 +73,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
                 ]}
         ]);
         
-    this.menu.disableSubItem( 'menuInformacoes', 'ESTUDIO' );
+    //this.menu.disableSubItem( 'menuInformacoes', 'ESTUDIO' );
     this.menu.disableSubItem( 'menuInformacoes', 'ABCX' );
     this.menu.disableSubItem( 'menuInformacoes', 'TUTORIAL' );
         
