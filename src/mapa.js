@@ -68,14 +68,14 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
                     'Símbolos de Repetição|JUMPS',
                     'Estúdio ABCX|ESTUDIO',
                     'Formato ABCX|ABCX',
-                    'Vídeo Tutoriais|TUTORIAL',
                     'Sobre|ABOUT'
                 ]}
         ]);
+//        'Vídeo Tutoriais|TUTORIAL',
+    //this.menu.disableSubItem( 'menuInformacoes', 'TUTORIAL' );
         
     //this.menu.disableSubItem( 'menuInformacoes', 'ESTUDIO' );
-    this.menu.disableSubItem( 'menuInformacoes', 'ABCX' );
-    this.menu.disableSubItem( 'menuInformacoes', 'TUTORIAL' );
+    //this.menu.disableSubItem( 'menuInformacoes', 'ABCX' );
         
     this.accordionSelector = new ABCXJS.edit.AccordionSelector( 
             'menuGaitas', this.menu, 

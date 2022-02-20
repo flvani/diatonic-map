@@ -1178,13 +1178,14 @@ T:Mercedita
 C:Ramón Sixto Rios
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
 Z:Flávio Vani
-N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+N:Mapa para Acordeões Diatônicos powered by ABCXJS. 
 F:https://www.youtube-nocookie.com/embed/qU32uEmt2Rg&T:Completa - 6/8;
 F:https://www.youtube-nocookie.com/embed/eqRIsmJWJjo&T:Parte I - valseado;
 F:https://www.youtube-nocookie.com/embed/wvr8jHJxKhQ&T:Parte II - valseado;
 F:https://www.youtube-nocookie.com/embed/yLEkF1_Py-A&T:Parte I - 6/8;
 F:https://www.youtube-nocookie.com/embed/h7Qc-N9Jrjw&T:Parte I - 6/8 - terças;
 F:https://www.youtube-nocookie.com/embed/kJo9WTZat5s&T:Variação - Parte III;
+eqRIsmJWJjo
 Q:108
 L:1/8
 M:3/4
@@ -1605,7 +1606,7 @@ V:baixos bass
 | G,,2 [G,B,D]2 [G,B,D]2 | A,,2 [A,CE]2 [A,CE]2 | G,,2 [G,B,D]2 [D,,D,F,A,]2 |1 [G,,G,B,D]3 z3 :|2 [G,,G,B,D]4 |
 V:tablatura accordionTab
  z+51.5 z+50.5 |: G+4'2 g+52 g+62 | D-62 d-> >-z d-3'1.5 >-3'0.5 | D-52 d-3'2 d-72 | G+62 g+> >+z g+71.5 >+70.5 |
-| G+82 g+72 g+62 | A-62 am-52 am-81.5 >-80.5 | G-6'2 g-5'2 Dd-72 |1 Gg+63 z+z z+51.5 z+50.5 :|2 Gg+64 |
+| G+82 g+72 g+62 | A-62 am-52 am-81.5 >-80.5 | G+72 g+62 Dd-72 |1 Gg+63 z+z z+51.5 z+50.5 :|2 Gg+64 |
 X:1011
 %%barnumbers 1
 %%score 0 (1 2) 3

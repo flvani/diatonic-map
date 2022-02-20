@@ -24,8 +24,8 @@ notação abc, tablatura " />
         
         <link rel="stylesheet" href="fontsIco/fontsAbcx.css" />
         <link rel="stylesheet" href="fontsGoogle/fontsGoogle.css" />
-        <link rel="stylesheet" href="css/styles4abcx_6.05-min.css" />
-        <link rel="stylesheet" href="site/site_6.05-min.css" />
+        <link rel="stylesheet" href="css/styles4abcx_6.10-min.css" />
+        <link rel="stylesheet" href="site/site_6.10-min.css" />
         
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-62839199-4"></script>
@@ -54,21 +54,21 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jslib/html5kellycolorpicker.min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_6.05-min.js"></script>
+        <script type="text/javascript" src="file/filemanager_6.10-min.js"></script>
         
         <!-- suporte mapas de acordeões -->
-        <script type="text/javascript" src="diatonic/diatonic_6.05-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic_6.10-min.js"></script>
         
         <!-- ACE Editor -->
-        <script type="text/javascript" src="ace4abcx/ace4abcx_6.05-min.js"></script>
+        <script type="text/javascript" src="ace4abcx/ace4abcx_6.10-min.js"></script>
        
         <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_6.05-min.js" ></script>
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_6.10-min.js" ></script>
         
         <!-- console personalizada para Javascript -->
         <script type="text/javascript" src="jslib/waterbug.js"></script> 
         
-        <script id="mainSITE" type="text/javascript" src="site/site_6.05-min.js"></script>
+        <script id="mainSITE" type="text/javascript" src="site/site_6.10-min.js"></script>
 
         <div id="topBar" class="topBar gradiente" >
             <span data-translate="appName" class="topTitle">Mapa para Acordeões Diatônicos</span>
@@ -227,12 +227,14 @@ notação abc, tablatura " />
                 <button id="a2pPlayBtn" data-translate="playBtn" onclick="">&#160;<i class="ico-play"></i>&#160;</button>
                 <button id="a2pStopBtn" data-translate="stopBtn" onclick="">&#160;<i class="ico-stop"></i>&#160;</button>
             </div>
-            <div class="others-group" >
+            <div class="btn-subgroup" >
                 <label id="a2pCurrentPlayTimeLabel" class="playtime-label">00:00</label>
             </div>
-            <button id="a2pbuttonShowMedia" style="display:none;" >
-                <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
-            </button>
+            <div class="btn-subgroup">
+                <button id="a2pbuttonShowMedia" style="display:none;" >
+                    <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
+                </button>
+            </div>
         </div> <!-- a2pcontrolDiv - este bloco é tratado internamente -->
         
         <div id="printPreviewDiv" class="printPreviewClass"></div>
