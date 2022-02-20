@@ -3,7 +3,7 @@
 
 FILES="./privacy ./privacidade ./app ./site ./soundfont ./ace4abcx ./fontsGoogle ./fontsIco ./chords ./accordions ./tabs ./images \
        ./css ./html ./src ./languages ./diatonic ./file ./practices ./repertorio ./songs ./abcxjs ./jslib ./jquery \
-       ./.htaccess ./mapa.html ./index.html ./mapa-5.00.html ./mapa-debug.html ./app.html ./app-debug.html"
+       ./.htaccess ./index.html ./mapa-debug.html ./app.html ./app-debug.html"
 
 for f in $FILES
 do
