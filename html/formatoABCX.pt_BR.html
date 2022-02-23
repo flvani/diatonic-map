@@ -163,11 +163,11 @@
         <p>Vamos classificar a primeira voz de <b>"treble"</b> (melodia). Para isso acrescente uma nova linha após o elemento <span style="font-weight: bold;">"L:"</span>,
         da seguinte forma:</p>
 
-        <pre>V:1 treble</pre>
+        <pre style="font-size: 15px;">V:1 treble</pre>
 
         <p>E ao final do texto, vamos adicionar a terceira voz, que será do tipo <b>"accordionTab"</b>, assim:</p>
         
-        <pre>V:3 accordionTab<br></pre>
+        <pre style="font-size: 15px;">V:3 accordionTab<br></pre>
         
         <p>O arquivo resultante será o seguinte:</p>
         
@@ -196,7 +196,7 @@
           Acrescente o seguinte texto na linha abaixo da entrada <b>X: 1</b>:
         </p>
 
-        <pre>%%tabinferenceopts +2</pre>
+        <pre style="font-size: 15px;">%%tabinferenceopts +2</pre>
 
         <p>Esta diretiva vai instruir o site a criar uma tablatura, tentando manter dois compassos com o mesmo movimento de fole. 
           Como indicamos o valor <b>+2</b>, também, é esperado que os primeiros 2 compassos sejam executados com fole fechando.</p>
@@ -249,7 +249,7 @@
         usando o conceito de cabeçalhos <span style="font-style: italic;">inline</span>,
         possamos escrever uma voz abaixo da outra, facilitando a escrita quando
         a canção possuir várias linhas. Assim:</p>
-        <pre>X: 1<br>T:Oh! Susannah<br>M:2/4<br>L:1/4<br>Q:100<br>K:G<br>V:1 sname=melodia treble<br>V:2 sname=baixos bass<br>[V:1]| "C"c c | e/2e/2 -e/2e/2 | "G"d/2d/2 B/2G/2 | "D7"A3/2G/4A/4 |\<br>       "G"B/2d/2 d3/4e/4 | d/2B/2 G/2A/2 | "G"B/2B/2 "D7"A/2A/2 | "G"G2|<br>[V:2]| C, [C,E,G,] |  C, z  |  G,, z |  D, z |\<br>      &nbsp;G,, z |  G,, z |  D, [D,^F,A,] |  G,, z |<br>V:tablatura accordionTab<br></pre>
+        <pre style="font-size: 15px;">X: 1<br>T:Oh! Susannah<br>M:2/4<br>L:1/4<br>Q:100<br>K:G<br>V:1 sname=melodia treble<br>V:2 sname=baixos bass<br>[V:1]| "C"c c | e/2e/2 -e/2e/2 | "G"d/2d/2 B/2G/2 | "D7"A3/2G/4A/4 |\<br>       "G"B/2d/2 d3/4e/4 | d/2B/2 G/2A/2 | "G"B/2B/2 "D7"A/2A/2 | "G"G2|<br>[V:2]| C, [C,E,G,] |  C, z  |  G,, z |  D, z |\<br>      &nbsp;G,, z |  G,, z |  D, [D,^F,A,] |  G,, z |<br>V:tablatura accordionTab<br></pre>
         <p>O resultado será o mesmo apresentado acima. Note, contudo, que a voz
         da tablatura, devido a características da
         nossa implementação, continua sendo o último elemento da canção, mas
@@ -296,10 +296,9 @@
              Outros caracteres tem funções específicas, tais como o: <b>"."</b>, <b>"~"</b> e <b>"*"</b>. O <b>"*"</b>, por exemplo, indica que será ignorada uma nota na partitura. 
              Isto é útil nos casos de ligaduras, onde 2 notas gráficas soam como uma só, com duração igual ao somatório de ambas. 
              Isso repercute na fonetização silábica, pois efetivamente existe apenas um som para o conjunto das notas.</li>
-          <li>Nos dedilhados não é necessário este cuidado silábico, pois o site já o resolve automaticamente, mas o caractere "*" ainda pode ser usado para deixar o texto mais claro.</li>
+          <li>Nos dedilhados não é necessário este cuidado silábico, pois o site já o resolve automaticamente, mas o caractere <b>"*"</b> ainda pode ser usado para deixar o texto mais claro.</li>
           <li>Mais de uma linha de letra de música pode ser incluída na mesma linha da partitura, diferentemente dos dedilhados em que, somente uma linha é permitida/suficiente.</li>
         </ul> 
-
 
         <h3>Transpondo tablaturas</h3>
         
@@ -309,27 +308,22 @@
         tablatura será gerada usando botões mais altos. 
         Para resolver este problema, sem ter que alterar a partitura, podemos transpor a tablatura  para uma oitava abaixo, assim:</p>
         
-        <pre>V:3 accordionTab transpose=-8<br></pre>
+        <pre style="font-size: 15px;">V:3 accordionTab transpose=-8<br></pre>
         <p>A inclusão da chave <b>"transpose=-8"</b> fará com que a tablatura seja gerada uma oitava abaixo, em relação às notas da partitura. 
           Os valores aceitos são <b>"+8"</b> e <b>"-8"</b>, somente.</p>
         
         <h2>Entendendo a geração tablatura</h2>
 
-        <p>Como vimos acima, para a tablatura ser gerada precisamos de uma ou
-          duas vozes <b>(V:)</b> nomeadas na partitura. Com relação a voz dos baixos, convém
-          notar que, quando se trata de um acorde, o site gera o elemento na tablatura em letras minúsculas. 
-          Acordes menores, são marcados com a letra "m" e apresentados com um "-" à direita.
-        </p>
-
-        <p>Também vimos que, além de acrescentar uma terceira voz <b>(V:3)</b> para hospedar
-          a tablatura, precisamos incluí-la com a palavra reservada <b>"accordionTab"</b>
+        <p>Como vimos acima, para a tablatura ser gerada precisamos de uma ou duas vozes <b>(V:)</b> nomeadas na partitura. 
+          Além disso, precisamos acrescentar uma terceira voz <b>(V:3)</b> para hospedar
+          a tablatura e precisamos incluí-la com a palavra reservada <b>"accordionTab"</b>
           que será o marcador para a geração da tablatura. 
         </p>
 
         <p>O ponto realmente em questão é que, ainda não observamos o que o site faz ao gerar a tablatura: 
-          o que ele produz é uma sintaxe nova e totalmente estranha para o formato ABC. 
-          Este texto não está no padrão ABC e pode gerar problemas com outros interpretadores, mas ele foi gerado única e
-          exclusivamente para deixar registrada a tablatura gerada e permitir a posterior edição da mesma.
+          o que ele produz é uma sintaxe nova e totalmente estranha para o formato <b>ABC</b>. 
+          Este texto não está no padrão <b>ABC</b> e pode gerar problemas com outros interpretadores, 
+          mas ele foi criado única e exclusivamente para deixar registrada a tablatura gerada e permitir a posterior edição da mesma.
         </p>
 
         <p class="page-break"></p>
@@ -368,83 +362,77 @@
         | C+6' c+6' | C+7'0.5 >+7'0.5 z+>0.5 z-90.5 | D-6'0.5 >-6'0.5 d-70.5 >-70.5 |"
         style="width: 1024px;" >
 
-        <p>No texto ABCX acima, expomos a última linha (linha 11) que é o produto da
-        geração da tablatura pelo site. Comparemos, pois, o texto com a
-        tablatura gerada:&nbsp; a primeira coisa que se observa é que, um
-        compasso
-        da tablatura une (mescla) um compasso da melodia e um compasso dos
-        baixos. E podemos definir um elemento da tablatura, assim:</p>
-        <pre>{baixo}{fole}{botões}{duração}</pre>
-        <p>Onde:</p>
+        <p>Finalmente, na imagem acima, expusemos o texto ABCX, na linha 11, 
+          que é o produto da geração da tablatura pelo site. Comparemos, pois, o texto com a
+        tablatura gerada. </p>
+        <p>A primeira coisa que se observa é que, um compasso da tablatura une (mescla) 
+        um compasso da melodia e um compasso dos baixos. 
+        E, desta forma, podemos definir um elemento da tablatura, assim:</p>
+
+        <pre style="font-size: 15px; font-weight: bold;">{baixo}{fole}{melodia}{duração}</pre>
+
+        <p><b>Onde:</b></p>
         <ul>
-          <li><span style="font-weight: bold;">baixo</span>: letra(s) indicando
-        o(s) botão(ões) da baixaria. Usam-se maiúsculas para representar notas
-        simples e minúsculas para os acordes. Podem não existir se não houver a
-        voz do baixo.<br>
+          <li><span style="font-weight: bold;">baixo</span>: letra(s) indica(m) o(s) botão(ões) da baixaria. 
+          Usam-se maiúsculas para representar notas simples e minúsculas para os acordes.
+          Acordes menores, são marcados com a letra <b>"m"</b> e apresentados na tablatura com um hifén <b>("-")</b> à direita.
+          As letras usadas são as mesmas do Sistema Internacional de Cifras (A=Lá, B=Si, C=Dó, D=Ré, ...).
+          Os baixos são opcionais e dependem da existência da voz do baixo <b>(V:2)</b> na partitura. 
           </li>
-          <li><span style="font-weight: bold;">fole</span>: sinais indicam o
-        movimento do fole abrindo (-) ou fechando (+). Este símbolo é sempre
-        obrigatório<br>
+          <li><span style="font-weight: bold;">fole</span>: sinais indicam o movimento do fole abrindo <b>(-)</b> ou fechando <b>(+)</b>.
+            Esta informação é obrigatória.
           </li>
-          <li><span style="font-weight: bold;">botões</span>: os botões da
-        melodia (podem ser um ou mais botões pressionados simultaneamente).
-        Cada botão é representado por um número de 1 a "n". Quando "n" for
-        maior que 9, usam se letras, sendo a=10 , b=11 e c=12. Cada botão
-        também possui um indicador do número da linha. Para a primeira linha
-        ele inexiste, mas para a linha 2 usa-se um apóstrofo (') após o número
-        do botão e para a linha 3, dois apóstrofos (''). Finalmente, quando
-        houver mais de um botão simultâneo, eles são agrupados em um par de
-        colchetes.<br>
+          <li><span style="font-weight: bold;">melodia</span>: número(s) indica(m) o(s) botão(ões) da melodia.
+            Cada botão é representado por um número de 1 a 9 e, quando for maior que 9, usam-se letras, sendo a=10, b=11, c=12 e assim por diante. 
+            Cada botão também possui um indicador do número da linha (ilheira). Para a primeira ilheira ele inexiste, 
+            mas as demais marcam-se com apóstrofo <b>(')</b> após o número do botão. 
+            Para a segunda ilheira, um apóstrofo; para a terceira ilheira, dois apóstrofos; e, assim, sucessivamente.
+            Finalmente, quando houver mais de um botão a ser executado de forma simultânea, 
+            eles são agrupados em um par de colchetes, por exemplo, <b>[3''6']</b>.
           </li>
-          <li><span style="font-weight: bold;">duração</span>: número indicando
-        a duração do elemento como um todo (baixo e melodia). Se a duração for
-        igual a duração da nota base (representada pela chave <b>L:</b> no texto ABCX. 
-        No exemplo acima <b>L:1/4</b>, ou seja, vale uma seminima), não é necessário escrevê-la, do
-        contrário, deve ser grafada ou na forma de uma fração ou como um número real.</li>
+          <li><span style="font-weight: bold;">duração</span>: número indicando a duração do elemento como um todo (baixo e melodia). 
+            Se a duração for igual a duração da nota base <b>(L:)</b> não é necessário escrevê-lo, do contrário, 
+            deve ser grafado como um número real ou na forma de uma fração.
+            No exemplo acima, <b>L:1/4</b> indica que a nota base vale uma <b>seminima</b>).
+          </li>
         </ul>
-        <p>Analisemos alguns detalhes da&nbsp; tablatura gerada. O primeiro
-        compasso é bastante simples:<br>
+        <p>Analisemos alguns detalhes da tablatura gerada. O primeiro compasso é bastante simples:<br>
         </p>
-        <pre>C+6' c+6' </pre>
-        <p>Podemos ver claramente dois elementos da tablatura: no primeiro o
-        <span style="font-weight: bold;">baixo</span> Dó (C) é tocado com o
-        fole sendo fechado ao mesmo tempo em que se
-        pressiona o sexto botão da linha 2 na melodia; no segundo elemento, o <span style="font-weight: bold;">acorde</span> Dó
-        (c) é tocado, ainda fechando o fole e com o mesmo botão do primeiro
-        elemento. Note que em nenhum dos elementos foi escrita a sua duração,
-        isso acontece porque as notas duram exatamente o tempo base, indicado
-        pela
-        entrada <span style="font-weight: bold;">"L:"</span>, nos metatextos
-        da peça.<br>
+        <pre style="font-size: 15px;">C+6' c+6' </pre>
+        <p>Podemos ver claramente dois elementos da tablatura: no primeiro o        
+          <span style="font-weight: bold;">baixo</span> Dó (C) é tocado com o fole sendo fechado 
+          ao mesmo tempo em que se pressiona o sexto botão da ilheira 2 na melodia; 
+          no segundo elemento, o <span style="font-weight: bold;">acorde</span> Dó (c) é tocado, ainda fechando o fole 
+          e com o mesmo botão do primeiro elemento. 
+          Note que em nenhum dos elementos foi escrita a sua duração, isso acontece porque as notas duram 
+          exatamente o tempo base, indicado pela entrada <span style="font-weight: bold;">"L:"</span>, nos metatextos da peça.<br>
         </p>
-        <p class="page-break"></p><p>Vamos ao segundo compasso. Há um elemento que
-        pode surgir em função da dinâmica dos tempos na
-        partitura ou ainda em função das ligaduras. Por exemplo, no segundo
-        compasso podemos notar que o tempo baixo é o dobro das notas da
-        melodia. Assim, a primeira nota do baixo soa durante a execução da
-        primeira e da segunda notas da melodia. Para representar esta situação
-        na tablatura, listamos o baixo Dó (C) no primeiro elemento e, no
-        segundo, onde ele é uma
-        continuação, usamos o sinal de maior (<b>&gt;</b>), assim:</p>
 
-        <pre>C+7'0.5 &gt;+7'0.5 </pre>
+        <p class="page-break"></p>
+
+        <p>No segundo compasso encontraremos um elemento que pode surgir em função da 
+          dinâmica dos tempos na partitura ou ainda em função das ligaduras. 
+          Por exemplo, podemos notar que o tempo baixo <b>"C"</b> é o dobro das notas da melodia. 
+          Assim, a nota do baixo soa durante a execução da primeira e da segunda notas da melodia. 
+        </p>
+        <p>Para representar esta situação na tablatura, usamos o sinal de maior (<b>&gt;</b>)
+          como indicador da continuação. Assim, na primeira metade do tempo, 
+          o baixo aparece como a letra <b>"C"</b> e, na segunda parte, ele aparece na forma do 
+          sinal de maior (<b>&gt;</b>), assim (destacado em vermelho abaixo):</p>
+
+        <pre style="font-size: 15px;"><b style="color:red;">C</b>+7'0.5  <b style="color:red;font-size:18px;">&gt;</b>+<b style="color:blue;">7'</b>0.5  z+<b style="color:blue; font-size:18px;">&gt;</b>0.5  z-90.5</pre>
         
-        <p>Ainda no mesmo compasso, a terceira nota é ligada à segunda, e
-        então, agora é a nota da melodia&nbsp; que será continuada com o sinal
-        de maior.</p>
+        <p>No mesmo compasso, a segunda nota da melodia é ligada à terceira.
+          Do mesmo modo, o sinal de continuidade é usado (destacado em azul acima).</p>
 
-        <pre>C+7'0.5  &gt;+7'0.5 z+&gt;0.5 z-90.5</pre>
-
-        <p>Chamamos ainda a atenção para os tempos que, neste compasso da
-        tablatura, são sempre escritos com 1/2 da nota base (ou 0.5) para
-        representar tudo o que há na pauta.
-        </p><p>
-        Na parte final do compasos nota-se a presença da pausa que é representada pela letra "z".
+        <p>Chamamos ainda a atenção para os tempos das notas que, neste compasso da
+        tablatura, são sempre escritos com metade da duração da nota base (ou 0.5)
+         e também para a presença da <b>"pausa"</b>  que é representada pela letra <b>"z"</b>.
       </p><p>
-        Para encerrar, ainda há que se notar o sinal do fole: no primeiro e
-        segundo elementos do compasso, é indicado pelo símbolo "+", ou seja, fole em
+        Para encerrar, ainda há que se notar o sinal do fole: nos primeiros
+        três tempos do compasso, é indicado pelo símbolo <b>"+"</b>, ou seja, fole em
         movimento fechando, enquanto que na última parte do compasso, o fole está
-        abrindo e o sinal é "-".</p>
+        abrindo e o sinal é <b>"-"</b>.</p>
 
         <h3>Editando uma tablatura</h3>
 
