@@ -104,13 +104,16 @@
         site. No entanto, a ausência da tablatura impedirá que as botões do
         acordeão sejam selecionados durante a execução.<br>
         </p>
-        <h3>Escrevendo partituras com tablaturas</h3>
+        <h2>Escrevendo partituras com tablaturas</h2>
 
         <p>Esta página não pretende ser um manual sobre a criação de arquivos
         ABC, mas vamos destacar as partes importantes para a escrita de uma
         partitura que suporte tablaturas.</p>
 
         <p><i>Um exemplo básico...</i></p>
+        
+        <p><b>Hands On:</b> Os exemplos mostrados a seguir podem ser reproduzidos no site, usando a opção <b>"ABCX &gt; Partitura"</b> do menu <b>"Repertório"</b>. 
+        Será aberta a janela <b>"Editor de Partituras".</b></p>
 
         <p>Vamos usar um trecho da canção "Oh! Susannah" de Stephen Foster para
         criar uma tablatura. Primeiramente veja o fonte ABC:</p>
@@ -143,22 +146,22 @@
           <p>Estes elementos são os chamados "<span style="font-style: italic;">metatextos</span>" da canção, 
           ou seja, elementos que nem sempre são visíveis, mas que descrevem características da partitura. 
         </p><p>
-          As notas propriamente ditas estão escritas nas últimas duas linhas de texto. 
+          As notas, propriamente ditas, estão escritas nas últimas duas linhas de texto. 
           A contrabarra <span style="font-weight: bold;">"\"</span> ao final da penúltima linha indica a
-          continuação la linha, isto é, efetivamente existe apenas uma linha de partitura.</p>
-
+          continuação do texto na linha seguinte, isto é, efetivamente, existe apenas uma linha de partitura.</p>
 
         <p>Não vamos entrar em detalhes da escrita das notas, tempos, compassos e acordes: 
-          estas informações podem ser obtidas em detalhes nos manuais citados no início deste documento.
+          estas informações podem ser obtidas em detalhes nos manuais citados no início deste documento. 
+          Vamos focar em nosso objetivo: criar partituras com <b>tablaturas</b>.
         </p><p>
-        Neste momento, convém notar que uma única linha de partitura representa a única voz desta canção (linhas 7 e 8, do texto), 
+        Neste momento, convém notar que esta única linha de partitura representa a única voz desta canção (linhas 7 e 8, do texto), 
         que por sinal, está implícita. Para deixar mais claro e para que o site consiga gerar a primeira tablatura, vamos
         identificar a voz acima, usando a entrada <span style="font-weight: bold;">"(V:1)</span>" 
         e vamos incluir uma nova voz ao final que servirá para a geração da tablatura <span style="font-weight: bold;">"(V:3)</span>" . 
         Esta segunda voz será criada de uma forma específica e será o marcador para extensão ABCX funcionar.</p>
 
         <p>Vamos classificar a primeira voz de <b>"treble"</b> (melodia). Para isso acrescente uma nova linha após o elemento <span style="font-weight: bold;">"L:"</span>,
-        da seguinte forma:/p>
+        da seguinte forma:</p>
 
         <pre>V:1 treble</pre>
 
@@ -180,7 +183,7 @@
         V:3 accordionTab'
         style="width: 1024px;">
         
-        <p>E a partitura gerada agora incluirá a seguinte tablatura:</p>
+        <p>E a partitura gerada, agora, incluirá a seguinte tablatura:</p>
 
         <img src="/images/susannah.partitura.1.png" style="width: 1024px;">
 
@@ -221,22 +224,22 @@
 
         <p>Assim, já podemos definir o que consideramos uma "<span style="font-style: italic;">partitura completa</span>", ou seja,
         apesar da tablatura poder ser gerada com apenas voz, uma partitura completa terá (no mínimo) duas vozes: uma para melodia e outra para os baixos,
-        complementadas pela terceira voz, se que será do tipo <span style="font-weight: bold;">"V:3 accordionTab"</span>      
+        complementadas pela terceira voz, que será do tipo <span style="font-weight: bold;">"V:3 accordionTab"</span>      
         e, desta forma, o site será capaz de gerar a tablatura com toda a informação.</p>
-
         
         <p><b>Notas:</b></p>
         <ul>
           <li>Observe que o texto da melodia agora encontra-se todo em uma linha só.(linha 9, do texto). Em geral, escrevemos uma linha de texto ABCX
              para cada linha de partitura. Somente nos casos onde o texto é muito longo, usamos o recurso da contrabarra. </li>
           <li>Esta tablatura foi gerada para a Gaita Hohner G/C e pode ser diferente se for gerada para um acordeão com outra afinação.</li>
-          <li>O efeito da diretiva <b>%%tabinferenceopts +2</b> é notório no desenho da tablatura, que começa e mantém por dois compassos o movimemnto de fechar o fole.
+          <li>O efeito da diretiva <b>%%tabinferenceopts +2</b> é notório no desenho da tablatura, que começa e mantém por dois compassos o movimento de fechar o fole.
             No entanto, não é perfeito: observe que a nota Lá, no compasso 6, só existe abrindo o fole, 
-            o que obriga o algoritmo de infêrencia a mudar o movimento do fole antes hora prevista.</li>
+            o que obriga o algoritmo de inferência a mudar o movimento do fole antes hora prevista.</li>
           <li>As diretivas de compilação são identificadas pelos 2 símbolos de porcentagem <b>("%%")</b> no início da linha.</li>
-          <li>Uma lista de diretivas especificamente desenhas para este site se encontra abaixo.</li>
-          <li>Comentários podem ser introduzidos no texto <b>ABC</b>, iniciando uma linha com um (e somente 1) símbolo de porcentagem. Os comentários são linhas de texto que
-            não inteferem na geração da partitura/tablatura, servindo apenaspara elucidar ou esclarecer algum detalhe no texto.
+          <li>Uma lista de diretivas especificamente desenhadas para este site se encontra abaixo.</li>
+          <li>Comentários podem ser introduzidos no texto <b>ABC</b>, iniciando uma linha com um (e somente um) símbolo de porcentagem. 
+            Os comentários são linhas de texto que não inteferem na geração da partitura/tablatura, 
+            servindo apenas para elucidar ou esclarecer algum detalhe no texto.
           </li>
         </ul>   
     
@@ -257,7 +260,7 @@
 
         <p>Os dedilhados são elementos didáticos muito interessantes para quem está iniciando os estudos na gaita ponto. 
         A letra da música, apesar de não ter muito valor didático, também pode ser um elemento de apoio, além de ser esteticamente agradável.
-        Vamos incluir estes dois novos elementos usando as chaves <b>f:</b> (<i>fingering</i>fingering - dedilhados) e a chave <b>w:</b> (<i>words</i> - letra da música).
+        Vamos incluir estes dois novos elementos usando as chaves <b>f:</b> (<i>fingering</i> - dedilhados) e a chave <b>w:</b> (<i>words</i> - letra da música).
         Faça as seguintes alterações no texto ABC:</p>
 
         <img src="/images/susannah.texto.3.png" title='X: 1
@@ -284,15 +287,16 @@
         <ul>
           <li>Por uma questão de clareza, optamos por reduzir a quantidade de compassos no exemplo.</li>
           <li>Em geral, os dedilhados e as letras são inseridos após cada linha da primeira voz da partitura.</li>
-          <li>Observe que as chaves <b>f:</b> e <b>w:</b> devem ser escritas em caracteres minúsculos. Aliás, para a maioria das chaves do formato <b>ABC</b> há que observar 
+          <li>Observe que as chaves <b>f:</b> e <b>w:</b> devem ser escritas em caracteres minúsculos. 
+            Aliás, para a maioria das chaves do formato <b>ABC</b> há que se observar 
             e manter a escrita, preservando as letras maiúsculas e/ou minúsculas, em cada caso. Por exemplo: a chave <b>accordionTab</b> deve ser escrita 
             toda em caracteres minúsculos, exceto o caracter "T", que é maiúsculo.
           </li>
           <li>A letra da música deve ser escrita, separando-se as sílabas fonetizadas na canção por espaços ou hífens.
              Outros caracteres tem funções específicas, tais como o: <b>"."</b>, <b>"~"</b> e <b>"*"</b>. O <b>"*"</b>, por exemplo, indica que será ignorada uma nota na partitura. 
-             Isto é útil nos casos de ligaduras, onde 2 notas gráficas soam como uma só, com duração igual ao somatório das ambas. 
+             Isto é útil nos casos de ligaduras, onde 2 notas gráficas soam como uma só, com duração igual ao somatório de ambas. 
              Isso repercute na fonetização silábica, pois efetivamente existe apenas um som para o conjunto das notas.</li>
-          <li>Nos dedilhados não é necessário este cuidado silábico, pois o site já resolve automaticamente, mas o caractere "*" ainda pode ser usado para deixar o texto mais claro.</li>
+          <li>Nos dedilhados não é necessário este cuidado silábico, pois o site já o resolve automaticamente, mas o caractere "*" ainda pode ser usado para deixar o texto mais claro.</li>
           <li>Mais de uma linha de letra de música pode ser incluída na mesma linha da partitura, diferentemente dos dedilhados em que, somente uma linha é permitida/suficiente.</li>
         </ul> 
 
@@ -312,12 +316,12 @@
         <h2>Entendendo a geração tablatura</h2>
 
         <p>Como vimos acima, para a tablatura ser gerada precisamos de uma ou
-          duas vozes <b>(v:)</b> nomeadas na partitura. Com relação a voz dos baixos, convém
+          duas vozes <b>(V:)</b> nomeadas na partitura. Com relação a voz dos baixos, convém
           notar que, quando se trata de um acorde, o site gera o elemento na tablatura em letras minúsculas. 
           Acordes menores, são marcados com a letra "m" e apresentados com um "-" à direita.
         </p>
 
-        <p>Também vimos que além, de acrescentar uma terceira voz <b>(V:3)</b> para hospedar
+        <p>Também vimos que, além de acrescentar uma terceira voz <b>(V:3)</b> para hospedar
           a tablatura, precisamos incluí-la com a palavra reservada <b>"accordionTab"</b>
           que será o marcador para a geração da tablatura. 
         </p>
@@ -339,19 +343,15 @@
 
         <p>
          Como efeito colateral, podemos destacar que, se uma partitura já possui a tablatura gerada e, se alguma nota precisa ser corrigida, 
-         será necessário apagar as linhas após a chave "accordionTab" a fim de gerar uma nova tablatura depois da correção da partitura.
+         será necessário apagar as linhas após a chave <b>"accordionTab"</b> a fim de gerar uma nova tablatura depois da correção da partitura.
          Ou, alternativamente, editar manualmente a tablatura para refletir a(s) nova(s) nota(s) na partitura.
         </p>
 
         <h3>A sintaxe da tablatura</h3>
 
-        <p>Assim, chegamos ao cerne do problema: pode ser bastante complicado editar uma tablatura, haja vista a quantidade enorme de informações
-          sintetizadas em um pequento texto e altamente simbólico. 
-
-        </p><p>
-
-          Para simplificar o entendimento, vamos tratar de apenas três compassos aleatórios e significativos da melodia 
-          e de seus correspondentes compassos dos baixos, extraídos da canção usada como exemplo. São eles (com pequenas modificações):</p>
+      <p>Para simplificar o entendimento, vamos tratar de apenas três compassos aleatórios e significativos da melodia 
+          e de seus correspondentes compassos de baixos, extraídos da canção usada como exemplo. 
+          São eles (com pequenas modificações):</p>
 
         <img src="/images/tablatura.entendimento.png" title="X: 1
         %%tabinferenceopts +2
@@ -365,10 +365,10 @@
         V:2 bass
         | C, [C,E,G,] | C, z           | D, [D,^F,A,]  |
         V:3 accordionTab
-        | C+6' c+6' | C+7'0.5 >+7'0.5 z+>0.5 z+7'0.5 | D-6'0.5 >-6'0.5 d-70.5 >-70.5 |"
+        | C+6' c+6' | C+7'0.5 >+7'0.5 z+>0.5 z-90.5 | D-6'0.5 >-6'0.5 d-70.5 >-70.5 |"
         style="width: 1024px;" >
 
-        <p>No texto ABCX acima, expomos a última linha que é o produto da
+        <p>No texto ABCX acima, expomos a última linha (linha 11) que é o produto da
         geração da tablatura pelo site. Comparemos, pois, o texto com a
         tablatura gerada:&nbsp; a primeira coisa que se observa é que, um
         compasso
@@ -398,10 +398,9 @@
           </li>
           <li><span style="font-weight: bold;">duração</span>: número indicando
         a duração do elemento como um todo (baixo e melodia). Se a duração for
-        igual a duração da nota base, não é necessário escrevê-la, do
-        contrário,
-        deve ser grafada ou na forma de uma fração ou como um número real.<br>
-          </li>
+        igual a duração da nota base (representada pela chave <b>L:</b> no texto ABCX. 
+        No exemplo acima <b>L:1/4</b>, ou seja, vale uma seminima), não é necessário escrevê-la, do
+        contrário, deve ser grafada ou na forma de uma fração ou como um número real.</li>
         </ul>
         <p>Analisemos alguns detalhes da&nbsp; tablatura gerada. O primeiro
         compasso é bastante simples:<br>
@@ -426,7 +425,7 @@
         primeira e da segunda notas da melodia. Para representar esta situação
         na tablatura, listamos o baixo Dó (C) no primeiro elemento e, no
         segundo, onde ele é uma
-        continuação, usamos o sinal de maior (&gt;), assim:</p>
+        continuação, usamos o sinal de maior (<b>&gt;</b>), assim:</p>
 
         <pre>C+7'0.5 &gt;+7'0.5 </pre>
         
@@ -434,42 +433,66 @@
         então, agora é a nota da melodia&nbsp; que será continuada com o sinal
         de maior.</p>
 
-        <pre>C+7'0.5  &gt;+7'0.5 z+&gt;0.5 z+7'0.5</pre>
+        <pre>C+7'0.5  &gt;+7'0.5 z+&gt;0.5 z-90.5</pre>
 
         <p>Chamamos ainda a atenção para os tempos que, neste compasso da
         tablatura, são sempre escritos com 1/2 da nota base (ou 0.5) para
-        representar tudo o que há na pauta e também a presença da pausa que é
-        representada pela letra "z".</p>
-        <p>Para encerrar, ainda há que se notar o sinal do fole: no primeiro e
-        segundo compassos, é indicado pelo símbolo "+", ou seja, fole em
-        movimento fechando, enquanto que no último compasso, o fole está
+        representar tudo o que há na pauta.
+        </p><p>
+        Na parte final do compasos nota-se a presença da pausa que é representada pela letra "z".
+      </p><p>
+        Para encerrar, ainda há que se notar o sinal do fole: no primeiro e
+        segundo elementos do compasso, é indicado pelo símbolo "+", ou seja, fole em
+        movimento fechando, enquanto que na última parte do compasso, o fole está
         abrindo e o sinal é "-".</p>
+
         <h3>Editando uma tablatura</h3>
-        <p>A edição da tablatura pode ser bastante confusa devido ao alto
-        número de informações simultâneas que ela abriga, mas extremamente
-        necessária, visto que não é possível gerar univocamente uma tablatura
-        para uma dada partitura: a mesma nota pode ser encontrada em mais de um
-        botão, às vezes, inclusive com a mesma direção do fole, ou ainda, por
-        restrição imposta pelos baixos podendo ser executada somente em uma
-        direção do fole.<br>
+
+        <p>Assim, chegamos ao cerne do problema: 
+          a edição da tablatura pode ser bastante confusa, 
+          haja vista a quantidade enorme de informações
+          sintetizadas em um pequento texto que é altamente simbólico.
+          No entanto, esta edição é extremamente necessária, pelo simples fato de que
+          não é possível gerar automaticamente e univocamente uma tablatura para uma dada partitura.
+          Há questões, tais como: <b>(a)</b> a mesma nota pode ser encontrada em mais de um
+          botão, às vezes, inclusive com a mesma direção do fole; ou ainda,
+          <b>(b)</b> por restrição imposta pelos baixos, esta só pode ser executada em uma das direções do fole.
         </p>
-        <p>Contudo, a edição é possível: ela fica à cargo do usuário e se for
-        feita com cuidado não haverá problemas. Note que, se for necessário alterar um
-        botão por outro que esteja disponível, mas com o fole na direção contrária
-        da atual, além de alterar o número do botão, deve-se alterar o sinal do
-        fole (+/-). Deve-se observar se o baixo está disponível nesta nova
-        direção do fole. Se o número do botão for incorretamente indicado, o
-        programa não reportará erro, mas durante a execução da melodia, o mesmo provavelmente não será selecionado no "<span style="font-weight: bold;">Mapa de Teclado</span>".</p>
-        <p>Para a edição, use "<span style="font-weight: bold;">Estúdio ABCX</span>" que dispõe de algumas ferramentas para facilitar a tarefa. Veja mais informações no menu de ajuda.<br>
+        <p>À despeito da dificuldade, a edição é possível: 
+          ela fica à cargo do usuário e, se for feita com cuidado, não haverá problemas.</p>
+          <p> 
+          Note que, se for necessário alterar um botão por outro que esteja disponível, 
+          mas com o fole na direção contrária da atual, além de alterar o número do botão, 
+          deve-se alterar o sinal do fole (+/-). 
+          Também, observe se o baixo estará disponível nesta nova direção do fole. 
+        </p>
+        <p>Se o número do botão for incorretamente indicado, ao atualizar a partitura,
+          o site indicará a incompatibilidade na <b>"Área de mensagens"</b> 
+          (maiores informações no menu de <b>Informações</b>, <b>Estúdio ABCX</b>)
+          e durante a execução do MIDI, o botão não será selecionado no "<span style="font-weight: bold;">Mapa de Teclado</span>".
+        </p>
+        <p>Para a edição, use "<span style="font-weight: bold;">Estúdio ABCX</span>" 
+          ou "<span style="font-weight: bold;">Editor de Partitura</span>". 
+          Ambos dispõem de algumas ferramentas para facilitar a tarefa. Veja mais no menu de <b>Informações</b>, <b>Mapas para Acordeões</b>.
 
         <h2>Lista de Diretivas ABCX</h2>
+        <p>As diretivas de compilação são chaves que alteram elementos da partitura.</p>
+        <p>Esta não é uma lista exaustiva, mas são listadas abaixo as diretivas que são mais comumente usadas:</p>
         <ul>
-          <li>%%tabinferenceopts</li>
-          <li>%%barsperstaff</li>
-          <li> </li>
+          <li><b>%%barnumbers</b> - permite numerar os compassos. Valores possíveis são 0, 1, n.</li>
+          <li><b>%%barsperstaff</b> - redistribui a partitura, mostrando "n" compassos por linha. Valores possíveis: n.</li>
+          <li><b>%%hideFingering</b> - esconde definitivamente os dedilhados, se estiverem presentes.</li>
+          <li><b>%%hideLyrics</b> - esconde definitivamente a letra da música, se estiver presente.</li>
+          <li><b>%%landscape</b> - muda a orientação da folha de partitura para o formato "paisagem"</li>
+          <li><b>%%papersize</b> - muda a proporção da altura X largura da folha de partitura. Valores possíves: a4, letter, legal e screen.</li>
+          <li><b>%%restsintab</b> - mostra graficamente as pausas também na tablatura.</li>
+          <li><b>%%staffsep</b> - espaço entre cada linha da pauta. Padrão é 30 pontos. Valores possíveis: n.</li>
+          <li><b>%%stretchlast</b> - formata a última linha da partitura para ocupar toda a largura, independente do número de compassos.</li>
+          <li><b>%%tabinferenceopts</b> - orienta o algoritmo de inferência de tablaturas sobre o movimento do fole. Valores possíves +/-n. Ver exemplo acima.</li>
+          <li><b>%%tabprintrowsnumbered</b> - formata definitvamente a tablatura para mostrar as linhas númeradas por expoentes.</li>
         </ul>
 
-        </p>
+        <p></p>
             <div class="info" ><br>
                 Accesse nosso site para imprimir e executar as partituras:<br>
                 <a href="https://www.diatonicmap.com.br/" target="_blank">https://www.diatonicmap.com.br/</a>

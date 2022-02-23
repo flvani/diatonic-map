@@ -126,9 +126,10 @@ body {
 }
 
 .helpTit {
-    font-size: 28px;
+    float:left;
+    font-size: 30px;
     line-height: 45px;
-    margin-top: 5px;
+    margin-right: 15px;
     margin-left: 15px;
     position: relative;
     font-weight: 700;
@@ -137,18 +138,19 @@ body {
 }    
 
 .helpHeader {
-    background-color: #5ba4a4; 
-    width:100%; 
-    top: 0px; 
-    left: 0px;
-    padding: 0px;
-    position: fixed; 
-    z-index: 1000;
-    min-height: 50px;
+  line-height: 45px;
+  background: -moz-linear-gradient(left, #003050 0%, black 100%);
+  background: -webkit-linear-gradient(left, #003050 0%, black 100%);
+  background: -o-linear-gradient(left, #003050 0%, black 100%);
+  background: -ms-linear-gradient(left, #003050 0%, black 100%);
+  background: linear-gradient(left, #003050 0%, black 100%);
+  color: orange;
+  color: #ff9922;
+  cursor:default;
 }
  
 .helpContent {
-    top: 60px;
+    top: 30px;
     left: 0px;
     margin: 4px;
     padding: 4px;
@@ -245,8 +247,8 @@ pre {
   border: 1px outset buttonface;
   color: buttontext;
   background-color: buttonface;
-  height: 26px;
-  padding: 1px 6px;
+  height: 22px;
+  padding: 0px 6px;
   margin-top: 0px;
   margin-left: 5px;
 }

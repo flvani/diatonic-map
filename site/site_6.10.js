@@ -2404,56 +2404,74 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
     
     this.helpWindow.dataDiv.innerHTML = '<object data="'+url+'" type="text/html" ></object>';
     this.iframe = this.helpWindow.dataDiv.getElementsByTagName("object")[0];
-    
-    
     this.iframe.style.width = options.width+"px";
     this.iframe.style.height = (options.height?options.height:400)+"px";
-    //that.helpWindow.topDiv.style.opacity = "0";
-    //that.helpWindow.topDiv.style.opacity = "1";
-    that.helpWindow.setVisible(true);
+    this.helpWindow.setVisible(true);
             
     var loader = this.startLoader( "About", this.helpWindow.dataDiv );
 
+    that.helpWindow.dataDiv.style.opacity = "1";
+    that.helpWindow.dataDiv.style.overflow = "hidden";
+
     loader.start(  function() { 
-        if( options.height ) {
-            that.iframe.addEventListener("load", function () { 
-                that.helpWindow.topDiv.style.opacity = "1";
-                that.iframe.style.height = options.height+"px";
-                
-                var header = this.contentDocument.getElementById('helpHeader');
-                var frm = this.contentDocument.getElementById('helpFrame');
-                var container = this.contentDocument.getElementById('helpContainer');
-                if( header ) header.style.display = 'none';
-                if( frm ) frm.style.overflow = 'hidden';
-                if( container ) {
-                    container.style.top = '0';
-                    container.style.height = (options.height-18)+"px";;
-                    container.style.overflow = 'hidden';
-                    container.style.border = '1px solid rgba(255, 153, 34, 0.2)';
-                    var v = new PerfectScrollbar( container, {
-                        handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
-                        wheelSpeed: 1,
-                        wheelPropagation: false,
-                        suppressScrollX: false,
-                        minScrollbarLength: 100,
-                        swipeEasing: true,
-                        scrollingThreshold: 500
-                    });
-                }
-                
-                loader.stop();
-            });    
-        } else { // auto determina a altura
+
+        if( options.height === undefined ) {// auto determina a altura
+
             that.iframe.addEventListener("load", function () { 
                 this.contentDocument.body.style.overflow ="hidden";
                 var info = this.contentDocument.getElementById('siteVerI');
                 if( info ) info.innerHTML=SITE.siteVersion;
-                that.iframe.style.height = this.contentDocument.body.clientHeight+"px";
-                //that.helpWindow.topDiv.style.opacity = "1";
-                that.helpWindow.dataDiv.style.overflow = "hidden";
+                this.style.height = this.contentDocument.body.clientHeight+"px";
+                that.helpWindow.dataDiv.style.opacity = "1";
                 loader.stop();
             });
+
+        } else {
+            
+            var myInterval = window.setInterval( function checkFrameLoaded() {
+                var header = that.iframe.contentDocument.getElementById('helpHeader');
+                if( header ){
+                    clearInterval( myInterval )
+                    that.helpWindow.dataDiv.style.opacity = "0";
+                    /* se pensar em implementar janela full para o help, eis o começo
+                        that.helpWindow.move(0,80);
+                        that.helpWindow.setSize( "calc( 100% - 10px)", "calc( 100% - 90px)" );
+                        options.height = that.helpWindow.topDiv.clientHeight;
+                        that.iframe.style.height = options.height + 'px';
+                    */
+                    var header = that.iframe.contentDocument.getElementById('helpHeader');
+                    var frm = that.iframe.contentDocument.getElementById('helpFrame');
+                    var container = that.iframe.contentDocument.getElementById('helpContainer');
+                    if( header ) header.style.display = 'none';
+                    if( frm ) frm.style.overflow = 'hidden';
+        
+                    that.iframe.style.height = options.height+"px";
+        
+                    if( container ) {
+                        container.style.top = '0';
+                        container.style.height = (options.height-18)+"px";;
+                        container.style.overflow = 'hidden';
+                        container.style.border = '1px solid rgba(255, 153, 34, 0.2)';
+                        var v = new PerfectScrollbar( container, {
+                            handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
+                            wheelSpeed: 1,
+                            wheelPropagation: false,
+                            suppressScrollX: false,
+                            minScrollbarLength: 100,
+                            swipeEasing: true,
+                            scrollingThreshold: 500
+                        });
+                    }
+        
+                    that.helpWindow.dataDiv.style.opacity = "1";
+                    loader.stop();
+                }
+                
+            }, 100);
+
+            //window.setTimeout( function() {}, 100);
         }
+
     }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
 };
 

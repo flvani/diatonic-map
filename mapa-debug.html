@@ -108,12 +108,15 @@ notação abc, tablatura " />
                     <div id="accordionImageDiv" class="accordionImageStyle"></div>
                     <div id="divABCXversion" class="abcxVersionStyle"></div>
                 </div>
-                <h3>Window size is <span class="window-size"></span></h3>
-                <p>Knowing this number you can make decisions based in breakpoints of window.</p>
-                <hr>
-                <h3>Screen size is <span class="screen-size"></span></h3>
-                <p>Here you have an idea of device screen size. </p>
+                <div style="z-index: 1000; position: fixed; right: -200px; top:0px;">
+                    <h3>Window size is <span class="window-size"></span></h3>
+                    <p>Knowing this number you can make decisions based in breakpoints of window.</p>
+                    <hr>
+                    <h3>Screen size is <span class="screen-size"></span></h3>
+                    <p>Here you have an idea of device screen size. </p>
+                    <hr>
                 </div>
+            </div>
             
             <div id="mapaWarningsDiv"></div>
 
@@ -481,7 +484,7 @@ window.addEventListener('resize', function(){
                          ,'non_interaction': true
                 });
                 
-                if( SITE.getDate() <= 202120919 ) {
+                if( SITE.getDate() <= 20210919 ) {
                     $('#tipsDiv').fadeIn('slow');
                     setTimeout(function() { 
                         $('#tipsDiv').fadeOut('slow'); 

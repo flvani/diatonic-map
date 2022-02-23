@@ -3684,11 +3684,9 @@ window.ABCXJS.parse.parseDirective = {};
 			case "stretchlast":tune.formatting.stretchlast = true;break;
 			case "titleleft":tune.formatting.titleleft = true;break;
 			case "measurebox":tune.formatting.measurebox = true;break;
-
-                        case "landscape":multilineVars.landscape = true;break;
+			case "landscape":multilineVars.landscape = true;break;
 			case "papersize":multilineVars.papersize = restOfString;break;
 			case "titlecaps":multilineVars.titlecaps = true;break;
-
 			case "botmargin":
 			case "botspace":
 			case "composerspace":
@@ -12654,7 +12652,10 @@ EventElement.prototype.bind = function bind (eventName, handler) {
     this.handlers[eventName] = [];
   }
   this.handlers[eventName].push(handler);
-  this.element.addEventListener(eventName, handler, {passive:true});
+  if(handler === 'touch' || handler === 'touchstart' )
+    this.element.addEventListener(eventName, handler, {passive:true});
+  else
+    this.element.addEventListener(eventName, handler, {passive:false});
 };
 
 EventElement.prototype.unbind = function unbind (eventName, target) {
@@ -14849,6 +14850,9 @@ DRAGGABLE.ui.DropdownMenu.prototype.highlightItem = function (ddm, up) {
     // up can be true or false (indicating direction) or it can be a string indicating an item
     var toSel = up, next = false, prev;
     var menu = this.headers[ddm];
+
+    if( menu === undefined ) return;
+
     var acts = menu.actionList;
     if( typeof up === "boolean" ) {
         toSel = false;

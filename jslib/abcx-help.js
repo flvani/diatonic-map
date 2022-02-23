@@ -113,7 +113,10 @@ EventElement.prototype.bind = function bind (eventName, handler) {
     this.handlers[eventName] = [];
   }
   this.handlers[eventName].push(handler);
-  this.element.addEventListener(eventName, handler, {passive:true});
+  if(handler === 'touch' || handler === 'touchstart' )
+    this.element.addEventListener(eventName, handler, {passive:true});
+  else
+    this.element.addEventListener(eventName, handler, {passive:false});
 };
 
 EventElement.prototype.unbind = function unbind (eventName, target) {

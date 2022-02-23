@@ -14,12 +14,12 @@ echo "Concatenating all files..."
 
 #remover "BOM mark" e garantir newline ao final do arquivo
 echo "Preparando repertorio minuano..."
-for f in songs/minuano/*.abcx; do sed -i $'s/^\uFEFF//' $f; if [ "$(tail -c 1 $f)" != "" ]; then echo '' >> $f; fi; done
+#for f in songs/minuano/*.abcx; do sed -i $'s/^\uFEFF//' $f; if [ "$(tail -c 1 $f)" != "" ]; then echo '' >> $f; fi; done
 cat songs/minuano/*.abcx > songs/minuano.repertorio.abcx
 
 #remover "BOM mark" e garantir newline ao final do arquivo
 echo "Preparando repertorio club..."
-for f in songs/club-br/*.abcx; do sed -i $'s/^\uFEFF//' $f; if [ "$(tail -c 1 $f)" != "" ]; then echo '' >> $f; fi; done
+#for f in songs/club-br/*.abcx; do sed -i $'s/^\uFEFF//' $f; if [ "$(tail -c 1 $f)" != "" ]; then echo '' >> $f; fi; done
 cat songs/club-br/*.abcx > songs/club-br.repertorio.abcx
 
 echo "Concatenating site files..."
