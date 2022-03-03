@@ -56,6 +56,42 @@ V:3 accordionTab
 | z+z2 z-7' z-8 |: G-6' g-6'0.5 >-70.5 G-6' g-7' | C+6'0.5 >+6'0.5 c+6'0.5 >+70.5 C+6' c+8 | C+6'0.5 >+6'0.5 c+6'0.5 >+70.5 C+6' c+8 |1 G-6' g-6' D-7' d-8 :| 
 |2 G-6' g-6' G-z0.5 >-5'0.5 g-[78]0.5 >-5'0.5 |: C+[6'7'] c+[6'7']0.5 >+[77']0.5 A-[7a] am-[89] | G-[6'7'] g-[6'7']0.5 >-[77']0.5 G-[5'9] g-[6'7'] | D-[78]0.5 >-[78]0.5 d-[78]0.5 >-[5'9]0.5 D-[67'] d-[68] | 
 |1 G-6' g-6' G-z0.5 >-5'0.5 g-[78]0.5 >-5'0.5 :|2 G+[67] g+[>>] D-7' d-8 | G-[5'6'] g-[>>] G-[>>] g-[>>] |
+X:1001
+%%barnumbers 0
+%%papersize a4
+%%pagenumbering
+%%staffsep 10
+T:Asa Branca
+C:Luiz Gonzaga & Humberto Teixeira
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/nth-lbmb7ys
+M:C
+L:1/4
+Q:180
+K:C
+V:1 treble
+V:2 bass
+[V:1]| z2 C D | E2 G2                     | G2 E2                     | F2 F2                   | 
+w:Quan-do olhei a~ter-ra ar-den-do
+[V:2]| z4     | C,,3/2 [C,E,G,]/2 C,, [C,E,G,] | C,,3/2 [C,E,G,]/2 C,, [C,E,G,] | F,,3/2 [F,A,C]/2 F,, [F,A,C] |
+[V:1]| z2 C D                  | E2 G2                     | G2 F2                     | E4                      | 
+w:Qual fo-guei-ra de São João
+[V:2]| F,,3/2 [F,A,C]/2 F,, [F,A,C] | C,,3/2 [C,E,G,]/2 C,, [C,E,G,] | G,,3/2 [G,B,D]/2 G,, [G,B,D] | C,,3/2 [C,E,G,]/2 C,, [C,E,G,] |
+[V:1]|: z C C D                   | E2 G2                     | z G F E              | C2 F2                        | 
+w:Eu per-gun-tei, ai, a Deus do céu, ai
+[V:2]|: C,,3/2 [C,E,G,]/2 C,, [C,E,G,] | C,,3/2 [C,E,G,]/2 C,, [C,E,G,] |  A,,3/2 [A,,C,E,]/2 A,, [A,,C,E,] | F,,3/2 [F,A,C]/2 F,, [F,A,C] |
+[V:1]| z F E D                 | D2 E2                   | z D D C                 |1 C4                       :|
+w:Por que ta-ma-nha ju-di-a-ção
+[V:2]| F,,3/2 [F,A,C]/2 F,, [F,A,C] | G,,3/2 [G,B,D]/2 G,, [G,B,D] | G,,3/2 [G,B,D]/2 G,, [G,B,D] |1 C,,3/2 [C,E,G,]/2 C,, [C,E,G,] :|
+[V:1]|:2 C2  c G                 | AFGE                       | FDEC                    | DCA,C                   :| C4                         |]
+[V:2]|:2  C,,3/2 [C,E,G,]/2 C,, [C,E,G,] | A,,3/2 [A,,C,E,]/2 A,, [A,,C,E,]  | F,,3/2 [F,A,C]/2 F,, [F,A,C] | G,,3/2 [G,B,D]/2 G,, [G,B,D] :|  C,,3/2 [C,E,G,]/2 C,, [C,E,G,] |]
+V:3 accordionTab
+| z+z2 z+3' z+5 | C+4'1.5 c+>0.5 C+5' c+> | C+5'1.5 c+>0.5 C+4' c+> | F-4'1.5 f->0.5 F-4' f-> |
+| F-z1.5 f-z0.5 F-4 f-3' | C+4'1.5 c+>0.5 C+5' c+> | G-5'1.5 g->0.5 G-4' g-> | C+4'1.5 c+>0.5 C+> c+> |
+|: C+z >+3'0.5 c+>0.5 C+3' c+5 | C+4'1.5 c+>0.5 C+5' c+> | A-z >-5'0.5 am->0.5 A-4' am-5 | F-41.5 f->0.5 F-4' f-> |
+| F-z >-4'0.5 f->0.5 F-5 f-3' | G-3'1.5 g->0.5 G-5 g-> | G-z >-3'0.5 g->0.5 G-3' g-4 |1 C+3'1.5 c+>0.5 C+> c+> :|
+|:2 C+3'1.5 c+>0.5 C+6' c+5' | A-7 >-4'0.5 am->0.5 A-5' am-5 | F-4' >-3'0.5 f->0.5 F-5 f-4 | G-3' >-40.5 g->0.5 G-3 g-4 :| C+3'1.5 c+>0.5 C+> c+> |]
 X:1046
 %%barnumbers 0
 %%papersize A4
@@ -100,42 +136,6 @@ V:3 accordionTab
 | G+z >+[67] g+[67] g+[67] | G+[67']2 g+[67'] g+[67'] | D-[67'] >-[67'] d-[67] d-[67] | D-[67']2 d-[67] d-[67] | D-[67']2 d-z d-[67'] | D-[67']2 d-[5'9] d-[67'] | 
 |1 C+[4'6']2 c+[4'6'] c+[4'6'] | C+[4'5']2 c+[4'5'] c+[4'5'] | D-[3'6]2 d-[3'6] d-[55'] | D-[67]2 d-[3'6] d-[>>] | G+[57]2 g+[>>] g+[>>] | G+[>>]2 g+[>>] g+[>>] :| 
 |2 C+[4'6']2 c+[4'6'] c+[4'6'] | C+[5'7']2 c+[5'7'] c+[5'7'] | D-[67']2 d-[67'] d-[67'] | D-[3'6']2 d-[47] d-[47] | G+[46]2 g+[>>] g+[>>] | G+[>>]2 g+[>>] g+[>>] | G+[67]4 |
-X:1001
-%%barnumbers 0
-%%papersize a4
-%%pagenumbering
-%%staffsep 10
-T:Asa Branca
-C:Luiz Gonzaga & Humberto Teixeira
-Z:Flávio Vani
-N:Mapa para Acordeões Diatônicos powered by ABCXJS.
-F:https://www.youtube-nocookie.com/embed/nth-lbmb7ys
-M:C
-L:1/4
-Q:180
-K:C
-V:1 treble
-V:2 bass
-[V:1]| z2 C D | E2 G2                     | G2 E2                     | F2 F2                   | 
-w:Quan-do olhei a~ter-ra ar-den-do
-[V:2]| z4     | C,,3/2 [C,E,G,]/2 C,, [C,E,G,] | C,,3/2 [C,E,G,]/2 C,, [C,E,G,] | F,,3/2 [F,A,C]/2 F,, [F,A,C] |
-[V:1]| z2 C D                  | E2 G2                     | G2 F2                     | E4                      | 
-w:Qual fo-guei-ra de São João
-[V:2]| F,,3/2 [F,A,C]/2 F,, [F,A,C] | C,,3/2 [C,E,G,]/2 C,, [C,E,G,] | G,,3/2 [G,B,D]/2 G,, [G,B,D] | C,,3/2 [C,E,G,]/2 C,, [C,E,G,] |
-[V:1]|: z C C D                   | E2 G2                     | z G F E              | C2 F2                        | 
-w:Eu per-gun-tei, ai, a Deus do céu, ai
-[V:2]|: C,,3/2 [C,E,G,]/2 C,, [C,E,G,] | C,,3/2 [C,E,G,]/2 C,, [C,E,G,] |  A,,3/2 [A,,C,E,]/2 A,, [A,,C,E,] | F,,3/2 [F,A,C]/2 F,, [F,A,C] |
-[V:1]| z F E D                 | D2 E2                   | z D D C                 |1 C4                       :|
-w:Por que ta-ma-nha ju-di-a-ção
-[V:2]| F,,3/2 [F,A,C]/2 F,, [F,A,C] | G,,3/2 [G,B,D]/2 G,, [G,B,D] | G,,3/2 [G,B,D]/2 G,, [G,B,D] |1 C,,3/2 [C,E,G,]/2 C,, [C,E,G,] :|
-[V:1]|:2 C2  c G                 | AFGE                       | FDEC                    | DCA,C                   :| C4                         |]
-[V:2]|:2  C,,3/2 [C,E,G,]/2 C,, [C,E,G,] | A,,3/2 [A,,C,E,]/2 A,, [A,,C,E,]  | F,,3/2 [F,A,C]/2 F,, [F,A,C] | G,,3/2 [G,B,D]/2 G,, [G,B,D] :|  C,,3/2 [C,E,G,]/2 C,, [C,E,G,] |]
-V:3 accordionTab
-| z+z2 z+3' z+5 | C+4'1.5 c+>0.5 C+5' c+> | C+5'1.5 c+>0.5 C+4' c+> | F-4'1.5 f->0.5 F-4' f-> |
-| F-z1.5 f-z0.5 F-4 f-3' | C+4'1.5 c+>0.5 C+5' c+> | G-5'1.5 g->0.5 G-4' g-> | C+4'1.5 c+>0.5 C+> c+> |
-|: C+z >+3'0.5 c+>0.5 C+3' c+5 | C+4'1.5 c+>0.5 C+5' c+> | A-z >-5'0.5 am->0.5 A-4' am-5 | F-41.5 f->0.5 F-4' f-> |
-| F-z >-4'0.5 f->0.5 F-5 f-3' | G-3'1.5 g->0.5 G-5 g-> | G-z >-3'0.5 g->0.5 G-3' g-4 |1 C+3'1.5 c+>0.5 C+> c+> :|
-|:2 C+3'1.5 c+>0.5 C+6' c+5' | A-7 >-4'0.5 am->0.5 A-5' am-5 | F-4' >-3'0.5 f->0.5 F-5 f-4 | G-3' >-40.5 g->0.5 G-3 g-4 :| C+3'1.5 c+>0.5 C+> c+> |]
 %%barnumbers 0
 %%papersize A4
 %barsperstaff 6
@@ -557,8 +557,8 @@ V:3 accordionTab
 W:Я знаю, смогу проявить свой напор, За голом-гол мы  посмотрим повтор
 W:И верю, хоть моё сердце трепещет в груди, Бразилия, ты-впереди!
 X:1048
-%%papersize A4
 %%barnumbers 0
+%%papersize A4
 T:Country Girl
 T:Für Zara
 R:Blues
@@ -573,19 +573,20 @@ Q:160
 K:G
 V:1 treble
 | z2 [DFA][DFA] z2 [DFA]2 | z2 [CEG][CEG] z2 [CEG]2 | z2 [B,DG][B,DG] z2 [B,DG]2 | z2 [DFA] [DFA]3 B,D | 
-|: E3 D3 B,D | E2 D2 B,2 A,G,- | G,8- | G,3 z3 EG | 
+|: +segno+ E3 D3 B,D | E2 D2 B,2 A,G,- | G,8- | G,3 z3 EG | 
 | A3 G3 EG | A2 G2 E2 B,D- | D8- | D3 z3 D2 | 
-| =F3 D3 z2 | G2 E2 C2 G,B,- | B,6 G,D,- | D,6 B,D :| 
+| =F3 D3 z2 | G2 E2 C2 G,B,- | B,6 G,D,- | D,6 B,D +D.S.+:| 
 V:2 bass
 | D,,2 z2 A,,2 D,,2 | C,,2 z2 G,,2 C,,2 | G,,2 z2 A,,2 G,,2 | D,,2 D,, D,,3 z2 | 
-|: G,,3 [G,,B,,D,]3 [G,,B,,D,]2 | G,,3 [G,,B,,D,]3 [D,F,A,] z | G,,3 [G,,B,,D,]3 [G,,B,,D,]2 | G,,3 [G,,B,,D,]3 [G,,B,,D,]2 | 
-| A,,3 [C,E,G,]3 [C,E,G,]2 | A,,2 z [C,E,G,]3 [C,E,G,]2 | G,,3 [G,,B,,D,]3 [G,,B,,D,]2 | G,,3 [G,,B,,D,]3 [G,,B,,D,]2 | 
-| D,,3 [D,F,A,]3 [D,F,A,]2 | C,,3 [C,E,G,]3 [C,E,G,]2 | G,,3 [G,,B,,D,]3 [D,F,A,]2 | D,,3 [D,F,A,]3 z2 :| 
+|: G,,3 [G,B,D]3 [G,B,D]2 | G,,3 [G,B,D]3 [D,F,A,] z | G,,3 [G,B,D]3 [G,B,D]2 | G,,3 [G,B,D]3 [G,B,D]2 | 
+| A,,3 [C,E,G,]3 [C,E,G,]2 | A,,2 z [C,E,G,]3 [C,E,G,]2 | G,,3 [G,B,D]3 [G,B,D]2 | G,,3 [G,B,D]3 [G,B,D]2 | 
+| D,,3 [D,F,A,]3 [D,F,A,]2 | C,,3 [C,E,G,]3 [C,E,G,]2 | G,,3 [G,B,D]3 [D,F,A,]2 | D,,3 [D,F,A,]3 z2 :| 
 V:3 accordionTab
 | D-z2 z-[3'67] z-[3'67] A-z2 D-[3'67]2 | C+z2 z+[3'4'5'] z+[3'4'5'] G+z2 C+[3'4'5']2 | G-z2 z-[2'3'5'] z-[2'3'5'] A-z2 G-[2'3'5']2 | D-z2 D-[3'67] D-[3'67]3 z+4 z+5 | 
-|: G+4'3 g+53 g+4 >+5 | G+4'2 >+5 g+> >+42 d-3 z+3 | G+>3 g+>3 g+>2 | G+33 g+z3 g+4' >+5' | 
-| A-73 c+5'3 c+4' >+5' | A-72 z+5' c+> >+4'2 c+4 >+5 | G+>3 g+>3 g+>2 | G+53 g+z3 g+52 | 
+|: G+4'3 g+53 g+4 >+5 | G+4'2 >+5 g+> >+42 d-3 z+3 | G+>3 g+>3 g+>2 | G+>3 g+z3 g+4' >+5' | 
+| A-73 c+5'3 c+4' >+5' | A-72 z+5' c+> >+4'2 c+4 >+5 | G+>3 g+>3 g+>2 | G+>3 g+z3 g+52 | 
 | D-4'3 d-3'3 d-z2 | C+5'2 >+4' c+> >+3'2 c+3 >+4 | G+>3 g+>3 d-1' >-1 | D->3 d->3 z+4 z+5 :|
+X:1062
 %%barnumbers 0
 %%papersize A4
 %%barsperstaff 5
@@ -593,7 +594,6 @@ V:3 accordionTab
 %%staffsep 20
 %%stretchlast
 %%pagenumbering
-X:1062
 T:Desgarrados
 C:Mário Barbará Dornelles
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)

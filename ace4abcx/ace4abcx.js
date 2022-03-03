@@ -19215,7 +19215,7 @@ exports.version = "1.2.6";
                 },
                     {
                     token: ['information.lyrics.strong', 'information.lyrics'],
-                    regex: '^([Wwf]:)([^%]*)',
+                    regex: '^([Wwfb]:)([^%]*)',
                     comment: 'ABCX lyrics lines'
                 },
                 {
