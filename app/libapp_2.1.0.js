@@ -119,8 +119,8 @@ SITE.LoadProperties = function() {
         salvar = true;
         
     }
-    
-    if( !SITE.properties.known_languages ) {
+   
+    if( !SITE.properties.known_languages || !SITE.properties.known_languages.ru_RU ) {
 
         SITE.properties.known_languages = {
              de_DE: { file: 'languages/de_DE.lang', image: "images/de_DE.png", name: 'Deustch' } 
@@ -128,6 +128,7 @@ SITE.LoadProperties = function() {
             ,es_ES: { file: 'languages/es_ES.lang', image: "images/es_ES.png", name: 'Español' } 
             ,fr_FR: { file: 'languages/fr_FR.lang', image: "images/fr_FR.png", name: 'Français' } 
             ,it_IT: { file: 'languages/it_IT.lang', image: "images/it_IT.png", name: 'Italiano' } 
+            ,ru_RU: { file: 'languages/ru_RU.lang', image: "images/ru_RU.png", name: 'Русский язык' } 
             ,pt_BR: { file: 'languages/pt_BR.lang', image: "images/pt_BR.png", name: 'Português do Brasil' } 
         };
 
@@ -241,6 +242,7 @@ SITE.ResetProperties = function() {
         ,es_ES: { file: 'languages/es_ES.lang', image: "images/es_ES.png", name: 'Español' } 
         ,fr_FR: { file: 'languages/fr_FR.lang', image: "images/fr_FR.png", name: 'Français' } 
         ,it_IT: { file: 'languages/it_IT.lang', image: "images/it_IT.png", name: 'Italiano' } 
+        ,ru_RU: { file: 'languages/ru_RU.lang', image: "images/ru_RU.png", name: 'Русский язык' } 
         ,pt_BR: { file: 'languages/pt_BR.lang', image: "images/pt_BR.png", name: 'Português do Brasil' } 
     };
     
@@ -2283,6 +2285,7 @@ SITE.App.prototype.settingsCallback = function (action, elem) {
         case 'fr_FR':
         case 'it_IT':
         case 'pt_BR':
+        case 'ru_RU':
             this.settings.lang = action;
             this.settings.menu.setSubMenuTitle( 'menuIdiomas', this.settings.menu.selectItem( 'menuIdiomas', action ));
             break;

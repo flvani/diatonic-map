@@ -27,10 +27,10 @@
         ,"tempoBtn": "Tempo"
         ,"gotoMeasure": { 
              "val" : "Gehe zu..."
-            ,"tip" : "Gehe zu Takt" }
+            ,"tip" : "Gehe zu Musikbar" }
         ,"untilMeasure": { 
              "val" : "bis zu..."
-            ,"tip" : "Wiedergeben bis zu Takt" }
+            ,"tip" : "Spielen bis zur Musikbar" }
         ,"stepBtn": "Schritt für Schritt"
         ,"stepMeasureBtn": "den Takt wiedergeben"
         ,"repeatBtn": "wiederholt das Intervall"
@@ -82,7 +82,7 @@
         ,"lyricsBtn": "Text"
         ,"fingeringBtn": "Fingersätze"
         ,"timerBtn": "Timer"
-        ,"clearBtn": "Löschen"
+        ,"clearBtn": "löschen die Auswahl"
         ,"debug": "Debuggen"
         ,"err_saving": "Fehler beim Speichern"
         ,"layout": "Layout:"
@@ -129,7 +129,6 @@
         ,"TabGenTargetEditorTitle": "Extrahierte Tabulatur"
         ,"chkUseBeams": "Keep the notes togheter"
         ,"close": "Schließen"
-        ,"restore": "Wiederherstellen"
         ,"move": "Bewegen"
         ,"rotate": "Drehen"
         ,"zoom": "Zoom"

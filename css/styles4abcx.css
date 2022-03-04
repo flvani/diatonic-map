@@ -294,8 +294,7 @@ and open the template in the editor.
     display: block;
     float:left;
     text-align: left;
-    vertical-align: middle;
-    font-family: 'Milonga','Arial';
+    font-family: 'Milonga','Arial Black';
     font-weight: normal;
     font-size: 20px;
     line-height: 16px;
@@ -509,7 +508,7 @@ and open the template in the editor.
     -moz-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -ms-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
     -o-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-    font-family: "AllertaStencil", "arial";
+    font-family: 'AllertaStencil', 'Arial Black';
     font-weight: normal;
     font-size: 18px;
     font-style: italic;
@@ -905,7 +904,7 @@ and open the template in the editor.
   padding: 0; 
   height: auto;
   text-align: left;
-  font-family: AllertaStencil, sans-serif;
+  font-family: 'AllertaStencil', 'Arial Black';
   font-size: 16px;
   font-weight: bold;
   pointer-events: none;

@@ -84,7 +84,7 @@ body {
     position: relative;
     float: left;
     width: 100%;
-    font-family: 'RockSalt';
+    font-family: 'RockSalt', 'Arial Black';
     font-weight: normal;
     font-size: 28px;
     text-align: left;

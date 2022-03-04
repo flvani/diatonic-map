@@ -1335,6 +1335,7 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
         case 'fr_FR':
         case 'it_IT':
         case 'pt_BR':
+        case 'ru_RU':
             this.settings.lang = action;
             this.settings.menu.setSubMenuTitle( 'menuIdiomas', this.settings.menu.selectItem( 'menuIdiomas', action ));
             break;
