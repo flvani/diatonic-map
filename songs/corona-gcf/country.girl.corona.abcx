@@ -14,33 +14,24 @@ C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fre
 M:4/4
 L:1/8
 Q:160
-% transpor para C
-% compasso  3 - último baixo F não tem abrindo - troquei por C
-% compasso  3 - a nota C abrindo é o botão 7.
-% compasso 14 - reducao tempo ultimo baixo
-% compasso 15 - reducao tempo ultimo baixo
-% compasso 15 - nota C oitava abaixo -botão 3
-% compasso 15 - nota G oitava abaixo - botão 2 fechando
-% revisar dedilhados 
-% eu vou corrigir a questão da repetição do mesmo dedilhado e verificar a possibilidade de mostrar os dedilhados do baixo
 K:C
 V:1 treble
 | z2 [GBd][GBd] z2 [GBd]2 | z2 [FAc][FAc] z2 [FAc]2 | z2 [EGc][EGc] z2 [EGc]2 | z2 [GBd] [GBd]3 EG | 
-f: 245 * * | 234 * * | 235 * * 245 * 3 4 
-|: +segno+ A3 G3 EG | A2 G2 E2 DC- | C8 | "[ZIEHEN]" z3 z3 Ac | 
+f: 245 * * | 234 * * | 234 * * 245 * 3 4 
+|: A3 G3 EG | A2 G2 E2 DC- | C8 | "[ZIEHEN]" z3 z3 Ac | 
 f: 3 4 3 4 3 4 3 2 2 2 3
 | d3 c3 Ac | d2 c2 A2 EG- | G8 | "[ZIEHEN]" z3 z3 G2 | 
 f: 5 3 2 3 5 3 2 2 3 2
-| ^A3 G3 z2 | c2 A2 F2 C_E- | _E6 CG,- | G,6 EG +D.S.+:| 
-f: 3 2 5 4 3 2 2 3 2 3 4
+| ^A3 G3 z2 | c2 A2 F2 C_E- | _E6 cG- | G6 EG :|
+f: 3 2 5 4 3 2 2 5 2 3 4
 V:2 bass
-| G,,2 z2 D,,2 G,,2 | F,,2 z2 C,,2 F,,2 | C,,2 z2 E,,2 C,,2 | G,,2 G,, G,,3 z2 | 
-b: 3 3 3 5 3 5 5 2 5 3
+| G,,2 z2 D,,2 G,,2 | F,,2 z2 C,,2 F,,2 | C,,2 z2 E,,2 F,,2 | G,,2 G,, G,,3 z2 | 
+b: 3 3 3 5 3 5 3 2 5 3
 |: C,,3 [C,E,G,]3 [C,E,G,]2 | C,,3 [C,E,G,]3 [G,B,D] z | C,,3 [C,E,G,]3 [C,E,G,]2 | C,,3 [C,E,G,]3 [F,A,C]2 | 
 | F,,3 [F,A,C]3 [F,A,C]2 | F,,2 z [F,A,C]3 [F,A,C]2 | C,,3 [C,E,G,]3 [C,E,G,]2 | C,,3 [C,E,G,]3 [C,E,G,]2 | 
-| G,,3 [G,B,D]3 [G,B,D]2 | F,,3 [F,A,C]3 [F,A,C] z | C,,3 [C,E,G,]3 [C,E,G,] z | G,,3 [G,B,D]3 z2 :| 
+| G,,3 [G,B,D]3 [G,B,D]2 | F,,3 [F,A,C]3 [F,A,C] z | C,,3 [C,E,G,]3 [C,E,G,] z | G,,3 [G,B,D]3 z2 :|
 V:3 accordionTab
-| G-z2 z-[3''6'7'] z-[3''6'7'] D¹-z2 G-[3''6'7']2 | F+z2 z+[3''4''5''] z+[3''4''5''] C+z2 F+[3''4''5'']2 | C-z2 z-[2''3''7] z-[2''3''7] E+z2 C-[2''3''7]2 | G-z2 G-[3''6'7'] G-[3''6'7']3 z+4' z+5 |
+| G-z2 z-[3''6'7'] z-[3''6'7'] D¹-z2 G-[3''6'7']2 | F+z2 z+[3''4''5''] z+[3''4''5''] C+z2 F+[3''4''5'']2 | C+z2 z+[4'5'6'] z+[4'5'6'] E+z2 F+[4'5'6']2 | G-z2 G-[3''6'7'] G-[3''6'7']3 z+4' z+5 |
 |: C+4''3 c+5'3 c+4' >+5' | C+4''2 >+5' c+> >+4'2 g-3' z+3' | C+>3 c+>3 c+>2 | C->3 c->3 f+4'' >+5'' |
 | F+73 f+5''3 f+4'' >+5'' | F+72 z+5'' f+> >+4''2 f+4' >+5' | C+>3 c+>3 c+>2 | C->3 c->3 c-3''2 |
-| G-4''3 g-3''3 g-z2 | F+5''2 >+4'' f+> >+3''2 f+2'' z-1 | C->3 c->3 c-3 z+2 | G+>3 g+>3 z+4' z+5' :|
+| G-4''3 g-3''3 g-z2 | F+5''2 >+4'' f+> >+3''2 f+2'' z-1 | C->3 c->3 c-7 z-3'' | G->3 g->3 z+4' z+5' :|

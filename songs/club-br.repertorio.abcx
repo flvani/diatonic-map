@@ -56,6 +56,43 @@ V:3 accordionTab
 | z+z2 z-8' z-9 |: C-7' c-7'0.5 >-80.5 C-7' c-8' | F+7'0.5 >+7'0.5 f+7'0.5 >+80.5 F+7' f+9 |F+7'0.5 >+7'0.5 f+7'0.5 >+80.5 F+7' f+9 |1 C-7' c-> G-8' g-9 :|
 |2 C-7' c-> C-z0.5 >-6'0.5 c-[89]0.5 >-6'0.5 |: F+[7'8'] f+[7'8']0.5 >+[88']0.5 D-[8b] dm-[9a] | C+[89] c+[89]0.5 >+[89]0.5 C+[6'8'] c+[89] | G-[89]0.5 >-[89]0.5 g-[89]0.5 >-[6'a]0.5 G-[78'] g-[79] |
 |1 C+[78] c+[>>] C-z0.5 >-6'0.5 c-[89]0.5 >-6'0.5 :|2 C+[78] c+[>>] G-8' g-9 | C-[6'7'] c-[>>] C-[>>] >-[>>] |
+X:2003
+%%barnumbers 0
+%%papersize a4
+%%pagenumbering
+%%staffsep 20
+T:Asa Branca (club)
+C:Luiz Gonzaga & Humberto Teixeira
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+%F:https://www.youtube-nocookie.com/embed/nth-lbmb7ys
+M:C
+L:1/4
+Q:180
+K:F
+V:1 treble
+| z2 F G | A2 c2 | c2 A2 | B2 B2 |
+w:Quan-do olhei a~ter-ra ar-den-do
+| z1.5 z0.5 F G | A2 c2 | c2 B2 | A4 |
+w:Qual fo-guei-ra de São João
+|: z F F G | A2 c2 | z c B A | F2 B2 |
+w:Eu per-gun-tei, ai, a Deus do céu, ai
+| z B A G | G2 A2 | z G G F |1 F4 :|
+w:Por que ta-ma-nha ju-di-a-ção
+|:2 F2 f c | d B c A | B G A F | G F D F :| F4 |]
+V:2 bass
+| z2 z z | F,,1.5 [F,,A,,C,]0.5 F,, [F,,A,,C,] | F,,1.5 [F,,A,,C,]0.5 F,, [F,,A,,C,] | B,,1.5 [B,,D,F,]0.5 B,, [B,,D,F,] |
+| B,,1.5 [B,,D,F,]0.5 B,, [B,,D,F,] | F,,1.5 [F,,A,,C,]0.5 F,, [F,,A,,C,] | C,,1.5 [C,E,G,]0.5 C,, [C,E,G,] | F,,1.5 [F,,A,,C,]0.5 F,, [F,,A,,C,] |
+|: F,,1.5 [F,,A,,C,]0.5 F,, [F,,A,,C,] | F,,1.5 [F,,A,,C,]0.5 F,, [F,,A,,C,] | D,,1.5 [D,F,A,]0.5 D,, [D,F,A,] | B,,1.5 [B,,D,F,]0.5 B,, [B,,D,F,] |
+| B,,1.5 [B,,D,F,]0.5 B,, [B,,D,F,] | C,,1.5 [C,E,G,]0.5 C,, [C,E,G,] | C,,1.5 [C,E,G,]0.5 C,, [C,E,G,] |1 F,,1.5 [F,,A,,C,]0.5 F,, [F,,A,,C,] :|
+|:2 F,,1.5 [F,,A,,C,]0.5 F,, [F,,A,,C,] | D,,1.5 [D,F,A,]0.5 D,, [D,F,A,] | B,,1.5 [B,,D,F,]0.5 B,, [B,,D,F,] | C,,1.5 [C,E,G,]0.5 C,, [C,E,G,] :| F,,1.5 [F,,A,,C,]0.5 F,, [F,,A,,C,] |]
+V:3 accordionTab
+| z+z2 z+4' z+6 | F+5'1.5 f+>0.5 F+6' f+> | F+6'1.5 f+>0.5 F+5' f+> | B♭-5'1.5 b♭->0.5 B♭-5' b♭-> |
+| B♭-z1.5 b♭-z0.5 B♭-5 b♭-4' | F+5'1.5 f+>0.5 F+6' f+> | C-6'1.5 c->0.5 C-5' c-> | F+5'1.5 f+>0.5 F+> f+> |
+|: F+z >+4'0.5 f+>0.5 F+4' f+6 | F+5'1.5 f+>0.5 F+6' f+> | D-z >-6'0.5 dm->0.5 D-5' dm-6 | B♭-51.5 b♭->0.5 B♭-5' b♭-> |
+| B♭-z >-5'0.5 b♭->0.5 B♭-6 b♭-4' | C-4'1.5 c->0.5 C-6 c-> | C-z >-4'0.5 c->0.5 C-4' c-5 |1 F+4'1.5 f+>0.5 F+> f+> :|
+|:2 F+4'1.5 f+>0.5 F+7' f+6' | D-8 >-5'0.5 dm->0.5 D-6' dm-6 | B♭-5' >-4'0.5 b♭->0.5 B♭-6 b♭-5 | C-4' >-50.5 c->0.5 C-4 c-5 :| F+4'1.5 f+>0.5 F+> f+> |] 
+
 X:2046
 %%barnumbers 0
 %%papersize A4
@@ -100,43 +137,6 @@ V:3 accordionTab
 | C+z >+[78] c+[78] c+[78] | C+[78']2 c+[78'] c+[78'] | G-[78'] >-[78'] g-[78] g-[78] | G-[78']2 g-[78] g-[78] | G-[78']2 g-z g-[78'] | G-[78']2 g-[6'a] g-[78'] | 
 |1 F+[5'7']2 f+[5'7'] f+[5'7'] | F+[5'6']2 f+[5'6'] f+[5'6'] | G-[4'7]2 g-[4'7] g-[66'] | G-[78]2 g-[4'7] g-[>>] | C+[68]2 c+[>>] c+[>>] | C+[>>]2 c+[>>] c+[>>] :| 
 |2 F+[5'7']2 f+[5'7'] f+[5'7'] | F+[6'8']2 f+[6'8'] f+[6'8'] | G-[78']2 g-[78'] g-[78'] | G-[4'7']2 g-[58] g-[58] | C+[57]2 c+[>>] c+[>>] | C+[>>]2 c+[>>] c+[>>] | C+[78]4 | 
-X:2003
-%%barnumbers 0
-%%papersize a4
-%%pagenumbering
-%%staffsep 20
-T:Asa Branca (club)
-C:Luiz Gonzaga & Humberto Teixeira
-Z:Flávio Vani
-N:Mapa para Acordeões Diatônicos powered by ABCXJS.
-%F:https://www.youtube-nocookie.com/embed/nth-lbmb7ys
-M:C
-L:1/4
-Q:180
-K:F
-V:1 treble
-| z2 F G | A2 c2 | c2 A2 | B2 B2 |
-w:Quan-do olhei a~ter-ra ar-den-do
-| z1.5 z0.5 F G | A2 c2 | c2 B2 | A4 |
-w:Qual fo-guei-ra de São João
-|: z F F G | A2 c2 | z c B A | F2 B2 |
-w:Eu per-gun-tei, ai, a Deus do céu, ai
-| z B A G | G2 A2 | z G G F |1 F4 :|
-w:Por que ta-ma-nha ju-di-a-ção
-|:2 F2 f c | d B c A | B G A F | G F D F :| F4 |]
-V:2 bass
-| z2 z z | F,,1.5 [F,,A,,C,]0.5 F,, [F,,A,,C,] | F,,1.5 [F,,A,,C,]0.5 F,, [F,,A,,C,] | B,,1.5 [B,,D,F,]0.5 B,, [B,,D,F,] |
-| B,,1.5 [B,,D,F,]0.5 B,, [B,,D,F,] | F,,1.5 [F,,A,,C,]0.5 F,, [F,,A,,C,] | C,,1.5 [C,E,G,]0.5 C,, [C,E,G,] | F,,1.5 [F,,A,,C,]0.5 F,, [F,,A,,C,] |
-|: F,,1.5 [F,,A,,C,]0.5 F,, [F,,A,,C,] | F,,1.5 [F,,A,,C,]0.5 F,, [F,,A,,C,] | D,,1.5 [D,F,A,]0.5 D,, [D,F,A,] | B,,1.5 [B,,D,F,]0.5 B,, [B,,D,F,] |
-| B,,1.5 [B,,D,F,]0.5 B,, [B,,D,F,] | C,,1.5 [C,E,G,]0.5 C,, [C,E,G,] | C,,1.5 [C,E,G,]0.5 C,, [C,E,G,] |1 F,,1.5 [F,,A,,C,]0.5 F,, [F,,A,,C,] :|
-|:2 F,,1.5 [F,,A,,C,]0.5 F,, [F,,A,,C,] | D,,1.5 [D,F,A,]0.5 D,, [D,F,A,] | B,,1.5 [B,,D,F,]0.5 B,, [B,,D,F,] | C,,1.5 [C,E,G,]0.5 C,, [C,E,G,] :| F,,1.5 [F,,A,,C,]0.5 F,, [F,,A,,C,] |]
-V:3 accordionTab
-| z+z2 z+4' z+6 | F+5'1.5 f+>0.5 F+6' f+> | F+6'1.5 f+>0.5 F+5' f+> | B♭-5'1.5 b♭->0.5 B♭-5' b♭-> |
-| B♭-z1.5 b♭-z0.5 B♭-5 b♭-4' | F+5'1.5 f+>0.5 F+6' f+> | C-6'1.5 c->0.5 C-5' c-> | F+5'1.5 f+>0.5 F+> f+> |
-|: F+z >+4'0.5 f+>0.5 F+4' f+6 | F+5'1.5 f+>0.5 F+6' f+> | D-z >-6'0.5 dm->0.5 D-5' dm-6 | B♭-51.5 b♭->0.5 B♭-5' b♭-> |
-| B♭-z >-5'0.5 b♭->0.5 B♭-6 b♭-4' | C-4'1.5 c->0.5 C-6 c-> | C-z >-4'0.5 c->0.5 C-4' c-5 |1 F+4'1.5 f+>0.5 F+> f+> :|
-|:2 F+4'1.5 f+>0.5 F+7' f+6' | D-8 >-5'0.5 dm->0.5 D-6' dm-6 | B♭-5' >-4'0.5 b♭->0.5 B♭-6 b♭-5 | C-4' >-50.5 c->0.5 C-4 c-5 :| F+4'1.5 f+>0.5 F+> f+> |] 
-
 %%barnumbers 0
 %%papersize A4
 %%staffsep 20
@@ -642,8 +642,8 @@ Q:160
 K:C
 V:1 treble
 | z2 [GBd][GBd] z2 [GBd]2 | z2 [FAc][FAc] z2 [FAc]2 | z2 [EGc][EGc] z2 [EGc]2 | z2 [GBd][GBd]3 EG | 
-|: A3 G3 EG | A2 G2 E2 DC- | C8 | C3 z3 Ac | 
-| d3 c3 Ac | d2 c2 A2 EG- | G8 | G3 z3 G2 | 
+|: A3 G3 EG | A2 G2 E2 DC- | C8- | C3 z3 Ac | 
+| d3 c3 Ac | d2 c2 A2 EG- | G8- | G3 z3 G2 | 
 | _B3 G3 z2 | c2 A2 F2 CE- | E6 CG,- | G,6 EG :| 
 V:2 bass
 | G,,2 z z D,,2 G,,2 | F,,2 z z C,,2 F,,2 | C,,2 z z D,,2 C,,2 | G,,2 G,, G,,3 z2 | 
@@ -652,9 +652,10 @@ V:2 bass
 | G,,3 [G,B,D]3 [G,B,D]2 | F,,3 [F,A,C]3 [F,A,C]2 | C,,3 [C,E,G,]3 [G,B,D]2 | G,,3 [G,B,D]3 z z :| 
 V:3 accordionTab
 | G-z2 z-[4'78] z-[4'78] D-z2 G-[4'78]2 | F+z2 z+[4'5'6'] z+[4'5'6'] C+z2 F+[4'5'6']2 | C-z2 z-[3'4'6'] z-[3'4'6'] D-z2 C-[3'4'6']2 | G-z2 G-[4'78] G-[4'78]3 z+5 z+6 | 
-|: C+5'3 c+63 c+5 >+6 | C+5'2 >+6 c+> >+52 g-4 z+4 | C+>3 c+>3 c+>2 | C+43 c+z3 c+5' >+6' | 
-| D-83 f+6'3 f+5' >+6' | D-82 z+6' f+> >+5'2 f+5 >+6 | C+>3 c+>3 c+>2 | C+63 c+z3 c+62 | 
+|: C+5'3 c+63 c+5 >+6 | C+5'2 >+6 c+> >+52 g-4 z+4 | C+>3 c+>3 c+>2 | C+>3 c+z3 c+5' >+6' | 
+| D-83 f+6'3 f+5' >+6' | D-82 z+6' f+> >+5'2 f+5 >+6 | C+>3 c+>3 c+>2 | C+>3 c+z3 c+62 | 
 | G-5'3 g-4'3 g-z2 | F+6'2 >+5' f+> >+4'2 f+4 >+5 | C+>3 c+>3 g-2' >-2 | G->3 g->3 z+5 z+6 :| 
+X:2062
 %%barnumbers 0
 %%papersize A4
 %%barsperstaff 5
@@ -662,7 +663,6 @@ V:3 accordionTab
 %%staffsep 20
 %%stretchlast
 %%pagenumbering
-X:2062
 T:Desgarrados (club)
 C:Mário Barbará Dornelles
 %C:(adapt. Cezar Ferreira)
