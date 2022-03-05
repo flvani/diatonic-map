@@ -375,7 +375,7 @@ DIATONIC.map.Keyboard.prototype.print = function (div, render_opts, translator) 
         text-shadow: 0.5px 0.5px #ddd, -0.5px -0.5px 0 #ddd, 0.5px -0.5px 0 #ddd, -0.5px 0.5px 0 #ddd;\n\
     }\n\
     .buttonNMini {\n\
-        font-family: "AllertaStencil", "Arial Black";\n\
+        font-family: "AllertaStencil", "RobotoItalic";\n\
         text-anchor: middle;\n\
         font-size: 11px;\n\
         font-weight: normal;\n\
