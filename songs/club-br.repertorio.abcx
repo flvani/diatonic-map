@@ -642,8 +642,8 @@ Q:160
 K:C
 V:1 treble
 | z2 [GBd][GBd] z2 [GBd]2 | z2 [FAc][FAc] z2 [FAc]2 | z2 [EGc][EGc] z2 [EGc]2 | z2 [GBd][GBd]3 EG | 
-|: A3 G3 EG | A2 G2 E2 DC- | C8 | C3 z3 Ac | 
-| d3 c3 Ac | d2 c2 A2 EG- | G8 | G3 z3 G2 | 
+|: A3 G3 EG | A2 G2 E2 DC- | C8- | C3 z3 Ac | 
+| d3 c3 Ac | d2 c2 A2 EG- | G8- | G3 z3 G2 | 
 | _B3 G3 z2 | c2 A2 F2 CE- | E6 CG,- | G,6 EG :| 
 V:2 bass
 | G,,2 z z D,,2 G,,2 | F,,2 z z C,,2 F,,2 | C,,2 z z D,,2 C,,2 | G,,2 G,, G,,3 z2 | 
@@ -652,9 +652,10 @@ V:2 bass
 | G,,3 [G,B,D]3 [G,B,D]2 | F,,3 [F,A,C]3 [F,A,C]2 | C,,3 [C,E,G,]3 [G,B,D]2 | G,,3 [G,B,D]3 z z :| 
 V:3 accordionTab
 | G-z2 z-[4'78] z-[4'78] D-z2 G-[4'78]2 | F+z2 z+[4'5'6'] z+[4'5'6'] C+z2 F+[4'5'6']2 | C-z2 z-[3'4'6'] z-[3'4'6'] D-z2 C-[3'4'6']2 | G-z2 G-[4'78] G-[4'78]3 z+5 z+6 | 
-|: C+5'3 c+63 c+5 >+6 | C+5'2 >+6 c+> >+52 g-4 z+4 | C+>3 c+>3 c+>2 | C+43 c+z3 c+5' >+6' | 
-| D-83 f+6'3 f+5' >+6' | D-82 z+6' f+> >+5'2 f+5 >+6 | C+>3 c+>3 c+>2 | C+63 c+z3 c+62 | 
+|: C+5'3 c+63 c+5 >+6 | C+5'2 >+6 c+> >+52 g-4 z+4 | C+>3 c+>3 c+>2 | C+>3 c+z3 c+5' >+6' | 
+| D-83 f+6'3 f+5' >+6' | D-82 z+6' f+> >+5'2 f+5 >+6 | C+>3 c+>3 c+>2 | C+>3 c+z3 c+62 | 
 | G-5'3 g-4'3 g-z2 | F+6'2 >+5' f+> >+4'2 f+4 >+5 | C+>3 c+>3 g-2' >-2 | G->3 g->3 z+5 z+6 :| 
+X:2062
 %%barnumbers 0
 %%papersize A4
 %%barsperstaff 5
@@ -662,7 +663,6 @@ V:3 accordionTab
 %%staffsep 20
 %%stretchlast
 %%pagenumbering
-X:2062
 T:Desgarrados (club)
 C:Mário Barbará Dornelles
 %C:(adapt. Cezar Ferreira)
