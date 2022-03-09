@@ -99,7 +99,7 @@ SITE.getLanguage = function ( ) {
     } 
     // não encontrou a linguagem exata, então tenta apenas pelo prefixo.
     for( var id in SITE.properties.known_languages ) {
-        if( id.substr(0,2) === language.substr(0,2) ) {
+        if( id.substring(0,2) === language.substring(0,2) ) {
             return id;
         }
     }
