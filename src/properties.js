@@ -23,6 +23,11 @@ SITE.askHelp = function () {
                 if(SITE.properties.options.doNotAskHelp){
                     SITE.SaveProperties();
                 }
+                SITE.ga( 'event', 'askedHelp', { 
+                    'event_category': 'Configuration'  
+                   ,'event_label': SITE.properties.options.doNotAskHelp? 'Refused': 'JustClosed'
+                });
+        
              }, false);
         }
     }
