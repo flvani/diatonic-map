@@ -9,6 +9,25 @@ if (!window.SITE)
 
 window.dataLayer = window.dataLayer || [];
 
+SITE.askHelp = function () {
+    if( !SITE.properties.options.doNotAskHelp && SITE.properties.options.language === 'ru_RU' ){
+        var d = document.getElementById('askHelpDiv');
+        if(d){
+            d.style.display = 'block';
+            var q = document.getElementById('askHelpBtn');
+            var c = document.getElementById('askHelpChk');
+
+            q.addEventListener("click", function(event) {
+                d.style.display = 'none';
+                SITE.properties.options.doNotAskHelp = c.checked;
+                if(SITE.properties.options.doNotAskHelp){
+                    SITE.SaveProperties();
+                }
+             }, false);
+        }
+    }
+}
+
 SITE.ga = function () {
 
     if( arguments[0] === 'set' && arguments[1] === 'page_path') {
@@ -215,7 +234,8 @@ SITE.LoadProperties = function() {
     if( salvar ) {
         SITE.SaveProperties();
     }
-    
+
+    SITE.askHelp();
 };
 
 SITE.SaveProperties = function() {
@@ -2244,6 +2264,8 @@ SITE.Mapa.prototype.applySettings = function() {
         });
 
         SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
+        SITE.askHelp();
+
     }
     
     if( this.settings.pianoSound.checked  !== SITE.properties.options.pianoSound ) {
@@ -2281,6 +2303,7 @@ SITE.Mapa.prototype.applySettings = function() {
     
     this.accordion.loadedKeyboard.legenda.setOpen();
     this.accordion.loadedKeyboard.legenda.setClose();
+
 };
 
 SITE.Mapa.prototype.changePageOrientation = function (orientation) {

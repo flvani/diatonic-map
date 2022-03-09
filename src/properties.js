@@ -9,6 +9,25 @@ if (!window.SITE)
 
 window.dataLayer = window.dataLayer || [];
 
+SITE.askHelp = function () {
+    if( !SITE.properties.options.doNotAskHelp && SITE.properties.options.language === 'ru_RU' ){
+        var d = document.getElementById('askHelpDiv');
+        if(d){
+            d.style.display = 'block';
+            var q = document.getElementById('askHelpBtn');
+            var c = document.getElementById('askHelpChk');
+
+            q.addEventListener("click", function(event) {
+                d.style.display = 'none';
+                SITE.properties.options.doNotAskHelp = c.checked;
+                if(SITE.properties.options.doNotAskHelp){
+                    SITE.SaveProperties();
+                }
+             }, false);
+        }
+    }
+}
+
 SITE.ga = function () {
 
     if( arguments[0] === 'set' && arguments[1] === 'page_path') {
@@ -215,7 +234,8 @@ SITE.LoadProperties = function() {
     if( salvar ) {
         SITE.SaveProperties();
     }
-    
+
+    SITE.askHelp();
 };
 
 SITE.SaveProperties = function() {

@@ -1423,6 +1423,8 @@ SITE.Mapa.prototype.applySettings = function() {
         });
 
         SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
+        SITE.askHelp();
+
     }
     
     if( this.settings.pianoSound.checked  !== SITE.properties.options.pianoSound ) {
@@ -1460,6 +1462,7 @@ SITE.Mapa.prototype.applySettings = function() {
     
     this.accordion.loadedKeyboard.legenda.setOpen();
     this.accordion.loadedKeyboard.legenda.setClose();
+
 };
 
 SITE.Mapa.prototype.changePageOrientation = function (orientation) {

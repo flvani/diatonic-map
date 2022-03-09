@@ -576,6 +576,7 @@ SITE.App.prototype.applySettings = function() {
         });
         SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
         this.setPrivacyLang();
+        SITE.askHelp();
     }
     
     if( this.settings.originalPianoSound !== SITE.properties.options.pianoSound ) {
