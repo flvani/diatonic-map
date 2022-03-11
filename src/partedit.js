@@ -317,7 +317,7 @@ SITE.PartEdit.prototype.posicionaTeclado = function() {
 
 SITE.PartEdit.prototype.closePartEdit = function(save) {
     var self = this;
-    //var loader = this.mapa.startLoader( "ClosePartEdit", self.Div.dataDiv );
+    //var loader = SITE.startLoader( "ClosePartEdit", self.Div.dataDiv );
     
     //loader.start(  function() { 
         var text = self.editorWindow.getString();

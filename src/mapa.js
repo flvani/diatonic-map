@@ -327,7 +327,7 @@ SITE.Mapa.prototype.loadOriginalRepertoire = function () {
     if (this.accordion.loaded.localResource) return;
 
     var self = this;
-    var loader = this.startLoader( "LoadRepertoire", this.tuneContainerDiv );
+    var loader = SITE.startLoader( "LoadRepertoire", this.tuneContainerDiv );
     loader.start(  function() { self.doLoadOriginalRepertoire(loader); }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
 };
     
@@ -589,7 +589,7 @@ SITE.Mapa.prototype.openEstudio = function (button, event) {
                 ,page_path: SITE.root+'/studioABCX/'+this.accordion.getId()
           })        
 
-        var loader = this.startLoader( "OpenEstudio", this.tuneContainerDiv );
+        var loader = SITE.startLoader( "OpenEstudio", this.tuneContainerDiv );
         loader.start(  function() { 
             self.studio.setup( tab, self.accordion.getId() );
             loader.stop();
@@ -833,7 +833,7 @@ SITE.Mapa.prototype.restauraRepertorio = function() {
         return;
     }
 
-    var loader = this.startLoader( "ReloadRepertoire", that.tuneContainerDiv );
+    var loader = SITE.startLoader( "ReloadRepertoire", that.tuneContainerDiv );
     loader.start(  function() { 
         accordion.songs = accordion.loadABCX( accordion.songPathList, function() {  
             that.renderedTune.title = accordion.getFirstSong();
@@ -937,7 +937,7 @@ SITE.Mapa.prototype.showABC = function(action) {
         tab.menu.setSubMenuTitle( tab.ddmId, (cleanedTitle.length>43 ? cleanedTitle.substr(0,40) + "..." : cleanedTitle) );
         if( !this.accordion.loaded.localResource)
             FILEMANAGER.saveLocal( 'property.'+this.accordion.getId()+'.'+type+'.title', tab.title );
-        var loader = this.startLoader( "TABLoader" + type, this.tuneContainerDiv );
+        var loader = SITE.startLoader( "TABLoader" + type, this.tuneContainerDiv );
         loader.start(  function() { 
             self.midiPlayer.stopPlay();
             self.renderTAB( tab );
@@ -1119,23 +1119,6 @@ SITE.Mapa.prototype.highlight = function(abcelem) {
 //SITE.Mapa.prototype.unhighlight = function(abcelem) {
 //};
 
-SITE.Mapa.prototype.startLoader = function(id, container, start, stop) {
-
-    var loader = new window.widgets.Loader({
-         id: id
-        ,bars: 0
-        ,radius: 0
-        ,lineWidth: 20
-        ,lineHeight: 70
-        ,timeout: 1 // maximum timeout in seconds.
-        ,background: "rgba(0,0,0,0.5)"
-        ,container: container? container: document.body
-        ,onstart: start // call function once loader has started	
-        ,oncomplete: stop // call function once loader has started	
-    });
-    return loader;
-};
-
 SITE.Mapa.prototype.defineInstrument = function(onlySet) {
     
     var instrument = SITE.properties.options.pianoSound ?  "acoustic_grand_piano" : "accordion" ;
@@ -1177,7 +1160,7 @@ SITE.Mapa.prototype.defineInstrument = function(onlySet) {
 
 SITE.Mapa.prototype.showSettings = function() {
 
-    //window.waterbug && window.waterbug.show();
+    var that = this;
 
     var width = 620;
     var winW = window.innerWidth
@@ -1205,7 +1188,7 @@ SITE.Mapa.prototype.showSettings = function() {
         var cookieValue = document.cookie.match(/(;)?cookiebar=([^;]*);?/)[2];
         var cookieSets = ""
         if (cookieValue ) { // CookieAllowed
-            cookieSets = '&nbsp;<a href="#" onclick="document.cookie=\'cookiebar=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/\'; setupCookieBar(); return false;"><span data-translate="cookiePrefs" >'+SITE.translator.getResource('cookiePrefs')+'</span></a>'
+            cookieSets = '<a href="#" onclick="document.cookie=\'cookiebar=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/\'; setupCookieBar(); return false;"><span data-translate="cookiePrefs" >'+SITE.translator.getResource('cookiePrefs')+'</span></a>'
         }
 
         this.settings.window.dataDiv.innerHTML= '\
@@ -1249,7 +1232,19 @@ SITE.Mapa.prototype.showSettings = function() {
               <tr>\
                 <td> </td><td colspan="2"><input id="chkAutoRefresh" type="checkbox">&nbsp;<span data-translate="PrefsPropsCKAutoRefresh" >'+SITE.translator.getResource('PrefsPropsCKAutoRefresh')+'</span></td>\
               </tr>\
-              <tr><td></td><td colspan="2">'+ cookieSets +'</td></tr>\
+              <tr style="height:30px; white-space:nowrap;">\
+                <td></td><td colspan="2">'+ cookieSets +'</td>\
+              </tr>\
+              <tr style="height:30px; white-space:nowrap;">\
+                <td> </td><td colspan="2">\
+                <a id="aPolicy"    href="" style="width:25%; display:block; float: left;"><span data-translate="PrivacyTitle">Politica</span></a>\
+                </td>\
+              </tr>\
+              <tr style="height:30px; white-space:nowrap;">\
+                <td> </td><td colspan="2">\
+                <a id="aTerms" href="" style="width:fit-content; display:block; float: left;"><span data-translate="TermsTitle">Termos</span></a>\
+                </td>\
+              </tr>\
             </table>\
         </div>\
         <div id="pg" class="pushbutton-group" style="right: 0; bottom: 0;" >\
@@ -1303,6 +1298,41 @@ SITE.Mapa.prototype.showSettings = function() {
         this.settings.autoRefresh = document.getElementById( 'chkAutoRefresh');
         this.settings.pianoSound = document.getElementById( 'chkPiano');
         this.settings.chkOnlyNumbers = document.getElementById( 'chkOnlyNumbers');
+
+        this.aTerms = document.getElementById("aTerms");
+        this.aPolicy = document.getElementById("aPolicy");
+    
+        this.aPolicy.addEventListener("click", function(evt) {
+            evt.preventDefault();
+            this.blur();
+            SITE.ga('event', 'page_view', {
+                page_title: SITE.translator.getResource('PrivacyTitle')
+                ,page_path: SITE.root+'/help'
+            })
+    
+            if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
+                SITE.showModal('PrivacyTitle', '', 'privacidade/politica.html', { width: '800', height: '500', print:false } );
+            } else {
+                SITE.showModal('PrivacyTitle', '', 'privacy/policy.html', { width: '800', height: '500', print:false } );
+            }
+        }, false );
+    
+        this.aTerms.addEventListener("click", function(evt) {
+            evt.preventDefault();
+            this.blur();
+            SITE.ga('event', 'page_view', {
+                page_title: SITE.translator.getResource('TermsTitle')
+                ,page_path: SITE.root+'/help'
+            })
+    
+            if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
+                SITE.showModal('TermsTitle', '', 'privacidade/termos.e.condicoes.html', { width: '800', height: '500', print:false } );
+            } else {
+                SITE.showModal('TermsTitle', '', 'privacy/terms.n.conditions.html', { width: '800', height: '500', print:false } );
+            }
+        }, false );
+
+        SITE.translator.translate();
                 
     }            
     
@@ -1555,68 +1585,70 @@ SITE.Mapa.prototype.setFocus = function() {
     }
 }
 
-SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
+SITE.Mapa.prototype.showHelp = function (title, subTitle, url, options) {
     var that = this;
     options = options || {};
-    options.width = typeof options.width === 'undefined'? '800' : options.width;
-    options.height = typeof options.height === 'undefined'? undefined : options.height;
-    options.print = typeof options.print === 'undefined'? true : options.print;
-    
+    options.width = typeof options.width === 'undefined' ? '800' : options.width;
+    options.height = typeof options.height === 'undefined' ? undefined : options.height;
+    options.print = typeof options.print === 'undefined' ? true : options.print;
+
     var winW = window.innerWidth
-                || document.documentElement.clientWidth
-                || document.body.clientWidth;    
-        
-    var x = winW/2 - options.width/2;
-    
-    if( ! this.helpWindow ) {
+        || document.documentElement.clientWidth
+        || document.body.clientWidth;
+
+    var x = winW / 2 - options.width / 2;
+
+    if (!this.helpWindow) {
         this.helpWindow = new DRAGGABLE.ui.Window(
             null
-          , ['print|printBtn']
-          , {title: '', translator: SITE.translator, draggable: true, statusbar: false, top: "200px", left: x+"px", height:"auto", zIndex: 70}
-          , { listener: this, method:'helpCallback' }
+            , ['print|printBtn']
+            , { title: '', translator: SITE.translator, draggable: true, statusbar: false, top: "200px", left: x + "px", height: "auto", zIndex: 70 }
+            , { listener: this, method: 'helpCallback' }
         );
         this.helpWindow.dataDiv.style.height = "auto";
     }
-    
+
     SITE.ga('event', 'page_view', {
-        page_title: SITE.translator.getResource(subTitle||title)
-       ,page_path: SITE.root+'/help'
+        page_title: SITE.translator.getResource(subTitle || title)
+        , page_path: SITE.root + '/help'
     })
 
     this.helpWindow.setTitle(title, SITE.translator);
     this.helpWindow.setSubTitle(subTitle, SITE.translator);
-    this.helpWindow.setButtonVisible('PRINT', options.print );
-    
-    this.helpWindow.dataDiv.innerHTML = '<object data="'+url+'" type="text/html" ></object>';
+    this.helpWindow.setButtonVisible('PRINT', options.print);
+
+    this.helpWindow.dataDiv.innerHTML = '<object data="' + url + '" type="text/html" ></object>';
     this.iframe = this.helpWindow.dataDiv.getElementsByTagName("object")[0];
-    this.iframe.style.width = options.width+"px";
-    this.iframe.style.height = (options.height?options.height:400)+"px";
+    this.iframe.style.width = options.width + "px";
+    this.iframe.style.height = (options.height ? options.height : 400) + "px";
     this.helpWindow.setVisible(true);
-            
-    var loader = this.startLoader( "About", this.helpWindow.dataDiv );
+
+    var loader = SITE.startLoader("About", this.helpWindow.dataDiv);
 
     that.helpWindow.dataDiv.style.opacity = "1";
     that.helpWindow.dataDiv.style.overflow = "hidden";
 
-    loader.start(  function() { 
+    loader.start(function () {
 
-        if( options.height === undefined ) {// auto determina a altura
+        if (options.height === undefined) {// auto determina a altura
 
-            that.iframe.addEventListener("load", function () { 
-                this.contentDocument.body.style.overflow ="hidden";
+            that.iframe.addEventListener("load", function () {
+                this.contentDocument.body.style.overflow = "hidden";
                 var info = this.contentDocument.getElementById('siteVerI');
-                if( info ) info.innerHTML=SITE.siteVersion;
-                this.style.height = this.contentDocument.body.clientHeight+"px";
+                if (info) info.innerHTML = SITE.siteVersion;
+                this.style.height = this.contentDocument.body.clientHeight + "px";
                 that.helpWindow.dataDiv.style.opacity = "1";
                 loader.stop();
             });
 
         } else {
-            
-            var myInterval = window.setInterval( function checkFrameLoaded() {
+
+            var myInterval = window.setInterval(function checkFrameLoaded() {
                 var header = that.iframe.contentDocument.getElementById('helpHeader');
-                if( header ){
-                    clearInterval( myInterval )
+
+                if (header) {
+
+                    clearInterval(myInterval)
                     that.helpWindow.dataDiv.style.opacity = "0";
                     /* se pensar em implementar janela full para o help, eis o começo
                         that.helpWindow.move(0,80);
@@ -1627,17 +1659,17 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
                     var header = that.iframe.contentDocument.getElementById('helpHeader');
                     var frm = that.iframe.contentDocument.getElementById('helpFrame');
                     var container = that.iframe.contentDocument.getElementById('helpContainer');
-                    if( header ) header.style.display = 'none';
-                    if( frm ) frm.style.overflow = 'hidden';
-        
-                    that.iframe.style.height = options.height+"px";
-        
-                    if( container ) {
+                    if (header) header.style.display = 'none';
+                    if (frm) frm.style.overflow = 'hidden';
+
+                    that.iframe.style.height = options.height + "px";
+
+                    if (container) {
                         container.style.top = '0';
-                        container.style.height = (options.height-18)+"px";;
+                        container.style.height = (options.height - 18) + "px";;
                         container.style.overflow = 'hidden';
                         container.style.border = '1px solid rgba(255, 153, 34, 0.2)';
-                        var v = new PerfectScrollbar( container, {
+                        var v = new PerfectScrollbar(container, {
                             handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
                             wheelSpeed: 1,
                             wheelPropagation: false,
@@ -1647,17 +1679,15 @@ SITE.Mapa.prototype.showHelp = function ( title, subTitle, url, options ) {
                             scrollingThreshold: 500
                         });
                     }
-        
+
                     that.helpWindow.dataDiv.style.opacity = "1";
                     loader.stop();
                 }
-                
-            }, 100);
 
-            //window.setTimeout( function() {}, 100);
+            }, 100);
         }
 
-    }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
+    }, '<br/>&#160;&#160;&#160;' + SITE.translator.getResource('wait') + '<br/><br/>');
 };
 
 SITE.Mapa.prototype.helpCallback = function ( action ) {
@@ -1666,14 +1696,7 @@ SITE.Mapa.prototype.helpCallback = function ( action ) {
     } else if( action === 'PRINT' ) {
         var container = this.iframe.contentDocument.getElementById('helpContainer');
         if( container ) {
-            //var t = container.style.top;
-            //container.style.top = '0';
             this.printPreview( container.innerHTML, [ "#"+this.helpWindow.topDiv.id, "#topBar","#mapaDiv"], false );
-            //var header = this.iframe.contentDocument.getElementById('helpHeader');
-            //if( header ) header.style.display = 'none';
-            //container.style.top = t;
         }
     }
-//    console.log( action );
 };
-

@@ -47,7 +47,7 @@ SITE.App = function( interfaceParams, tabParams, playerParams ) {
         that.showSettings();
     }, false );
 
-    this.setPrivacyLang();
+    this.setVersionLang();
 
     this.defineInstrument(true);
     
@@ -234,7 +234,7 @@ SITE.App.prototype.openAppView = function (button, event) {
            ,page_path: SITE.root+'/'+self.accordion.getId()
         })        
 
-        var loader = this.startLoader( "openAppView" );
+        var loader = SITE.startLoader( "openAppView" );
         loader.start(  function() { 
             self.appView.setup( self.tab, self.accordion.getId() );
             loader.stop();
@@ -254,23 +254,6 @@ SITE.App.prototype.showAccordionImage = function() {
 SITE.App.prototype.showAccordionName = function() {
     var t = this.accordion.getFullName() + ' <span data-translate="keys">' + SITE.translator.getResource('keys') + '</span>';
     this.accordionSelector.menu.setSubMenuTitle( this.accordionSelector.ddmId, t );
-};
-
-SITE.App.prototype.startLoader = function(id, container, start, stop) {
-
-    var loader = new window.widgets.Loader({
-         id: id
-        ,bars: 0
-        ,radius: 0
-        ,lineWidth: 20
-        ,lineHeight: 70
-        ,timeout: 1 // maximum timeout in seconds.
-        ,background: "rgba(0,0,0,0.5)"
-        ,container: container? container: document.body
-        ,onstart: start // call function once loader has started	
-        ,oncomplete: stop // call function once loader has started	
-    });
-    return loader;
 };
 
 SITE.App.prototype.defineInstrument = function(onlySet) {
@@ -315,7 +298,7 @@ SITE.App.prototype.defineInstrument = function(onlySet) {
 
 SITE.App.prototype.showSettings = function() {
 
-    //window.waterbug && window.waterbug.show();
+    var that = this;
 
     var width = 620;
     var winW = window.innerWidth
@@ -395,6 +378,16 @@ SITE.App.prototype.showSettings = function() {
                 <td> </td><td colspan="2"><input id="chkAutoRefresh" type="checkbox">&nbsp;\
                 <span data-translate="PrefsPropsCKAutoRefresh" >'+SITE.translator.getResource('PrefsPropsCKAutoRefresh')+'</span></td>\
               </tr>\
+              <tr style="height:30px; white-space:nowrap;">\
+                <td> </td><td colspan="2">\
+                <a id="aPolicy"    href="" style="width:25%; display:block; float: left;"><span data-translate="PrivacyTitle">Politica</span></a>\
+                </td>\
+              </tr>\
+              <tr style="height:30px; white-space:nowrap;">\
+                <td> </td><td colspan="2">\
+                <a id="aTerms" href="" style="width:fit-content; display:block; float: left;"><span data-translate="TermsTitle">Termos</span></a>\
+                </td>\
+              </tr>\
               </table>\
         </div>\
         <div id="pg" class="pushbutton-group" style="right: 0; bottom: 0;" >\
@@ -437,7 +430,7 @@ SITE.App.prototype.showSettings = function() {
     
         this.settings.tabMenu = new DRAGGABLE.ui.DropdownMenu(
             'settingsTabMenu'
-            ,  { listener:this, method:'settingsCallback', translate: true }
+            ,  { listener:this, method:'settingsCallback', translate: false }
             ,  [{title: '...', ddmId: 'menuFormato',
                     itens: [
                         '&#160;Modelo Alemão|0TAB',
@@ -445,6 +438,42 @@ SITE.App.prototype.showSettings = function() {
                         '&#160;Numérica 2 (se disponível)|2TAB' 
                     ]}]
             );
+
+
+        this.aTerms = document.getElementById("aTerms");
+        this.aPolicy = document.getElementById("aPolicy");
+    
+        this.aPolicy.addEventListener("click", function(evt) {
+            evt.preventDefault();
+            this.blur();
+            SITE.ga('event', 'page_view', {
+                page_title: SITE.translator.getResource('PrivacyTitle')
+                ,page_path: SITE.root+'/help'
+            })
+    
+            this.Back = this.modalClose;
+            if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
+                SITE.showModal('PrivacyTitle', '', 'privacidade/politica.html', { width: '800', height: '500', print:false } );
+            } else {
+                SITE.showModal('PrivacyTitle', '', 'privacy/policy.html', { width: '800', height: '500', print:false } );
+            }
+        }, false );
+    
+        this.aTerms.addEventListener("click", function(evt) {
+            evt.preventDefault();
+            this.blur();
+            SITE.ga('event', 'page_view', {
+                page_title: SITE.translator.getResource('TermsTitle')
+                ,page_path: SITE.root+'/help'
+            })
+    
+            this.Back = this.modalClose;
+            if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
+                SITE.showModal('TermsTitle', '', 'privacidade/termos.e.condicoes.html', { width: '800', height: '500', print:false } );
+            } else {
+                SITE.showModal('TermsTitle', '', 'privacy/terms.n.conditions.html', { width: '800', height: '500', print:false } );
+            }
+        }, false );
 
         this.settings.tabFormat = SITE.properties.options.tabFormat;
         this.settings.tabMenu.setSubMenuTitle( 'menuFormato', this.settings.tabMenu.selectItem( 'menuFormato', this.settings.tabFormat.toString()+"TAB" ));
@@ -461,6 +490,8 @@ SITE.App.prototype.showSettings = function() {
 
         this.settings.showWarnings = document.getElementById( 'chkWarnings');
         this.settings.autoRefresh = document.getElementById( 'chkAutoRefresh');
+        
+        SITE.translator.translate();
     }          
 
     this.settings.originalOnlyNumber = SITE.properties.options.tabShowOnlyNumbers;
@@ -575,7 +606,7 @@ SITE.App.prototype.applySettings = function() {
            ,'event_label': SITE.properties.options.language
         });
         SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
-        this.setPrivacyLang();
+        this.setVersionLang();
         SITE.askHelp();
     }
     
@@ -626,112 +657,32 @@ SITE.App.prototype.setFocus = function() {
     } */
 }
 
-SITE.App.prototype.showModal = function ( title, subTitle, url, options ) {
+
+SITE.App.prototype.setVersionLang = function (  ) {
     var that = this;
-    options = options || {};
-    options.width = typeof options.width === 'undefined'? '800' : options.width;
-    options.height = typeof options.height === 'undefined'? undefined : options.height;
-    options.print = typeof options.print === 'undefined'? true : options.print;
-    
-    var winW = window.innerWidth
-                || document.documentElement.clientWidth
-                || document.body.clientWidth;    
-        
-    var x = winW/2 - options.width/2;
-    
-    if( ! this.modalWindow ) {
-        this.modalWindow = new DRAGGABLE.ui.Window(
-            null
-          , ['print|printBtn']
-          , {title: '', translator: SITE.translator, draggable: true, statusbar: false, top: "30px" , height:"90%", left: "60px", width:"calc(92% - 60px)", zIndex: 70}
-          , { listener: this, method:'modalCallback' }
-        );
-        this.modalWindow.dataDiv.style.height = "auto";
+    this.aVersion = document.getElementById("aVersion");
 
-        this.modalWindow.dataDiv.innerHTML = 
-            '<object id="myFrame" data="" type="text/html" ></object> \
-             <div id="pg" class="pushbutton-group" style="right: 4px; bottom: 4px;" >\
-                <div id="btClose"></div>\n\
-             </div>';
-    
-        this.modalWindow.addPushButtons( [ 'btClose|close' ] );
-    }
+    this.aVersion.addEventListener("click", function(evt) {
+        evt.preventDefault();
+        this.blur();
+        SITE.ga('event', 'page_view', {
+            page_title: SITE.translator.getResource('AboutAppTitle')
+           ,page_path: SITE.root+'/help'
+        })
 
-    this.Back = this.modalClose;
-
-    this.modalWindow.setTitle(title, SITE.translator);
-    this.modalWindow.setSubTitle(subTitle, SITE.translator);
-    this.modalWindow.setButtonVisible('PRINT', options.print );
-
-    this.iframe = document.getElementById("myFrame");
-
-    this.modalWindow.topDiv.style.opacity = "0";
-    this.modalWindow.setVisible(true);
-    this.modalWindow.dataDiv.height = (this.modalWindow.topDiv.clientHeight-25)+"px";
-    this.iframe.style.width = "100%";
-    this.iframe.style.height =  (this.modalWindow.topDiv.clientHeight-25)+"px";
-    this.modalWindow.dataDiv.height = this.iframe.style.height;
-
-    this.info;
-    this.container;
-
-    var loader = this.startLoader( "Modal" );
-
-    that.iframe.setAttribute("data", url); 
-
-    that.iframe.addEventListener("load", function () { 
-        that.container = this.contentDocument.getElementById('modalContainer');
-        that.info = this.contentDocument.getElementById('siteVerI');
-        $(that.iframe).ready(function() {
-
-            if( that.info ) that.info.innerHTML=SITE.siteVersion;
-            
-            if( that.container ) {
-
-                that.container.style.top = '0';
-                that.container.style.height = (that.modalWindow.dataDiv.clientHeight-70)+"px"
-                that.container.style.overflow = 'hidden';
-                that.container.style.border = '1px solid rgba(255, 153, 34, 0.2)';
-                var v = new PerfectScrollbar( that.container, {
-                    handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
-                    wheelSpeed: 1,
-                    wheelPropagation: false,
-                    suppressScrollX: false,
-                    minScrollbarLength: 100,
-                    swipeEasing: true,
-                    scrollingThreshold: 500
-                });
-
-                var anchors = that.container.getElementsByTagName("a");
-                for (var i = 0; i < anchors.length; i++) {
-                    anchors[i].onclick = function() {return false;};
-                }
-            }
-            
-            that.modalWindow.topDiv.style.opacity = "1";
-            loader.stop();
-        });    
-    }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
+        this.Back = this.modalClose;
+        if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
+            SITE.showModal('AboutAppTitle', '', 'privacidade/sobreApp.html', { width: '800', height: '500', print:false } );
+        } else {
+            SITE.showModal('AboutAppTitle', '', 'privacy/aboutApp.html', { width: '800', height: '500', print:false } );
+        }
+    }, false );
 };
 
-SITE.App.prototype.modalCallback = function ( action ) {
-    that = this;
-
-    if( action === 'CLOSE' ) {
-        that.modalClose();
-    } else if( action === 'PRINT' ) {
-        // não implementado para o aplicativo
-        //var container = this.iframe.contentDocument.getElementById('modalContainer');
-        //if( container ) {
-        //    this.printPreview( container.innerHTML, [ "#"+this.modalWindow.topDiv.id, "#topBar","#appDiv"], false );
-        //}
-    }
-};
-
-SITE.App.prototype.modalClose = function () {
-    this.iframe.setAttribute("data", ""); 
-    this.modalWindow.setVisible(false);
+SITE.App.prototype.modalClose = function() {
+    SITE.modalCallback('CLOSE');
     this.Back = this.Close;
+    return ;
 };
 
 SITE.App.prototype.closeAppView = function() {
@@ -748,55 +699,4 @@ SITE.App.prototype.goBackOrClose = function (  ) {
 
 SITE.App.prototype.Close = function () {
     window.DiatonicApp && window.DiatonicApp.closeApp();
-};
-
-SITE.App.prototype.setPrivacyLang = function (  ) {
-    var that = this;
-    this.aPolicy = document.getElementById("aPolicy");
-    this.aTerms = document.getElementById("aTerms");
-    this.aVersion = document.getElementById("aVersion");
-
-    this.aPolicy.addEventListener("click", function(evt) {
-        evt.preventDefault();
-        this.blur();
-        SITE.ga('event', 'page_view', {
-            page_title: SITE.translator.getResource('PrivacyTitle')
-           ,page_path: SITE.root+'/help'
-        })
-
-        if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
-            that.showModal('PrivacyTitle', '', 'privacidade/politica.html', { width: '800', height: '500', print:false } );
-        } else {
-            that.showModal('PrivacyTitle', '', 'privacy/policy.html', { width: '800', height: '500', print:false } );
-        }
-    }, false );
-
-    this.aTerms.addEventListener("click", function(evt) {
-        evt.preventDefault();
-        this.blur();
-        SITE.ga('event', 'page_view', {
-            page_title: SITE.translator.getResource('TermsTitle')
-           ,page_path: SITE.root+'/help'
-        })
-
-        if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
-            that.showModal('TermsTitle', '', 'privacidade/termos.e.condicoes.html', { width: '800', height: '500', print:false } );
-        } else {
-            that.showModal('TermsTitle', '', 'privacy/terms.n.conditions.html', { width: '800', height: '500', print:false } );
-        }
-    }, false );
-
-    this.aVersion.addEventListener("click", function(evt) {
-        evt.preventDefault();
-        this.blur();
-        SITE.ga('event', 'page_view', {
-            page_title: SITE.translator.getResource('AboutAppTitle')
-           ,page_path: SITE.root+'/help'
-        })
-        if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
-            that.showModal('AboutAppTitle', '', 'privacidade/sobreApp.html', { width: '800', height: '500', print:false } );
-        } else {
-            that.showModal('AboutAppTitle', '', 'privacy/aboutApp.html', { width: '800', height: '500', print:false } );
-        }
-    }, false );
 };

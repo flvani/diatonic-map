@@ -554,7 +554,7 @@ SITE.Estudio.prototype.closeEstudio = function(save) {
         self.setVisible(false);
         self.studioStopPlay();
     } else {
-        var loader = this.mapa.startLoader( "CloseStudio", self.studioCanvasDiv );
+        var loader = SITE.startLoader( "CloseStudio", self.studioCanvasDiv );
         loader.start(  function() { 
             (save) && SITE.SaveProperties();
             self.studioStopPlay();
@@ -896,7 +896,7 @@ SITE.Estudio.prototype.fireChanged = function (transpose, _opts) {
 SITE.Estudio.prototype.modelChanged = function(showProgress) {
     var self = this;
     if(showProgress) {
-        var loader = this.mapa.startLoader( "ModelChanged", self.studioCanvasDiv );
+        var loader = SITE.startLoader( "ModelChanged", self.studioCanvasDiv );
         loader.start(  function() { self.onModelChanged(loader); }, '<br>&nbsp;&nbsp;&nbsp;Gerando partitura...<br><br>' );
     } else {
         self.onModelChanged();

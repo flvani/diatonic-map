@@ -410,7 +410,7 @@ SITE.PartGen.prototype.posicionaTeclado = function() {
 
 SITE.PartGen.prototype.closePartGen = function(save) {
     var self = this;
-//    var loader = this.mapa.startLoader( "ClosePartGen", self.Div.dataDiv );
+//    var loader = SITE.startLoader( "ClosePartGen", self.Div.dataDiv );
     
 //    loader.start(  function() { 
         var text = self.editorWindow.getString();

@@ -831,7 +831,7 @@ SITE.AppView.prototype.fireChanged = function (transpose, _opts) {
 SITE.AppView.prototype.modelChanged = function(showProgress) {
     var self = this;
     if(showProgress) {
-        var loader = this.app.startLoader( "ModelChanged" );
+        var loader = SITE.startLoader( "ModelChanged" );
         loader.start(  function() { self.onModelChanged(loader); }, '<br>&nbsp;&nbsp;&nbsp;Gerando partitura...<br><br>' );
     } else {
         self.onModelChanged();

@@ -215,7 +215,7 @@ SITE.TabGen.prototype.updateSelection = function (force) {
 
 SITE.TabGen.prototype.closeTabGen = function() {
     var self = this;
-//    var loader = this.mapa.startLoader( "CloseTabGen", self.Div.dataDiv );
+//    var loader = SITE.startLoader( "CloseTabGen", self.Div.dataDiv );
     
 //    loader.start(  function() {
         self.setVisible(false);
