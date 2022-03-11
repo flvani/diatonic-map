@@ -13,7 +13,12 @@ SITE.askHelp = function () {
     if( !SITE.properties.options.doNotAskHelp && SITE.properties.options.language === 'ru_RU' ){
         var d = document.getElementById('askHelpDiv');
         if(d){
-            d.style.display = 'block';
+            //d.style.display = 'block';
+            setTimeout(function f() {
+                $('#askHelpDiv').slideDown();    
+            }, 2000);
+            
+
             var q = document.getElementById('askHelpBtn');
             var c = document.getElementById('askHelpChk');
 

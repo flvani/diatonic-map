@@ -225,31 +225,6 @@ body {
     line-height: 28px;
 }
 
-.tips {
-   z-index: 1000;
-   position: absolute;
-   display: none;
-   right: 0px;
-   bottom: 0px;
-   min-height: 20px;
-   min-width: 400px;
-   margin:5px;
-   padding:15px;
-   border-radius: 5px;
-   border: 1px solid red;
-   background-color: rgba(255,0,0,0.5 );
-   color: white;
-   font-family: Merienda;
-   font-size: 20px;
-}
-
-.tips a,
-.tips a:hover {
-    color: white;
-    text-decoration: none; 
-    font-weight: bold;
-}
-
 .printPreviewClass {
     position:absolute;
     display:none;

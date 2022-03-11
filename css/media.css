@@ -147,3 +147,54 @@ and open the template in the editor.
 .draggableAlternativeResize {
     bottom: -12px;
 }
+
+.tips {
+    z-index: 1000;
+    position: absolute;
+    display: none;
+    right: 0px;
+    bottom: 0px;
+    min-height: 20px;
+    min-width: 400px;
+    margin:5px;
+    padding:15px;
+    border-radius: 5px;
+    border: 1px solid red;
+    background-color: rgba(255,0,0,0.5 );
+    color: white;
+    font-family: Merienda, RobotoItalic;
+    font-size: 20px;
+ }
+ 
+ .tips a,
+ .tips a:hover {
+     color: white;
+     text-decoration: none; 
+ }
+ 
+ .tips a:hover {
+     font-weight: bold;
+ }
+
+
+.mediaTips{
+    z-index: 1000;
+    position: absolute;
+    display: none; 
+    color:black; 
+    background: white; 
+    position: absolute; 
+    left: 10%;
+    top:20%; 
+    width:70%; 
+    height: 350px; 
+    max-width:900px; 
+    min-height: 50px;
+    margin:0px;
+    padding:10px;
+    border-radius: 5px;
+    border: 1px solid red;
+    font-family: Merienda, RobotoItalic;
+    font-size: 20px;
+    box-shadow: 2px 4px 4px rgba(0,0,0,0.3), 0px 0px 4px rgba(0,0,0,0.3);
+}
