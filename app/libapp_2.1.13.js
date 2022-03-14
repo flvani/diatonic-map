@@ -9,6 +9,19 @@ if (!window.SITE)
 
 window.dataLayer = window.dataLayer || [];
 
+SITE.interceptClustrMaps = function(doc){
+    var w = doc.getElementById("clustrmaps-widget")
+
+    if(w){
+        w.addEventListener('click', function(e){
+            //e.stopPropagation();
+            //e.preventDefault();
+            //alert('Peguei');
+        }, false);
+    }
+}
+
+
 SITE.startLoader = function(id, container, start, stop) {
 
     var loader = new window.widgets.Loader({
@@ -86,6 +99,8 @@ SITE.showModal = function ( title, subTitle, url, options ) {
 
                 clearInterval(myInterval)
                 that.info = that.iframe.contentDocument.getElementById('siteVerI');
+
+                SITE.interceptClustrMaps(that.iframe.contentDocument);
 
                 if (that.info) that.info.innerHTML = SITE.siteVersion;
 
@@ -2247,6 +2262,8 @@ SITE.App.prototype.showSettings = function() {
     //var x = winW/2 - width/2;
     var x = 70;
     
+    that.Back = that.settingsClose;
+    
     if(!this.settings) {
         this.settings = {};
         this.settings.popupWin = new DRAGGABLE.ui.Window( 
@@ -2260,6 +2277,7 @@ SITE.App.prototype.showSettings = function() {
             page_title: SITE.translator.getResource('PreferencesTitle')
            ,page_path: SITE.root+'/settings'
         })        
+
 
         this.settings.popupWin.topDiv.style.zIndex = 101;
 
@@ -2390,7 +2408,7 @@ SITE.App.prototype.showSettings = function() {
                 ,page_path: SITE.root+'/help'
             })
     
-            this.Back = this.modalClose;
+            that.Back = that.modalClose;
             if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
                 SITE.showModal('PrivacyTitle', '', 'privacidade/politica.html', { width: '800', height: '500', print:false } );
             } else {
@@ -2406,7 +2424,7 @@ SITE.App.prototype.showSettings = function() {
                 ,page_path: SITE.root+'/help'
             })
     
-            this.Back = this.modalClose;
+            that.Back = that.modalClose;
             if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
                 SITE.showModal('TermsTitle', '', 'privacidade/termos.e.condicoes.html', { width: '800', height: '500', print:false } );
             } else {
@@ -2609,7 +2627,7 @@ SITE.App.prototype.setVersionLang = function (  ) {
            ,page_path: SITE.root+'/help'
         })
 
-        this.Back = this.modalClose;
+        that.Back = that.modalClose;
         if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
             SITE.showModal('AboutAppTitle', '', 'privacidade/sobreApp.html', { width: '800', height: '500', print:false } );
         } else {
@@ -2618,24 +2636,32 @@ SITE.App.prototype.setVersionLang = function (  ) {
     }, false );
 };
 
+
+SITE.App.prototype.settingsClose = function() {
+    this.settingsCallback('CLOSE');
+    this.Back = this.Close;
+};
+
 SITE.App.prototype.modalClose = function() {
     SITE.modalCallback('CLOSE');
     this.Back = this.Close;
-    return ;
 };
 
 SITE.App.prototype.closeAppView = function() {
     this.appView.setVisible(false);
     this.appView.keyboardWindow.setVisible(false);
     this.appView.stopPlay();
-    this.Back = this.Close;
     SITE.SaveProperties();
+    this.Back = this.Close;
+};
+
+
+SITE.App.prototype.Close = function () {
+    window.DiatonicApp && window.DiatonicApp.closeApp();
 };
 
 SITE.App.prototype.goBackOrClose = function (  ) {
     return this.Back();
 };
 
-SITE.App.prototype.Close = function () {
-    window.DiatonicApp && window.DiatonicApp.closeApp();
-};
+

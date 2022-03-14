@@ -9,6 +9,19 @@ if (!window.SITE)
 
 window.dataLayer = window.dataLayer || [];
 
+SITE.interceptClustrMaps = function(doc){
+    var w = doc.getElementById("clustrmaps-widget")
+
+    if(w){
+        w.addEventListener('click', function(e){
+            //e.stopPropagation();
+            //e.preventDefault();
+            //alert('Peguei');
+        }, false);
+    }
+}
+
+
 SITE.startLoader = function(id, container, start, stop) {
 
     var loader = new window.widgets.Loader({
@@ -86,6 +99,8 @@ SITE.showModal = function ( title, subTitle, url, options ) {
 
                 clearInterval(myInterval)
                 that.info = that.iframe.contentDocument.getElementById('siteVerI');
+
+                SITE.interceptClustrMaps(that.iframe.contentDocument);
 
                 if (that.info) that.info.innerHTML = SITE.siteVersion;
 

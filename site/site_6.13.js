@@ -9,6 +9,19 @@ if (!window.SITE)
 
 window.dataLayer = window.dataLayer || [];
 
+SITE.interceptClustrMaps = function(doc){
+    var w = doc.getElementById("clustrmaps-widget")
+
+    if(w){
+        w.addEventListener('click', function(e){
+            //e.stopPropagation();
+            //e.preventDefault();
+            //alert('Peguei');
+        }, false);
+    }
+}
+
+
 SITE.startLoader = function(id, container, start, stop) {
 
     var loader = new window.widgets.Loader({
@@ -86,6 +99,8 @@ SITE.showModal = function ( title, subTitle, url, options ) {
 
                 clearInterval(myInterval)
                 that.info = that.iframe.contentDocument.getElementById('siteVerI');
+
+                SITE.interceptClustrMaps(that.iframe.contentDocument);
 
                 if (that.info) that.info.innerHTML = SITE.siteVersion;
 
@@ -2611,6 +2626,7 @@ SITE.Mapa.prototype.showHelp = function (title, subTitle, url, options) {
                 if (info) info.innerHTML = SITE.siteVersion;
                 this.style.height = this.contentDocument.body.clientHeight + "px";
                 that.helpWindow.dataDiv.style.opacity = "1";
+                SITE.interceptClustrMaps(this.contentDocument);
                 loader.stop();
             });
 
@@ -2654,6 +2670,7 @@ SITE.Mapa.prototype.showHelp = function (title, subTitle, url, options) {
                     }
 
                     that.helpWindow.dataDiv.style.opacity = "1";
+                    SITE.interceptClustrMaps(that.iframe.contentDocument);
                     loader.stop();
                 }
 
