@@ -221,12 +221,13 @@ SITE.Modal.prototype.show = function (title, subTitle, url, opts ) {
                 }
 
                 that.container = that.iframe.contentDocument.getElementById('modalContainer');
+                
+                that.checkClustrmaps();
 
                 if (that.container && info) {
     
                     clearInterval(myInterval);
 
-                    that.checkClustrmaps();
                     if( typeof info === "object" )
                         info.innerHTML = SITE.siteVersion;
     
