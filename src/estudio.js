@@ -1,6 +1,6 @@
 
 if (!window.SITE)
-    window.SITE = {};
+    window.SITE = { gtagInitiated : false, root: '/mapa' };
 
 SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     

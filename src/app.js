@@ -1,16 +1,21 @@
 
 if (!window.SITE)
-    window.SITE = {};
+    window.SITE = { gtagInitiated : false, root: '/mapa' };
 
 SITE.App = function( interfaceParams, tabParams, playerParams ) {
 
     document.body.style.overflow = 'hidden';
     
     var that = this;
+
     this.container = document.getElementById('appDiv')
     this.tab = {title:'', text:'', ddmId:'menuSongs', type: 'songs' }
     
-    this.Back = this.Close; // define a funcao a ser chamada quando o comando back é acioando no telefone
+    this.modal = new SITE.Modal( { disableLinks: true, print: false, callback:{ listener: this, method: 'modalClose'} } )
+
+    this.Back = [] // define a funcao a ser chamada quando o comando back é acioando no telefone
+    
+    this.Back.push(this.Close); 
     
     ABCXJS.write.color.useTransparency = SITE.properties.colors.useTransparency;
     ABCXJS.write.color.highLight = SITE.properties.colors.highLight;
@@ -138,7 +143,7 @@ SITE.App.prototype.songSelectorPopulate = function() {
 
 SITE.App.prototype.showABC = function(action) {
     
-    var type, title, self = this;
+    var type, title;
     var a = action.split('#');
     
     if( action.indexOf('#') >= 0 && parseInt(a[1]) > 0 ) {
@@ -176,13 +181,13 @@ SITE.App.prototype.menuCallback = function (ev) {
 };
 
 SITE.App.prototype.openAppView = function (button, event) {
-    var self = this;
+    var that = this;
 
     if(event) {
         event.preventDefault();
         button.blur();
     }
-    
+
     if( ! this.appView ) {
         this.appView = new SITE.AppView(
             this
@@ -226,17 +231,17 @@ SITE.App.prototype.openAppView = function (button, event) {
         );
     }
 
-    this.Back = this.closeAppView;
+    this.Back.push(this.closeAppView); 
 
-    if( self.tab.text ) {
+    if( that.tab.text ) {
         SITE.ga('event', 'page_view', {
-            page_title: self.tab.title
-           ,page_path: SITE.root+'/'+self.accordion.getId()
+            page_title: that.tab.title
+           ,page_path: SITE.root+'/'+that.accordion.getId()
         })        
 
         var loader = SITE.startLoader( "openAppView" );
         loader.start(  function() { 
-            self.appView.setup( self.tab, self.accordion.getId() );
+            that.appView.setup( that.tab, that.accordion.getId() );
             loader.stop();
         }, '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
     }
@@ -301,21 +306,18 @@ SITE.App.prototype.showSettings = function() {
     var that = this;
 
     var width = 620;
-    var winW = window.innerWidth
-                || document.documentElement.clientWidth
-                || document.body.clientWidth;    
         
-    //var x = winW/2 - width/2;
     var x = 70;
     
-    that.Back = that.settingsClose;
-    
+    that.Back.push(that.settingsClose); 
+   
     if(!this.settings) {
         this.settings = {};
         this.settings.popupWin = new DRAGGABLE.ui.Window( 
               null 
             , null
-            , {title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, top: "40px", left: x+"px", height:'530px',  width: width+'px', zIndex: 50} 
+            , { title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, 
+                    top: "40px", left: x+"px", height:'530px',  width: width+'px', zIndex: 70 } 
             , {listener: this, method: 'settingsCallback'}
         );
 
@@ -449,32 +451,22 @@ SITE.App.prototype.showSettings = function() {
         this.aPolicy.addEventListener("click", function(evt) {
             evt.preventDefault();
             this.blur();
-            SITE.ga('event', 'page_view', {
-                page_title: SITE.translator.getResource('PrivacyTitle')
-                ,page_path: SITE.root+'/help'
-            })
-    
-            that.Back = that.modalClose;
+            that.Back.push(that.modalClose); 
             if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
-                SITE.showModal('PrivacyTitle', '', 'privacidade/politica.html', { width: '800', height: '500', print:false } );
+                that.modal.show('PrivacyTitle', '', 'privacidade/politica.html' );
             } else {
-                SITE.showModal('PrivacyTitle', '', 'privacy/policy.html', { width: '800', height: '500', print:false } );
+                that.modal.show('PrivacyTitle', '', 'privacy/policy.html');
             }
         }, false );
     
         this.aTerms.addEventListener("click", function(evt) {
             evt.preventDefault();
             this.blur();
-            SITE.ga('event', 'page_view', {
-                page_title: SITE.translator.getResource('TermsTitle')
-                ,page_path: SITE.root+'/help'
-            })
-    
-            that.Back = that.modalClose;
+            that.Back.push(that.modalClose); 
             if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
-                SITE.showModal('TermsTitle', '', 'privacidade/termos.e.condicoes.html', { width: '800', height: '500', print:false } );
+                that.modal.show('TermsTitle', '', 'privacidade/termos.e.condicoes.html' );
             } else {
-                SITE.showModal('TermsTitle', '', 'privacy/terms.n.conditions.html', { width: '800', height: '500', print:false } );
+                that.modal.show('TermsTitle', '', 'privacy/terms.n.conditions.html' );
             }
         }, false );
 
@@ -540,6 +532,7 @@ SITE.App.prototype.settingsCallback = function (action, elem) {
             break;
         case 'CLOSE':
         case 'CANCEL':
+            this.Back.pop();
             this.picker.close();
             this.settings.popupWin.setVisible(false);
             break;
@@ -558,6 +551,7 @@ SITE.App.prototype.settingsCallback = function (action, elem) {
             SITE.properties.options.showWarnings = this.settings.showWarnings.checked;
             SITE.properties.options.autoRefresh = this.settings.autoRefresh.checked;
 
+            this.Back.pop();
             this.picker.close();
             this.settings.popupWin.setVisible(false);
             this.applySettings();
@@ -654,13 +648,6 @@ SITE.App.prototype.silencia = function(force) {
     }
 };
 
-SITE.App.prototype.setFocus = function() {
-/*     if(this.appView && window.getComputedStyle(this.appView.Div.parent).display !== 'none') {
-        this.appView.editorWindow.aceEditor.focus();
-    } */
-}
-
-
 SITE.App.prototype.setVersionLang = function (  ) {
     var that = this;
     this.aVersion = document.getElementById("aVersion");
@@ -668,29 +655,30 @@ SITE.App.prototype.setVersionLang = function (  ) {
     this.aVersion.addEventListener("click", function(evt) {
         evt.preventDefault();
         this.blur();
-        SITE.ga('event', 'page_view', {
-            page_title: SITE.translator.getResource('AboutAppTitle')
-           ,page_path: SITE.root+'/help'
-        })
-
-        that.Back = that.modalClose;
+        that.Back.push(that.modalClose); 
         if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
-            SITE.showModal('AboutAppTitle', '', 'privacidade/sobreApp.html', { width: '800', height: '500', print:false } );
+            that.modal.show('AboutAppTitle', '', 'privacidade/sobreApp.html');
         } else {
-            SITE.showModal('AboutAppTitle', '', 'privacy/aboutApp.html', { width: '800', height: '500', print:false } );
+            that.modal.show('AboutAppTitle', '', 'privacy/aboutApp.html' );
         }
     }, false );
 };
 
-
 SITE.App.prototype.settingsClose = function() {
     this.settingsCallback('CLOSE');
-    this.Back = this.Close;
 };
 
-SITE.App.prototype.modalClose = function() {
-    SITE.modalCallback('CLOSE');
-    this.Back = this.Close;
+SITE.App.prototype.modalClose = function( action ) {
+    if( action === 'CLOSE' ) {
+        this.modal.close();
+        this.Back.pop();
+    } else if( action === 'PRINT' ) {
+        // não implementado para o aplicativo
+        //var container = this.iframe.contentDocument.getElementById('modalContainer');
+        //if( container ) {
+        //    this.printPreview( container.innerHTML, [ "#"+this.modalWindow.topDiv.id, "#topBar","#appDiv"], false );
+        //}
+    }
 };
 
 SITE.App.prototype.closeAppView = function() {
@@ -698,7 +686,7 @@ SITE.App.prototype.closeAppView = function() {
     this.appView.keyboardWindow.setVisible(false);
     this.appView.stopPlay();
     SITE.SaveProperties();
-    this.Back = this.Close;
+    this.Back.pop();
 };
 
 
@@ -707,7 +695,12 @@ SITE.App.prototype.Close = function () {
 };
 
 SITE.App.prototype.goBackOrClose = function (  ) {
-    return this.Back();
+    return this.Back[this.Back.length-1] ();
 };
 
-
+SITE.App.prototype.setFocus = function() {
+    /*     if(this.appView && window.getComputedStyle(this.appView.Div.parent).display !== 'none') {
+            this.appView.editorWindow.aceEditor.focus();
+    } */
+}
+    

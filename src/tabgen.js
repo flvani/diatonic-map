@@ -6,7 +6,7 @@
 
 
 if (!window.SITE)
-    window.SITE = {};
+    window.SITE = { gtagInitiated : false, root: '/mapa' };
 
 SITE.TabGen = function( mapa, interfaceParams ) {
 

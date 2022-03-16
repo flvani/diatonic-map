@@ -4,9 +4,8 @@
  * and open the template in the editor.
  */
 
-
 if (!window.SITE)
-    window.SITE = {};
+    window.SITE = { gtagInitiated : false, root: '/mapa' };
 
 SITE.PartGen = function( mapa, interfaceParams ) {
     

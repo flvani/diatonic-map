@@ -5,7 +5,7 @@
  */
 
 if (!window.SITE)
-    window.SITE = {};
+    window.SITE = { gtagInitiated : false, root: '/mapa' };
 
 if (!window.SITE.lang)
     window.SITE.lang = {};
@@ -77,8 +77,6 @@ SITE.Translator.prototype.menuPopulate = function(menu, ddmId ) {
         menu.setSubMenuTitle( ddmId, menu.selectItem( ddmId, toSel ));
     
 };
-
-
 
 SITE.Translator.prototype.getResource = function(id) {
     if(!this.language) return null;

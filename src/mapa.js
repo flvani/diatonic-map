@@ -5,7 +5,7 @@
  */
 
 if (!window.SITE)
-    window.SITE = {};
+    window.SITE = { gtagInitiated : false, root: '/mapa' };
 
 SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
 
@@ -17,6 +17,9 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     
     // incluir ilheiras numeradas e hide fingering, hide lyrics flavio2022
     this.parserparams = {}
+
+    this.modal = new SITE.Modal( { print: true, callback: { listener: this, method: 'modalCallback'} } )
+    this.modalHelp = new SITE.Modal( { print: true, type: 'help', callback: { listener: this, method: 'helpCallback'} } )
     
     ABCXJS.write.color.useTransparency = SITE.properties.colors.useTransparency;
     ABCXJS.write.color.highLight = SITE.properties.colors.highLight;
@@ -288,28 +291,28 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             this.repertoireWin.geraIndex(this);
             break;
         case 'JUMPS':
-            this.showHelp('HelpTitle', 'JUMPS', '/html/sinaisRepeticao.pt_BR.html', { width: '1024', height: '600' } );
+            this.modalHelp.show('HelpTitle', 'JUMPS', '/html/sinaisRepeticao.pt_BR.html', { width: '1024', height: '600', print:true } );
             break;
         case 'ABCX':
-            this.showHelp('HelpTitle', 'ABCX', '/html/formatoABCX.pt_BR.html', { width: '1024', height: '600' } );
+            this.modalHelp.show('HelpTitle', 'ABCX', '/html/formatoABCX.pt_BR.html', { width: '1024', height: '600', print:true } );
             break;
         case 'ESTUDIO':
-            this.showHelp('HelpTitle', 'ESTUDIO', '/html/estudioABCX.pt_BR.html', { width: '1024', height: '600' } );
+            this.modalHelp.show('HelpTitle', 'ESTUDIO', '/html/estudioABCX.pt_BR.html', { width: '1024', height: '600', print:true } );
             break;
         case 'TABS':
-            this.showHelp('HelpTitle', 'TABS', '/html/tablatura.pt_BR.html', { width: '1024', height: '600' } );
+            this.modalHelp.show('HelpTitle', 'TABS', '/html/tablatura.pt_BR.html', { width: '1024', height: '600', print:true } );
             break;
         case 'TABSTRANSPORTADA':
-            this.showHelp('HelpTitle', 'TABSTRANSPORTADA', '/html/tablaturaTransportada.pt_BR.html', { width: '1024', height: '600' } );
+            this.modalHelp.show('HelpTitle', 'TABSTRANSPORTADA', '/html/tablaturaTransportada.pt_BR.html', { width: '1024', height: '600', print:true } );
             break;
         case 'MAPS':
-            this.showHelp('HelpTitle', 'MAPS', '/html/mapas.pt_BR.html', { width: '1024', height: '600' } );
+            this.modalHelp.show('HelpTitle', 'MAPS', '/html/mapas.pt_BR.html', { width: '1024', height: '600', print:true } );
             break;
         case 'TUTORIAL':
-            this.showHelp('HelpTitle', 'TUTORIAL', '/html/tutoriais.pt_BR.html', { width: '1024', height: '600', print:false } );
+            this.modalHelp.show('HelpTitle', 'TUTORIAL', '/html/tutoriais.pt_BR.html', { width: '1024', height: '600', print:false } );
             break;
         case 'ABOUT':
-            this.showHelp('AboutTitle', '', '/html/about.pt_BR.html', { width: '800', print:false } );
+            this.modalHelp.show('AboutTitle', '', '/html/about.pt_BR.html', { width: '800', print:false } );
             break;
         case 'GAITA_MINUANO_GC':
         case 'CONCERTINA_PORTUGUESA':
@@ -1174,7 +1177,8 @@ SITE.Mapa.prototype.showSettings = function() {
         this.settings.window = new DRAGGABLE.ui.Window( 
               null 
             , null
-            , {title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, top: "300px", left: x+"px", height:'480px',  width: width+'px', zIndex: 50} 
+            , { title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, 
+                    top: "300px", left: x+"px", height:'480px',  width: width+'px', zIndex: 70 } 
             , {listener: this, method: 'settingsCallback'}
         );
 
@@ -1305,30 +1309,20 @@ SITE.Mapa.prototype.showSettings = function() {
         this.aPolicy.addEventListener("click", function(evt) {
             evt.preventDefault();
             this.blur();
-            SITE.ga('event', 'page_view', {
-                page_title: SITE.translator.getResource('PrivacyTitle')
-                ,page_path: SITE.root+'/help'
-            })
-    
             if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
-                SITE.showModal('PrivacyTitle', '', 'privacidade/politica.html', { width: '800', height: '500', print:false } );
+                that.modal.show('PrivacyTitle', '', 'privacidade/politica.html' );
             } else {
-                SITE.showModal('PrivacyTitle', '', 'privacy/policy.html', { width: '800', height: '500', print:false } );
+                that.modal.show('PrivacyTitle', '', 'privacy/policy.html' );
             }
         }, false );
     
         this.aTerms.addEventListener("click", function(evt) {
             evt.preventDefault();
             this.blur();
-            SITE.ga('event', 'page_view', {
-                page_title: SITE.translator.getResource('TermsTitle')
-                ,page_path: SITE.root+'/help'
-            })
-    
             if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
-                SITE.showModal('TermsTitle', '', 'privacidade/termos.e.condicoes.html', { width: '800', height: '500', print:false } );
+                that.modal.show('TermsTitle', '', 'privacidade/termos.e.condicoes.html' );
             } else {
-                SITE.showModal('TermsTitle', '', 'privacy/terms.n.conditions.html', { width: '800', height: '500', print:false } );
+                that.modal.show('TermsTitle', '', 'privacy/terms.n.conditions.html' );
             }
         }, false );
 
@@ -1585,120 +1579,27 @@ SITE.Mapa.prototype.setFocus = function() {
     }
 }
 
-SITE.Mapa.prototype.showHelp = function (title, subTitle, url, options) {
-    var that = this;
-    options = options || {};
-    options.width = typeof options.width === 'undefined' ? '800' : options.width;
-    options.height = typeof options.height === 'undefined' ? undefined : options.height;
-    options.print = typeof options.print === 'undefined' ? true : options.print;
 
-    var winW = window.innerWidth
-        || document.documentElement.clientWidth
-        || document.body.clientWidth;
-
-    var x = winW / 2 - options.width / 2;
-
-    if (!this.helpWindow) {
-        this.helpWindow = new DRAGGABLE.ui.Window(
-            null
-            , ['print|printBtn']
-            , { title: '', translator: SITE.translator, draggable: true, statusbar: false, top: "200px", left: x + "px", height: "auto", zIndex: 70 }
-            , { listener: this, method: 'helpCallback' }
-        );
-        this.helpWindow.dataDiv.style.height = "auto";
-    }
-
-    SITE.ga('event', 'page_view', {
-        page_title: SITE.translator.getResource(subTitle || title)
-        , page_path: SITE.root + '/help'
-    })
-
-    this.helpWindow.setTitle(title, SITE.translator);
-    this.helpWindow.setSubTitle(subTitle, SITE.translator);
-    this.helpWindow.setButtonVisible('PRINT', options.print);
-
-    this.helpWindow.dataDiv.innerHTML = '<object data="' + url + '" type="text/html" ></object>';
-    this.iframe = this.helpWindow.dataDiv.getElementsByTagName("object")[0];
-    this.iframe.style.width = options.width + "px";
-    this.iframe.style.height = (options.height ? options.height : 400) + "px";
-    this.helpWindow.setVisible(true);
-
-    var loader = SITE.startLoader("About", this.helpWindow.dataDiv);
-
-    that.helpWindow.dataDiv.style.opacity = "1";
-    that.helpWindow.dataDiv.style.overflow = "hidden";
-
-    loader.start(function () {
-
-        if (options.height === undefined) {// auto determina a altura
-
-            that.iframe.addEventListener("load", function () {
-                this.contentDocument.body.style.overflow = "hidden";
-                var info = this.contentDocument.getElementById('siteVerI');
-                if (info) info.innerHTML = SITE.siteVersion;
-                this.style.height = this.contentDocument.body.clientHeight + "px";
-                that.helpWindow.dataDiv.style.opacity = "1";
-                SITE.interceptClustrMaps(this.contentDocument);
-                loader.stop();
-            });
-
-        } else {
-
-            var myInterval = window.setInterval(function checkFrameLoaded() {
-                var header = that.iframe.contentDocument.getElementById('helpHeader');
-
-                if (header) {
-
-                    clearInterval(myInterval)
-                    that.helpWindow.dataDiv.style.opacity = "0";
-                    /* se pensar em implementar janela full para o help, eis o começo
-                        that.helpWindow.move(0,80);
-                        that.helpWindow.setSize( "calc( 100% - 10px)", "calc( 100% - 90px)" );
-                        options.height = that.helpWindow.topDiv.clientHeight;
-                        that.iframe.style.height = options.height + 'px';
-                    */
-                    var header = that.iframe.contentDocument.getElementById('helpHeader');
-                    var frm = that.iframe.contentDocument.getElementById('helpFrame');
-                    var container = that.iframe.contentDocument.getElementById('helpContainer');
-                    if (header) header.style.display = 'none';
-                    if (frm) frm.style.overflow = 'hidden';
-
-                    that.iframe.style.height = options.height + "px";
-
-                    if (container) {
-                        container.style.top = '0';
-                        container.style.height = (options.height - 18) + "px";;
-                        container.style.overflow = 'hidden';
-                        container.style.border = '1px solid rgba(255, 153, 34, 0.2)';
-                        var v = new PerfectScrollbar(container, {
-                            handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
-                            wheelSpeed: 1,
-                            wheelPropagation: false,
-                            suppressScrollX: false,
-                            minScrollbarLength: 100,
-                            swipeEasing: true,
-                            scrollingThreshold: 500
-                        });
-                    }
-
-                    that.helpWindow.dataDiv.style.opacity = "1";
-                    SITE.interceptClustrMaps(that.iframe.contentDocument);
-                    loader.stop();
-                }
-
-            }, 100);
+SITE.Mapa.prototype.modalCallback = function( action ) {
+    if( action === 'CLOSE' ) {
+        this.modal.close();
+    } else if( action === 'PRINT' ) {
+        var container = this.modal.getContainer();
+        if( container ) {
+            this.printPreview( container.innerHTML, 
+                [ "#topBar", "#mapaDiv", "#"+this.settings.window.topDiv.id, "#"+this.modal.modalWindow.topDiv.id ], false );
         }
-
-    }, '<br/>&#160;&#160;&#160;' + SITE.translator.getResource('wait') + '<br/><br/>');
+    }
 };
 
 SITE.Mapa.prototype.helpCallback = function ( action ) {
     if( action === 'CLOSE' ) {
-        this.helpWindow.setVisible(false);
+        this.modalHelp.close();
     } else if( action === 'PRINT' ) {
-        var container = this.iframe.contentDocument.getElementById('helpContainer');
+        var container = this.modalHelp.getContainer();
         if( container ) {
-            this.printPreview( container.innerHTML, [ "#"+this.helpWindow.topDiv.id, "#topBar","#mapaDiv"], false );
+            this.printPreview( container.innerHTML,
+               [ "#topBar", "#mapaDiv", "#"+this.modalHelp.modalWindow.topDiv.id ], false );
         }
     }
 };

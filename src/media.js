@@ -5,7 +5,7 @@
  */
 
 if (!window.SITE)
-    window.SITE = {};
+    window.SITE = { gtagInitiated : false, root: '/mapa' };
 
 SITE.Media = function( parent, btShowMedia, props ) {
     var that = this;

@@ -9,19 +9,6 @@ if (!window.SITE)
 
 window.dataLayer = window.dataLayer || [];
 
-SITE.interceptClustrMaps = function(doc){
-    var w = doc.getElementById("clustrmaps-widget")
-
-    if(w){
-        w.addEventListener('click', function(e){
-            //e.stopPropagation();
-            //e.preventDefault();
-            //alert('Peguei');
-        }, false);
-    }
-}
-
-
 SITE.startLoader = function(id, container, start, stop) {
 
     var loader = new window.widgets.Loader({
@@ -37,113 +24,6 @@ SITE.startLoader = function(id, container, start, stop) {
         ,oncomplete: stop // call function once loader has started	
     });
     return loader;
-};
-
-SITE.showModal = function ( title, subTitle, url, options ) {
-    var that = this;
-    options = options || {};
-    options.width = typeof options.width === 'undefined'? '800' : options.width;
-    options.height = typeof options.height === 'undefined'? undefined : options.height;
-    options.print = typeof options.print === 'undefined'? true : options.print;
-    
-    var winW = window.innerWidth
-                || document.documentElement.clientWidth
-                || document.body.clientWidth;    
-        
-    var x = winW/2 - options.width/2;
-    
-    if( ! this.modalWindow ) {
-        this.modalWindow = new DRAGGABLE.ui.Window(
-            null
-          , ['print|printBtn']
-          , {title: '', translator: SITE.translator, draggable: true, statusbar: false, top: "30px" , height:"90%", left: "60px", width:"calc(92% - 60px)", zIndex: 70}
-          , { listener: this, method:'modalCallback' }
-        );
-        this.modalWindow.dataDiv.style.height = "auto";
-
-        this.modalWindow.dataDiv.innerHTML = 
-            '<object id="myFrame" data="" type="text/html" ></object> \
-             <div id="pg" class="pushbutton-group" style="right: 4px; bottom: 4px;" >\
-                <div id="btClose"></div>\n\
-             </div>';
-    
-        this.modalWindow.addPushButtons( [ 'btClose|close' ] );
-    }
-
-    this.modalWindow.setTitle(title, SITE.translator);
-    this.modalWindow.setSubTitle(subTitle, SITE.translator);
-    this.modalWindow.setButtonVisible('PRINT', options.print );
-
-    this.iframe = document.getElementById("myFrame");
-
-    this.modalWindow.topDiv.style.opacity = "0";
-    this.modalWindow.setVisible(true);
-    this.modalWindow.dataDiv.height = (this.modalWindow.topDiv.clientHeight-25)+"px";
-    this.iframe.style.width = "100%";
-    this.iframe.style.height =  (this.modalWindow.topDiv.clientHeight-25)+"px";
-    this.modalWindow.dataDiv.height = this.iframe.style.height;
-
-    this.info;
-    this.container;
-
-    var loader = SITE.startLoader( "Modal" );
-
-    that.iframe.setAttribute("data", url); 
-
-    loader.start(function () {
-
-        var myInterval = window.setInterval(function checkFrameLoaded() {
-            that.container = that.iframe.contentDocument.getElementById('modalContainer');
-
-            if (that.container) {
-
-                clearInterval(myInterval)
-                that.info = that.iframe.contentDocument.getElementById('siteVerI');
-
-                SITE.interceptClustrMaps(that.iframe.contentDocument);
-
-                if (that.info) that.info.innerHTML = SITE.siteVersion;
-
-                that.container.style.top = '0';
-                that.container.style.height = (that.modalWindow.dataDiv.clientHeight - 70) + "px"
-                that.container.style.overflow = 'hidden';
-                that.container.style.border = '1px solid rgba(255, 153, 34, 0.2)';
-                var v = new PerfectScrollbar(that.container, {
-                    handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
-                    wheelSpeed: 1,
-                    wheelPropagation: false,
-                    suppressScrollX: false,
-                    minScrollbarLength: 100,
-                    swipeEasing: true,
-                    scrollingThreshold: 500
-                });
-
-                var anchors = that.container.getElementsByTagName("a");
-                for (var i = 0; i < anchors.length; i++) {
-                    anchors[i].onclick = function () { return false; };
-                }
-            }
-
-            that.modalWindow.topDiv.style.opacity = "1";
-            loader.stop();
-
-        }, 100);
-
-    }, '<br/>&#160;&#160;&#160;' + SITE.translator.getResource('wait') + '<br/><br/>');
-}
-
-SITE.modalCallback = function ( action ) {
-
-    if( action === 'CLOSE' ) {
-        this.iframe.setAttribute("data", ""); 
-        this.modalWindow.setVisible(false);
-    } else if( action === 'PRINT' ) {
-        // não implementado para o aplicativo
-        //var container = this.iframe.contentDocument.getElementById('modalContainer');
-        //if( container ) {
-        //    this.printPreview( container.innerHTML, [ "#"+this.modalWindow.topDiv.id, "#topBar","#appDiv"], false );
-        //}
-    }
 };
 
 SITE.askHelp = function () {
@@ -210,7 +90,7 @@ SITE.ga = function () {
 SITE.findGetParameter = function(parameterName) {
     var result = null,
         tmp = [];
-    var items = window.location.search.substr(1).split("&");
+    var items = window.location.search.substring(1).split("&");
     for (var index = 0; index < items.length; index++) {
         tmp = items[index].split("=");
         if (tmp[0] === parameterName) result = decodeURIComponent(tmp[1]);
@@ -230,7 +110,7 @@ SITE.getVersion = function(tag, label) {
     var el = document.getElementById(tag);
     if(!el) return 'unknown';
     var res = el.src.match(/\_[0-9]*\.[0-9]*[\.[0-9]*]*/g);
-    return res ? label+res[0].substr(1) : 'debug';
+    return res ? label+res[0].substring(1) : 'debug';
 };
 
 SITE.getLanguage = function ( ) {

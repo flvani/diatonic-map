@@ -6,7 +6,7 @@
 
 
 if (!window.SITE)
-    window.SITE = {};
+    window.SITE = { gtagInitiated : false, root: '/mapa' };
 
 SITE.Repertorio = function() {
     this.accordion = new window.ABCXJS.tablature.Accordion({
