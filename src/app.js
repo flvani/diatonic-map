@@ -11,11 +11,11 @@ SITE.App = function( interfaceParams, tabParams, playerParams ) {
     this.container = document.getElementById('appDiv')
     this.tab = {title:'', text:'', ddmId:'menuSongs', type: 'songs' }
     
-    this.modal = new SITE.Modal( { disableLinks: true, print: false, callback:{ listener: this, method: 'modalClose'} } )
+    this.modal = new SITE.Modal( { disableLinks: true, print: false, callback:{ listener: this, method: 'closeModal'} } )
 
     this.Back = [] // define a funcao a ser chamada quando o comando back é acioando no telefone
     
-    this.Back.push(this.Close); 
+    this.Back.push(this.closeApp); 
     
     ABCXJS.write.color.useTransparency = SITE.properties.colors.useTransparency;
     ABCXJS.write.color.highLight = SITE.properties.colors.highLight;
@@ -309,7 +309,7 @@ SITE.App.prototype.showSettings = function() {
         
     var x = 70;
     
-    that.Back.push(that.settingsClose); 
+    that.Back.push(that.closeSettings); 
    
     if(!this.settings) {
         this.settings = {};
@@ -451,7 +451,7 @@ SITE.App.prototype.showSettings = function() {
         this.aPolicy.addEventListener("click", function(evt) {
             evt.preventDefault();
             this.blur();
-            that.Back.push(that.modalClose); 
+            that.Back.push(that.closeModal); 
             if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
                 that.modal.show('PrivacyTitle', '', 'privacidade/politica.html' );
             } else {
@@ -462,7 +462,7 @@ SITE.App.prototype.showSettings = function() {
         this.aTerms.addEventListener("click", function(evt) {
             evt.preventDefault();
             this.blur();
-            that.Back.push(that.modalClose); 
+            that.Back.push(that.closeModal); 
             if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
                 that.modal.show('TermsTitle', '', 'privacidade/termos.e.condicoes.html' );
             } else {
@@ -655,7 +655,7 @@ SITE.App.prototype.setVersionLang = function (  ) {
     this.aVersion.addEventListener("click", function(evt) {
         evt.preventDefault();
         this.blur();
-        that.Back.push(that.modalClose); 
+        that.Back.push(that.closeModal); 
         if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
             that.modal.show('AboutAppTitle', '', 'privacidade/sobreApp.html');
         } else {
@@ -664,11 +664,11 @@ SITE.App.prototype.setVersionLang = function (  ) {
     }, false );
 };
 
-SITE.App.prototype.settingsClose = function() {
+SITE.App.prototype.closeSettings = function() {
     this.settingsCallback('CLOSE');
 };
 
-SITE.App.prototype.modalClose = function( action ) {
+SITE.App.prototype.closeModal = function( action ) {
     if( action === 'CLOSE' ) {
         this.modal.close();
         this.Back.pop();
@@ -690,7 +690,7 @@ SITE.App.prototype.closeAppView = function() {
 };
 
 
-SITE.App.prototype.Close = function () {
+SITE.App.prototype.closeApp = function () {
     window.DiatonicApp && window.DiatonicApp.closeApp();
 };
 
