@@ -77,7 +77,7 @@ SITE.ga = function () {
             else{
                 if( !SITE.gtagInitiated ) {
                     gtag('js', new Date());
-                    gtag('config', 'UA-62839199-4');
+                    gtag('config', 'G-3RXNND5N5Y');
                     SITE.gtagInitiated = true;
                 }
                 gtag(arguments[0],arguments[1],arguments[2]);
