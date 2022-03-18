@@ -973,12 +973,12 @@ SITE.Modal.prototype.show = function (title, subTitle, url, opts ) {
          </div>';
          this.modalWindow.addPushButtons( [ 'btClose|close' ] );
     }
-
+/*
     SITE.ga('event', 'page_view', {
         page_title: SITE.translator.getResource(subTitle || title)
         , page_path: SITE.root + '/help'
     })
-
+*/
     var loader = SITE.startLoader( "Modal", this.modalWindow.dataDiv );
 
     this.iframe = this.modalWindow.dataDiv.getElementsByTagName("object")[0];
