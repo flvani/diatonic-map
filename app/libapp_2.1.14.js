@@ -77,7 +77,7 @@ SITE.ga = function () {
             else{
                 if( !SITE.gtagInitiated ) {
                     gtag('js', new Date());
-                    gtag('config', 'UA-62839199-4');
+                    gtag('config', 'G-3RXNND5N5Y');
                     SITE.gtagInitiated = true;
                 }
                 gtag(arguments[0],arguments[1],arguments[2]);
@@ -1087,12 +1087,13 @@ SITE.Modal.prototype.show = function (title, subTitle, url, opts ) {
                 }
 
                 that.container = that.iframe.contentDocument.getElementById('modalContainer');
+                
+                that.checkClustrmaps();
 
                 if (that.container && info) {
     
                     clearInterval(myInterval);
 
-                    that.checkClustrmaps();
                     if( typeof info === "object" )
                         info.innerHTML = SITE.siteVersion;
     
