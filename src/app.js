@@ -15,7 +15,7 @@ SITE.App = function( interfaceParams, tabParams, playerParams ) {
 
     this.Back = [] // define a funcao a ser chamada quando o comando back é acioando no telefone
     
-    this.Back.push(this.closeApp); 
+    this.Back.push({listener:this, method:'closeApp'}); 
     
     ABCXJS.write.color.useTransparency = SITE.properties.colors.useTransparency;
     ABCXJS.write.color.highLight = SITE.properties.colors.highLight;
@@ -231,7 +231,7 @@ SITE.App.prototype.openAppView = function (button, event) {
         );
     }
 
-    this.Back.push(this.closeAppView); 
+    this.Back.push({listener:this, method:'closeAppView'}); 
 
     if( that.tab.text ) {
         SITE.ga('event', 'page_view', {
@@ -309,7 +309,7 @@ SITE.App.prototype.showSettings = function() {
         
     var x = 70;
     
-    that.Back.push(that.closeSettings); 
+    this.Back.push({listener:this, method:'closeSettings'}); 
    
     if(!this.settings) {
         this.settings = {};
@@ -451,7 +451,7 @@ SITE.App.prototype.showSettings = function() {
         this.aPolicy.addEventListener("click", function(evt) {
             evt.preventDefault();
             this.blur();
-            that.Back.push(that.closeModal); 
+            that.Back.push({listener:that, method:'closeModal'}); 
             if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
                 that.modal.show('PrivacyTitle', '', 'privacidade/politica.html' );
             } else {
@@ -462,7 +462,7 @@ SITE.App.prototype.showSettings = function() {
         this.aTerms.addEventListener("click", function(evt) {
             evt.preventDefault();
             this.blur();
-            that.Back.push(that.closeModal); 
+            that.Back.push({listener:that, method:'closeModal'}); 
             if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
                 that.modal.show('TermsTitle', '', 'privacidade/termos.e.condicoes.html' );
             } else {
@@ -643,7 +643,6 @@ SITE.App.prototype.silencia = function(force) {
                 this.appView.midiPlayer.stopPlay();
             else
                 this.appView.startPlay('normal'); // pause
-            
         }
     }
 };
@@ -655,7 +654,7 @@ SITE.App.prototype.setVersionLang = function (  ) {
     this.aVersion.addEventListener("click", function(evt) {
         evt.preventDefault();
         this.blur();
-        that.Back.push(that.closeModal); 
+        that.Back.push({listener:that, method:'closeModal'}); 
         if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
             that.modal.show('AboutAppTitle', '', 'privacidade/sobreApp.html');
         } else {
@@ -668,17 +667,9 @@ SITE.App.prototype.closeSettings = function() {
     this.settingsCallback('CLOSE');
 };
 
-SITE.App.prototype.closeModal = function( action ) {
-    if( action === 'CLOSE' ) {
+SITE.App.prototype.closeModal = function( ) {
         this.modal.close();
         this.Back.pop();
-    } else if( action === 'PRINT' ) {
-        // não implementado para o aplicativo
-        //var container = this.iframe.contentDocument.getElementById('modalContainer');
-        //if( container ) {
-        //    this.printPreview( container.innerHTML, [ "#"+this.modalWindow.topDiv.id, "#topBar","#appDiv"], false );
-        //}
-    }
 };
 
 SITE.App.prototype.closeAppView = function() {
@@ -695,7 +686,8 @@ SITE.App.prototype.closeApp = function () {
 };
 
 SITE.App.prototype.goBackOrClose = function (  ) {
-    return this.Back[this.Back.length-1] ();
+    var o = this.Back[this.Back.length-1]; 
+    return o.listener[o.method] ();
 };
 
 SITE.App.prototype.setFocus = function() {

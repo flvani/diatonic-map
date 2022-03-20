@@ -148,7 +148,12 @@ notação abc, tablatura " />
                 <div id="askHelpBtn" class="pushbutton cancel"><i class="ico-circle-error"></i><span>увольнять</span></div>
             </div>            
         </div>
+
         
+        <!--div id="pg" class="pushbutton-group" style="right: 0; bottom: 50px;">
+            <div id="testeback" class="pushbutton cancel"><i class="ico-circle-error"></i><span>back</span></div>
+        </div-->            
+
         <div id="clustrmaps-widget" style="display: none;">
             <script type='text/javascript' id='clustrmaps' src='//cdn.clustrmaps.com/map_v2.js?cl=080808&w=a&t=n&d=DapUa94TbVqwtpLWEmLGlHZOsJ4sbpinbd-5n9x0hVY&co=ffffff&cmo=3acc3a&cmn=ff5353&ct=808080'></script>        
         </div>
@@ -160,6 +165,7 @@ notação abc, tablatura " />
             
             document.getElementById("aVersion").innerHTML = '<i>Diatonic App '+SITE.siteVersion+' Powered by ABCXJS version '+SITE.abcxVersion+'</i>';
 
+
             var debug=false; // eliminar esta variável assim que possível
             
             var myApp;
@@ -167,6 +173,11 @@ notação abc, tablatura " />
             window.onAppEndPreview = new Event('appEndPreview');
             window.onAppStopEvent = new Event('appStopEvent');
             window.onAppBack = new Event('appBack');
+
+//            document.getElementById('testeback').addEventListener('click', function () {
+//                if( !myApp ) return;
+//                myApp.goBackOrClose();
+//            }, false);
 
             window.addEventListener('afterprint', (event) => {
                 //if( !myApp ) return;
