@@ -70,7 +70,7 @@ SITE.Modal.prototype.show = function (title, subTitle, url, opts ) {
             || document.body.clientWidth;
         var x = winW / 2 - this.options.width / 2;
 
-        top= "200px";
+        top= "150px";
         left= x + "px";
         height= "auto";
         width= "auto";
