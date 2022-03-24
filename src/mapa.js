@@ -221,12 +221,7 @@ SITE.Mapa.prototype.setup = function (tabParams) {
     this.accordion.printKeyboard( this.keyboardDiv );
     this.loadOriginalRepertoire();
     this.resize();
-    
-    SITE.ga('event', 'page_view', {
-        page_title: this.getActiveTab().title
-       ,page_path: SITE.root+'/'+this.accordion.getId()
-    })        
-    
+ 
     if (!this.accordion.loaded.localResource) { // não salva informação para acordeão local
         FILEMANAGER.saveLocal('property.accordion', this.accordion.getId());
     }
@@ -380,6 +375,12 @@ SITE.Mapa.prototype.doLoadOriginalRepertoire = function (loader) {
         this.repertoireWin.geraIndex(this);
         
         delete this.loadByIdx;
+    } else {
+        SITE.ga('event', 'page_view', {
+            page_title: this.getActiveTab().title
+           ,page_path: SITE.root+'/'+this.accordion.getId()
+        })        
+
     }
 
 };
