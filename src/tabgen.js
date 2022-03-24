@@ -156,6 +156,7 @@ SITE.TabGen.prototype.fireChanged = function() {
         SITE.ga('event', 'page_view', {
             page_title: this.GAtabGen
            ,page_path: SITE.root+'/part2tab'
+           ,event_category: 'View'
         })        
     }
 

@@ -25,7 +25,7 @@ notação abc, tablatura " />
         <link rel="stylesheet" href="fontsIco/fontsAbcx.css" />
         <link rel="stylesheet" href="fontsGoogle/fontsGoogle.css" />
         <link rel="stylesheet" href="css/styles4abcx_6.13-min.css" />
-        <link rel="stylesheet" href="app/libapp_2.1.14-min.css" />
+        <link rel="stylesheet" href="app/libapp_2.1.15-min.css" />
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-3RXNND5N5Y"></script>
@@ -65,7 +65,7 @@ notação abc, tablatura " />
         <!-- console personalizada para Javascript -->
         <script type="text/javascript" src="jslib/waterbug.js"></script> 
         
-        <script id="mainSITE" type="text/javascript" src="app/libapp_2.1.14-min.js"></script>
+        <script id="mainSITE" type="text/javascript" src="app/libapp_2.1.15-min.js"></script>
 
         <div id="topBar" class="topBar gradiente" >
             <span data-translate="appName" class="topTitle" style="left: 70px; line-height:63px; font-size: 32px;">Mapa para Acordeões Diatônicos</span>
@@ -222,6 +222,8 @@ notação abc, tablatura " />
             window.onload = function () {
                 
                 SITE.LoadProperties();
+                SITE.ga( 'set', 'page_path', '/app');
+
                 SITE.translator = new SITE.Translator( { language: SITE.properties.options.language, callback: initApp } );
                 
             };
@@ -233,10 +235,10 @@ notação abc, tablatura " />
                 if( ABCXJS.misc.isIE() ){
                     $('#appDiv').hide();
                     
-                    SITE.ga( 'event', 'browser', { 
-                          'event_category': 'Error'  
-                         ,'event_label': 'MS-IE'
-                         ,'non_interaction': true
+                    SITE.ga('event', 'exception', {
+                             event_category: 'Error'
+                            ,description: 'MS-IE: Browser not supported.'
+                            ,fatal: true        
                     });
                     
                     new DRAGGABLE.ui.Alert( 
@@ -281,10 +283,10 @@ notação abc, tablatura " />
                 if(!success) {
                     MIDI.widget.hide();
                     
-                    SITE.ga( 'event', 'loading', { 
-                          'event_category': 'Error'  
-                         ,'event_label': 'resources'
-                         ,'non_interaction': true
+                    SITE.ga('event', 'exception', {
+                             event_category: 'Error'
+                            ,description: 'MIDI: Could not load some resources.'
+                            ,fatal: true        
                     });
                     
                     new DRAGGABLE.ui.Alert( 
@@ -335,13 +337,10 @@ notação abc, tablatura " />
                 
                 SITE.debug = window.DiatonicApp && window.DiatonicApp.isDebug();
                 
-                SITE.ga( 'set', 'page_path', '/app');
-                //SITE.ga( 'event', 'page_view');
-
                 SITE.ga( 'event', 'language', { 
-                          'event_category': 'Configuration'  
-                         ,'event_label': SITE.properties.options.language 
-                         ,'non_interaction': true
+                          event_category: 'Configuration'  
+                         ,event_label: SITE.properties.options.language 
+                         ,non_interaction: true
                 });
                 
                 if( SITE.getDate() <= 20170909 ) {

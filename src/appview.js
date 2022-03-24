@@ -731,8 +731,8 @@ SITE.AppView.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
                 
                 SITE.ga( 'event', 'play', { 
-                    'event_category': 'Mapa'  
-                   ,'event_label': this.renderedTune.title
+                    event_category: 'Mapa'  
+                   ,event_label: this.renderedTune.title
                 });
          
                 this.playButton.title = SITE.translator.getResource("pause");
@@ -742,8 +742,8 @@ SITE.AppView.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
             this.midiPlayer.setPlayableClefs( (SITE.properties.studio.trebleOn?"T":"")+(SITE.properties.studio.bassOn?"B":"") );
             
             SITE.ga( 'event', 'didactic-play', { 
-                'event_category': 'Mapa'  
-               ,'event_label': this.renderedTune.title
+                event_category: 'Mapa'  
+               ,event_label: this.renderedTune.title
             });
             
             this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value, valueF );
@@ -927,8 +927,8 @@ SITE.AppView.prototype.printPreview = function (html, divsToHide, landscape ) {
     });
 
     SITE.ga( 'event', 'print', { 
-        'event_category': 'Mapa'  
-       ,'event_label': this.renderedTune.title
+        event_category: 'Mapa'  
+       ,event_label: this.renderedTune.title
     });
 
     this.changePageOrientation(landscape? 'landscape': 'portrait');

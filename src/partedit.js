@@ -482,6 +482,7 @@ SITE.PartEdit.prototype.parseABC = function(text, transpose) {
             SITE.ga('event', 'page_view', {
                 page_title: this.GApartEdit
                ,page_path: SITE.root+'/abc2part'
+               ,event_category: 'View'
             })        
         }
         

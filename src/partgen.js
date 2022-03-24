@@ -571,6 +571,7 @@ SITE.PartGen.prototype.parseABC = function() {
             SITE.ga('event', 'page_view', {
                 page_title: this.GApartGen
                ,page_path: SITE.root+'/tab2part'
+               ,event_category: 'View'
             })        
         }
     } else

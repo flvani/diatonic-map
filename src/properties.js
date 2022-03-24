@@ -9,6 +9,46 @@ if (!window.SITE)
 
 window.dataLayer = window.dataLayer || [];
 
+SITE.ga = function () {
+
+    if( arguments[0] === 'set' && arguments[1] === 'page_path') {
+        SITE.root = arguments[2]
+    }
+    
+    {
+        //debug only
+        //console.log( 'gtag: ' + arguments[0] +', '+ arguments[1] +', '+  JSON.stringify(arguments[2], null, 4) )
+        //return;
+    }
+
+    if( gtag && ( window.location.href.indexOf( 'diatonicmap.com.br') >= 0 || window.location.href.indexOf( 'androidplatform') >= 0 )
+           && SITE.getVersion('mainSITE', '' ) !== 'debug' 
+           && SITE.getVersion('mainSITE', '' ) !== 'unknown' ) {
+               
+            //console.log("GA desabilitado!");
+            if(SITE.debug)
+                console.log( 'App is in Debug mode'  )
+            else{
+                if( !SITE.gtagInitiated ) {
+
+                    gtag('js', new Date());
+                    gtag('config', 'G-3RXNND5N5Y',  { 
+                         'page_title'  : SITE.root.includes('app') ? 'Diatonic App' : 'Diatonic Map'
+                        ,'page_path'   : SITE.root
+                        ,'site_version': SITE.siteVersion
+                        ,'abcx_version': SITE.abcxVersion
+                        ,'event_category': 'View'
+                    });
+                    
+                    SITE.gtagInitiated = true;
+                }
+                gtag(arguments[0],arguments[1],arguments[2]);
+            }
+    } else {
+        console.log('Funcao gtag não definida.');
+    }
+};
+
 SITE.startLoader = function(id, container, start, stop) {
 
     var loader = new window.widgets.Loader({
@@ -46,46 +86,14 @@ SITE.askHelp = function () {
                     SITE.SaveProperties();
                 }
                 SITE.ga( 'event', 'askedHelp', { 
-                    'event_category': 'Configuration'  
-                   ,'event_label': SITE.properties.options.doNotAskHelp? 'Refused': 'JustClosed'
+                    event_category: 'Configuration'  
+                   ,event_label: SITE.properties.options.doNotAskHelp? 'Refused': 'JustClosed'
                 });
         
              }, false);
         }
     }
 }
-
-SITE.ga = function () {
-
-    if( arguments[0] === 'set' && arguments[1] === 'page_path') {
-        SITE.root = arguments[2]
-    }
-    
-    {
-        //debug only
-        //console.log( 'gtag: ' + arguments[0] +', '+ arguments[1] +', '+  JSON.stringify(arguments[2], null, 4) )
-        //return;
-    }
-
-    if( gtag && ( window.location.href.indexOf( 'diatonicmap.com.br') >= 0 || window.location.href.indexOf( 'androidplatform') >= 0 )
-           && SITE.getVersion('mainSITE', '' ) !== 'debug' 
-           && SITE.getVersion('mainSITE', '' ) !== 'unknown' ) {
-               
-            //console.log("GA desabilitado!");
-            if(SITE.debug)
-                console.log( 'App is in Debug mode'  )
-            else{
-                if( !SITE.gtagInitiated ) {
-                    gtag('js', new Date());
-                    gtag('config', 'G-3RXNND5N5Y');
-                    SITE.gtagInitiated = true;
-                }
-                gtag(arguments[0],arguments[1],arguments[2]);
-            }
-    } else {
-        console.log('Funcao gtag não definida.');
-    }
-};
           
 SITE.findGetParameter = function(parameterName) {
     var result = null,
@@ -141,11 +149,11 @@ SITE.LoadProperties = function() {
         SITE.properties = JSON.parse( FILEMANAGER.loadLocal('diatonic-map.site.properties' ) ); 
     } catch(e) {
         waterbug.log( 'Could not load the properties.');
-        waterbug.show( 'Could not save the properties');
-        SITE.ga( 'event', 'html5storage', { 
-            'event_category': 'Error'  
-           ,'event_label': 'loadingLocal'
-           ,'non_interaction': true
+        waterbug.show( );
+        SITE.ga('event', 'exception', {
+            event_category: 'Error',
+            description: 'html5storage: Could not load the properties.',
+            fatal: false        
         });
     }
     
@@ -270,11 +278,11 @@ SITE.SaveProperties = function() {
         FILEMANAGER.saveLocal('diatonic-map.site.properties', JSON.stringify(SITE.properties));
     } catch(e) {
         waterbug.log( 'Could not save the properties');
-        waterbug.show( 'Could not save the properties');
-        SITE.ga( 'event', 'html5storage', { 
-            'event_category': 'Error'  
-           ,'event_label': 'savingLocal'
-           ,'non_interaction': true
+        waterbug.show();
+        SITE.ga('event', 'exception', {
+            event_category: 'Error',
+            description: 'html5storage: Could not save the properties',
+            fatal: false        
         });
     }
 };

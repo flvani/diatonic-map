@@ -177,8 +177,8 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         this.blur();
         
         SITE.ga( 'event', 'print', { 
-            'event_category': 'Mapa'  
-           ,'event_label': that.renderedTune.title
+            event_category: 'Mapa'  
+           ,event_label: that.renderedTune.title
         });
         
         that.mapa.printPreview(that.renderedTune.div.innerHTML, ["#topBar","#studioDiv"], that.renderedTune.abc.formatting.landscape);
@@ -788,8 +788,8 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
             if( this.midiPlayer.startPlay(this.renderedTune.abc.midi) ) {
                 
                 SITE.ga( 'event', 'play', { 
-                    'event_category': 'Mapa'  
-                   ,'event_label': this.renderedTune.title
+                    event_category: 'Mapa'  
+                   ,event_label: this.renderedTune.title
                 });
                 
                 this.playButton.title = SITE.translator.getResource("pause");
@@ -799,8 +799,8 @@ SITE.Estudio.prototype.StartPlayWithTimer = function(midi, type, value, valueF, 
             this.midiPlayer.setPlayableClefs( (SITE.properties.studio.trebleOn?"T":"")+(SITE.properties.studio.bassOn?"B":"") );
             
             SITE.ga( 'event', 'didactic-play', { 
-                'event_category': 'Mapa'  
-               ,'event_label': this.renderedTune.title
+                event_category: 'Mapa'  
+               ,event_label: this.renderedTune.title
             });
 
             this.midiPlayer.startDidacticPlay(this.renderedTune.abc.midi, type, value, valueF );

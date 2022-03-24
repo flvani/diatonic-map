@@ -109,8 +109,9 @@ SITE.Modal.prototype.show = function (title, subTitle, url, opts ) {
     }
 
     SITE.ga('event', 'page_view', {
-        page_title: SITE.translator.getResource(subTitle || title)
-        , page_path: SITE.root + '/help'
+         page_title: SITE.translator.getResource(subTitle || title)
+        ,page_path: SITE.root + '/help'
+        ,event_category: 'View'
     })
 
     var loader = SITE.startLoader( "Modal", this.modalWindow.dataDiv );

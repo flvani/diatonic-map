@@ -54,6 +54,7 @@ SITE.Media.prototype.callback = function( e ) {
             SITE.ga('event', 'page_view', {
                 page_title: this.tabTitle
                ,page_path: SITE.root+'/media'
+               ,event_category: 'View'
             })        
             SITE.SaveProperties();
             this.mediaWindow.setVisible(true);

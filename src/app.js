@@ -237,6 +237,7 @@ SITE.App.prototype.openAppView = function (button, event) {
         SITE.ga('event', 'page_view', {
             page_title: that.tab.title
            ,page_path: SITE.root+'/'+that.accordion.getId()
+           ,event_category: 'View'
         })        
 
         var loader = SITE.startLoader( "openAppView" );
@@ -324,6 +325,7 @@ SITE.App.prototype.showSettings = function() {
         SITE.ga('event', 'page_view', {
             page_title: SITE.translator.getResource('PreferencesTitle')
            ,page_path: SITE.root+'/settings'
+           ,event_category: 'View'
         })        
 
 
@@ -570,8 +572,8 @@ SITE.App.prototype.settingsCallback = function (action, elem) {
             this.settings.popupWin.setVisible(false);
             SITE.ResetProperties();
             SITE.ga( 'event', 'reset', { 
-                'event_category': 'Configuration'  
-               ,'event_label': SITE.properties.version
+                event_category: 'Configuration'  
+               ,event_label: SITE.properties.version
             });
             
             this.applySettings();
@@ -599,8 +601,8 @@ SITE.App.prototype.applySettings = function() {
 
     if( this.settings.originalLang !== SITE.properties.options.language ) {
         SITE.ga( 'event', 'changeLang', { 
-            'event_category': 'Configuration'  
-           ,'event_label': SITE.properties.options.language
+            event_category: 'Configuration'  
+           ,event_label: SITE.properties.options.language
         });
         SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
         this.setVersionLang();
@@ -609,8 +611,8 @@ SITE.App.prototype.applySettings = function() {
     
     if( this.settings.originalPianoSound !== SITE.properties.options.pianoSound ) {
         SITE.ga( 'event', 'changeInstrument', { 
-            'event_category': 'Configuration'  
-           ,'event_label': SITE.properties.options.pianoSound?'piano':'accordion'
+            event_category: 'Configuration'  
+           ,event_label: SITE.properties.options.pianoSound?'piano':'accordion'
         });
         this.defineInstrument();
     }
