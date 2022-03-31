@@ -1,10 +1,11 @@
-X:2067
+X:6010
 %%papersize A4
 %%barsperstaff 5
 %%stretchlast
 %%barnumbers 1
 %%staffsep 20
-T:A casa
+%%tabinferenceopts +2
+T:A casa (corona)
 C:Vinícius de Moraes
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
 %F:https://www.youtube-nocookie.com/embed/dOGbiL3ZxPY;&T:Completa
@@ -47,9 +48,9 @@ V:2 bass
 | C,,2 [C,E,G,]2 [C,E,G,]2 | F,,2 [F,A,C]2 [F,A,C] z | F,,2 [F,A,C] z B,,2  |
 | F,,2 [F,A,C]2 [F,A,C]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | F,,2 [F,,F,A,C]4 |
 V:3 accordionTab
-| z-z3 z+5' z+5' z-5' |: F+6'2 f+5' z-9 B♭-8 >-9 | F+6'2 f+5' >+6' f+6' >+6' | 
-| C-5'2 c-4' >-5' c-5' >-5' |1 F+5'2 f+z >+5' f+5' z-5' :||:2 F+5'2 f+z >+7' f+7' z+7' | 
-| B♭-92 b♭-8 >-9 b♭-9 >-9 | F+7'2 f+6' >+6' f+6' >+6' | C-5'2 c-4' >-5' c-5' >-5' :| 
-| F+5'2 f+z >+5' F+5' z-5' | F+6'2 f+5' z-9 B♭-8 >-9 | F+6'2 f+5' >+6' f+6' >+6' | 
-| C-5'2 c-4' >-5' c-5' >-5' | F+5'2 f+z >+5' f+5' z-5' | F+6'2 f+5' z-9 B♭-8 >-9 | 
-| F+6'2 f+5' >+6' f+6' >+6' | C-7'2 c-7' >-7' c-8 >-7' | F+7'2 Ff+[5'6'7']4 | 
+| z+z3 z+4'' z+4'' z-4'' |: F+6'2 f+4'' z+6'' B♭+7 >+6'' | F+6'2 f+4'' >+6' f+6' >+6' |
+| C-4''2 c-3'' >-4'' c-4'' >-4'' |1 F+4''2 f+z >+4'' f+4'' z-4'' :|:2 F+4''2 f+z >+6'' f+6'' z+6'' |
+| B♭+6''2 b♭+7 >+6'' b♭+6'' >+6'' | F+6''2 f+6' >+6' f+6' >+6' | C-4''2 c-3'' >-4'' c-4'' >-4'' :|
+| F+4''2 f+z >+4'' f+4'' z-4'' | F+6'2 f+4'' z+6'' B♭+7 >+6'' | F+6'2 f+4'' >+6' f+6' >+6' |
+| C-4''2 c-3'' >-4'' c-4'' >-4'' | F+4''2 f+z >+4'' f+4'' z-4'' | F+6'2 f+4'' z+6'' B♭+7 >+6'' |
+| F+6'2 f+4'' >+6' f+6' >+6' | C-82 c-8 >-8 c-7' >-8 | F+6''2 Ff+[4''6'6'']4 |

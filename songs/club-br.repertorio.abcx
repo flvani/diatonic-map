@@ -33,6 +33,7 @@ X:2067
 %%barsperstaff 5
 %%stretchlast
 %%barnumbers 1
+%%staffsep 20
 T:A casa
 C:Vinícius de Moraes
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
@@ -74,14 +75,14 @@ V:2 bass
 | B,,2 [B,DF]2 [B,DF]2 | F,,2 [F,A,C]2 [F,A,C]2 | C,,2 [C,E,G,]2 [C,E,G,]2 :|
 | F,,2 [F,A,C]2 [F,A,C] z | F,,2 [F,A,C] z B,,2  | F,,2 [F,A,C]2 [F,A,C]2 |
 | C,,2 [C,E,G,]2 [C,E,G,]2 | F,,2 [F,A,C]2 [F,A,C] z | F,,2 [F,A,C] z B,,2  |
-| F,,2 [F,A,C]2 [F,A,C]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | F,,2 [F,,F,,A,,C,]4 |
+| F,,2 [F,A,C]2 [F,A,C]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | F,,2 [F,,F,A,C]4 |
 V:3 accordionTab
 | z-z3 z+5' z+5' z-5' |: F+6'2 f+5' z-9 B♭-8 >-9 | F+6'2 f+5' >+6' f+6' >+6' | 
 | C-5'2 c-4' >-5' c-5' >-5' |1 F+5'2 f+z >+5' f+5' z-5' :||:2 F+5'2 f+z >+7' f+7' z+7' | 
 | B♭-92 b♭-8 >-9 b♭-9 >-9 | F+7'2 f+6' >+6' f+6' >+6' | C-5'2 c-4' >-5' c-5' >-5' :| 
 | F+5'2 f+z >+5' F+5' z-5' | F+6'2 f+5' z-9 B♭-8 >-9 | F+6'2 f+5' >+6' f+6' >+6' | 
 | C-5'2 c-4' >-5' c-5' >-5' | F+5'2 f+z >+5' f+5' z-5' | F+6'2 f+5' z-9 B♭-8 >-9 | 
-| F+6'2 f+5' >+6' f+6' >+6' | C-7'2 c-7' >-7' c-8 >-7' | F+7'2 F+[5'6'7']4 | 
+| F+6'2 f+5' >+6' f+6' >+6' | C-7'2 c-7' >-7' c-8 >-7' | F+7'2 Ff+[5'6'7']4 | 
 X:2002
 %%barnumbers 0
 %%papersize A4
@@ -134,17 +135,23 @@ w: . . . va-lo, pei-to nu, ca-be-lo~ao vento e~o sol qua-
 w:gan-do pra brin-car no meu quin-tal. No teu ca-
 w:ran-do nos-sas rou-pas no va-ral. . . .
 f:3 4 4 3 2 3 4 2 2 2 4 3
-|:2 z2 c2 | g4- | "Am" g z a2 | e4- | e3 z | "Bb" zd fe | "F" Ac dc | "C" c4 :| 
+|:2 z2 c2 | g4- | g z a2 | "Am" e4- | e3 z | "Bb" zd fe | "F" Ac dc | "C" c4 :| 
 w:Tu vens, * tu vens! * Eu já es-cu-to os teus sinais!
 f: 1 4 5 3 4 5 3 2 3 5 4 4
 V:baixos bass
 | z4 |: C,,3/2[C,E,G,]3/2 [C,E,G,] | C,,3/2[C,E,G,]3/2 [C,E,G,] | D,,3/2[D,F,A,]3/2 [D,F,A,] | D,,3/2[D,F,A,]3/2 [D,F,A,] |
-| F,,3/2[F,A,C]/2 z [D,F,A,] | F,, z/2 [D,F,A,]3/2  [F,A,C] | C,,3/2[C,E,G,]3/2 [C,E,G,] |1 C,,3/2[C,E,G,]3/2 [C,E,G,] :|
-|:2 C,,3/2[C,E,G,]3/2 [C,E,G,] | C,,3/2[C,E,G,]3/2 [C,E,G,] | C,,3/2[C,E,G,]3/2 [C,E,G,] | A,,3/2[C,E,G,]3/2 [C,E,G,] | A,,3/2[C,E,G,]3/2 [C,E,G,] | B,,3/2[B,DF]3/2 [B,DF] | F,,3/2 D,,3/2  [F,A,C] | C,,3/2[C,E,G,]3/2 [C,E,G,] :|
+| F,,3/2[F,A,C]3/2 [F,A,C] | F,,3/2[F,A,C]3/2  [F,A,C] | C,,3/2[C,E,G,]3/2 [C,E,G,] |1 C,,3/2[C,E,G,]3/2 [C,E,G,] :|
+|:2 C,,3/2[C,E,G,]3/2 [C,E,G,] | C,,3/2[C,E,G,]3/2 [C,E,G,] | C,,3/2[C,E,G,]3/2 [C,E,G,] | A,,3/2[C,E,G,]3/2 [C,E,G,] | A,,3/2[C,E,G,]3/2 [C,E,G,] | B,,3/2[B,DF]3/2 [B,DF] | F,,3/2[F,A,C]3/2  [F,A,C] | C,,3/2[C,E,G,]3/2 [C,E,G,] :|
 V:tablatura accordionTab
 | z-z z-6' z-8 z-7' |: C-9 >-7'0.5 c->0.5 >-8 c-6' | C-6 >-6'0.5 c->0.5 >-8 c-6' | D-81.5 dm->1.5 dm-> | D-z >-6'0.5 dm->0.5 >-8 dm-7' | 
-| F+7' >+80.5 f+>0.5 z-8 dm-6' | F+5' z-7'0.5 dm->0.5 >-8 f+6' | C+71.5 c+>1.5 c+> |1 C+z >-6'0.5 c->0.5 >-8 c-7' :| 
-|:2 C-z1.5 c-z0.5 >-6' c-> | C-8'1.5 c->1.5 c-> | C-> >-z0.5 c-z0.5 >-a c-> | A+81.5 c+>1.5 c+> | A+>1.5 c+>1.5 c+z | B♭-z >-80.5 b♭->0.5 >-9 b♭-7' | F+5' >+6'0.5 D-81.5 f+7 | C+71.5 c+>1.5 c+> :| 
+| F+7' >+80.5 f+>0.5 >+5'' f+6' | F+5' >+80.5 f+>0.5 >+5'' f+6' | C+71.5 c+>1.5 c+> |1 C+z >-6'0.5 c->0.5 >-8 c-7' :| 
+|:2 C-z1.5 c-z0.5 >-6' c-> | C-8'1.5 c->1.5 c-> | C-> >-z0.5 c-z0.5 >-a c-> | A+81.5 c+>1.5 c+> | A+>1.5 c+>1.5 c+z | B♭-z >-80.5 b♭->0.5 >-9 b♭-7' | F+5' >+6'0.5 f+>0.5 >+5'' f+7 | C+71.5 c+>1.5 c+> :| 
+W: A voz do anjo sussurrou no meu ouvido
+W: Eu não duvido já escuto os teus sinais
+W: Que tu virias numa manhã de domingo
+W: Eu te anuncio nos sinos das catedrais
+W:
+W: Tu vens, tu vens! Eu já escuto os teus sinais!
 X:2046
 %%barnumbers 0
 %%papersize A4
