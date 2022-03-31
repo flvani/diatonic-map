@@ -9557,7 +9557,9 @@ ABCXJS.write.Printer.prototype.printTune = function(abctune, options) {
 
     var extraText1 = "", extraText2 = "",  height = 0, h1=0, h2=0;
     
-    if (abctune.metaText.unalignedWords) {
+
+    //FLAVIO -if hideLyrics,  talvez fosse interessante aplicar também aos metatextos abaixo.
+    if (abctune.metaText.unalignedWords && !abctune.formatting.hideLyrics) {
         for (var j = 0; j < abctune.metaText.unalignedWords.length; j++) {
             if (typeof abctune.metaText.unalignedWords[j] === 'string') {
                 extraText1 += abctune.metaText.unalignedWords[j] + "\n";
