@@ -1,0 +1,35 @@
+X:1068
+%%papersize A4
+%%barnumbers 1
+T:Anunciação
+C:Alceu Valença 
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
+F:https://www.youtube-nocookie.com/embed/XfXiLZeFxlc;&T:Parte I
+F:https://www.youtube-nocookie.com/embed/8j_cLL23mOQ;&T:Parte II
+F:https://www.youtube-nocookie.com/embed/diua5StgDS4;&T:Completa
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:4/4
+L:1/8
+Q:95
+K:Am
+V:melodia treble
+| zG AB |: "G" cB AG | EG AG | "Am" A4 | zG AB |
+f: 2 4 3 4 3 4 3 2 3 4 3 4 2 4 3 
+w:Na bru-ma le-ve das pai-xões que vêm de dentro, tu vens che-
+w: . . . va-lo, pei-to nu, ca-be-lo~ao vento e~o sol qua-
+| "C" cB AG | EB AG | "G" G4 |1 zG AB :|
+w:gan-do pra brin-car no meu quin-tal. No teu ca-
+w:ran-do nos-sas rou-pas no va-ral. . . .
+f:3 4 4 3 2 3 4 2 2 2 4 3
+|:2 z2 G2 | d4- | "Em" d z e2 | B4- | B3 z | "F" zA cB | "C" EG AG | "G" G4 :| 
+w:Tu vens, * tu vens! * Eu já es-cu-to os teus sinais!
+f: 1 4 5 3 4 5 3 2 3 5 4 4
+V:baixos bass
+| z4 |: G,,3/2[G,B,D]3/2 [G,B,D] | G,,3/2[G,B,D]3/2 [G,B,D] | A,,3/2[A,CE]3/2 [A,CE] | A,,3/2[A,CE]3/2 [A,CE] |
+| C,,3/2[C,E,G,]/2 z [A,CE] | C,, z/2 [A,CE]3/2  [C,E,G,] | G,,3/2[G,B,D]3/2 [G,B,D] |1 G,,3/2[G,B,D]3/2 [G,B,D] :|
+|:2 G,,3/2[G,B,D]3/2 [G,B,D] | G,,3/2[G,B,D]3/2 [G,B,D] | G,,3/2[G,B,D]3/2 [G,B,D] | E,,3/2[G,B,D]3/2 [G,B,D] | E,,3/2[G,B,D]3/2 [G,B,D] | F,,3/2[F,A,C]3/2 [F,A,C] | C,,3/2 A,,3/2  [C,E,G,] | G,,3/2[G,B,D]3/2 [G,B,D] :|
+V:tablatura accordionTab
+| z-z z-5' z-7 z-6' |: G-8 >-6'0.5 g->0.5 >-7 g-5' | G-5 >-5'0.5 g->0.5 >-7 g-5' | A-71.5 am->1.5 am-> | A-z >-5'0.5 am->0.5 >-7 am-6' |
+| C+6' >+70.5 c+>0.5 z-7 am-5' | C+4' z-6'0.5 am->0.5 >-7 c+5' | G+61.5 g+>1.5 g+> |1 G+z >-5'0.5 g->0.5 >-7 g-6' :|
+|:2  G-z1.5 g-z0.5 >-5' g-> | G-7'1.5 g->1.5 g-> | G-> >-z0.5 g-z0.5 >-9 g-> | E+71.5 g+>1.5 g+> | E+>1.5 g+>1.5 g+z | F-z >-70.5 f->0.5 >-8 f-6' | C+4' >+5'0.5 A-71.5 c+6 | G+61.5 g+>1.5 g+> :|

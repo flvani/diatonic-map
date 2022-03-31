@@ -28,6 +28,60 @@ V:3 accordionTab
 | z+z2 z+6 z+6 | C+62 c+6 >+4' | C-3'2 c-3' >-4' | C-6'2 c-6' >-7 | F+5'2 f+5' >+5' | F+5''2 f+5'' >+6' | G-72 g-7 >-6 | G-4'2 g-4' >-5 | C+52 c+6 >+6 |
 | C+62 c+6 >+4' | C-3'2 c-3' >-4' | C-6'2 c-6' >-7 | F+5'2 f+5' >+5' | F+5''2 f+5'' >+6' | G-72 g-7 >-6 | G-4'2 g-6 >-7 |
 | C+7 >+60.5 >+60.5 z+6 z+6 |: C+7 >+60.5 >+60.5 z+6 z+5 | G-4 >-z z-4' z-4' | G-71.5 >-4'0.5 g-4' >-50.5 >-40.5 |1  C+4 >+60.5 >+60.5 z+6 z+6 :|2 C+42 c+6 >+6 |
+X:2067
+%%papersize A4
+%%barsperstaff 5
+%%stretchlast
+%%barnumbers 1
+T:A casa
+C:Vinícius de Moraes
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
+%F:https://www.youtube-nocookie.com/embed/dOGbiL3ZxPY;&T:Completa
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:3/4
+L:1/8
+Q:90
+K:F
+V:1 treble
+| z3 A AB |: +segno+ "F" c2 Af "Bb" df | "F" c2 Ac cc | 
+w:Era u-ma ca-sa mui-to~en gra- ça-da, não ti-nha
+w:. . . dia en-trar ne-la não . Por-que na
+f:2 2 2 3 2 5 4 5 3 2 3 3 3    
+| "C" B2 GB BB |1 "F" A2 zA AB :||:2 "F" A2 zf ff |
+w:te-to não ti-nha nada Nin-guém~po -chão Nin-guém~po-
+w:ca-sa não ti-nha . . . . rede Nin-guém~po-
+f: 2 2 3 3 3 3 2 2 2 3 4 4 4
+| "Bb" f2 df ff | "F" f2 cc cc | "C" B2 GB BB :|
+w:di-a dor-mir na rede Por-que na ca-sa não ti-nha pa-
+w:di-a fa-zer pi-pi Por-que pi-ni-co não ti-nha a-
+f:5 4 5 5 5 4 3 3 3 3 2 2 3 3 3
+| +D.S.+ "F" A2 zA AB |  c2 Af "Bb" df | "F" c2 Ac cc |
+w: li. Era u-ma . . . . . . . . . . . . . . . . . . . . . . . .
+w: li. Mas era fei-ta com mui-to es-me-ro Na Rua dos
+f: 3 2 2 2 3 2 5 4 5 3 2 3 3 3    
+| "C" B2 GB BB | "F" A2 zA AB | c2 Af "Bb" df |
+w: . . . . . . . . . . . . . . . . . . . . . . . . . . .
+w:Bo-bos, nú-me-ro zero Mas era fei-ta com mui-to es-
+f: 2 2 3 3 3 3 2 2 2 3 2 4 5 4
+| "F" c2 Ac cc | "C" e2 ee de | "F" f2 [Acf]4 |
+w:. . . . . . . . . . . . . . . . . . . . . . . . . . .
+w:me-ro Na Rua dos Bo-bos, nú-me-ro zero.
+f: 3 2 3 3 3 4 4 4 5 4 4 234
+V:2 bass
+| z6 |: F,,2 [F,A,C] z B,,2  | F,,2 [F,A,C]2 [F,A,C]2 |
+| C,,2 [C,E,G,]2 [C,E,G,]2 |1 F,,2 [F,A,C]2 [F,A,C] z :||:2 F,,2 [F,A,C]2 [F,A,C] z |
+| B,,2 [B,DF]2 [B,DF]2 | F,,2 [F,A,C]2 [F,A,C]2 | C,,2 [C,E,G,]2 [C,E,G,]2 :|
+| F,,2 [F,A,C]2 [F,A,C] z | F,,2 [F,A,C] z B,,2  | F,,2 [F,A,C]2 [F,A,C]2 |
+| C,,2 [C,E,G,]2 [C,E,G,]2 | F,,2 [F,A,C]2 [F,A,C] z | F,,2 [F,A,C] z B,,2  |
+| F,,2 [F,A,C]2 [F,A,C]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | F,,2 [F,,F,,A,,C,]4 |
+V:3 accordionTab
+| z-z3 z+5' z+5' z-5' |: F+6'2 f+5' z-9 B♭-8 >-9 | F+6'2 f+5' >+6' f+6' >+6' | 
+| C-5'2 c-4' >-5' c-5' >-5' |1 F+5'2 f+z >+5' f+5' z-5' :||:2 F+5'2 f+z >+7' f+7' z+7' | 
+| B♭-92 b♭-8 >-9 b♭-9 >-9 | F+7'2 f+6' >+6' f+6' >+6' | C-5'2 c-4' >-5' c-5' >-5' :| 
+| F+5'2 f+z >+5' F+5' z-5' | F+6'2 f+5' z-9 B♭-8 >-9 | F+6'2 f+5' >+6' f+6' >+6' | 
+| C-5'2 c-4' >-5' c-5' >-5' | F+5'2 f+z >+5' f+5' z-5' | F+6'2 f+5' z-9 B♭-8 >-9 | 
+| F+6'2 f+5' >+6' f+6' >+6' | C-7'2 c-7' >-7' c-8 >-7' | F+7'2 F+[5'6'7']4 | 
 X:2002
 %%barnumbers 0
 %%papersize A4
@@ -56,6 +110,41 @@ V:3 accordionTab
 | z+z2 z-8' z-9 |: C-7' c-7'0.5 >-80.5 C-7' c-8' | F+7'0.5 >+7'0.5 f+7'0.5 >+80.5 F+7' f+9 |F+7'0.5 >+7'0.5 f+7'0.5 >+80.5 F+7' f+9 |1 C-7' c-> G-8' g-9 :|
 |2 C-7' c-> C-z0.5 >-6'0.5 c-[89]0.5 >-6'0.5 |: F+[7'8'] f+[7'8']0.5 >+[88']0.5 D-[8b] dm-[9a] | C+[89] c+[89]0.5 >+[89]0.5 C+[6'8'] c+[89] | G-[89]0.5 >-[89]0.5 g-[89]0.5 >-[6'a]0.5 G-[78'] g-[79] |
 |1 C+[78] c+[>>] C-z0.5 >-6'0.5 c-[89]0.5 >-6'0.5 :|2 C+[78] c+[>>] G-8' g-9 | C-[6'7'] c-[>>] C-[>>] >-[>>] |
+X:2068
+%%papersize A4
+%%barnumbers 1
+T:Anunciação (club)
+C:Alceu Valença 
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
+%F:https://www.youtube-nocookie.com/embed/XfXiLZeFxlc;&T:Parte I
+%F:https://www.youtube-nocookie.com/embed/8j_cLL23mOQ;&T:Parte II
+%F:https://www.youtube-nocookie.com/embed/diua5StgDS4;&T:Completa
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:4/4
+L:1/8
+Q:95
+K:Dm
+V:melodia treble
+| zc de |: "C" fe dc | Ac dc | "Dm" d4 | zc de |
+f: 2 4 3 4 3 4 3 2 3 4 3 4 2 4 3 
+w:Na bru-ma le-ve das pai-xões que vêm de dentro, tu vens che-
+w: . . . va-lo, pei-to nu, ca-be-lo~ao vento e~o sol qua-
+| "F" fe dc | Ae dc | "C" c4 |1 zc de :|
+w:gan-do pra brin-car no meu quin-tal. No teu ca-
+w:ran-do nos-sas rou-pas no va-ral. . . .
+f:3 4 4 3 2 3 4 2 2 2 4 3
+|:2 z2 c2 | g4- | "Am" g z a2 | e4- | e3 z | "Bb" zd fe | "F" Ac dc | "C" c4 :| 
+w:Tu vens, * tu vens! * Eu já es-cu-to os teus sinais!
+f: 1 4 5 3 4 5 3 2 3 5 4 4
+V:baixos bass
+| z4 |: C,,3/2[C,E,G,]3/2 [C,E,G,] | C,,3/2[C,E,G,]3/2 [C,E,G,] | D,,3/2[D,F,A,]3/2 [D,F,A,] | D,,3/2[D,F,A,]3/2 [D,F,A,] |
+| F,,3/2[F,A,C]/2 z [D,F,A,] | F,, z/2 [D,F,A,]3/2  [F,A,C] | C,,3/2[C,E,G,]3/2 [C,E,G,] |1 C,,3/2[C,E,G,]3/2 [C,E,G,] :|
+|:2 C,,3/2[C,E,G,]3/2 [C,E,G,] | C,,3/2[C,E,G,]3/2 [C,E,G,] | C,,3/2[C,E,G,]3/2 [C,E,G,] | A,,3/2[C,E,G,]3/2 [C,E,G,] | A,,3/2[C,E,G,]3/2 [C,E,G,] | B,,3/2[B,DF]3/2 [B,DF] | F,,3/2 D,,3/2  [F,A,C] | C,,3/2[C,E,G,]3/2 [C,E,G,] :|
+V:tablatura accordionTab
+| z-z z-6' z-8 z-7' |: C-9 >-7'0.5 c->0.5 >-8 c-6' | C-6 >-6'0.5 c->0.5 >-8 c-6' | D-81.5 dm->1.5 dm-> | D-z >-6'0.5 dm->0.5 >-8 dm-7' | 
+| F+7' >+80.5 f+>0.5 z-8 dm-6' | F+5' z-7'0.5 dm->0.5 >-8 f+6' | C+71.5 c+>1.5 c+> |1 C+z >-6'0.5 c->0.5 >-8 c-7' :| 
+|:2 C-z1.5 c-z0.5 >-6' c-> | C-8'1.5 c->1.5 c-> | C-> >-z0.5 c-z0.5 >-a c-> | A+81.5 c+>1.5 c+> | A+>1.5 c+>1.5 c+z | B♭-z >-80.5 b♭->0.5 >-9 b♭-7' | F+5' >+6'0.5 D-81.5 f+7 | C+71.5 c+>1.5 c+> :| 
 X:2046
 %%barnumbers 0
 %%papersize A4

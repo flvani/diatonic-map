@@ -1,0 +1,54 @@
+X:1067
+%%papersize A4
+%%barsperstaff 5
+%%stretchlast
+%%barnumbers 1
+T:A casa
+C:Vinícius de Moraes
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
+F:https://www.youtube-nocookie.com/embed/dOGbiL3ZxPY;&T:Completa
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:3/4
+L:1/8
+Q:90
+K:C
+V:1 treble
+| z3 E EF |: +segno+ "C" G2 Ec "F" Ac | "C" G2 EG GG | 
+w:Era u-ma ca-sa mui-to~en gra- ça-da, não ti-nha
+w:. . . dia en-trar ne-la não . Por-que na
+f:2 2 2 3 2 5 4 5 3 2 3 3 3    
+| "G" F2 DF FF |1 "C" E2 zE EF :||:2 "C" E2 zc cc |
+w:te-to não ti-nha nada Nin-guém~po -chão Nin-guém~po-
+w:ca-sa não ti-nha . . . . rede Nin-guém~po-
+f: 2 2 3 3 3 3 2 2 2 3 4 4 4
+| "F" c2 Ac cc | "C" c2 GG GG | "G" F2 DF FF :|
+w:di-a dor-mir na rede Por-que na ca-sa não ti-nha pa-
+w:di-a fa-zer pi-pi Por-que pi-ni-co não ti-nha a-
+f:5 4 5 5 5 4 3 3 3 3 2 2 3 3 3
+| +D.S.+ "C" E2 zE EF |  G2 Ec "F" Ac | "C" G2 EG GG |
+w: li. Era u-ma . . . . . . . . . . . . . . . . . . . . . . . .
+w: li. Mas era fei-ta com mui-to es-me-ro Na Rua dos
+f: 3 2 2 2 3 2 5 4 5 3 2 3 3 3    
+| "G" F2 DF FF | "C" E2 zE EF | G2 Ec "F" Ac |
+w: . . . . . . . . . . . . . . . . . . . . . . . . . . .
+w:Bo-bos, nú-me-ro zero Mas era fei-ta com mui-to es-
+f: 2 2 3 3 3 3 2 2 2 3 2 4 5 4
+| "C" G2 EG GG | "G" B2 BB AB | "C" c2 [EGc]4 |
+w:. . . . . . . . . . . . . . . . . . . . . . . . . . .
+w:me-ro Na Rua dos Bo-bos, nú-me-ro zero.
+f: 3 2 3 3 3 4 4 4 5 4 4 234
+V:2 bass
+| z6 |: C,,2 [C,E,G,] z F,,2  | C,,2 [C,E,G,]2 [C,E,G,]2 |
+| G,,2 [G,B,D]2 [G,B,D]2 |1 C,,2 [C,E,G,]2 [C,E,G,] z :||:2 C,,2 [C,E,G,]2 [C,E,G,] z |
+| F,,2 [F,A,C]2 [F,A,C]2 | C,,2 [C,E,G,]2 [C,E,G,]2 | G,,2 [G,B,D]2 [G,B,D]2 :|
+| C,,2 [C,E,G,]2 [C,E,G,] z | C,,2 [C,E,G,] z F,,2  | C,,2 [C,E,G,]2 [C,E,G,]2 |
+| G,,2 [G,B,D]2 [G,B,D]2 | C,,2 [C,E,G,]2 [C,E,G,] z | C,,2 [C,E,G,] z F,,2  |
+| C,,2 [C,E,G,]2 [C,E,G,]2 | G,,2 [G,B,D]2 [G,B,D]2 | C,,2 [C,,C,E,G,]4 |
+V:3 accordionTab
+| z-z3 z+4' z+4' z-4' |: C+5'2 c+4' z-8 F-7 >-8 | C+5'2 c+4' >+5' c+5' >+5' |
+| G-4'2 g-3' >-4' g-4' >-4' |1 C+4'2 c+z >+4' c+4' z-4' :||:2 C+4'2 c+z >+6' c+6' z+6' |
+| F-82 f-7 >-8 f-8 >-8 | C+6'2 c+5' >+5' c+5' >+5' | G-4'2 g-3' >-4' g-4' >-4' :|
+| C+4'2 c+z >+4' C+4' z-4' | C+5'2 c+4' z-8 F-7 >-8 | C+5'2 c+4' >+5' c+5' >+5' |
+| G-4'2 g-3' >-4' g-4' >-4' | C+4'2 c+z >+4' c+4' z-4' | C+5'2 c+4' z-8 F-7 >-8 |
+| C+5'2 c+4' >+5' c+5' >+5' | G-6'2 g-6' >-6' g-7 >-6' | C+6'2 Cc+[4'5'6']4 |
