@@ -117,7 +117,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.currentPlayTimeLabel = document.getElementById(playerParams.currentPlayTimeLabel);
     
     // screen control
-    this.media = new SITE.Media( this.mapDiv, interfaceParams.btShowMedia, SITE.properties.mediaDiv ); 
+    this.media = new SITE.Media( this.mapDiv, interfaceParams.btShowMedia, SITE.properties.mediaDiv, false ); 
     this.buttonChangeNotation = document.getElementById(interfaceParams.btChangeNotation);
     this.printButton = document.getElementById(interfaceParams.printBtn);
     this.toolsButton = document.getElementById(interfaceParams.toolsBtn);

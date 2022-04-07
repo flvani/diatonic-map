@@ -112,6 +112,19 @@ and open the template in the editor.
     box-shadow: 2px 2px 5px 0px rgba(0,0,0,0.7);
 }
 
+.media-tabs-big {
+    clear: both;
+}
+
+.media-tabs-big > label {
+    
+    font-family: 'Milonga';
+    font-size: 24px;
+    line-height: 44px;
+    height: 44px;
+}
+
+
 .media-content {
     clear: both;
     float: left;

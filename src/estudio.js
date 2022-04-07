@@ -66,7 +66,7 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     this.controlDiv.innerHTML = document.getElementById(interfaceParams.studioControlDiv).innerHTML;
     document.getElementById(interfaceParams.studioControlDiv).innerHTML = "";
 
-    this.media = new SITE.Media( this.Div.dataDiv, interfaceParams.btShowMedia, SITE.properties.studio.media ); 
+    this.media = new SITE.Media( this.Div.dataDiv, interfaceParams.btShowMedia, SITE.properties.studio.media, false ); 
     
     this.keyboardWindow = new DRAGGABLE.ui.Window( 
         this.Div.dataDiv

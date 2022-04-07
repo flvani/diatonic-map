@@ -7,13 +7,14 @@
 if (!window.SITE)
     window.SITE = { gtagInitiated : false, root: '/mapa' };
 
-SITE.Media = function( parent, btShowMedia, props ) {
+SITE.Media = function( parent, btShowMedia, props, isApp ) {
     var that = this;
     
     this.Div = parent || null;
     this.proportion = 0.55666667;
     this.youTubeURL = false;
     this.properties = props;
+    this.isApp = isApp;
     
     if(btShowMedia) {
         this.showMediaButton = document.getElementById( btShowMedia );
@@ -122,7 +123,7 @@ SITE.Media.prototype.show = function(tab) {
             
             if( ! this.tabDiv ) {
                 this.tabDiv = document.createElement('div');
-                this.tabDiv.className='media-tabs';
+                this.tabDiv.className ='media-tabs' + (this.isApp?' media-tabs-big': '');
                 this.mediaWindow.topDiv.appendChild(this.tabDiv);
             } else {
                 this.tabDiv.innerHTML = "";

@@ -962,16 +962,16 @@ and open the template in the editor.
     position: absolute;
     bottom: -10px;
     right: -9px;
-   /* height: 10px;
-    width: 10px;*/
     z-index: -1;
-/*    
-    box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-    -webkit-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-    -moz-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-    -ms-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-    -o-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-*/
+}
+
+.draggableAlternativeResizeTop {
+    background: none;
+    display: block;
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    z-index: -1;
 }
 
 .draggableStatusResize {

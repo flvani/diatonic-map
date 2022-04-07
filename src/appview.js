@@ -7,7 +7,7 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
     var that = this;
 
     this.app = app;
-    this.isApp = true;
+    //this.isApp = true;
     this.parserparams = {};
 
     this.ypos = 0; // controle de scroll
@@ -116,7 +116,7 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
     this.controlDiv.style.borderBottom = "1px solid rgba(255, 153, 34, 0.4)"
     this.Div.topDiv.style.borderLeft = "1px solid rgba(255, 153, 34, 0.4)"
     
-    this.media = new SITE.Media( this.Div.dataDiv, interfaceParams.btShowMedia, SITE.properties.studio.media ); 
+    this.media = new SITE.Media( this.Div.dataDiv, interfaceParams.btShowMedia, SITE.properties.studio.media, true ); 
 
     this.studioCanvasDiv = document.createElement("DIV");
     this.studioCanvasDiv.setAttribute("id", interfaceParams.studioCanvasDiv );
@@ -148,8 +148,8 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         this.onchangeCallback = interfaceParams.onchange;
     }
     
-    this.saveButton = document.getElementById(interfaceParams.saveBtn);
-    this.forceRefreshButton = document.getElementById(interfaceParams.forceRefresh);
+    //this.saveButton = document.getElementById(interfaceParams.saveBtn);
+    //this.forceRefreshButton = document.getElementById(interfaceParams.forceRefresh);
     this.printButton = document.getElementById(interfaceParams.printBtn);
     this.backButton = document.getElementById(interfaceParams.backBtn);
     this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
@@ -188,6 +188,7 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         that.resize();
     }, false);
 
+    /*
     if(!this.isApp){
     
         this.forceRefreshButton.addEventListener("click", function (evt) {
@@ -203,6 +204,7 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         }, false);
         
     }
+    */
 
     this.printButton.addEventListener("click", function (evt) {
         evt.preventDefault();

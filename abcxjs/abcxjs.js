@@ -8244,7 +8244,7 @@ ABCXJS.write.Layout.prototype.layoutABCLine = function( abctune, line, width ) {
     if( this.staffgroup.voices[0].stave.clef.type === 'treble' &&  this.staffgroup.voices[0].fingers.length > 0 ) {
         var fingers = this.staffgroup.voices[0].fingers;
         var fingerIdx = 0;
-        if(this.staffgroup.voices[2].stave.clef.type === 'accordionTab') {
+        if(this.staffgroup.voices[2] && this.staffgroup.voices[2].stave.clef.type === 'accordionTab') {
             var voz = this.staffgroup.voices[2].children;
             var stave = this.staffgroup.voices[2].stave;
             for (i=0; i<voz.length; i++) {
@@ -8268,13 +8268,13 @@ ABCXJS.write.Layout.prototype.layoutABCLine = function( abctune, line, width ) {
             }
         } else {
             // existe dedilhado mas não consegui tratar 
-            console.log('abc_layout: existe dedilhado mas não consegui tratar')
+            console.log('abc_layout: existe dedilhado, mas não consegui tratar!')
         }
     }
-    if( this.staffgroup.voices[1].stave.clef.type === 'bass' &&  this.staffgroup.voices[1].bassfingers.length > 0 ) {
+    if( this.staffgroup.voices[1] && this.staffgroup.voices[1].stave.clef.type === 'bass' &&  this.staffgroup.voices[1].bassfingers.length > 0 ) {
         var bassfingers = this.staffgroup.voices[1].bassfingers;
         var bassFingerIdx = 0;
-        if(this.staffgroup.voices[2].stave.clef.type === 'accordionTab') {
+        if(this.staffgroup.voices[2] && this.staffgroup.voices[2].stave.clef.type === 'accordionTab') {
             var voz = this.staffgroup.voices[2].children;
             var stave = this.staffgroup.voices[2].stave;
             for (i=0; i<voz.length; i++) {
@@ -8296,7 +8296,7 @@ ABCXJS.write.Layout.prototype.layoutABCLine = function( abctune, line, width ) {
             }
         } else {
             // existe dedilhado mas não consegui tratar 
-            console.log('abc_layout: existe dedilhado mas não consegui tratar')
+            console.log('abc_layout: existe dedilhado para os baixos, mas não consegui tratar!')
         }
     }
 
@@ -14063,6 +14063,14 @@ DRAGGABLE.ui.Window = function( parent, aButtons, options, callback, aToolBarBut
     if(this.alternativeResize) {
         this.hasStatusBar = false;
         this.topDiv.style.overflow = 'visible';
+
+        div = document.createElement("DIV");
+        div.setAttribute("id", "draggableStatusResizeTop" + this.id ); 
+        div.setAttribute("class", "draggableAlternativeResizeTop" ); 
+        this.topDiv.appendChild( div );
+        this.resizeCornerTop = div;
+        this.resizeCornerTop.innerHTML = '<img src="images/corner_resize.top.gif">';
+
         div = document.createElement("DIV");
         div.setAttribute("id", "draggableStatusResize" + this.id ); 
         div.setAttribute("class", "draggableAlternativeResize" ); 
@@ -14099,7 +14107,97 @@ DRAGGABLE.ui.Window = function( parent, aButtons, options, callback, aToolBarBut
            + (this.bottomBar && this.bottomBar.style.display !== 'none' ? this.bottomBar.clientHeight+3 : 0 );
     };
     
+    //trata resize tanto do canto superior esquerdo quanto do canto inferior direito
     if( this.alternativeResize || this.hasStatusBar ) {
+
+        //top resizer - só existe no modo alternativo
+        if( this.resizeCornerTop ) {
+            this.divResizeTop = function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                var touches = e.changedTouches;
+                var p = {x: e.clientX, y: e.clientY};
+    
+                if (touches) {
+                    var l = touches.length - 1;
+                    p.x = touches[l].clientX;
+                    p.y = touches[l].clientY;
+                }
+                e.preventDefault();
+                
+                self.calcMinHeight();
+                
+                var w = (self.topDiv.clientWidth + self.x - p.x);
+                var h = (self.topDiv.clientHeight + self.y - p.y );
+                self.topDiv.style.width = ( w < self.minWidth ? self.minWidth : w ) + 'px';
+                self.topDiv.style.height = ( h < self.minHeight ? self.minHeight : h ) + 'px';
+                self.topDiv.style.left = ( self.topDiv.offsetLeft - 1 + (p.x - self.x) ) + 'px';
+                self.topDiv.style.top = ( self.topDiv.offsetTop - 1 + (p.y - self.y) ) + 'px';
+    
+                self.x = p.x;
+                self.y = p.y;
+                self.eventsCentral('RESIZE');
+            };
+    
+            this.mouseEndResizeTop = function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                window.removeEventListener('mouseup', self.mouseEndResizeTop, false);
+                window.removeEventListener('touchend', self.mouseEndResizeTop, false);
+                window.removeEventListener('touchmove', self.divResizeTop, false);
+                window.removeEventListener('touchleave', self.divResizeTop, false);
+                window.removeEventListener('mousemove', self.divResizeTop, false);
+                window.removeEventListener('mouseout', self.divResizeTop, false);
+                self.dataDiv.style.pointerEvents = "auto";
+                self.eventsCentral('RESIZE');
+            };
+    
+            this.mouseResizeTop = function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                self.dataDiv.style.pointerEvents = "none";
+                window.addEventListener('mouseup', self.mouseEndResizeTop, false);
+                window.addEventListener('touchend', self.mouseEndResizeTop, false);
+                window.addEventListener('touchmove', self.divResizeTop, false);
+                window.addEventListener('touchleave', self.divResizeTop, false);
+                window.addEventListener('mousemove', self.divResizeTop, false);
+                window.addEventListener('mouseout', self.divResizeTop, false);
+                self.x = e.clientX;
+                self.y = e.clientY;
+            };
+    
+            this.resizeCornerTop.addEventListener( 'mouseover', function() { self.resizeCornerTop.style.cursor='nwse-resize'; }, false);
+            this.resizeCornerTop.addEventListener( 'mousedown', this.mouseResizeTop, false);
+            this.resizeCornerTop.addEventListener('touchstart', this.mouseResizeTop, {passive:true});
+        }
+
+        //bottom resizer - existe em ambos os modos: alternativo e statusbar
+        this.mouseResize = function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            self.dataDiv.style.pointerEvents = "none";
+            window.addEventListener('mouseup', self.mouseEndResize, false);
+            window.addEventListener('touchend', self.mouseEndResize, false);
+            window.addEventListener('touchmove', self.divResize, false);
+            window.addEventListener('touchleave', self.divResize, false);
+            window.addEventListener('mousemove', self.divResize, false);
+            window.addEventListener('mouseout', self.divResize, false);
+            self.x = e.clientX;
+            self.y = e.clientY;
+        };
+
+        this.mouseEndResize = function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            window.removeEventListener('mouseup', self.mouseEndResize, false);
+            window.removeEventListener('touchend', self.mouseEndResize, false);
+            window.removeEventListener('touchmove', self.divResize, false);
+            window.removeEventListener('touchleave', self.divResize, false);
+            window.removeEventListener('mousemove', self.divResize, false);
+            window.removeEventListener('mouseout', self.divResize, false);
+            self.dataDiv.style.pointerEvents = "auto";
+            self.eventsCentral('RESIZE');
+        };
 
         this.divResize = function (e) {
             e.stopPropagation();
@@ -14126,36 +14224,10 @@ DRAGGABLE.ui.Window = function( parent, aButtons, options, callback, aToolBarBut
             self.eventsCentral('RESIZE');
         };
 
-        this.mouseEndResize = function (e) {
-            e.stopPropagation();
-            e.preventDefault();
-            window.removeEventListener('mouseup', self.mouseEndResize, false);
-            window.removeEventListener('touchend', self.mouseEndResize, false);
-            window.removeEventListener('touchmove', self.divResize, false);
-            window.removeEventListener('touchleave', self.divResize, false);
-            window.removeEventListener('mousemove', self.divResize, false);
-            window.removeEventListener('mouseout', self.divResize, false);
-            self.dataDiv.style.pointerEvents = "auto";
-            self.eventsCentral('RESIZE');
-        };
+        this.resizeCorner.addEventListener( 'mouseover',  function() { self.resizeCorner.style.cursor='nwse-resize'; }, false);
+        this.resizeCorner.addEventListener( 'mousedown',  this.mouseResize, false);
+        this.resizeCorner.addEventListener( 'touchstart', this.mouseResize, {passive:true});
 
-        this.mouseResize = function (e) {
-            e.stopPropagation();
-            e.preventDefault();
-            self.dataDiv.style.pointerEvents = "none";
-            window.addEventListener('mouseup', self.mouseEndResize, false);
-            window.addEventListener('touchend', self.mouseEndResize, false);
-            window.addEventListener('touchmove', self.divResize, false);
-            window.addEventListener('touchleave', self.divResize, false);
-            window.addEventListener('mousemove', self.divResize, false);
-            window.addEventListener('mouseout', self.divResize, false);
-            self.x = e.clientX;
-            self.y = e.clientY;
-        };
-
-        this.resizeCorner.addEventListener( 'mouseover', function() { self.resizeCorner.style.cursor='nwse-resize'; }, false);
-        this.resizeCorner.addEventListener( 'mousedown', this.mouseResize, false);
-        this.resizeCorner.addEventListener('touchstart', this.mouseResize, {passive:true});
     }
     
     this.divMove = function (e) {
