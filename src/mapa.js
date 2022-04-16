@@ -746,7 +746,7 @@ SITE.Mapa.prototype.doLoadMap = function( files, loader ) {
         return;
     }
             
-    newAccordionJSON.image = newImage || 'images/accordion.default.gif';
+    newAccordionJSON.image = newImage || 'images/accordions/accordion.default.gif';
     
     if( ! this.accordion.accordionExists(newAccordionJSON.id) ) {
         DIATONIC.map.accordionMaps.push( new DIATONIC.map.AccordionMap( newAccordionJSON, true ) );
