@@ -6,7 +6,7 @@ X:6013
 %pagenumbering
 %stretchlast
 %landscape
-T:Banks of the Ohio
+T:Banks of the Ohio (corona)
 C:Traditional
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
 Z:Flávio Vani
@@ -16,7 +16,7 @@ L:1/4
 Q:160
 K:F
 V:1 treble
-| z FFA |"F" A4- | A FFA |"C" G4- | G GG A | B4- | B B/2B/2 B c |
+| z FFA |"F" A4- | A FFG |"C" G4- | G GG A | B4- | B B/2B/2 B c |
 f: 2 * 3 *  2 * 4 2 2 * 4 3 3 * * 5
 | "F" A4 - | A2 Ac | c4  | "Dm" z A/2A/2 B c | "Bb" B4- | B c c  B |
 f: 3 3 4 * 3 * 2 5 3 5 * 2
@@ -27,6 +27,6 @@ V:2 bass
 | F,, [F,A,C] z  [F,A,C] | F,, [F,A,C] z  [F,A,C] | F,, [F,A,C] z  [F,A,C] | D,, [D,F,A,] z [D,F,A,] | B,, [B,DF] z [B,DF] | B,, [B,DF] z [B,DF] |
 | F,, [F,A,C] z  [F,A,C] | C,, [C,E,G,] z  [C,E,G,] | F,, [F,A,C] z  [F,A,C] | F,, [F,A,C] z  [F,A,C] |
 V:3 accordionTab
-| z+z z+3'' z+3'' z+4'' | F+4'' f+> z+> f+> | F+> f+3'' z+3'' f+4'' | C-3'' c-> z-> c-> | C-> c-3'' z-3'' c-5' | C-4'' c-> z-> c-> | C-> c-4''0.5 >-4''0.5 z-4'' c-7 |
+| z+z z+3'' z+3'' z+4'' | F+4'' f+> z+> f+> | F+> f+3'' z+3'' f+5' | C-3'' c-> z-> c-> | C-> c-3'' z-3'' c-5' | C-4'' c-> z-> c-> | C-> c-4''0.5 >-4''0.5 z-4'' c-7 |
 | F+4'' f+> z+> f+> | F+> f+> z+4'' f+5'' | F+5'' f+> z+> f+> | D-z dm-5'0.5 >-5'0.5 z-4'' dm-7 | B♭-4'' b♭-> z-> b♭-> | B♭-> b♭-7 z-7 b♭-4'' |
 | F+4'' f+> z+> f+> | C+> c-3''0.5 >-5'0.5 z-3'' c-3'' | F+3'' f+> z+> f+> | F+> f+z z+z f+z |
