@@ -10444,7 +10444,7 @@ if (!window.SVG.Glyphs )
 SVG.Glyphs = function () {
     
     var abc_glyphs = new ABCXJS.write.Glyphs();
-    var cn_const_scale = '0.06';
+    var cn_const_scale = '0.07'; // flavio - era 0.6 - não verifiquei se ficou bom em todos os casos.
     var cn_const_fill = '#f00';
 
     

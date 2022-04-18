@@ -9,24 +9,20 @@ X:6012
 T:Shalom chaverim
 C:Folclore Hebreu
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
-%C:Teixeirinha
-%F:https://www.youtube-nocookie.com/embed/N8KByoJUd80;&T:Parte I;
-%F:https://www.youtube-nocookie.com/embed/Xqi7WSuWcKk;&T:Parte II;
-%F:https://www.youtube-nocookie.com/embed/ZzsV7uUDDUA;&T:Completa;
 Z:Flávio Vani
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 M:4/4
 L:1/4
 Q:120
-K:C
+K:F
 V:1 treble
 | A | d d/2e/2 f e | f f/2g/2 a a | d'2   c'2 |
 f: 2 3 3 2 4 2 3 3 2 4 3 4 3
 | a3 a | d' a/2g/2 f g | a f/2e/2 d A | d2 d  e/2f/2 | d3 |
 f:4 3 4 3 2 3 2 2 3 2 3 2 3 4 3 2 3
 V:2 bass
-| z | "Dm" D,, [D,F,A,] D,, [D,F,A,] | D,, [D,F,A,] D,, [D,F,A,] | "Gm" G,, [_B,DF] "Am" A,, [C,E,G,] |
-| "Dm" D,, [D,F,A,] D,, [D,F,A,] | "Gm" G,, [_B,DF] "Dm"  D,, [D,F,A,] |  A,,  [D,F,A,] D,, [D,F,A,] | D,, [D,F,A,] "Am" A,, [C,E,G,] |"Dm" D,, [D,F,A,] D,, |
+| z | "Dm" D,, [D,F,A,] D,, [D,F,A,] | D,, [D,F,A,] D,, [D,F,A,] | "Gm" G,, [B,DF] "Am" A,, [C,E,G,] |
+| "Dm" D,, [D,F,A,] D,, [D,F,A,] | "Gm" G,, [B,DF] "Dm"  D,, [D,F,A,] |  A,,  [D,F,A,] D,, [D,F,A,] | D,, [D,F,A,] "Am" A,, [C,E,G,] |"Dm" D,, [D,F,A,] D,, |
 V:3 accordionTab
 | z-5' | D-7' dm-7'0.5 >-6''0.5 D-8' dm-6'' | D-8' dm-8'0.5 >-7''0.5 D-9' dm-9' | G-9'' b♭-> A+8'' c+> |
 | D-9' dm-> D-> dm-9' | G-9'' b♭-9'0.5 >-7''0.5 D-8' dm-7'' | A+7'' dm-8'0.5 >-6''0.5 D-7' dm-5' | D-7' dm-> A+7 c+7'0.5 >+6''0.5 | D-7' dm-> D->  |
