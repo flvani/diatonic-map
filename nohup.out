@@ -1,0 +1,115 @@
+2022-04-16 15:24:07,208 [   2367]   WARN - Container.ComponentManagerImpl - Do not use constructor injection (requestorClass=com.android.tools.idea.AndroidInitialConfigurator) 
+2022-04-16 15:24:12,403 [   7562]   WARN - tartup.impl.StartupManagerImpl - Activities registered via registerPostStartupActivity must be dumb-aware: com.android.tools.idea.stats.AndroidStudioUsageTracker$ProjectLifecycleTracker$projectComponentsInitialized$1@7dc0639a 
+2022-04-16 15:24:14,461 [   9620]   WARN -            #com.android.ddmlib - * daemon not running; starting now at tcp:5037 
+2022-04-16 15:24:14,875 [  10034]   WARN -            #com.android.ddmlib - * daemon started successfully 
+2022-04-16 15:24:15,016 [  10175]   WARN - #com.intellij.ui.jcef.JBCefApp - JCEF runtime library is not a JBR module (Use JBR bundled with the IDE) 
+2022-04-16 15:24:21,776 [  16935]   WARN - Container.ComponentManagerImpl - Do not use constructor injection (requestorClass=com.android.tools.idea.apk.ApkWritingAccessProvider) 
+2022-04-16 15:24:25,982 [  21141]   WARN - Container.ComponentManagerImpl - Do not use constructor injection (requestorClass=com.android.tools.idea.gradle.project.build.invoker.GradleBuildInvokerImpl) 
+2022-04-16 15:25:53,399 [ 108558]   WARN - ger.EmulatorConnectionListener - Emulator not ready yet, dev.bootcomplete = null 
+2022-04-16 15:26:06,250 [ 121409]   WARN - vdmanager.AvdManagerConnection - AVD not launched because an instance appears to be running on PID 16700 
+2022-04-16 15:26:06,340 [ 121499]   WARN - vdmanager.AvdManagerConnection - AVD process info: [  16700 flavio   29.1 pts/0    Sl   00:00:06       00:24 /home/flavio/Android/Sdk/emulator/qemu/linux-x86_64/qemu-system-x86_64 -netdelay none -netspeed full -avd Pixel_5_API_30 -qt-hide-window -grpc-use-token -idle-grpc-timeout 300] 
+2022-04-16 15:26:12,832 [ 127991]   WARN - com.intellij.util.xmlb.Binding - no accessors for com.intellij.openapi.updateSettings.impl.pluginsAdvertisement.PluginAdvertiserExtensionsStateService$State 
+2022-04-16 15:26:12,832 [ 127991]   WARN - com.intellij.util.xmlb.Binding - no accessors for com.intellij.openapi.updateSettings.impl.pluginsAdvertisement.PluginAdvertiserExtensionsStateService$State 
+2022-04-16 15:26:57,493 [ 172652]   WARN - ndroid.emulator.ImageConverter - Native image converter library is not available 
+java.lang.UnsatisfiedLinkError: Unable to find libimage_converter.so
+	at com.android.emulator.ImageConverter.getLibLocation(ImageConverter.java:118)
+	at com.android.emulator.ImageConverter.loadNativeLibrary(ImageConverter.java:99)
+	at com.android.emulator.ImageConverter.<clinit>(ImageConverter.java:39)
+	at com.android.tools.idea.emulator.EmulatorView$ScreenshotReceiver.onNext(EmulatorView.kt:1117)
+	at com.android.tools.idea.emulator.EmulatorView$ScreenshotReceiver.onNext(EmulatorView.kt:1061)
+	at com.android.tools.idea.emulator.EmulatorController$DelegatingStreamObserver.onNext(EmulatorController.kt:659)
+	at io.grpc.stub.ClientCalls$StreamObserverToCallListenerAdapter.onMessage(ClientCalls.java:429)
+	at io.grpc.ForwardingClientCallListener.onMessage(ForwardingClientCallListener.java:33)
+	at io.grpc.ForwardingClientCallListener.onMessage(ForwardingClientCallListener.java:33)
+	at io.grpc.internal.ClientCallImpl$ClientStreamListenerImpl$1MessagesAvailable.runInContext(ClientCallImpl.java:563)
+	at io.grpc.internal.ContextRunnable.run(ContextRunnable.java:37)
+	at io.grpc.internal.SerializingExecutor.run(SerializingExecutor.java:123)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2022-04-16 15:27:03,652 [ 178811]   WARN - itors.literals.LiteralsManager - Only Kotlin is supported for LiveLiterals 
+2022-04-16 15:27:07,995 [ 183154]   WARN - run.AndroidLogcatOutputCapture - The device "Pixel_5_API_30 [emulator-5554]" already has a registered logcat listener for application "br.com.diatonicmap.app". Removing it 
+2022-04-16 15:27:45,834 [ 220993]   WARN - n.process.BaseOSProcessHandler - Process hasn't generated any output for a long time.
+If it's a long-running mostly idle daemon process, consider overriding OSProcessHandler#readerOptions with 'BaseOutputReader.Options.forMostlySilentProcess()' to reduce CPU usage.
+Command line: /home/flavio/Android/Sdk/emulator/emulator -netdelay none -netspeed full -avd Pixel_5_API_30 -qt-hide-window -grpc-use-token -idle-grpc-timeout 300 
+java.lang.Throwable: Process creation:
+	at com.intellij.execution.process.BaseOSProcessHandler.<init>(BaseOSProcessHandler.java:33)
+	at com.android.tools.idea.avdmanager.EmulatorProcessHandler.<init>(EmulatorProcessHandler.java:36)
+	at com.android.tools.idea.avdmanager.EmulatorRunner.start(EmulatorRunner.java:66)
+	at com.android.tools.idea.avdmanager.AvdManagerConnection.continueToStartAvd(AvdManagerConnection.java:572)
+	at com.android.tools.idea.avdmanager.AvdManagerConnection.continueToStartAvdIfAccelerationErrorIsNotBlocking(AvdManagerConnection.java:507)
+	at com.android.tools.idea.avdmanager.AvdManagerConnection.lambda$startAvd$4(AvdManagerConnection.java:497)
+	at com.google.common.util.concurrent.AbstractTransformFuture$AsyncTransformFuture.doTransform(AbstractTransformFuture.java:213)
+	at com.google.common.util.concurrent.AbstractTransformFuture$AsyncTransformFuture.doTransform(AbstractTransformFuture.java:202)
+	at com.google.common.util.concurrent.AbstractTransformFuture.run(AbstractTransformFuture.java:118)
+	at com.google.common.util.concurrent.DirectExecutor.execute(DirectExecutor.java:30)
+	at com.google.common.util.concurrent.AbstractFuture.executeListener(AbstractFuture.java:1213)
+	at com.google.common.util.concurrent.AbstractFuture.complete(AbstractFuture.java:983)
+	at com.google.common.util.concurrent.AbstractFuture.set(AbstractFuture.java:746)
+	at com.google.common.util.concurrent.TrustedListenableFutureTask$TrustedFutureInterruptibleTask.afterRanInterruptibly(TrustedListenableFutureTask.java:131)
+	at com.google.common.util.concurrent.InterruptibleTask.run(InterruptibleTask.java:133)
+	at com.google.common.util.concurrent.TrustedListenableFutureTask.run(TrustedListenableFutureTask.java:78)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.util.concurrent.Executors$PrivilegedThreadFactory$1$1.run(Executors.java:668)
+	at java.base/java.util.concurrent.Executors$PrivilegedThreadFactory$1$1.run(Executors.java:665)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.util.concurrent.Executors$PrivilegedThreadFactory$1.run(Executors.java:665)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+2022-04-16 15:29:08,827 [ 303986]   WARN - dea.sdk.SystemInfoStatsMonitor - CpuInfoFlags.fromExitCode(): unknown flag values '0x80' 
+2022-04-16 15:29:37,090 [ 332249]   WARN - itors.literals.LiteralsManager - Only Kotlin is supported for LiveLiterals 
+2022-04-16 15:29:40,215 [ 335374]   WARN - run.AndroidLogcatOutputCapture - The device "Pixel_5_API_30 [emulator-5554]" already has a registered logcat listener for application "br.com.diatonicmap.app". Removing it 
+2022-04-16 15:34:03,225 [ 598384]   WARN -            #com.android.ddmlib - Failed to commit install session 1428322356 with command cmd package install-commit 1428322356. Error: INSTALL_FAILED_UPDATE_INCOMPATIBLE: Package br.com.diatonicmap.app signatures do not match previously installed version; ignoring! 
+2022-04-16 15:34:17,151 [ 612310]   WARN - itors.literals.LiteralsManager - Only Kotlin is supported for LiveLiterals 
+2022-04-16 19:30:15,729 [   1139]   WARN - ntellij.ui.svg.SvgCacheManager - Icon Cache will be recreated or previous version of data reused (db=/home/flavio/.cache/Google/AndroidStudio2021.1/icons-v2.db) 
+org.jetbrains.mvstore.MVStoreException: File corrupt reading chunk at position 249856
+	at org.jetbrains.mvstore.Chunk.readChunkHeader(Chunk.java:234)
+	at org.jetbrains.mvstore.MVStore.readChunkHeader(MVStore.java:2006)
+	at org.jetbrains.mvstore.MVStore.readChunkHeaderAndFooter(MVStore.java:1174)
+	at org.jetbrains.mvstore.MVStore.readStoreHeader(MVStore.java:905)
+	at org.jetbrains.mvstore.MVStore.<init>(MVStore.java:450)
+	at org.jetbrains.mvstore.MVStore$Builder.openOrNewOnIoError(MVStore.java:3996)
+	at com.intellij.ui.svg.SvgCacheManager.<init>(SvgCacheManager.java:59)
+	at com.intellij.util.SVGLoader$SvgCache.<clinit>(SVGLoader.java:84)
+	at com.intellij.util.SVGLoader.load(SVGLoader.java:217)
+	at com.intellij.util.ImageLoader.loadByDescriptorWithoutCache(ImageLoader.java:261)
+	at com.intellij.util.ImageLoader.loadByDescriptor(ImageLoader.java:227)
+	at com.intellij.util.ImageLoader.loadImage(ImageLoader.java:152)
+	at com.intellij.openapi.util.IconLoader$ResolvedImageDataResolver.loadImage(IconLoader.java:1057)
+	at com.intellij.openapi.util.IconLoader$CachedImageIcon.loadImage(IconLoader.java:936)
+	at com.intellij.openapi.util.IconLoader$ScaledIconCache.getOrScaleIcon(IconLoader.java:1005)
+	at com.intellij.openapi.util.IconLoader$CachedImageIcon.scale(IconLoader.java:856)
+	at com.intellij.util.IconUtil.scale(IconUtil.java:647)
+	at com.intellij.util.IconUtil.scale(IconUtil.java:620)
+	at com.intellij.ui.AppUIUtil.scaleIconToSize(AppUIUtil.java:189)
+	at com.intellij.ui.AppUIUtil.loadApplicationIcon(AppUIUtil.java:181)
+	at com.intellij.ui.AppUIUtil.loadApplicationIconImage(AppUIUtil.java:160)
+	at com.intellij.ui.AppUIUtil.updateWindowIcon(AppUIUtil.java:70)
+	at com.intellij.idea.StartupUtil.updateFrameClassAndWindowIcon(StartupUtil.java:429)
+	at java.base/java.util.concurrent.CompletableFuture$UniRun.tryFire(CompletableFuture.java:783)
+	at java.base/java.util.concurrent.CompletableFuture$Completion.run(CompletableFuture.java:478)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+	at java.base/java.util.concurrent.Executors$PrivilegedThreadFactory$1$1.run(Executors.java:668)
+	at java.base/java.util.concurrent.Executors$PrivilegedThreadFactory$1$1.run(Executors.java:665)
+	at java.base/java.security.AccessController.doPrivileged(Native Method)
+	at java.base/java.util.concurrent.Executors$PrivilegedThreadFactory$1.run(Executors.java:665)
+	at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: org.jetbrains.mvstore.MVStoreException: Invalid chunk id -1314372608
+	at org.jetbrains.mvstore.Chunk.<init>(Chunk.java:175)
+	at org.jetbrains.mvstore.Chunk.readChunkHeader(Chunk.java:231)
+	... 31 more
+2022-04-16 19:30:17,416 [   2826]   WARN - Container.ComponentManagerImpl - Do not use constructor injection (requestorClass=com.android.tools.idea.AndroidInitialConfigurator) 
+2022-04-16 19:30:23,219 [   8629]   WARN - tartup.impl.StartupManagerImpl - Activities registered via registerPostStartupActivity must be dumb-aware: com.android.tools.idea.stats.AndroidStudioUsageTracker$ProjectLifecycleTracker$projectComponentsInitialized$1@48dc519e 
+2022-04-16 19:30:25,934 [  11344]   WARN -            #com.android.ddmlib - * daemon not running; starting now at tcp:5037 
+2022-04-16 19:30:26,360 [  11770]   WARN -            #com.android.ddmlib - * daemon started successfully 
+2022-04-16 19:30:27,115 [  12525]   WARN - #com.intellij.ui.jcef.JBCefApp - JCEF runtime library is not a JBR module (Use JBR bundled with the IDE) 
+2022-04-16 19:30:32,838 [  18248]   WARN - Container.ComponentManagerImpl - Do not use constructor injection (requestorClass=com.android.tools.idea.apk.ApkWritingAccessProvider) 
+2022-04-16 19:30:37,574 [  22984]   WARN - Container.ComponentManagerImpl - Do not use constructor injection (requestorClass=com.android.tools.idea.gradle.project.build.invoker.GradleBuildInvokerImpl) 
+2022-04-16 19:31:26,923 [  72333]   WARN - itors.literals.LiteralsManager - Only Kotlin is supported for LiveLiterals 
+2022-04-16 19:32:04,569 [ 109979]   WARN - itors.literals.LiteralsManager - Only Kotlin is supported for LiveLiterals 
+2022-04-16 19:35:19,557 [ 304967]   WARN - dea.sdk.SystemInfoStatsMonitor - CpuInfoFlags.fromExitCode(): unknown flag values '0x80' 
+2022-04-16 20:23:55,275 [3220685]   WARN - itors.literals.LiteralsManager - Only Kotlin is supported for LiveLiterals 
+2022-04-16 20:28:01,957 [3467367]   WARN - com.intellij.util.xmlb.Binding - no accessors for com.intellij.openapi.updateSettings.impl.pluginsAdvertisement.PluginAdvertiserExtensionsStateService$State 
+2022-04-16 20:28:01,958 [3467368]   WARN - com.intellij.util.xmlb.Binding - no accessors for com.intellij.openapi.updateSettings.impl.pluginsAdvertisement.PluginAdvertiserExtensionsStateService$State 
+2022-04-18 11:35:06,580 [144291990]   WARN -            #com.android.ddmlib - Failed to start monitoring adb-s4eqt8tkib4h79sc-fd7Vjq._adb-tls-connect._tcp 

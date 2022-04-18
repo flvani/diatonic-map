@@ -253,8 +253,9 @@ SITE.App.prototype.setVisible = function ( visible ) {
 };
 
 SITE.App.prototype.showAccordionImage = function() {
-  this.gaitaImagePlaceHolder.innerHTML = '<img src="'+this.accordion.loaded.image
-        +'" alt="'+this.accordion.getFullName() + ' ' + SITE.translator.getResource('keys') + '" style="right: 20px; top: -60px; position: absolute;" />';
+    
+  this.gaitaImagePlaceHolder.innerHTML = '<img class="accordionImageStyle" src="'+this.accordion.loaded.image
+        +'" alt="'+this.accordion.getFullName() + ' ' + SITE.translator.getResource('keys') + '" />';
 };
 
 SITE.App.prototype.showAccordionName = function() {

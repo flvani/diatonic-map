@@ -2355,8 +2355,9 @@ SITE.App.prototype.setVisible = function ( visible ) {
 };
 
 SITE.App.prototype.showAccordionImage = function() {
-  this.gaitaImagePlaceHolder.innerHTML = '<img src="'+this.accordion.loaded.image
-        +'" alt="'+this.accordion.getFullName() + ' ' + SITE.translator.getResource('keys') + '" style="height:200px; width:200px;" />';
+    
+  this.gaitaImagePlaceHolder.innerHTML = '<img class="accordionImageStyle" src="'+this.accordion.loaded.image
+        +'" alt="'+this.accordion.getFullName() + ' ' + SITE.translator.getResource('keys') + '" />';
 };
 
 SITE.App.prototype.showAccordionName = function() {
