@@ -1,4 +1,4 @@
-﻿X:1070
+X:1070
 %%barnumbers 0
 %%papersize A4
 %%barsperstaff 6
@@ -20,25 +20,25 @@ M:C
 K:G
 V:1 treble
 |: [P:Parte I] [Bd] [Bd]/2[Bd]/2- [Bd]/2[Bd]/2 [Bd] |[M:2/4] [ce][Ac] |[M:C] [Bd]4 | z4 | 
-f: 34  * * * *    | 23 34 34
+f: 34  * * * * | 23 34 34
 | [GB] [GB]/2[GB]/2- [GB]/2[GB]/2 [GB] |[M:2/4] [Ac][FA] |[M:C] [GB]4 | z4 +fine+ :| 
-f: 23  * * * *    | 34 23 23
+f: 23  * * * * | 34 23 23
 | [P:Parte II] D4 | z/2 D/2D EC | D4 | z4 | 
-f: 4 * *            3  2    4
+f: 4 * * 2 3 4
 | B, B,/2B,/2- B,/2B,/2 B, |[M:2/4] CA, |[M:C] B,4 | z4 | 
-f: 3 * * * *        3  2    3
+f: 3 * * * * 3  2  3
 | D D/2D/2- D/2D/2 D |[M:2/4] EC |[M:C] D4 | z4 | 
-f: 3 * * * *        3  2    3
+f: 4 * * * * 3  2 
 | B, B,/2B,/2- B,/2B,/2 B, |[M:2/4] CA, |[M:C] G,4- | G,3 D | 
-f: 3 * * * *        3  2    2  3
+f: 4 3 *  * * *  3 2 2 3
 |: [P:Parte III] D2 F2 | A2 AA | G z/2 G/2GG | 
-f: 2 3 4 * * 3
+f: 2 3 4 * * 3 * * *
 | ED z D | D2 F2 | A z AA | 
 f: 2 3 3 2 3 4
 | G z/2 G/2GG | ED z D | G,2 B,2 | 
 f: 3 * * *  2 3 3 2 3
 | D4 | z B,/2B,/2 CA, | B,D z2 | 
-f: 4    3 * * 2 3 4
+f: 4 3 * * 2 3 4
 | z G,/2G,/2 A,F, | G,4 |1 z3 D :|2 z4 +dcalfine+ |
 f: 3 * * 2 3  3
 V:2 bass
@@ -64,4 +64,4 @@ V:3 accordionTab
 | G+4' g+5 G+z g+5 | D-3' d-> D-6 d-> | D-7 d-z D-7 d-7 | 
 | C+5' c+z0.5 >+5'0.5 C+5' c+5' | G+4' g+5 G+z g+5 | G+3 g+> G+4 g+> | 
 | G+5 g+> G+> g+> | G+z g+40.5 >+40.5 D-4 d-3 | G+4 g+5 G+z g+z | 
-| G+z g+30.5 >+30.5 D-3 d-2 | G+3 g+> G+> g+> |1 G+z g+z G+z g+5 :|2 G+z g+z G+z g+z | 
+| G+z g+30.5 >+30.5 D-3 d-2 | G+3 g+> G+> g+> |1 G+z g+z G+z g+5 :|2 G+z g+z G+z g+z |

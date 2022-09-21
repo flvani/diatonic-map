@@ -2086,6 +2086,73 @@ V:3 accordionTab
 | D-6 >-7' >-6 d-8 D-6 >-a d-6 >-9 | D-6 >-7' >-6 d-8 D-6 >-a d-6 >-9 | G+6 >+7' >+6 g+8 G+6 >+a g+6 >+8' | G+6 >+7' >+6 g+8 G+6 >+7' g+6 >+8 | D-6 >-7' >-6 d-8 D-6 >-a d-6 >-9 | D-[7'9] >-7' >-8 d-7' D-a'2 d-[89']2 | G+[78']2 >+8' g+a G+9 >+a g+9 >+a | G+9 >+a >+8 g+8' G+7 >+8 g+6 >+7 |
 | D-[13']2 >-2 d-3 D-3'2 d-42 | D-> >-1 >-2 d-3 D-3'2 d-42 | G-> >-1 >-1' g+4 G+52 g+>2 | G+> >+2 >+2' g+4 G-3'2 g->2 | D-> >-1 >-1' d-2' D-3'2 d-42 | D-> >-1 >-2 d-3 D-3'2 d-42 | G+42 >+[55']  g+[>>] G+z >+4 g+3' >+5 | G+[57]2 >+[4'6'] g+[>>] G+[57]2 g+82 |
 | D-[7'3]2 >-[>4] d-[>>] D-[>3]2 d-[>4]2 | D-[>3']2 >-[>4] d-[>>] D-[>2']2 d-[>3]2 | G+[83]2 >+[>5] g+[>>] G+[>4]2 g+[>3']2 | G+[>4']2 >+[>5] g+[>>] G+[>3']2 g+[>4]2 | D-[7'3]2 >-[>4] d-[>>] D-[>3]2 d-[>4]2 | D-[>3']2 >-[>4] d-[>>] D-[>2']2 d-[>3]2 | G+42 >+[455'] g+[>>>] G+z >+4 g+3' >+5 | z+[57]2 z+[4'6']2 g+[55'7]2 z+z2 |]
+X:1070
+%%barnumbers 0
+%%papersize A4
+%%barsperstaff 6
+%staffsep 20
+%%tabinferenceopts +1
+%%pagenumbering
+%%stretchlast
+%landscape
+%hidefingering
+F:https://www.youtube-nocookie.com/embed/Ccu9PK29BNI&T:Ring of Fire;
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+T:Ring of Fire
+C:Johnny Cash
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>adapt. Cezar Ferreira</a>)
+L:1/4
+Q:1/2=100
+M:C
+K:G
+V:1 treble
+|: [P:Parte I] [Bd] [Bd]/2[Bd]/2- [Bd]/2[Bd]/2 [Bd] |[M:2/4] [ce][Ac] |[M:C] [Bd]4 | z4 | 
+f: 34  * * * * | 23 34 34
+| [GB] [GB]/2[GB]/2- [GB]/2[GB]/2 [GB] |[M:2/4] [Ac][FA] |[M:C] [GB]4 | z4 +fine+ :| 
+f: 23  * * * * | 34 23 23
+| [P:Parte II] D4 | z/2 D/2D EC | D4 | z4 | 
+f: 4 * * 2 3 4
+| B, B,/2B,/2- B,/2B,/2 B, |[M:2/4] CA, |[M:C] B,4 | z4 | 
+f: 3 * * * * 3  2  3
+| D D/2D/2- D/2D/2 D |[M:2/4] EC |[M:C] D4 | z4 | 
+f: 4 * * * * 3  2 
+| B, B,/2B,/2- B,/2B,/2 B, |[M:2/4] CA, |[M:C] G,4- | G,3 D | 
+f: 4 3 *  * * *  3 2 2 3
+|: [P:Parte III] D2 F2 | A2 AA | G z/2 G/2GG | 
+f: 2 3 4 * * 3 * * *
+| ED z D | D2 F2 | A z AA | 
+f: 2 3 3 2 3 4
+| G z/2 G/2GG | ED z D | G,2 B,2 | 
+f: 3 * * *  2 3 3 2 3
+| D4 | z B,/2B,/2 CA, | B,D z2 | 
+f: 4 3 * * 2 3 4
+| z G,/2G,/2 A,F, | G,4 |1 z3 D :|2 z4 +dcalfine+ |
+f: 3 * * 2 3  3
+V:2 bass
+|: G,,[G,B,D] G,,[G,B,D] |[M:2/4] C,,[D,F,A,] |[M:C] G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | 
+| G,,[G,B,D] G,,[G,B,D] |[M:2/4] D,,[D,F,A,] |[M:C] G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] :| 
+| G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] C,,[D,F,A,] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | 
+| G,,[G,B,D] G,,[G,B,D] |[M:2/4] D,,[D,F,A,] |[M:C] G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | 
+| G,,[G,B,D] G,,[G,B,D] |[M:2/4] C,,[D,F,A,] |[M:C] G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | 
+| G,,[G,B,D] G,,[G,B,D] |[M:2/4] D,,[D,F,A,] |[M:C] G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | 
+|: D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | C,,[C,E,G,] C,,[C,E,G,] | 
+| G,,[G,B,D] G,,[G,B,D] | D,,[D,F,A,] D,,[D,F,A,] | D,,[D,F,A,] D,,[D,F,A,] | 
+| C,,[C,E,G,] C,,[C,E,G,] | G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] G,,[G,B,D] | 
+| G,,[G,B,D] G,,[G,B,D] | G,,[G,B,D] D,,[D,F,A,] | G,,[G,B,D] G,,[G,B,D] | 
+| G,,[G,B,D] D,,[D,F,A,] | G,,[G,B,D] G,,[G,B,D] |1 G,,[G,B,D] G,,[G,B,D] :|2 G,,[G,B,D] G,,[G,B,D] | 
+V:3 accordionTab
+|: G+[78] g+[78]0.5 >+[78]0.5 G+[>>]0.5 >+[78]0.5 g+[78] | C+[6'7'] d-[78] | G+[78] g+[>>] G+[>>] g+[>>] | G-[>>] g-[>>] G-[>>] g-[>>] |
+| G+[67] g+[67]0.5 >+[67]0.5 G+[>>]0.5 >+[67]0.5 g+[67] | D-[78] d-[67] | G+[67] g+[>>] G+[>>] g+[>>] | G-[>>] g-[>>] G-[>>] g-[>>] :| 
+| G+5 g+> G+> g+> | G+z0.5 >+50.5 g+5 C+4' d-4 | G+5 g+> G+> g+> | G-[>] g-[>] G-[>] g-[>] |
+| G+4 g+40.5 >+40.5 G+>0.5 >+40.5 g+4 | D-4 d-3 | G+4 g+> G+> g+> | G-[>] g-[>] G-[>] g-[>] |
+| G+5 g+50.5 >+50.5 G+>0.5 >+50.5 g+5 | C+4' d-4 | G+5 g+> G+> g+> | G-[>] g-[>] G-[>] g-[>] | 
+| G+4 g+40.5 >+40.5 G+>0.5 >+40.5 g+4 | D-4 d-3 | G+3 g+> G+> g+> | G+> g+> G+> g+5 | 
+|: D-3' d-> D-6 d-> | D-7 d-> D-7 d-7 | C+5' c+z0.5 >+5'0.5 C+5' c+5' | 
+| G+4' g+5 G+z g+5 | D-3' d-> D-6 d-> | D-7 d-z D-7 d-7 | 
+| C+5' c+z0.5 >+5'0.5 C+5' c+5' | G+4' g+5 G+z g+5 | G+3 g+> G+4 g+> | 
+| G+5 g+> G+> g+> | G+z g+40.5 >+40.5 D-4 d-3 | G+4 g+5 G+z g+z | 
+| G+z g+30.5 >+30.5 D-3 d-2 | G+3 g+> G+> g+> |1 G+z g+z G+z g+5 :|2 G+z g+z G+z g+z |
 X:1031
 %%barnumbers 0
 %%barsperstaff 5

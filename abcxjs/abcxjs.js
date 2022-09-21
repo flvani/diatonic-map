@@ -16575,9 +16575,15 @@ ABCXJS.tablature.Infer.prototype.read = function(p_source, item) {
             break;
                
     }
-    // toda chave estranha às notas deve ser ignorada aqui
-    while( source.voz[source.pos] &&  source.pos < source.voz.length 
-            && (source.voz[source.pos].direction || source.voz[source.pos].title || source.voz[source.pos].root) ) {
+  // toda chave estranha às notas deve ser ignorada aqui
+  while (
+    source.voz[source.pos] &&
+    source.pos < source.voz.length &&
+    (source.voz[source.pos].direction ||
+      source.voz[source.pos].title ||
+      source.voz[source.pos].el_type === "meter" ||
+      source.voz[source.pos].root)
+  ) {
         if(source.voz[source.pos].el_type === 'key') {
             if(source.bass) {
               this.accBassKey = source.voz[source.pos].accidentals;
