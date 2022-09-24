@@ -67,7 +67,7 @@ SITE.startLoader = function(id, container, start, stop) {
 };
 
 SITE.askHelp = function () {
-    if( !SITE.properties.options.doNotAskHelp && SITE.properties.options.language === 'ru_RU' ){
+    if( !SITE.properties.options.doNotAskHelp && SITE.App ){
         var d = document.getElementById('askHelpDiv');
         if(d){
             //d.style.display = 'block';
@@ -2587,7 +2587,7 @@ SITE.Mapa.prototype.applySettings = function() {
         });
 
         SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
-        SITE.askHelp();
+        //SITE.askHelp();
 
     }
     

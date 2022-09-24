@@ -1453,7 +1453,7 @@ SITE.Mapa.prototype.applySettings = function() {
         });
 
         SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
-        SITE.askHelp();
+        //SITE.askHelp();
 
     }
     

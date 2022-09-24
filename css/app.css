@@ -32,21 +32,17 @@ body {
 
     background-color: white;
 }
-    
-.topSettings {
-    position:absolute; 
-    top:10px; 
-    right:20px; 
-    color:#ff9922;
-    font-size: 46px;
-}    
 
-
-.topSettings:hover {
-    color:#ff9922;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    cursor:pointer;
-}    
+.gradiente {
+    background: -moz-linear-gradient(left, #003050 0%, black 100%);
+    background: -webkit-linear-gradient(left, #003050 0%, black 100%);
+    background: -o-linear-gradient(left, #003050 0%, black 100%);
+    background: -ms-linear-gradient(left, #003050 0%, black 100%);
+    background: linear-gradient(left, #003050 0%, black 100%);
+    color: orange;
+    color: #ff9922;
+    cursor:default;
+}
 
 .topBar {
     z-index: 100;
@@ -68,17 +64,22 @@ body {
     -o-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
     
 }
+    
+.topSettings {
+    position:absolute; 
+    top:10px; 
+    color:#ff9922;
+    font-size: 46px;
+    left: 25px !important; 
+    width: fit-content;
+}    
 
-.gradiente {
-    background: -moz-linear-gradient(left, #003050 0%, black 100%);
-    background: -webkit-linear-gradient(left, #003050 0%, black 100%);
-    background: -o-linear-gradient(left, #003050 0%, black 100%);
-    background: -ms-linear-gradient(left, #003050 0%, black 100%);
-    background: linear-gradient(left, #003050 0%, black 100%);
-    color: orange;
-    color: #ff9922;
-    cursor:default;
-}
+
+.topSettings:hover {
+    color:#ff9922;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    cursor:pointer;
+}    
 
 .topTitle {
     position: relative;
@@ -86,15 +87,14 @@ body {
     width: 100%;
     font-family: 'RockSalt', 'RobotoBold';
     font-weight: normal;
-    font-size: 28px;
     text-align: left;
-    line-height: 34px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     margin-top: 4px;
     margin-bottom: 4px;
-    color: orange;
     color: #ff9922;
-
+    left: 80px; 
+    line-height:63px; 
+    font-size: 32px;
 }
 
 .topMenu {
