@@ -3623,6 +3623,9 @@ SITE.Estudio.prototype.onChange = function() {
 SITE.Estudio.prototype.fireChanged = function (transpose, _opts) {
     
     if( this.changing ) return;
+
+    //necessário garantir que o midiplayer esteja parado antes de atualizar a partitura
+    if( this.midiPlayer.playing ) this.midiPlayer.stopPlay();
     
     this.lastYpos = this.studioCanvasDiv.scrollTop || 0;               
     
