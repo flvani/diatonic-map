@@ -1,0 +1,41 @@
+X:2025
+%%barnumbers 0
+%%papersize A4
+%%pagenumbering
+%%barsperstaff 4
+T:Milonga para as missões (club)
+C:Gilberto Monteiro
+C:Gravação Renato Borghetti
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+%F:https://www.youtube-nocookie.com/embed/lsCfky0S3Dc&T:Completa;
+%F:https://www.youtube-nocookie.com/embed/Z5lUrynNub4&T:Parte I - Passo a passo;
+M:2/4
+L:1/16
+Q:80
+K:Dm
+V:1 clef=treble
+| z2 f/2g/2a- !fermata!a2g2 |: !segno! f2a2 g2f2 | eage agea | eage agfe | dbaf bafa | fbaf bagf |
+f:3 2 4 2 3 4 2 3 2
+| e[eg][eg][eg]- [eg]efg | agfe agfe |1 d2f/2g/2a- a2g2 :|:2 d[Aa][Aa][Aa] [Aa][Aa][Aa][Aa] | [Aa]Adf bAaA | aAgA aAgA |
+f: ******* | ******** | 3 3 2 4 2 | 3 24  ****** | 24 2 3 4 5 2 4 2   4 2 5 2 4 2 5 2 
+| aAgA aAgA | aAfA aAfA | aAfA aAfA | a4 z efg | agfe agfe :| dagf edc=B |
+f: ******** | 5 2 4 2 5 2 4 2 | ******** | 4 3 2 4 3 4 2 3 3 4 2 3 | 3 4 2 3 2 3 2 3
+| BAGF AGFE | DEFG AB=Bc | defg agfe |  d2f/2g/2a- !fermata! a2g2 !dsalfine! | f2a2 g2f2 | eage agea |eage agfe |  
+%f:2 3 2 3 4 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 4 2 3 2 | 3 3 2 4 2 | 3 4 2 3 2
+f:2 3 2 3 4 2 3 2 3 2 3 2 3 2 3 2 3 2 3 2 4 2 3 2 | ***** | 3 4 2 3 2
+%| Afec fece | Afec fedc | B [Bd][Bd][Bd]- [Bd]Bcd !dacoda!| edcB edcB | !dsalcoda! A2c/2d/2e- e2d2 |!coda!  edcB edcB | A4 [EAc]4 | [EAc]8 |
+| dbaf bafa | fbaf bagf | e[eg][eg][eg]- [eg]efg | agfe agfe | d4 [Adf]4 | [Adf]8 !fine!|]
+V:2 bass
+| z8 |: D,,3[D,F,A,]  D,,2[D,F,A,]2 | A,,3[A,^CE] A,,2[A,CE]2 | A,,3[A,^CE] A,,2[A,CE]2 | D,,3[D,F,A,]  D,,2[D,F,A,]2 | D,,3[D,F,A,]  D,,2[D,F,A,]2 |  
+| A,,3[A,^CE] A,,2[A,CE]2 | A,,3[A,^CE] A,,2[A,CE]2 |1 D,,3[D,F,A,]  D,,2[D,F,A,]2 :|:2 D,,3[D,F,A,]  D,,2[D,F,A,]2 |  D,,3[D,F,A,]  D,,2[D,F,A,]2 | A,,3[A,^CE] A,,2[A,CE]2 |
+| A,,3[A,^CE] A,,2[A,CE]2 | D,,3[D,F,A,]  D,,2[D,F,A,]2 | D,,3[D,F,A,]  D,,2[D,F,A,]2 | A,,3[A,^CE] A,,2[A,CE]2 | A,,3[A,^CE] A,,2[A,CE]2 :| z4 z4 |
+| z4 z4 | z4 z4 | z4 z4 | z4 z4 | D,,3[D,F,A,]  D,,2[D,F,A,]2 | A,,3[A,^CE] A,,2[A,CE]2 | A,,3[A,^CE] A,,2[A,CE]2 |
+%| A,,3[A,CE]  A,,2[A,CE]2 | A,,3[A,CE]  A,,2[A,CE]2 | E,,3[E,^G,B,] E,,2[E,^G,B,]2 | E,,3[E,^G,B,] E,,2[E,^G,B,]2 | A,,3[A,CE]  A,,2[A,CE]2 | E,,3[E,^G,B,] E,,2[E,^G,B,]2 | A,,4  [A,CE]4- | [A,CE]8 |
+| D,,3[D,F,A,]  D,,2[D,F,A,]2 | D,,3[D,F,A,]  D,,2[D,F,A,]2 | A,,3[A,^CE] A,,2[A,CE]2 |A,,3[A,^CE] A,,2[A,CE]2 | D,,4  [D,F,A,]4- | [D,F,A,]8 |]
+V:3 accordionTab
+| z+z2 z-90.5 z-8'0.5 z-a z->2 z-8'2 |: D-92 >-a dm-> D-8'2 dm-92 | A+8 >+8' >+9 a+8 A+8' >+9 a+8 >+8' | A+8 >+8' >+9 a+8 A+8' >+9 a+7' >+8 | D-8 >-9' >-a dm-9 D-9' >-a dm-9 >-a | D-9 >-9' >-a dm-9 D-9' >-a dm-8' >-9 | 
+| A+8 >+[89] >+[89] a+[89] A+[>>] >+8 a+7' >+9 | A+8' >+9 >+7' a+8 A+8' >+9 a+7' >+8 |1 D-82 >-90.5 >-8'0.5 dm-a D->2 dm-8'2 :|:2 D-8 >-[6a] >-[6a] dm-[6a] D-[6a] >-[6a] dm-[6a] >-[6a] | D-[6a] >-6 >-8 dm-9 D-9' >-6 dm-a >-6 | A+8' >+5' >+9 a+5' A+8' >+5' a+9 >+5' | 
+| A+8' >+5' >+9 a+5' A+8' >+5' a+9 >+5' | D-a >-6 >-9 dm-6 D-a >-6 dm-9 >-6 | D-a >-6 >-9 dm-6 D-a >-6 dm-9 >-6 | A+8'3 a+> A+z >+8 a+7' >+9 | A+8' >+9 >+7' a+8 A+8' >+9 a+7' >+8 :| z-8 z-a z-8' z-9 z-7' z-8 z+6' z-7 | 
+| z-5' z-6 z-4' z-5 z-6 z-4' z-5 z-3' | z-4 z-3' z-5 z-4' z-6 z-5' z-7 z+6' | z-8 z-7' z-9 z-8' z-a z-8' z-9 z-7' | z-82 z-90.5 z-8'0.5 z-a z->2 z-8'2 | D-92 >-a dm-> D-8'2 dm-92 | A+8 >+8' >+9 a+8 A+8' >+9 a+8 >+8' | A+8 >+8' >+9 a+8 A+8' >+9 a+7' >+8 | 
+| D-8 >-9' >-a dm-9 D-9' >-a dm-9 >-a | D-9 >-9' >-a dm-9 D-9' >-a dm-8' >-9 | A+8 >+[89] >+[89] a+[89] A+[>>] >+8 a+7' >+9 | A+8' >+9 >+7' a+8 A+8' >+9 a+7' >+8 | D-84 dm-[689]4 | -[689]8 |] 

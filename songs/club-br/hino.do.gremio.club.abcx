@@ -3,7 +3,7 @@ X:2005
 %%papersize A4
 %%landscape
 %%pagenumbering
-T:Hino do Grêmio (club)
+T:Hino do Grêmio
 C:Lupicínio Rodrigues
 %C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
 Z:Flávio Vani
@@ -13,12 +13,16 @@ L:1/8
 Q:140
 M:4/4
 K:F
-V:1 treble
-|: c'2 a1.5 g0.5 f2 g1.5 a0.5 | g2 c4 z2 | c'2 a1.5 g0.5 f2 g1.5 a0.5 | g4 z2 a1.5 b0.5 | 
-| c'2 =b1.5 c'0.5 d'2 c'1.5 d'0.5 | e'2 d'2 z2 a1.5 b0.5 | c'2 d'1.5 c'0.5 g2 b1.5 a0.5 | f6 z2 :| 
-V:2 bass
-|: F,,2 [F,,A,,C,]2 F,,2 [F,,A,,C,]2 | C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 | F,,2 [F,,A,,C,]2 F,,2 [F,,A,,C,]2 | C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 | 
-| F,,2 z1.5 z0.5 D,,2 z1.5 z0.5 | B,,2 [B,,D,F,]2 B,,2 [B,,D,F,]2 | F,,2 [C,E,G,]2 C,,2 [C,E,G,]2 | F,,2 [F,,A,,C,]2 F,,2 [F,,A,,C,]2 :| 
+V:melodia clef=treble
+|: c'2 a3/2g1/2 f2 g3/2a1/2 | g2 c4 z2 | c'2 a3/2g1/2 f2 g3/2a1/2 | g4 z2 a3/2b1/2 |
+w: A- té a pé nós i-re-mos Pa ra o que der e vier Mas o 
+f: 5 3 4 2 4 3 3 2 | 5 3 4 2 4 3 * 3 2 
+| c'2 =b3/2c'1/2 d'2 c'3/2d'1/2 | e'2 d'2 z2 a3/2b1/2 | c'2 d'3/2c'1/2 g2 b3/2a1/2 | f6 z2 :|
+w:cer-to é que nós es-ta-remos Com o Grêmio onde o Grêmio es-ti-ver
+f: 2 4 3 5 3 5 | 4 5  3 2 2 5 3 2 3 4 2
+V:baixo clef=bass
+|: F,,2 [F,A,C] 2 F,,2 [F,A,C] 2 | C,,2 [C,E,G,] 2 C,,2 [C,E,G,] 2 |  F,,2 [F,A,C] 2 F,,2 [F,A,C] 2 | C,,2 [C,E,G,] 2 C,,2 [C,E,G,] 2 |
+| F,,2[C,E,G,]2 D,,2[D,F,A,]2 | B,,2 [B,DF] 2 B,,2 [B,DF] 2 | F,,2 [C,E,G,] 2 C,,2 [C,E,G,] 2 |  F,,2 [F,A,C] 2 F,,2 [F,A,C] 2:|
 V:3 accordionTab
 |: F+a2 f+8'1.5 >+90.5 F+7'2 f+91.5 >+8'0.5 | C-8'2 c-6'2 C->2 c-z2 | F+a2 f+8'1.5 >+90.5 F+7'2 f+91.5 >+8'0.5 | C-8'2 c->2 C-z2 c-a1.5 >-9'0.5 | 
-| F+9'2 z-b1.5 z-a'0.5 D-c2 z-a'1.5 z-c0.5 | B♭-b'2 b♭-c2 B♭-z2 b♭-a1.5 >-9'0.5 | F+9'2 c-c1.5 >-a'0.5 C-8'2 c-9'1.5 >-a0.5 | F+7'2 f+>2 F+>2 f+z2 :| 
+| F+9'2 c-b1.5 >-a'0.5 D-c2 dm-a'1.5 >-c0.5 | B♭-b'2 b♭-c2 B♭-z2 b♭-a1.5 >-9'0.5 | F+9'2 c-c1.5 >-a'0.5 C-8'2 c-9'1.5 >-a0.5 | F+7'2 f+>2 F+>2 f+z2 :| 

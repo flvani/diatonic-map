@@ -1,0 +1,55 @@
+X:2073
+%%papersize A4
+%%barnumbers 0
+%%tabinferenceopts -2
+%%staffsep 15
+T:Tango Bueno (club)
+C:Francis Lockwood
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>adapt. Cezar Ferreira</a>)
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+%F:https://www.youtube-nocookie.com/embed/UzAlNWW6Olk
+L:1/8
+Q:1/4=120
+M:C
+K:F
+R:Tango
+V:1 treble stem=down
+|: +segno+ a/2b/2 a3- a2 z2 | (3 z2a2b2 (3 a2g2f2 | (3 e2d2e2- e4- |
+f:5 4 5 5 4 5 3 4 3 3 3
+| e8 | g/2a/2 g3- g4- | g3 z2 a gf/2e/2 |
+f: 3 5 3 5 3 4 2
+| d8 | g8 | g/2a/2 g3- g4- |
+f: 3 4 4 3 4
+| (3 g2g2g2 (3 g2a2b2 | c'8 | f4 (3 f2c'2f2 |
+f:4 4 4 3 4 4 2 2 4 2
+| (3 e2b2b2- b2 z2 | z4 z b ba/2g/2 |1 a8- |
+f:2 4 4 4 4 5 3 3 
+| a8 :|2 a8- | (3 a2A2A2 (3 A2d2e2 | 
+f:3 2 2 2 4 4
+|: f4 d2 z2 | (3 z2f2f2 (3:2:4g2f2ed | e4- e3 =B |
+f: 5 4 5 5 4 5 3 4 3 2
+| e4- e=B de | f4 B2 z2 | (3 z2B2B2  (3:2:4c2B2AG |
+f:3 2 4 3 5 2 2 2 3 2 3 2
+|1 A8- | (3 A2A2A2 (3 A2g2e2 :|2 A8- | A8 +dasegno+ |
+f:3 2 2 2 5 4 3
+V:2 bass
+|: D,,2 [D,F,A,] D,,2 [D,F,A,] A,,2 | D,,2 [D,F,A,] D,,2 [D,F,A,] D,,2 | A,,2 [D,F,A,] A,,2 [A,^CE] A,,2 | 
+| A,,2 [A,^CE] A,,2 [A,CE] A,,2 | C,,2 [C,E,G,] C,,2 [C,E,G,] C,,2 | C,,2 [C,E,G,] C,,2 [C,E,G,] C,,2 |
+| G,,2 [G,=B,D] G,,2 [G,B,D] G,,2 | G,,2 [G,=B,D] G,,2 [G,B,D] G,,2 | B,,2 [B,DF] B,,2 [B,DF] B,,2 |
+| B,,2 [B,DF] B,,2 [B,DF] B,,2 | F,,2 [F,A,C] F,,2 [F,A,C] F,,2 | F,,2 [F,A,C] F,,2 [F,A,C] F,,2 |
+| G,,2 [B,DF] G,,2 [B,DF] A,,2 | G,,2 [B,DF] G,,2 [B,DF] G,,2 |1 A,,2 [A,^CE] A,,2 [A,CE] A,,2 |
+| A,,2 [A,^CE] A,,2 [A,CE] A,,2 :|2 A,,2 [A,^CE] A,,2 [A,CE] A,,2 | A,,2 [A,^CE] A,,2 [D,F,A,] A,,2 |
+|: D,,2 [D,F,A,] D,,2 [D,F,A,] A,,2 | D,,2 [D,F,A,] D,,2 [D,F,A,] D,,2 | "G/D" D,,2 [G,=B,D] D,,2 [G,=B,D] D,,2 | 
+| "G/D" D,,2 [G,=B,D] D,,2 [G,=B,D] D,,2 | "B♭/D" D,,2 [B,DF] D,,2 [B,DF] A,,2 | "B♭/D" D,,2 [B,DF] D,,2 [B,DF] D,,2 | 
+|1 "A" A,,2 [A,^CE] A,,2 [A,CE] A,,2 | A,,2 [A,^CE] A,,2 [A,CE] A,,2 :|2 A,,2 [A,^CE] A,,2 [A,CE] A,,2 | A,,2 [A,^CE] A,,2 [A,CE] A,,2 |
+V:3 accordionTab
+|: D-a0.5 >-9'0.5 >-a dm-> D-> >-> dm-> A+z2 | (3 D-z2 >-a dm-> >-9'0.5 D->1.5 ) (3 -a1.5 dm->0.5 >-8' D-> >-92 ) | (3 A+82 z-8 dm-> z+80.5 A+>1.5 ) +> a+> A+>2 | 
+| A+82 a+> A+>2 a+> A+>2 | C-8'0.5 >-a0.5 >-8' c-> C-> >-> c-> C->2 | C-8'2 c-> C-z2 c-a C-8' >-90.5 >-7'0.5 | 
+| G-82 g-> G->2 g-> G->2 | G-8'2 g-> G->2 g-> G->2 | B♭-8'0.5 >-a0.5 >-8' b♭-> B♭-> >-> b♭-> B♭->2 | 
+| (3 B♭-8'2 >-8' b♭-> >-8'0.5 B♭->1.5 ) (3 -8'1.5 b♭->0.5 >-a B♭-> z-9'2 ) | F+9'2 f+> F+>2 f+> F+>2 | F+7'2 f+> F+> (3 +7'1.5 f+>0.5 >+9' F+> >+7'2 ) | 
+| (3 G-7'2 >-9' b♭-> >-9'0.5 G->1.5 ) -> b♭-> A+z2 | G-z2 b♭-z G-z >-z b♭-9' G-9' >-a0.5 >-8'0.5 |1 A+8'2 a+> A+>2 a+> A+>2 | 
+| A+>2 a+> A+>2 a+> A+>2 :|2 A+8'2 a+> A+>2 a+> A+>2 | (3 A+>2 >+5' a+> >+5'0.5 A+>1.5 ) (3 +5'1.5 dm-z0.5 >-8 A+z >+82 ) | 
+|: D-92 dm-> D-> >-8 dm-> A+z2 | (3 D-z2 z-9 dm-> >-90.5 D->1.5 ) (3 -8'1.5 dm->0.5 >-9 D-> >-7' >-8 ) | D-7'2 g-> D-> >-> g-> D-> >-7 | 
+| D-7'2 g-> D-> >-> g-7 D-8 >-7' | D-92 b♭-> D-> >-5' b♭-> A+z2 | (3 D-z2 >-5' b♭-> >-5'0.5 D->1.5 ) (3 -6'1.5 b♭->0.5 >-5' D-> >-6 >-4' ) | 
+|1 A+5'2 a+> A+>2 a+> A+>2 | (3 A+>2 >+5' a+> >+5'0.5 A+>1.5 ) (3 +5'1.5 a+>0.5 >+9 A+> >+82 ) :|2 A+5'2 a+> A+>2 a+> A+>2 | A+>2 a+> A+>2 a+> A+>2 | 
