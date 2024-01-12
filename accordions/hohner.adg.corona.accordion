@@ -20,20 +20,7 @@
        , "open": [["b2:m", "B2", "e2:m", "E¹2", "c2", "C2"], ["e2", "E2", "a2", "A2", "d2", "D2"]]
       }
     }
-  ,"songPathList":
-    [
-       "songs/corona-adg/asa.branca.corona.abcx"
-      ,"songs/corona-adg/chorando.se.foi.corona.abcx"
-      ,"songs/corona-adg/despacito.corona.abcx"
-      ,"songs/corona-adg/jai.du.bon.tabac.corona.abcx"
-      ,"songs/corona-adg/jingle.bells.corona.abcx"
-      ,"songs/corona-adg/maitia.nun.zira.corona.abcx"
-      ,"songs/corona-adg/mercedita.corona.abcx"
-      ,"songs/corona-adg/pezinho.corona.abcx"
-      ,"songs/corona-adg/xote.laranjeira.corona.abcx"
-    ]
+  ,"songPathList":["songs/corona-adg.repertorio.abcx"]
   ,"practicePathList":[]
-  ,"chordPathList":[
-       "chords/acordes.corona.abcx"
-  ]
+  ,"chordPathList":["chords/acordes.corona.abcx"]
 }

@@ -25,23 +25,7 @@
        , "open": [["a2:m", "A2", "d2:m", "D¹2", "b♭2", "B♭2"], ["d2", "D2", "g2", "G2", "c2", "C2"]]
       }
     }
-  ,"songPathList":
-    [
-       "songs/corona-gcf/a.casa.corona.abcx"
-      ,"songs/corona-gcf/anunciacao.corona.abcx"
-      ,"songs/corona-gcf/asa.branca.corona.abcx"
-      ,"songs/corona-gcf/bella.ciao.corona.abcx"
-      ,"songs/corona-gcf/chorando.se.foi.corona.abcx"
-      ,"songs/corona-gcf/country.girl.corona.abcx"
-      ,"songs/corona-gcf/despacito.corona.abcx"
-      ,"songs/corona-gcf/maitia.nun.zira.corona.abcx"
-      ,"songs/corona-gcf/xote1.corona.abcx"
-      ,"songs/corona-gcf/xote2.corona.abcx"
-      ,"songs/corona-gcf/o.du.stille.Zeit.corona.abcx"
-      ,"songs/corona-gcf/shalom.chaverim.abcx"
-      ,"songs/corona-gcf/banks.of.the.ohio.corona.abcx"
-      ,"songs/corona-gcf/ring.of.fire.corona.abcx"
-    ]
+  ,"songPathList": ["songs/corona-gcf.repertorio.abcx"]
   ,"practicePathList":["practices/corona.gcf.prac2.abcx"]
   ,"chordPathList":[ ]
 }

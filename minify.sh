@@ -9,18 +9,7 @@ echo $1 | grep -E -q '^[1-9]\.[0-9]+$' || die "Site Version number argument requ
 echo $2 | grep -E -q '^[0-9]\.[0-9]\.[0-9]+$' || die "App Version number argument required (x.y.z), $2 provided"
 echo "Concatenating all files..."
 
-#restaurar um conjunto de arquivos alterados por engano
-#for f in songs/minuano/*.abcx; do  git restore $f; fi; done
-
-#remover "BOM mark" e garantir newline ao final do arquivo
-echo "Preparando repertorio minuano..."
-for f in songs/minuano/*.abcx; do sed -i $'s/^\uFEFF//' $f; if [ "$(tail -c 1 $f)" != "" ]; then echo '' >> $f; fi; done
-cat songs/minuano/*.abcx > songs/minuano.repertorio.abcx
-
-#remover "BOM mark" e garantir newline ao final do arquivo
-echo "Preparando repertorio club..."
-for f in songs/club-br/*.abcx; do sed -i $'s/^\uFEFF//' $f; if [ "$(tail -c 1 $f)" != "" ]; then echo '' >> $f; fi; done
-cat songs/club-br/*.abcx > songs/club-br.repertorio.abcx
+./minify.repertorio.sh
 
 echo "Concatenating site files..."
 cat src/properties.js src/translate.js src/media.js src/modal.js src/mapa.js src/estudio.js  > tmp/site-part.js

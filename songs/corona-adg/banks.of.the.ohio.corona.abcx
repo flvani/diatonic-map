@@ -1,0 +1,32 @@
+X:4005
+%%barnumbers 1
+%%papersize A4
+%barsperstaff 6
+%staffsep 20
+%pagenumbering
+%stretchlast
+%landscape
+T:Banks of the Ohio (corona)
+C:Traditional
+%C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:4/4
+L:1/4
+Q:160
+K:D
+V:1 treble
+| z DDF |"D" F4- | F DDE |"A" E4- | E EE F | G4- | G G/2G/2 G A |
+f: 2 * 3 *  2 * 4 2 2 * 4 3 3 * * 5
+| "D" F4 - | F2 FA | A4  | "Bm" z F/2F/2 G A | "G" G4- | G A A  G |
+f: 3 3 4 * 3 * 2 5 3 5 * 2
+| "D" F4 - | "A7" F E/2F/2 E E |"D" D4- | D z z z | 
+f:2 2 4 2 * 2
+V:2 bass
+| z4 | D,, [D,F,A,] z  [D,F,A,] | D,, [D,F,A,] z [D,F,A,] | A,, [A,CE] z  [A,CE] | A,, [A,CE] z  [A,CE] | A,, [A,CE] z  [A,CE] | A,, [A,CE] z  [A,CE] |
+| D,, [D,F,A,] z  [D,F,A,] | D,, [D,F,A,] z  [D,F,A,] | D,, [D,F,A,] z  [D,F,A,] | B,, [B,DF] z [B,DF] | G,, [G,B,D] z [G,B,D] | G,, [G,B,D] z [G,B,D] |
+| D,, [D,F,A,] z  [D,F,A,] | A,, [A,CE] z  [A,CE] | D,, [D,F,A,] z  [D,F,A,] | D,, [D,F,A,] z  [D,F,A,] |
+V:3 accordionTab
+| z+z z-3 z+3' z-4 | D+4' d+> z+> d+> | D+> d-3 z+3' d-3' | A+4 a+> z+> a+> | A+> a-3' z+4 a-4 | A+3'' a+> z+> a+> | A+> a-4'0.5 >-4'0.5 z+3'' a-3'' |
+| D+4' d+> z+> d+> | D+> d+> z-4 d+5 | D-3'' d-> z-> d-> | B+z bm-40.5 >-40.5 z+3'' bm-3'' | G+3'' g+> z+> g+> | G+> g+5 z-3'' g+3'' |
+| D-4 d-> z-> d-> | A-> a+40.5 >+4'0.5 z-3' a+4 | D-3 d-> z-> d-> | D-> d+z z-z d+z |

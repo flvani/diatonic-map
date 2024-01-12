@@ -20,10 +20,7 @@
         ,"open":[["d2:m","D2","b♭1","B♭1"],["g1","G1","c2","C2"]]
       }
     }
-  ,"songPathList":
-    [
-       "songs/club-br.repertorio.abcx"
-    ]
+  ,"songPathList":["songs/club-br.repertorio.abcx"]
   ,"practicePathList":["practices/escala.fa.maior.tercas.club.abcx"]
   ,"chordPathList":["chords/notas.cf.club.br.abcx"]
 }

@@ -1,0 +1,253 @@
+X:3001
+%%barnumbers 1
+%%papersize A4
+T:Asa Branca (transportada)
+C:Luiz Gonzaga & Humberto Teixeira
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+F:https://www.youtube-nocookie.com/embed/1TdI0EylzwE
+M:2/4
+L:1/8
+Q:120
+K:F
+V:1 treble
+| z2 BG |: +segno+ AF GE | FD EC | DC A,C |1 C2 BG :|2 C4- +fine+ | C3 D | 
+w:* | * | * | * | * | * | * Quand'
+| E2 G2 | G2 E2 | F2 F2 | z C2 D | E2 G2 | G2 F2 | E4 | 
+w:olhei a ter-r'ar-den-do, qual fo-guei-ra de São João,
+|: z C CD | E2 G2 | z G FE | C2 F2 | z E ED | 
+w:eu per-gun-te-ei a Deus do céu, ai, por que ta-
+| D2 E2 | z D DC |1 C4 :|2 C2 BG +dsalfine+| 
+w:ma-nha ju-di-a-ção? |ção?
+V:2 bass
+| z2 B,, z |: A,,2 G,,2 | F,,2 E,,2 | D,, z A,, z |1 C,,2 B,, z :|2 z4 | z3 z | 
+| C,,2 [C,E,G,]2 | C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 | F,,2 [F,A,C]2 | C,,2 [C,E,G,]2 | F,,2 [F,A,C]2 | C,,2 [C,E,G,]2 | 
+|: C,,2 [C,E,G,] z | C,,2 [C,E,G,]2 | C,,2 [B,,D,F,] z | F,,2 [F,A,C]2 | F,,2 [F,A,C]2 | 
+| D,,2 [G,=B,D]2 | G,, z [D,F,A,] z |1 C,,2 [C,E,G,]2 :|2 C,,2 B,, z | 
+V:3 accordionTab
+| z-z2 B♭-7 z+5' |: A-5' >-4' G+5' >+4' | F-4' >-3' E+4' >+3' | D-3' z+3' A-1' z+3' |1 C+3'2 B♭-7 z+5' :|2 z+3'4 | z+>3 z-3' | 
+| C+4'2 c+5'2 | C+5'2 c+4'2 | F-4'2 f-4'2 | F+z >+3' f+> >-3' | C+4'2 c+5'2 | F+5'2 f-4'2 | C+4'2 c+>2 | 
+|: C+z >+3' c+3' z-3' | C+4'2 c+5'2 | C+z >+5' b♭-4' z+4' | F+3'2 f-4'2 | F+z >+4' f+4' >-3' | 
+| D-3'2 g+4'2 | G+z z-3' d-3' z+3' |1 C+3'2 c+>2 :|2 C+3'2 B♭-7 z+5' | 
+X:3002
+%%barnumbers 0
+%%papersize A4
+%%barsperstaff 4
+T:Começo de Verão (transportada)
+C:Heleno dos 8 Baixos
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/bRjbrPI9cL0
+M:4/4
+L:1/8
+Q:140
+K:F
+V:1 treble
+| z4 F2 D2 |: !segno! C2 z EG FDF | A2 z AA AFD | C2 z EG FDF |1 A2 z2 F2 D2 :| 
+|2 F3 DF DFA | c2 z CC EGc | B2 z AF DDF | AC CE GF DF | 
+| AF BA FD FA | c2 z CC EGc | B2 z AF DDF | AC CE GF DF | F2 z2 F2 D2 !dasegno!| 
+V:2 bass
+| z4 F,,2 D,,2 |: C,,2 [C,E,G,]3 z [B,,D,F,]2 | F,,2 [F,,A,,C,]4 [F,,A,,C,]2 | C,,2 [C,E,G,]3 z [B,,D,F,]2 |1 F,,2 [F,,A,,C,]2 F,,2 D,,2 :| 
+|2 F,,2 [F,,A,,C,]4 [F,,A,,C,]2 | C,,2 [C,E,G,]4 [C,E,G,]2 | B,,2 [B,,D,F,]4 [B,,D,F,]2 | F,,2 [C,E,G,]3 z [B,,D,F,]2 | 
+| F,,2 [F,,A,,C,]4 [F,,A,,C,]2 | C,,2 [C,E,G,]4 [C,E,G,]2 | B,,2 [B,,D,F,]4 [B,,D,F,]2 | F,,2 [C,E,G,]3 z [B,,D,F,]2 | F,,2 [F,,A,,C,]2 F,,2 D,,2 | 
+V:3 accordionTab
+| z-z4 F-4'2 D-3'2 |: C+3'2 c+z >+4' >+5' z-4' b♭-3' >-4' | F-5'2 f-z >-5' >-5' >-5' f-4' >-3' | C+3'2 c+z >+4' >+5' z-4' b♭-3' >-4' |1 F-5'2 f-z2 F-4'2 D-3'2 :| 
+|2 F-4'2 f-> >-3' >-4' >-3' f-4' >-5' | C+6'2 c+z >+3' >+3' >+4' c+5' >+6' | B♭-72 b♭-z >-5' >-4' >-3' b♭-3' >-4' | F-5' >+3' c+3' >+4' >+5' z-4' b♭-3' >-4' | 
+| F-5' >-4' f-7 >-5' >-4' >-3' f-4' >-5' | C+6'2 c+z >+3' >+3' >+4' c+5' >+6' | B♭-72 b♭-z >-5' >-4' >-3' b♭-3' >-4' | F-5' >+3' c+3' >+4' >+5' z-4' b♭-3' >-4' | F-4'2 f-z2 F-4'2 D-3'2 | 
+
+%barsperstaff 6
+%staffsep 29
+%pagenumbering
+%stretchlast
+%landscape
+%hidefingering
+%%barnumbers 0
+%%papersize A4
+X:4010
+T:Escandalosa (transportada)
+C: Zé Jovino
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+%F:https://www.youtube-nocookie.com/embed/tM6E2eEHyC0
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+L:1/8
+Q:"Quadrilha  " 1/4=100
+%Q:160
+M:2/4
+K:C
+V:1 treble
+| z cBA |: z/2 G/2^F/2G/2 A3/2G/2 | G2 B,D | GF/2E/2 D/2F/2E/2D/2 | 
+| Cc BA | z/2 G/2^F/2G/2 A3/2G/2 | G2 B,D | GF/2^C/2 DE | 
+| z CEG | d^c =c^A | z G/2C/2 EG | cB ^A=A | 
+| z [FA] z/2 D/2F/2A/2 | cF/2D/2 A/2F/2G | z C/2E/2 GE/2C/2 | GF/2E/2 DG/2C/2 | z cBA :| 
+V:2 bass
+| C,,2 [C,E,G,] z |: C,,2 A,, z | G,,2 [G,B,D] z | G,, z [D,F,A,]2 | 
+| C,,2 [C,E,G,] z | C,,2 A,, z | G,,2 [G,B,D] z | G,, z [D,F,A,] z | 
+| C,,2 [C,E,G,]2 | _B,,2 [C,E,G,] z | C,,2 [C,E,G,]2 | C,, z [_B,DF]2 | 
+| F,,2 [F,A,C]2 | F,,2 [F,A,C] z | C,,2 [C,E,G,]2 | G,, z [D,F,A,] z | C,,2 [C,E,G,] z :| 
+V:3 accordionTab
+| C+z >+6' c+7 z-5' |: C+z0.5 >+5'0.5 >+60.5 >+5'0.5 A-5' z->0.5 z+5'0.5 | G+5'2 g+4 z-3' | G+5' z-4'0.5 z-50.5 dm-3'0.5 >-4'0.5 >-50.5 >-3'0.5 | 
+| C+3' >+6' c+7 z-5' | C+z0.5 >+5'0.5 >+60.5 >+5'0.5 A-5' z->0.5 z+5'0.5 | G+5'2 g+4 z-3' | G+5' z-4'0.5 z-40.5 dm-3' z+4' | 
+| C+z >+3' c+4' >+5' | B♭-7' >-8 c+6' z-7 | C+z >+5'0.5 >+3'0.5 c+4' >+5' | C+6' z-6' b♭-7 >-5' | 
+| F+z >-[4'5'] f+z0.5 >-3'0.5 >-4'0.5 >-5'0.5 | F+6' >-4'0.5 >-3'0.5 f-5'0.5 >-4'0.5 z+5' | C+z >+3'0.5 >+4'0.5 c+5' >+4'0.5 >+3'0.5 | G+5' z-4'0.5 z-50.5 dm-3' z+5'0.5 z+3'0.5 | C+z >+6' c+7 z-5' :| 
+X:3003
+%%barnumbers 0
+%%papersize A4
+T:Numa Sala de Reboco (transportada)
+C:Luiz Gonzaga & José Marcolino
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/3GvoM7icSzQ&T:Sala de Reboco - Completa;
+F:https://www.youtube-nocookie.com/embed/sDmyJswmwIA&T:Sala de Reboco - Passo a passo - Parte 1;
+M:2/4
+L:1/16
+Q:70
+K:Dm
+V:1 treble 
+| z2DD [P:Parte I] FFAA |:+segno+ "Dm" A2DD FFAA | "A7" A2A,A, CC EE | AAGG FFEE |1 "Dm" D2DD FF AA :|
+|2 "Dm" D2D2 A3G |: FFAA FFAA | "A7" EEGG  GGBB | AAGG FFEE |1 "Dm" D2D2 A3G :|
+||2 "Dm" D2D2- DBBB | "G7" =BBBG "Gm" _BBBG | "Dm" F2cc cccc |  "G7" =BBBG "Gm" _BBBG | "Dm" F4- Fccc |
+| "G7" =BBBG "Gm" _BBBG | "Dm" F2FF FAAA | "A7" EEGG FFEE | D2DD FFAA +dasegno+| D2 z2 [DFA]2 z2 |
+V:2 bass
+| z8 |:  D,,2[D,F,A,]2  A,,2[D,F,A,]2 | A,,2[A,^CE]2 z2[A,^CE]2 | A,,2z2 A,,2[A,^CE]2 |1  D,,2[D,F,A,]2  A,,2[D,F,A,]2 :|
+|2 D,,2D,,2 z4 |:  D,,2[D,F,A,]2  A,,2[D,F,A,]2 | A,,2 z2 z2 [A,^CE]2 | A,,2 z2 A,,2[A,^CE]2 |1  D,,2D,,2 z4 :|
+||2 D,,2D,,2 z4 | G,,2[G,=B,D]2 z4 | D,,2 z2 z2 z2 | G,,2[G,=B,D]2 z4 | D,,2D,,2 z4 |
+| G,,2[G,=B,D]2 z4 | D,,2[D,F,A,]2  A,,2[D,F,A,]2 | A,,2z2 A,,2[A,^CE]2 | D,,2 z2 z4 | D,,2 z2  D,,2 z2 | 
+V:3 accordionTab
+X:3004
+﻿%%barnumbers 0
+%%papersize A4
+T:Paraíba Masculina (transportada)
+C:Luiz Gonzaga & Humberto Teixeira
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/69rv13vRK98
+M:2/4
+L:1/16
+Q:100
+K:C
+V:1 treble
+|: [egc']8 | [ceg]8 | [cea]8 | [Gce]8 | [Ag]6 [Gc]2 | [Ad]2[Ac] 2 [AF]2[Ac]2  |1 [EGc]8 | [GBd]8 :|
+|2 [EGc]4 z "C" G2c | e2g2 g2g2 | g3e e2e2 | d2c2 B2^A2 | "Dm" A4 z F2A | d2f2 f2f2 |
+w:* * Quando * a~la-ma vi-rou pe-dra e man-da-ca-ru se-cou, quando * o ri-ba-ção
+| f3d "G7" d2c2 | B2B2 A2A2 | "C" G4 z e2g | d2c2 e2g2 | "C7" d3c- cd2c | d2c2 d2e2 |
+w:de se-de  ba-teu asa e vo-ou, foi aí que eu vim m'em-bo-ra, car-re-gan-do a mi-nha 
+| "F" f4 z d2e | "Fm" fd2e fe2d  | "C" ee2c A2G2 | c'2e'c' "G7" a2c'a | "F" g2ag e2 z2 |
+w: dor. Hoje eu mando * um abraço * pra ti, pe-que-ni-na!  
+|: "C" G2G2 c2c2 | e2e2 "Dm" d2d2 | f2f2 "G7" e2e2 | d2d2 "C" c4 :|
+w: Pa-ra-í-ba, mas-cu-li-na, mu-lher ma-cho, sim, se-nhor!
+| "C" e3c- cG2B | A3G- Gc2B | A2G2 c2A2 | "Dm" B8 |
+w:Ei-tá, * pau pe-rei-ra, * Qu'em Prin-ce-sa já ron-cou!
+| f3d- dB2d | "G7" c3B- Bd2d | B2B2 A2A2 | "C" G8 |
+w:Ei-tá, * pa-ra-í-ba, mu- * lher ma-cho, sim, se-nhor!
+| e3c- cG2B | A3G- Gc2d | e3e1 d3c1 | "F"  A4 z d2e |
+w:Ei-tá, * pau pe-rei-ra, * meu bo-do-que não que-brou. Hoje eu 
+| "Fm" fd2e fe2d  | "C" ee2c A2G2 | c'2e'c' "G7" a2c'a | "F" g2ag e2 z2 |
+w: mando * Um abraço * pra ti, pe-que-ni-na! 
+|: "C" G2G2 c2c2 | e2e2 "Dm" d2d2 | f2f2 "G7" e2e2 | d2d2 "C" c4 :|
+w: Pa-ra-í-ba, mas-cu-li-na, mu-lher ma-cho, sim, se-nhor!
+|: "C" [egc']8 | [ceg]8 | [cea]8 | [Gce]8 | "F7" [Ag]6 [Gc]2 | [Ad]2[Ac] 2 [AF]2[Ac]2  |1  "C" [EGc]8 | [GBd]8 :|2  [EGc]8- | [EGc]4 z4 |
+w: Ei-tá! Ei-tá! Mu-ié macho, * sim se-nhor! * nhor!
+V:2 bass
+|:z8|z8|z8|z8|z8|z8|1 z8|z8:|
+|2 z4 z4 | C,,3[C,E,G,] C,,2[C,E,G,]2 | C,,2[C,E,G,] 2 C,,2[C,E,G,]2 |C,,3[C,E,G,]  C,,2[C,E,G,]2 | D,,2[D,F,A,] 2 D,,3[D,F,A,] | D,,2[D,F,A,] 2 D,,2[D,F,A,]2 |
+|D,,3[D,F,A,] G,,2[G,B,D]2 | G,,2[G,B,D] 2 G,,2[G,B,D] 2  | C,,2[C,E,G,] 2  C,,3[C,E,G,] |C,,2[C,E,G,] 2  C,,2[C,E,G,]2 | C,,3[C,E,G,]   C,,2[C,E,G,]2 | C,,2[C,E,G,] 2  C,,2[C,E,G,]2 |
+| F,,2[F,A,C] 2 D,,3[F,A,C]| D,,3[F,A,C]  F,,2[F,A,C] z| C,,3[C,E,G,] C,,2[C,E,G,]2| C,,2[C,E,G,] 2 G,,2[G,B,D] 2 | F,,2[F,A,C] 2 F,,2[F,A,C] 2 |
+|: C,,3[C,E,G,]  C,,2[C,E,G,]2|C,,2[C,E,G,] 2 D,,3[D,F,A,]  | D,,2[D,F,A,] 2 G,,3[G,B,D] | G,,2[G,B,D] 2 C,,3[C,E,G,] :|
+| C,,3[C,E,G,]  C,,2[C,E,G,]2|C,,2[C,E,G,] 2 C,,2[C,E,G,] 2|C,,3[C,E,G,] C,,2[C,E,G,] 2| D,,2[D,F,A,] 2 D,,2[D,F,A,]2 |
+|D,,3[D,F,A,] D,,2[D,F,A,]2 | G,,3[G,B,D] G,,2[G,B,D] 2|G,,2[G,B,D] 2 G,,2[G,B,D] 2| C,,2[C,E,G,] 2 C,,2[C,E,G,] 2|
+|C,,2[C,E,G,] 2 C,,2[C,E,G,] 2|C,,2[C,E,G,] 2 C,,2[C,E,G,] 2|C,,2[C,E,G,] 2 C,,2[C,E,G,] 2| F,,2[F,A,C] 2 D,,3[F,A,C]|
+| D,,3[F,A,C]  F,,2[F,A,C] z| C,,3[C,E,G,] C,,2[C,E,G,]2| C,,2[C,E,G,] 2 G,,2[G,B,D] 2 | F,,2[F,A,C] 2 F,,2[F,A,C] 2 |
+|: C,,3[C,E,G,]  C,,2[C,E,G,]2|C,,2[C,E,G,] 2 D,,3[D,F,A,]  | D,,2[D,F,A,] 2 G,,3[G,B,D] | G,,2[G,B,D] 2 C,,3[C,E,G,] :|
+|: C,,3[C,E,G,] C,,2[C,E,G,]2| C,,2[C,E,G,] 2 C,,2[C,E,G,]2 | C,,3[C,E,G,] C,,2[C,E,G,]2 | C,,2[C,E,G,] 2 C,,2[C,E,G,]2 | F,,3[F,A,C] F,,2[F,A,C] 2 | D,,2[F,A,C] 2 F,,2[F,A,C] 2 |1 C,,3[C,E,G,] C,,2[C,E,G,]2| C,,2[C,E,G,] 2 C,,2[C,E,G,]2 :|2 C,,2[C,E,G,] 2 C,,4- | C,,4 z4 |
+V:3 accordionTab
+|: z+[7'8'9']8 | z+[6'7'8']8 | z+[6'7'x]8 | z+[5'6'7']8 | z+[x8']6 z+[5'6']2 | z-[5'7']2 z-[5'x]2 z-[4'5']2 z-[5'x]2 |1 z+[4'5'6']8 | z+[5'7x]8 :|
+|2 z+[4'5'6']4 z+z z+5'2 z+6' | C+7'2 >+8' c+> C+8'2 c+8'2 | C+8'2 c+> >+7' C+7'2 c+7'2 | C+x2 >+6' c+> C+72 c+x2 | D-5'2 d->2 D-z >-4'2 d-5' | D-7'2 d-8'2 D-8'2 d-8'2 |
+| D-8'3 d-7' G-7'2 g+6'2 | G+72 g+72 G+x2 g+x2 | C+5'2 c+>2 C+z >+7'2 c+8' | C+x2 c+6'2 C+7'2 c+8'2 | C+x3 c+6' C+> >+x c+> >+6' | C+x2 c+6'2 C+x2 c+7'2 |
+| F-8'2 f->2 D-z >-7'2 f-9 | D-8' >-7'2 f+7' F-8' >-9 f-> z-7' | C+7' >+7'2 c+6' C+x2 c+5'2 | C+9'2 c+a' >+9' G+x2 g+9' >+x | F+8'2 f-9' >+8' F+7'2 f+z2 |
+|: C+5'2 >+5' c+> C+6'2 c+6'2 | C+7'2 c+7'2 D-7'2 >-7' d-> | D-8'2 d-8'2 G+7'2 >+7' g+> | G+x2 g+x2 C+6'3 c+> :|
+| C+7'3 c+6' C+> >+5' c+> >+7 | C+x2 c+> >+5' C+> >+6' c+> >+7 | C+x2 >+5' c+> C+6'2 c+x2 | D-6'2 d->2 D->2 d->2 |
+| D-8'3 d-7' D-> >-6' d-> >-7' | G+6'3 g+7 G+> >+x g+> >+x | G+72 g+72 G+x2 g+x2 | C+5'2 c+>2 C+>2 c+>2 |
+| C+7'2 c+> >+6' C+> >+5' c+> >+7 | C+x2 c+> >+5' C+> >+6' c+> >+x | C+7'2 c+> >+7' C+x2 c+> >+6' | F-5'2 f->2 D-z >-7'2 f-9 |
+| D-8' >-7'2 f-9 F-8' >-9 f-> z-7' | C+7' >+7'2 c+6' C+x2 c+5'2 | C+9'2 c+a' >+9' G+x2 g+9' >+x | F+8'2 f-9' >+8' F+7'2 f+z2 |
+|: C+5'2 >+5' c+> C+6'2 c+6'2 | C+7'2 c+7'2 D-7'2 >-7' d-> | D-8'2 d-8'2 G+7'2 >+7' g+> | G+x2 g+x2 C+6'3 c+> :|
+|: C+[7'8'9']3 c+[>>>] C+[>>>]2 c+[>>>]2 | C+[6'7'8']2 c+[>>>]2 C+[>>>]2 c+[>>>]2 | C+[6'7'x]3 c+[>>>] C+[>>>]2 c+[>>>]2 | C+[5'6'7']2 c+[>>>]2 C+[>>>]2 c+[>>>]2 | F+[x8']3 f+[>>] F+[>>]2 f+[5'6']2 | D-[5'7']2 f-[5'x]2 F-[4'5']2 f-[5'x]2 |1 C+[4'5'6']3 c+[>>>] C+[>>>]2 c+[>>>]2 | C+[5'7x]2 c+[>>>]2 C+[>>>]2 c+[>>>]2 :|2 C+[4'5'6']2 c+[>>>]2 C+[>>>]4 | >+[>>>]4 z-z4 |
+W:Ajustes necessários:
+W:Nota A4 não disponível nos compassos: 5, 16, 23, 31, 32, 36, 39, 43, 54.
+W:Nota A5 não disponível nos compassos: 3, 24, 44, 52.
+W:Nota B♭4 não disponível nos compassos: 12.
+W:Nota C5 não disponível nos compassos: 6, 55.
+W:Nota D5 não disponível nos compassos: 8, 12, 18, 19, 20, 29, 35, 39, 40, 49, 57.
+X:3005
+%%barnumbers 0
+%%score 1 (2 3) 4
+%%papersize A4
+T:Passeando nos 8 Baixos (transportada)
+C:Heleno dos 8 Baixos
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+F:https://www.youtube-nocookie.com/embed/nmT5DL0sKbM
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+Z:Cezar Ferreira
+M:2/4
+L:1/8
+Q:138
+K:F
+V:1 treble
+|:!segno! AB cd | cc z2 | FG AB | AA z2 | DE FG | FD FA | 
+| c=B _BA |1 c2 z2 :|2 F2 z a |: af fd | dc c =B | =B_B BA | AF FD | 
+| DF FG | _AG GF |1 DF c2- | c2 z a :|2 DF F2- | F2 z F |: FE ED | 
+| D=B, B,D | EF ED | A2 z F | FE ED | D=B, B,D | EF ED | D2 z F !dasegno!:| 
+V:2 bass stem=down
+|: x4 | x2 F,,2 | x4 | x2 F,,2 | x4 | x4 |
+| x4 |1 x2 C,,2 :|2 x2 F,,2 |: x4 | x4 | x4 | x4 | 
+| x4 | x4 |1 x4 | x4 :|2  x4 |  x4 |: x4 | 
+| x4 | x4 | x4 | x4 | x4 | x4 | x4 :| 
+V:3 bass stem=up
+|: z2 z2 | z2 [F,A,C]2 | z2 z2 | z2 [F,A,C]2 | z2 z2 | z2 z2 | 
+| z2 z2 |1 z2 [C,E,G,]2 :|2 z2 [F,A,C]2 |: z2 [B,,D,F,]2 | F,,2 [F,A,C]2 | z2 [F,A,C]2 | F,,2 [F,A,C]2 | 
+| z2 [F,A,C]2 | B,, z [C,E,G,] z |1 z2 [C,E,G,]2 | C,,2 [C,E,G,] z :|2 z2 [B,,D,F,]2 | F,,2 [F,A,C]2 |: z2 [A,,^C,E,]2 | 
+| D,, z [G,,=B,,D,] z | z2 [D,F,A,]2 | D,,2 [D,F,A,]2 | z2 [D,F,A,]2 | D,, z [G,,=B,,D,] z | z2 [D,F,A,]2 | D,,2 [D,F,A,]2 :| 
+V:4 accordionTab
+|: z-5' z-7 z+6' z-7' | z+6' z+6' Ff+z2 | z-4' z+5' z-5' z-7 | z-5' z-5' Ff-z2 | z-3' z-5 z-4' z+5' | z-4' z-3' z-4' z-5' | 
+| z+6' z-6' z-7 z-5' |1 z+6'2 Cc+z2 :|2 z-4'2 Ff-z >-9' |: z-9' z-8' b♭-8' >-7' | F-7' >+6' f+6' >-6' | z-6' z-7 f-7 >-5' | F-5' >-4' f-4' >-3' | 
+| z-3' z-4' f-4' >+5' | B♭-6 z+5' c+5' z-4' |1 z-3' z-4' c+6'2 | C+>2 c+z z-9' :|2 z-3' z-4' b♭-4'2 | F->2 f-z >-4' |: z-4' z-5 a-5 >-3' | 
+| D-3' z+4 g+4 z-3' | z-5 z-4' d-5 >-3' | D-5'2 d-z >-4' | z-4' z-5 d-5 >-3' | D-3' z+4 g+4 z-3' | z-5 z-4' d-5 >-3' | D-3'2 d-z >-4' :|
+X:3006
+%%barnumbers 1
+%%papersize A4
+%%barsperstaff 6
+T:Sabino e Lampião (transportada)
+C:Antônio "Volta Seca" dos Santos
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/y8zGujCNTOc
+M:2/4
+L:1/8
+Q:90
+K:C
+V:1 treble
+| z z0.5 C0.5 EG |: +segno+ "F" FF0.5C0.5 EG | "C/E" E1.5C0.5 CE | "Dm7" DD0.5D0.5 "G" CE |1 "C" C1.5C0.5 EG :|2 "C" C2CC | "C"CE "Dm7"DC | 
+w: * Lá vem Sa-bi-no mais * Lam-pião, chapéu * de couro, * fu-zil na mão Lá vem Sa- mão Lampião * diz que é~va-len-
+| "C/E"C1.5C0.5 CE | "F"G_B AG | "C" GG z c | "F"c_B AG | "C"EG "F"FE | 
+w:te. É men-ti-ra: é cor-re-dor * Cor-reu da ma-ta escu-ra que a
+| "C"CE "Dm7" DC | "C/E" E3 c | "F" c_B AG | "C"EG "F"FE | "G7/9" CE "G/D" DC | "C" C1.5C0.5 EG +dasegno+ | 
+w: po-eira le-van-tou Cor-reu da ma-ta escu-ra que a po-eira le-van-tou Lá vem Sa-
+|: "F" FF0.5C0.5 EG | "C/E" E1.5C0.5 CE | "Dm7" DD0.5D0.5 "G" CE |1 "C" C1.5C0.5 EG :|2 "C" C4 |
+w:bi-no mais * Lam-pião, chapéu * de couro, * fu-zil na mão Lá vem Sa- mão
+V:2 bass
+| z4 |: F,,[F,A,C] F,,[F,A,C] | E,,[C,E,G,] E,,[C,E,G,] | D,,[F,A,C] G,,[G,B,D] |1 C,,[C,E,G,] C,,[C,E,G,] :|2 C,,[C,E,G,] C,,[C,E,G,] | C,,[C,E,G,] D,,[F,A,C] | 
+| E,,[C,E,G,] E,,[C,E,G,] | F,,[F,A,C] F,,[F,A,C] | C,,[C,E,G,] C,,[C,E,G,] | F,,[F,A,C] F,,[F,A,C] | C,,[C,E,G,] F,,[F,A,C] | 
+| C,,[C,E,G,] D,,[F,A,C] | E,,[C,E,G,] E,,[C,E,G,] | F,,[F,A,C] F,,[F,A,C] | C,,[C,E,G,] F,,[F,A,C] | G,,[F,A,C] D,,[G,B,D] | C,,[C,E,G,] C,,[C,E,G,] |
+|: F,,[F,A,C] F,,[F,A,C] | E,,[C,E,G,] E,,[C,E,G,] | D,,[F,A,C] G,,[G,B,D] |1 C,,[C,E,G,] C,,[C,E,G,] :|2 C,,4 | 
+V:3 accordionTab
+| z+z z+z.5 z+3'.5 z+4' z+5' |: F-4' f-4'.5 >+3'.5 F+4' f+5' | E+4' c+>.5 >+3'.5 E+3' c+4' | D-3' f-3'.5 >-3'.5 G+3' g+4' |1 C+3' c+>.5 >+3'.5 C+4' c+5' :|2 C+3' c+> C+3' c+3' | C+3' c+4' D-3' f+3' | 
+| E+3' c+>.5 >+3'.5 E+3' c+4' | F+5' f-7 F-5' f+5' | C+5' c+5' C+z c+6' | F+6' f-7 F-5' f+5' | C+4' c+5' F-4' f-5 | 
+| C+3' c+4' D-3' f+3' | E+4' c+> E+> c+6' | F+6' f-7 F-5' f+5' | C+4' c+5' F-4' f-5 | G+3' f+4' D-3' g+3' | C+3' c+>.5 >+3'.5 C+4' c+5' |
+|: F-4' f-4'.5 >+3'.5 F+4' f+5' | E+4' c+>.5 >+3'.5 E+3' c+4' | D-3' f-3'.5 >-3'.5 G+3' g+4' |1 C+3' c+>.5 >+3'.5 C+4' c+5' :|2 C+3'4 |
+W: Lá vem Sabino mais Lampião, chapéu quebrado, fuzil na mão
+W: Lá vem Sabino mais Lampião, chapéu quebrado, fuzil na mão
+W: Lampião tava dormindo, acordou muito assustado
+W: Deu tiro numa graúna pensando que era soldado.
+W: Deu tiro numa graúna pensando que era soldado.

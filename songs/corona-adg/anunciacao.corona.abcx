@@ -1,4 +1,4 @@
-X:6002
+X:4002
 %%papersize A4
 %%barnumbers 1
 %%tabinferenceopts -2
@@ -13,23 +13,23 @@ N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 M:4/4
 L:1/8
 Q:95
-K:Dm
+K:Em
 V:melodia treble
-| zc de |: "C" fe dc | Ac dc | "Dm" d4 | zc de |
+| zd ef |: "D" gf ed | Bd ed | "Em" e4 | zd ef |
 f: 2 4 3 4 3 4 3 2 3 4 3 4 2 4 3 
 w:Na bru-ma le-ve das pai-xões que vêm de dentro, tu vens che-
 w: . . . va-lo, pei-to nu, ca-be-lo~ao vento e~o sol qua-
-| "F" fe dc | Ae dc | "C" c4 |1 zc de :|
+| "G" gf ed | Bf ed | "D" d4 |1 zd ef :|
 w:gan-do pra brin-car no meu quin-tal. No teu ca-
 w:ran-do nos-sas rou-pas no va-ral. . . .
 f:3 4 4 3 2 3 4 2 2 2 4 3
-|:2 z2 c2 | g4- | g z a2 | "Am" e4- | e3 z | "Bb" zd fe | "F" Ac dc | "C" c4 :| 
+|:2 z2 d2 | a4- | a z b2 | "Bm" f4- | f3 z | "C" ze gf | "G" Bd ed | "D" d4 :| 
 w:Tu vens, * tu vens! * Eu já es-cu-to os teus sinais!
 f: 1 4 5 3 4 5 3 2 3 5 4 4
 V:baixos bass
-| z4 |: C,,3/2[C,E,G,]3/2 [C,E,G,] | C,,3/2[C,E,G,]3/2 [C,E,G,] | D,,3/2[D,F,A,]3/2 [D,F,A,] | D,,3/2[D,F,A,]3/2 [D,F,A,] |
-| F,,3/2[F,A,C]3/2 [F,A,C] | F,,3/2[F,A,C]3/2 [F,A,C] | C,,3/2[C,E,G,]3/2 [C,E,G,] |1 C,,3/2[C,E,G,]3/2 [C,E,G,] :|
-|:2 C,,3/2[C,E,G,]3/2 [C,E,G,] | C,,3/2[C,E,G,]3/2 [C,E,G,] | C,,3/2[C,E,G,]3/2 [C,E,G,] | A,,3/2[A,CE]3/2 [A,CE] | A,,3/2[A,CE]3/2 [A,CE] | B,,3/2[B,DF]3/2 [B,DF] | F,,3/2[F,A,C]3/2  [F,A,C] | C,,3/2[C,E,G,]3/2 [C,E,G,] :|
+| z4 |: D,,3/2[D,F,A,]3/2 [D,F,A,] | D,,3/2[D,F,A,]3/2 [D,F,A,] | E,,3/2[E,G,B,]3/2 [E,G,B,] | E,,3/2[E,G,B,]3/2 [E,G,B,] |
+| G,,3/2[G,B,D]3/2 [G,B,D] | G,,3/2[G,B,D]3/2 [G,B,D] | D,,3/2[D,F,A,]3/2 [D,F,A,] |1 D,,3/2[D,F,A,]3/2 [D,F,A,] :|
+|:2 D,,3/2[D,F,A,]3/2 [D,F,A,] | D,,3/2[D,F,A,]3/2 [D,F,A,] | D,,3/2[D,F,A,]3/2 [D,F,A,] | B,,3/2[B,DF]3/2 [B,DF] | B,,3/2[B,DF]3/2 [B,DF] | C,,3/2[C,E,G,]3/2 [C,E,G,] | G,,3/2[G,B,D]3/2  [G,B,D] | D,,3/2[D,F,A,]3/2 [D,F,A,] :|
 W: A voz do anjo sussurrou no meu ouvido
 W: Eu não duvido já escuto os teus sinais
 W: Que tu virias numa manhã de domingo
@@ -37,6 +37,6 @@ W: Eu te anuncio nos sinos das catedrais
 W:
 W: Tu vens, tu vens! Eu já escuto os teus sinais!
 V:tablatura accordionTab
-| z+z z+6' z+7 z+7' |: C+6'' >+7'0.5 c+>0.5 >+7 c+6' | C+4'' >+6'0.5 c+>0.5 >+7 c+6' | D-7'1.5 dm->1.5 dm-> | D-z >-70.5 dm->0.5 >-7' dm-8 |
-| F+6'' >+7'0.5 f+>0.5 >+7 f+6' | F+4'' >+7'0.5 f+>0.5 >+7 f+6' | C-71.5 c->1.5 c-> |1 C+z >+6'0.5 c+>0.5 >+7 c+7' :|
-|:2 C-z1.5 c-z0.5 >-7 c-> | C-7''1.5 c->1.5 c-> | C-> >-z0.5 c-z0.5 >-9' c-> | A-81.5 am->1.5 am-> | A->1.5 am->1.5 am+z | B♭+z >+70.5 b♭+>0.5 >+6'' b♭+7' | F+4'' >+6'0.5 f+>0.5 >+7 f+6' | C+6'1.5 c+>1.5 c+> :|
+| z-z z-7 z-7' z-8 |: D-8' >-80.5 d->0.5 >-7' d-7 | D-6 >-70.5 d->0.5 >-7' d-7 | E-7'1.5 em->1.5 em-> | E-z >-70.5 em->0.5 >-7' em-8 |
+| G+6'' >+7'0.5 g+>0.5 >+7 g+6' | G+4'' >+7'0.5 g+>0.5 >+7 g+6' | D+6'1.5 d+>1.5 d+> |1 D+z >+6'0.5 d+>0.5 >+7 d+7' :|
+|:2 D-z1.5 d-z0.5 >-7 d-> | D-7''1.5 d->1.5 d-> | D-> >-z0.5 d-z0.5 >-9' d-> | B-81.5 bm->1.5 bm-> | B->1.5 bm->1.5 bm-z | C+z >+70.5 c+>0.5 >+6'' c+7' | G+4'' >+6'0.5 g+>0.5 >+7 g+6' | D+6'1.5 d+>1.5 d+> :|

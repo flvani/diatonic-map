@@ -24,14 +24,7 @@
        , "open": [["a2:m", "A2", "d2:m", "D¹2"  ,"b♭2", "B♭2"], ["d2", "D2", "g2", "G2", "c2", "C2"]]
       }
     }
-  ,"songPathList":
-    [
-       "songs/dinobaffetti-32-12/a.minha.saia.velhinha.portuguesa.abcx"
-      ,"songs/dinobaffetti-32-12/oh.malhao.malhao.portuguesa.abcx"
-      ,"songs/dinobaffetti-32-12/oh.minha.rosinha.portuguesa.abcx"
-      ,"songs/dinobaffetti-32-12/vira.do.gomes.portuguesa.abcx"
-      ,"songs/dinobaffetti-32-12/vira.portuguesa.abcx"
-    ]
+  ,"songPathList": [ "songs/dinobaffetti-32-12.repertorio.abcx" ]
   ,"songPathListUnused":
     [
        "songs/dinobaffetti-32-12/a.minha.saia.velhinha.portuguesa.abcx"

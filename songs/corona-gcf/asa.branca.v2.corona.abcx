@@ -1,10 +1,10 @@
-X:3001
+X:6004
 %%barnumbers 1
 %%papersize A4
-T:Asa Branca (transportada)
+T:Asa Branca v2 (corona)
 C:Luiz Gonzaga & Humberto Teixeira
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
-F:https://www.youtube-nocookie.com/embed/1TdI0EylzwE
+%F:https://www.youtube-nocookie.com/embed/1TdI0EylzwE
 M:2/4
 L:1/8
 Q:120
@@ -24,7 +24,7 @@ V:2 bass
 |: C,,2 [C,E,G,] z | C,,2 [C,E,G,]2 | C,,2 [B,,D,F,] z | F,,2 [F,A,C]2 | F,,2 [F,A,C]2 | 
 | D,,2 [G,=B,D]2 | G,, z [D,F,A,] z |1 C,,2 [C,E,G,]2 :|2 C,,2 B,, z | 
 V:3 accordionTab
-| z-z2 B♭-7 z+5' |: A-5' >-4' G+5' >+4' | F-4' >-3' E+4' >+3' | D-3' z+3' A-1' z+3' |1 C+3'2 B♭-7 z+5' :|2 z+3'4 | z+>3 z-3' | 
-| C+4'2 c+5'2 | C+5'2 c+4'2 | F-4'2 f-4'2 | F+z >+3' f+> >-3' | C+4'2 c+5'2 | F+5'2 f-4'2 | C+4'2 c+>2 | 
-|: C+z >+3' c+3' z-3' | C+4'2 c+5'2 | C+z >+5' b♭-4' z+4' | F+3'2 f-4'2 | F+z >+4' f+4' >-3' | 
-| D-3'2 g+4'2 | G+z z-3' d-3' z+3' |1 C+3'2 c+>2 :|2 C+3'2 B♭-7 z+5' | 
+| z+z2 B♭-4'' z-3'' |: A-5' >-4' G-3'' >-4 | F+3'' >+4 E+4' >+3' | D-3' z-3 A-2 z-3 |1 C-32 B♭-4'' z-3'' :|2 z+3'4 | z+>3 z+4 |
+| C-42 c-3''2 | C-3''2 c-42 | F+3''2 f+3''2 | F+z >+3' f+> >+4 | C-42 c-3''2 | F+52 f+3''2 | C+4'2 c+>2 |
+|: C-z >-3 c-3 z-3' | C-42 c-3''2 | C+z >+5 b♭+3'' z+4' | F+3'2 f+3''2 | F+z >+4' f+4' >+4 |
+| D-3'2 g-42 | G-z z-3' dm-3' z-3 |1 C+3'2 c+>2 :|2 C+3'2 B♭-4'' z-3'' |

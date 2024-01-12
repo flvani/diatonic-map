@@ -1,0 +1,56 @@
+X:4001
+%%papersize A4
+%%barsperstaff 5
+%%stretchlast
+%%barnumbers 1
+%%staffsep 20
+%%tabinferenceopts +2
+T:A casa (corona)
+C:Vinícius de Moraes
+%C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
+%F:https://www.youtube-nocookie.com/embed/dOGbiL3ZxPY;&T:Completa
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:3/4
+L:1/8
+Q:90
+K:G
+V:1 treble
+| z3 B Bc |: +segno+ "G" d2 Bg "C" eg | "G" d2 Bd dd | 
+w:Era u-ma ca-sa mui-to~en gra- ça-da, não ti-nha
+w:. . . dia en-trar ne-la não . Por-que na
+f:2 2 2 3 2 5 4 5 3 2 3 3 3    
+| "D" c2 Ac cc |1 "G" B2 zB Bc :||:2 "G" B2 zg gg |
+w:te-to não ti-nha nada Nin-guém~po -chão Nin-guém~po-
+w:ca-sa não ti-nha . . . . rede Nin-guém~po-
+f: 2 2 3 3 3 3 2 2 2 3 4 4 4
+| "C" g2 eg gg | "G" g2 dd dd | "D" c2 Ac cc :|
+w:di-a dor-mir na rede Por-que na ca-sa não ti-nha pa-
+w:di-a fa-zer pi-pi Por-que pi-ni-co não ti-nha a-
+f:5 4 5 5 5 4 3 3 3 3 2 2 3 3 3
+| +D.S.+ "G" B2 zB Bc |  d2 Bg "C" eg | "G" d2 Bd dd |
+w: li. Era u-ma . . . . . . . . . . . . . . . . . . . . . . . .
+w: li. Mas era fei-ta com mui-to es-me-ro Na Rua dos
+f: 3 2 2 2 3 2 5 4 5 3 2 3 3 3    
+| "D" c2 Ac cc | "G" B2 zB Bc | d2 Bg "C" eg |
+w: . . . . . . . . . . . . . . . . . . . . . . . . . . .
+w:Bo-bos, nú-me-ro zero Mas era fei-ta com mui-to es-
+f: 2 2 3 3 3 3 2 2 2 3 2 4 5 4
+| "G" d2 Bd dd | "D" f2 ff ef | "G" g2 [Bdg]4 |
+w:. . . . . . . . . . . . . . . . . . . . . . . . . . .
+w:me-ro Na Rua dos Bo-bos, nú-me-ro zero.
+f: 3 2 3 3 3 4 4 4 5 4 4 234
+V:2 bass
+| z6 |: G,,2 [G,B,D] z C,,2  | G,,2 [G,B,D]2 [G,B,D]2 |
+| D,,2 [D,F,A,]2 [D,F,A,]2 |1 G,,2 [G,B,D]2 [G,B,D] z :||:2 G,,2 [G,B,D]2 [G,B,D] z |
+| C,,2 [C,E,G,]2 [C,E,G,]2 | G,,2 [G,B,D]2 [G,B,D]2 | D,,2 [D,F,A,]2 [D,F,A,]2 :|
+| G,,2 [G,B,D]2 [G,B,D] z | G,,2 [G,B,D] z C,,2  | G,,2 [G,B,D]2 [G,B,D]2 |
+| D,,2 [D,F,A,]2 [D,F,A,]2 | G,,2 [G,B,D]2 [G,B,D] z | G,,2 [G,B,D] z C,,2  |
+| G,,2 [G,B,D]2 [G,B,D]2 | D,,2 [D,F,A,]2 [D,F,A,]2 | G,,2 [G,,G,B,D]4 |
+V:3 accordionTab
+| z+z3 z+4'' z+4'' z-4'' |: G+6'2 g+4'' z+6'' C+7 >+6'' | G+6'2 g+4'' >+6' g+6' >+6' |
+| D-4''2 d-3'' >-4'' d-4'' >-4'' |1 G+4''2 g+z >+4'' g+4'' z-4'' :|:2 G+4''2 g+z >+6'' g+6'' z+6'' |
+| C+6''2 c+7 >+6'' c+6'' >+6'' | G+6''2 g+6' >+6' g+6' >+6' | D-4''2 d-3'' >-4'' d-4'' >-4'' :|
+| G+4''2 g+z >+4'' g+4'' z-4'' | G+6'2 g+4'' z+6'' C+7 >+6'' | G+6'2 g+4'' >+6' g+6' >+6' |
+| D-4''2 d-3'' >-4'' d-4'' >-4'' | G+4''2 g+z >+4'' g+4'' z-4'' | G+6'2 g+4'' z+6'' C+7 >+6'' |
+| G+6'2 g+4'' >+6' g+6' >+6' | D-82 d-8 >-8 d-7' >-8 | G+6''2 Gg+[4''5''6'']4 |

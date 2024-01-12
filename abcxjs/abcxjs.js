@@ -3506,14 +3506,16 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                     
                 }
             }
-            if(switches.hideLyrics !== undefined){
-                multilineVars.hideLyrics = switches.hideLyrics
-            }
-            if(switches.hideFingering !== undefined){
-                multilineVars.hideFingering = switches.hideFingering
-            }
-            if(switches.ilheirasNumeradas !== undefined){
-                multilineVars.ilheirasNumeradas = switches.ilheirasNumeradas
+            if( switches !== undefined ) {
+                if(switches.hideLyrics !== undefined){
+                    multilineVars.hideLyrics = switches.hideLyrics
+                }
+                if(switches.hideFingering !== undefined){
+                    multilineVars.hideFingering = switches.hideFingering
+                }
+                if(switches.ilheirasNumeradas !== undefined){
+                    multilineVars.ilheirasNumeradas = switches.ilheirasNumeradas
+                } 
             }
             
             tune.setFormat(multilineVars);
