@@ -5,7 +5,7 @@ X:6001
 %%barnumbers 1
 %%staffsep 20
 %%tabinferenceopts +2
-T:A casa (corona)
+T:A casa (corona-gcf)
 C:Vinícius de Moraes
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
 %F:https://www.youtube-nocookie.com/embed/dOGbiL3ZxPY;&T:Completa
@@ -58,7 +58,7 @@ X:6002
 %%papersize A4
 %%barnumbers 1
 %%tabinferenceopts -2
-T:Anunciação (corona)
+T:Anunciação (corona-gcf)
 C:Alceu Valença 
 %C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
 %F:https://www.youtube-nocookie.com/embed/XfXiLZeFxlc;&T:Parte I
@@ -102,7 +102,7 @@ X:6003
 %%pagenumbering
 %%staffsep 10
 %%tabinferenceopts -2
-T:Asa Branca (corona)
+T:Asa Branca (corona-gcf)
 C:Luiz Gonzaga & Humberto Teixeira
 Z:Flávio Vani
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
@@ -136,7 +136,7 @@ V:3 accordionTab
 X:6004
 %%barnumbers 1
 %%papersize A4
-T:Asa Branca v2 (corona)
+T:Asa Branca v2 (corona-gcf)
 C:Luiz Gonzaga & Humberto Teixeira
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
 %F:https://www.youtube-nocookie.com/embed/1TdI0EylzwE
@@ -171,7 +171,7 @@ X:6005
 %pagenumbering
 %stretchlast
 %landscape
-T:Banks of the Ohio (corona)
+T:Banks of the Ohio (corona-gcf)
 C:Traditional
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
 F:https://www.youtube-nocookie.com/embed/__E3vmsUe9A
@@ -200,7 +200,7 @@ X:6006
 %%tabinferenceopts -8
 %%papersize A4
 %%barnumbers 0
-T:Bella Ciao (corona)
+T:Bella Ciao (corona-gcf)
 C:Folclore Italiano
 %C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
 %F:https://www.youtube-nocookie.com/embed/QSKXmUXiAvM&T:Bella Ciao - Parte I;
@@ -228,7 +228,7 @@ X:6007
 %%papersize A4
 %barsperstaff 7
 %%tabinferenceopts -2
-T:Chorando se foi (corona)
+T:Chorando se foi (corona-gcf)
 T:Llorando se fue
 C:Ulisses & Gonzalo Hermosa
 C:(versão Márcia Ferreira & José Ari)
@@ -263,7 +263,7 @@ X:6008
 %%papersize A4
 %%tabinferenceopts -1
 %%barsperstaff 5
-T:Country Girl (corona)
+T:Country Girl (corona-gcf)
 T:Für Zara
 R:Blues
 Z:Flávio Vani
@@ -306,7 +306,7 @@ X:6009
 %hidefingering
 %landscape
 %%tabinferenceopts -5
-T:Despacito (corona)
+T:Despacito (corona-gcf)
 C:Luis Fonsi & Daddy Yankee
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
 Z:Flávio Vani
@@ -348,7 +348,7 @@ X:6010
 %%barnumbers 0
 %%staffsep 15
 %%tabinferenceopts -1
-T:Maitia, nun zira? (corona)
+T:Maitia, nun zira? (corona-gcf)
 C:Folclore Basco
 C:(versão José Uruñuela)
 %C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
@@ -382,7 +382,7 @@ V:3 accordionTab
 X:6011
 %%barnumbers 0
 %%papersize A4
-T:O du stille Zeit (corona)
+T:O du stille Zeit (corona-gcf)
 C:Melodie: Cesar Bresgen
 C:Text: Joseph von Eichendorff
 F:https://www.youtube-nocookie.com/embed/5E3_K0I-khQ
@@ -419,7 +419,7 @@ X:6012
 %F:https://www.youtube-nocookie.com/embed/Ccu9PK29BNI&T:Ring of Fire;
 Z:Flávio Vani
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
-T:Ring of Fire (corona)
+T:Ring of Fire (corona-gcf)
 C:Johnny Cash
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>adapt. Cezar Ferreira</a>)
 L:1/4
@@ -481,7 +481,7 @@ X:6013
 %pagenumbering
 %stretchlast
 %landscape
-T:Shalom chaverim (corona)
+T:Shalom chaverim (corona-gcf)
 C:Folclore Hebreu
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
 Z:Flávio Vani
@@ -511,7 +511,7 @@ X:6014
 %%stretchlast
 %landscape
 %hidefingering
-T:Xote 1 (corona)
+T:Xote 1 (corona-gcf)
 C:Sadi Cardoso
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
 F:https://www.youtube-nocookie.com/embed/TdOreKoWHOk&T:Xote 1 - Parte I;
@@ -547,7 +547,7 @@ X:6015
 %%stretchlast
 %landscape
 %hidefingering
-T:Xote 2 (corona)
+T:Xote 2 (corona-gcf)
 C:Sadi Cardoso
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
 F:https://www.youtube-nocookie.com/embed/orYxtg1WIog&T:Xote 2 - Parte I;

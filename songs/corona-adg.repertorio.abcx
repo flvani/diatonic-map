@@ -5,7 +5,7 @@ X:4001
 %%barnumbers 1
 %%staffsep 20
 %%tabinferenceopts +2
-T:A casa (corona)
+T:A casa (corona-adg)
 C:Vinícius de Moraes
 %C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
 %F:https://www.youtube-nocookie.com/embed/dOGbiL3ZxPY;&T:Completa
@@ -58,7 +58,7 @@ X:4002
 %%papersize A4
 %%barnumbers 1
 %%tabinferenceopts -2
-T:Anunciação (corona)
+T:Anunciação (corona-adg)
 C:Alceu Valença 
 %C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
 %F:https://www.youtube-nocookie.com/embed/XfXiLZeFxlc;&T:Parte I
@@ -102,7 +102,7 @@ X:4003
 %%pagenumbering
 %%staffsep 10
 %%tabinferenceopts -2
-T:Asa Branca (corona)
+T:Asa Branca (corona-adg)
 C:Luiz Gonzaga & Humberto Teixeira
 Z:Flávio Vani
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
@@ -136,7 +136,7 @@ V:3 accordionTab
 X:4004
 %%barnumbers 1
 %%papersize A4
-T:Asa Branca v2 (corona)
+T:Asa Branca v2 (corona-adg)
 C:Luiz Gonzaga & Humberto Teixeira
 %C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
 %F:https://www.youtube-nocookie.com/embed/1TdI0EylzwE
@@ -172,7 +172,7 @@ X:4005
 %pagenumbering
 %stretchlast
 %landscape
-T:Banks of the Ohio (corona)
+T:Banks of the Ohio (corona-adg)
 C:Traditional
 %C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
 Z:Flávio Vani
@@ -200,7 +200,7 @@ X:4006
 %%tabinferenceopts -8
 %%papersize A4
 %%barnumbers 1
-T:Bella Ciao (corona)
+T:Bella Ciao (corona-adg)
 C:Folclore Italiano
 %C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
 %F:https://www.youtube-nocookie.com/embed/QSKXmUXiAvM&T:Bella Ciao - Parte I;
@@ -228,7 +228,7 @@ X:4007
 %%papersize A4
 %barsperstaff 7
 %%tabinferenceopts -2
-T:Chorando se foi (corona)
+T:Chorando se foi (corona-adg)
 T:Llorando se fue
 C:Ulisses & Gonzalo Hermosa
 C:(versão Márcia Ferreira & José Ari)
@@ -263,7 +263,7 @@ X:4008
 %%papersize A4
 %%tabinferenceopts -1
 %%barsperstaff 5
-T:Country Girl (corona)
+T:Country Girl (corona-adg)
 T:Für Zara
 R:Blues
 Z:Flávio Vani
@@ -300,7 +300,7 @@ X:4009
 %%papersize A4
 %%barnumbers 0
 %%tabinferenceopts -4
-T:Despacito (corona)
+T:Despacito (corona-adg)
 C:Luis Fonsi & Daddy Yankee
 %C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
 Z:Flávio Vani
@@ -346,7 +346,7 @@ X:4010
 %barsperstaff 3
 %%landscape
 %%stretchlast
-T:J'ai du bon tabac (corona)
+T:J'ai du bon tabac (corona-adg)
 C:Folcore Francês (Séc. XVII)
 C:(Paroles pour Abbé de L'Attaignant)
 Z:Flávio Vani
@@ -375,7 +375,7 @@ X:4011
 %%tabinferenceopts +3
 %%barsperstaff 6
 %%pagenumbering
-T:Jingle Bells (corona)
+T:Jingle Bells (corona-adg)
 T:(Bate o sino)
 C:James Lord Pierpont
 Z:Flávio Vani
@@ -404,7 +404,7 @@ X:4012
 %%barnumbers 0
 %%staffsep 15
 %%tabinferenceopts -1
-T:Maitia, nun zira? (corona)
+T:Maitia, nun zira? (corona-adg)
 C:Folclore Basco
 C:(versão José Uruñuela)
 %C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
@@ -441,7 +441,7 @@ X:4013
 %%pagenumbering
 %%staffsep 5
 %%tabinferenceopts -2
-T:Mercedita (corona)
+T:Mercedita (corona-adg)
 C:Ramón Sixto Rios
 %C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
 Z:Flávio Vani
@@ -482,7 +482,7 @@ X:4014
 %%landscape
 %%barsperstaff 10
 %%tabinferenceopts -4
-T:Pezinho (corona)
+T:Pezinho (corona-adg)
 C:Tradicional
 Z:Flávio Vani
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
@@ -514,7 +514,7 @@ X:4015
 %%papersize A4
 %%pagenumbering
 %%tabinferenceopts -2
-T:Xote Laranjeira (corona)
+T:Xote Laranjeira (corona-adg)
 C:Tradicional
 %C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
 Z:Flávio Vani
