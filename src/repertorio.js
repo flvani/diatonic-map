@@ -107,10 +107,12 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
                 continue; //não mostra itens hidden
             }
 
-            var title = t.replace( '(corona)', '' )
-                            .replace( '(club)', '' )
-                            .replace( '(transportada)', '' )
-                            .replace( '(portuguesa)', '' ).trim();
+            var title = t.replace( '(club)', '' )
+                        .replace( '(corona)', '' )
+                        .replace( '(corona-gcf)', '' )
+                        .replace( '(corona-adg)', '' )
+                        .replace( '(transportada)', '' )
+                        .replace( '(portuguesa)', '' ).trim();
                     
             var composer = this.accordion.loaded.songs.details[t].composer;
             var id = this.accordion.loaded.songs.details[t].id;
