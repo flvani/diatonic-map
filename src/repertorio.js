@@ -89,7 +89,6 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
                 lista = repertorio.geral;
                 break;
             case 'GAITA_HOHNER_CORONA_GCF':
-                tipo = 'gcf';
                 lista = repertorio.corona;
                 break;
             case 'GAITA_HOHNER_CORONA_BEA':
@@ -97,6 +96,7 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
                 lista = repertorio.corona;
                 break;
             case 'GAITA_HOHNER_CORONA_ADG':
+                tipo = 'adg';
                 lista = repertorio.corona;
                 break;
             case 'CONCERTINA_PORTUGUESA':
@@ -117,6 +117,7 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
                         .replace( '(corona)', '' )
                         .replace( '(corona-gcf)', '' )
                         .replace( '(corona-adg)', '' )
+                        .replace( '(corona-bea)', '' )
                         .replace( '(transportada)', '' )
                         .replace( '(portuguesa)', '' ).trim();
                     
@@ -124,8 +125,10 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
             var id = this.accordion.loaded.songs.details[t].id;
 
             switch(tipo){
+                case 'bea': // por hora, ignore-se
+                    break;
                 case 'club':
-                case 'gcf':
+                case 'adg':
                     var idx = -1, l = 0;
                     while( idx === -1 && l < lista.length  ) {
                         if( lista[l].title === title ) idx = l;
@@ -203,7 +206,7 @@ tablaturas.</p>\n\
 
 h += '<h2>Repertório Geral</h2>\n\
 <h3>Tablaturas para acordeão G/C e/ou Club IIIM</h3>\n\
-<table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">G/C</th><th class="center">C/F  Club(br)</th></tr>\n\
+<table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">G/C</th><th class="center">C/F Club(br)</th></tr>\n\
 ';
     
     for( var r = 0; r < repertorio.geral.length; r ++ ) {
@@ -220,8 +223,8 @@ h += '<h2>Repertório Geral</h2>\n\
 </table>\n\
 </table>\n\
 <br><h2>Corona</h2>\n\
-<h3>Tablaturas para acordeões Corona Series A/D/G e/ou G/F/C</h3>\n\
-<table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">A/D/G</th><th class="center">G/C/F</th></tr>\n\
+<h3>Tablaturas para acordeões Corona Series G/F/C e/ou A/D/G</h3>\n\
+<table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">G/C/F</th><th class="center">A/D/G</th></tr>\n\
 ';
     
     for( var r = 0; r < repertorio.corona.length; r ++ ) {
@@ -229,8 +232,8 @@ h += '<h2>Repertório Geral</h2>\n\
         h += '<tr>'
                 +'<td class="title" >'+idx+'.&nbsp;'+repertorio.corona[r].title+'</td>'
                 + (map? '\n': '<td class="composer" >'+repertorio.corona[r].composer+'</td>\n' )
-                +'<td class="center">' + this.makeAnchor( map, '(corona-adg)', repertorio.corona[r].geral  ) 
-                +'</td>\n<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_GCF', repertorio.corona[r].outro ) 
+                +'<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_GCF', repertorio.corona[r].geral  ) 
+                +'</td>\n<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_ADG', repertorio.corona[r].outro ) 
                 +'</td></tr>\n';
     }
     
