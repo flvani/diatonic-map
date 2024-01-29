@@ -1,7 +1,7 @@
 {
    "id":"GAITA_HOHNER_CORONA_GCF"
-  ,"menuOrder" : 5
-  ,"model":"Hohner Corona Series"
+  ,"menuOrder" : 4
+  ,"model":"Hohner Corona Xtreme"
   ,"tuning":["G","C","F"]
   ,"buttons":["34","12"]
   ,"pedal":[]

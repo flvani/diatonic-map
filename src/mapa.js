@@ -312,6 +312,7 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
         case 'GAITA_MINUANO_GC':
         case 'CONCERTINA_PORTUGUESA':
         case 'GAITA_HOHNER_CORONA_GCF':
+        case 'GAITA_HOHNER_CORONA_BEA':
         case 'GAITA_HOHNER_CORONA_ADG':
         case 'GAITA_HOHNER_CLUB_IIIM_BR':
         case 'GAITA_MINUANO_BC_TRANSPORTADA':

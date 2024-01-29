@@ -1,0 +1,42 @@
+X:1074
+%%barnumbers 0
+%%papersize A4
+%barsperstaff 6
+%staffsep 20
+%pagenumbering
+%stretchlast
+%landscape
+%%tabinferenceopts -2
+T:Lamento sertanejo
+C:Dominguinhos (letra:Gilberto Gil)
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+%F:https://www.youtube-nocookie.com/embed/pMD25hLRhDs
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:2/4
+L:1/8
+Q:140
+K:Am
+V:1 treble
+z4 | e3/2d/2- dc | A4- | A2 ^FA | c3 B | d3 A | c2 A2- | A2 cB | 
+f: 5 5 4 3 2 3 4 5 4 2  3 2 3 2
+w:Por ser * de lá, * do ser-tão, lá do cer-ra-do * Lá do
+| A2 B2 | c2 e2 | a3 f- | (3 f2 a2 c'2 | b2 a2 | g2 f2 | e3 e- | e4 | 
+w:in-te-rior do ma-to, * da caa-tin-ga do ro-ça-do,
+f: 2 4 3 4 5 4 4 5 4 4 3 4  2 2
+| z2 z a | (3 g2 f2 e2 | c2 A2- | A3 c | e d3 | (3 e2 d2 A2 | c2 A2- | A2 z2 | 
+w:eu qua-se não sai-o, * eu qua-se não te-nho ami-gos
+f:5 4 5 4 3 2 3 4 4 4 4 2 3 2
+| (3 A2 c2 e2 | (3 g2 ^f2 e2 | c4 |: ag ^fA | cB BB | dA AA | A4 +dcalfine+ :| 
+f:2 3 4 5 5 4 3 5 4 4 2 3 4 4 4 3 2 2 2 
+w:Eu qua-se que não con-sigo fi-car na ci-da-de sem vi-ver con-tra-ria-do.
+V:2 bass
+z4 | z4 | A,,4 | z4 | F,,4 | G,,3 z | A,,4 | z4 | 
+| A,,4 | E,,4 | F,,4 | z4 | G,,2 A,,2 | G,,4 | C,,4 | z4 | 
+| z4 | G,,4/3 z8/3 | F,,4 | z4 | z D,,3 | z4/3 G,,4/3 z4/3 | A,,4 | z4 | 
+| A,,4 | G,,4/3 z8/3 | F,,4 |: z4 | A,,4 | G,, z3 | A,,4  :| 
+V:3 accordionTab
+z-z4 | z+7'1.5 z+80.5 z+> z+6' | A-74 | z->2 z-6 z-7 | F+6'3 >+7 | G+83 z-7 | A-82 >-72 | z->2 z+6' z+7 |
+| A-72 >-6'2 | E+6'2 >+7'2 | F-b3 >-8' | (3::3 z->2 z-b2 z+9'2 ) | G+a2 A-b2 | G-9'2 >-8'2 | C+7'3 >+7' | z+>4 |
+| z-z2 z-z z-b | (3::3 G-9'2 z-8'2 z+7'2 ) | F-82 >-72 | z->3 z-8 | z-9 D-7'3 | (3::3 z-92 G-7'2 z-72 ) | A-82 >-72 | z->2 z+z2 |
+| (3::3 A-72 >-82 >-92 ) | (3::3 G-9'2 z-a2 z+7'2 ) | F+6'4 |: z-b z-9' z-a z-7 | A-8 >-6' >-6' >-6' | G+8 z-7 z-7 z-7 | A-74 :|

@@ -26,6 +26,11 @@ for f in songs/corona-adg/*.abcx; do sed -i '1s/^\xEF\xBB\xBF//' $f; if [ "$(tai
 cat songs/corona-adg/*.abcx > songs/corona-adg.repertorio.abcx
 
 #remover "BOM mark" e garantir newline ao final do arquivo
+echo "Preparando repertorio Corona BEA..."
+for f in songs/corona-bea/*.abcx; do sed -i '1s/^\xEF\xBB\xBF//' $f; if [ "$(tail -c 1 $f)" != "" ]; then echo '' >> $f; fi; done
+cat songs/corona-bea/*.abcx > songs/corona-bea.repertorio.abcx
+
+#remover "BOM mark" e garantir newline ao final do arquivo
 echo "Preparando repertorio Transportada..."
 for f in songs/transportada/*.abcx; do sed -i '1s/^\xEF\xBB\xBF//' $f; if [ "$(tail -c 1 $f)" != "" ]; then echo '' >> $f; fi; done
 cat songs/transportada/*.abcx > songs/transportada.repertorio.abcx

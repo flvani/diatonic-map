@@ -1,0 +1,56 @@
+X:7001
+%%papersize A4
+%%barsperstaff 5
+%%stretchlast
+%%barnumbers 1
+%%staffsep 20
+%%tabinferenceopts +2
+T:A casa (corona-bea)
+C:Vinícius de Moraes
+%C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
+%F:https://www.youtube-nocookie.com/embed/dOGbiL3ZxPY;&T:Completa
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:3/4
+L:1/8
+Q:90
+K:Ab
+V:1 treble
+| z3 c cd |: +segno+ "Ab" e2 ca "Db" fa | "Ab" e2 ce ee | 
+w:Era u-ma ca-sa mui-to~en gra- ça-da, não ti-nha
+w:. . . dia en-trar ne-la não . Por-que na
+f:2 2 2 3 2 5 4 5 3 2 3 3 3    
+| "Eb" d2 Bd dd |1 "Ab" c2 zc cd :||:2 "Ab" c2 za aa |
+w:te-to não ti-nha nada Nin-guém~po -chão Nin-guém~po-
+w:ca-sa não ti-nha . . . . rede Nin-guém~po-
+f: 2 2 3 3 3 3 2 2 2 3 4 4 4
+| "Db" a2 fa aa | "Ab" a2 ee ee | "Eb" d2 Bd dd :|
+w:di-a dor-mir na rede Por-que na ca-sa não ti-nha pa-
+w:di-a fa-zer pi-pi Por-que pi-ni-co não ti-nha a-
+f:5 4 5 5 5 4 3 3 3 3 2 2 3 3 3
+| +D.S.+ "Ab" c2 zc cd |  e2 ca "Db" fa | "Ab" e2 ce ee |
+w: li. Era u-ma . . . . . . . . . . . . . . . . . . . . . . . .
+w: li. Mas era fei-ta com mui-to es-me-ro Na Rua dos
+f: 3 2 2 2 3 2 5 4 5 3 2 3 3 3    
+| "Eb" d2 Bd dd | "Ab" c2 zc cd | e2 ca "Db" fa |
+w: . . . . . . . . . . . . . . . . . . . . . . . . . . .
+w:Bo-bos, nú-me-ro zero Mas era fei-ta com mui-to es-
+f: 2 2 3 3 3 3 2 2 2 3 2 4 5 4
+| "Ab" e2 ce ee | "Eb" g2 gg fg | "Ab" a2 [cea]4 |
+w:. . . . . . . . . . . . . . . . . . . . . . . . . . .
+w:me-ro Na Rua dos Bo-bos, nú-me-ro zero.
+f: 3 2 3 3 3 4 4 4 5 4 4 234
+V:2 bass
+| z6 |: A,,2 [A,CE] z D,,2  | A,,2 [A,CE]2 [A,CE]2 |
+| E,,2 [E,G,B,]2 [E,G,B,]2 |1 A,,2 [A,CE]2 [A,CE] z :||:2 A,,2 [A,CE]2 [A,CE] z |
+| D,,2 [D,F,A,]2 [D,F,A,]2 | A,,2 [A,CE]2 [A,CE]2 | E,,2 [E,G,B,]2 [E,G,B,]2 :|
+| A,,2 [A,CE]2 [A,CE] z | A,,2 [A,CE] z D,,2  | A,,2 [A,CE]2 [A,CE]2 |
+| E,,2 [E,G,B,]2 [E,G,B,]2 | A,,2 [A,CE]2 [A,CE] z | A,,2 [A,CE] z D,,2  |
+| A,,2 [A,CE]2 [A,CE]2 | E,,2 [E,G,B,]2 [E,G,B,]2 | A,,2 [A,,A,CE]4 |
+V:3 accordionTab
+| z+z3 z+4'' z+4'' z-4'' |: A♭+6'2 a♭+4'' z+6'' D♭+7 >+6'' | A♭+6'2 a♭+4'' >+6' a♭+6' >+6' |
+| E♭-4''2 e♭-3'' >-4'' e♭-4'' >-4'' |1 A♭+4''2 a♭+z >+4'' a♭+4'' z-4'' :|:2 A♭+4''2 a♭+z >+6'' a♭+6'' z+6'' |
+| D♭+6''2 d♭+7 >+6'' d♭+6'' >+6'' | A♭+6''2 a♭+6' >+6' a♭+6' >+6' | E♭-4''2 e♭-3'' >-4'' e♭-4'' >-4'' :|
+| A♭+4''2 a♭+z >+4'' a♭+4'' z-4'' | A♭+6'2 a♭+4'' z+6'' D♭+7 >+6'' | A♭+6'2 a♭+4'' >+6' a♭+6' >+6' |
+| E♭-4''2 e♭-3'' >-4'' e♭-4'' >-4'' | A♭+4''2 a♭+z >+4'' a♭+4'' z-4'' | A♭+6'2 a♭+4'' z+6'' D♭+7 >+6'' |
+| A♭+6'2 a♭+4'' >+6' a♭+6' >+6' | E♭-82 e♭-8 >-8 e♭-7' >-8 | A♭+6''2 A♭a♭+[4''5''6'']4 |

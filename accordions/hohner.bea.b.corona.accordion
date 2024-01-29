@@ -1,0 +1,31 @@
+{
+   "id":"GAITA_HOHNER_CORONA_BEA"
+  ,"menuOrder" : 6
+  ,"model":"Hohner El Rey del Vallenato"
+  ,"tuning":["B♭","E♭","A♭"]
+  ,"buttons":["31","12"]
+  ,"pedal":[]
+  ,"image":"images/accordions/Hohner.El-rey-del-Vallenato.png"
+  ,"keyboard": 
+    {
+       "layout": [0.5, 0, 0.5]
+      ,"keys":
+      {
+        "close": [["E4", "B♭3", "D4", "F4", "B♭4", "D5", "F5", "B♭5", "D6", "F6"], ["A4", "B♭3", "E♭4", "G4", "B♭4", "E♭5", "G5", "B♭5", "E♭6", "G6", "B♭6"], ["F♯5", "E♭4", "A♭4", "C5", "E♭5", "A♭5", "C6", "E♭6", "A♭6", "C7"]]
+       , "open": [["F♯4", "C4", "E♭4", "G4", "A4", "C5", "E♭5", "G5", "A5", "C6"], ["B4", "D4", "F4", "A♭4", "C5", "D5", "F5", "A♭5", "C6", "D6", "F6"], ["E5", "G4", "B♭4", "D♭5", "F5", "G5", "B♭5", "D♭6", "F6", "G6"]]
+      }
+      ,"basses":
+      {
+        "close": [["g2", "G2", "c2", "C2", "d♭2", "D♭2"], ["b♭2", "B♭2", "e♭2", "E♭2", "a♭2", "A♭2"]]
+       , "open": [["c2:m", "C2", "f2:m", "F¹2", "d♭2", "D♭2"], ["f2", "F2", "b♭2", "B♭2", "e♭2", "E♭2"]]
+      }
+    }
+
+
+
+
+    
+  ,"songPathList":["songs/corona-bea.repertorio.abcx"]
+  ,"practicePathList":[]
+  ,"chordPathList":[]
+}

@@ -90,6 +90,12 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
                 break;
             case 'GAITA_HOHNER_CORONA_GCF':
                 tipo = 'gcf';
+                lista = repertorio.corona;
+                break;
+            case 'GAITA_HOHNER_CORONA_BEA':
+                tipo = 'bea';
+                lista = repertorio.corona;
+                break;
             case 'GAITA_HOHNER_CORONA_ADG':
                 lista = repertorio.corona;
                 break;
@@ -223,7 +229,7 @@ h += '<h2>Repertório Geral</h2>\n\
         h += '<tr>'
                 +'<td class="title" >'+idx+'.&nbsp;'+repertorio.corona[r].title+'</td>'
                 + (map? '\n': '<td class="composer" >'+repertorio.corona[r].composer+'</td>\n' )
-                +'<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_ADG', repertorio.corona[r].geral  ) 
+                +'<td class="center">' + this.makeAnchor( map, '(corona-adg)', repertorio.corona[r].geral  ) 
                 +'</td>\n<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_GCF', repertorio.corona[r].outro ) 
                 +'</td></tr>\n';
     }
