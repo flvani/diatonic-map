@@ -1,3 +1,63 @@
+X:9017
+%%barnumbers 1
+%%papersize A4
+%barsperstaff 6
+%staffsep 20
+%pagenumbering
+%stretchlast
+%landscape
+%%tabinferenceopts -3
+T:Cumbia Cienaguera
+C:letra: Esteban Montaño
+C:melodia: Andrés Paz Barros
+F:https://www.youtube-nocookie.com/embed/r5mFPpf2RDo
+L:1/8
+Q:1/4=140
+M:4/4
+K:G
+V:1 treble
+| z DFA |: cccc cccc | cccc cccc | c2 B2 G2 AF- | F2 z D- D2 D2 | 
+| F2 C2 E2 B,D- | D D3 F2 A2 | c2 B2 G2 AF- | F2 z D- D2 DF- | F F2 C E2 B,D- | 
+| D D3 F2 A2 |1 c2 B2 G2 AF- | F2 z D2 DFA :|2 c2 B2 G2 AF- | F2 z2 FGAB | 
+V:2 bass
+| z4 |: A,, z [A,CE][A,CE] z2 [A,CE] z | A,, z [A,CE][A,CE] z2 [A,CE] z | A,, z [G,B,D][G,B,D] z2 [D,F,A,] z | D,, z [G,B,D][G,B,D] z2 [G,B,D] z | 
+| D,, z [D,F,A,] [D,F,A,] z2 [G,B,D] z | G,, z [D,F,A,][D,F,A,] z2 [D,F,A,] z | D,, z [G,B,D][G,B,D] z2 [D,F,A,] z | D,, z [G,B,D][G,B,D] z2 [G,B,D] z | D,, z [D,F,A,] [D,F,A,] z2 [G,B,D] z | 
+| G,, z [D,F,A,][D,F,A,] z2 [D,F,A,] z |1 D,, z [G,B,D][G,B,D] z2 [D,F,A,] z | D,, z [G,B,D][G,B,D] z2 [D,F,A,] z :|2  D,, z [G,B,D][G,B,D] z2 [D,F,A,] z | z2 z2 z2 z2 | 
+V:3 accordionTab
+| z+z z+5 z-6 z-7 |: A-8 z-8 am-8 am-8 z-8 z-8 am-8 z-8 | A-8 z-8 am-8 am-8 z-8 z-8 am-8 z-8 | A-8 z-> g+7 g+> z+62 d-7 z-6 | D-> z-> g+z g+5 z+>2 g+5 z+> |
+| D-6 z-> d-4 d-> z-52 g+4 z+5 | G+> z+5 d-> d-> z-62 d-7 z-> | D-8 z-> g+7 g+> z+62 d-7 z-6 | D-> z-> g+z g+5 z+>2 g+5 z-6 | D-> z-6 d-> d-4 z-52 g+4 z+5 |
+| G+> z+5 d-> d-> z-62 d-7 z-> |1 D-8 z-> g+7 g+> z+62 d-7 z-6 | D-> z-> g+z g+5 z+> z+5 d-6 z-7 :|2 D-8 z-> g+7 g+> z+62 d-7 z-6 | z->2 z-z2 z-6 z-5' z-7 z+7 |
+X:9019
+%%barnumbers 0
+%%papersize A4
+%barsperstaff 6
+%staffsep 20
+%pagenumbering
+%stretchlast
+%landscape
+%%barnumbers 1
+%%tabinferenceopts +1
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/c-qljXE3K48
+T:Luna San Juanera
+C:Roberto Calderón
+M:4/4
+L:1/8
+Q:110
+K:C
+V:1 treble
+ z2 G,A, | B,C D[CE] [CE][CE] [EG][CE] | [EG][CE] [EG][CE]2 z2  C | cG EC2 z CD | EF G[FA] [FA][FA] [EG][FA] | 
+| [EG][FA] [EG][FA]2 z2 F | Ac fF2 z DE | FG A[GB] [GB][GB] [FA][GB] | [FA][GB] [FA][GB]2 z [GB][GB] | 
+| [FA][GB] [FA][EG]2 z [FA][FA] | [EG][FA] [EG] [DF]2 z [EG][EG] | [DF][EG] [DF] [CE]2 z2 C | cG EC2 z2 z | 
+V:2 bass
+ z4 | z2 z [C,E,G,] C,, [C,E,G,][C,E,G,] z | z [C,E,G,] z [C,E,G,] C,, [C,E,G,][C,E,G,] z | z [C,E,G,] z [C,E,G,] C,, [C,E,G,][C,E,G,] z | z [F,A,C] z [F,A,C] F,, [F,A,C][F,A,C] z | 
+| z [F,A,C] z [F,A,C] F,, [F,A,C][F,A,C] z | z [F,A,C] z [F,A,C] F,, [F,A,C][F,A,C] z | z [G,B,D] z [G,B,D] G,, [G,B,D][G,B,D] z | z [G,B,D] z [G,B,D] G,, [G,B,D][G,B,D] z | 
+| z [G,B,D] z [C,E,G,] C,, [C,E,G,][F,A,C] z | z [F,A,C]  z [G,B,D] G,, [G,B,D][G,B,D] z | z [G,B,D] z [C,E,G,] C,, [C,E,G,] [C,E,G,] z | z [C,E,G,] z [C,E,G,] C,, [C,E,G,] [C,E,G,] z | 
+V:3 accordionTab
+z+z2 z+3 z-3 | z-2' z-4 z-3' c+[3'4'] C+[3'4'] c+[3'4'] c+[4'5'] z+[3'4'] | z+[4'5'] c+[3'4'] z+[4'5'] c+[3'4'] C+[>>] c+z c+z z+3' | z+6' c+5' z+4' c+3' C+> c+z c+3' z+5 | z+4' f-4' z-5' f-[4'7] F-[4'7] f-[4'7] f-[55'] z-[4'7] |
+| z-[55'] f-[4'7] z-[55'] f-[4'7] F-[>>] f-z f-z z-4' | z-7 f-8 z-8' f-4' F-> f+z f+5 z+4' | z-4' g-5' z-7 g-[5'6'] G-[5'6'] g-[5'6'] g-[4'7] z-[5'6'] | z-[4'7] g-[5'6'] z-[4'7] g-[5'6'] G-[>>] g-z g-[5'6'] z-[5'6'] |
+| z-[4'7] g-[5'6'] z-[4'7] c+[4'5'] C+[>>] c+z f-[4'7] z-[4'7] | z-[55'] f-[4'7] z-[55'] g-[3'4'] G-[>>] g+z g+[4'5'] z+[4'5'] | z-[3'4'] g-[55'] z-[3'4'] c+[3'4'] C+[>>] c+z c+z z+3' | z+6' c+5' z+4' c+3' C+> c+z c+z z-z |
 X:1032
 %%barnumbers 0
 %%papersize a4
@@ -1183,6 +1243,7 @@ X:1074
 %pagenumbering
 %stretchlast
 %landscape
+%%hidefingering
 %%tabinferenceopts -2
 T:Lamento sertanejo
 C:Dominguinhos (letra:Gilberto Gil)

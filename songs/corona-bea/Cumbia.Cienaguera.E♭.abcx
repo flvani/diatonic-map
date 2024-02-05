@@ -1,0 +1,28 @@
+X:7017
+%%barnumbers 1
+%%papersize A4
+%barsperstaff 6
+%staffsep 20
+%pagenumbering
+%stretchlast
+%landscape
+T:Cumbia Cienaguera E♭
+C:letra: Esteban Montaño
+C:melodia: Andrés Paz Barros
+F:https://www.youtube-nocookie.com/embed/r5mFPpf2RDo
+L:1/8
+Q:1/4=140
+M:4/4
+K:Eb
+V:1 treble
+| z Bdf |: aaaa aaaa | aaaa aaaa | a2 g2 e2 fd- | d2 z B- B2 B2 | 
+| d2 A2 c2 GB- | B B3 d2 f2 | a2 g2 e2 fd- | d2 z B- B2 Bd- | d d2 A c2 GB- | 
+| B B3 d2 f2 |1 a2 g2 e2 fd- | d2 z B2 Bdf :|2 a2 g2 e2 fd- | d2 z2 defg | 
+V:2 bass
+| z4 |: F,, z [F,A,C][F,A,C] z2 [F,A,C] z | F,, z [F,A,C][F,A,C] z2 [F,A,C] z | F,, z [E,G,B,][E,G,B,] z2 [B,DF] z | B,, z [E,G,B,][E,G,B,] z2 [E,G,B,] z | 
+| B,, z [B,DF] [B,DF] z2 [B,DF] z | B,, z [B,DF][B,DF] z2 [B,DF] z | B,, z [E,G,B,][E,G,B,] z2 [B,DF] z | B,, z [E,G,B,][E,G,B,] z2 [E,G,B,] z | B,, z [B,DF] [B,DF] z2 [E,G,B,] z | 
+| B,, z [B,DF][B,DF] z2 [B,DF] z |1 B,, z [E,G,B,][E,G,B,] z2 [B,DF] z | B,, z [E,G,B,][E,G,B,] z2 [B,DF] z :|2  B,, z [E,G,B,][E,G,B,] z2 [B,DF] z | z2 z2 z2 z2 | 
+V:3 accordionTab
+| z+z z+5' z-6' z-7' |: F¹-8' z-8' fm-8' fm-8' z-8' z-8' fm-8' z-8' | F¹-8' z-8' fm-8' fm-8' z-8' z-8' fm-8' z-8' | F¹-8' z-> e♭+7' e♭+> z+6' z+> b♭-7' z-6' | B♭-> z-> e♭+z e♭+5' z+> z+> e♭+5' z+> | 
+| B♭-6' z-> b♭-4' b♭-> z-5' z-> b♭+4' z+5' | B♭+> z+5' b♭+> b♭+> z-6' z-> b♭-7' z-> | B♭-8' z-> e♭+7' e♭+> z+6' z+> b♭-7' z-6' | B♭-> z-> e♭+z e♭+5' z+> z+> e♭+5' z-6' | B♭-> z-6' b♭-> b♭-4' z-5' z-> e♭+4' z+5' | 
+| B♭+> z+5' b♭+> b♭+> z-6' z-> b♭-7' z-> |1 B♭-8' z-> e♭+7' e♭+> z+6' z+> b♭-7' z-6' | B♭-> z-> e♭+z e♭+5' z+> z+5' b♭-6' z-7' :|2  B♭-8' z-> e♭+7' e♭+> z+6' z+> b♭-7' z-6' | z-> z-> z-z z-z z-6' z-7 z-7' z-8 | 

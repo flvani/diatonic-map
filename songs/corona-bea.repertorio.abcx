@@ -1,92 +1,90 @@
-X:7016
-T:Cumbia Cienaguera
-C:Juan Jimenez
-C:Arr: Oscar Goez
-%%tabinferenceopts -3
-%%barnumbers 1
-%%barsperstaff 5
-F:https://www.youtube-nocookie.com/embed/r5mFPpf2RDo
-L:1/4
-Q:1/4=120
-M:4/4
-K:Eb
-V:1 treble
- z/B/d/f/ |: +segno+  a/a/a/a/ a/a/a/a/  | a/a/a/a/ a/a/a/a/ | a g e f/d/- | d3/2 B/- B B |
-| d d c c/B/- | B/ B B/ d/ d f/ | a g e f/d/- | %8
-|d3/2 B3/2 B/d/- | d/ d d/ c c/B/- | B/ B d/- d f | a g e f/d/- | %12
-|d3/2 B/- B2- |1 B3/2 z B/d/f/ :|2 z2 d/e/f/g/ |
-%| a/ a a/ z B/d/- | %16
-%|d/ f f/ f f/f/- | f/ f f/- f g | a g f e/d/- | d3/2 B/- B z | %20
-%|:d A c G/B/- | B/ B d/- d f | a g e f/d/ | d3/2 B/- B B | %24
-%|d A c G/B/- | B/ B d/- d f | a g e f/d/- |"^1,1,1,1." d3/2 d/- d B :| %28
-%|d3/2 d/- d B | z2 z/ B/c/d/ | e .B c B/c/- | c/ f3/2 z2 | %32
-%|e B c B/c/- | c/ f3/2 z2 | e .B c B/!tenuto!c/ | !tenuto!c/ f3/2 z2 | %36
-%|e B c B/!tenuto!c/ | !tenuto!c/ f3/2 z2 | e .B c B/c/- | c/ f3/2 z2 | %40
-%|e B c B/c/- | c/ f3/2 z2 | z/ e B/ c e | f c B d | %44
-%|z/ e B/ c e | f c B d |: g2 e g/b/ | f2 B2 | %48
-%|g2 e g/b/ |"^1,1,1,1." f2 B2 :| a/ a a/ a a/a/- +coda+| a z z/ B/d/f/ !dsalcoda! | %52
-%|z4 |"^Y FIN" z4 | z4 |] %55
-V:3 accordionTab
--z0.5 +5'0.5 -6'0.5 -7'0.5 |: -8'0.5 -8'0.5 -8'0.5 -8'0.5 -8'0.5 -8'0.5 -8'0.5 -8'0.5 | -8'0.5 -8'0.5 -8'0.5 -8'0.5 -8'0.5 -8'0.5 -8'0.5 -8'0.5 | -8' +7' +6' -7'0.5 -6'0.5 |->1.5 +5'0.5 +> +5' |
-| -6' -6' -5' -5'0.5 +5'0.5 | +>0.5 +5' +5'0.5 -6'0.5 -6' -7'0.5 | -8' +7' +6' -7'0.5 -6'0.5 |
-|->1.5 +5'1.5 +5'0.5 -6'0.5 | ->0.5 -6' -6'0.5 -5' -5'0.5 +5'0.5 | +>0.5 +5' -6'0.5 -> -7' | -8' +7' +6' -7'0.5 -6'0.5 |
-|->1.5 +5'0.5 +>2 |1 +>1.5 -z +5'0.5 -6'0.5 -7'0.5 :|2 -z2 -6'0.5 -70.5 -7'0.5 -80.5 |
-%| -8'0.5 -8' -8'0.5 -z -3''0.5 -6'0.5 |
-%|->0.5 -7' +70.5 +7 +70.5 +70.5 | +>0.5 +7 +70.5 +> +7' | +6'' +7' +7 +6'0.5 +60.5 | +>1.5 -3''0.5 -> -z |
-%|: -6' -4' -5' -40.5 -3''0.5 | ->0.5 -3'' -6'0.5 -> -7' | -8' -8 +6' +70.5 +60.5 | +61.5 +50.5 +> +5 |
-%|+6 +3'' +4'' +4'0.5 +50.5 | +>0.5 +5 +60.5 +> -7' | -8' -8 -7 -7'0.5 -6'0.5 | ->1.5 -6'0.5 -> -3'' :|
-%|-6'1.5 -6'0.5 -> +5 | +z2 +z0.5 +50.5 +4''0.5 +60.5 | +6' +5 +4'' +50.5 +4''0.5 | +>0.5 +71.5 +z2 |
-%|-7 -3'' -5' -3''0.5 -5'0.5 | ->0.5 -7'1.5 -z2 | -7 -3'' -5' -3''0.5 -5'0.5 | +4''0.5 +71.5 +z2 |
-%|+6' +5 +4'' +50.5 +4''0.5 | +4''0.5 +71.5 +z2 | -7 -3'' -5' -3''0.5 -5'0.5 | ->0.5 -7'1.5 -z2 |
-%|-7 -3'' -5' -3''0.5 -5'0.5 | ->0.5 +71.5 +z2 | +z0.5 +6' +50.5 +4'' +6' | +7 +4'' +5 +6 |
-%|+z0.5 -7 -3''0.5 -5' -7 | -7' -6 -3'' -6' |: -82 -7 -80.5 -7''0.5 | -7'2 +52 |
-%|+7'2 +6' +7'0.5 +80.5 | +72 +52 :| +6''0.5 +6'' +6''0.5 -8' -8'0.5 -8'0.5 | -> -z -z0.5 -3''0.5 -6'0.5 -7'0.5 |
-%|-z4 | -z4 | +z4 |]
 X:7017
-T:Cumbia Cienaguera 2
-C:Juan Jimenez
-C:Arr: Oscar Goez
-%%tabinferenceopts -3
 %%barnumbers 1
-%barsperstaff 5
+%%papersize A4
+%barsperstaff 6
+%staffsep 20
+%pagenumbering
+%stretchlast
+%landscape
+T:Cumbia Cienaguera E♭
+C:letra: Esteban Montaño
+C:melodia: Andrés Paz Barros
 F:https://www.youtube-nocookie.com/embed/r5mFPpf2RDo
-L:1/4
-Q:1/4=120
+L:1/8
+Q:1/4=140
 M:4/4
 K:Eb
 V:1 treble
- z/B/d/f/ |: +segno+  a/a/a/a/ a/a/a/a/  | a/a/a/a/ a/a/a/a/ | a g e f/d/- | d3/2 B/- B B |
+| z Bdf |: aaaa aaaa | aaaa aaaa | a2 g2 e2 fd- | d2 z B- B2 B2 | 
+| d2 A2 c2 GB- | B B3 d2 f2 | a2 g2 e2 fd- | d2 z B- B2 Bd- | d d2 A c2 GB- | 
+| B B3 d2 f2 |1 a2 g2 e2 fd- | d2 z B2 Bdf :|2 a2 g2 e2 fd- | d2 z2 defg | 
 V:2 bass
-% z3/2 |: F,, [F,A,C]/2  F,,/2 [F,A,C]/2 [F,A,C]/2 z  |  F,, [F,A,C]/2  F,,/2 [F,A,C]/2 [F,A,C]/2 z | z4 | z4 |
- z2 |: [F,A,C]  F,, [F,A,C]/2 [F,A,C]/2 z  |  [F,A,C]  F,, [F,A,C]/2 [F,A,C]/2 z  | [F,A,C] C,, [F,A,C]/2 [F,A,C]/2 z | [B,,D,F,] B|
-%| d d c c/B/- | B/ B B/ d/ d f/ | a g e f/d/- | %8
-%|d3/2 B3/2 B/d/- | d/ d d/ c c/B/- | B/ B d/- d f | a g e f/d/- | %12
-%|d3/2 B/- B2- |1 B3/2 z B/d/f/ :|2 z2 d/e/f/g/ |
-%| a/ a a/ z B/d/- | %16
-%|d/ f f/ f f/f/- | f/ f f/- f g | a g f e/d/- | d3/2 B/- B z | %20
-%|:d A c G/B/- | B/ B d/- d f | a g e f/d/ | d3/2 B/- B B | %24
-%|d A c G/B/- | B/ B d/- d f | a g e f/d/- |"^1,1,1,1." d3/2 d/- d B :| %28
-%|d3/2 d/- d B | z2 z/ B/c/d/ | e .B c B/c/- | c/ f3/2 z2 | %32
-%|e B c B/c/- | c/ f3/2 z2 | e .B c B/!tenuto!c/ | !tenuto!c/ f3/2 z2 | %36
-%|e B c B/!tenuto!c/ | !tenuto!c/ f3/2 z2 | e .B c B/c/- | c/ f3/2 z2 | %40
-%|e B c B/c/- | c/ f3/2 z2 | z/ e B/ c e | f c B d | %44
-%|z/ e B/ c e | f c B d |: g2 e g/b/ | f2 B2 | %48
-%|g2 e g/b/ |"^1,1,1,1." f2 B2 :| a/ a a/ a a/a/- +coda+| a z z/ B/d/f/ !dsalcoda! | %52
-%|z4 |"^Y FIN" z4 | z4 |] %55
+| z4 |: F,, z [F,A,C][F,A,C] z2 [F,A,C] z | F,, z [F,A,C][F,A,C] z2 [F,A,C] z | F,, z [E,G,B,][E,G,B,] z2 [B,DF] z | B,, z [E,G,B,][E,G,B,] z2 [E,G,B,] z | 
+| B,, z [B,DF] [B,DF] z2 [B,DF] z | B,, z [B,DF][B,DF] z2 [B,DF] z | B,, z [E,G,B,][E,G,B,] z2 [B,DF] z | B,, z [E,G,B,][E,G,B,] z2 [E,G,B,] z | B,, z [B,DF] [B,DF] z2 [E,G,B,] z | 
+| B,, z [B,DF][B,DF] z2 [B,DF] z |1 B,, z [E,G,B,][E,G,B,] z2 [B,DF] z | B,, z [E,G,B,][E,G,B,] z2 [B,DF] z :|2  B,, z [E,G,B,][E,G,B,] z2 [B,DF] z | z2 z2 z2 z2 | 
 V:3 accordionTab
-% +5'0.5 -6'0.5 -7'0.5 |: -8'0.5 -8'0.5 -8'0.5 -8'0.5 -8'0.5 -8'0.5 -8'0.5 -8'0.5 | -8'0.5 -8'0.5 -8'0.5 -8'0.5 -8'0.5 -8'0.5 -8'0.5 -8'0.5 | -8' +7' +6' -7'0.5 -6'0.5 |->1.5 +5'0.5 +> +5' |
-%| -6' -6' -5' -5'0.5 +5'0.5 | +>0.5 +5' +5'0.5 -6'0.5 -6' -7'0.5 | -8' +7' +6' -7'0.5 -6'0.5 |
-%|->1.5 +5'1.5 +5'0.5 -6'0.5 | ->0.5 -6' -6'0.5 -5' -5'0.5 +5'0.5 | +>0.5 +5' -6'0.5 -> -7' | -8' +7' +6' -7'0.5 -6'0.5 |
-%|->1.5 +5'0.5 +>2 |1 +>1.5 -z +5'0.5 -6'0.5 -7'0.5 :|2 -z2 -6'0.5 -70.5 -7'0.5 -80.5 |
-%| -8'0.5 -8' -8'0.5 -z -3''0.5 -6'0.5 |
-%|->0.5 -7' +70.5 +7 +70.5 +70.5 | +>0.5 +7 +70.5 +> +7' | +6'' +7' +7 +6'0.5 +60.5 | +>1.5 -3''0.5 -> -z |
-%|: -6' -4' -5' -40.5 -3''0.5 | ->0.5 -3'' -6'0.5 -> -7' | -8' -8 +6' +70.5 +60.5 | +61.5 +50.5 +> +5 |
-%|+6 +3'' +4'' +4'0.5 +50.5 | +>0.5 +5 +60.5 +> -7' | -8' -8 -7 -7'0.5 -6'0.5 | ->1.5 -6'0.5 -> -3'' :|
-%|-6'1.5 -6'0.5 -> +5 | +z2 +z0.5 +50.5 +4''0.5 +60.5 | +6' +5 +4'' +50.5 +4''0.5 | +>0.5 +71.5 +z2 |
-%|-7 -3'' -5' -3''0.5 -5'0.5 | ->0.5 -7'1.5 -z2 | -7 -3'' -5' -3''0.5 -5'0.5 | +4''0.5 +71.5 +z2 |
-%|+6' +5 +4'' +50.5 +4''0.5 | +4''0.5 +71.5 +z2 | -7 -3'' -5' -3''0.5 -5'0.5 | ->0.5 -7'1.5 -z2 |
-%|-7 -3'' -5' -3''0.5 -5'0.5 | ->0.5 +71.5 +z2 | +z0.5 +6' +50.5 +4'' +6' | +7 +4'' +5 +6 |
-%|+z0.5 -7 -3''0.5 -5' -7 | -7' -6 -3'' -6' |: -82 -7 -80.5 -7''0.5 | -7'2 +52 |
-%|+7'2 +6' +7'0.5 +80.5 | +72 +52 :| +6''0.5 +6'' +6''0.5 -8' -8'0.5 -8'0.5 | -> -z -z0.5 -3''0.5 -6'0.5 -7'0.5 |
-%|-z4 | -z4 | +z4 |]
-z-z0.5 z+5'0.5 z-6'0.5 z-7'0.5 |: fm-8'0.5 >-8'0.5 F-8'0.5 >-8'0.5 fm-8'0.5 fm-8'0.5 z-8'0.5 z-8'0.5 | fm-8'0.5 >-8'0.5 F-8'0.5 >-8'0.5 fm-8'0.5 fm-8'0.5 z-8'0.5 z-8'0.5 | -8' +7' +6' -7'0.5 -6'0.5 |->1.5 +5'0.5 +> +5' |
+| z+z z+5' z-6' z-7' |: F¹-8' z-8' fm-8' fm-8' z-8' z-8' fm-8' z-8' | F¹-8' z-8' fm-8' fm-8' z-8' z-8' fm-8' z-8' | F¹-8' z-> e♭+7' e♭+> z+6' z+> b♭-7' z-6' | B♭-> z-> e♭+z e♭+5' z+> z+> e♭+5' z+> | 
+| B♭-6' z-> b♭-4' b♭-> z-5' z-> b♭+4' z+5' | B♭+> z+5' b♭+> b♭+> z-6' z-> b♭-7' z-> | B♭-8' z-> e♭+7' e♭+> z+6' z+> b♭-7' z-6' | B♭-> z-> e♭+z e♭+5' z+> z+> e♭+5' z-6' | B♭-> z-6' b♭-> b♭-4' z-5' z-> e♭+4' z+5' | 
+| B♭+> z+5' b♭+> b♭+> z-6' z-> b♭-7' z-> |1 B♭-8' z-> e♭+7' e♭+> z+6' z+> b♭-7' z-6' | B♭-> z-> e♭+z e♭+5' z+> z+5' b♭-6' z-7' :|2  B♭-8' z-> e♭+7' e♭+> z+6' z+> b♭-7' z-6' | z-> z-> z-z z-z z-6' z-7 z-7' z-8 | 
+X:7019
+%%barnumbers 0
+%%papersize A4
+%barsperstaff 6
+%staffsep 20
+%pagenumbering
+%stretchlast
+%landscape
+%%barnumbers 1
+%%tabinferenceopts +1
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/c-qljXE3K48
+T:Luna San Juanera A♭
+C:Roberto Calderón
+M:4/4
+L:1/8
+Q:110
+K:Ab
+V:1 treble
+ z2 EF | GA B[Ac] [Ac][Ac] [ce][Ac] | [ce][Ac] [ce][Ac]2 z2  A | ae cA2 z AB | cd e[df] [df][df] [ce][df] | 
+| [ce][df] [ce][df]2 z2 d | fa d'd2 z Bc | de f[eg] [eg][eg] [df][eg] | [df][eg] [df][eg]2 z [eg][eg] | 
+| [df][eg] [df][ce]2 z [df][df] | [ce][df] [ce] [Bd]2 z [ce][ce] | [Bd][ce] [Bd] [Ac]2 z2 A | ae cA2 z2 z | 
+V:2 bass
+ z4 | z2 z [A,CE] A,, [A,CE][A,CE] z | z [A,CE] z [A,CE] A,, [A,CE][A,CE] z | z [A,CE] z [A,CE] A,, [A,CE][A,CE] z | z [D,F,A,] z [D,F,A,] D,, [D,F,A,][D,F,A,] z | 
+| z [D,F,A,] z [D,F,A,] D,, [D,F,A,][D,F,A,] z | z [D,F,A,] z [D,F,A,] D,, [D,F,A,][D,F,A,] z | z [E,G,B,] z [E,G,B,] E,, [E,G,B,][E,G,B,] z | z [E,G,B,] z [E,G,B,] E,, [E,G,B,][E,G,B,] z | 
+| z [E,G,B,] z [A,CE] A,, [A,CE][D,F,A,] z | z [D,F,A,]  z [E,G,B,] E,, [E,G,B,][E,G,B,] z | z [E,G,B,] z [A,CE] A,, [A,CE] [A,CE] z | z [A,CE] z [A,CE] A,, [A,CE] [A,CE] z | 
+V:3 accordionTab
+ z+z2 z+3' z-3'| z-2'' z-4' z-3'' a♭+[3''4''] A♭+[3''4''] a♭+[3''4''] a♭+[4''5''] z+[3''4''] | z+[4''5''] a♭+[3''4''] z+[4''5''] a♭+[3''4''] A♭+[>>] a♭+z a♭+z z+3'' | z+6'' a♭+5'' z+4'' a♭+3'' A♭+> a♭+z a♭+3'' z-3'' | z-6 d♭-4'' z-7 d♭-[4''5''] D♭-[4''5''] d♭-[4''5''] d♭-[67] z-[4''5''] |
+| z-[67] d♭-[4''5''] z-[67] d♭-[4''5''] D♭-[>>] d♭-z d♭-z z-4'' | z-7' d♭-8' z-8'' d♭-4'' D♭+> d♭+z d♭-3'' z-6 | z-4'' e♭-7 z-5'' e♭-[6''7] E♭-[6''7] e♭-[6''7] e♭-[4''5''] z-[6''7] | z-[4''5''] e♭-[6''7] z-[4''5''] e♭-[6''7] E♭-[>>] e♭-z e♭-[6''7] z-[6''7] |
+| z-[4''5''] e♭-[6''7] z-[4''5''] a♭+[4''5''] A♭+[>>] a♭+z d♭-[4''5''] z-[4''5''] | z+[4''5''] d♭-[4''5''] z+[4''5''] e♭-[3''4''] E♭-[>>] e♭-z e♭+[4''5''] z+[4''5''] | z-[3''4''] e♭+[4''5''] z-[3''4''] a♭+[3''4''] A♭+[>>] a♭+z a♭+z z+3'' | z+6'' a♭+5'' z+4'' a♭+3'' A♭+> a♭+z a♭+z z+z |
+X:7018
+%%barnumbers 0
+%%papersize A4
+%barsperstaff 6
+%staffsep 20
+%pagenumbering
+%stretchlast
+%landscape
+%%barnumbers 1
+%%tabinferenceopts +1
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/2vfdhZv1UfM
+T:Luna San Juanera E♭
+C:Roberto Calderón
+M:4/4
+L:1/8
+Q:110
+K:Eb
+V:1 treble
+| z2 B,C | DE F[EG] [EG][EG] [GB][EG] | [GB][EG] [GB][EG]2 z2  E | eB GE2 z EF | GA B[Ac] [Ac][Ac] [ce][Ac] | 
+| [ce][Ac] [ce][Ac]2 z2 A | ae cA2 z FG | AB c[Bd] [Bd][Bd] [Ac][Bd] | [Ac][Bd] [Ac][Bd]2 z [Ac][Bd] | 
+| [Ac][Bd] [Ac][GB]2 z [GB][Ac] | [GB][Ac] [GB] [FA]2 z [FA][GB] | [FA][GB] [FA] [EG]2 z2 E | eB GE2 z2 z | 
+V:2 bass
+| z4 | z2 z [E,G,B,] E,, [E,G,B,][E,G,B,] z | z [E,G,B,] z [E,G,B,] E,, [E,G,B,][E,G,B,] z | z [E,G,B,] z [E,G,B,] E,, [E,G,B,][E,G,B,] z | z [E,G,B,] z [A,CE] A,, [A,CE][A,CE] z | 
+| z [A,CE] z [A,CE] A,, [A,CE][A,CE] z | z [A,CE] z [A,CE] A,, [A,CE][B,DF] z | z [B,DF] z [B,DF] B,, [B,DF][B,DF] z | z [B,DF] z [B,DF] B,, [B,DF][B,DF] z | 
+| z [B,DF] z [E,G,B,] E,, [E,G,B,][E,G,B,] z | z [A,CE] z [B,DF] B,, [B,DF][B,DF] z | z [B,DF] z [E,G,B,] E,, [E,G,B,] [E,G,B,] z | z [E,G,B,] z [E,G,B,] E,, [E,G,B,][E,G,B,] z | 
+V:3 accordionTab
+| z+z2 z+2 z-2 | z-2' z-3 z-3' e♭+[3'4'] E♭+[3'4'] e♭+[3'4'] e♭+[4'5'] z+[3'4'] | z+[4'5'] e♭+[3'4'] z+[4'5'] e♭+[3'4'] E♭+[>>] e♭+z e♭+z z+3' | z+6' e♭+5' z+4' e♭+3' E♭+> e♭+z e♭+3' z-3' | z-2'' e♭-4' z-3'' a♭+[3''4''] A♭+[3''4''] a♭+[3''4''] a♭+[4''5''] z+[3''4''] | 
+| z+[4''5''] a♭+[3''4''] z+[4''5''] a♭+[3''4''] A♭+[>>] a♭+z a♭+z z+3'' | z+6'' a♭+5'' z+4'' a♭+3'' A♭+> a♭+z b♭-3' z-2'' | z-4' b♭-3'' z-5' b♭-[3''6'] B♭-[3''6'] b♭-[3''6'] b♭-[4'5'] z-[3''6'] | z-[4'5'] b♭-[3''6'] z-[4'5'] b♭-[3''6'] B♭-[>>] b♭-z b♭-[4'5'] z-[3''6'] | 
+| z-[4'5'] b♭-[3''6'] z-[4'5'] e♭+[4'5'] E♭+[>>] e♭+z e♭+[4'5'] z+[3''4''] | z+[4'5'] a♭+[3''4''] z+[4'5'] b♭-[3'4'] B♭-[>>] b♭-z b♭-[3'4'] z-[2''3''] | z-[3'4'] b♭-[2''3''] z-[3'4']  e♭+[3'4'] E♭+[>>] e♭+z e♭+z z+3' | z+6' e♭+5' z+4' e♭+3' E♭+> e♭+z e♭+z z+z |

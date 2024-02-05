@@ -124,27 +124,33 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
             var composer = this.accordion.loaded.songs.details[t].composer;
             var id = this.accordion.loaded.songs.details[t].id;
 
-            switch(tipo){
-                case 'bea': // por hora, ignore-se
-                    break;
-                case 'club':
-                case 'adg':
-                    var idx = -1, l = 0;
-                    while( idx === -1 && l < lista.length  ) {
-                        if( lista[l].title === title ) idx = l;
-                        l ++;
-                    }
-                    if( idx !== -1 ) {
-                        lista[idx].outro = id;
-                    } else {
-                        lista.push ( {title:title, composer:composer, geral: 0, outro: id } );
-                    }
-                    break;
-                case 'geral':
-                    lista.push ( {title:title, composer:composer, geral: id, outro: 0 } );
-                
-            }
+            if( tipo === 'geral') {
+                lista.push ( {title:title, composer:composer, geral: id, club: 0, bea: 0, adg: 0 } );
+            } else {
+                var idx = -1, l = 0;
 
+                while( idx === -1 && l < lista.length  ) {
+                    if( lista[l].title === title ) idx = l;
+                    l ++;
+                }
+
+                if( idx === -1 ) {
+                    lista.push ( {title:title, composer:composer, geral: 0, club: 0, bea: 0, adg: 0 } );
+                    idx = lista.length-1;
+                }
+
+                switch(tipo){
+                    case 'bea': 
+                        lista[idx].bea = id;
+                        break;
+                    case 'club':
+                        lista[idx].club = id;
+                        break;
+                    case 'adg':
+                        lista[idx].adg = id;
+                        break;
+                }
+            }
         }
     }
 
@@ -215,7 +221,7 @@ h += '<h2>Repertório Geral</h2>\n\
                 +'<td class="title" >'+idx+'.&nbsp;'+repertorio.geral[r].title+'</td>'
                 + (map? '\n': '<td class="composer" >'+repertorio.geral[r].composer+'</td>\n' )
                 +'<td class="center">' + this.makeAnchor( map, 'GAITA_MINUANO_GC', repertorio.geral[r].geral  ) 
-                +'</td>\n<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CLUB_IIIM_BR', repertorio.geral[r].outro ) 
+                +'</td>\n<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CLUB_IIIM_BR', repertorio.geral[r].club ) 
                 +'</td></tr>\n';
     }
     
@@ -223,8 +229,8 @@ h += '<h2>Repertório Geral</h2>\n\
 </table>\n\
 </table>\n\
 <br><h2>Corona</h2>\n\
-<h3>Tablaturas para acordeões Corona Series G/F/C e/ou A/D/G</h3>\n\
-<table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">G/C/F</th><th class="center">A/D/G</th></tr>\n\
+<h3>Tablaturas para acordeões Corona Series G/F/C, A/D/G e/ou Bb/Eb/Ab</h3>\n\
+<table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">G/C/F</th><th class="center">A/D/G</th><th class="center">Bb/Eb/Ab</th></tr>\n\
 ';
     
     for( var r = 0; r < repertorio.corona.length; r ++ ) {
@@ -233,7 +239,8 @@ h += '<h2>Repertório Geral</h2>\n\
                 +'<td class="title" >'+idx+'.&nbsp;'+repertorio.corona[r].title+'</td>'
                 + (map? '\n': '<td class="composer" >'+repertorio.corona[r].composer+'</td>\n' )
                 +'<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_GCF', repertorio.corona[r].geral  ) 
-                +'</td>\n<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_ADG', repertorio.corona[r].outro ) 
+                +'</td>\n<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_ADG', repertorio.corona[r].adg ) 
+                +'</td>\n<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_CORONA_BEA', repertorio.corona[r].bea ) 
                 +'</td></tr>\n';
     }
     
