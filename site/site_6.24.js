@@ -2333,7 +2333,7 @@ SITE.Mapa.prototype.showSettings = function() {
         var cookieValue 
         var cookieSets = ""
 
-        if( document.cookie !== 'cookiebar=CookieDisallowed') {
+        if( document.cookie !== "" && document.cookie !== 'cookiebar=CookieDisallowed') {
             cookieValue = document.cookie.match(/(;)?cookiebar=([^;]*);?/)[2];
         }
 
