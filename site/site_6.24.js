@@ -2330,10 +2330,15 @@ SITE.Mapa.prototype.showSettings = function() {
 
         this.settings.window.topDiv.style.zIndex = 101;
 
-        var cookieValue = document.cookie.match(/(;)?cookiebar=([^;]*);?/)[2];
+        var cookieValue 
         var cookieSets = ""
+
+        if( document.cookie !== 'cookiebar=CookieDisallowed') {
+            cookieValue = document.cookie.match(/(;)?cookiebar=([^;]*);?/)[2];
+        }
+
         if (cookieValue ) { // CookieAllowed
-            cookieSets = '<a href="#" onclick="document.cookie=\'cookiebar=;expires=Thu, 01 Jan 1970 00:00:01 GMT;path=/\'; setupCookieBar(); return false;"><span data-translate="cookiePrefs" >'+SITE.translator.getResource('cookiePrefs')+'</span></a>'
+            cookieSets = '<a href="#" onclick="document.cookie=\'cookiebar=;expires=Thu, 01 Jan 2100 00:00:01 GMT;path=/\'; setupCookieBar(); return false;"><span data-translate="cookiePrefs" >'+SITE.translator.getResource('cookiePrefs')+'</span></a>'
         }
 
         this.settings.window.dataDiv.innerHTML= '\
@@ -2474,7 +2479,6 @@ SITE.Mapa.prototype.showSettings = function() {
     this.settings.corRealce.style.backgroundColor = this.settings.corRealce.value = SITE.properties.colors.highLight;
     this.settings.closeColor.style.backgroundColor = this.settings.closeColor.value = SITE.properties.colors.close;
     this.settings.openColor.style.backgroundColor = this.settings.openColor.value = SITE.properties.colors.open ;
-
     
     this.settings.chkOnlyNumbers.checked = SITE.properties.options.tabShowOnlyNumbers;
     this.settings.showWarnings.checked = SITE.properties.options.showWarnings;

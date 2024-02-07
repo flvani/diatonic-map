@@ -4,12 +4,18 @@ die () {
     exit 1
 }
 
-[ "$#" -eq 2 ] || die "Call with a site version number and app version number argument in the form x.y"
+[ "$#" -eq 2 ] || die "Informe como argumentos, 
+   - o número de versão do Site, no formato (x.y)
+   - o número de versão do App, no formato (x.y.z)"
+
 echo $1 | grep -E -q '^[1-9]\.[0-9]+$' || die "Site Version number argument required (x.y), $1 provided"
 echo $2 | grep -E -q '^[0-9]\.[0-9]\.[0-9]+$' || die "App Version number argument required (x.y.z), $2 provided"
+
 echo "Concatenating all files..."
 
-./minify.repertorio.sh
+//./minify.repertorio.sh
+echo "Ignorando a concatenação dos arquivos de repertório..."
+
 
 echo "Concatenating site files..."
 cat src/properties.js src/translate.js src/media.js src/modal.js src/mapa.js src/estudio.js  > tmp/site-part.js
