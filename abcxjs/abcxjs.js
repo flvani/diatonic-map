@@ -296,7 +296,7 @@ window.ABCXJS.data.Tune = function() {
         if (!this.formatting.staffsep)              this.formatting.staffsep = ss;
         if (!this.formatting.barsperstaff)          this.formatting.barsperstaff = vars.barsperstaff;
         if (!this.formatting.staffwidth)            this.formatting.staffwidth = this.formatting.usablewidth;
-        if (!this.formatting.tabInferenceOpts )     this.formatting.tabInferenceOpts = +1.0 ;
+        if (!this.formatting.tabInferenceOpts )     this.formatting.tabInferenceOpts = +1;
         if (!this.formatting.restsInTab )           this.formatting.restsInTab = false;
 
         //aqui temos diretivas que também serão opções de tela. 
@@ -3334,9 +3334,17 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
             if (multilineVars.clef && multilineVars.clef.type === "accordionTab") {
                 //var startOfLine = this.getMultilineVars().iChar;
                 if (this.accordion) {
+                    var deletada = false;
                     if( this.transposer && this.transposer.offSet !== 0) {
-                        this.transposer.deleteTabLine(lineNumber);
-                    } else {
+                        if( false /* se true o comportamento será eliminar a tablatura para que uma nova seja inferida */ ) {
+                            this.transposer.deleteTabLine(lineNumber);
+                            deletada = true;
+                        } else {
+                            /* senao o comportamento será transpor os baixos, sem alterar a tablatura */
+                            ret.str = this.transposer.transposeTabVoiceLine(line, lineNumber, multilineVars);
+                        }
+                    } 
+                    if(!deletada) {
                         var voice = this.accordion.parseTabVoice(ret.str, this.getMultilineVars(), this.getTune());
                         if (voice.length > 0) {
                             startNewLine();
@@ -6310,6 +6318,112 @@ window.ABCXJS.parse.Transposer.prototype.numberToStaff = function(number, newKac
     return s;
 };
 
+window.ABCXJS.parse.Transposer.prototype.transposeNote = function(xi, size )
+{
+    //  transpor uma abcNote, retornar a nova abcNote transposta
+    var abcNote = this.workingLine.substr(xi, size);
+    var newAbcNote = this.dotransposeABCNote(abcNote);
+
+    this.updateWorkingLine( newAbcNote, xi, size );
+    
+    return newAbcNote;
+}
+
+window.ABCXJS.parse.Transposer.prototype.transposeTabNote = function(xi, size) {
+    // converter uma bass tabnote para uma abcnote e transpor, retornar a tabnote transposta
+    var tabNote = this.workingLine.substr(xi, size);
+
+    var accSyms = "♭♯"
+    var accABCSyms = "_^="
+    var otrSyms = "m7¹²³"; 
+    index = 1;
+    var acc = ""
+
+    var abcNote = tabNote.charAt(0); //assumo de o primeiro caracter de uma tabnote seja sempre uma abcnote;
+
+    while (index < tabNote.length) { // procuro o tab acidente 
+        if( accSyms.indexOf( tabNote.charAt(index) ) >= 0 ) {
+            acc = accABCSyms.charAt(accSyms.indexOf( tabNote.charAt(index) ) )
+            abcNote = acc + abcNote;
+        }
+        ++index;
+    }
+
+    var newAbcNote = this.dotransposeABCNote(abcNote);
+
+    // converto a newAbcNote em newTabNote
+    p = accABCSyms.indexOf( newAbcNote.charAt(0) );
+    acc = accSyms.charAt( p );
+    var newTabNote = newAbcNote.charAt( p>1? 1 : acc.length) + acc; // p > 1 é o bequadro... não aplico na tablt.
+
+    index = 0;
+    while (index < tabNote.length) {
+        if( otrSyms.indexOf( tabNote.charAt(index) ) >= 0 ) {
+            newTabNote = newTabNote + tabNote.charAt(index)
+        }
+        ++index;
+    }
+
+    this.updateWorkingLine( newTabNote, xi, size );
+
+    return newTabNote;
+
+}
+
+window.ABCXJS.parse.Transposer.prototype.transposeTabVoiceLine = function(line, lineNumber, multilineVars) {
+    var index = 0;
+    var found = false;
+    var pitSyms = "ABCDEFGabcdefg"; // state 2
+    var belSyms = "+-"
+    
+    this.workingLine = line;
+    this.vars = multilineVars;
+    this.isBass = (this.vars.currentVoice.clef.type==='bass') || false;
+    this.isChord = false;
+    this.workingLineIdx = this.changedLines.length;
+    this.changedLines[ this.workingLineIdx ] = { line:lineNumber, text: line };
+    this.workingX = 0;
+    this.newX =0;
+    this.baraccidentals = [];
+    this.baraccidentalsNew = [];
+    
+    while (index < line.length) {
+        found = false;
+        nota = "";
+        while (index < line.length && !found && line.charAt(index) !== '%') {
+            
+            if(pitSyms.indexOf(line.charAt(index)) >= 0){
+                xi = index;
+                while (index < line.length && !found && line.charAt(index) !== '%') {
+                    if(belSyms.indexOf(line.charAt(index)) < 0){
+                        index++;
+                    } else {
+                        found = true;
+                    }
+                }
+            } else {
+               index++;
+            }
+            
+            if ( found ) {
+                this.transposeTabNote(xi, index - xi);
+                var xi = -1;
+            }
+        }    
+        
+        if(line.charAt(index) === '%' ){
+            index = line.length;
+        }
+
+        if(!found && xi > -1 ) {
+            //some sort of caca
+        }
+      
+    }
+    return this.changedLines[ this.workingLineIdx ].text;
+};
+
+
 window.ABCXJS.parse.Transposer.prototype.transposeRegularMusicLine = function(line, lineNumber, multilineVars) {
 
     var index = 0;
@@ -6459,9 +6573,8 @@ window.ABCXJS.parse.Transposer.prototype.transposeChord = function ( xi, size ) 
     //this.workingLine = this.workingLine.substr(0, xi) + cNewKey + this.workingLine.substr(xi+size);
 };
 
-window.ABCXJS.parse.Transposer.prototype.transposeNote = function(xi, size )
+window.ABCXJS.parse.Transposer.prototype.dotransposeABCNote = function(abcNote)
 {
-    var abcNote = this.workingLine.substr(xi, size);
     var elem = this.makeElem(abcNote);
     var pitch = elem.pitch;
     var oct = this.extractStaffOctave(pitch);
@@ -6542,8 +6655,11 @@ window.ABCXJS.parse.Transposer.prototype.transposeNote = function(xi, size )
     var key = this.numberToKey(this.staffNoteToCromatic(this.extractStaffNote(pitch)), this.offSet);
     txtAcc = newElem.accidental;
     abcNote = this.getAbcNote(key, txtAcc, oct);
-    this.updateWorkingLine( abcNote, xi, size/*, abcNote.length */);
-    return newElem;
+
+    //antes retornava o novo elemento ABC, agora retorna o texto ABC... 
+    //verificar se há alguma chamada que utilizada o retorno do elemento.
+    return abcNote;
+
 };
 
 window.ABCXJS.parse.Transposer.prototype.updateWorkingLine = function( newText, xi, size/*, newSize*/ ) {
@@ -15960,7 +16076,7 @@ ABCXJS.tablature.Parse = function (accordion, str, vars) {
     this.variantSyms = "¹²³";
     this.belSyms = "+-";
     this.barSyms = ":]|[";
-    this.accSyms = "♭♯m"; // neste caso, "m" representa o acorde-baixo-menor
+    this.accSyms = "♭♯m7"; // neste caso, "m" representa o acorde-baixo-menor
     this.i = 0;
     this.xi = 0;
     this.offset = 8.9;
@@ -16296,6 +16412,14 @@ ABCXJS.tablature.Parse.prototype.getBassNote = function () {
             note += this.line.charAt(this.i);
             this.i++;
         }
+        if (this.accSyms.indexOf(this.line.charAt(this.i)) >= 0) {
+            note += this.line.charAt(this.i);
+            this.i++;
+        }
+        if (this.accSyms.indexOf(this.line.charAt(this.i)) >= 0) {
+            note += this.line.charAt(this.i);
+            this.i++;
+        }
         if (this.variantSyms.indexOf(this.line.charAt(this.i)) >= 0) {
             variant = this.accordion.loadedKeyboard.getVariant( this.line.charAt(this.i) )
             this.i++;
@@ -16439,9 +16563,11 @@ ABCXJS.tablature.Infer = function( accordion, tune, vars ) {
     // em geral o count=1 equivale ao tempo de um compasso.
     // não esta no reset para que entre as linhas o contador seja mantido
     this.count = 0; 
+
+    this.localTabOpts = this.tune.formatting.tabInferenceOpts ? tune.formatting.tabInferenceOpts : 1;
     
     // valor inicial do movimento do fole
-    this.closing = this.tune.formatting.tabInferenceOpts > 0 ? true : false;
+    this.closing = this.localTabOpts > 0 ? true : false;
 
     // limite para inversão o movimento do fole - baseado no tempo de um compasso
     if( this.tune.lines &&
@@ -16455,7 +16581,7 @@ ABCXJS.tablature.Infer = function( accordion, tune, vars ) {
     }
     
     // por default inverte o fole a cada compasso. pode ser modificado pela diretiva.
-    this.limit = this.limit * Math.abs(this.tune.formatting.tabInferenceOpts);
+    this.limit = this.limit * Math.abs(this.localTabOpts);
     
     this.reset();
     
