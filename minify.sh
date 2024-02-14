@@ -9,7 +9,7 @@ die () {
    - o número de versão do App, no formato (x.y.z)"
 
 echo $1 | grep -E -q '^[1-9]\.[0-9]+$' || die "Site Version number argument required (x.y), $1 provided"
-echo $2 | grep -E -q '^[0-9]\.[0-9]\.[0-9]+$' || die "App Version number argument required (x.y.z), $2 provided"
+echo $2 | grep -E -q '^[0-9]\.[0-9]+\.[0-9]+$' || die "App Version number argument required (x.y.z), $2 provided"
 
 echo "Concatenating all files..."
 
