@@ -1,0 +1,38 @@
+X:7022
+%%barnumbers 1
+%%stretchlast
+%%tabinferenceopts -2
+T:El Humahuaqueño
+R:huayno
+C:Argentina
+C:Tradicional
+Z:Flávio Vani
+M:2/4
+L:1/8
+Q:1/4=90
+K:Eb
+V:1 treble
+|: g/b/g/f/ g2 | g/b/g/f/ g2 |1 g/b/g/f/ gf | g3 z :|2 g/b/g/f/ gb | c'3 b | c'3 b |
+| c'2 z G |: "Ab" +segno+ c c/c c/c | e3  d/c/ | "Eb" B B/B A/c |1 B3 G :|2 B3 z |
+w:* * Lle-gando~está * el carna- * val Quebra- * de-ño,~mi * choli- * ta! Lle-  ta!|
+|: "Cm" G G/G "Bb" F/B | "Cm" G G/G  "Bb" F/B | "Cm" G G/G  "Bb" F/E | "Cm" C3 z :|
+w:Fies-ta de la que-bra-da hu-ma-hua-que-ña pa-ra can-tar!
+w:Er-que, cha-ran-go~y bom-bo, car-na-va-li-to pa-ra bai-lar!
+|: "Ab" c/c d/e- e | "Bb" B/BB/ cB | "Eb" G3 z  +fine+ :|: "Am "G G/G "Bb" F/B |
+w:Quebra- * de-ño, * hu-mahua-* que- ñi-to! Fies-ta de la que-
+w:Quebra- * de-ño, * hu-mahua-* que- ñi-to! Er-que, cha-ran-go~y
+| "Cm" G G/G  "Bb" F/B | "Cm" G G/G  "Bb" F/E |1 "Cm" C3 z :|2 C2 z G +dsalfine+|
+w:bra-da hu-ma-hua-que-ña pa-ra can-tar! . .
+w: bom-bo, car-na-va-li-to pa-ra bai- . lar! Lle-
+V:2 bass
+|: z4 | z4 |1 z4 | z4 :|2 z4 | z4 |z4 |
+| z2 z2 |: A,,>[A,CE] A,,[A,CE] | A,,>[A,CE] A,,[A,CE] | E,,>[E,G,B,] E,,[E,G,B,] |1 E,,>[E,G,B,] E,,[E,G,B,] :|2 E,,>[E,G,B,] E,,[E,G,B,] |
+|: C,,>[C,E,G,]  B,,[B,DF] | C,,>[C,E,G,]  B,,[B,DF] | C,,>[C,E,G,]  B,,[B,DF] | C,,>[C,E,G,]  C,,[C,E,G,] :|
+|: A,,>[A,CE] A,,[A,CE] |   B,,>[B,DF]  B,,[B,DF] | E,,>[E,G,B,] E,,[E,G,B,]  :|: C,,>[C,E,G,]  B,,[B,DF] |
+| C,,>[C,E,G,]  B,,[B,DF] |  C,,>[C,E,G,]  B,,[B,DF]  |1 C,,>[C,E,G,]  C,,[C,E,G,] :|2 C,,>[C,E,G,]  E,,[E,G,B,] |
+V:3 accordionTab
+|: z-6''0.5 z-7''0.5 z-6''0.5 z-5''0.5 z-6''2 | z-6''0.5 z-7''0.5 z-6''0.5 z-5''0.5 z-6''2 |1 z+7'0.5 z+8'0.5 z+7'0.5 z+70.5 z+7' z+7 | z+7'3 z+z :|2 z+7'0.5 z+8'0.5 z+7'0.5 z+70.5 z+7'  z+8' | z-9'3 z-7'' | z-9'3 z-7'' |
+| z+7''2 z+z z+4' |: A♭+4'' >+4''0.5 a♭+4''0.5 A♭+>0.5 >+4''0.5 a♭+4'' | A♭+6'1.5 a♭+>0.5 A♭+> a♭+60.5 >+4''0.5 | E♭-3'' >-3''0.5 e♭-3''0.5 E♭->0.5 >-4'0.5 e♭-5' |1 E♭-3''1.5 e♭->0.5 E♭-> e♭-4 :|2 E♭+51.5 e♭+>0.5 E♭+> e♭+z |
+|: C+4' >+4'0.5 cm-40.5 B♭->0.5 >-3'0.5 b♭-3'' | C-4 >-40.5 cm-40.5 B♭->0.5 >-3'0.5 b♭-3'' | C-4 >-40.5 cm-40.5 B♭->0.5 >-3'0.5 b♭+3' | C-21.5 cm->0.5 C-> cm-z :|
+|: A♭+4''0.5 >+4'' a♭+60.5 A♭+6' a♭+> | B♭+50.5 >+5 b♭+50.5 B♭+4'' b♭+5 | E♭-41.5 e♭->0.5 E♭-> e♭-z :|: C-4 >-40.5 cm-40.5 B♭->0.5 >-3'0.5 b♭-3'' |
+| C+4' >+4'0.5 cm-40.5 B♭->0.5 >-3'0.5 b♭-3'' | C-4 >-40.5 cm-40.5 B♭->0.5 >-3'0.5 b♭-3 |1 C-21.5 cm->0.5 C-> cm-z :|2 C-21.5 cm->0.5 E♭+z e♭+4' |

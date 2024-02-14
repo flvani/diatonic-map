@@ -2532,12 +2532,13 @@ V:3 accordionTab
 | C+9 z-a c+9 D-92 dm-9 | D-9 z+9 dm-9 C+8 z-8 c+8 | A+9 >+7' a+8 D-82 dm-> :|: D-82 dm-7' D-9 >-7' dm-9 | B♭-8' >-9 b♭-7' D-92 dm-9 | 
 | D-8 >-7' dm-9 C+82 c+8 | A+9 >+7' a+8 D-92 dm-8 | D-82 dm-7' D-9 >-7' dm-9 | B♭-8' >-9 b♭-7' D-92 dm-9 | D-8 >-7' dm-9 C+82 c+8 | A+9 >+7' a+8 D-82 dm-> :|
 X:2063
-%%barnumbers 0
+%%barnumbers 1
+%%pagenumbering
 %%papersize a4
 %tabinferenceopts -1
-%barsperstaff 9
+%%barsperstaff 9
 T:The Skye boat song (club)
-C:Folclore Escocês
+C:(Scotland)
 C:(Outlander Theme Song)
 Z:Flávio Vani
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
@@ -2547,9 +2548,42 @@ Q:120
 K:C
 V:1 treble
 | "C" G3/2 A/2 G | "Am" c2 c/2c/2 | "Dm" d3/2 e/2 d | "G" g3 | "C" e3/2 d/2 e | "F" A2 A | "C" G3- | "G" G z2 |
+w:Speed bonnie * boat, like a bird on the wing, "Onward", * the sail-ors cry!
+w: . . . . . . . . . . . . . . . . .
 | "C" G3/2 A/2 G | "Am" c2 c      | "Dm" d3/2 e/2 d | "G" g3 | "C" e3/2 d/2 e | "F" A2 A | "C" c3- |     c z2 +dacoda+ |
+w:Car-ry the lad that's born to be  king, over * the sea to Skye!
+w:. . . . . . . . . . . . . . . . .
 |: "Am" e3/2 c/2 e | e3 | "Dm" d3/2 A/2 d | d3 | "Am" c3/2 A/2 c | "F" c2 c  |1 "Am" A3- | A z2 :|2 "Am" A3 | "G" G3 +dcalcoda+ +coda+ |
+w:Loud the~winds * howl, load the~waves * roar, Thun-derclaps * rend the air; . . . 
+w:Baffl-ed~our * foes stand on~the * shore, Follow they * will not . . da-re.
 |: "Am" e3/2 c/2 e | e3 | "Dm" d3/2 A/2 d | d3 | "Am" c3/2 A/2 c | "F" c2 c  |1 "Am" A3- | A z2 :|2  +fermata+ A3 |
+W:
+W:The Skye boat song 
+W:
+W:Speed bonnie boat, like a bird on the wing,
+W:"Onward," the sailors cry!
+W:Carry the lad that's born to be king,
+W:over the sea to Skye!
+W:
+W:Loud the winds howl, load the waves roar,
+W:Thunderclaps rend the air;
+W:Baffled our foes stand on the shore,
+W:Follow they will not dare.
+W:
+W:Bold the waves leap, soft shall ye sleeep,
+W:Ocean's a royal bed,
+W:Rocked in the deep, Flora will keep
+W:Watch by your weary head.
+W:
+W:Many's the lad, fought on that day
+W:Well the claymore could wield
+W:When the night came, silently lay
+W:Dead on Culloden's field.
+W:
+W:Burned are our homes, exiled and dead
+W:Scattered the loyal men,
+W:Yet ere the sword cool in the sheat
+W:Charlie will come again
 V:2 bass
 | C,, [C,E,G,] [C,E,G,] | A,, [C,E,G,] [C,E,G,] | D,, [D,F,A,] [D,F,A,] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] | C,, [C,E,G,] [C,E,G,] | G,, [G,B,D] [G,B,D] |
 | C,, [C,E,G,] [C,E,G,] | A,, [C,E,G,] [C,E,G,] | D,, [D,F,A,] [D,F,A,] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] |

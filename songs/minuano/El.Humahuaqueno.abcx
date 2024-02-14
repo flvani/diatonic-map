@@ -1,0 +1,38 @@
+X:1075
+%%barnumbers 1
+%%stretchlast
+%%tabinferenceopts -2
+T:El Humahuaqueño
+R:huayno
+C:Argentina
+C:Tradicional
+Z:Flávio Vani
+M:2/4
+L:1/8
+Q:1/4=90
+K:C
+V:1 treble
+|: e/g/e/d/ e2 | e/g/e/d/ e2 |1 e/g/e/d/ ed | e3 z :|2 e/g/e/d/ eg | a3 g | a3 g |
+| a2 z E |: "F" +segno+ A A/A A/A | c3  B/A/ | "C" G G/G F/A |1 G3 E :|2 G3 z |
+w:* * Lle-gando~está * el carna- * val Quebra- * de-ño,~mi * choli- * ta! Lle-  ta!|
+|: "Am" E E/E "G" D/G | "Am" E E/E  "G" D/G | "Am" E E/E  "G" D/C | "Am" A,3 z :|
+w:Fies-ta de la que-bra-da hu-ma-hua-que-ña pa-ra can-tar!
+w:Er-que, cha-ran-go~y bom-bo, car-na-va-li-to pa-ra bai-lar!
+|: "F" A/A B/c- c | "G" G/GG/ AG | "C" E3 z  +fine+ :|: "Am "E E/E "G" D/G |
+w:Quebra- * de-ño, * hu-mahua-* que- ñi-to! Fies-ta de la que-
+w:Quebra- * de-ño, * hu-mahua-* que- ñi-to! Er-que, cha-ran-go~y
+| "Am" E E/E  "G" D/G | "Am" E E/E  "G" D/C |1 "Am" A,3 z :|2 A,2 z E +dsalfine+|
+w:bra-da hu-ma-hua-que-ña pa-ra can-tar! . .
+w: bom-bo, car-na-va-li-to pa-ra bai- . lar! Lle-
+V:2 bass
+|: z4 | z4 |1 z4 | z4 :|2 z4 | z4 |z4 |
+| z2 z2 |: F,,>[F,A,C] F,,[F,A,C] | F,,>[F,A,C] F,,[F,A,C] | C,,>[C,E,G,] C,,/2 z/ A,, |1 C,,>[C,E,G,] C,,[C,E,G,] :|2 C,,>[C,E,G,] C,,[C,E,G,] |
+|: A,,>[A,CE]  G,,[G,B,D] | A,,>[A,CE]  G,,[G,B,D] | A,,>[A,CE]  G,,[G,B,D] | A,,>[A,CE]  A,,[A,CE] :|
+|: F,,>[F,A,C] F,,[F,A,C] |   G,,>[G,B,D]  G,,[G,B,D] | C,,>[C,E,G,] C,,[C,E,G,]  :|: A,,>[A,CE]  G,,[G,B,D] |
+| A,,>[A,CE]  G,,[G,B,D] |  A,,>[A,CE]  G,,[G,B,D]  |1 A,,>[A,CE]  A,,[A,CE] :|2 A,,>[A,CE]  C,,[C,E,G,] |
+V:3 accordionTab
+|: z-90.5 z-9'0.5 z-90.5 z-7'0.5 z-92 | z-90.5 z-9'0.5 z-90.5 z-7'0.5 z-92 |1 z+7'0.5 z+8'0.5 z+7'0.5 z+80.5 z+7' z+8 | z+7'3 z+z :|2 z+7'0.5 z+8'0.5 z+7'0.5 z+80.5 z+7' z+9 | z-b3 z-9' | z-b3 z-9' |
+| z-b2 z+z z+4' |: F-7 >-70.5 f-70.5 F->0.5 >-70.5 f-7 | F-81.5 f->0.5 F-> f-6'0.5 >-70.5 | C+6 >+60.5 c+60.5 C+>0.5 z-4'0.5 A-7 |1 C+61.5 c+>0.5 C+> c+4' :|2 C+61.5 c+>0.5 C+> c+z |
+|: A-5 >-50.5 am-50.5 G->0.5 >-3'0.5 g+5' | A-5 >-50.5 am-50.5 G->0.5 >-3'0.5 g+5' | A-5 >-50.5 am-50.5 G->0.5 >-3'0.5 g+3' | A-31.5 am->0.5 A-> am-z :|
+|: F-70.5 >-7 f+70.5 F+6' f+> | G+60.5 >+6 g+60.5 G-7 g-5' | C+4'1.5 c+>0.5 C+> c+z :|: A-5 >-50.5 am-50.5 G->0.5 >-3'0.5 g+5' |
+| A-5 >-50.5 am-50.5 G->0.5 >-3'0.5 g+5' | A-5 >-50.5 am-50.5 G->0.5 >-3'0.5 g+3' |1 A-31.5 am->0.5 A-> am-z :|2 A-31.5 am->0.5 C+z c+4' |
