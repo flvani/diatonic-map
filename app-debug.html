@@ -29,6 +29,8 @@ notação abc, tablatura " />
         <link rel="stylesheet" href="css/media.css" />
         <link rel="stylesheet" href="css/app.css" />
 
+        <link rel="stylesheet" href="css/enjoyhint.css" >
+
         
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-3RXNND5N5Y"></script>
@@ -76,8 +78,14 @@ notação abc, tablatura " />
         <script type="text/javascript" src="src/properties.js"></script>
         <script type="text/javascript" src="src/translate.js"></script>
 
+        <script type="text/javascript"src="jslib/kinetic-v5.1.0.js"></script>
+        <script type="text/javascript"src="jslib/jquery-scrollto-2.1.3.min.js"></script>
+
+        <!-- Enjoyhint library -->
+        <script type="text/javascript" src="jslib/enjoyhint.js"></script>        
+
         <div id="topBar" class="topBar gradiente" >
-            <span data-translate="appName" class="topTitle" style="left: 80px; line-height:63px; font-size: 32px;">Mapa para Acordeões Diatônicos</span>
+            <span id="appTitle" data-translate="appName" class="topTitle" style="left: 80px; line-height:63px; font-size: 32px; width:fit-content;">Mapa para Acordeões Diatônicos</span>
             <a id="topSettings" class="topSettings" style="left: 15px; width: fit-content" ><i class="ico-menu" title="Ajustes" data-translate="topSettings" ></i></a>
          </div> <!-- topBar -->
 
@@ -113,7 +121,7 @@ notação abc, tablatura " />
                 <button id="GClefBtn" data-translate="GClefBtn" ><i class="ico-clef-treble" ></i></button>
                 <button id="FClefBtn" data-translate="FClefBtn" ><i class="ico-clef-bass" ></i></button>
                 <button id="timerBtn" data-translate="timerBtn" ><i class="ico-timer-00" ></i></button>
-                <button style="padding-top:2px" ><div id="tempoSld" data-translate="tempoBtn" ></div></button>
+                <button id="tempoBtnId" style="padding-top:2px" ><div id="tempoSld" data-translate="tempoBtn" ></div></button>
                 <button id="modeBtn" data-translate="modeBtn" ><i class="ico-listening" ></i></button>
             </div>
             <div id="divDidacticPlayControls"  class="btn-subgroup" style="display: none;" >
@@ -303,6 +311,15 @@ notação abc, tablatura " />
                 
                 var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
 
+                var opt = {
+                                "next #block": 'Hello.',
+                                "nextButton" : {className: "myNext", text: "myNEXT"},
+                                "skipButton" : {className: "mySkip", text: "mySKIP"},
+                                "prevButton" : {className: "myPrev", text: "myPREV"}
+                            }
+
+                var enjoyhint_instance = new EnjoyHint(opt);
+
                 myApp = new SITE.App(
                     {   // interfaceParams
                         accordionImagePlaceHolder: 'accordionImageDiv'
@@ -331,8 +348,145 @@ notação abc, tablatura " />
                     $('#tipsDiv').fadeIn('slow');
                     setTimeout(function() { $('#tipsDiv').fadeOut('slow'); }, 15000);
                 }
+
+                //simple config. 
+                //Only one step - highlighting(with description) "New" button 
+                //hide EnjoyHint after a click on the button.
+
+                var enjoyhint_script_steps = [
+                
+                    {
+                        'next #appTitle' : "Let's learn the main features of this App?",
+                         top: 75, bottom: -10, left:10, right: 10
+                    },
+                    {
+                        'next #topSettings' : 'Use the settings menu to change things like the language or to use piano sounds and so on.',
+                            shape : 'circle',
+                            radius: 36
+                    },
+                    {
+                        'next #menuGaitas' : 'Checkout the accordion listbox and choose the one you preffer.',
+                    },
+                    {
+                        'next #menuSongs' : 'Now choose an availiable song from the list.',
+                    },
+                    {
+                        'click #openBtn' : 'Click the "Open" button to start learning.',
+                        showSkip: false,
+                         top: -4, bottom: -4, left: -4, 
+                        scrollAnimationSpeed : 2500
+                    },
+                    {
+                        'next #controlDiv1' : "Now let's know the facilities on the menu bar",
+                         showPrev: false,
+                         top: 50, bottom: -10, left:10, right: -200
+
+                    },
+                    {
+                        'next .ico-keyboard' : 'Show/Hide the keyboard layout',
+                            shape : 'circle',
+                            radius: 28
+                    },
+                    {
+                        'next .ico-printer' : 'Show a print preview for the partiture/tablature.',
+                            shape : 'circle',
+                            radius: 28
+                    },
+                    {
+                        'next .ico-tabformat' : 'Switch between two different formats for tablature numbering',
+                            shape : 'circle',
+                            radius: 28
+                    },
+                    {
+                        'next .ico-alien-fingering2' : 'Show/Hide the fingering (if present)',
+                            shape : 'circle',
+                            radius: 28
+                    },
+                    {
+                        'next .ico-letter-l' : 'Show/Hide the lyrics (if present)',
+                            shape : 'circle',
+                            radius: 28
+                    },
+                    {
+                        'next .ico-clef-treble' : 'Mute/Unmute the sound of the melody during the Midi execution.',
+                            shape : 'circle',
+                            radius: 28
+                    },
+                    {
+                        'next .ico-clef-bass' : 'Mute/Unmute the sound of the bass rhythm during the Midi execution.',
+                            shape : 'circle',
+                            radius: 28
+                    },
+                    {
+                        'next .ico-timer-00' : 'Enable/Disable a short timer before start playing',
+                            shape : 'circle',
+                            radius: 28
+                    },
+                    {
+                        'next #playBtn' : 'Play/Pause the current song.',
+                            shape : 'circle',
+                            radius: 28
+                    },
+                    {
+                        'next #stopBtn' : 'Stop the current song.',
+                            shape : 'circle',
+                            radius: 28
+                    },
+                    {
+                        'next #tempoBtnId' : 'Controls the tempo of the execution',
+                         top: -4, bottom: -4
+                    },
+                    {
+                        'next #modeBtn' : 'Switch between the normal mode execution and the learning mode<br>click it until a person reading icon is showed',
+                            shape : 'circle',
+                            radius: 28
+                    },
+                    {
+                        'next #stepBtn' : 'play 1 note',
+                            shape : 'circle',
+                            radius: 28
+                    },
+                    {
+                        'next #stepMeasureBtn' : '1 measure',
+                            shape : 'circle',
+                            radius: 28
+                    },
+                    {
+                        'next .input-group' : 'xxxx',
+                         top: -4, bottom: -4
+                    },
+                    {
+                        'next #repeatBtn' : 'repeat interval',
+                            shape : 'circle',
+                            radius: 28
+                    },
+                    {
+                        'next #clearBtn' : 'clear',
+                            shape : 'circle',
+                            radius: 28
+                    },
+                    {
+                        'next #canvasDiv' : 'to learn more',
+                    },
+                    {
+                        'click .ico-home' : 'Back to initial page.',
+                            shape : 'circle',
+                            radius: 28,
+                            showSkip: false,
+                    },
+                ];
+
+
+                //set script config
+                enjoyhint_instance.set(enjoyhint_script_steps);
+
+                //run Enjoyhint script
+                enjoyhint_instance.run();
             }
             
         </script> <!-- mainScript -->
     </body>
 </html>
+
+
+
