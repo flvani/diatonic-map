@@ -265,12 +265,20 @@ SITE.LoadProperties = function() {
         salvar = true;
         SITE.properties.options.tabShowOnlyNumbers=false;
     }
+
+    if( SITE.properties.options.guidedTour === undefined ) {
+        salvar = true;
+        SITE.properties.options.guidedTour=false;
+    }
     
+
     if( salvar ) {
         SITE.SaveProperties();
     }
 
-    SITE.askHelp();
+    if (SITE.properties.options.guidedTour){
+        SITE.askHelp();
+    }
 };
 
 SITE.SaveProperties = function() {

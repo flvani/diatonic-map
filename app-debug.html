@@ -30,7 +30,6 @@ notação abc, tablatura " />
         <link rel="stylesheet" href="css/app.css" />
 
         <link rel="stylesheet" href="css/enjoyhint.css" >
-
         
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-3RXNND5N5Y"></script>
@@ -83,6 +82,7 @@ notação abc, tablatura " />
 
         <!-- Enjoyhint library -->
         <script type="text/javascript" src="jslib/enjoyhint.js"></script>        
+        <script type="text/javascript" src="src/app.tour.js"></script>        
 
         <div id="topBar" class="topBar gradiente" >
             <span id="appTitle" data-translate="appName" class="topTitle" style="left: 80px; line-height:63px; font-size: 32px; width:fit-content;">Mapa para Acordeões Diatônicos</span>
@@ -106,8 +106,7 @@ notação abc, tablatura " />
                 <a id="aVersion" href="" style="position:absolute; right: 40px; bottom: 0px;">Diatonic App debug Powered by ABCXJS version 5.46</a>
             </div>
         </div>
-
-        <div id="keyboardDiv" style="z-index:101; height: fit-content;"></div>
+        
         <div id="studioDiv" class="studioDiv" style="z-index:101; height: fit-content;"></div>
 
         <div id="studioControlDiv" style="display:none;">
@@ -311,15 +310,6 @@ notação abc, tablatura " />
                 
                 var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
 
-                var opt = {
-                                "next #block": 'Hello.',
-                                "nextButton" : {className: "myNext", text: "myNEXT"},
-                                "skipButton" : {className: "mySkip", text: "mySKIP"},
-                                "prevButton" : {className: "myPrev", text: "myPREV"}
-                            }
-
-                var enjoyhint_instance = new EnjoyHint(opt);
-
                 myApp = new SITE.App(
                     {   // interfaceParams
                         accordionImagePlaceHolder: 'accordionImageDiv'
@@ -349,139 +339,17 @@ notação abc, tablatura " />
                     setTimeout(function() { $('#tipsDiv').fadeOut('slow'); }, 15000);
                 }
 
-                //simple config. 
-                //Only one step - highlighting(with description) "New" button 
-                //hide EnjoyHint after a click on the button.
+                //if(!SITE.properties.options.guidedTour){
 
-                var enjoyhint_script_steps = [
-                
-                    {
-                        'next #appTitle' : "Let's learn the main features of this App?",
-                         top: 75, bottom: -10, left:10, right: 10
-                    },
-                    {
-                        'next #topSettings' : 'Use the settings menu to change things like the language or to use piano sounds and so on.',
-                            shape : 'circle',
-                            radius: 36
-                    },
-                    {
-                        'next #menuGaitas' : 'Checkout the accordion listbox and choose the one you preffer.',
-                    },
-                    {
-                        'next #menuSongs' : 'Now choose an availiable song from the list.',
-                    },
-                    {
-                        'click #openBtn' : 'Click the "Open" button to start learning.',
-                        showSkip: false,
-                         top: -4, bottom: -4, left: -4, 
-                        scrollAnimationSpeed : 2500
-                    },
-                    {
-                        'next #controlDiv1' : "Now let's know the facilities on the menu bar",
-                         showPrev: false,
-                         top: 50, bottom: -10, left:10, right: -200
+                    SITE.myTour = new EnjoyHint(g_enjoyhint_opts);
 
-                    },
-                    {
-                        'next .ico-keyboard' : 'Show/Hide the keyboard layout',
-                            shape : 'circle',
-                            radius: 28
-                    },
-                    {
-                        'next .ico-printer' : 'Show a print preview for the partiture/tablature.',
-                            shape : 'circle',
-                            radius: 28
-                    },
-                    {
-                        'next .ico-tabformat' : 'Switch between two different formats for tablature numbering',
-                            shape : 'circle',
-                            radius: 28
-                    },
-                    {
-                        'next .ico-alien-fingering2' : 'Show/Hide the fingering (if present)',
-                            shape : 'circle',
-                            radius: 28
-                    },
-                    {
-                        'next .ico-letter-l' : 'Show/Hide the lyrics (if present)',
-                            shape : 'circle',
-                            radius: 28
-                    },
-                    {
-                        'next .ico-clef-treble' : 'Mute/Unmute the sound of the melody during the Midi execution.',
-                            shape : 'circle',
-                            radius: 28
-                    },
-                    {
-                        'next .ico-clef-bass' : 'Mute/Unmute the sound of the bass rhythm during the Midi execution.',
-                            shape : 'circle',
-                            radius: 28
-                    },
-                    {
-                        'next .ico-timer-00' : 'Enable/Disable a short timer before start playing',
-                            shape : 'circle',
-                            radius: 28
-                    },
-                    {
-                        'next #playBtn' : 'Play/Pause the current song.',
-                            shape : 'circle',
-                            radius: 28
-                    },
-                    {
-                        'next #stopBtn' : 'Stop the current song.',
-                            shape : 'circle',
-                            radius: 28
-                    },
-                    {
-                        'next #tempoBtnId' : 'Controls the tempo of the execution',
-                         top: -4, bottom: -4
-                    },
-                    {
-                        'next #modeBtn' : 'Switch between the normal mode execution and the learning mode<br>click it until a person reading icon is showed',
-                            shape : 'circle',
-                            radius: 28
-                    },
-                    {
-                        'next #stepBtn' : 'play 1 note',
-                            shape : 'circle',
-                            radius: 28
-                    },
-                    {
-                        'next #stepMeasureBtn' : '1 measure',
-                            shape : 'circle',
-                            radius: 28
-                    },
-                    {
-                        'next .input-group' : 'xxxx',
-                         top: -4, bottom: -4
-                    },
-                    {
-                        'next #repeatBtn' : 'repeat interval',
-                            shape : 'circle',
-                            radius: 28
-                    },
-                    {
-                        'next #clearBtn' : 'clear',
-                            shape : 'circle',
-                            radius: 28
-                    },
-                    {
-                        'next #canvasDiv' : 'to learn more',
-                    },
-                    {
-                        'click .ico-home' : 'Back to initial page.',
-                            shape : 'circle',
-                            radius: 28,
-                            showSkip: false,
-                    },
-                ];
+                    //set script config
+                    SITE.myTour.set(g_enjoyhint_script_steps);
 
-
-                //set script config
-                enjoyhint_instance.set(enjoyhint_script_steps);
-
-                //run Enjoyhint script
-                enjoyhint_instance.run();
+                    //run Enjoyhint script
+                    SITE.myTour.run();
+                    
+                //}
             }
             
         </script> <!-- mainScript -->

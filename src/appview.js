@@ -32,7 +32,40 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         , {listener: this, method: 'appViewCallBack'}
     );
 
+    this.controlDiv = document.createElement("DIV");
+    this.controlDiv.setAttribute("id", 'controlDiv' );
+    this.controlDiv.setAttribute("class", 'controlDiv btn-group draggableToolBarApp' );
+    
+    this.Div.dataDiv.appendChild(this.controlDiv);
 
+    this.studioCanvasDiv = document.createElement("DIV");
+    this.studioCanvasDiv.setAttribute("id", interfaceParams.studioCanvasDiv );
+    this.studioCanvasDiv.setAttribute("class", "studioCanvasDiv" );
+
+    this.canvasDiv = document.createElement("DIV");
+    this.canvasDiv.setAttribute("id", canvas_id);
+    this.canvasDiv.setAttribute("class", "canvasDiv" );
+
+    this.keyboardWindow = document.createElement("DIV");
+    this.keyboardWindow.setAttribute("id", 'keyboardDiv' );
+
+    this.keyboardWindow.pane = document.createElement("DIV");
+    this.keyboardWindow.pane.setAttribute("id", 'keyboardPane' );
+    this.keyboardWindow.appendChild(this.keyboardWindow.pane);
+
+    this.keyboardWindow.imagem  = document.createElement("DIV");
+    this.keyboardWindow.imagem.setAttribute("id", 'keyboardImagem' );
+    this.keyboardWindow.appendChild(this.keyboardWindow.imagem);
+
+    this.keyboardWindow.extras = document.createElement("DIV");
+    this.keyboardWindow.extras.setAttribute("id", 'keyboardExtras' );
+    this.keyboardWindow.appendChild(this.keyboardWindow.extras);
+
+    this.studioCanvasDiv.appendChild(this.keyboardWindow);
+    this.studioCanvasDiv.appendChild(this.canvasDiv);
+    this.Div.dataDiv.appendChild(this.studioCanvasDiv);
+
+/*
     this.keyboardWindow = new DRAGGABLE.ui.Window( 
         interfaceParams.keyboardDiv
        ,[  'rotate', 'globe']
@@ -41,17 +74,16 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         } 
        ,{listener: this, method: 'keyboardCallback'}
     );
-
+*/
     // flavio e a feiura - inicio
 
-        this.keyboardWindow.extras = document.createElement('div');
+        //this.keyboardWindow.extras = document.createElement('div');
         this.keyboardWindow.extras.style.display = 'none';
         this.keyboardWindow.extras.innerHTML = 
            '<button id="rotateBtnExtra" data-translate="rotate" ><i class="ico-rotate" ></i></button>\
             <button id="globeBtnExtra"  data-translate="globe" ><i class="ico-world" ></i></button>'
     
         this.keyboardWindow.extras.className = 'keyboard-btn-group';
-        this.keyboardWindow.topDiv.appendChild(this.keyboardWindow.extras);
     
         this.rotateBtnExtra = document.getElementById("rotateBtnExtra");
         this.globeBtnExtra = document.getElementById("globeBtnExtra");
@@ -66,11 +98,9 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
             that.keyboardCallback('GLOBE');
         }, false);
         
-        this.keyboardWindow.imagem  = document.createElement('div');
         this.keyboardWindow.imagem.style.display = 'none';
         this.keyboardWindow.imagem.style.zIndex = '5000';
         this.keyboardWindow.imagem.className = 'circular';
-        this.keyboardWindow.topDiv.appendChild(this.keyboardWindow.imagem );
 
         SITE.translator.translate( this.keyboardWindow.extras );
 
@@ -104,11 +134,7 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
        ,label: SITE.properties.studio.keyboard.label
     });
 
-    this.controlDiv = document.createElement("DIV");
-    this.controlDiv.setAttribute("id", 'controlDiv' );
-    this.controlDiv.setAttribute("class", 'controlDiv btn-group draggableToolBarApp' );
-    
-    this.Div.dataDiv.appendChild(this.controlDiv);
+    this.accordion.printKeyboard( this.keyboardWindow.pane );
     
     this.controlDiv.innerHTML = document.getElementById(interfaceParams.studioControlDiv).innerHTML;
     document.getElementById(interfaceParams.studioControlDiv).innerHTML = "";
@@ -118,16 +144,6 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
     
     this.media = new SITE.Media( this.Div.dataDiv, interfaceParams.btShowMedia, SITE.properties.studio.media, true ); 
 
-    this.studioCanvasDiv = document.createElement("DIV");
-    this.studioCanvasDiv.setAttribute("id", interfaceParams.studioCanvasDiv );
-    this.studioCanvasDiv.setAttribute("class", "studioCanvasDiv" );
-   
-    this.canvasDiv = document.createElement("DIV");
-    this.canvasDiv.setAttribute("id", canvas_id);
-    this.canvasDiv.setAttribute("class", "canvasDiv" );
-
-    this.studioCanvasDiv.appendChild(this.canvasDiv);
-    this.Div.dataDiv.appendChild(this.studioCanvasDiv);
     
     this.renderedTune.div = this.canvasDiv;
    
@@ -414,11 +430,11 @@ SITE.AppView.prototype.setup = function( tab, accordionId) {
     this.Div.setTitle( tab.title );
     this.Div.setSubTitle( '- ' + this.accordion.getTxtModel() + ' ' +  this.accordion.getTxtTuning() );
 
-    this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
+    //this.keyboardWindow.setTitle(this.accordion.getTxtTuning() + ' - ' + this.accordion.getTxtNumButtons() );
 
     this.showKeyboard(SITE.properties.studio.keyboard.visible);
     
-    this.keyboardWindow.resize();
+    //this.keyboardWindow.resize();
     this.Div.resize();
     this.resize();
 
@@ -437,11 +453,11 @@ SITE.AppView.prototype.resizeLeft = function( ) {
 
     var w = (winW - 2 ); 
     var h = (winH - 4 ); 
-    var l = SITE.properties.studio.keyboard.visible? this.keyboardWindow.topDiv.clientWidth+1 : 0;
+    var l = SITE.properties.studio.keyboard.visible? this.keyboardWindow.pane.clientWidth+1 : 0;
 
-    this.keyboardWindow.topDiv.style.top=0;
-    this.keyboardWindow.topDiv.style.left=0;
-    this.keyboardWindow.topDiv.style.height = Math.max(h,200) +"px";
+    this.keyboardWindow.pane.style.top=0;
+    this.keyboardWindow.pane.style.left=0;
+    this.keyboardWindow.pane.style.height = Math.max(h,200) +"px";
 
     this.Div.topDiv.style.top=0;
     this.Div.topDiv.style.left= l+"px";
@@ -472,11 +488,11 @@ SITE.AppView.prototype.resizeRight = function( ) {
 
     var w = (winW - 2 ); 
     var h = (winH - 4 ); 
-    var l = SITE.properties.studio.keyboard.visible? this.keyboardWindow.topDiv.clientWidth+1 : 0;
+    var l = SITE.properties.studio.keyboard.visible? this.keyboardWindow.pane.clientWidth+1 : 0;
         
-    this.keyboardWindow.topDiv.style.top=0;
-    this.keyboardWindow.topDiv.style.left= (w-l+1)+"px";
-    this.keyboardWindow.topDiv.style.height = Math.max(h,200) +"px";
+    this.keyboardWindow.pane.style.top=0;
+    this.keyboardWindow.pane.style.left= (w-l+1)+"px";
+    this.keyboardWindow.pane.style.height = Math.max(h,200) +"px";
 
     this.Div.topDiv.style.top=0;
     this.Div.topDiv.style.left=0;
@@ -502,12 +518,12 @@ SITE.AppView.prototype.showKeyboard = function(show) {
     this.accordion.render_opts.show = SITE.properties.studio.keyboard.visible;
     
     if(SITE.properties.studio.keyboard.visible) {
-        this.keyboardWindow.setVisible(true);
-        this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
+        //this.keyboardWindow.setVisible(true);
+        //this.accordion.printKeyboard(this.keyboardWindow.dataDiv);
         this.showMapButton.innerHTML = '<i class="ico-keyboard" ></i>';
     } else {
-        this.accordion.render_opts.show = false;
-        this.keyboardWindow.setVisible(false);
+        //this.accordion.render_opts.show = false;
+        //this.keyboardWindow.setVisible(false);
         this.showMapButton.innerHTML = '<i class="ico-keyboard" style="opacity:0.5; filter: grayscale(1);"></i>'+
                                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px; filter: grayscale(1);"></i>';
     }
@@ -524,16 +540,19 @@ SITE.AppView.prototype.setKeyboardDetails = function( ) {
     else    
         this.resize = this.resizeLeft;
     
-    if( SITE.properties.options.suppressTitles ) {
+    //if( SITE.properties.options.suppressTitles ) {
         this.keyboardWindow.imagem.style.display='inline';
         this.keyboardWindow.extras.style.display='inline';
-    } else{
-        this.keyboardWindow.imagem.style.display='none';
-        this.keyboardWindow.extras.style.display='none';
-    }
+    //} else{
+    //    this.keyboardWindow.imagem.style.display='none';
+    //    this.keyboardWindow.extras.style.display='none';
+    //}
 
-    this.Div.setMenuVisible(!SITE.properties.options.suppressTitles);
-    this.keyboardWindow.setMenuVisible(!SITE.properties.options.suppressTitles);
+    this.Div.setMenuVisible(false);
+    //this.keyboardWindow.setMenuVisible(false);
+    //this.Div.setMenuVisible(!SITE.properties.options.suppressTitles);
+    //this.keyboardWindow.setMenuVisible(!SITE.properties.options.suppressTitles);
+
     this.keyboardMirrorElements()
 }
 

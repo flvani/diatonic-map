@@ -9,7 +9,7 @@ and open the template in the editor.
 */
 
 html {
-    height: calc( 100% - 75px);
+    height: calc(100% - 75px);
 }
 
 body {
@@ -18,10 +18,10 @@ body {
     margin: 0;
     padding: 0;
     height: 100%;
-    padding-top: 75px;  
-    
+    padding-top: 75px;
+
     overflow: auto;
-    
+
     /* inicio - evita que textos fiquem selecionáveis */
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -41,14 +41,14 @@ body {
     background: linear-gradient(left, #003050 0%, black 100%);
     color: orange;
     color: #ff9922;
-    cursor:default;
+    cursor: default;
 }
 
 .topBar {
     z-index: 100;
     position: fixed;
     display: block;
-    top: 0; 
+    top: 0;
     left: 0;
     min-height: 70px;
     min-width: 640px;
@@ -57,29 +57,29 @@ body {
     padding: 0;
     padding-top: 4px;
     padding-left: 5px;
-    box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
-    -webkit-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
-    -moz-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
-    -ms-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
-    -o-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
-    
+    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.7);
+    -webkit-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.7);
+    -ms-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.7);
+    -o-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.7);
+
 }
-    
+
 .topSettings {
-    position:absolute; 
-    top:10px; 
-    color:#ff9922;
+    position: absolute;
+    top: 10px;
+    color: #ff9922;
     font-size: 46px;
-    left: 25px !important; 
+    left: 25px !important;
     width: fit-content;
-}    
+}
 
 
 .topSettings:hover {
-    color:#ff9922;
+    color: #ff9922;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    cursor:pointer;
-}    
+    cursor: pointer;
+}
 
 .topTitle {
     position: relative;
@@ -92,8 +92,8 @@ body {
     margin-top: 4px;
     margin-bottom: 4px;
     color: #ff9922;
-    left: 80px; 
-    line-height:63px; 
+    left: 80px;
+    line-height: 63px;
     font-size: 32px;
 }
 
@@ -112,35 +112,35 @@ body {
 }
 
 .backgroundDivStyle {
-    position: absolute; 
-    height: 100vh; 
-    width: 100vw; 
-    opacity:0.5;
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    opacity: 0.5;
     background-image: url("../images/accordions/flowers.background.png");
 }
 
 .accordionImageStyle {
     position: absolute;
-    right: 40px; 
-    top: 40px; 
-    opacity:1;
+    right: 40px;
+    top: 40px;
+    opacity: 1;
 }
 
 .abcxVersionStyle {
-    position: absolute; 
-    bottom: 2px; 
+    position: absolute;
+    bottom: 2px;
     right: 5px;
-    color: rgba(0,0,0,0.8); 
+    color: rgba(0, 0, 0, 0.8);
 }
 
 .abcxVersionStyle a {
     text-decoration: none;
-    font-family: 'Merienda'; 
-    font-size:18px; 
+    font-family: 'Merienda';
+    font-size: 18px;
 }
 
 .menu-group {
-    margin:20px;
+    margin: 20px;
 }
 
 .btn-group b,
@@ -154,7 +154,7 @@ body {
 }
 
 .btn-group input[type="text"] {
-    margin-top:0px;
+    margin-top: 0px;
     font-family: "Merienda";
 }
 
@@ -173,24 +173,24 @@ body {
 }
 
 .input-group {
-    float:left; 
-    margin-top: -2px; 
+    float: left;
+    margin-top: -2px;
     font-size: 20px;
-    height: 44px !important;  
-    line-height: 44px !important;  
+    height: 44px !important;
+    line-height: 44px !important;
 }
 
-.input-group > input {
-    font-size: 18px; 
+.input-group>input {
+    font-size: 18px;
     width: 2.5em;
 }
 
-.dButton > a { 
-    color: white; 
-    text-decoration: none 
+.dButton>a {
+    color: white;
+    text-decoration: none
 }
- 
-.dropdown-menu  {
+
+.dropdown-menu {
     border-radius: 5px;
 }
 
@@ -200,7 +200,7 @@ body {
 }
 
 .dropdown-menu .selected {
-    background:  #6E2518 !important;
+    background: #6E2518 !important;
 }
 
 .dropdown-menu li {
@@ -209,14 +209,14 @@ body {
 }
 
 .printPreviewClass {
-    position:absolute;
-    display:none;
-    top:0;
-    left:0;
+    position: absolute;
+    display: none;
+    top: 0;
+    left: 0;
     margin: 0;
     padding: 0;
-    width:100%; 
-    height: 100%; 
+    width: 100%;
+    height: 100%;
     background-color: #fff;
     z-index: 1000;
 }
@@ -230,23 +230,23 @@ body {
     background: linear-gradient(left, #003050 0%, black 100%);
 }
 
-.rounded-corners > h1 {
-    background:transparent;
+.rounded-corners>h1 {
+    background: transparent;
     position: absolute;
-    width:fit-content;
+    width: fit-content;
     left: 0px;
     top: -38px;
     font-size: 20px;
     padding: 0 5px 0 5px;
 }
 
-.rounded-corners > button {
+.rounded-corners>button {
     width: 100%;
 }
 
-.slide-thumb > span {
+.slide-thumb>span {
     opacity: 0.6;
-    font-size: 18px ;
+    font-size: 18px;
 }
 
 .draggableToolBarApp {
@@ -257,35 +257,35 @@ body {
     width: calc(100% - 2px);
     font-size: 16px;
     position: relative;
-    display:inline-block;
+    display: inline-block;
     margin: 0;
     padding: 1px;
     pointer-events: auto;
     background: lightblue;
     background-color: #EBEBEB;
     background: #e9edf0;
-    border-bottom: 1px solid rgba(100,100,100,0.5);
-/*
+    border-bottom: 1px solid rgba(100, 100, 100, 0.5);
+    /*
     background: -moz-linear-gradient(left, #003050 0%, black 100%) !important;
     background: -webkit-linear-gradient(left, #003050 0%, black 100%) !important;
     background: -o-linear-gradient(left, #003050 0%, black 100%) !important;
     background: -ms-linear-gradient(left, #003050 0%, black 100%) !important;
     background: linear-gradient(left, #003050 0%, black 100%) !important;
-*/    
+*/
 }
 
 .draggableToolBarApp button {
     position: relative;
     display: block;
-    float:left;
+    float: left;
     text-align: left;
-    font-family: 'Milonga','Arial';
+    font-family: 'Milonga', 'Arial';
     font-weight: normal;
     font-size: 32px;
     line-height: 32px;
     height: 32px;
     width: auto;
-    text-shadow: 2px 1px 2px rgba(50, 50, 50, 0.8); 
+    text-shadow: 2px 1px 2px rgba(50, 50, 50, 0.8);
     left: 0;
     margin: 0;
     margin-left: 4px;
@@ -295,12 +295,12 @@ body {
     color: #ff9922;
     color: red;
     background-color: transparent;
-    
+
 }
 
 .keyboard-btn-group {
-    position: absolute; 
-    display:inline-block;
+    position: absolute;
+    display: inline-block;
     top: 0px;
     margin-top: 2px;
     margin-left: 5px;
@@ -312,25 +312,25 @@ body {
     padding: 1px;
     pointer-events: auto;
     background: #e9edf0;
-/*
+    /*
     background: lightblue;
     background-color: #EBEBEB;
-*/    
+*/
 }
 
 .keyboard-btn-group label,
 .keyboard-btn-group button {
     position: relative;
     display: block;
-    float:left;
+    float: left;
     text-align: left;
-    font-family: 'Milonga','Arial';
+    font-family: 'Milonga', 'Arial';
     font-weight: normal;
     font-size: 32px;
     line-height: 32px;
     height: 44px;
     width: auto;
-    text-shadow: 2px 1px 2px rgba(50, 50, 50, 0.8); 
+    text-shadow: 2px 1px 2px rgba(50, 50, 50, 0.8);
     left: 0;
     margin: 0;
     margin-left: 4px;
@@ -349,32 +349,32 @@ body {
     cursor: pointer;
 }
 
-.circular { 
-    position: absolute; 
-    display:inline-block;
-    bottom:20px;
-    border-radius: 50%; 
-    z-index: -10 ; 
-    background: rgba(100, 100, 100, 0.5);    
-    box-shadow: 0 0 15px 15px rgba(100, 100, 100, 0.5);    
-    height: 80px; 
+.circular {
+    position: absolute;
+    display: inline-block;
+    bottom: 80px;
+    border-radius: 50%;
+    z-index: -10;
+    background: rgba(100, 100, 100, 0.5);
+    box-shadow: 0 0 15px 15px rgba(100, 100, 100, 0.5);
+    height: 80px;
     width: 80px;
- }
+}
 
-.circular img { 
+.circular img {
     position: relative;
     border: none;
-    margin-top:-5px;
-    margin-left:-10px;
-    height:100px; 
+    margin-top: -5px;
+    margin-left: -10px;
+    height: 100px;
     width: 100px;
 }
 
 
 .playtime-label {
-    height: 20px !important;  
-    line-height: 20px !important;  
-    width: 90px !important; 
+    height: 20px !important;
+    line-height: 20px !important;
+    width: 90px !important;
     font-size: 28px !important;
     margin: 2px 4px 1px 4px;
     color: #ff9922 !important;
@@ -384,7 +384,7 @@ body {
 
 .studioDiv {
     position: absolute;
-    display:none;
+    display: none;
     left: 0;
     top: 78px;
     width: 100%;
@@ -393,7 +393,7 @@ body {
 }
 
 .controlDiv {
-    clear:both;
+    clear: both;
     position: relative;
     display: inline-block;
     margin: 0;
@@ -408,7 +408,7 @@ body {
 }
 
 .studioCanvasDiv {
-    clear:both;
+    clear: both;
     position: relative;
     display: block;
     margin: 0px;
@@ -417,29 +417,29 @@ body {
     overflow-y: hidden;
     background-color: #e9edf0;
     background-color: white;
-    
+
 }
 
 
 .canvasDiv {
-    clear:both;
+    clear: both;
     position: relative;
     display: inline-block;
     padding: 3px;
     margin: 4px;
-    border: 1px solid rgba(159,159,159,0.2);
-    background-color: #f1f1dd; 
-    background-color: honeydew; 
-    background-color: ivory; 
-    background-color: aliceblue; 
-    background-color: azure; 
-    background-color: mintcream; 
+    border: 1px solid rgba(159, 159, 159, 0.2);
+    background-color: #f1f1dd;
+    background-color: honeydew;
+    background-color: ivory;
+    background-color: aliceblue;
+    background-color: azure;
+    background-color: mintcream;
     width: auto;
     height: auto;
-    min-width: 800px; 
-    box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-    -webkit-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-    -moz-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-    -ms-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-    -o-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
+    min-width: 800px;
+    box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -webkit-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -ms-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -o-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
 }
