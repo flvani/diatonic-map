@@ -16,8 +16,6 @@ body {
     height: 100%;
     padding-top: 75px;  
     
-    overflow: auto;
-    
     /* inicio - evita que textos fiquem selecionáveis */
     -webkit-touch-callout: none;
     -webkit-user-select: none;

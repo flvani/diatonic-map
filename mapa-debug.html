@@ -101,7 +101,7 @@ notação abc, tablatura " />
                         <i class="ico-world-2"></i>&nbsp;<span data-translate="chLabel">Mudar a notação</span>
                     </button>
                     <button id="buttonShowMedia" style="display:none;" >
-                        <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
+                        <i class="ico-vplayer" data-translate="showMedia"></i>&nbsp;
                     </button>
                 </div>
                 <div class="tv-container-always">
@@ -109,7 +109,7 @@ notação abc, tablatura " />
                     <div id="accordionImageDiv" class="accordionImageStyle"></div>
                     <div id="divABCXversion" class="abcxVersionStyle"></div>
                 </div>
-                <div style="z-index: 1000; position: fixed; right: -200px; top:0px;">
+                <div style="z-index: 50; position: fixed; right: 100px; top:100px;">
                     <h3>Window size is <span class="window-size"></span></h3>
                     <p>Knowing this number you can make decisions based in breakpoints of window.</p>
                     <hr>
@@ -192,7 +192,7 @@ notação abc, tablatura " />
             </div>
             <div class="btn-subgroup">
                 <button id="buttonShowMedia2" style="display:none;" >
-                    <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
+                    <i class="ico-vplayer" data-translate="showMedia"></i>&nbsp;
                 </button>
             </div>
         </div>  <!-- controlDiv - este bloco é tratado internamente -->  
@@ -216,7 +216,7 @@ notação abc, tablatura " />
                 <button id="t2pSavePartBtn" data-translate="savePartTip"><i class="ico-download"></i>&#160;<span data-translate="PartGenSavePartBtn">Salvar Partitura</span></button>
                 <div class="btn-subgroup">
                     <button id="t2pbuttonShowMedia" style="display:none;" >
-                        <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
+                        <i class="ico-vplayer" data-translate="showMedia"></i>&nbsp;
                     </button>
                 </div>
             </div>
@@ -253,7 +253,7 @@ notação abc, tablatura " />
             </div>
             <div class="btn-subgroup">
                 <button id="a2pbuttonShowMedia" style="display:none;" >
-                    <i class="ico-vplayer"></i>&nbsp;<span data-translate="showMedia">Videoaula</span>
+                    <i class="ico-vplayer" data-translate="showMedia"></i>&nbsp;
                 </button>
             </div>
         </div> <!-- a2pcontrolDiv - este bloco é tratado internamente -->
@@ -270,23 +270,23 @@ notação abc, tablatura " />
         
         <script id="mainScript" type="text/javascript">
 
-function sizeOfThings(){
-  var windowWidth = window.innerWidth;
-  var windowHeight = window.innerHeight;
-  
-  var screenWidth = screen.width;
-  var screenHeight = screen.height;
-  
-  document.querySelector('.window-size').innerHTML = windowWidth + 'x' + windowHeight;
-  document.querySelector('.screen-size').innerHTML = screenWidth + 'x' + screenHeight;
+            function sizeOfThings(){
+            var windowWidth = window.innerWidth;
+            var windowHeight = window.innerHeight;
+            
+            var screenWidth = screen.width;
+            var screenHeight = screen.height;
+            
+            document.querySelector('.window-size').innerHTML = windowWidth + 'x' + windowHeight;
+            document.querySelector('.screen-size').innerHTML = screenWidth + 'x' + screenHeight;
 
-};
+            };
 
-sizeOfThings();
+            sizeOfThings();
 
-window.addEventListener('resize', function(){
-	sizeOfThings();
-});            
+            window.addEventListener('resize', function(){
+                sizeOfThings();
+            });            
             
             SITE.abcxVersion = SITE.getVersion('mainABCX', '' ); // Obtem e mostra a versão corrente da lib ABCX 
             SITE.siteVersion = SITE.getVersion('mainSITE', 'v' ); // Obtem e mostra a versão corrente da lib do site

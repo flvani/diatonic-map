@@ -619,7 +619,7 @@ SITE.App.prototype.applySettings = function() {
         this.defineInstrument();
     }
 
-    (this.appView) && this.appView.setKeyboardDetails()
+    //(this.appView) && this.appView.setKeyboardDetails()
    
     this.resizeActiveWindow();
     
@@ -678,7 +678,7 @@ SITE.App.prototype.closeModal = function( ) {
 
 SITE.App.prototype.closeAppView = function() {
     this.appView.setVisible(false);
-    this.appView.keyboardWindow.setVisible(false);
+    //this.appView.keyboardWindow.setVisible(false);
     this.appView.stopPlay();
     SITE.SaveProperties();
     this.Back.pop();

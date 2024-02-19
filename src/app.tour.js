@@ -4,8 +4,8 @@ var g_enjoyhint_opts = {
     ,"btnPrevText": 'Voltar'
     ,"btnSkipText": 'Dispensar'
     ,backgroundColor: "rgba(0,0,0,0.5)"
-    ,onEnd:function(){SITE.properties.options.guidedTour = true;SITE.SaveProperties();}
-    ,onSkip:function(){SITE.properties.options.guidedTour = true;SITE.SaveProperties(); SITE.myTour.destroy()}
+    ,onEnd:function(){SITE.properties.options.guidedTour = true;SITE.SaveProperties(); document.body.style.overflow = "hidden";}
+    ,onSkip:function(){SITE.properties.options.guidedTour = true;SITE.SaveProperties(); SITE.myTour.destroy(); document.body.style.overflow = "hidden";}
 }
 
 

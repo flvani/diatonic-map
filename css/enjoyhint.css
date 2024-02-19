@@ -8,14 +8,6 @@
     text-align: center
 }
 
-@font-face {
-    font-family: casino_handregular;
-    src: url(src/Casino_Hand/casino_hand-webfont.eot);
-    src: url(src/Casino_Hand/casino_hand-webfont.eot?#iefix) format("embedded-opentype"), url(src/Casino_Hand/casino_hand-webfont.woff) format("woff"), url(src/Casino_Hand/casino_hand-webfont.ttf) format("truetype"), url(src/Casino_Hand/casino_hand-webfont.svg#casino_handregular) format("svg");
-    font-weight: 400;
-    font-style: normal
-}
-
 .enjoyhint {
     position: fixed;
     width: 100%;

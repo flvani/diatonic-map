@@ -20,8 +20,6 @@ body {
     height: 100%;
     padding-top: 75px;
 
-    overflow: auto;
-
     /* inicio - evita que textos fiquem selecionáveis */
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -351,8 +349,7 @@ body {
 
 .circular {
     position: absolute;
-    display: inline-block;
-    bottom: 80px;
+    display: inline;
     border-radius: 50%;
     z-index: -10;
     background: rgba(100, 100, 100, 0.5);
@@ -362,7 +359,6 @@ body {
 }
 
 .circular img {
-    position: relative;
     border: none;
     margin-top: -5px;
     margin-left: -10px;
@@ -382,64 +378,92 @@ body {
 
 }
 
-.studioDiv {
-    position: absolute;
-    display: none;
-    left: 0;
-    top: 78px;
-    width: 100%;
-    height: auto;
-    z-index: 50;
-}
-
 .controlDiv {
     clear: both;
     position: relative;
     display: inline-block;
-    margin: 0;
-    padding: 3px;
-    /* font-size: 15px; */
-    width: inherit;
-    height: auto;
-    background-color: #e9edf0;
-    background-color: #f1f1f1;
-    border-bottom: 1px solid rgba(255, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(255, 153, 34, 0.2);
+    margin: 0!important;
+    padding: 0!important;
+    width: 100%!important;
+    background-color: #f1f1f1!important;
+    border-bottom: 1px solid rgba(255, 153, 34, 0.2) !important;
+    border: none !important;
 }
 
 .studioCanvasDiv {
-    clear: both;
     position: relative;
-    display: block;
-    margin: 0px;
-    width: auto;
+    left: 0;
+    top: 0;
+    padding: 0!important;
+    width: 100%;
     height: auto;
-    overflow-y: hidden;
-    background-color: #e9edf0;
+    float: left;
+    overflow: hidden;
+    background-color: #f1f1f1;
     background-color: white;
+    background-color: rosybrown;
+    margin: 0!important;
+    margin-top: 2px !important;
+    border-top: 2px solid rgba(255, 153, 34, 0.2) !important;
 
 }
 
-
-.canvasDiv {
-    clear: both;
-    position: relative;
+.keyboardDiv {
     display: inline-block;
-    padding: 3px;
-    margin: 4px;
-    border: 1px solid rgba(159, 159, 159, 0.2);
-    background-color: #f1f1dd;
-    background-color: honeydew;
-    background-color: ivory;
-    background-color: aliceblue;
-    background-color: azure;
-    background-color: mintcream;
+    position: relative;
+    overflow-y: auto;
+    width: fit-content;
+    min-height: 587px;
+    background-color: #f1f1f1!important;
+    border-right: 3px solid rgba(255, 153, 34, 0.2)!important;
+}
+
+
+.outerCanvasDiv {
+    display: inline-block;
+    position: relative;
     width: auto;
     height: auto;
-    min-width: 800px;
+    min-width: 310px;
+}
+
+.canvasDiv {
+    position: relative;
+    overflow-y: hidden;
+    display: inline-block;
+    width: auto;
+    height: auto;
+    min-width: 300px;
+    background-color: yellowgreen;
+    background-color: mintcream;
+    background-color: honeydew;
+/*    
     box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
     -webkit-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
     -moz-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
     -ms-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
     -o-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+*/    
 }
+
+.boxShadow {
+    box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -webkit-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -ms-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -o-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 4px;
+}
+
+
+
+/*
+    background-color: #f1f1dd;
+    background-color: honeydew;
+    background-color: ivory;
+    background-color: mintcream;
+    background-color: aliceblue;
+    background-color: azure; 
+*/

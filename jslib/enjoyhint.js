@@ -40,6 +40,7 @@
     var current_step = 0;
   
     var $body = $(body);
+    var bodyOverflow ;
   
     /********************* PRIVATE METHODS ***************************************/
   
@@ -48,6 +49,7 @@
         $(".enjoyhint").remove();
       }
   
+      bodyOverflow = $body.css( "overflow" );
       $body.css({ overflow: "hidden" });
   
       $(document).on("touchmove", lockTouch);
@@ -75,7 +77,8 @@
     };
   
     var hideEnjoy = function () {
-      $body.css({overflow: "auto"});
+  
+      $body.css({overflow: bodyOverflow});
       $(document).off("touchmove", lockTouch);
     }
 

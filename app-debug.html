@@ -106,8 +106,16 @@ notação abc, tablatura " />
                 <a id="aVersion" href="" style="position:absolute; right: 40px; bottom: 0px;">Diatonic App debug Powered by ABCXJS version 5.46</a>
             </div>
         </div>
-        
-        <div id="studioDiv" class="studioDiv" style="z-index:101; height: fit-content;"></div>
+        <div style="z-index: 50; position: fixed; left: 20px; bottom: 20px;">
+            <h3>Window size is <span class="window-size"></span></h3>
+            <p>Knowing this number you can make decisions based in breakpoints of window.</p>
+            <hr>
+            <h3>Screen size is <span class="screen-size"></span></h3>
+            <p>Here you have an idea of device screen size. </p>
+            <hr>
+        </div>
+
+        <div id="studioDiv"></div>
 
         <div id="studioControlDiv" style="display:none;">
             <div id="controlDiv1" class="btn-subgroup" >
@@ -143,7 +151,7 @@ notação abc, tablatura " />
             </div>
             <div class="btn-subgroup">
                 <button id="buttonShowMedia" style="display:none;" >
-                    <i class="ico-vplayer"></i>&nbsp;<span id="spanShowMedia" data-translate="showMedia">Videoaula</span>
+                    <i class="ico-vplayer" data-translate="showMedia"></i>&nbsp;
                 </button>
             </div>
         </div>  <!-- controlDiv - este bloco é tratado internamente -->  
@@ -163,6 +171,23 @@ notação abc, tablatura " />
         </div>
 
         <script id="mainScript" type="text/javascript">
+            function sizeOfThings(){
+            var windowWidth = window.innerWidth;
+            var windowHeight = window.innerHeight;
+            
+            var screenWidth = screen.width;
+            var screenHeight = screen.height;
+            
+            document.querySelector('.window-size').innerHTML = windowWidth + 'x' + windowHeight;
+            document.querySelector('.screen-size').innerHTML = screenWidth + 'x' + screenHeight;
+
+            };
+
+            sizeOfThings();
+
+            window.addEventListener('resize', function(){
+                sizeOfThings();
+            });            
             
             SITE.abcxVersion = SITE.getVersion('mainABCX', '' ); // Obtem e mostra a versão corrente da lib ABCX 
             SITE.siteVersion = SITE.getVersion('mainSITE', 'v' ); // Obtem e mostra a versão corrente da lib do site
@@ -355,6 +380,4 @@ notação abc, tablatura " />
         </script> <!-- mainScript -->
     </body>
 </html>
-
-
 

@@ -234,6 +234,8 @@ DIATONIC.map.Keyboard = function (keyMap, pedalInfo, opts) {
     this.legenda = {};
     this.baseLine = {}; // linha decorativa
     this.opts = opts || {};
+    this.divs = { container: null, pane: null, imagem: null, extras: null}
+
 
     // gaitas que terao a opcao para tablatura numerica portuguesa
     this.numerica = keyMap.numerica || null;
@@ -388,8 +390,12 @@ DIATONIC.map.Keyboard.prototype.print = function (div, render_opts, translator) 
     //  text-shadow: 0.5px 0.5px #ddd, -0.5px -0.5px 0 #ddd, 0.5px -0.5px 0 #ddd, -0.5px 0.5px 0 #ddd;\n\
 
     var keyboardPane = document.createElement("div");
+    keyboardPane.setAttribute("id", 'keyboardPaneDiv');
     keyboardPane.setAttribute("class", 'keyboardPane');
     div.innerHTML = "";
+    this.divs.container = div;
+    this.divs.pane = keyboardPane;
+
     div.appendChild(keyboardPane);
 
     this.paper = new SVG.Printer(keyboardPane);
