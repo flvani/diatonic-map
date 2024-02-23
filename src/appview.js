@@ -63,7 +63,12 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
     this.keyboardDiv.setAttribute("id", 'keyboardDiv' );
     this.keyboardDiv.setAttribute("class", "keyboardDiv" );
 
-    this.studioCanvasDiv.appendChild(this.keyboardDiv);
+    this.outerKeyboardDiv = document.createElement("DIV");
+    this.outerKeyboardDiv.setAttribute("id", 'outerKeyboardDiv' );
+    this.outerKeyboardDiv.setAttribute("class", 'outerKeyboardDiv' );
+    this.outerKeyboardDiv.appendChild(this.keyboardDiv);
+
+    this.studioCanvasDiv.appendChild(this.outerKeyboardDiv);
     this.studioCanvasDiv.appendChild(this.outerCanvasDiv);
     this.Div.dataDiv.appendChild(this.studioCanvasDiv);
 
@@ -96,12 +101,29 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         }
     }
 
+    var s = 0;
+
+
+    if ( SITE.size.h >= 500 ) {
+        s = 1
+    } else if( SITE.size.h >= 432 ) { 
+        s = 0.915
+    } else if( SITE.size.h >= 412 ) { 
+        s = 0.87
+    } else if( SITE.size.h >= 393 ) { 
+        s = 0.82
+    } else if( SITE.size.h >= 360 ) { 
+        s = 0.74
+    }else{
+        s = 0.7
+    }
+
     this.accordion.setRenderOptions({
         draggable: false
        ,show: SITE.properties.studio.keyboard.visible
        ,transpose: SITE.properties.studio.keyboard.transpose
        ,mirror: SITE.properties.studio.keyboard.mirror
-       ,scale: 0.85
+       ,scale: s
        ,label: SITE.properties.studio.keyboard.label
     });
 
@@ -117,6 +139,19 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
    
     if(this.ps)
         this.ps.destroy();
+
+    if(this.ps2)
+        this.ps2.destroy();
+    
+    this.ps2 = new PerfectScrollbar( this.outerKeyboardDiv, {
+        handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
+        wheelSpeed: 1,
+        wheelPropagation: false,
+        suppressScrollX: true,
+        minScrollbarLength: 100,
+        swipeEasing: true,
+        scrollingThreshold: 500
+    });
     
     this.ps = new PerfectScrollbar( this.canvasDiv, {
         handlers: ['click-rail', 'drag-thumb', 'keyboard', 'wheel', 'touch'],
@@ -127,7 +162,8 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         swipeEasing: true,
         scrollingThreshold: 500
     });
-    
+
+
     if( interfaceParams.onchange ) {
         this.onchangeCallback = interfaceParams.onchange;
     }
@@ -172,7 +208,7 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         this.blur();
         that.printPreview(
             that.renderedTune.div.innerHTML, 
-            ["#topBar","#appDiv", "#keyboardDiv", "#studioDiv" ], 
+            ["#topBar","#appDiv", "#studioDiv" ], 
             that.renderedTune.abc.formatting.landscape
         );
     }, false);
@@ -357,6 +393,7 @@ SITE.AppView.prototype.setup = function( tab, accordionId ) {
     
     this.setVisible(true);
 
+    this.printedKeyboard = false;
     this.accordion.loadById(accordionId);
     
     this.renderedTune.abc = tab.abc;
@@ -368,85 +405,20 @@ SITE.AppView.prototype.setup = function( tab, accordionId ) {
     this.setTrebleIcon();
     this.setTimerIcon( 0 );
 
-    this.Div.setTitle( this.accordion.getTxtModel() + ' ' +  this.accordion.getTxtTuning() );
+    this.Div.setTitle( this.accordion.getFullName() + ' <span data-translate="keys">' + SITE.translator.getResource('keys') + '</span>' );
     this.Div.setSubTitle( '- ' + tab.title );
-
 
     SITE.translator.translate( this.Div.topDiv );
 
     this.Div.setMenuVisible(true);
 
-    this.showKeyboard(SITE.properties.studio.keyboard.visible);
-    
     this.fireChanged(0, {force:true} );
 
-    this.outerCanvasDiv.scrollTop = 0;
+    this.showKeyboard(SITE.properties.studio.keyboard.visible);
+
+    this.canvasDiv.scrollTop = 0;
 
 };
-
-SITE.AppView.prototype.printKeyboard = function() {
-
-    this.accordion.printKeyboard( this.keyboardDiv );
-    this.kbDivs = this.accordion.loadedKeyboard.divs;
-
-    if (this.kbDivs && this.kbDivs.extras) {
-
-        that = this;
-
-        this.kbDivs.imagem.style.top = this.kbDivs.pane.clientHeight-100 + "px";
-        this.kbDivs.imagem.style.zIndex = '102';
-        this.kbDivs.imagem.className = 'circular';
-        this.kbDivs.imagem.innerHTML = 
-            '<img src="'+this.app.accordion.loaded.image+'" title="' +
-        this.app.accordion.getFullName() + ' ' + SITE.translator.getResource('keys') + '">';
-        this.kbDivs.imagem.style.display = 'block';
-
-        this.kbDivs.extras.innerHTML = 
-           '<button id="rotateBtnExtra" data-translate="rotate" ><i class="ico-rotate" ></i></button>\
-            <button id="globeBtnExtra"  data-translate="globe" ><i class="ico-world" ></i></button>'
-        this.kbDivs.extras.style.top = '1px';
-        this.kbDivs.extras.style.left = '1px';
-        this.kbDivs.extras.className = 'keyboard-btn-group';
-        this.kbDivs.extras.style.zIndex = '102';
-        this.kbDivs.extras.style.display = 'inline';
-
-        this.rotateBtnExtra = document.getElementById("rotateBtnExtra");
-        this.globeBtnExtra = document.getElementById("globeBtnExtra");
-
-        this.rotateBtnExtra.addEventListener("click", function (evt) {
-            evt.preventDefault();
-            that.keyboardCallback('ROTATE');
-        }, false);
-
-        this.globeBtnExtra.addEventListener("click", function (evt) {
-            evt.preventDefault();
-            that.keyboardCallback('GLOBE');
-        }, false);
-
-        SITE.translator.translate( this.kbDivs.extras );
-            
-    }
-
-    this.keyboardMirrorElements()
-
-}
-
-SITE.AppView.prototype.keyboardMirrorElements = function( e ) {
-
-    if (this.kbDivs && this.kbDivs.extras) {
-        if(SITE.properties.studio.keyboard.mirror){
-            this.kbDivs.extras.style.right = '';
-            this.kbDivs.extras.style.left = '5px';
-            this.kbDivs.imagem.style.right = '';
-            this.kbDivs.imagem.style.left = '20px';
-        } else{
-            this.kbDivs.extras.style.right = '5px';
-            this.kbDivs.extras.style.left = '';
-            this.kbDivs.imagem.style.right = '20px';
-            this.kbDivs.imagem.style.left = '';
-        }
-    }
-}
 
 SITE.AppView.prototype.showKeyboard = function(show) {
     SITE.properties.studio.keyboard.visible = 
@@ -454,15 +426,22 @@ SITE.AppView.prototype.showKeyboard = function(show) {
     
     this.accordion.render_opts.show = SITE.properties.studio.keyboard.visible;
     
+    //if ( ! SITE.properties.studio.keyboard.visible && ! this.printedKeyboard ) return;
+
     if(SITE.properties.studio.keyboard.visible) {
         //this.keyboardDiv.setVisible(true);
-        this.keyboardDiv.style.display = 'inline-block';
-        this.printKeyboard();
+        this.outerKeyboardDiv.style.display = 'inline-block';
+        if(! this.printedKeyboard) {
+            this.printedKeyboard = true;
+            this.accordion.printKeyboard( this.keyboardDiv );
+            this.setExtras();
+        }
+        this.setRight();
         this.showMapButton.innerHTML = '<i class="ico-keyboard" ></i>';
     } else {
         //this.keyboardDiv.setVisible(false);
-        this.accordion.render_opts.show = false;
-        this.keyboardDiv.style.display = 'none';
+        //this.accordion.render_opts.show = false;
+        this.outerKeyboardDiv.style.display = 'none';
         this.showMapButton.innerHTML = '<i class="ico-keyboard" style="opacity:0.5; filter: grayscale(1);"></i>'+
                                                          '<i class="ico-forbidden" style="position:absolute;left:4px;top:4px; filter: grayscale(1);"></i>';
     }
@@ -470,14 +449,65 @@ SITE.AppView.prototype.showKeyboard = function(show) {
 
 };
 
+SITE.AppView.prototype.setRight = function() {
+    if( SITE.properties.options.keyboardRight ){
+        if(this.kbDivs.openBtnRight.classList && !this.kbDivs.openBtnRight.classList.contains('flip-vert') )
+            this.kbDivs.openBtnRight.classList.add('flip-vert');
+        this.outerKeyboardDiv.style.float = '';
+        this.outerCanvasDiv.style.float = 'left';
+    } else {
+        if(this.kbDivs.openBtnRight.classList && this.kbDivs.openBtnRight.classList.contains('flip-vert') )
+            this.kbDivs.openBtnRight.classList.remove('flip-vert');
+        this.outerKeyboardDiv.style.float = 'left';
+        this.outerCanvasDiv.style.float = '';
+    }
+}
+
+SITE.AppView.prototype.setExtras = function() {
+
+    this.kbDivs = this.accordion.loadedKeyboard.divs;
+    that = this;
+
+/*
+    if( SITE.properties.options.keyboardRight ){
+        this.kbDivs.openBtnRight.classList.add('flip-vert');
+    } else {
+        this.kbDivs.openBtnRight.classList.remove('flip-vert');
+    }
+*/
+
+    this.accordion.loadedKeyboard.showImagem(true);
+    this.accordion.loadedKeyboard.showExtras(true);
+    this.accordion.loadedKeyboard.showExtrasOpen(true);
+
+    this.kbDivs.rotateBtnExtra.addEventListener("click", function (evt) {
+        evt.preventDefault();
+        that.keyboardCallback('ROTATE');
+    }, false);
+
+    this.kbDivs.globeBtnExtra.addEventListener("click", function (evt) {
+        evt.preventDefault();
+        that.keyboardCallback('GLOBE');
+    }, false);
+
+    this.kbDivs.openBtnRight.addEventListener("click", function (evt) {
+        evt.preventDefault();
+        SITE.properties.options.keyboardRight = !SITE.properties.options.keyboardRight;
+        that.showKeyboard(true);
+    }, false);
+
+    SITE.translator.translate( this.kbDivs.extras );
+}
+
 SITE.AppView.prototype.keyboardCallback = function( e ) {
     switch(e) {
         case 'ROTATE':
             this.accordion.rotateKeyboard(this.keyboardDiv);
             this.accordion.rotateKeyboard(this.keyboardDiv);
+            this.setExtras();
+            this.setRight();
             SITE.properties.studio.keyboard.transpose = this.accordion.render_opts.transpose;
             SITE.properties.studio.keyboard.mirror = this.accordion.render_opts.mirror;
-            this.keyboardMirrorElements();
             break;
         case 'GLOBE':
             this.accordion.changeNotation();
@@ -507,19 +537,19 @@ SITE.AppView.prototype.setVisible = function(  visible ) {
 };
 
 SITE.AppView.prototype.setScrolling = function(player) {
-    if( !this.outerCanvasDiv || !player.currAbsElem || player.currAbsElem.staffGroup === this.lastStaffGroup ) return;
+    if( !this.canvasDiv || !player.currAbsElem || player.currAbsElem.staffGroup === this.lastStaffGroup ) return;
     
     this.lastStaffGroup = player.currAbsElem.staffGroup;
     
     var fixedTop = player.printer.staffgroups[0].top;
-    var vp = this.outerCanvasDiv.clientHeight - fixedTop;
+    var vp = this.canvasDiv.clientHeight - fixedTop;
     var top = player.printer.staffgroups[player.currAbsElem.staffGroup].top-12;
     var bottom = top + player.printer.staffgroups[player.currAbsElem.staffGroup].height;
 
     if( bottom > vp+this.ypos || this.ypos > top-fixedTop ) {
         
         this.ypos = top;
-        this.outerCanvasDiv.scrollTop = this.ypos;    
+        this.canvasDiv.scrollTop = this.ypos;    
     }
 };
 
@@ -544,7 +574,7 @@ SITE.AppView.prototype.changePlayMode = function(mode) {
 };
 
 SITE.AppView.prototype.startPlay = function( type, value, valueF ) {
-    this.ypos = this.outerCanvasDiv.scrollTop;
+    this.ypos = this.canvasDiv.scrollTop;
     this.lastStaffGroup = -1;
     var that = this;
     
@@ -719,14 +749,14 @@ SITE.AppView.prototype.parseABC = function (transpose, force) {
 };
 
 SITE.AppView.prototype.onChange = function() {
-    this.outerCanvasDiv.scrollTop = this.lastYpos;
+    this.canvasDiv.scrollTop = this.lastYpos;
 };
 
 SITE.AppView.prototype.fireChanged = function (transpose, _opts) {
     
     if( this.changing ) return;
     
-    this.lastYpos = this.outerCanvasDiv.scrollTop || 0;               
+    this.lastYpos = this.canvasDiv.scrollTop || 0;               
     
     this.changing = true;
     var opts = _opts || {};
@@ -880,20 +910,12 @@ SITE.AppView.prototype.changePageOrientation = function (orientation) {
 SITE.AppView.prototype.resize = function( ) {
 
 
-    var winH = window.innerHeight
-                || document.documentElement.clientHeight
-                || document.body.clientHeight;
-
     var winW = window.innerWidth
                 || document.documentElement.clientWidth
                 || document.body.clientWidth;
 
     var w = (winW - 2 ); 
-    var h = (winH - 4 ); 
-    var l = SITE.properties.studio.keyboard.visible? this.keyboardDiv.clientWidth+1 : 0;
-
-    //this.Div.topDiv.style.height = Math.max(h,300) +"px";
-    //this.Div.topDiv.style.width = Math.max(w,570) +"px";
+    var l = SITE.properties.studio.keyboard.visible? this.keyboardDiv.clientWidth : 0;
 
     this.Div.resize();
 
@@ -905,34 +927,16 @@ SITE.AppView.prototype.resize = function( ) {
     this.outerCanvasDiv.style.height = this.studioCanvasDiv.clientHeight-c-15 + "px";
     this.canvasDiv.style.height = this.outerCanvasDiv.clientHeight - 4 + "px";
 
+    this.outerKeyboardDiv.style.height = this.studioCanvasDiv.clientHeight-c-15 + "px";
     
     this.studioCanvasDiv.style.width = Math.max(dw,600) +"px";
     this.canvasDiv.style.width = Math.min(1025,Math.max(w-l-10,100)) +"px";
-    this.outerCanvasDiv.style.width = this.canvasDiv.clientWidth+4 + "px"; 
+    this.outerCanvasDiv.style.width = this.canvasDiv.clientWidth+"px"; 
 
-
-//    this.outerCanvasDiv.style.width = this.canvasDiv.clientWidth+4 +"px";
-//    this.canvasDiv.style.width = Math.min(1025,Math.max(w-l-10,100)) +"px";
-
-
-    if(this.kbDivs.container){
-        this.kbDivs.container.style.height = this.canvasDiv.clientHeight+4 +"px";
-
-        if( SITE.properties.options.keyboardRight ){
-            this.kbDivs.container.style.float = '';
-            this.outerCanvasDiv.style.float = 'left';
-            this.outerCanvasDiv.classList.remove("boxShadow");
-            this.kbDivs.container.classList.add("boxShadow");
-        } else {
-            this.kbDivs.container.style.float = 'left';
-            this.outerCanvasDiv.style.float = '';
-            this.outerCanvasDiv.classList.add("boxShadow");
-            this.kbDivs.container.classList.remove("boxShadow");
-        }
-    }
+    (this.ps) && this.ps.update();
+    (this.ps2) && this.ps2.update();
 
     this.media.posiciona();
         
-    (this.ps) && this.ps.update();
 
 }

@@ -189,5 +189,11 @@
         ,"PrefsPropsChkSuppressTitles": "Suprimir títulos de janelas"
         ,"cookiePrefs":"Clique aqui para redefinir preferências de cookies"
         ,"release":"Notas de Lançamento"
+        ,"Next" : "Próximo"
+        ,"Previous" : "Voltar"
+        ,"Dismiss" : "Dispensar"
+        ,"Start" : "Começar"
+        ,"Finish" : "Terminar"
+        ,"Take a tour": "Faça um Tour"
    }
 }

@@ -234,8 +234,7 @@ DIATONIC.map.Keyboard = function (keyMap, pedalInfo, opts) {
     this.legenda = {};
     this.baseLine = {}; // linha decorativa
     this.opts = opts || {};
-    this.divs = { container: null, pane: null, imagem: null, extras: null}
-
+    this.divs = { container: null, pane: null, imagem: null, extras: null, rotateBtnExtra: null, globeBtnExtra: null, openBtnRight: null}
 
     // gaitas que terao a opcao para tablatura numerica portuguesa
     this.numerica = keyMap.numerica || null;
@@ -347,17 +346,18 @@ DIATONIC.map.Keyboard.prototype.setup = function (keyMap) {
 
 DIATONIC.map.Keyboard.prototype.reprint = function () {
     if (this.reprintData !== undefined)
-        this.print(this.reprintData.Div, this.reprintData.Render_opts, this.reprintData.Translator);
+        this.print(this.reprintData.Div, this.reprintData.Accordion);
 }
 
-DIATONIC.map.Keyboard.prototype.print = function (div, render_opts, translator) {
-
-    this.reprintData = { Div: div, Render_opts: render_opts, Translator: translator };
+DIATONIC.map.Keyboard.prototype.print = function (div, accordion) {
+    this.reprintData = { Div: div, Accordion: accordion }
 
     var sz;
+    var render_opts = accordion.render_opts;
+    var translator = accordion.translator 
 
     var estilo =
-        '   .keyboardPane {\n\
+   '.keyboardPane {\n\
         padding:4px;\n\
         background-color:none;\n\
     }\n\
@@ -368,6 +368,65 @@ DIATONIC.map.Keyboard.prototype.print = function (div, render_opts, translator) 
         font-size: 16px;\n\
         font-weight: bold;\n\
         text-shadow: 0.5px 0.5px #ddd, -0.5px -0.5px 0 #ddd, 0.5px -0.5px 0 #ddd, -0.5px 0.5px 0 #ddd;\n\
+    }\n\
+    .keyboard-imagem {\n\
+        position: absolute;\n\
+        display: none;\n\
+        border-radius: 50%;\n\
+        background: rgba(100, 100, 100, 0.5);\n\
+        box-shadow: 0 0 15px 15px rgba(100, 100, 100, 0.5);\n\
+        height: 80px;\n\
+        width: 80px;\n\
+    }\n\
+    .keyboard-imagem img {\n\
+        border: none;\n\
+        margin-top: -5px;\n\
+        margin-left: -10px;\n\
+        height: 100px;\n\
+        width: 100px;\n\
+    }\n\
+    .keyboard-extras {\n\
+        position: absolute;\n\
+        display: none;\n\
+        margin-top: 2px;\n\
+        margin-left: 5px;\n\
+        font-family: "abcx";\n\
+        height: 40px;\n\
+        width: fit-content;\n\
+        font-size: 16px;\n\
+        margin: 0;\n\
+        padding: 1px;\n\
+        pointer-events: auto;\n\
+        background-color: none;\n\
+    }\n\
+    .keyboard-extras label,\n\
+    .keyboard-extras button {\n\
+        position: relative;\n\
+        display: block;\n\
+        float: left;\n\
+        text-align: left;\n\
+        font-family: Milonga, Arial;\n\
+        font-weight: normal;\n\
+        font-size: 32px;\n\
+        line-height: 32px;\n\
+        height: 44px;\n\
+        width: auto;\n\
+        text-shadow: 2px 1px 2px rgba(50, 50, 50, 0.8);\n\
+        left: 0;\n\
+        margin: 0;\n\
+        margin-left: 4px;\n\
+        padding: 4px;\n\
+        outline: none !important;\n\
+        border: none;\n\
+        color: #ff9922;\n\
+        color: red;\n\
+        background-color: transparent;\n\
+        border-radius: 50%;\n\
+    }\n\
+    .keyboard-extras button:hover {\n\
+        height: 44px;\n\
+        background: lavender;\n\
+        cursor: pointer;\n\
     }\n\
     .buttonN {\n\
         font-family: sans-serif, arial;\n\
@@ -389,16 +448,43 @@ DIATONIC.map.Keyboard.prototype.print = function (div, render_opts, translator) 
 
     //  text-shadow: 0.5px 0.5px #ddd, -0.5px -0.5px 0 #ddd, 0.5px -0.5px 0 #ddd, -0.5px 0.5px 0 #ddd;\n\
 
+    div.innerHTML = "";
+    this.divs.container = div;
+
     var keyboardPane = document.createElement("div");
     keyboardPane.setAttribute("id", 'keyboardPaneDiv');
     keyboardPane.setAttribute("class", 'keyboardPane');
-    div.innerHTML = "";
-    this.divs.container = div;
     this.divs.pane = keyboardPane;
-
     div.appendChild(keyboardPane);
 
-    this.paper = new SVG.Printer(keyboardPane);
+    var keyboardImagem = document.createElement("div");
+    keyboardImagem.setAttribute("id", 'keyboardImagemDiv');
+    keyboardImagem.setAttribute("class", 'keyboard-imagem');
+    this.divs.imagem = keyboardImagem;
+    div.appendChild(keyboardImagem);
+
+    this.divs.imagem.innerHTML = 
+        '<img src="'+accordion.loaded.image+'" title="' +
+            accordion.getFullName() + ' ' + SITE.translator.getResource('keys') + '">';
+    this.divs.imagem.style.scale = render_opts.scale;
+
+    var keyboardExtraBtn = document.createElement("div");
+    keyboardExtraBtn.setAttribute("id", 'keyboardExtraBtnDiv');
+    keyboardExtraBtn.setAttribute("class", 'keyboard-extras');
+    this.divs.extras = keyboardExtraBtn;
+    div.appendChild(keyboardExtraBtn);
+
+    this.divs.extras.innerHTML = 
+       '<button id="rotateBtnExtra" data-translate="rotate" ><i class="ico-rotate" ></i></button>\
+        <button id="globeBtnExtra"  data-translate="globe" ><i class="ico-world" ></i></button>\
+        <button id="openBtnRight"  data-translate="PrefsPropsCKkeyboardAlignRight" style="display:none;"><i class="ico-open-right"></i></button>'
+    this.divs.extras.style.scale = render_opts.scale;
+
+    this.divs.rotateBtnExtra = document.getElementById("rotateBtnExtra");
+    this.divs.globeBtnExtra = document.getElementById("globeBtnExtra");
+    this.divs.openBtnRight = document.getElementById("openBtnRight");
+
+    this.paper = new    SVG.Printer(keyboardPane);
     this.paper.initDoc('keyb', 'Diatonic Map Keyboard', estilo, render_opts);
     this.paper.initPage(render_opts.scale);
 
@@ -417,11 +503,51 @@ DIATONIC.map.Keyboard.prototype.print = function (div, render_opts, translator) 
         for (var x = mirr - delta; x <= mirr + delta; x += delta) {
             this.drawLine(this.baseLine.yi, x, this.baseLine.yf, x);
         }
+        if(render_opts.mirror){ //2
+            this.divs.extras.style.top = '';
+            this.divs.extras.style.left = '1px';
+            this.divs.extras.style.bottom = 61.0*render_opts.scale+"px";
+            this.divs.extras.style.width = 40.0*render_opts.scale+"px";
+            this.divs.extras.style.right = '';
+            this.divs.imagem.style.top = '';
+            this.divs.imagem.style.left = '';
+            this.divs.imagem.style.bottom = 25.0*render_opts.scale+"px";
+            this.divs.imagem.style.right = 25.0*render_opts.scale+"px";
+        } else { //4
+            this.divs.extras.style.top = '1px';
+            this.divs.extras.style.left = '1px';
+            this.divs.extras.style.width = 40.0*render_opts.scale+"px";
+            this.divs.extras.style.bottom = '';
+            this.divs.extras.style.right = '';
+            this.divs.imagem.style.top = 25.0*render_opts.scale+"px";
+            this.divs.imagem.style.left = '';
+            this.divs.imagem.style.bottom = '';
+            this.divs.imagem.style.right = 25.0*render_opts.scale+"px";
+        }
     } else {
         sz = { w: this.width, h: this.height };
         var mirr = render_opts.mirror ? this.limits.maxX - (this.baseLine.x - this.limits.minX) + 2 : this.baseLine.x;
         for (var x = mirr - delta; x <= mirr + delta; x += delta) {
             this.drawLine(x, this.baseLine.yi, x, this.baseLine.yf);
+        }
+        if(render_opts.mirror){ //1
+            this.divs.extras.style.top = '1px';
+            this.divs.extras.style.left = '1px';
+            this.divs.extras.style.bottom = '';
+            this.divs.extras.style.right = '';
+            this.divs.imagem.style.top = '';
+            this.divs.imagem.style.left = 25.0*render_opts.scale+"px";
+            this.divs.imagem.style.bottom = 25.0*render_opts.scale+"px";
+            this.divs.imagem.style.right = '';
+        } else { //3
+            this.divs.extras.style.top = '1px';
+            this.divs.extras.style.left = '';
+            this.divs.extras.style.bottom = '';
+            this.divs.extras.style.right = '1px';
+            this.divs.imagem.style.top = '';
+            this.divs.imagem.style.left = '';
+            this.divs.imagem.style.bottom = 25.0*render_opts.scale+"px";
+            this.divs.imagem.style.right = 25.0*render_opts.scale+"px";
         }
     }
 
@@ -441,6 +567,10 @@ DIATONIC.map.Keyboard.prototype.print = function (div, render_opts, translator) 
 
     this.paper.endPage(sz);
     this.paper.endDoc();
+
+    //substraia 8 devido o padding da classe keyboardpane
+    this.divs.pane.style.height = this.divs.pane.clientHeight - 8 + "px";
+    this.divs.container.style.height = this.divs.pane.clientHeight + "px"; 
 
     //binds SVG elements
     this.legenda.setSVG(render_opts.label, { pull: 'Pull', push: 'Push', translator: translator });
@@ -488,6 +618,19 @@ DIATONIC.map.Keyboard.prototype.getNoteVal = function (note) {
 DIATONIC.map.Keyboard.prototype.getLayout = function (r) {
     return this.layout[r] || 0;
 };
+
+DIATONIC.map.Keyboard.prototype.showImagem = function (show) {
+    this.divs.imagem.style.display = show? 'block' : 'none';
+};
+
+DIATONIC.map.Keyboard.prototype.showExtras = function (show) {
+    this.divs.extras.style.display = show? 'inline' : 'none';
+};
+
+DIATONIC.map.Keyboard.prototype.showExtrasOpen = function (show) {
+    this.divs.openBtnRight.style.display = show? 'block' : 'none';
+};
+
 
 DIATONIC.map.Keyboard.prototype.isPedal = function (i, j) {
     return (this.pedalInfo[1] === (i + 1)) && (this.pedalInfo[0] === (j + 1));

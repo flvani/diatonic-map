@@ -275,10 +275,6 @@ SITE.LoadProperties = function() {
     if( salvar ) {
         SITE.SaveProperties();
     }
-
-    if (SITE.properties.options.guidedTour){
-        SITE.askHelp();
-    }
 };
 
 SITE.SaveProperties = function() {

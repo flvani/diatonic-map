@@ -14754,6 +14754,15 @@ DRAGGABLE.ui.Window.prototype.addPushButtons = function( aButtons ) {
                 ico = 'ico-circle-error'; 
                 claz = 'pushbutton cancel'; 
                 break;
+            case 'TOUR': 
+                ico = 'ico-world-3';  
+                claz = 'pushbutton';  
+                break;
+            default: 
+                ico = 'ico-open-right';  
+                claz = 'pushbutton';  
+                break;
+
         }
         
         new DRAGGABLE.ui.PushButton(button, claz, ico, part[1], part[2], this );
@@ -15332,7 +15341,7 @@ DRAGGABLE.ui.DropdownMenu.prototype.addAction = function( ddm, action, div, self
        self.startY = e.changedTouches[0].pageY;
        self.moved = false;
        div.addEventListener( 'touchmove', swiping, false );
-       e.preventDefault(); 
+       //e.preventDefault(); 
        e.stopPropagation(); 
     }, {passive:true});
     
@@ -15898,7 +15907,7 @@ ABCXJS.tablature.Accordion.prototype.printKeyboard = function(div_id, options) {
 
     if( this.render_opts.show ) {
         div.style.display="inline-block";
-        this.loadedKeyboard.print(div,this.render_opts, this.translator);
+        this.loadedKeyboard.print(div,this);
     } else {
         div.style.display="none";
     }

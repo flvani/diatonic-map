@@ -163,7 +163,7 @@ notação abc, tablatura " />
             <p>Hello,<br>Do you know the desktop version of this app?<br>
                 <br><br>Access https://diatonicmap.com.br</p>
                 <br>
-                Enjoy all the convenience of a bigger screen, with the same repertoire and some extra features.
+                Enjoy all the convenience of a bigger screen, with the same repertoire and many extra editing features.
             <div id="pg" class="pushbutton-group" style="right: 0; bottom: 0;">
                 <span style="float:left; margin-right: 20px; margin-top: 25px;"><input id="askHelpChk" type="checkbox" />Do not show this tip again</span>
                 <div id="askHelpBtn" class="pushbutton cancel"><i class="ico-circle-error"></i><span>Dismiss</span></div>
@@ -181,16 +181,20 @@ notação abc, tablatura " />
             document.querySelector('.window-size').innerHTML = windowWidth + 'x' + windowHeight;
             document.querySelector('.screen-size').innerHTML = screenWidth + 'x' + screenHeight;
 
+            return { w: screenWidth, h: screenHeight };
+
             };
 
-            sizeOfThings();
-
             window.addEventListener('resize', function(){
-                sizeOfThings();
+                var s = sizeOfThings();
+                if(SITE) {
+                    SITE.size = s;
+                }
             });            
             
             SITE.abcxVersion = SITE.getVersion('mainABCX', '' ); // Obtem e mostra a versão corrente da lib ABCX 
             SITE.siteVersion = SITE.getVersion('mainSITE', 'v' ); // Obtem e mostra a versão corrente da lib do site
+            SITE.size = sizeOfThings();
             
             document.getElementById("aVersion").innerHTML = '<i>Diatonic App '+SITE.siteVersion+' Powered by ABCXJS version '+SITE.abcxVersion+'</i>';
 
@@ -364,8 +368,10 @@ notação abc, tablatura " />
                     setTimeout(function() { $('#tipsDiv').fadeOut('slow'); }, 15000);
                 }
 
-                //if(!SITE.properties.options.guidedTour){
 
+                if(!SITE.properties.options.guidedTour){
+
+                    initEnjoyVars(); 
                     SITE.myTour = new EnjoyHint(g_enjoyhint_opts);
 
                     //set script config
@@ -374,7 +380,7 @@ notação abc, tablatura " />
                     //run Enjoyhint script
                     SITE.myTour.run();
                     
-                //}
+                }
             }
             
         </script> <!-- mainScript -->

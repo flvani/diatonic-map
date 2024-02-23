@@ -99,7 +99,7 @@ SITE.App.prototype.songSelectorPopulate = function() {
 
     this.menuSongs = new DRAGGABLE.ui.DropdownMenu( 
           this.songSelector
-        , {listener:this, method: 'showABC', translate:false, label: 'Song' }
+        , {listener:this, method: 'showABC', translate: false, label: 'Song' }
         , [{title: '...', ddmId: this.tab.ddmId, itens: []}]
     );
     
@@ -320,7 +320,7 @@ SITE.App.prototype.showSettings = function() {
               null 
             , null
             , { title: 'PreferencesTitle', translator: SITE.translator, statusbar: false, 
-                    top: "40px", left: x+"px", height:'530px',  width: width+'px', zIndex: 70 } 
+                    top: "40px", left: x+"px", height:'450px',  width: width+'px', zIndex: 70 } 
             , {listener: this, method: 'settingsCallback'}
         );
 
@@ -371,14 +371,10 @@ SITE.App.prototype.showSettings = function() {
                 <td> </td><td colspan="2"><div id="sldPianoSound"></div>\
                 <span data-translate="PrefsPropsCKPiano" >'+SITE.translator.getResource('PrefsPropsCKPiano')+'</span></a></td>\
               </tr>\
-              <tr style="height:40px;">\
-                <td> </td><td colspan="2"><div id="sldKeyboardRight"></div>\
-                <span data-translate="PrefsPropsCKkeyboardAlignRight" >'+SITE.translator.getResource('PrefsPropsCKkeyboardAlignRight')+'</span></td>\
-              </tr>\
-              <tr style="height:40px;">\
+              <!--tr style="height:40px;">\
                 <td> </td><td colspan="2"><div id="sldSuppressTitles"></div>\
                 <span data-translate="PrefsPropsChkSuppressTitles" >'+SITE.translator.getResource('PrefsPropsChkSuppressTitles')+'</span></td>\
-              </tr>\
+              </tr-->\
               <tr style="display:none;">\
                 <td> </td><td colspan="2"><input id="chkWarnings" type="checkbox">&nbsp;\
                 <span data-translate="PrefsPropsCKShowWarnings" >'+SITE.translator.getResource('PrefsPropsCKShowWarnings')+'</span></td>\
@@ -400,6 +396,7 @@ SITE.App.prototype.showSettings = function() {
               </table>\
         </div>\
         <div id="pg" class="pushbutton-group" style="right: 0; bottom: 0;" >\
+            <div id="botao0" style="left:-50px;"></div>\n\
             <div id="botao1"></div>\n\
             <div id="botao2"></div>\n\
             <div id="botao3"></div>\n\
@@ -417,15 +414,8 @@ SITE.App.prototype.showSettings = function() {
             { min: 0, max: 1, start: 0, step:1, type: 'bin', speed:100, color: 'white', bgcolor:'red', size:{w:60 , h:25, tw:40}, callback: null } 
         );
 
-        this.settings.sldKeyboardRight = new DRAGGABLE.ui.Slider( document.getElementById( 'sldKeyboardRight' ),
-            { min: 0, max: 1, start: 0, step:1, type: 'bin', speed:100, color: 'white', bgcolor:'red', size:{w:60 , h:25, tw:40}, callback: null } 
-        );
-
-        this.settings.sldSuppressTitles = new DRAGGABLE.ui.Slider( document.getElementById( 'sldSuppressTitles' ),
-            { min: 0, max: 1, start: 0, step:1, type: 'bin', speed:100, color: 'white', bgcolor:'red', size:{w:60 , h:25, tw:40}, callback: null } 
-        );
-
         this.settings.popupWin.addPushButtons([
+            'botao0|tour|Take a tour',
             'botao1|apply',
             'botao2|reset|PrefsReset',
             'botao3|cancel'
@@ -504,8 +494,6 @@ SITE.App.prototype.showSettings = function() {
     this.settings.sldOnlyNumbers.setValue(SITE.properties.options.tabShowOnlyNumbers?"1":"0", false);
     this.settings.sldTransparency.setValue(SITE.properties.colors.useTransparency?"1":"0", false);
     this.settings.sldPianoSound.setValue(SITE.properties.options.pianoSound?"1":"0", false);
-    this.settings.sldKeyboardRight.setValue(SITE.properties.options.keyboardRight?"1":"0", false);
-    this.settings.sldSuppressTitles.setValue(SITE.properties.options.suppressTitles?"1":"0", false);
 
     this.settings.showWarnings.checked = SITE.properties.options.showWarnings;
     this.settings.autoRefresh.checked = SITE.properties.options.autoRefresh;
@@ -546,8 +534,6 @@ SITE.App.prototype.settingsCallback = function (action, elem) {
             SITE.properties.colors.open = this.settings.openColor.value;
 
             SITE.properties.colors.useTransparency = this.settings.sldTransparency.getBoolValue();
-            SITE.properties.options.keyboardRight = this.settings.sldKeyboardRight.getBoolValue();
-            SITE.properties.options.suppressTitles = this.settings.sldSuppressTitles.getBoolValue();
             SITE.properties.options.tabShowOnlyNumbers = this.settings.sldOnlyNumbers.getBoolValue();
             SITE.properties.options.pianoSound = this.settings.sldPianoSound.getBoolValue();
             SITE.properties.options.language = this.settings.lang;
@@ -584,6 +570,16 @@ SITE.App.prototype.settingsCallback = function (action, elem) {
         case 'RESET-CANCEL':
             this.alert.close();
             break;
+        case 'TOUR':
+            this.Back.pop();
+            this.picker.close();
+            this.settings.popupWin.setVisible(false);
+            // run the tour on demand
+            initEnjoyVars(); 
+            SITE.myTour = new EnjoyHint(g_enjoyhint_opts);
+            SITE.myTour.set(g_enjoyhint_script_steps);
+            SITE.myTour.resume();
+            break;
     }
 };
 
@@ -608,7 +604,7 @@ SITE.App.prototype.applySettings = function() {
         });
         SITE.translator.loadLanguage( this.settings.lang, function () { SITE.translator.translate(); } );  
         this.setVersionLang();
-        SITE.askHelp();
+        //SITE.askHelp();
     }
     
     if( this.settings.originalPianoSound !== SITE.properties.options.pianoSound ) {

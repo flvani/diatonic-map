@@ -189,5 +189,12 @@
         ,"PrefsPropsChkSuppressTitles": "Suppress window titles"
         ,"cookiePrefs":"Click here to reset cookie preferences"
         ,"release":"Release Notes"
+        ,"Next": "Prossimo"
+        ,"Previous": "Precedente"
+        ,"Dismiss": "Dismettere"
+        ,"Start": "Iniziare"
+        ,"Finish" : "Finire"
+        ,"Take a tour": "Fare un Tour"
+
    }
 }

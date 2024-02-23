@@ -81,7 +81,10 @@ SITE.Translator.prototype.menuPopulate = function(menu, ddmId ) {
 SITE.Translator.prototype.getResource = function(id) {
     if(!this.language) return null;
     var res = this.language.resources[id];
-    (!res) && this.log( 'Missing translation for "' + id + '" in "' + this.language.langName + '".' );
+    if(!res){
+        this.log( 'Missing translation for "' + id + '" in "' + this.language.langName + '".' );
+        res = id;
+    }
     return res;
 };
 
@@ -94,28 +97,38 @@ SITE.Translator.prototype.translate = function(container) {
     var translables = container.querySelectorAll('[data-translate]');
     var translablesArray = Array.prototype.slice.apply(translables);
     
-//    for( var item of translablesArray ) {
     for( var i=0; i < translablesArray.length; i ++ ) {
         var item = translablesArray[i];
-        var vlr = this.language.resources[item.getAttribute("data-translate")];
-        if( vlr ) {
-            switch( item.nodeName ) {
-                case 'INPUT':
-                    if( item.type === 'text' ) {
-                        item.title = vlr.tip;
-                        item.value = vlr.val;
-                    }
-                    break;
-                case 'BUTTON': 
-                case 'DIV': 
-                case 'I': 
-                    item.title = vlr; 
-                    break;
-                default: 
-                    item.innerHTML = vlr;
-            }
-        } else {
-            this.log( 'Missing translatation for "' +item.getAttribute("data-translate") + '" in "' + this.language.langName + '".' );
+        var dc = item.getAttribute("data-translate");
+        var vlr = this.language.resources[dc];
+        if(!vlr){
+            if(    dc.startsWith('GAITA_') 
+                || dc.startsWith('CORONA_') 
+                || dc.startsWith('HOHNER_') 
+                || dc.startsWith('CONCERTINA_') 
+            ){
+                //Nomes de gaitas não são traduzidas nos menus
+                continue;
+            } 
+            // para os demais não encontrados, logamos e continuamos
+            this.log( 'Missing translatation for "' + dc + '" in "' + this.language.langName + '".' );
+            continue;
+            //vlr = item.getAttribute("data-translate");
+        }
+        switch( item.nodeName ) {
+            case 'INPUT':
+                if( item.type === 'text' ) {
+                    item.title = vlr.tip;
+                    item.value = vlr.val;
+                }
+                break;
+            case 'BUTTON': 
+            case 'DIV': 
+            case 'I': 
+                item.title = vlr; 
+                break;
+            default: 
+                item.innerHTML = vlr;
         }
     }
 };    
@@ -127,10 +140,7 @@ SITE.Translator.prototype.sortLanguages = function () {
 };
 
 SITE.Translator.prototype.log = function(msg) {
-    if( msg.substr( 27, 7 ) === 'CORONA_' ) return;
-    if( msg.substr( 27, 7 ) === 'HOHNER_' ) return;
-    if( msg.substr( 27, 6 ) === 'GAITA_' ) return;
-    if( msg.substr( 27, 11 ) === 'CONCERTINA_' ) return;
-    waterbug.log( msg );
-    (SITE.properties.options.showConsole) && waterbug.show();
+    console.log(msg);
+    /*waterbug.log( msg );
+    (SITE.properties.options.showConsole) && waterbug.show();*/
 };

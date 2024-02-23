@@ -20,7 +20,7 @@
     var BTN_NEXT_TEXT = _options.btnNextText || 'Next';
     var BTN_SKIP_TEXT = _options.btnSkipText || 'Skip';
     var BTN_PREV_TEXT = _options.btnPrevText || 'Previous';
-  
+    var ARROW_COLOR   = _options.arrowColor  || 'white';
     var SHAPE_BACKGROUND_COLOR = _options.backgroundColor || "rgba(0,0,0,0.6)";
   
     var body = "body"; // TODO: Is it possible case when we need to define enjoyhint somewhere else?
@@ -38,9 +38,8 @@
     var options = $.extend(defaults, _options);
     var data = [];
     var current_step = 0;
-  
     var $body = $(body);
-    var bodyOverflow ;
+    var bodyOverflow;
   
     /********************* PRIVATE METHODS ***************************************/
   
@@ -48,7 +47,7 @@
       if ($(".enjoyhint")) {
         $(".enjoyhint").remove();
       }
-  
+
       bodyOverflow = $body.css( "overflow" );
       $body.css({ overflow: "hidden" });
   
@@ -68,7 +67,8 @@
         fill: SHAPE_BACKGROUND_COLOR,
         nextText: BTN_NEXT_TEXT,
         skipText: BTN_SKIP_TEXT,
-        prevText: BTN_PREV_TEXT
+        prevText: BTN_PREV_TEXT,
+        arrowColor: ARROW_COLOR
       });
     };
   
@@ -77,8 +77,7 @@
     };
   
     var hideEnjoy = function () {
-  
-      $body.css({overflow: bodyOverflow});
+      $body.css({overflow: bodyOverflow });
       $(document).off("touchmove", lockTouch);
     }
 
@@ -166,13 +165,11 @@
 
         var stepSelector = $(step_data.selector).get(0);
         var isHintInViewport = stepSelector.getBoundingClientRect();
-        // flavio - voltei o comportamento anterior
-        //if (stepSelector && stepSelector.clientHeight && stepSelector.clientWidth) {
-        //  var isHintInViewport = stepSelector.getBoundingClientRect();
-        //} else {
-        //  return console.log("Error: Element position couldn't be reached");
-        //}
-
+        // if (stepSelector && stepSelector.clientHeight && stepSelector.clientWidth) {
+        //   var isHintInViewport = stepSelector.getBoundingClientRect();
+        // } else {
+        //   return console.log("Error: Element position couldn't be reached");
+        // }
         if(isHintInViewport.top < 0 || isHintInViewport.bottom > (window.innerHeight || document.documentElement.clientHeight)){
             hideCurrentHint();
             $(document.body).scrollTo(step_data.selector, step_data.scrollAnimationSpeed || 250, {offset: -200});
@@ -352,7 +349,6 @@
           
         }, scrollSpeed + 20 || 270);
       }, timeout);
-     
     };
   
     var nextStep = function() {
@@ -1135,8 +1131,10 @@
               })
             );
 
-            if (that.stepData.arrowColor) {
-              that.setMarkerColor(that.stepData.arrowColor)
+            var ac = that.stepData.arrowColor? that.stepData.arrowColor : that.options.arrowColor;
+
+            if (ac) {
+              that.setMarkerColor(ac)
             } else {
               $("#poliline").css("stroke", "rgb(255, 255, 255)");
             }
