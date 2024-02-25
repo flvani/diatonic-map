@@ -237,6 +237,7 @@ DIATONIC.map.Keyboard = function (keyMap, pedalInfo, opts) {
     this.divs = { container: null, pane: null, imagem: null, extras: null, rotateBtnExtra: null, globeBtnExtra: null, openBtnRight: null}
 
     // gaitas que terao a opcao para tablatura numerica portuguesa
+    this.rowsNumbered  = false;
     this.numerica = keyMap.numerica || null;
     this.pautaNumerica = 0;
     this.pautaNumericaMini = true;
@@ -581,7 +582,9 @@ DIATONIC.map.Keyboard.prototype.print = function (div, accordion) {
     }
 };
 
-DIATONIC.map.Keyboard.prototype.setFormatoTab = function (val, isMini) {
+DIATONIC.map.Keyboard.prototype.setFormatoTab = function (val, isMini, rowsNumbered) {
+
+    this.rowsNumbered = rowsNumbered === undefined ? SITE.properties.options.rowsNumbered : rowsNumbered;
 
     if (val && this.numerica) {
         this.pautaNumerica = val;

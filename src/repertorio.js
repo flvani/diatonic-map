@@ -9,18 +9,20 @@ if (!window.SITE)
     window.SITE = { gtagInitiated : false, root: '/mapa' };
 
 SITE.Repertorio = function() {
-    this.accordion = new window.ABCXJS.tablature.Accordion({
-        accordionMaps: DIATONIC.map.accordionMaps
-       ,translator: SITE.translator 
-       ,render_keyboard_opts:{
-            transpose:true
-           ,mirror:false
-           ,scale:1
-           ,draggable:false
-           ,show:true
-           ,label:false
-       }
-    }, SITE.properties.options.tabFormat);
+    this.accordion = new window.ABCXJS.tablature.Accordion (
+        {
+             accordionMaps: DIATONIC.map.accordionMaps
+            ,translator: SITE.translator 
+            ,render_keyboard_opts:{
+                    transpose:true
+                ,mirror:false
+                ,scale:1
+                ,draggable:false
+                ,show:true
+                ,label:false
+            }
+        }
+    );
 };
 
 // Esta rotina foi criada como forma de verificar todos warnings de compilacao do repertório

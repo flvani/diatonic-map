@@ -29,7 +29,9 @@ SITE.App = function( interfaceParams, tabParams, playerParams ) {
     this.accordion = new window.ABCXJS.tablature.Accordion( 
           interfaceParams.accordion_options 
         , SITE.properties.options.tabFormat 
-        ,!SITE.properties.options.tabShowOnlyNumbers  );
+        ,!SITE.properties.options.tabShowOnlyNumbers 
+        , SITE.properties.options.rowsNumbered
+    );
     
     this.accordionSelector = new ABCXJS.edit.AccordionSelector( 
         interfaceParams.mapMenuGaitasDiv, interfaceParams.mapMenuGaitasDiv, 

@@ -303,7 +303,7 @@ window.ABCXJS.data.Tune = function() {
         //por definição, a diretiva terá precedência sobre as opções de tela        
         if (!this.formatting.hideLyrics )           this.formatting.hideLyrics = vars.hideLyrics || false;
         if (!this.formatting.hideFingering )        this.formatting.hideFingering = vars.hideFingering || false;
-        if (!this.formatting.tabprintrowsnumbered ) this.formatting.tabprintrowsnumbered = vars.ilheirasNumeradas || false;
+        //if (!this.formatting.tabprintrowsnumbered ) this.formatting.tabprintrowsnumbered = vars.ilheirasNumeradas || false;
         
     };
     
@@ -3521,9 +3521,10 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                 if(switches.hideFingering !== undefined){
                     multilineVars.hideFingering = switches.hideFingering
                 }
+                /*
                 if(switches.ilheirasNumeradas !== undefined){
                     multilineVars.ilheirasNumeradas = switches.ilheirasNumeradas
-                } 
+                } */
             }
             
             tune.setFormat(multilineVars);
@@ -3710,7 +3711,7 @@ window.ABCXJS.parse.parseDirective = {};
 			case "hideLyrics": tune.formatting.hideLyrics = true; break;
 			case "hidefingering": tune.formatting.hideFingering = true; break;
 			case "restsintab": tune.formatting.restsInTab = true; break;
-			case "tabprintrowsnumbered": tune.formatting.tabprintrowsnumbered = true; break;
+			//case "tabprintrowsnumbered": tune.formatting.tabprintrowsnumbered = true; break;
 			case "slurgraces":tune.formatting.slurgraces = true;break;
 			case "stretchlast":tune.formatting.stretchlast = true;break;
 			case "titleleft":tune.formatting.titleleft = true;break;
@@ -9897,7 +9898,7 @@ ABCXJS.write.Printer.prototype.printTabText = function (x, offset, text, klass) 
     }
 
     //se for um numero da tablatura e o formato é para numerar as ilheiras faz as devidas mudanças
-    if( this.currentTune.formatting.tabprintrowsnumbered && !isNaN(i) ){
+    if( this.loadedKeyboard.rowsNumbered && !isNaN(i) ){
         this.paper.tabText(x, this.calcY(offset)+7, i, klass, 'middle');
         this.paper.tabText(x+(i<10?6:9), this.calcY(offset)+2, j+1, 'abc_tabtext3', 'middle');
     } else {
@@ -15795,13 +15796,14 @@ if (!window.ABCXJS)
 if (!window.ABCXJS.tablature)
 	window.ABCXJS.tablature = {};
 
-ABCXJS.tablature.Accordion = function( params, pautaNumerica, pautaNumericaMini ) {
+ABCXJS.tablature.Accordion = function( params, pautaNumerica, pautaNumericaMini, rowsNumbered ) {
     
     this.loaded        = undefined;
     this.tabLines      = [];
     this.accordions    = params.accordionMaps || [] ;
     this.translator    = params.translator || null;
     this.transposer    = new window.ABCXJS.parse.Transposer();
+    this.rowsNumbered  = rowsNumbered || false;
     this.pautaNumerica = pautaNumerica || 0;
     this.pautaNumericaMini = pautaNumericaMini || (pautaNumericaMini===undefined);
     
@@ -15852,7 +15854,7 @@ ABCXJS.tablature.Accordion.prototype.loadById = function (id) {
 ABCXJS.tablature.Accordion.prototype.load = function (sel) {
     this.loaded = this.accordions[sel];
     this.loadedKeyboard = this.loaded.keyboard;
-    this.loadedKeyboard.setFormatoTab(this.pautaNumerica,this.pautaNumericaMini)
+    this.loadedKeyboard.setFormatoTab(this.pautaNumerica,this.pautaNumericaMini, this.rowsNumbered)
 
     return this.loaded;
 };
@@ -15917,10 +15919,11 @@ ABCXJS.tablature.Accordion.prototype.getFormatoTab = function () {
     return this.pautaNumerica;
 };
 
-ABCXJS.tablature.Accordion.prototype.setFormatoTab = function (val,mini) {
+ABCXJS.tablature.Accordion.prototype.setFormatoTab = function (val, mini, rowsNumbered) {
     this.pautaNumerica = val;
-    this.pautaNumericaMini = mini
-    this.loadedKeyboard.setFormatoTab(this.pautaNumerica,mini)
+    this.pautaNumericaMini = mini;
+    this.rowsNumbered = rowsNumbered;
+    this.loadedKeyboard.setFormatoTab(this.pautaNumerica, mini, this.rowsNumbered);
 };
 
 ABCXJS.tablature.Accordion.prototype.getId = function () {

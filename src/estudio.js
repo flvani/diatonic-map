@@ -37,7 +37,9 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
             this.accordion = new window.ABCXJS.tablature.Accordion( 
                 interfaceParams.accordion_options 
               , SITE.properties.options.tabFormat 
-              ,!SITE.properties.options.tabShowOnlyNumbers  );
+              ,!SITE.properties.options.tabShowOnlyNumbers 
+              , SITE.properties.options.rowsNumbered
+            );
             if (interfaceParams.accordionNameSpan) {
                 this.accordionNameSpan = document.getElementById(interfaceParams.accordionNameSpan);
                 this.accordionNameSpan.innerHTML = this.accordion.getFullName();
@@ -218,9 +220,48 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         if(that.midiPlayer.playing) that.studioStopPlay();
         evt.preventDefault();
         this.blur();
-        SITE.properties.options.rowsNumbered = !SITE.properties.options.rowsNumbered;
-        that.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
+        if( this.currentTabF  === undefined ) {
+            this.currentTabF = 1
+        } 
+
+        switch(this.currentTabF) {
+            case 0: // alemã - ilheiras com apóstrofes
+                this.currentTabF = 1;
+                SITE.properties.options.tabFormat = 0
+                SITE.properties.options.rowsNumbered = false;
+                SITE.properties.options.tabShowOnlyNumbers= true;
+                that.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
+                break;
+            case 1: // alemã - ilheiras numeradas
+                this.currentTabF = 2;
+                SITE.properties.options.tabFormat = 0
+                SITE.properties.options.rowsNumbered = true;
+                break;
+            case 2: // numerica ciclica 
+                this.currentTabF = 3;
+                SITE.properties.options.tabFormat = 1
+                SITE.properties.options.tabShowOnlyNumbers= false;
+                SITE.properties.options.rowsNumbered = false;
+                break;
+            case 3: // numerica ciclica - somente números
+                this.currentTabF = 4;
+                SITE.properties.options.tabFormat = 1
+                SITE.properties.options.tabShowOnlyNumbers= true;
+                break;
+            case 4: // numerica continua
+                this.currentTabF = 5;
+                SITE.properties.options.tabShowOnlyNumbers= false;
+                SITE.properties.options.tabFormat = 2
+                break;
+            case 5: // numerica continua - somente números
+                this.currentTabF = 0;
+                SITE.properties.options.tabShowOnlyNumbers= true;
+                SITE.properties.options.tabFormat = 2
+                break;
+        }
+
         that.fireChanged(0, {force:true, showProgress:true } );
+
     }, false);
 
     this.timerButton.addEventListener('click', function (evt) {

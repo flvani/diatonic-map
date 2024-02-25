@@ -9,7 +9,7 @@
   ,"keyboard": 
     {
        "layout": [0, 0.5, 1.0]
-      ,"numericaX": [ 
+      ,"numerica": [ 
            {"modo": "1", "nome":"Modo1", "rule": [0,10,20], "overrides": {"11":"11A", "12":"12A", "11'":"21A"} }
           ,{"modo": "2", "nome":"Modo2", "rule": [-1,10,21], "overrides": {"12":"00"} } 
       ]

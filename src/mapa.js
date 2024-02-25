@@ -41,7 +41,9 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.accordion = new window.ABCXJS.tablature.Accordion( 
           interfaceParams.accordion_options 
         , SITE.properties.options.tabFormat 
-        ,!SITE.properties.options.tabShowOnlyNumbers  );
+        ,!SITE.properties.options.tabShowOnlyNumbers  
+        , SITE.properties.options.rowsNumbered
+    );
 
     this.abcParser = new ABCXJS.parse.Parse( null, this.accordion );
     this.midiParser = new ABCXJS.midi.Parse();
