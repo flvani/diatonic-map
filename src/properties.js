@@ -4,10 +4,20 @@
  * and open the template in the editor.
  */
           
+window.dataLayer = window.dataLayer || [];
+
 if (!window.SITE)
     window.SITE = { gtagInitiated : false, root: '/mapa' };
 
-window.dataLayer = window.dataLayer || [];
+SITE.sizeOfThings = function () {
+
+    SITE.winSize = { w: window.innerWidth, h: window.innerHeight };
+
+    SITE.size = { w: screen.width, h: screen.height };;
+
+    return SITE.size;
+
+};
 
 SITE.ga = function () {
 

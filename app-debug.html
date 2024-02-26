@@ -26,9 +26,9 @@ notação abc, tablatura " />
         <link rel="stylesheet" href="fontsGoogle/fontsGoogle.css" />
         
         <link rel="stylesheet" href="css/styles4abcx.css" />
+
         <link rel="stylesheet" href="css/media.css" />
         <link rel="stylesheet" href="css/app.css" />
-
         <link rel="stylesheet" href="css/enjoyhint.css" >
         
         <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -171,30 +171,21 @@ notação abc, tablatura " />
         </div>
 
         <script id="mainScript" type="text/javascript">
-            function sizeOfThings(){
-            var windowWidth = window.innerWidth;
-            var windowHeight = window.innerHeight;
-            
-            var screenWidth = screen.width;
-            var screenHeight = screen.height;
-            
-            document.querySelector('.window-size').innerHTML = windowWidth + 'x' + windowHeight;
-            document.querySelector('.screen-size').innerHTML = screenWidth + 'x' + screenHeight;
 
-            return { w: screenWidth, h: screenHeight };
-
-            };
+            SITE.sizeOfThings();
+            document.querySelector('.window-size').innerHTML = SITE.winSize.w + 'x' + SITE.winSize.h;
+            document.querySelector('.screen-size').innerHTML = SITE.size.w + 'x' + SITE.size.h;
 
             window.addEventListener('resize', function(){
-                var s = sizeOfThings();
-                if(SITE) {
-                    SITE.size = s;
-                }
+
+                SITE.sizeOfThings();
+                document.querySelector('.window-size').innerHTML = SITE.winSize.w + 'x' + SITE.winSize.h;
+                document.querySelector('.screen-size').innerHTML = SITE.size.w + 'x' + SITE.size.h;
+
             });            
             
             SITE.abcxVersion = SITE.getVersion('mainABCX', '' ); // Obtem e mostra a versão corrente da lib ABCX 
             SITE.siteVersion = SITE.getVersion('mainSITE', 'v' ); // Obtem e mostra a versão corrente da lib do site
-            SITE.size = sizeOfThings();
             
             document.getElementById("aVersion").innerHTML = '<i>Diatonic App '+SITE.siteVersion+' Powered by ABCXJS version '+SITE.abcxVersion+'</i>';
 

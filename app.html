@@ -25,7 +25,8 @@ notação abc, tablatura " />
         <link rel="stylesheet" href="fontsIco/fontsAbcx.css" />
         <link rel="stylesheet" href="fontsGoogle/fontsGoogle.css" />
         <link rel="stylesheet" href="css/styles4abcx_6.40-min.css" />
-        <link rel="stylesheet" href="app/libapp_2.24.1-min.css" />
+        <link rel="stylesheet" href="app/libapp_2.24.2-min.css" />
+        <link rel="stylesheet" href="css/enjoyhint.css" >
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-3RXNND5N5Y"></script>
@@ -35,14 +36,13 @@ notação abc, tablatura " />
             function gtag(){dataLayer.push(arguments);}
 
         </script>
-        
+       
         <!-- Cookie notice 
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?tracking=1&always=1&showNoConsent=1&showPolicyLink=1&blocking=1&remember=180&privacyPage=https%3A%2F%2Fdiatonicmap.com.br%2Fprivacy"></script>
         <script src="https://www.google.com/cloudprint/client/cpgadget.js"></script-->
         
     </head>
     <body>
-        
 
         <script type="text/javascript" src="jslib/proto_noconflict.js" ></script>
         <script type="text/javascript" src="jquery/jquery-3.7.1.min.js"></script>
@@ -59,18 +59,23 @@ notação abc, tablatura " />
         <!-- suporte mapas de acordeões -->
         <script type="text/javascript" src="diatonic/diatonic_6.40-min.js"></script>
         
+        <!-- Enjoyhint library -->
+        <script type="text/javascript"src="jslib/kinetic-v5.1.0.js"></script>
+        <script type="text/javascript"src="jslib/jquery-scrollto-2.1.3.min.js"></script>
+        <script type="text/javascript" src="jslib/enjoyhint.min.js"></script>        
+
+        <!-- console personalizada para Javascript -->
+        <script type="text/javascript" src="jslib/waterbug.js"></script> 
+
         <!-- suporte a arquivos ABC -->
         <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_6.40-min.js" ></script>
         
-        <!-- console personalizada para Javascript -->
-        <script type="text/javascript" src="jslib/waterbug.js"></script> 
-        
-        <script id="mainSITE" type="text/javascript" src="app/libapp_2.24.1-min.js"></script>
+        <script id="mainSITE" type="text/javascript" src="app/libapp_2.24.2-min.js"></script>
 
         <div id="topBar" class="topBar gradiente" >
-            <span data-translate="appName" class="topTitle" style="left: 80px; line-height:63px; font-size: 32px;">Mapa para Acordeões Diatônicos</span>
+            <span id="appTitle" data-translate="appName" class="topTitle" style="left: 80px; line-height:63px; font-size: 32px; width:fit-content;">Mapa para Acordeões Diatônicos</span>
             <a id="topSettings" class="topSettings" style="left: 15px; width: fit-content" ><i class="ico-menu" title="Ajustes" data-translate="topSettings" ></i></a>
-        </div> <!-- topBar -->
+         </div> <!-- topBar -->
 
         <div id="appDiv" class="appDiv">
             <div id="backgroundDiv" class="backgroundDivStyle"></div>
@@ -90,12 +95,11 @@ notação abc, tablatura " />
             </div>
         </div>
 
-        <div id="keyboardDiv" style="z-index:101; height: fit-content;"></div>
-        <div id="studioDiv" class="studioDiv" style="z-index:101; height: fit-content;"></div>
+        <div id="studioDiv"></div>
 
         <div id="studioControlDiv" style="display:none;">
             <div id="controlDiv1" class="btn-subgroup" >
-                <button id="backBtn" data-translate="homeTip"><i class="ico-home"></i></button>
+                <button id="backBtn"  data-translate="homeTip" ><i class="ico-home"></i></button>
                 <button id="showMapBtn" data-translate="showMapTip"><i class="ico-keyboard" ></i></button>
                 <button id="printBtn" data-translate="printPreviewTip" style="display: inline;"><i class="ico-printer"></i></button>
                 <button id="tabformatBtn" data-translate="tabformatBtn" ><i class="ico-tabformat" ></i></button>
@@ -104,7 +108,7 @@ notação abc, tablatura " />
                 <button id="GClefBtn" data-translate="GClefBtn" ><i class="ico-clef-treble" ></i></button>
                 <button id="FClefBtn" data-translate="FClefBtn" ><i class="ico-clef-bass" ></i></button>
                 <button id="timerBtn" data-translate="timerBtn" ><i class="ico-timer-00" ></i></button>
-                <button style="padding-top:2px" ><div id="tempoSld" data-translate="tempoBtn" ></div></button>
+                <button id="tempoBtnId" style="padding-top:2px" ><div id="tempoSld" data-translate="tempoBtn" ></div></button>
                 <button id="modeBtn" data-translate="modeBtn" ><i class="ico-listening" ></i></button>
             </div>
             <div id="divDidacticPlayControls"  class="btn-subgroup" style="display: none;" >
@@ -139,50 +143,34 @@ notação abc, tablatura " />
             <p>Hello,<br>Do you know the desktop version of this app?<br>
                 <br><br>Access https://diatonicmap.com.br</p>
                 <br>
-                Enjoy all the convenience of a bigger screen, with the same repertoire and some extra features.
+                Enjoy all the convenience of a bigger screen, with the same repertoire and many extra editing features.
             <div id="pg" class="pushbutton-group" style="right: 0; bottom: 0;">
                 <span style="float:left; margin-right: 20px; margin-top: 25px;"><input id="askHelpChk" type="checkbox" />Do not show this tip again</span>
                 <div id="askHelpBtn" class="pushbutton cancel"><i class="ico-circle-error"></i><span>Dismiss</span></div>
             </div>            
         </div>
-        
-        <!--div id="pg" class="pushbutton-group" style="right: 0; bottom: 50px;">
-            <div id="testeback" class="pushbutton cancel"><i class="ico-circle-error"></i><span>back</span></div>
-        </div-->            
 
-        <div id="clustrmaps-widget" style="display: none;">
-            <script type='text/javascript' id='clustrmaps' src='//cdn.clustrmaps.com/map_v2.js?cl=080808&w=a&t=n&d=DapUa94TbVqwtpLWEmLGlHZOsJ4sbpinbd-5n9x0hVY&co=ffffff&cmo=3acc3a&cmn=ff5353&ct=808080'></script>        
-        </div>
-        
         <script id="mainScript" type="text/javascript">
+
+            SITE.sizeOfThings();
+            window.addEventListener('resize', function(){
+                SITE.sizeOfThings();
+            });
             
             SITE.abcxVersion = SITE.getVersion('mainABCX', '' ); // Obtem e mostra a versão corrente da lib ABCX 
             SITE.siteVersion = SITE.getVersion('mainSITE', 'v' ); // Obtem e mostra a versão corrente da lib do site
             
             document.getElementById("aVersion").innerHTML = '<i>Diatonic App '+SITE.siteVersion+' Powered by ABCXJS version '+SITE.abcxVersion+'</i>';
 
-
             var debug=false; // eliminar esta variável assim que possível
             
             var myApp;
 
-            window.onAppEndPreview = new Event('appEndPreview');
+            window.onAppResumeEvent = new Event('appResumeEvent');
             window.onAppStopEvent = new Event('appStopEvent');
             window.onAppBack = new Event('appBack');
 
-//            document.getElementById('testeback').addEventListener('click', function () {
-//                if( !myApp ) return;
-//                myApp.goBackOrClose();
-//            }, false);
-
-            window.addEventListener('afterprint', (event) => {
-                //if( !myApp ) return;
-                //myApp.appView.endPreview();
-            });            
-            
-            window.addEventListener('appEndPreview', function () {
-                if( !myApp ) return;
-                myApp.appView.endPreview();
+            window.addEventListener('appResumeEvent', function () {
             }, false);
 
             window.addEventListener('appStopEvent', function () {
@@ -194,7 +182,6 @@ notação abc, tablatura " />
                 if( !myApp ) return true;
                 myApp.goBackOrClose();
             }, false);
-
 
             window.onblur = function() {
                 if( !myApp ) return;
@@ -218,8 +205,8 @@ notação abc, tablatura " />
             window.onload = function () {
                 
                 SITE.LoadProperties();
-                SITE.ga( 'set', 'page_path', '/app');
-
+                SITE.ga( 'set', 'page_path', '/app-debug');
+                
                 SITE.translator = new SITE.Translator( { language: SITE.properties.options.language, callback: initApp } );
                 
             };
@@ -333,21 +320,34 @@ notação abc, tablatura " />
                         }
                     }
                 );
-                
-                SITE.debug = window.DiatonicApp && window.DiatonicApp.isDebug();
-                
+
                 SITE.ga( 'event', 'language', { 
                           event_category: 'Configuration'  
                          ,event_label: SITE.properties.options.language 
                          ,non_interaction: true
                 });
                 
-                if( SITE.getDate() <= 20170909 ) {
+                if( SITE.getDate() <= 20210909 ) {
                     $('#tipsDiv').fadeIn('slow');
                     setTimeout(function() { $('#tipsDiv').fadeOut('slow'); }, 15000);
+                }
+
+
+                if(!SITE.properties.options.guidedTour){
+
+                    initEnjoyVars(); 
+                    SITE.myTour = new EnjoyHint(g_enjoyhint_opts);
+
+                    //set script config
+                    SITE.myTour.set(g_enjoyhint_script_steps);
+
+                    //run Enjoyhint script
+                    SITE.myTour.run();
+                    
                 }
             }
             
         </script> <!-- mainScript -->
     </body>
 </html>
+

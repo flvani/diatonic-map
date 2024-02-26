@@ -270,22 +270,16 @@ notação abc, tablatura " />
         
         <script id="mainScript" type="text/javascript">
 
-            function sizeOfThings(){
-            var windowWidth = window.innerWidth;
-            var windowHeight = window.innerHeight;
-            
-            var screenWidth = screen.width;
-            var screenHeight = screen.height;
-            
-            document.querySelector('.window-size').innerHTML = windowWidth + 'x' + windowHeight;
-            document.querySelector('.screen-size').innerHTML = screenWidth + 'x' + screenHeight;
-
-            };
-
-            sizeOfThings();
+            SITE.sizeOfThings();
+            document.querySelector('.window-size').innerHTML = SITE.winSize.w + 'x' + SITE.winSize.h;
+            document.querySelector('.screen-size').innerHTML = SITE.size.w + 'x' + SITE.size.h;
 
             window.addEventListener('resize', function(){
-                sizeOfThings();
+
+                SITE.sizeOfThings();
+                document.querySelector('.window-size').innerHTML = SITE.winSize.w + 'x' + SITE.winSize.h;
+                document.querySelector('.screen-size').innerHTML = SITE.size.w + 'x' + SITE.size.h;
+
             });            
             
             SITE.abcxVersion = SITE.getVersion('mainABCX', '' ); // Obtem e mostra a versão corrente da lib ABCX 

@@ -260,7 +260,15 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
                 break;
         }
 
-        that.fireChanged(0, {force:true, showProgress:true } );
+        that.accordion.setFormatoTab(
+              SITE.properties.options.tabFormat
+            ,!SITE.properties.options.tabShowOnlyNumbers
+            , SITE.properties.options.rowsNumbered
+        );
+
+        that.accordion.printKeyboard(that.keyboardWindow.dataDiv);
+
+        that.fireChanged(0, {force:true, showProgress:false } );
 
     }, false);
 

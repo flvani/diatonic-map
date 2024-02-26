@@ -290,10 +290,11 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
                 ,!SITE.properties.options.tabShowOnlyNumbers
                 , SITE.properties.options.rowsNumbered
             );
-            that.accordion.loadedKeyboard.reprint();
-            that.setExtras();
-            that.setRight();
-            that.fireChanged(0, {force:true, showProgress:true } );
+
+            that.shouldReprint = true;
+            that.showKeyboard(SITE.properties.studio.keyboard.visible);
+            that.fireChanged(0, {force:true, showProgress:false } );
+
     }, false);
 
     this.modeButton.addEventListener('click', function (evt) {
@@ -460,9 +461,8 @@ SITE.AppView.prototype.setup = function( tab, accordionId ) {
 
     this.Div.setMenuVisible(true);
 
-    this.fireChanged(0, {force:true} );
-
     this.showKeyboard(SITE.properties.studio.keyboard.visible);
+    this.fireChanged(0, {force:true, showProgress:false } );
 
     this.canvasDiv.scrollTop = 0;
 
@@ -481,8 +481,14 @@ SITE.AppView.prototype.showKeyboard = function(show) {
         this.outerKeyboardDiv.style.display = 'inline-block';
         if(! this.printedKeyboard) {
             this.printedKeyboard = true;
+            this.shouldReprint = false;
             this.accordion.printKeyboard( this.keyboardDiv );
             this.setExtras();
+        }
+        if( this.shouldReprint ) {
+            this.shouldReprint = false;
+            this.accordion.loadedKeyboard.reprint();
+            that.setExtras();
         }
         this.setRight();
         this.showMapButton.innerHTML = '<i class="ico-keyboard" ></i>';
@@ -499,15 +505,17 @@ SITE.AppView.prototype.showKeyboard = function(show) {
 
 SITE.AppView.prototype.setRight = function() {
     if( SITE.properties.options.keyboardRight ){
-        if(this.kbDivs.openBtnRight.classList && !this.kbDivs.openBtnRight.classList.contains('flip-vert') )
+        if(this.kbDivs.openBtnRight.classList && !this.kbDivs.openBtnRight.classList.contains('flip-vert') ) {
             this.kbDivs.openBtnRight.classList.add('flip-vert');
-        this.outerKeyboardDiv.style.float = '';
-        this.outerCanvasDiv.style.float = 'left';
+        }
+        this.outerKeyboardDiv.classList.remove('keyboardDivLeft');
+        this.outerCanvasDiv.classList.add('keyboardDivLeft');
     } else {
-        if(this.kbDivs.openBtnRight.classList && this.kbDivs.openBtnRight.classList.contains('flip-vert') )
+        if(this.kbDivs.openBtnRight.classList && this.kbDivs.openBtnRight.classList.contains('flip-vert') ) {
             this.kbDivs.openBtnRight.classList.remove('flip-vert');
-        this.outerKeyboardDiv.style.float = 'left';
-        this.outerCanvasDiv.style.float = '';
+        }
+        this.outerKeyboardDiv.classList.add('keyboardDivLeft');
+        this.outerCanvasDiv.classList.remove('keyboardDivLeft');
     }
 }
 
@@ -541,7 +549,7 @@ SITE.AppView.prototype.setExtras = function() {
     this.kbDivs.openBtnRight.addEventListener("click", function (evt) {
         evt.preventDefault();
         SITE.properties.options.keyboardRight = !SITE.properties.options.keyboardRight;
-        that.showKeyboard(true);
+        that.showKeyboard(SITE.properties.studio.keyboard.visible);
     }, false);
 
     SITE.translator.translate( this.kbDivs.extras );

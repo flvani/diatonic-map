@@ -372,6 +372,11 @@ body {
     display: inline-block;
 }
 
+.keyboardDivLeft {
+    float: left;
+}
+
+
 .canvasDiv {
     position: relative;
     overflow: hidden;

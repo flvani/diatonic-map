@@ -18,7 +18,7 @@ echo "Ignorando a concatenação dos arquivos de repertório..."
 
 
 echo "Concatenating site files..."
-cat src/properties.js src/translate.js src/media.js src/modal.js src/mapa.js src/estudio.js  > tmp/site-part.js
+cat src/properties.js src/translate.js src/media.js src/modal.js src/mapa.js src/estudio.js > tmp/site-part.js
 cat tmp/site-part.js src/partgen.js src/partedit.js src/tabgen.js src/t2p_parser.js src/p2t_parser.js src/repertorio.js > tmp/site.js
 
 cat css/media.css css/mapa.css > tmp/site.css
@@ -27,7 +27,7 @@ cp tmp/site.css site/site_$1.css
 cp tmp/site.js  site/site_$1.js
 
 echo "Concatenating app files..."
-cat src/properties.js src/translate.js src/media.js src/modal.js src/appview.js src/app.js  > tmp/libapp.js
+cat src/properties.js src/translate.js src/media.js src/modal.js src/appview.js src/app.js src/app.tour.js > tmp/libapp.js
 
 cat css/media.css css/app.css > tmp/libapp.css
 
