@@ -38,12 +38,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.mapDiv = document.getElementById(interfaceParams.mapDiv);
 
     //interfaceParams.accordion_options.render_keyboard_opts.scale = 0.8;
-    this.accordion = new window.ABCXJS.tablature.Accordion( 
-          interfaceParams.accordion_options 
-        , SITE.properties.options.tabFormat 
-        ,!SITE.properties.options.tabShowOnlyNumbers  
-        , SITE.properties.options.rowsNumbered
-    );
+    this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options, SITE.properties.options.tabFormat );
 
     this.abcParser = new ABCXJS.parse.Parse( null, this.accordion );
     this.midiParser = new ABCXJS.midi.Parse();
@@ -121,6 +116,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     // screen control
     this.media = new SITE.Media( this.mapDiv, interfaceParams.btShowMedia, SITE.properties.mediaDiv, false ); 
     this.buttonChangeNotation = document.getElementById(interfaceParams.btChangeNotation);
+    this.buttonTabFormat = document.getElementById(interfaceParams.btTabFormat);
     this.printButton = document.getElementById(interfaceParams.printBtn);
     this.toolsButton = document.getElementById(interfaceParams.toolsBtn);
 
@@ -145,6 +141,20 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         this.blur();
         that.accordion.changeNotation();
     }, false );
+
+    this.buttonTabFormat.addEventListener("click", function(evt) {
+        evt.preventDefault();
+        this.blur();
+
+        // recicla o formato, incrementando em 1, retorando ao 0 qdo == 5
+        SITE.properties.options.tabFormat = ( (SITE.properties.options.tabFormat+1) % 6 )
+
+        that.accordion.setTabFormat(SITE.properties.options.tabFormat);
+        that.accordion.loadedKeyboard.reprint();
+        that.renderTAB( that.getActiveTab() );
+
+    }, false );
+
     
     this.playerCallBackOnScroll = function( player ) {
         that.setScrolling( player );
@@ -1295,8 +1305,8 @@ SITE.Mapa.prototype.showSettings = function() {
             ,  [{title: '...', ddmId: 'menuFormato',
                     itens: [
                         '&#160;Modelo Alemão|0TAB',
-                        '&#160;Numérica 1 (se disponível)|1TAB',
-                        '&#160;Numérica 2 (se disponível)|2TAB' 
+                        '&#160;Numérica Cíclica|1TAB',
+                        '&#160;Numérica Contínua|2TAB' 
                     ]}]
             );
 
@@ -1428,23 +1438,23 @@ SITE.Mapa.prototype.applySettings = function() {
     {
         SITE.properties.options.tabShowOnlyNumbers= this.settings.chkOnlyNumbers.checked;
         SITE.properties.options.tabFormat = parseInt(this.settings.tabFormat);
-        this.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
+        this.accordion.setTabFormat(SITE.properties.options.tabFormat)
         this.accordion.loadedKeyboard.reprint();
         this.renderTAB( this.getActiveTab() );
 
         if (this.studio) {
-            this.studio.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
+            this.studio.accordion.setTabFormat(SITE.properties.options.tabFormat)
             this.studio.accordion.loadedKeyboard.reprint();
             this.studio.renderedTune.printer.printABC( this.studio.renderedTune.abc ); // flavio - era printTune
         }
 
         if (this.tab2part) {
-            this.tab2part.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
+            this.tab2part.accordion.setTabFormat(SITE.properties.options.tabFormat)
             this.tab2part.renderedTune.printer.printABC(this.renderedTune.abc);
         }
 
         if (this.ABC2part) {
-            this.ABC2part.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
+            this.ABC2part.accordion.setTabFormat(SITE.properties.options.tabFormat)
             this.ABC2part.renderedTune.printer.printABC(this.renderedTune.abc);
         }
             

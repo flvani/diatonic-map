@@ -15796,16 +15796,16 @@ if (!window.ABCXJS)
 if (!window.ABCXJS.tablature)
 	window.ABCXJS.tablature = {};
 
-ABCXJS.tablature.Accordion = function( params, pautaNumerica, pautaNumericaMini, rowsNumbered ) {
+ABCXJS.tablature.Accordion = function( params, tabFormat ) {
     
     this.loaded        = undefined;
     this.tabLines      = [];
     this.accordions    = params.accordionMaps || [] ;
     this.translator    = params.translator || null;
     this.transposer    = new window.ABCXJS.parse.Transposer();
-    this.rowsNumbered  = rowsNumbered || false;
-    this.pautaNumerica = pautaNumerica || 0;
-    this.pautaNumericaMini = pautaNumericaMini || (pautaNumericaMini===undefined);
+    //this.rowsNumbered  = rowsNumbered || false;
+    this.tabFormat = tabFormat || 0;
+    //this.pautaNumericaMini = pautaNumericaMini || (pautaNumericaMini===undefined);
     
     if( this.accordions.length === 0 ) {
         throw new Error( 'No accordionMap found!');
@@ -15854,7 +15854,7 @@ ABCXJS.tablature.Accordion.prototype.loadById = function (id) {
 ABCXJS.tablature.Accordion.prototype.load = function (sel) {
     this.loaded = this.accordions[sel];
     this.loadedKeyboard = this.loaded.keyboard;
-    this.loadedKeyboard.setFormatoTab(this.pautaNumerica,this.pautaNumericaMini, this.rowsNumbered)
+    this.loadedKeyboard.setTabFormat(this.tabFormat)
 
     return this.loaded;
 };
@@ -15919,11 +15919,15 @@ ABCXJS.tablature.Accordion.prototype.getFormatoTab = function () {
     return this.pautaNumerica;
 };
 
-ABCXJS.tablature.Accordion.prototype.setFormatoTab = function (val, mini, rowsNumbered) {
+ABCXJS.tablature.Accordion.prototype.setTabFormat = function (formato) {
+ /*   
     this.pautaNumerica = val;
     this.pautaNumericaMini = mini;
     this.rowsNumbered = rowsNumbered;
-    this.loadedKeyboard.setFormatoTab(this.pautaNumerica, mini, this.rowsNumbered);
+    */
+    this.tabFormat = formato || 0;
+
+    this.loadedKeyboard.setTabFormat(formato);
 };
 
 ABCXJS.tablature.Accordion.prototype.getId = function () {

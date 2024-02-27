@@ -40,12 +40,8 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     
     if (interfaceParams.generate_tablature) {
         if (interfaceParams.generate_tablature === 'accordion') {
-            this.accordion = new window.ABCXJS.tablature.Accordion( 
-                  interfaceParams.accordion_options 
-                , SITE.properties.options.tabFormat 
-                ,!SITE.properties.options.tabShowOnlyNumbers  
-                , SITE.properties.options.rowsNumbered
-            );
+            this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options, SITE.properties.options.tabFormat );
+
             if (interfaceParams.accordionNameSpan) {
                 this.accordionNameSpan = document.getElementById(interfaceParams.accordionNameSpan);
                 this.accordionNameSpan.innerHTML = this.accordion.getFullName();

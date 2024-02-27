@@ -47,6 +47,9 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jslib/proto_noconflict.js" ></script>
         <script type="text/javascript" src="jquery/jquery-3.7.1.min.js"></script>
         
+        <!-- suporte a arquivos ABC -->
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs.js" ></script>
+        
         <!-- suporte a MIDI -->
         <script type="text/javascript" src="jslib/MIDI.js"></script>
         
@@ -62,9 +65,6 @@ notação abc, tablatura " />
         <!-- ACE Editor -->
         <script type="text/javascript" src="ace4abcx/ace4abcx.js"></script>
        
-        <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs.js" ></script>
-        
         <!-- console personalizada para Javascript -->
         <script type="text/javascript" src="jslib/waterbug.js"></script> 
         
@@ -100,8 +100,8 @@ notação abc, tablatura " />
                     <button id="buttonChangeNotation" >
                         <i class="ico-world-2"></i>&nbsp;<span data-translate="chLabel">Mudar a notação</span>
                     </button>
-                    <button id="buttonShowMedia" style="display:none;" >
-                        <i class="ico-vplayer"></i>&nbsp;<span id="spanShowMedia" data-translate="showMedia">Videoaula</span>
+                    <button id="buttonTabFormat" >
+                        <i class="ico-tabformat"></i>&nbsp;<span data-translate="tabFormat">Formato da Tablatura</span>
                     </button>
                 </div>
                 <div class="tv-container-always">
@@ -144,6 +144,9 @@ notação abc, tablatura " />
                     <button id="buttonPlay" data-translate="playBtn" ><i class="ico-play"></i></button>
                     <button id="buttonStop" data-translate="stopBtn" ><i class="ico-stop"></i></button>
                     <label id="currentPlayTimeLabel" class="playtime-label" style="margin-left: 10px;">00:00</label>
+                    <button id="buttonShowMedia" style="display:none; float:right;" >
+                        <i class="ico-vplayer"></i>&nbsp;<span id="spanShowMedia" data-translate="showMedia">Videoaula</span>
+                    </button>
                 </div>
 
                 <div id="tuneContainerDiv" class="tv-container">
@@ -351,16 +354,6 @@ notação abc, tablatura " />
                     return;
                 }
         
-                console.log( 
-                      '\nChrome: ' + ABCXJS.misc.isChrome() 
-                    + '\nCromium: ' + ABCXJS.misc.isChromium() 
-                    + '\nFirefox: ' + ABCXJS.misc.isFirefox()  
-                    + '\nIE: ' + ABCXJS.misc.isIE() 
-                    + '\nEdge: ' + ABCXJS.misc.isEdge() 
-                    + '\nOpera: ' + ABCXJS.misc.isOpera() 
-                    + '\nSafari: ' + ABCXJS.misc.isSafari() + '\n '
-                );
-        
                 MIDI.widget = new sketch.ui.Timer({
                     size:180
                     , container: document.getElementById('mapaDiv')
@@ -441,6 +434,7 @@ notação abc, tablatura " />
                       , accordionImagePlaceHolder: 'accordionImageDiv'
                       , btShowMedia: 'buttonShowMedia'
                       , btChangeNotation: 'buttonChangeNotation'
+                      , btTabFormat: 'buttonTabFormat'
                       , printBtn: 'buttonPrinter'
                       , toolsBtn: 'buttonTools'
                       , mapDiv: 'mapaDiv'

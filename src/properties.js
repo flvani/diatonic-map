@@ -260,20 +260,12 @@ SITE.LoadProperties = function() {
         salvar = true;
     }
 
-    //hardcode - anti-pipoca-roxa
-    SITE.properties.options.tabFormat = 0;
-
     SITE.properties.options.lyrics=true;
     SITE.properties.options.fingering=true;
-    SITE.properties.options.rowsNumbered=false;
 
     if( SITE.properties.options.tabFormat === undefined ) {
         salvar = true;
         SITE.properties.options.tabFormat = 0;
-    }
-    if( SITE.properties.options.tabShowOnlyNumbers === undefined ) {
-        salvar = true;
-        SITE.properties.options.tabShowOnlyNumbers=false;
     }
 
     if( SITE.properties.options.guidedTour === undefined ) {
@@ -335,7 +327,6 @@ SITE.ResetProperties = function() {
         ,keyboardRight: false
         ,suppressTitles: false
         ,tabFormat: 0
-        ,tabShowOnlyNumbers: false
     };
 
     SITE.properties.mediaDiv = {

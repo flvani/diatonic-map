@@ -9,6 +9,10 @@
   ,"keyboard": 
     {
        "layout": [0.5, 0, 0.5]
+      ,"numerica": [ 
+           {"modo": "1", "nome":"Numérica ciclíca", "rule": [0,10,20], "overrides": { "11'":"21A" } }
+          ,{"modo": "2", "nome":"Numérica contínua", "rule": [0,10,21], "overrides": {} } 
+      ]
       ,"keys":
       {
         "close": [["E4", "B♭3", "D4", "F4", "B♭4", "D5", "F5", "B♭5", "D6", "F6"], ["A4", "B♭3", "E♭4", "G4", "B♭4", "E♭5", "G5", "B♭5", "E♭6", "G6", "B♭6"], ["F♯5", "E♭4", "A♭4", "C5", "E♭5", "A♭5", "C6", "E♭6", "A♭6", "C7"]]

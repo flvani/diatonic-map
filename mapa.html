@@ -24,7 +24,7 @@ notação abc, tablatura " />
         
         <link rel="stylesheet" href="fontsIco/fontsAbcx.css" />
         <link rel="stylesheet" href="fontsGoogle/fontsGoogle.css" />
-        <link rel="stylesheet" href="css/styles4abcx_6.40-min.css" />
+        <link rel="stylesheet" href="css/styles4abcx_6.41-min.css" />
         <link rel="stylesheet" href="site/site_6.25-min.css" />
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -45,6 +45,9 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jslib/proto_noconflict.js" ></script>
         <script type="text/javascript" src="jquery/jquery-3.7.1.min.js"></script>
         
+        <!-- suporte a arquivos ABC -->
+        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_6.41-min.js" ></script>
+        
         <!-- suporte a MIDI >
         <script type="text/javascript" src="jslib/MIDI.js"></script-->
         <script type="text/javascript" src="jslib/MIDI_5.25-min.js"></script>
@@ -53,19 +56,16 @@ notação abc, tablatura " />
         <script type="text/javascript" src="jslib/html5kellycolorpicker.min.js"></script>
         
         <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_6.40-min.js"></script>
+        <script type="text/javascript" src="file/filemanager_6.41-min.js"></script>
         
         <!-- suporte mapas de acordeões -->
-        <script type="text/javascript" src="diatonic/diatonic_6.40-min.js"></script>
+        <script type="text/javascript" src="diatonic/diatonic_6.41-min.js"></script>
         
         <!-- ACE Editor -->
-        <script type="text/javascript" src="ace4abcx/ace4abcx_6.40-min.js"></script>
+        <script type="text/javascript" src="ace4abcx/ace4abcx_6.41-min.js"></script>
        
         <!-- console personalizada para Javascript -->
         <script type="text/javascript" src="jslib/waterbug.js"></script> 
-        
-        <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_6.40-min.js" ></script>
         
         <script id="mainSITE" type="text/javascript" src="site/site_6.25-min.js"></script>
 
@@ -87,8 +87,8 @@ notação abc, tablatura " />
                     <button id="buttonChangeNotation" >
                         <i class="ico-world-2"></i>&nbsp;<span data-translate="chLabel">Mudar a notação</span>
                     </button>
-                    <button id="buttonShowMedia" style="display:none;" >
-                        <i class="ico-vplayer"></i>&nbsp;<span id="spanShowMedia" data-translate="showMedia">Videoaula</span>
+                    <button id="buttonTabFormat" >
+                        <i class="ico-tabformat"></i>&nbsp;<span data-translate="tabFormat">Formato da Tablatura</span>
                     </button>
                 </div>
                 <div class="tv-container-always">
@@ -123,6 +123,9 @@ notação abc, tablatura " />
                     <button id="buttonPlay" data-translate="playBtn" ><i class="ico-play"></i></button>
                     <button id="buttonStop" data-translate="stopBtn" ><i class="ico-stop"></i></button>
                     <label id="currentPlayTimeLabel" class="playtime-label" style="margin-left: 10px;">00:00</label>
+                    <button id="buttonShowMedia" style="display:none; float:right;" >
+                        <i class="ico-vplayer"></i>&nbsp;<span id="spanShowMedia" data-translate="showMedia">Videoaula</span>
+                    </button>
                 </div>
 
                 <div id="tuneContainerDiv" class="tv-container">
@@ -323,16 +326,6 @@ notação abc, tablatura " />
                     return;
                 }
         
-                console.log( 
-                      '\nChrome: ' + ABCXJS.misc.isChrome() 
-                    + '\nCromium: ' + ABCXJS.misc.isChromium() 
-                    + '\nFirefox: ' + ABCXJS.misc.isFirefox()  
-                    + '\nIE: ' + ABCXJS.misc.isIE() 
-                    + '\nEdge: ' + ABCXJS.misc.isEdge() 
-                    + '\nOpera: ' + ABCXJS.misc.isOpera() 
-                    + '\nSafari: ' + ABCXJS.misc.isSafari() + '\n '
-                );
-        
                 MIDI.widget = new sketch.ui.Timer({
                     size:180
                     , container: document.getElementById('mapaDiv')
@@ -413,6 +406,7 @@ notação abc, tablatura " />
                       , accordionImagePlaceHolder: 'accordionImageDiv'
                       , btShowMedia: 'buttonShowMedia'
                       , btChangeNotation: 'buttonChangeNotation'
+                      , btTabFormat: 'buttonTabFormat'
                       , printBtn: 'buttonPrinter'
                       , toolsBtn: 'buttonTools'
                       , mapDiv: 'mapaDiv'

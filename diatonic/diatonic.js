@@ -582,18 +582,43 @@ DIATONIC.map.Keyboard.prototype.print = function (div, accordion) {
     }
 };
 
-DIATONIC.map.Keyboard.prototype.setFormatoTab = function (val, isMini, rowsNumbered) {
+DIATONIC.map.Keyboard.prototype.setTabFormat = function (val) {
 
-    this.rowsNumbered = rowsNumbered === undefined ? SITE.properties.options.rowsNumbered : rowsNumbered;
+    // val varia de 0 a 5, sendo que:
+    //  0 e 1 são formatos não numéricos (formato 0);
+    //  2 e 3 numérica ciclica (formato 1)
+    //  4 e 5 numérica continua (formato 2)
+    var impar = val % 2;
+    var formato = ( val - ( impar ) ) / 2;
 
-    if (val && this.numerica) {
-        this.pautaNumerica = val;
-        this.pautaNumericaFormato = this.numerica[val - 1];
-        this.pautaNumericaMini = isMini;
-    } else {
-        this.pautaNumerica = 0;
-        this.pautaNumericaMini = true;
+    switch( formato ) {
+        case 0:
+            SITE.properties.options.tabShowOnlyNumbers = false;
+            this.rowsNumbered = SITE.properties.options.rowsNumbered = ( impar === 1 );
+            this.pautaNumerica = 0;
+            this.pautaNumericaMini = true;
+            break;
+        default:
+            SITE.properties.options.tabShowOnlyNumbers = (impar===1);
+            this.rowsNumbered = SITE.properties.options.rowsNumbered = false;
+            if (this.numerica) {
+                this.pautaNumerica = formato;
+                this.pautaNumericaFormato = this.numerica[formato - 1];
+                this.pautaNumericaMini = !SITE.properties.options.tabShowOnlyNumbers;
+            } else {
+                this.pautaNumerica = 0;
+                this.pautaNumericaMini = true;
+                this.pautaNumericaFormato = null;
+            }
+            break;
     }
+
+
+    //SITE.properties.options.tabFormat = 1
+    //SITE.properties.options.tabShowOnlyNumbers= false;
+    //SITE.properties.options.rowsNumbered = false;
+
+
 }
 
 DIATONIC.map.Keyboard.prototype.drawLine = function (xi, yi, xf, yf) {

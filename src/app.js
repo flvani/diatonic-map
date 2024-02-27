@@ -26,12 +26,7 @@ SITE.App = function( interfaceParams, tabParams, playerParams ) {
     
     this.settingsMenu = document.getElementById(interfaceParams.settingsMenu);
 
-    this.accordion = new window.ABCXJS.tablature.Accordion( 
-          interfaceParams.accordion_options 
-        , SITE.properties.options.tabFormat 
-        ,!SITE.properties.options.tabShowOnlyNumbers 
-        , SITE.properties.options.rowsNumbered
-    );
+    this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options, SITE.properties.options.tabFormat );
     
     this.accordionSelector = new ABCXJS.edit.AccordionSelector( 
         interfaceParams.mapMenuGaitasDiv, interfaceParams.mapMenuGaitasDiv, 
@@ -346,7 +341,7 @@ SITE.App.prototype.showSettings = function() {
                 <th colspan="2"><br><span data-translate="PrefsTabFormat" >'+SITE.translator.getResource('PrefsTabFormat')+'</span></th>\
                 <th><br><div id="settingsTabMenu" class="topMenu"></div></th>\
               </tr>\
-              <tr style="height:40px; display:none;">\
+              <tr style="height:20px; display:none;" >\
                 <td> </td><td colspan="2"><div id="sldOnlyNumbers"></div>\
                 <span data-translate="PrefsPropsOnlyNumbers" >'+SITE.translator.getResource('PrefsPropsOnlyNumbers')+'</span></a></td>\
               </tr>\
@@ -435,8 +430,8 @@ SITE.App.prototype.showSettings = function() {
             ,  [{title: '...', ddmId: 'menuFormato',
                     itens: [
                         '&#160;Modelo Alemão|0TAB',
-                        '&#160;Numérica 1 (se disponível)|1TAB',
-                        '&#160;Numérica 2 (se disponível)|2TAB' 
+                        '&#160;Numérica Cíclica|1TAB',
+                        '&#160;Numérica Contínua|2TAB' 
                     ]}]
             );
 
@@ -466,8 +461,12 @@ SITE.App.prototype.showSettings = function() {
             }
         }, false );
 
-        this.settings.tabFormat = SITE.properties.options.tabFormat;
+        var impar = (SITE.properties.options.tabFormat % 2 );
+        var formato = (SITE.properties.options.tabFormat - impar  ) / 2;
+
+        this.settings.tabFormat = formato;
         this.settings.tabMenu.setSubMenuTitle( 'menuFormato', this.settings.tabMenu.selectItem( 'menuFormato', this.settings.tabFormat.toString()+"TAB" ));
+        SITE.properties.options.tabShowOnlyNumbers = (impar===1);
 
         this.picker = new DRAGGABLE.ui.ColorPicker(['corRealce', 'foleFechando', 'foleAbrindo'], {readonly: false, translator: SITE.translator});
       
@@ -592,10 +591,10 @@ SITE.App.prototype.applySettings = function() {
         this.settings.originalOnlyNumber !== SITE.properties.options.tabShowOnlyNumbers ) 
     {
         SITE.properties.options.tabFormat = parseInt(this.settings.tabFormat);
-        this.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
+        this.accordion.setTabFormat(SITE.properties.options.tabFormat)
 
         if (this.appView) {
-            this.appView.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
+            this.appView.accordion.setTabFormat(SITE.properties.options.tabFormat)
         }
     }
 
