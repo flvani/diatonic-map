@@ -1301,7 +1301,7 @@ SITE.Mapa.prototype.showSettings = function() {
 
         this.settings.tabMenu = new DRAGGABLE.ui.DropdownMenu(
             'settingsTabMenu'
-            ,  { listener:this, method:'settingsCallback', translate: true }
+            ,  { listener:this, method:'settingsCallback', translate: false }
             ,  [{title: '...', ddmId: 'menuFormato',
                     itens: [
                         '&#160;Modelo Alemão|0TAB',
@@ -1311,7 +1311,7 @@ SITE.Mapa.prototype.showSettings = function() {
             );
 
         this.settings.tabFormat = SITE.properties.options.tabFormat;
-        this.settings.tabMenu.setSubMenuTitle( 'menuFormato', this.settings.tabMenu.selectItem( 'menuFormato', this.settings.tabFormat.toString()+"TAB" ));
+        //this.settings.tabMenu.setSubMenuTitle( 'menuFormato', this.settings.tabMenu.selectItem( 'menuFormato', this.settings.tabFormat.toString()+"TAB" ));
 
         this.picker = new DRAGGABLE.ui.ColorPicker(['corRealce', 'foleFechando', 'foleAbrindo'], {translator: SITE.translator});
       
@@ -1325,7 +1325,7 @@ SITE.Mapa.prototype.showSettings = function() {
         this.settings.showWarnings = document.getElementById( 'chkWarnings');
         this.settings.autoRefresh = document.getElementById( 'chkAutoRefresh');
         this.settings.pianoSound = document.getElementById( 'chkPiano');
-        this.settings.chkOnlyNumbers = document.getElementById( 'chkOnlyNumbers');
+        //this.settings.chkOnlyNumbers = document.getElementById( 'chkOnlyNumbers');
 
         this.aTerms = document.getElementById("aTerms");
         this.aPolicy = document.getElementById("aPolicy");
@@ -1358,7 +1358,7 @@ SITE.Mapa.prototype.showSettings = function() {
     this.settings.closeColor.style.backgroundColor = this.settings.closeColor.value = SITE.properties.colors.close;
     this.settings.openColor.style.backgroundColor = this.settings.openColor.value = SITE.properties.colors.open ;
     
-    this.settings.chkOnlyNumbers.checked = SITE.properties.options.tabShowOnlyNumbers;
+    //this.settings.chkOnlyNumbers.checked = SITE.properties.options.tabShowOnlyNumbers;
     this.settings.showWarnings.checked = SITE.properties.options.showWarnings;
     this.settings.autoRefresh.checked = SITE.properties.options.autoRefresh;
     this.settings.pianoSound.checked = SITE.properties.options.pianoSound;
@@ -1432,6 +1432,7 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
 };
 
 SITE.Mapa.prototype.applySettings = function() {
+/*
 
     if( parseInt(this.settings.tabFormat) !== SITE.properties.options.tabFormat ||
         this.settings.chkOnlyNumbers.checked  !== SITE.properties.options.tabShowOnlyNumbers ) 
@@ -1461,6 +1462,7 @@ SITE.Mapa.prototype.applySettings = function() {
         //tratar também outros locais onde hajam teclado (tab editor, part editor)
 
     }
+*/
     if( this.settings.lang !== SITE.properties.options.language ) {
         SITE.properties.options.language = this.settings.lang;
 

@@ -260,20 +260,12 @@ SITE.LoadProperties = function() {
         salvar = true;
     }
 
-    //hardcode - anti-pipoca-roxa
-    SITE.properties.options.tabFormat = 0;
-
     SITE.properties.options.lyrics=true;
     SITE.properties.options.fingering=true;
-    SITE.properties.options.rowsNumbered=false;
 
     if( SITE.properties.options.tabFormat === undefined ) {
         salvar = true;
         SITE.properties.options.tabFormat = 0;
-    }
-    if( SITE.properties.options.tabShowOnlyNumbers === undefined ) {
-        salvar = true;
-        SITE.properties.options.tabShowOnlyNumbers=false;
     }
 
     if( SITE.properties.options.guidedTour === undefined ) {
@@ -335,7 +327,6 @@ SITE.ResetProperties = function() {
         ,keyboardRight: false
         ,suppressTitles: false
         ,tabFormat: 0
-        ,tabShowOnlyNumbers: false
     };
 
     SITE.properties.mediaDiv = {
@@ -1196,12 +1187,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     this.mapDiv = document.getElementById(interfaceParams.mapDiv);
 
     //interfaceParams.accordion_options.render_keyboard_opts.scale = 0.8;
-    this.accordion = new window.ABCXJS.tablature.Accordion( 
-          interfaceParams.accordion_options 
-        , SITE.properties.options.tabFormat 
-        ,!SITE.properties.options.tabShowOnlyNumbers  
-        , SITE.properties.options.rowsNumbered
-    );
+    this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options, SITE.properties.options.tabFormat );
 
     this.abcParser = new ABCXJS.parse.Parse( null, this.accordion );
     this.midiParser = new ABCXJS.midi.Parse();
@@ -1279,6 +1265,7 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
     // screen control
     this.media = new SITE.Media( this.mapDiv, interfaceParams.btShowMedia, SITE.properties.mediaDiv, false ); 
     this.buttonChangeNotation = document.getElementById(interfaceParams.btChangeNotation);
+    this.buttonTabFormat = document.getElementById(interfaceParams.btTabFormat);
     this.printButton = document.getElementById(interfaceParams.printBtn);
     this.toolsButton = document.getElementById(interfaceParams.toolsBtn);
 
@@ -1303,6 +1290,20 @@ SITE.Mapa = function( interfaceParams, tabParams, playerParams ) {
         this.blur();
         that.accordion.changeNotation();
     }, false );
+
+    this.buttonTabFormat.addEventListener("click", function(evt) {
+        evt.preventDefault();
+        this.blur();
+
+        // recicla o formato, incrementando em 1, retorando ao 0 qdo == 5
+        SITE.properties.options.tabFormat = ( (SITE.properties.options.tabFormat+1) % 6 )
+
+        that.accordion.setTabFormat(SITE.properties.options.tabFormat);
+        that.accordion.loadedKeyboard.reprint();
+        that.renderTAB( that.getActiveTab() );
+
+    }, false );
+
     
     this.playerCallBackOnScroll = function( player ) {
         that.setScrolling( player );
@@ -2449,17 +2450,17 @@ SITE.Mapa.prototype.showSettings = function() {
 
         this.settings.tabMenu = new DRAGGABLE.ui.DropdownMenu(
             'settingsTabMenu'
-            ,  { listener:this, method:'settingsCallback', translate: true }
+            ,  { listener:this, method:'settingsCallback', translate: false }
             ,  [{title: '...', ddmId: 'menuFormato',
                     itens: [
                         '&#160;Modelo Alemão|0TAB',
-                        '&#160;Numérica 1 (se disponível)|1TAB',
-                        '&#160;Numérica 2 (se disponível)|2TAB' 
+                        '&#160;Numérica Cíclica|1TAB',
+                        '&#160;Numérica Contínua|2TAB' 
                     ]}]
             );
 
         this.settings.tabFormat = SITE.properties.options.tabFormat;
-        this.settings.tabMenu.setSubMenuTitle( 'menuFormato', this.settings.tabMenu.selectItem( 'menuFormato', this.settings.tabFormat.toString()+"TAB" ));
+        //this.settings.tabMenu.setSubMenuTitle( 'menuFormato', this.settings.tabMenu.selectItem( 'menuFormato', this.settings.tabFormat.toString()+"TAB" ));
 
         this.picker = new DRAGGABLE.ui.ColorPicker(['corRealce', 'foleFechando', 'foleAbrindo'], {translator: SITE.translator});
       
@@ -2473,7 +2474,7 @@ SITE.Mapa.prototype.showSettings = function() {
         this.settings.showWarnings = document.getElementById( 'chkWarnings');
         this.settings.autoRefresh = document.getElementById( 'chkAutoRefresh');
         this.settings.pianoSound = document.getElementById( 'chkPiano');
-        this.settings.chkOnlyNumbers = document.getElementById( 'chkOnlyNumbers');
+        //this.settings.chkOnlyNumbers = document.getElementById( 'chkOnlyNumbers');
 
         this.aTerms = document.getElementById("aTerms");
         this.aPolicy = document.getElementById("aPolicy");
@@ -2506,7 +2507,7 @@ SITE.Mapa.prototype.showSettings = function() {
     this.settings.closeColor.style.backgroundColor = this.settings.closeColor.value = SITE.properties.colors.close;
     this.settings.openColor.style.backgroundColor = this.settings.openColor.value = SITE.properties.colors.open ;
     
-    this.settings.chkOnlyNumbers.checked = SITE.properties.options.tabShowOnlyNumbers;
+    //this.settings.chkOnlyNumbers.checked = SITE.properties.options.tabShowOnlyNumbers;
     this.settings.showWarnings.checked = SITE.properties.options.showWarnings;
     this.settings.autoRefresh.checked = SITE.properties.options.autoRefresh;
     this.settings.pianoSound.checked = SITE.properties.options.pianoSound;
@@ -2580,35 +2581,37 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
 };
 
 SITE.Mapa.prototype.applySettings = function() {
+/*
 
     if( parseInt(this.settings.tabFormat) !== SITE.properties.options.tabFormat ||
         this.settings.chkOnlyNumbers.checked  !== SITE.properties.options.tabShowOnlyNumbers ) 
     {
         SITE.properties.options.tabShowOnlyNumbers= this.settings.chkOnlyNumbers.checked;
         SITE.properties.options.tabFormat = parseInt(this.settings.tabFormat);
-        this.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
+        this.accordion.setTabFormat(SITE.properties.options.tabFormat)
         this.accordion.loadedKeyboard.reprint();
         this.renderTAB( this.getActiveTab() );
 
         if (this.studio) {
-            this.studio.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
+            this.studio.accordion.setTabFormat(SITE.properties.options.tabFormat)
             this.studio.accordion.loadedKeyboard.reprint();
             this.studio.renderedTune.printer.printABC( this.studio.renderedTune.abc ); // flavio - era printTune
         }
 
         if (this.tab2part) {
-            this.tab2part.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
+            this.tab2part.accordion.setTabFormat(SITE.properties.options.tabFormat)
             this.tab2part.renderedTune.printer.printABC(this.renderedTune.abc);
         }
 
         if (this.ABC2part) {
-            this.ABC2part.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
+            this.ABC2part.accordion.setTabFormat(SITE.properties.options.tabFormat)
             this.ABC2part.renderedTune.printer.printABC(this.renderedTune.abc);
         }
             
         //tratar também outros locais onde hajam teclado (tab editor, part editor)
 
     }
+*/
     if( this.settings.lang !== SITE.properties.options.language ) {
         SITE.properties.options.language = this.settings.lang;
 
@@ -2810,12 +2813,8 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
     
     if (interfaceParams.generate_tablature) {
         if (interfaceParams.generate_tablature === 'accordion') {
-            this.accordion = new window.ABCXJS.tablature.Accordion( 
-                interfaceParams.accordion_options 
-              , SITE.properties.options.tabFormat 
-              ,!SITE.properties.options.tabShowOnlyNumbers 
-              , SITE.properties.options.rowsNumbered
-            );
+            this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options, SITE.properties.options.tabFormat );
+
             if (interfaceParams.accordionNameSpan) {
                 this.accordionNameSpan = document.getElementById(interfaceParams.accordionNameSpan);
                 this.accordionNameSpan.innerHTML = this.accordion.getFullName();
@@ -2996,47 +2995,15 @@ SITE.Estudio = function (mapa, interfaceParams, playerParams) {
         if(that.midiPlayer.playing) that.studioStopPlay();
         evt.preventDefault();
         this.blur();
-        if( this.currentTabF  === undefined ) {
-            this.currentTabF = 1
-        } 
 
-        switch(this.currentTabF) {
-            case 0: // alemã - ilheiras com apóstrofes
-                this.currentTabF = 1;
-                SITE.properties.options.tabFormat = 0
-                SITE.properties.options.rowsNumbered = false;
-                SITE.properties.options.tabShowOnlyNumbers= true;
-                that.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
-                break;
-            case 1: // alemã - ilheiras numeradas
-                this.currentTabF = 2;
-                SITE.properties.options.tabFormat = 0
-                SITE.properties.options.rowsNumbered = true;
-                break;
-            case 2: // numerica ciclica 
-                this.currentTabF = 3;
-                SITE.properties.options.tabFormat = 1
-                SITE.properties.options.tabShowOnlyNumbers= false;
-                SITE.properties.options.rowsNumbered = false;
-                break;
-            case 3: // numerica ciclica - somente números
-                this.currentTabF = 4;
-                SITE.properties.options.tabFormat = 1
-                SITE.properties.options.tabShowOnlyNumbers= true;
-                break;
-            case 4: // numerica continua
-                this.currentTabF = 5;
-                SITE.properties.options.tabShowOnlyNumbers= false;
-                SITE.properties.options.tabFormat = 2
-                break;
-            case 5: // numerica continua - somente números
-                this.currentTabF = 0;
-                SITE.properties.options.tabShowOnlyNumbers= true;
-                SITE.properties.options.tabFormat = 2
-                break;
-        }
+        // recicla o formato, incrementando em 1, retorando ao 0 qdo == 5
+        SITE.properties.options.tabFormat = ( (SITE.properties.options.tabFormat+1) % 6 )
 
-        that.fireChanged(0, {force:true, showProgress:true } );
+        that.accordion.setTabFormat(SITE.properties.options.tabFormat);
+
+        that.accordion.printKeyboard(that.keyboardWindow.dataDiv);
+
+        that.fireChanged(0, {force:true, showProgress:false } );
 
     }, false);
 
@@ -3837,12 +3804,8 @@ SITE.PartGen = function( mapa, interfaceParams ) {
     
     if (interfaceParams.generate_tablature) {
         if (interfaceParams.generate_tablature === 'accordion') {
-            this.accordion = new window.ABCXJS.tablature.Accordion( 
-                  interfaceParams.accordion_options 
-                , SITE.properties.options.tabFormat 
-                ,!SITE.properties.options.tabShowOnlyNumbers  
-                , SITE.properties.options.rowsNumbered
-            );
+            this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options, SITE.properties.options.tabFormat );
+
             if (interfaceParams.accordionNameSpan) {
                 this.accordionNameSpan = document.getElementById(interfaceParams.accordionNameSpan);
                 this.accordionNameSpan.innerHTML = this.accordion.getFullName();
@@ -4583,12 +4546,8 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
     
     if (interfaceParams.generate_tablature) {
         if (interfaceParams.generate_tablature === 'accordion') {
-            this.accordion = new window.ABCXJS.tablature.Accordion( 
-                  interfaceParams.accordion_options 
-                , SITE.properties.options.tabFormat 
-                ,!SITE.properties.options.tabShowOnlyNumbers  
-                , SITE.properties.options.rowsNumbered
-            );
+            this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options, SITE.properties.options.tabFormat ); 
+
             if (interfaceParams.accordionNameSpan) {
                 this.accordionNameSpan = document.getElementById(interfaceParams.accordionNameSpan);
                 this.accordionNameSpan.innerHTML = this.accordion.getFullName();

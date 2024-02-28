@@ -260,20 +260,12 @@ SITE.LoadProperties = function() {
         salvar = true;
     }
 
-    //hardcode - anti-pipoca-roxa
-    SITE.properties.options.tabFormat = 0;
-
     SITE.properties.options.lyrics=true;
     SITE.properties.options.fingering=true;
-    SITE.properties.options.rowsNumbered=false;
 
     if( SITE.properties.options.tabFormat === undefined ) {
         salvar = true;
         SITE.properties.options.tabFormat = 0;
-    }
-    if( SITE.properties.options.tabShowOnlyNumbers === undefined ) {
-        salvar = true;
-        SITE.properties.options.tabShowOnlyNumbers=false;
     }
 
     if( SITE.properties.options.guidedTour === undefined ) {
@@ -335,7 +327,6 @@ SITE.ResetProperties = function() {
         ,keyboardRight: false
         ,suppressTitles: false
         ,tabFormat: 0
-        ,tabShowOnlyNumbers: false
     };
 
     SITE.properties.mediaDiv = {
@@ -1246,12 +1237,8 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
 
     if (interfaceParams.generate_tablature) {
         if (interfaceParams.generate_tablature === 'accordion') {
-            this.accordion = new window.ABCXJS.tablature.Accordion( 
-                  interfaceParams.accordion_options 
-                , SITE.properties.options.tabFormat 
-                ,!SITE.properties.options.tabShowOnlyNumbers 
-                , SITE.properties.options.rowsNumbered
-            );
+            this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options, SITE.properties.options.tabFormat ); 
+
             if (interfaceParams.accordionNameSpan) {
                 this.accordionNameSpan = document.getElementById(interfaceParams.accordionNameSpan);
                 this.accordionNameSpan.innerHTML = this.accordion.getFullName();
@@ -1402,56 +1389,16 @@ SITE.AppView = function (app, interfaceParams, playerParams) {
         this.blur();
         if(that.midiPlayer.playing) that.midiPlayer.stopPlay();
         //window.setTimeout(function(){
-
-        if( this.currentTabF  === undefined ) {
-            this.currentTabF = 1
-        } 
-
-        switch(this.currentTabF) {
-            case 0: // alemã - ilheiras com apóstrofes
-                this.currentTabF = 1;
-                SITE.properties.options.tabFormat = 0
-                SITE.properties.options.rowsNumbered = false;
-                SITE.properties.options.tabShowOnlyNumbers= true;
-                that.parserparams.ilheirasNumeradas = SITE.properties.options.rowsNumbered;
-                break;
-            case 1: // alemã - ilheiras numeradas
-                this.currentTabF = 2;
-                SITE.properties.options.tabFormat = 0
-                SITE.properties.options.rowsNumbered = true;
-                break;
-            case 2: // numerica ciclica 
-                this.currentTabF = 3;
-                SITE.properties.options.tabFormat = 1
-                SITE.properties.options.tabShowOnlyNumbers= false;
-                SITE.properties.options.rowsNumbered = false;
-                break;
-            case 3: // numerica ciclica - somente números
-                this.currentTabF = 4;
-                SITE.properties.options.tabFormat = 1
-                SITE.properties.options.tabShowOnlyNumbers= true;
-                break;
-            case 4: // numerica continua
-                this.currentTabF = 5;
-                SITE.properties.options.tabShowOnlyNumbers= false;
-                SITE.properties.options.tabFormat = 2
-                break;
-            case 5: // numerica continua - somente números
-                this.currentTabF = 0;
-                SITE.properties.options.tabShowOnlyNumbers= true;
-                SITE.properties.options.tabFormat = 2
-                break;
-        }
         
-            that.accordion.setFormatoTab(
-                  SITE.properties.options.tabFormat
-                ,!SITE.properties.options.tabShowOnlyNumbers
-                , SITE.properties.options.rowsNumbered
-            );
-            that.accordion.loadedKeyboard.reprint();
-            that.setExtras();
-            that.setRight();
-            that.fireChanged(0, {force:true, showProgress:true } );
+        // recicla o formato, incrementando em 1, retorando ao 0 qdo == 5
+        SITE.properties.options.tabFormat = ( (SITE.properties.options.tabFormat+1) % 6 );
+
+        that.accordion.setTabFormat(SITE.properties.options.tabFormat);
+
+        that.shouldReprint = true;
+        that.showKeyboard(SITE.properties.studio.keyboard.visible);
+        that.fireChanged(0, {force:true, showProgress:false } );
+
     }, false);
 
     this.modeButton.addEventListener('click', function (evt) {
@@ -1618,9 +1565,8 @@ SITE.AppView.prototype.setup = function( tab, accordionId ) {
 
     this.Div.setMenuVisible(true);
 
-    this.fireChanged(0, {force:true} );
-
     this.showKeyboard(SITE.properties.studio.keyboard.visible);
+    this.fireChanged(0, {force:true, showProgress:false } );
 
     this.canvasDiv.scrollTop = 0;
 
@@ -1639,8 +1585,14 @@ SITE.AppView.prototype.showKeyboard = function(show) {
         this.outerKeyboardDiv.style.display = 'inline-block';
         if(! this.printedKeyboard) {
             this.printedKeyboard = true;
+            this.shouldReprint = false;
             this.accordion.printKeyboard( this.keyboardDiv );
             this.setExtras();
+        }
+        if( this.shouldReprint ) {
+            this.shouldReprint = false;
+            this.accordion.loadedKeyboard.reprint();
+            that.setExtras();
         }
         this.setRight();
         this.showMapButton.innerHTML = '<i class="ico-keyboard" ></i>';
@@ -1701,7 +1653,7 @@ SITE.AppView.prototype.setExtras = function() {
     this.kbDivs.openBtnRight.addEventListener("click", function (evt) {
         evt.preventDefault();
         SITE.properties.options.keyboardRight = !SITE.properties.options.keyboardRight;
-        that.showKeyboard(true);
+        that.showKeyboard(SITE.properties.studio.keyboard.visible);
     }, false);
 
     SITE.translator.translate( this.kbDivs.extras );
@@ -2175,12 +2127,7 @@ SITE.App = function( interfaceParams, tabParams, playerParams ) {
     
     this.settingsMenu = document.getElementById(interfaceParams.settingsMenu);
 
-    this.accordion = new window.ABCXJS.tablature.Accordion( 
-          interfaceParams.accordion_options 
-        , SITE.properties.options.tabFormat 
-        ,!SITE.properties.options.tabShowOnlyNumbers 
-        , SITE.properties.options.rowsNumbered
-    );
+    this.accordion = new window.ABCXJS.tablature.Accordion( interfaceParams.accordion_options, SITE.properties.options.tabFormat );
     
     this.accordionSelector = new ABCXJS.edit.AccordionSelector( 
         interfaceParams.mapMenuGaitasDiv, interfaceParams.mapMenuGaitasDiv, 
@@ -2495,7 +2442,7 @@ SITE.App.prototype.showSettings = function() {
                 <th colspan="2"><br><span data-translate="PrefsTabFormat" >'+SITE.translator.getResource('PrefsTabFormat')+'</span></th>\
                 <th><br><div id="settingsTabMenu" class="topMenu"></div></th>\
               </tr>\
-              <tr style="height:40px; display:none;">\
+              <tr style="height:20px; display:none;" >\
                 <td> </td><td colspan="2"><div id="sldOnlyNumbers"></div>\
                 <span data-translate="PrefsPropsOnlyNumbers" >'+SITE.translator.getResource('PrefsPropsOnlyNumbers')+'</span></a></td>\
               </tr>\
@@ -2584,8 +2531,8 @@ SITE.App.prototype.showSettings = function() {
             ,  [{title: '...', ddmId: 'menuFormato',
                     itens: [
                         '&#160;Modelo Alemão|0TAB',
-                        '&#160;Numérica 1 (se disponível)|1TAB',
-                        '&#160;Numérica 2 (se disponível)|2TAB' 
+                        '&#160;Numérica Cíclica|1TAB',
+                        '&#160;Numérica Contínua|2TAB' 
                     ]}]
             );
 
@@ -2615,8 +2562,12 @@ SITE.App.prototype.showSettings = function() {
             }
         }, false );
 
-        this.settings.tabFormat = SITE.properties.options.tabFormat;
+        var impar = (SITE.properties.options.tabFormat % 2 );
+        var formato = (SITE.properties.options.tabFormat - impar  ) / 2;
+
+        this.settings.tabFormat = formato;
         this.settings.tabMenu.setSubMenuTitle( 'menuFormato', this.settings.tabMenu.selectItem( 'menuFormato', this.settings.tabFormat.toString()+"TAB" ));
+        SITE.properties.options.tabShowOnlyNumbers = (impar===1);
 
         this.picker = new DRAGGABLE.ui.ColorPicker(['corRealce', 'foleFechando', 'foleAbrindo'], {readonly: false, translator: SITE.translator});
       
@@ -2741,10 +2692,10 @@ SITE.App.prototype.applySettings = function() {
         this.settings.originalOnlyNumber !== SITE.properties.options.tabShowOnlyNumbers ) 
     {
         SITE.properties.options.tabFormat = parseInt(this.settings.tabFormat);
-        this.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
+        this.accordion.setTabFormat(SITE.properties.options.tabFormat)
 
         if (this.appView) {
-            this.appView.accordion.setFormatoTab(SITE.properties.options.tabFormat,!SITE.properties.options.tabShowOnlyNumbers)
+            this.appView.accordion.setTabFormat(SITE.properties.options.tabFormat)
         }
     }
 

@@ -222,7 +222,15 @@ g_enjoyhint_text[en_US] = [ 'dummy',
         'Shows a print preview for the current song.'
 
     ,//10    
-        "Switches between two different formats for tablature numbering. <text class='enjoy_hint_note_text1'>Try it now!</text>"
+        "Switches among different formats for tablature numbering. <text class='enjoy_hint_note_text1'>Try it now!</text>"+
+            "<div style='text-align:left; margin-left:3em'>"+
+                "<text class='enjoy_hint_note_text2'><i class='ico-rotate' ></i> - </text>"+
+                    "<text class='enjoy_hint_note_text3'>Mirrors the keyboard's buttons (vertical flip);</text><br>"+
+                "<text class='enjoy_hint_note_text2'><i class='ico-world' ></i> - </text>"+
+                    "<text class='enjoy_hint_note_text3'>Changes the note names notation; and</text><br>"+
+                "<text class='enjoy_hint_note_text2'><i class='ico-open-right'></i> - </text>"+
+                "<text class='enjoy_hint_note_text3'>Shifts the keyboard side: left/right.</text>"+
+            "<div>"
 
     ,//11    
         "This button shows/hides the tablature fingering (if present). <text class='enjoy_hint_note_text1'>Try it now!</text>"
