@@ -13,7 +13,7 @@ echo $2 | grep -E -q '^[0-9]\.[0-9]+\.[0-9]+$' || die "App Version number argume
 
 echo "Concatenating all files..."
 
-//./minify.repertorio.sh
+# ./minify.repertorio.sh
 echo "Ignorando a concatenação dos arquivos de repertório..."
 
 

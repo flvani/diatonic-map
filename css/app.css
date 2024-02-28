@@ -116,11 +116,24 @@ body {
     background-image: url("../images/accordions/flowers.background.png");
 }
 
+
 .accordionImageStyle {
     position: absolute;
     right: 40px;
     top: 40px;
-    opacity: 1;
+}
+
+.shadow {
+    position: absolute;
+    bottom: 40px;
+    left: 25%;
+    width: 60%;
+    height: 15px;
+    /*z-index: 100;*/
+    border: none;
+    border-radius: 67%;
+    background: rgba(100, 100, 100, 0.4);
+    box-shadow: 0 0 15px 15px rgba(100, 100, 100, 0.4);
 }
 
 .abcxVersionStyle {
@@ -128,12 +141,18 @@ body {
     bottom: 2px;
     right: 5px;
     color: rgba(0, 0, 0, 0.8);
+    left: 20px;
+    bottom: 20px;
+    width: 100%;
 }
 
 .abcxVersionStyle a {
     text-decoration: none;
     font-family: 'Merienda';
     font-size: 18px;
+    position: absolute;
+    right: 100px;
+    bottom: 0px;
 }
 
 .menu-group {

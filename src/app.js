@@ -4,6 +4,23 @@ if (!window.SITE)
 
 SITE.App = function( interfaceParams, tabParams, playerParams ) {
 
+    var s = 0;
+
+
+    if ( SITE.size.h >= 500 ) {
+        s = 1
+    } else if( SITE.size.h >= 432 ) { 
+        s = 1
+    } else if( SITE.size.h >= 412 ) { 
+        s = 1
+    } else if( SITE.size.h >= 393 ) { 
+        s = 0.95
+    } else if( SITE.size.h >= 360 ) { 
+        s = 0.90
+    }else{
+        s = 0.6
+    }
+
     document.body.style.overflow = 'hidden';
     
     var that = this;
@@ -42,6 +59,8 @@ SITE.App = function( interfaceParams, tabParams, playerParams ) {
     this.songSelector = document.getElementById(interfaceParams.mapMenuSongsDiv) ;
 
     this.gaitaImagePlaceHolder = document.getElementById(interfaceParams.accordionImagePlaceHolder);
+
+    this.gaitaImagePlaceHolder.style.scale = s;
 
     this.settingsMenu.addEventListener("click", function(evt) {
         evt.preventDefault();
@@ -252,7 +271,7 @@ SITE.App.prototype.setVisible = function ( visible ) {
 
 SITE.App.prototype.showAccordionImage = function() {
     
-  this.gaitaImagePlaceHolder.innerHTML = '<img class="accordionImageStyle" src="'+this.accordion.loaded.image
+  this.gaitaImagePlaceHolder.innerHTML = ' <div class="shadow"></div><img src="'+this.accordion.loaded.image
         +'" alt="'+this.accordion.getFullName() + ' ' + SITE.translator.getResource('keys') + '" />';
 };
 
