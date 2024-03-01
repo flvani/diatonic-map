@@ -14836,6 +14836,8 @@ DRAGGABLE.ui.DropdownMenu = function (topDiv, options, menu) {
         
         var e1 = document.createElement("div");
         e1.setAttribute( "class", 'dropdown' );
+        e1.setAttribute( "id", ddmId );
+
         this.container.appendChild(e1);
 
         //assumo por hora que, se tem label, tem borda

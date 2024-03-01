@@ -1276,6 +1276,7 @@ SITE.Mapa.prototype.showSettings = function() {
             </table>\
         </div>\
         <div id="pg" class="pushbutton-group" style="right: 0; bottom: 0;" >\
+            <div id="botao0" style="left:-50px;"></div>\n\
             <div id="botao1"></div>\n\
             <div id="botao2"></div>\n\
             <div id="botao3"></div>\n\
@@ -1283,6 +1284,7 @@ SITE.Mapa.prototype.showSettings = function() {
     
 
         this.settings.window.addPushButtons([
+            'botao0|tour|Take a tour',
             'botao1|apply',
             'botao2|reset|PrefsReset',
             'botao3|cancel'
@@ -1427,6 +1429,15 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
         case 'RESET-NO':
         case 'RESET-CANCEL':
             this.alert.close();
+            break;
+        case 'TOUR':
+            this.picker.close();
+            this.settings.window.setVisible(false);
+            // run the tour on demand
+            initEnjoyVars(); 
+            SITE.myTour = new EnjoyHint(g_enjoyhint_opts);
+            SITE.myTour.set(g_enjoyhint_script_steps);
+            SITE.myTour.resume();
             break;
     }
 };

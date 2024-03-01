@@ -14,8 +14,8 @@ body {
     margin: 0;
     padding: 0;
     height: 100%;
-    padding-top: 75px;  
-    
+    padding-top: 75px;
+
     /* inicio - evita que textos fiquem selecionáveis */
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -32,36 +32,36 @@ body {
     */
     background-color: white;
 }
-    
+
 .topSettings {
-    position:absolute; 
-    top:10px; 
-    right:20px; 
+    position: absolute;
+    top: 10px;
+    right: 20px;
     font-size: 50px;
     color: #dab390;
-}    
+}
 
 .oldVersion {
-    position:absolute; 
-    top:60px; 
-    right:10px; 
+    position: absolute;
+    top: 60px;
+    right: 10px;
     font-size: 14px;
     color: #dab390;
     text-decoration: none;
-}    
+}
 
 .oldVersion:hover,
 .topSettings:hover {
-    color:#ff9922;
+    color: #ff9922;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    cursor:pointer;
-}    
+    cursor: pointer;
+}
 
 .topBar {
     z-index: 100;
     position: fixed;
     display: block;
-    top: 0; 
+    top: 0;
     left: 0;
     min-height: 70px;
     min-width: 640px;
@@ -70,12 +70,12 @@ body {
     padding: 0;
     padding-top: 4px;
     padding-left: 5px;
-    box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
-    -webkit-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
-    -moz-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
-    -ms-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
-    -o-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
-    
+    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.7);
+    -webkit-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.7);
+    -ms-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.7);
+    -o-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.7);
+
 }
 
 .gradiente {
@@ -86,14 +86,14 @@ body {
     background: linear-gradient(left, #003050 0%, black 100%);
     color: orange;
     color: #ff9922;
-    cursor:default;
+    cursor: default;
 }
 
 .topTitle {
     position: relative;
     float: left;
-    width: 100%;
-    font-family: 'RockSalt','RobotoBold';
+    width: max-content;
+    font-family: 'RockSalt', 'RobotoBold';
     font-weight: normal;
     font-size: 28px;
     text-align: left;
@@ -116,7 +116,7 @@ body {
 }
 
 .mapaDiv {
-    position:absolute;
+    position: absolute;
     display: block;
     top: 75px;
     width: auto;
@@ -126,34 +126,34 @@ body {
 }
 
 .keyboardContainerStyle {
-    position: relative; 
-    top: 0; 
-    left: 0; 
-    padding-right: 130px; 
-    padding-bottom: 10px; 
-    min-height: 180px; 
-    height: auto; 
+    position: relative;
+    top: 0;
+    left: 0;
+    padding-right: 130px;
+    padding-bottom: 10px;
+    min-height: 180px;
+    height: auto;
     width: auto;
 }
 
 .accordionImageStyle {
-    position: absolute; 
-    top: 0; 
-    right: 0; 
+    position: absolute;
+    top: 0;
+    right: 0;
     margin-right: 15px;
 }
 
 .abcxVersionStyle {
-    position: absolute; 
-    bottom: 2px; 
+    position: absolute;
+    bottom: 2px;
     right: 5px;
-    color: rgba(0,0,0,0.8); 
-    font-family: 'Merienda'; 
-    font-size:12px; 
+    color: rgba(0, 0, 0, 0.8);
+    font-family: 'Merienda';
+    font-size: 12px;
 }
 
 .menu-group {
-    margin:20px;
+    margin: 20px;
 }
 
 
@@ -168,7 +168,7 @@ body {
 }
 
 .btn-group input[type="text"] {
-    margin-top:0px;
+    margin-top: 0px;
     font-family: "Merienda";
 }
 
@@ -181,30 +181,37 @@ body {
     background-color: #D4482D;
 }
 
-.dButton > a { color: #dab390; text-decoration: none }
-.dButton > a { color: white; text-decoration: none }
+.dButton>a {
+    color: #dab390;
+    text-decoration: none
+}
+
+.dButton>a {
+    color: white;
+    text-decoration: none
+}
 
 
 .dropdown-menu .selected {
-    background:  #6E2518 !important;
+    background: #6E2518 !important;
 }
- 
+
 .printPreviewClass {
-    position:absolute;
-    display:none;
-    top:0;
-    left:0;
+    position: absolute;
+    display: none;
+    top: 0;
+    left: 0;
     margin: 0;
     padding: 0;
-    width:100%; 
-    height: 100%; 
+    width: 100%;
+    height: 100%;
     background-color: #fff;
     z-index: 1000;
 }
 
 .studioDiv {
     position: absolute;
-    display:none;
+    display: none;
     left: 0;
     top: 78px;
     width: 100%;
@@ -213,7 +220,7 @@ body {
 }
 
 .controlDiv {
-    clear:both;
+    clear: both;
     position: relative;
     display: inline-block;
     margin: 0;
@@ -225,7 +232,7 @@ body {
     background-color: #e9edf0;
     border-bottom: 1px solid rgba(255, 0, 0, 0.1);
     border-bottom: 1px solid rgba(255, 153, 34, 0.2);
-/*
+    /*
     box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
     -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
     -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
@@ -235,7 +242,7 @@ body {
 }
 
 .warningsDiv {
-    clear:both;
+    clear: both;
     position: relative;
     display: inline-block;
     margin: 0;
@@ -251,7 +258,7 @@ body {
 }
 
 .studioCanvasDiv {
-    clear:both;
+    clear: both;
     position: relative;
     display: block;
     margin: 0px;
@@ -267,24 +274,24 @@ body {
 
 
 .canvasDiv {
-    clear:both;
+    clear: both;
     position: relative;
     display: inline-block;
     padding: 3px;
     margin: 4px;
-    border: 1px solid rgba(159,159,159,0.2);
-    background-color: #f1f1dd; 
-    background-color: honeydew; 
-    background-color: ivory; 
-    background-color: aliceblue; 
-    background-color: azure; 
-    background-color: mintcream; 
+    border: 1px solid rgba(159, 159, 159, 0.2);
+    background-color: #f1f1dd;
+    background-color: honeydew;
+    background-color: ivory;
+    background-color: aliceblue;
+    background-color: azure;
+    background-color: mintcream;
     width: auto;
     height: auto;
-    min-width: 800px; 
-    box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-    -webkit-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-    -moz-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-    -ms-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-    -o-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
+    min-width: 800px;
+    box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -webkit-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -ms-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -o-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
 }

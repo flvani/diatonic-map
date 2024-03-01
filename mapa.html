@@ -70,9 +70,11 @@ notação abc, tablatura " />
         <script id="mainSITE" type="text/javascript" src="site/site_6.25-min.js"></script>
 
         <div id="topBar" class="topBar gradiente" style="transform:scale(1);">
-            <span data-translate="appName" class="topTitle">Mapa para Acordeões Diatônicos</span>
-            <a id="downloadApp" href="https://play.google.com/store/apps/details?id=br.com.diatonicmap.app"  target="_blank" style="display: none; width: fit-content; padding-top:0px; left:680px;" class="topSettings" ><img src="images/google.play.png" title="Baixe o aplicativo no Google Play"/></a>
-            <a id="topSettings" class="topSettings" ><i class="ico-cogs" title="Ajustes" data-translate="topSettings" ></i></a>
+            <div style="width: 100%; display: inline-block;">
+                <span id="appTitle" class="topTitle" data-translate="appName">Mapa para Acordeões Diatônicos</span>
+                <a id="downloadApp" href="https://play.google.com/store/apps/details?id=br.com.diatonicmap.app"  target="_blank" style="display: none; width: fit-content; padding-top:0px; left:680px;" class="topSettings" ><img src="images/google.play.png" title="Baixe o aplicativo no Google Play"/></a>
+                <a id="topSettings" class="topSettings" ><i class="ico-cogs" title="Ajustes" data-translate="topSettings" ></i></a>
+            </div>
             <div class="dropdown-group">
                 <input id="fileLoadMap" type="file" accept="text/abc" multiple style="display: none;"/>
                 <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" multiple="multiple" style="display: none;"/>
@@ -102,15 +104,15 @@ notação abc, tablatura " />
 
             <div id="section2" class="tabs">
                 <input id="chordsTab" type="radio" name="tabControl" class="tab-selector-1" />
-                <label for="chordsTab" class="tab-label-1" data-translate="tabChords" >Acordes</label>
+                <label id="chordsTabL" for="chordsTab" class="tab-label-1" data-translate="tabChords" >Acordes</label>
 
                 <input id="practicesTab" type="radio" name="tabControl" class="tab-selector-2" />
-                <label for="practicesTab" class="tab-label-2" data-translate="tabPractices" >Exercícios</label>
+                <label id="practicesTabL" for="practicesTab" class="tab-label-2" data-translate="tabPractices" >Exercícios</label>
 
                 <input id="songsTab" type="radio" name="tabControl" class="tab-selector-3" />
-                <label for="songsTab" class="tab-label-3" data-translate="tabTunes" >Músicas</label>
+                <label id="songsTabL" for="songsTab" class="tab-label-3" data-translate="tabTunes" >Músicas</label>
 
-                <div class="btn-group" >
+                <div id="controlDiv" class="btn-group" >
                     <div id="menuChords" class="topMenu" style="display:none;"></div>
                     <div id="menuPractices" class="topMenu" style="display:none;"></div>
                     <div id="menuSongs" class="topMenu" style="display:none;"></div>

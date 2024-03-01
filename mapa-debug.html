@@ -28,6 +28,8 @@ notação abc, tablatura " />
         <link rel="stylesheet" href="css/styles4abcx.css" />
         <link rel="stylesheet" href="css/media.css" />
         <link rel="stylesheet" href="css/mapa.css" />
+        <link rel="stylesheet" href="css/enjoyhint.css" >
+        <link rel="stylesheet" href="css/enjoyhint.extras.css" >
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-3RXNND5N5Y"></script>
@@ -67,7 +69,13 @@ notação abc, tablatura " />
        
         <!-- console personalizada para Javascript -->
         <script type="text/javascript" src="jslib/waterbug.js"></script> 
-        
+
+        <!-- Enjoyhint library -->
+        <script type="text/javascript"src="jslib/kinetic-v5.1.0.js"></script>
+        <script type="text/javascript"src="jslib/jquery-scrollto-2.1.3.min.js"></script>
+        <script type="text/javascript" src="jslib/enjoyhint.js"></script>        
+
+
         <script id="mainSITE" type="text/javascript" src="src/mapa.js"></script>
         <script type="text/javascript" src="src/media.js"></script>
         <script type="text/javascript" src="src/modal.js"></script>
@@ -81,10 +89,14 @@ notação abc, tablatura " />
         <script type="text/javascript" src="src/p2t_parser.js"></script>
         <script type="text/javascript" src="src/repertorio.js"></script>
 
+        <script type="text/javascript" src="src/mapa.tour.js"></script>
+
         <div id="topBar" class="topBar gradiente" style="transform:scale(1);">
-            <span data-translate="appName" class="topTitle">Mapa para Acordeões Diatônicos</span>
-            <a id="downloadApp" href="https://play.google.com/store/apps/details?id=br.com.diatonicmap.app"  target="_blank" style="display: none; width: fit-content; padding-top:0px; left:680px;" class="topSettings" ><img src="images/google.play.png" title="Baixe o aplicativo no Google Play"/></a>
-            <a id="topSettings" class="topSettings" ><i class="ico-cogs" title="Ajustes" data-translate="topSettings" ></i></a>
+            <div style="width: 100%; display: inline-block;">
+                <span id="appTitle" class="topTitle" data-translate="appName">Mapa para Acordeões Diatônicos</span>
+                <a id="downloadApp" href="https://play.google.com/store/apps/details?id=br.com.diatonicmap.app"  target="_blank" style="display: none; width: fit-content; padding-top:0px; left:680px;" class="topSettings" ><img src="images/google.play.png" title="Baixe o aplicativo no Google Play"/></a>
+                <a id="topSettings" class="topSettings" ><i class="ico-cogs" title="Ajustes" data-translate="topSettings" ></i></a>
+            </div>
             <!--a class="oldVersion" href="mapa-4.22.html" data-translate="oldVersion" onclick="" >Usar a versão anterior</a-->
             <div class="dropdown-group">
                 <input id="fileLoadMap" type="file" accept="text/abc" multiple style="display: none;"/>
@@ -123,15 +135,15 @@ notação abc, tablatura " />
 
             <div id="section2" class="tabs">
                 <input id="chordsTab" type="radio" name="tabControl" class="tab-selector-1" />
-                <label for="chordsTab" class="tab-label-1" data-translate="tabChords" >Acordes</label>
+                <label id="chordsTabL" for="chordsTab" class="tab-label-1" data-translate="tabChords" >Acordes</label>
 
                 <input id="practicesTab" type="radio" name="tabControl" class="tab-selector-2" />
-                <label for="practicesTab" class="tab-label-2" data-translate="tabPractices" >Exercícios</label>
+                <label id="practicesTabL" for="practicesTab" class="tab-label-2" data-translate="tabPractices" >Exercícios</label>
 
                 <input id="songsTab" type="radio" name="tabControl" class="tab-selector-3" />
-                <label for="songsTab" class="tab-label-3" data-translate="tabTunes" >Músicas</label>
+                <label id="songsTabL" for="songsTab" class="tab-label-3" data-translate="tabTunes" >Músicas</label>
 
-                <div class="btn-group" >
+                <div id="controlDiv" class="btn-group" >
                     <div id="menuChords" class="topMenu" style="display:none;"></div>
                     <div id="menuPractices" class="topMenu" style="display:none;"></div>
                     <div id="menuSongs" class="topMenu" style="display:none;"></div>
@@ -490,6 +502,19 @@ notação abc, tablatura " />
                 
                 //(new SITE.Repertorio()).compileAll();
                 //(new SITE.Repertorio()).geraIndex();
+
+                if(!SITE.properties.options.guidedTour){
+
+                    initEnjoyVars(); 
+                    SITE.myTour = new EnjoyHint(g_enjoyhint_opts);
+
+                    //set script config
+                    SITE.myTour.set(g_enjoyhint_script_steps);
+
+                    //run Enjoyhint script
+                    SITE.myTour.run();
+                    
+                }
                 
             }
             
