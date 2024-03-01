@@ -41,6 +41,12 @@ body {
     color: #dab390;
 }
 
+.topDownload {
+    position: absolute;
+    top: 10px;
+    right: 150px;
+}
+
 .oldVersion {
     position: absolute;
     top: 60px;
@@ -100,7 +106,7 @@ body {
     line-height: 34px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     margin-top: 4px;
-    margin-bottom: 4px;
+    margin-bottom: 0;
     color: orange;
     color: #ff9922;
 
@@ -108,8 +114,7 @@ body {
 
 .topMenu {
     position: relative;
-    float: left;
-    display: anything;
+    display: inline-block;
     border: none;
     background: none;
     margin-top: 0px;
@@ -156,6 +161,9 @@ body {
     margin: 20px;
 }
 
+.btn-group {
+    display: inline-flex;
+}
 
 .btn-group b,
 .btn-group label,

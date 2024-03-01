@@ -34,180 +34,90 @@ function initEnjoyVars()
                     
         {
             'next #appTitle' :  g_enjoyhint_text[ge_lang][1],
-            "nextButton" : { text: SITE.translator.getResource('Start') },
+            closeButton : {className: 'myClose'},
+            nextButton  : { text: SITE.translator.getResource('Start') },
             /*top: 75, bottom: -10, left:10, right: 10*/
         },
         {
             'next #topSettings' : g_enjoyhint_text[ge_lang][2],
-                disableSelector: true,
+                closeButton : {className: 'myClose'},
                 shape : 'circle',
                 radius: 36,
+
         },
         {
             'next #menuGaitas' : g_enjoyhint_text[ge_lang][3],
+                closeButton : {className: 'myClose'},
+                onBeforeStart:function(){ 
+                    myMap.setup({accordionId:'GAITA_MINUANO_GC'});
+                    myMap.media.callback( 'CLOSE' ); 
+                }
         },
         {
             'next #menuRepertorio' : g_enjoyhint_text[ge_lang][4],
-            onBeforeStart:function(){ 
-                myMap.setup({accordionId:'GAITA_HOHNER_CORONA_GCF'});
-                myMap.media.callback( 'CLOSE' ); 
-            }
+                closeButton : {className: 'myClose'},
         },
         {
             'next #menuInformacoes' : g_enjoyhint_text[ge_lang][5],
+                closeButton : {className: 'myClose'},
         },
         {
             'next #buttonChangeNotation' : g_enjoyhint_text[ge_lang][6],
+                closeButton : {className: 'myClose'},
         },
         {
             'next #buttonTabFormat' : g_enjoyhint_text[ge_lang][7],
-            onBeforeStart:function(){ 
-                myMap.setup({accordionId:'GAITA_HOHNER_CORONA_GCF'});
-                myMap.media.callback( 'CLOSE' ); 
-            }
+                closeButton : {className: 'myClose'},
         },
         {
             'next #songsTabL' : g_enjoyhint_text[ge_lang][8],
-            left:-400
+                closeButton : {className: 'myClose'},
+                left:-400,
         },
         {
             'next #controlDiv' : g_enjoyhint_text[ge_lang][9],
-            showPrev: false,
-            disableSelector: true,
-            /*top: 50,  bottom: 7, left: 5, right: 10, */
-            onBeforeStart:function(){ 
-                myMap.setup({accordionId:'GAITA_HOHNER_CORONA_GCF'});
-                myMap.showTab('songsTab');
-                myMap.showABC( 'songs#6011' );
-                myMap.media.callback( 'CLOSE' ); 
-                //myApp.appView.changePlayMode('normal');
+                    closeButton : {className: 'myClose'},
+                    disableSelector: true,
+                    onBeforeStart:function(){ 
+                    myMap.showTab('songsTab');
+                    myMap.showABC( 'songs#1067' );
+                    myMap.media.callback( 'CLOSE' ); 
+                    //myApp.appView.changePlayMode('normal');
             },
         },
         {
             'next #menuSongs' : g_enjoyhint_text[ge_lang][10],
-            showSkip: false, left:3, bottom: 5,
+                closeButton : {className: 'myClose'},
+                left:5, bottom: 0,
         },
         {
-            'next #buttonTools' : g_enjoyhint_text[ge_lang][9],
-                showSkip: false, left:3, bottom: 5,
+            'next #buttonTools' : g_enjoyhint_text[ge_lang][11],
+                closeButton : {className: 'myClose'},
+                left:3, bottom: 5,
                 disableSelector: true,
         },
         {
-            'next #buttonPrinter' : g_enjoyhint_text[ge_lang][10],
-                showSkip: false, left:3, bottom: 5,
+            'next #buttonPrinter' : g_enjoyhint_text[ge_lang][12],
+                closeButton : {className: 'myClose'},
+                left:3, bottom: 5,
                 disableSelector: true,
         },
         {
-            'next #buttonPlay' : g_enjoyhint_text[ge_lang][10],
-                right: -100
+            'next #buttonPlay' : g_enjoyhint_text[ge_lang][13],
+                closeButton : {className: 'myClose'},
+                right: -100, left:3, bottom: 5,
+
         },
         {
-            'next #buttonShowMead' : g_enjoyhint_text[ge_lang][10],
+            'next #buttonShowMedia' : g_enjoyhint_text[ge_lang][14],
+                closeButton : {className: 'myClose'},
+                 left:3, bottom: 5,
         },
         {
-            'next #keyboardExtraBtnDiv' : g_enjoyhint_text[ge_lang][8],
-            onBeforeStart:function(){ 
-                myApp.appView.showKeyboard(true); 
-            },
-            top: 10, bottom: 14, left: 7, right: 30,
-            disableSelector: true
-        },
-        {
-            'next .ico-printer' : g_enjoyhint_text[ge_lang][9],
-                shape : 'circle',
-                radius: 22,
-                disableSelector: true,
-        },
-        {
-            'next .ico-tabformat' : g_enjoyhint_text[ge_lang][10],
-                shape : 'circle',
-                radius: 22
-        },
-        {
-            'next .ico-alien-fingering2' : g_enjoyhint_text[ge_lang][11],
-                shape : 'circle',
-                radius: 22
-        },
-        {
-            'next .ico-letter-l' : g_enjoyhint_text[ge_lang][12],
-                shape : 'circle',
-                radius: 22
-        },
-        {
-            'next .ico-clef-treble' : g_enjoyhint_text[ge_lang][13],
-                shape : 'circle',
-                radius: 22
-        },
-        {
-            'next .ico-clef-bass' : g_enjoyhint_text[ge_lang][14],
-                shape : 'circle',
-                radius: 22
-        },
-        {
-            'next .ico-timer-00' : g_enjoyhint_text[ge_lang][15],
-                shape : 'circle',
-                radius: 22
-        },
-        {
-            'next #tempoBtnId' : g_enjoyhint_text[ge_lang][16],
-            top: -2, bottom: -4, left: 2, right: 2
-        },
-        {
-            'next #modeBtn': g_enjoyhint_text[ge_lang][17],
-                shape : 'circle',
-                radius: 24
-        },
-        {
-            'next #stepBtn' : g_enjoyhint_text[ge_lang][18],
-                onBeforeStart:function(){
-                    myApp.appView.changePlayMode('learning');
-                },
-                shape : 'circle',
-                radius: 22
-        },
-        {
-            'next #stepMeasureBtn' : g_enjoyhint_text[ge_lang][19],
-                shape : 'circle',
-                radius: 22
-        },
-        {
-            'next .input-group' : g_enjoyhint_text[ge_lang][20],
-            top: 0, bottom: 10,
-            disableSelector: true
-        },
-        {
-            'next #repeatBtn' : g_enjoyhint_text[ge_lang][21],
-                shape : 'circle',
-                radius: 22
-        },
-        {
-            'next #clearBtn' : g_enjoyhint_text[ge_lang][22],
-                shape : 'circle',
-                radius: 22
-        },
-        {
-            'next #buttonShowMedia' : g_enjoyhint_text[ge_lang][23],
-                shape : 'circle',
-                radius: 22
-        },
-        {
-            'next #outerCanvasDiv' : g_enjoyhint_text[ge_lang][24],
-                scrollAnimationSpeed : 2500,
-                onBeforeStart:function(){ 
-                    myApp.appView.media.callback( 'CLOSE' ); 
-                    myApp.appView.changePlayMode('normal');
-                },
-                disableSelector: true,
-                shape : 'circle',
-                radius: 280
-        },
-        {
-            'click .ico-home' : g_enjoyhint_text[ge_lang][25],
-                scrollAnimationSpeed : 2500,
-                showPrev: false,
-                shape : 'circle',
-                radius: 26
-        },
+            'next #downloadApp' : g_enjoyhint_text[ge_lang][15],
+                closeButton : {className: 'myClose'},
+                bottom: 5,
+        }
     ];
 }
 
