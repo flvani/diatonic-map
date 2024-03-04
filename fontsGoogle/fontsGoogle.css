@@ -44,8 +44,8 @@
 }
 
 @font-face {
-    font-family: 'casino';
-    src: url('./Casino_hand-webfont.ttf') format('truetype');
+    font-family: 'Casino';
+    src: url('./CasinoHand-Webfont.ttf') format('truetype');
     font-weight: 100;
     font-style: normal
 }

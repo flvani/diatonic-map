@@ -127,6 +127,9 @@ SITE.Translator.prototype.translate = function(container) {
             case 'I': 
                 item.title = vlr; 
                 break;
+            case 'A': 
+                item.href = vlr; 
+                break;
             default: 
                 item.innerHTML = vlr;
         }

@@ -1207,18 +1207,7 @@ SITE.Mapa.prototype.showSettings = function() {
         })        
 
         this.settings.window.topDiv.style.zIndex = 101;
-
-        var cookieValue 
-        var cookieSets = ""
-
-        if( document.cookie !== "" && document.cookie !== 'cookiebar=CookieDisallowed') {
-            cookieValue = document.cookie.match(/(;)?cookiebar=([^;]*);?/)[2];
-        }
-
-        if (cookieValue ) { // CookieAllowed
-            cookieSets = '<a href="#" onclick="document.cookie=\'cookiebar=;expires=Thu, 01 Jan 2100 00:00:01 GMT;path=/\'; setupCookieBar(); return false;"><span data-translate="cookiePrefs" >'+SITE.translator.getResource('cookiePrefs')+'</span></a>'
-        }
-
+        
         this.settings.window.dataDiv.innerHTML= '\
         <div class="menu-group">\
             <table>\
@@ -1260,17 +1249,22 @@ SITE.Mapa.prototype.showSettings = function() {
               <tr>\
                 <td> </td><td colspan="2"><input id="chkAutoRefresh" type="checkbox">&nbsp;<span data-translate="PrefsPropsCKAutoRefresh" >'+SITE.translator.getResource('PrefsPropsCKAutoRefresh')+'</span></td>\
               </tr>\
-              <tr style="height:30px; white-space:nowrap;">\
-                <td></td><td colspan="2">'+ cookieSets +'</td>\
-              </tr>\
-              <tr style="height:30px; white-space:nowrap;">\
+              <!-- tr style="height:30px; white-space:nowrap;">\
+                <td></td><td colspan="2"><div id="cookieSetsDiv"></div></td>\
+              </tr -->\
+              <tr style="height:30px; white-space:nowrap; font-family: Merienda;">\
                 <td> </td><td colspan="2">\
-                <a id="aPolicy"    href="" style="width:25%; display:block; float: left;"><span data-translate="PrivacyTitle">Politica</span></a>\
+                <a id="aPolicy" href="" style="width:25%; display:block; float: left;"><span data-translate="PrivacyTitle">Politica</span></a>\
                 </td>\
               </tr>\
-              <tr style="height:30px; white-space:nowrap;">\
+              <tr style="height:30px; white-space:nowrap; font-family: Merienda;">\
                 <td> </td><td colspan="2">\
                 <a id="aTerms" href="" style="width:fit-content; display:block; float: left;"><span data-translate="TermsTitle">Termos</span></a>\
+                </td>\
+              </tr>\
+              <tr style="height:30px; white-space:nowrap; font-family: Merienda;">\
+                <td> </td><td colspan="2">\
+                <a href="https://www.diatonicmap.x10.mx" target="_blank" style="width:25%; display:block; float: left;" >www.diatonicmap.x10.mx</a>\
                 </td>\
               </tr>\
             </table>\
@@ -1282,7 +1276,6 @@ SITE.Mapa.prototype.showSettings = function() {
             <div id="botao3"></div>\n\
         </div>' ;
     
-
         this.settings.window.addPushButtons([
             'botao0|tour|Take a tour',
             'botao1|apply',
@@ -1365,7 +1358,21 @@ SITE.Mapa.prototype.showSettings = function() {
     this.settings.autoRefresh.checked = SITE.properties.options.autoRefresh;
     this.settings.pianoSound.checked = SITE.properties.options.pianoSound;
     this.settings.useTransparency.checked = SITE.properties.colors.useTransparency;
-    
+
+/*    
+    var coo = document.cookie.match(/(;)?diatonic-policy=([^;]*);?/);
+    const isCookieSet = coo ? Boolean( coo[2] || false ) : false;
+
+    if ( isCookieSet ) { //
+        //document.cookie = '';
+        var cookieSets = '<a href="#" onclick="document.cookie=\'diatonic-policy=; path=/; max-age=86400;\'; return false;">'+
+                            '<span data-translate="cookiePrefs" >'+SITE.translator.getResource('cookiePrefs')+'</span></a>'
+        document.getElementById("cookieSetsDiv").innerHTML = cookieSets;
+    } else {
+        document.getElementById("cookieSetsDiv").innerHTML = "";
+    }
+*/
+
     this.settings.window.setVisible(true);
     
 };
@@ -1419,6 +1426,7 @@ SITE.Mapa.prototype.settingsCallback = function (action, elem) {
             this.alert.close();
             this.picker.close();
             this.settings.window.setVisible(false);
+            SITE.clearCookieConsent();
             SITE.ResetProperties();
             SITE.ga( 'event', 'reset', { 
                 event_category: 'Configuration'  

@@ -399,14 +399,19 @@ SITE.App.prototype.showSettings = function() {
                 <td> </td><td colspan="2"><input id="chkAutoRefresh" type="checkbox">&nbsp;\
                 <span data-translate="PrefsPropsCKAutoRefresh" >'+SITE.translator.getResource('PrefsPropsCKAutoRefresh')+'</span></td>\
               </tr>\
-              <tr style="height:30px; white-space:nowrap;">\
+              <tr style="height:30px; white-space:nowrap; font-family: Merienda;">\
                 <td> </td><td colspan="2">\
                 <a id="aPolicy"    href="" style="width:25%; display:block; float: left;"><span data-translate="PrivacyTitle">Politica</span></a>\
                 </td>\
               </tr>\
-              <tr style="height:30px; white-space:nowrap;">\
+              <tr style="height:30px; white-space:nowrap; font-family: Merienda;">\
                 <td> </td><td colspan="2">\
                 <a id="aTerms" href="" style="width:fit-content; display:block; float: left;"><span data-translate="TermsTitle">Termos</span></a>\
+                </td>\
+              </tr>\
+              <tr style="height:30px; white-space:nowrap; font-family: Merienda;">\
+                <td> </td><td colspan="2">\
+                <a href="https://www.diatonicmap.x10.mx" target="_blank" style="width:25%; display:block; float: left;" >www.diatonicmap.x10.mx</a>\
                 </td>\
               </tr>\
               </table>\

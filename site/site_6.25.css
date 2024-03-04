@@ -1,3 +1,59 @@
+
+section.policy-terms {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #1f4f66;
+    padding: 5px 20px;
+    line-height: 24px;
+    font-family: Merienda, Casino, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #ffffff;
+    box-shadow: 0 5px 12px 14px rgba(0, 0, 0, .06);
+    z-index: 1050;
+}
+.policy-terms p {
+    margin: 20px;
+    max-width: 900px;
+    text-align: left;
+}
+section.policy-terms a {
+    color: #ffffff;
+    text-decoration: underline;
+}
+.policy-actions {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.policy-terms-actions span.accept-policy-terms {
+    margin: 5px;
+    padding: 5px 30px;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid;
+    white-space: nowrap;
+}
+.policy-terms-actions span.accept-policy-terms:hover {
+    background: #ffffff;
+    color: #1f4f66;
+}
+
+@media (max-width: 1024px) {
+    section.policy-terms { width: initial; }
+    section.policy-terms br { display: none; }
+}
+@media (max-width: 579px) {
+    section.policy-terms { flex-direction: column; }
+    .policy-terms p { margin: 0; text-align: center; }
+    .policy-terms-actions { margin: 10px 0 5px; }
+}
+
 .enjoy_hint_label {
     z-index: 107;
     color: white !important;
@@ -15,29 +71,29 @@
 }
 
 
-.enjoy_hint_note_text {
+.hint_laranja {
     color: rgb(252, 169, 3);
     font-size: 19px;
     font-style: italic;
 }
 
-.enjoy_hint_note_link {
+.hint_link {
     color: rgb(32, 79, 189);
 }
 
-.enjoy_hint_note_text1 {
+.hint_tryit {
     color: #2bff3c;
 }
 
-.enjoy_hint_note_text2 {
+.hint_azul {
     color: #00c8ff;
 }
 
-.enjoy_hint_note_text3 {
+.hint_verde {
     color: #2bff3c;
 }
 
-.enjoy_hint_note_rodape {
+.hint_black {
     color: black;
     font-size: 19px;
     font-style: italic;
@@ -45,7 +101,9 @@
 
 .myClose {
     top: 100px;
-}/*
+}
+
+/*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.

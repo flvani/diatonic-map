@@ -15,29 +15,29 @@
 }
 
 
-.enjoy_hint_note_text {
+.hint_laranja {
     color: rgb(252, 169, 3);
     font-size: 19px;
     font-style: italic;
 }
 
-.enjoy_hint_note_link {
+.hint_link {
     color: rgb(32, 79, 189);
 }
 
-.enjoy_hint_note_text1 {
+.hint_tryit {
     color: #2bff3c;
 }
 
-.enjoy_hint_note_text2 {
+.hint_azul {
     color: #00c8ff;
 }
 
-.enjoy_hint_note_text3 {
+.hint_verde {
     color: #2bff3c;
 }
 
-.enjoy_hint_note_rodape {
+.hint_black {
     color: black;
     font-size: 19px;
     font-style: italic;
@@ -46,3 +46,4 @@
 .myClose {
     top: 100px;
 }
+

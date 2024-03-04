@@ -30,6 +30,7 @@ notação abc, tablatura " />
         <link rel="stylesheet" href="css/mapa.css" />
         <link rel="stylesheet" href="css/enjoyhint.css" >
         <link rel="stylesheet" href="css/enjoyhint.extras.css" >
+        <link rel="stylesheet" href="css/policy-terms.css" >
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-3RXNND5N5Y"></script>
@@ -39,9 +40,6 @@ notação abc, tablatura " />
             function gtag(){dataLayer.push(arguments);}
 
         </script>
-
-        <!-- Cookie notice -->
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?tracking=1&always=1&refreshPage=1&showNoConsent=1&showPolicyLink=1&blocking=1&remember=180&privacyPage=https%3A%2F%2Fdiatonicmap.com.br%2Fprivacy"></script>         
         
     </head>
     <body>
@@ -278,11 +276,14 @@ notação abc, tablatura " />
         
         <div id="printPreviewDiv" class="printPreviewClass"></div>
         <div id="tipsDiv" class="tips" style="transform:scale(0.8);" ><a href="html/release.pt_BR.html" target="_blank" ><span data-translate="ReleaseNotesNotice"></span></a></div>
-        <!--div id="tipsDiv" class="tips" >
-            O aplicativo deste site já está disponível na loja do Google.<br><br>Clique aqui para instalar.<br>
-            <a href="https://play.google.com/store/apps/details?id=br.com.diatonicmap.app"  target="_blank"  >
-             <img style="position: absolute; right: 10px; bottom: 10px;"  src="images/google.play.png" title="Baixe o aplicativo no Google Play"/></a>        
-        </div-->
+
+        <section class="policy-terms" style="display: none;">
+            <p><span data-translate="PrivacyDesc">We use cookies to improve the "Map for Accordions" experience. To learn more, read the</span>&nbsp;
+                 <a data-translate="PrivacyLink" href="/privacy/policy.html" target="_blank"><span data-translate="PrivacyTitle">Privacy Policy</span></a>.</p>
+            <div class="policy-terms-actions policy-terms">
+                <span data-translate="GotIt" class="accept-policy-terms">Got It!</span>
+            </div>
+        </section>
 
         <div id="askHelpDiv" class="mediaTips" ></div>
         
@@ -331,6 +332,7 @@ notação abc, tablatura " />
             
             $(document).ready(function() { // to avoid ajax cache
                 $.ajaxSetup({ cache: false });
+                SITE.checkCookieConsent();
             });
 
             window.onload = function () {

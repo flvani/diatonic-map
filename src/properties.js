@@ -9,6 +9,30 @@ window.dataLayer = window.dataLayer || [];
 if (!window.SITE)
     window.SITE = { gtagInitiated : false, root: '/mapa' };
 
+SITE.checkCookieConsent = function ( ) {
+
+    var coo = document.cookie.match(/(;)?diatonic-policy=([^;]*);?/);
+    const isCookieSet = coo ? Boolean( coo[2] || false ) : false;
+
+    // alert(document.cookie);
+
+    var popup = jQuery('.policy-terms');
+
+    setTimeout(function () {
+        if (!isCookieSet) {
+            popup.show(); //exibe alerta depois de 3000 (3 segundos)
+        }
+    }, 3000);
+    jQuery('.policy-terms-actions').click(function () {
+        document.cookie = 'diatonic-policy=true; path=/; max-age=86400;';
+        popup.fadeOut();
+    });
+}
+
+SITE.clearCookieConsent = function () {
+    document.cookie = 'diatonic-policy=; path=/; max-age=86400;';
+}
+
 SITE.sizeOfThings = function () {
 
     SITE.winSize = { w: window.innerWidth, h: window.innerHeight };
@@ -197,6 +221,9 @@ SITE.LoadProperties = function() {
         };
 
         SITE.properties.options.language = SITE.getLanguage() ;
+
+        window.myLanguage = SITE.properties.options.language;
+
         SITE.properties.colors.highLight = '#ff0000';
         SITE.properties.options.showWarnings = false;
         SITE.properties.options.showConsole = false;

@@ -113,6 +113,11 @@ text-align: left;
   line-height: 120%;
 }
 
+.modalContent ul {
+  margin-left: 3em;
+  margin-right: 15px;
+  line-height: 120%;
+}
 
 strong, b {
   font-weight: bold;
