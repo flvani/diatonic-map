@@ -16,14 +16,14 @@ SITE.checkCookieConsent = function ( ) {
 
     // alert(document.cookie);
 
-    var popup = jQuery('.policy-terms');
+    var popup = jQuery('.policy-section');
 
     setTimeout(function () {
         if (!isCookieSet) {
             popup.show(); //exibe alerta depois de 3000 (3 segundos)
         }
     }, 3000);
-    jQuery('.policy-terms-actions').click(function () {
+    jQuery('.policy-section-actions').click(function () {
         document.cookie = 'diatonic-policy=true; path=/; max-age=86400;';
         popup.fadeOut();
     });

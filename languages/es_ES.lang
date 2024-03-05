@@ -5,6 +5,7 @@
     ,"resources" : 
     {
          "appName": "Mapa para Acordeones Diatónicos"
+        ,"oSite": "(el sitio)"
         ,"TAB2PART": "Tablatura > Partitura"
         ,"ABC2PART": "ABCX > Partitura"
         ,"JUMPS": "Signos de repetición (en portugués)"
@@ -185,7 +186,10 @@
         ,"Accordion":"Acordeón"
         ,"Song": "Canción"
         ,"AboutAppTitle": "Acerca de esta aplicación"
-        ,"PrivacyTitle": "Privacy Policy"
+        ,"PrivacyDesc": "Utilizamos cookies para mejorar su experiencia en \"Mapa para Acordeones\". Para obtener más información, lea nuestra"
+        ,"PrivacyTitle": "Política de privacidad"
+        ,"PrivacyLink": "/privacy/policy.html"
+        ,"GotIt": "¡Entendido!"
         ,"TermsTitle": "Terms  &amp; Conditions"
         ,"PrefsPropsChkSuppressTitles": "Suppress window titles"
         ,"cookiePrefs":"Click here to reset cookie preferences"

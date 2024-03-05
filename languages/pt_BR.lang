@@ -5,6 +5,7 @@
    ,"resources" : 
    {
          "appName": "Mapa para Acordeões Diatônicos"
+        ,"oSite": "(o site)"
         ,"TAB2PART": "Tablatura > Partitura"
         ,"ABC2PART": "ABCX > Partitura"
         ,"JUMPS": "Símbolos de Repetição"
@@ -185,7 +186,7 @@
         ,"Accordion":"Acordeão"
         ,"Song": "Música"
         ,"AboutAppTitle": "Sobre esta aplicação"
-        ,"PrivacyDesc": "Utilizamos cookies para melhorar a experiência no \"Mapa para Acordeões\". Para saber mais, leia a"
+        ,"PrivacyDesc": "Utilizamos cookies para melhorar a sua experiência no \"Mapa para Acordeões\". Para saber mais, leia a nossa"
         ,"PrivacyTitle": "Política de privacidade"
         ,"PrivacyLink": "/privacidade/politica.html"
         ,"GotIt": "Entendi!"
