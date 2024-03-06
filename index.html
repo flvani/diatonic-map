@@ -40,6 +40,20 @@ notação abc, tablatura " />
       top: 30px;
       left: 30px;
     }
+
+    .myBotBar {
+      position: absolute;
+      bottom: 0px;
+      right: 0px;
+      margin: 0;
+      padding-top: 20px;
+      padding-right: 30px;
+    }
+
+    .devTitle {
+      font-family: Casino;
+      font-size: x-large;
+    }
   </style>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -56,22 +70,26 @@ notação abc, tablatura " />
       var d;
       var a = document.getElementById("appName");
       var s = document.getElementById("oSite");
+      var dev = document.getElementById("devName");
 
       if (language.toUpperCase().indexOf('PT') >= 0) {
         d = document.getElementById('pt-BR-div');
         a.innerHTML = "Mapa para Acordeões Diatônicos";
         s.innerHTML = "(o site)";
+        dev.innerHTML = "Desenvolvido por Flávio Luiz Vani."
         document.title = "Mapa para Acordeões - o site";
       } else if (language.toUpperCase().indexOf('ES') >= 0) {
         d = document.getElementById('es-ES-div');
         a.innerHTML = "Mapa para Acordeones Diatónicos";
         s.innerHTML = "(el sitio)";
+        dev.innerHTML = "Desarrollado por Flávio Luiz Vani."
         document.title = "Mapa para Acordeones - el sitio";
       } else {
         d = document.getElementById('en-US-div');
-        document.title = "Map for acorddions - the site";
         a.innerHTML = "Map for Diatonic Accordions";
         s.innerHTML = "(the site)";
+        dev.innerHTML = "Developed by Flávio Luiz Vani."
+        document.title = "Map for acorddions - the site";
       }
 
       d.style.display = 'inline-block';
@@ -82,10 +100,14 @@ notação abc, tablatura " />
 </head>
 
 <body>
-  <div id="topBar" class="topBar gradiente myTopBar" style="">
+  <div id="topBar" class="topBar gradiente myTopBar">
     <span id="appName" class="topTitle">Mapa para Acordeões Diatônicos</span>
     <span id="oSite">(the site)</span>
   </div>
+  <div id="botBar" class="myBotBar" style="">
+    <span id="devName" class="devTitle">Desenvolvido por Flávio Luiz Vani.</span>
+  </div>
+
   <div id="en-US-div" class="myDiv">
     <h2>Welcome to the new "Map for Accordions" website!</h2>
     <ul>
