@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width'>
+    <title>Acerca...</title>
+    <link href="../css/modal.css" rel="stylesheet">
+</head>
+
+<body>
+    <div id="modalContainer" class="modalContent">
+        <h1>Acerca de esta aplicación</h1>
+        <div id="clustrmaps-widget" style="float:right; width:280px; height:auto; margin-left:0.5em; margin-right:1em; border-radius: 5px;">
+            <div id="tarja"
+                style="display: block; position: relative; float:left; z-index: 10000; background-color: #f1f1f1; left: 3px; top: 115px; width: 20px; height: 36px;">
+                &nbsp;&nbsp;</div>
+            <script type='text/javascript' id='clustrmaps'
+                src='//cdn.clustrmaps.com/map_v2.js?w=280&t=t&d=DapUa94TbVqwtpLWEmLGlHZOsJ4sbpinbd-5n9x0hVY&cl=080808&cmo=f89632&cmn=f00&co=f1f1f1&ct=808080'></script>
+        </div>
+        <h4>
+            Diatonic App <i id="siteVerI"></i>
+            <span style="display: block; padding-top:10px;">
+                Desarrollado por: <a target="_blank" href="mailto:flavio.vani@gmail.com"><strong>Flávio&#160;Vani</strong></a><br />
+                Coordinación Musical: <a target="_blank"
+                    href="mailto:prof.cezar.ferreira@gmail.com"><strong>Cezar&#160;Ferreira</strong></a>
+            </span>
+        </h4>
+        <p>Este proyecto pretende ser un mapa de referencia, tanto para el aprendizaje como para el registro histórico del acordeón
+            diatónico.
+            Con esta aplicación, es posible configurar - y presentar - el diseño de cualquier acordeón diatónico, en sus diversos
+            modelos.
+            La coordinación musical estuvo a cargo del <strong>prof. Cezar Ferreira</strong> –
+            <a href="https://www.facebook.com/groups/toquegaitaponto/" target="_blank">Sala da Gaita Ponto (Facebook)</a>,
+            quien proporcionó el material necesario para la creación de los diseños y la información esencial sobre tablaturas para
+            acordeón,
+            además de música y ejercicios para practicar directamente en el instrumento.
+        </p>
+        <p>Para convertir el proyecto en una herramienta de aprendizaje, adoptamos una biblioteca gratuita que
+            permite editar partituras en formato ABC (<b>abcjs</b>) directamente en el navegador. La biblioteca se extendió para incluir
+            una herramienta de transposición de tonos y, principalmente, expandimos la notación ABC (<i>no estándar</i>) para incluir una
+            sintaxis
+            para la producción de tablaturas para acordeones, fusionando el modelo ABC con los mapas de acordeón presentados aquí.
+        </p>
+        <p>Finalmente, a través de la implementación de bibliotecas MIDI para navegadores (<b>MIDI.js</b>), se hizo posible escuchar los
+            sonidos
+            producidos por el acordeón,
+            en forma de música y ejercicios. Este recurso funciona incluso en dispositivos móviles, como teléfonos Android.
+            Muchas otras bibliotecas ayudaron a que este proyecto tuviera éxito, como se muestra a continuación.
+        </p>
+        <p>El objetivo final es proporcionar una experiencia visual e interactiva para quienes están comenzando sus estudios en el "Acordeón
+            Diatónico".
+        </p>
+        <h3>Mis más sinceros agradecimientos a los autores de estas bibliotecas:</h3>
+        <ul>
+            <li><b><a href="https://github.com/leandron/accordion-map/" target="_blank">accordion-map</a> de Leandro Nunes:</b> "Un mapa de
+                referencia interactivo para acordes de acordeón diatónicos".
+            </li>
+            <li><b><a href="https://github.com/paulrosen/abcjs/" target="_blank">abcjs</a> de Paul Rosen:</b> "Javascript para renderización
+                de notación musical ABC".
+            </li>
+            <li><b><a href="https://github.com/mudcube/MIDI.js/" target="_blank">MIDI.js</a> de Michael Deal:</b> "Facilitando la creación
+                de una aplicación MIDI en la web".
+            </li>
+            <li><b><a href="https://ace.c9.io/" target="_blank">Editor ACE</a> por ajax.org:</b> "Un editor de código integrado
+                escrito en JavaScript".
+            </li>
+            <li><b><a href="https://github.com/NC22/HTML5-Color-Picker" target="_blank">HTML5-Color-Picker</a> de Rubchuk Vladimir:</b> "Un
+                selector de colores escalable que se anexa a los elementos DOM".
+            </li>
+            <li><b><a href="https://github.com/robotnic/waterbug" target="_blank">Water Bug</a> de Bernhard Zwischenbrugger:</b> "Una
+                consola Javascript simple para dispositivos móviles".
+            </li>
+            <li><b><a href="https://github.com/utatti/perfect-scrollbar" target="_blank">Barra de desplazamiento Perfect</a> de Hyunje
+                    Jun:</b> "Plugin de barra de desplazamiento personalizado minimalista pero perfecto".
+            </li>
+            <li><b><a href="https://github.com/xbsoftware/enjoyhint" target="_blank">EnjoyHint</a> de XB Software:</b> "Una
+                herramienta web que proporciona la forma más sencilla de crear tutoriales interactivos e indicaciones para su sitio o
+                aplicación web".
+            </li>
+        </ul>
+        <h3>También utilicé los siguientes servicios:</h3>
+        <ul>
+            <li><b><a href="https://www.flaticon.com" target="_blank">Flaticon</a></b> - Iconos vectoriales gratuitos.
+            </li>
+            <li><b><a href="http://fontello.com" target="_blank">Fontello</a></b> - Generador de fuentes de iconos.
+            </li>
+            <li><b><a href="https://fonts.google.com" target="_blank">Fuentes de Google</a></b> - Tipografía excelente.
+            </li>
+            <li><b><a href="https://analytics.google.com" target="_blank">Google Analytics</a></b> - Obtenga una comprensión más profunda
+                de sus clientes.
+            </li>
+            <li><b><a href="https://clustrmaps.com" target="_blank">Clustrmaps</a></b> - Descubra instantáneamente de dónde vienen sus
+                visitantes.
+            </li>
+        </ul>
+        <span><b>Todas las bibliotecas y servicios de terceros se distribuyen de acuerdo con sus respectivas formas de licenciamiento.
+            </b></span>
+        <br>
+        <br>
+        <span style="font-style: oblique;">
+            Este trabajo se distribuye bajo una
+            <a rel="license" href="http://creativecommons.org/licenses/by/3.0/br/deed.pt_BR" target="_blank" title="Ver la Licencia">
+                Licencia
+                Creative Commons Atribución 3.0 Brasil</a>.
+        </span>
+    </div>
+
+    <script id="mainScript" type="text/javascript">
+        window.addEventListener('load', function () {
+            var e = document.getElementById('clustrmaps-widget-v2');
+            e.setAttribute('target', '_blank');
+        }, false);
+    </script>
+</body>
+
+</html>

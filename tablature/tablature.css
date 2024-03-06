@@ -1,3 +1,29 @@
+.idiom {
+    top: 0;
+    right: 0;
+    width: 100%;
+    float: right;
+    margin-bottom: 0.5em;
+}
+
+.idiom button {
+    float: inline-end;
+    font-family: Merienda;
+    margin-left: 2px;
+    font-size: small;
+    border: none;
+    background: none;
+}
+
+.idiom button:hover {
+    background-color: lavender;
+}
+
+.idiom img {
+    height: 28px;
+    vertical-align: middle;
+}
+
 p {
     font-family: Merienda;
     text-align: justify;
