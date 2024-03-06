@@ -6,349 +6,359 @@ and open the template in the editor.
 teste.
 -->
 <html>
-    <head>
-        <title data-translate="appName" >Diatonic App</title>
-        <meta charset="UTF-8" />
-        <link rel="icon" type="image/icon" href="images/faviconApp.png"/>
-        <meta name="viewport" content="width=device-height, initial-scale=0.6, minimum-scale=0.6, maximum-scale=1 user-scalable=yes" />
-        
-        <meta name="robots" content="index,follow"/>
-        <meta name="revisit-after" content="7 days"/>
-        <meta name="description" data-translate="description" content="Um mapa de referência para a aprendizagem de acordeões diatônicos" />
 
-        <meta name="author" content="Flávio Luiz Vani"/>
+<head>
+    <title data-translate="appName">Diatonic App</title>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/icon" href="images/faviconApp.png" />
+    <meta name="viewport" content="width=device-height, initial-scale=0.6, minimum-scale=0.6, maximum-scale=1 user-scalable=yes" />
 
-        <meta name="keywords" content="diatonic accordion, notation, learning, practice, repertoire, abc tunes, midi, tablature
+    <meta name="robots" content="index,follow" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="description" data-translate="description" content="Um mapa de referência para a aprendizagem de acordeões diatônicos" />
+
+    <meta name="author" content="Flávio Luiz Vani" />
+
+    <meta name="keywords" content="diatonic accordion, notation, learning, practice, repertoire, abc tunes, midi, tablature
 acordeão diatônico, gaita de oito baixos, gaita ponto, notação musical, aprendizagem, prática, repertorio, 
-notação abc, tablatura " />   
-        
-        <link rel="stylesheet" href="fontsIco/fontsAbcx.css" />
-        <link rel="stylesheet" href="fontsGoogle/fontsGoogle.css" />
-        <link rel="stylesheet" href="css/styles4abcx_6.41-min.css" />
-        <link rel="stylesheet" href="css/enjoyhint.css" >
+notação abc, tablatura " />
 
-        <link rel="stylesheet" href="app/libapp_2.24.2-min.css" />
+    <link rel="stylesheet" href="fontsIco/fontsAbcx.css" />
+    <link rel="stylesheet" href="fontsGoogle/fontsGoogle.css" />
+    <link rel="stylesheet" href="css/styles4abcx_6.41-min.css" />
+    <link rel="stylesheet" href="css/enjoyhint.css">
 
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3RXNND5N5Y"></script>
-        <script>
+    <link rel="stylesheet" href="app/libapp_2.24.2-min.css" />
 
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3RXNND5N5Y"></script>
+    <script>
 
-        </script>
-       
-        <!-- Cookie notice 
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+
+    </script>
+
+    <!-- Cookie notice 
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/cookie-bar/cookiebar-latest.min.js?tracking=1&always=1&showNoConsent=1&showPolicyLink=1&blocking=1&remember=180&privacyPage=https%3A%2F%2Fdiatonicmap.com.br%2Fprivacy"></script>
         <script src="https://www.google.com/cloudprint/client/cpgadget.js"></script-->
-        
-    </head>
-    <body>
 
-        <script type="text/javascript" src="jslib/proto_noconflict.js" ></script>
-        <script type="text/javascript" src="jquery/jquery-3.7.1.min.js"></script>
-        
-        <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_6.41-min.js" ></script>
-        
-        <!-- suporte a MIDI -->
-        <script type="text/javascript" src="jslib/MIDI_5.25-min.js"></script>
-        
-        <!-- Kelly color picker -->
-        <script type="text/javascript" src="jslib/html5kellycolorpicker.min.js"></script>
-        
-        <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager_6.41-min.js"></script>
-        
-        <!-- suporte mapas de acordeões -->
-        <script type="text/javascript" src="diatonic/diatonic_6.41-min.js"></script>
-        
-        <!-- Enjoyhint library -->
-        <script type="text/javascript"src="jslib/kinetic-v5.1.0.js"></script>
-        <script type="text/javascript"src="jslib/jquery-scrollto-2.1.3.min.js"></script>
-        <script type="text/javascript" src="jslib/enjoyhint.min.js"></script>        
+</head>
 
-        <!-- console personalizada para Javascript -->
-        <script type="text/javascript" src="jslib/waterbug.js"></script> 
+<body>
 
-        <script id="mainSITE" type="text/javascript" src="app/libapp_2.24.2-min.js"></script>
+    <script type="text/javascript" src="jslib/proto_noconflict.js"></script>
+    <script type="text/javascript" src="jquery/jquery-3.7.1.min.js"></script>
 
-        <div id="topBar" class="topBar gradiente" >
-            <span id="appTitle" data-translate="appName" class="topTitle" style="left: 80px; line-height:63px; font-size: 32px; width:fit-content;">Mapa para Acordeões Diatônicos</span>
-            <a id="topSettings" class="topSettings" style="left: 15px; width: fit-content" ><i class="ico-menu" title="Ajustes" data-translate="topSettings" ></i></a>
-         </div> <!-- topBar -->
+    <!-- suporte a arquivos ABC -->
+    <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs_6.41-min.js"></script>
 
-        <div id="appDiv" class="appDiv">
-            <div id="backgroundDiv" class="backgroundDivStyle"></div>
-            <div id="accordionImageDiv"  class="accordionImageStyle" ></div>
-            <div class="dropdown-group" style="display: block; padding-top: 30px; padding-left: 40px;">
-                <br>
-                <div id="menuGaitas" class="topMenu"></div>
-                <br><br><br><br>
-                <div id="menuSongs" class="topMenu"></div>
-                <br><br><br><br>
-                <div class="dropdown rounded-corners gradiente" style="width: fit-content; min-width: 100px;" >
-                    <button id="openBtn"><i class="ico-folder-open"></i>&#160;<span data-translate="Open">Abrir</span></button>
-                </div>
-            </div>
-            <div id="divPrivada" class="abcxVersionStyle" >
-                <a id="aVersion" href="" >Diatonic App debug Powered by ABCXJS version 5.46</a>
+    <!-- suporte a MIDI -->
+    <script type="text/javascript" src="jslib/MIDI_5.25-min.js"></script>
+
+    <!-- Kelly color picker -->
+    <script type="text/javascript" src="jslib/html5kellycolorpicker.min.js"></script>
+
+    <!-- suporte a arquivos -->
+    <script type="text/javascript" src="file/filemanager_6.41-min.js"></script>
+
+    <!-- suporte mapas de acordeões -->
+    <script type="text/javascript" src="diatonic/diatonic_6.41-min.js"></script>
+
+    <!-- Enjoyhint library -->
+    <script type="text/javascript" src="jslib/kinetic-v5.1.0.js"></script>
+    <script type="text/javascript" src="jslib/jquery-scrollto-2.1.3.min.js"></script>
+    <script type="text/javascript" src="jslib/enjoyhint.min.js"></script>
+
+    <!-- console personalizada para Javascript -->
+    <script type="text/javascript" src="jslib/waterbug.js"></script>
+
+    <script id="mainSITE" type="text/javascript" src="app/libapp_2.24.2-min.js"></script>
+
+    <div id="topBar" class="topBar gradiente">
+        <span id="appTitle" data-translate="appName" class="topTitle"
+            style="left: 80px; line-height:63px; font-size: 32px; width:fit-content;">Mapa para Acordeões Diatônicos</span>
+        <a id="topSettings" class="topSettings" style="left: 15px; width: fit-content"><i class="ico-menu" title="Ajustes"
+                data-translate="topSettings"></i></a>
+    </div> <!-- topBar -->
+
+    <div id="appDiv" class="appDiv">
+        <div id="backgroundDiv" class="backgroundDivStyle"></div>
+        <div id="accordionImageDiv" class="accordionImageStyle"></div>
+        <div class="dropdown-group" style="display: block; padding-top: 30px; padding-left: 40px;">
+            <br>
+            <div id="menuGaitas" class="topMenu"></div>
+            <br><br><br><br>
+            <div id="menuSongs" class="topMenu"></div>
+            <br><br><br><br>
+            <div class="dropdown rounded-corners gradiente" style="width: fit-content; min-width: 100px;">
+                <button id="openBtn"><i class="ico-folder-open"></i>&#160;<span data-translate="Open">Abrir</span></button>
             </div>
         </div>
-
-        <div id="studioDiv"></div>
-
-        <div id="studioControlDiv" style="display:none;">
-            <div id="controlDiv1" class="btn-subgroup" >
-                <button id="backBtn"  data-translate="homeTip" ><i class="ico-home"></i></button>
-                <button id="showMapBtn" data-translate="showMapTip"><i class="ico-keyboard" ></i></button>
-                <button id="printBtn" data-translate="printPreviewTip" style="display: inline;"><i class="ico-printer"></i></button>
-                <button id="tabformatBtn" data-translate="tabformatBtn" ><i class="ico-tabformat" ></i></button>
-                <button id="fingeringBtn" data-translate="fingeringBtn" ><i class="ico-alien-fingering2" ></i></button>
-                <button id="lyricsBtn" data-translate="lyricsBtn" ><i class="ico-letter-l" ></i></button>
-                <button id="GClefBtn" data-translate="GClefBtn" ><i class="ico-clef-treble" ></i></button>
-                <button id="FClefBtn" data-translate="FClefBtn" ><i class="ico-clef-bass" ></i></button>
-                <button id="timerBtn" data-translate="timerBtn" ><i class="ico-timer-00" ></i></button>
-                <button id="tempoBtnId" style="padding-top:2px" ><div id="tempoSld" data-translate="tempoBtn" ></div></button>
-                <button id="modeBtn" data-translate="modeBtn" ><i class="ico-listening" ></i></button>
-            </div>
-            <div id="divDidacticPlayControls"  class="btn-subgroup" style="display: none;" >
-                <button id="stepBtn" data-translate="stepBtn" ><i class="ico-play"></i>&#160;</button>
-                <button id="stepMeasureBtn" data-translate="stepMeasureBtn" ><i class="ico-forward"></i>&#160;</button>
-                <div class="input-group">
-                    <input id="gotoMeasureBtn" type="number" data-translate="gotoMeasure" value="1"/>
-                    <b>..</b>
-                    <input id="untilMeasureBtn" type="number" data-translate="untilMeasure" value="100" />
-                </div>
-                <button id="repeatBtn" data-translate="repeatBtn" >&#160;<i class="ico-repeat-cw"></i>&#160;</button>
-                <button id="clearBtn" data-translate="clearBtn" ><i class="ico-stop"></i></button>
-            </div>
-            <div id="divNormalPlayControls" class="btn-subgroup" >
-                <button id="playBtn" data-translate="playBtn" >&#160;<i class="ico-play"></i>&#160;</button>
-                <button id="stopBtn" data-translate="stopBtn" ><i class="ico-stop"></i></button>
-            </div>
-            <div class="btn-subgroup">
-                <label id="currentPlayTimeLabel" class="playtime-label" style="margin-top:-2px;">00:00</label>
-            </div>
-            <div class="btn-subgroup">
-                <button id="buttonShowMedia" style="display:none;" >
-                    <i class="ico-vplayer" data-translate="showMedia"></i>&nbsp;
-                </button>
-            </div>
-        </div>  <!-- controlDiv - este bloco é tratado internamente -->  
-        
-        <div id="printPreviewDiv" class="printPreviewClass"></div>
-        <div id="tipsDiv" class="tips" ><a href="html/release.pt_BR.html" target="_blank"><span data-translate="ReleaseNotesNotice"></span></a></div>
-
-        <div id="askHelpDiv" class="mediaTips" >
-            <p>Hello,<br>Do you know the desktop version of this app?<br>
-                <br><br>Access https://diatonicmap.com.br</p>
-                <br>
-                Enjoy all the convenience of a bigger screen, with the same repertoire and many extra editing features.
-            <div id="pg" class="pushbutton-group" style="right: 0; bottom: 0;">
-                <span style="float:left; margin-right: 20px; margin-top: 25px;"><input id="askHelpChk" type="checkbox" />Do not show this tip again</span>
-                <div id="askHelpBtn" class="pushbutton cancel"><i class="ico-circle-error"></i><span>Dismiss</span></div>
-            </div>            
+        <div id="divPrivada" class="abcxVersionStyle">
+            <a id="aVersion" href="">Diatonic App Powered by ABCXJS.</a>
         </div>
+    </div>
 
-        <script id="mainScript" type="text/javascript">
+    <div id="studioDiv"></div>
 
+    <div id="studioControlDiv" style="display:none;">
+        <div id="controlDiv1" class="btn-subgroup">
+            <button id="backBtn" data-translate="homeTip"><i class="ico-home"></i></button>
+            <button id="showMapBtn" data-translate="showMapTip"><i class="ico-keyboard"></i></button>
+            <button id="printBtn" data-translate="printPreviewTip" style="display: inline;"><i class="ico-printer"></i></button>
+            <button id="tabformatBtn" data-translate="tabformatBtn"><i class="ico-tabformat"></i></button>
+            <button id="fingeringBtn" data-translate="fingeringBtn"><i class="ico-alien-fingering2"></i></button>
+            <button id="lyricsBtn" data-translate="lyricsBtn"><i class="ico-letter-l"></i></button>
+            <button id="GClefBtn" data-translate="GClefBtn"><i class="ico-clef-treble"></i></button>
+            <button id="FClefBtn" data-translate="FClefBtn"><i class="ico-clef-bass"></i></button>
+            <button id="timerBtn" data-translate="timerBtn"><i class="ico-timer-00"></i></button>
+            <button id="tempoBtnId" style="padding-top:2px">
+                <div id="tempoSld" data-translate="tempoBtn"></div>
+            </button>
+            <button id="modeBtn" data-translate="modeBtn"><i class="ico-listening"></i></button>
+        </div>
+        <div id="divDidacticPlayControls" class="btn-subgroup" style="display: none;">
+            <button id="stepBtn" data-translate="stepBtn"><i class="ico-play"></i>&#160;</button>
+            <button id="stepMeasureBtn" data-translate="stepMeasureBtn"><i class="ico-forward"></i>&#160;</button>
+            <div class="input-group">
+                <input id="gotoMeasureBtn" type="number" data-translate="gotoMeasure" value="1" />
+                <b>..</b>
+                <input id="untilMeasureBtn" type="number" data-translate="untilMeasure" value="100" />
+            </div>
+            <button id="repeatBtn" data-translate="repeatBtn">&#160;<i class="ico-repeat-cw"></i>&#160;</button>
+            <button id="clearBtn" data-translate="clearBtn"><i class="ico-stop"></i></button>
+        </div>
+        <div id="divNormalPlayControls" class="btn-subgroup">
+            <button id="playBtn" data-translate="playBtn">&#160;<i class="ico-play"></i>&#160;</button>
+            <button id="stopBtn" data-translate="stopBtn"><i class="ico-stop"></i></button>
+        </div>
+        <div class="btn-subgroup">
+            <label id="currentPlayTimeLabel" class="playtime-label" style="margin-top:-2px;">00:00</label>
+        </div>
+        <div class="btn-subgroup">
+            <button id="buttonShowMedia" style="display:none;">
+                <i class="ico-vplayer" data-translate="showMedia"></i>&nbsp;
+            </button>
+        </div>
+    </div> <!-- controlDiv - este bloco é tratado internamente -->
+
+    <div id="printPreviewDiv" class="printPreviewClass"></div>
+    <div id="tipsDiv" class="tips"><a href="html/release.pt_BR.html" target="_blank"><span data-translate="ReleaseNotesNotice"></span></a>
+    </div>
+
+    <div id="askHelpDiv" class="mediaTips">
+        <p>Hello,<br>Do you know the desktop version of this app?<br>
+            <br><br>Access https://diatonicmap.com.br
+        </p>
+        <br>
+        Enjoy all the convenience of a bigger screen, with the same repertoire and many extra editing features.
+        <div id="pg" class="pushbutton-group" style="right: 0; bottom: 0;">
+            <span style="float:left; margin-right: 20px; margin-top: 25px;"><input id="askHelpChk" type="checkbox" />Do not show this tip
+                again</span>
+            <div id="askHelpBtn" class="pushbutton cancel"><i class="ico-circle-error"></i><span>Dismiss</span></div>
+        </div>
+    </div>
+
+    <script id="mainScript" type="text/javascript">
+
+        SITE.sizeOfThings();
+        window.addEventListener('resize', function () {
             SITE.sizeOfThings();
-            window.addEventListener('resize', function(){
-                SITE.sizeOfThings();
-            });
-            
-            SITE.abcxVersion = SITE.getVersion('mainABCX', '' ); // Obtem e mostra a versão corrente da lib ABCX 
-            SITE.siteVersion = SITE.getVersion('mainSITE', 'v' ); // Obtem e mostra a versão corrente da lib do site
-            
-            document.getElementById("aVersion").innerHTML = '<i>Diatonic App '+SITE.siteVersion+' Powered by ABCXJS version '+SITE.abcxVersion+'</i>';
+        });
 
-            var debug=false; // eliminar esta variável assim que possível
-            
-            var myApp;
+        SITE.abcxVersion = SITE.getVersion('mainABCX', ''); // Obtem e mostra a versão corrente da lib ABCX 
+        SITE.siteVersion = SITE.getVersion('mainSITE', 'v'); // Obtem e mostra a versão corrente da lib do site
 
-            window.onAppResumeEvent = new Event('appResumeEvent');
-            window.onAppStopEvent = new Event('appStopEvent');
-            window.onAppBack = new Event('appBack');
+        document.getElementById("aVersion").innerHTML = '<i>Diatonic App ' + SITE.siteVersion + ' Powered by ABCXJS version ' + SITE.abcxVersion + '</i>';
 
-            window.addEventListener('appResumeEvent', function () {
-            }, false);
+        var debug = false; // eliminar esta variável assim que possível
 
-            window.addEventListener('appStopEvent', function () {
-                if( !myApp ) return;
-                myApp.silencia();
-            }, false);
+        var myApp;
 
-            window.addEventListener('appBack', function () {
-                if( !myApp ) return true;
-                myApp.goBackOrClose();
-            }, false);
+        window.onAppResumeEvent = new Event('appResumeEvent');
+        window.onAppStopEvent = new Event('appStopEvent');
+        window.onAppBack = new Event('appBack');
 
-            window.onblur = function() {
-                if( !myApp ) return;
-                myApp.silencia();
-            };
-            
-            window.onresize = function() {
-                if( !myApp ) return;
-                myApp.resizeActiveWindow();
-            };
-            
-            document.addEventListener( 'touchend', function(event) {
-                if( event.touches.length === 0 || !myApp ) return;
-                myApp.resizeActiveWindow();
-            }, false);
-            
-            $(document).ready(function() { // to avoid ajax cache
-                $.ajaxSetup({ cache: false });
-            });
+        window.addEventListener('appResumeEvent', function () {
+        }, false);
 
-            window.onload = function () {
-                
-                SITE.LoadProperties();
-                SITE.ga( 'set', 'page_path', '/app-debug');
-                
-                SITE.translator = new SITE.Translator( { language: SITE.properties.options.language, callback: initApp } );
-                
-            };
-            
-            function initApp() {
+        window.addEventListener('appStopEvent', function () {
+            if (!myApp) return;
+            myApp.silencia();
+        }, false);
 
-                SITE.translator.translate();
-                
-                if( ABCXJS.misc.isIE() ){
-                    $('#appDiv').hide();
-                    
-                    SITE.ga('event', 'exception', {
-                             event_category: 'Error'
-                            ,description: 'MS-IE: Browser not supported.'
-                            ,fatal: true        
-                    });
-                    
-                    new DRAGGABLE.ui.Alert( 
-                         null, null
-                        ,'<br>'+SITE.translator.getResource('IEMsgTitle')
-                        ,SITE.translator.getResource('IEMsgDescription')
-                            + "<ul><li>Chrome (chromium)</li><li>Firefox</li><li>Safari</li><li>MS-Edge</li></ul>"
-                        ,{ translator: SITE.translator }
-                    );    
-                    return;
-                }
+        window.addEventListener('appBack', function () {
+            if (!myApp) return true;
+            myApp.goBackOrClose();
+        }, false);
 
-               MIDI.widget = new sketch.ui.Timer({
-                    size:180
-                    //, container: document.getElementById('appDiv')
-                    , cor1:SITE.properties.colors.close, cor2: SITE.properties.colors.open});
-                
-                MIDI.widget.setFormat( SITE.translator.getResource('loading'));
+        window.onblur = function () {
+            if (!myApp) return;
+            myApp.silencia();
+        };
 
-                DIATONIC.map.loadAccordionMaps(
-                    [
-                        'accordions/minuano.gc.accordion'
-                       ,'accordions/minuano.bc.transportada.accordion'
-                       ,'accordions/hohner.cf.club.br.accordion'
-                       ,'accordions/hohner.gcf.corona.accordion'
-                       ,'accordions/hohner.adg.corona.accordion'
-                       ,'accordions/hohner.bea.b.corona.accordion'
-                       ,'accordions/concertina.gcf.portuguesa.accordion'
-                       // 'accordions/hohner.gc.accordion'
-                       //,'accordions/hohner.cf.club.accordion'
-                    ]
-                    ,{ isApp: true }
-                    , function () { 
-                        FILEMANAGER.waitResources( { 
-                            onProgress: function(event) {
-                                MIDI.widget.setValue(0+Math.round(event.perc*.15));
-                            }
-                            ,onLoad: loadMIDI 
-                        });
-                    } 
-                );
-            }
-            
-            function loadMIDI(success) {
-                if(!success) {
-                    MIDI.widget.hide();
-                    
-                    SITE.ga('event', 'exception', {
-                             event_category: 'Error'
-                            ,description: 'MIDI: Could not load some resources.'
-                            ,fatal: true        
-                    });
-                    
-                    new DRAGGABLE.ui.Alert( 
-                        null, null, 
-                        '<br>'+SITE.translator.getResource('ErrLoadingTitle'),
-                        '<br>'+SITE.translator.getResource('ErrLoadingDescription1')+
-                        '<br>'+SITE.translator.getResource('ErrLoadingDescription2')+
-                        '&nbsp;<b><a href="mailto:flavio.vani@gmail.com">flavio.vani@gmail.com</a></b>'
-                        , {y:83, translator: SITE.translator }
-                    );
-                    return;
-                }
-                
-                var instrument = SITE.properties.options.pianoSound ?  "acoustic_grand_piano" : "accordion" ;
-                
-                MIDI.loadPlugin({
-                     soundfontUrl: "./soundfont/"
-                    ,instruments: instrument
-                    ,onprogress: function( total, done, currentPercent ) {
-                        var percent = ((done*100)+currentPercent)*85/(total*100);
-                        MIDI.widget.setValue(15+Math.round(percent));
-                    }
-                    ,callback: createApp
+        window.onresize = function () {
+            if (!myApp) return;
+            myApp.resizeActiveWindow();
+        };
+
+        document.addEventListener('touchend', function (event) {
+            if (event.touches.length === 0 || !myApp) return;
+            myApp.resizeActiveWindow();
+        }, false);
+
+        $(document).ready(function () { // to avoid ajax cache
+            $.ajaxSetup({ cache: false });
+        });
+
+        window.onload = function () {
+
+            SITE.LoadProperties();
+            SITE.ga('set', 'page_path', '/app-debug');
+
+            SITE.translator = new SITE.Translator({ language: SITE.properties.options.language, callback: initApp });
+
+        };
+
+        function initApp() {
+
+            SITE.translator.translate();
+
+            if (ABCXJS.misc.isIE()) {
+                $('#appDiv').hide();
+
+                SITE.ga('event', 'exception', {
+                    event_category: 'Error'
+                    , description: 'MS-IE: Browser not supported.'
+                    , fatal: true
                 });
-            }
-            
-            function createApp() {
-                
-                var accordion = FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
 
-                myApp = new SITE.App(
-                    {   // interfaceParams
-                        accordionImagePlaceHolder: 'accordionImageDiv'
-                      , settingsMenu:'topSettings'
-                      , mapDiv: 'appDiv'
-                      , mapMenuGaitasTitle: 'Acordeão'
-                      , mapMenuGaitasDiv: 'menuGaitas'
-                      , mapMenuSongsTitle: 'Música'
-                      , mapMenuSongsDiv: 'menuSongs'
-                      , openBtn: 'openBtn'
-                      , accordion_options: {
-                             id: accordion
-                            ,accordionMaps: DIATONIC.map.accordionMaps
-                            ,translator: SITE.translator 
+                new DRAGGABLE.ui.Alert(
+                    null, null
+                    , '<br>' + SITE.translator.getResource('IEMsgTitle')
+                    , SITE.translator.getResource('IEMsgDescription')
+                    + "<ul><li>Chrome (chromium)</li><li>Firefox</li><li>Safari</li><li>MS-Edge</li></ul>"
+                    , { translator: SITE.translator }
+                );
+                return;
+            }
+
+            MIDI.widget = new sketch.ui.Timer({
+                size: 180
+                //, container: document.getElementById('appDiv')
+                , cor1: SITE.properties.colors.close, cor2: SITE.properties.colors.open
+            });
+
+            MIDI.widget.setFormat(SITE.translator.getResource('loading'));
+
+            DIATONIC.map.loadAccordionMaps(
+                [
+                    'accordions/minuano.gc.accordion'
+                    , 'accordions/minuano.bc.transportada.accordion'
+                    , 'accordions/hohner.cf.club.br.accordion'
+                    , 'accordions/hohner.gcf.corona.accordion'
+                    , 'accordions/hohner.adg.corona.accordion'
+                    , 'accordions/hohner.bea.b.corona.accordion'
+                    , 'accordions/concertina.gcf.portuguesa.accordion'
+                    // 'accordions/hohner.gc.accordion'
+                    //,'accordions/hohner.cf.club.accordion'
+                ]
+                , { isApp: true }
+                , function () {
+                    FILEMANAGER.waitResources({
+                        onProgress: function (event) {
+                            MIDI.widget.setValue(0 + Math.round(event.perc * .15));
                         }
-                    }
-                );
+                        , onLoad: loadMIDI
+                    });
+                }
+            );
+        }
 
-                SITE.ga( 'event', 'language', { 
-                          event_category: 'Configuration'  
-                         ,event_label: SITE.properties.options.language 
-                         ,non_interaction: true
+        function loadMIDI(success) {
+            if (!success) {
+                MIDI.widget.hide();
+
+                SITE.ga('event', 'exception', {
+                    event_category: 'Error'
+                    , description: 'MIDI: Could not load some resources.'
+                    , fatal: true
                 });
-                
-                if( SITE.getDate() <= 20210909 ) {
-                    $('#tipsDiv').fadeIn('slow');
-                    setTimeout(function() { $('#tipsDiv').fadeOut('slow'); }, 15000);
-                }
 
-
-                if(!SITE.properties.options.guidedTour){
-
-                    initEnjoyVars(); 
-                    SITE.myTour = new EnjoyHint(g_enjoyhint_opts);
-
-                    //set script config
-                    SITE.myTour.set(g_enjoyhint_script_steps);
-
-                    //run Enjoyhint script
-                    SITE.myTour.run();
-                    
-                }
+                new DRAGGABLE.ui.Alert(
+                    null, null,
+                    '<br>' + SITE.translator.getResource('ErrLoadingTitle'),
+                    '<br>' + SITE.translator.getResource('ErrLoadingDescription1') +
+                    '<br>' + SITE.translator.getResource('ErrLoadingDescription2') +
+                    '&nbsp;<b><a href="mailto:flavio.vani@gmail.com">flavio.vani@gmail.com</a></b>'
+                    , { y: 83, translator: SITE.translator }
+                );
+                return;
             }
-            
-        </script> <!-- mainScript -->
-    </body>
-</html>
 
+            var instrument = SITE.properties.options.pianoSound ? "acoustic_grand_piano" : "accordion";
+
+            MIDI.loadPlugin({
+                soundfontUrl: "./soundfont/"
+                , instruments: instrument
+                , onprogress: function (total, done, currentPercent) {
+                    var percent = ((done * 100) + currentPercent) * 85 / (total * 100);
+                    MIDI.widget.setValue(15 + Math.round(percent));
+                }
+                , callback: createApp
+            });
+        }
+
+        function createApp() {
+
+            var accordion = FILEMANAGER.loadLocal('property.accordion') || 'GAITA_MINUANO_GC';
+
+            myApp = new SITE.App(
+                {   // interfaceParams
+                    accordionImagePlaceHolder: 'accordionImageDiv'
+                    , settingsMenu: 'topSettings'
+                    , mapDiv: 'appDiv'
+                    , mapMenuGaitasTitle: 'Acordeão'
+                    , mapMenuGaitasDiv: 'menuGaitas'
+                    , mapMenuSongsTitle: 'Música'
+                    , mapMenuSongsDiv: 'menuSongs'
+                    , openBtn: 'openBtn'
+                    , accordion_options: {
+                        id: accordion
+                        , accordionMaps: DIATONIC.map.accordionMaps
+                        , translator: SITE.translator
+                    }
+                }
+            );
+
+            SITE.ga('event', 'language', {
+                event_category: 'Configuration'
+                , event_label: SITE.properties.options.language
+                , non_interaction: true
+            });
+
+            if (SITE.getDate() <= 20210909) {
+                $('#tipsDiv').fadeIn('slow');
+                setTimeout(function () { $('#tipsDiv').fadeOut('slow'); }, 15000);
+            }
+
+
+            if (!SITE.properties.options.guidedTour) {
+
+                initEnjoyVars();
+                SITE.myTour = new EnjoyHint(g_enjoyhint_opts);
+
+                //set script config
+                SITE.myTour.set(g_enjoyhint_script_steps);
+
+                //run Enjoyhint script
+                SITE.myTour.run();
+
+            }
+        }
+
+    </script> <!-- mainScript -->
+</body>
+
+</html>

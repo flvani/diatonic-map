@@ -16,14 +16,14 @@ SITE.checkCookieConsent = function ( ) {
 
     // alert(document.cookie);
 
-    var popup = jQuery('.policy-terms');
+    var popup = jQuery('.policy-section');
 
     setTimeout(function () {
         if (!isCookieSet) {
             popup.show(); //exibe alerta depois de 3000 (3 segundos)
         }
     }, 3000);
-    jQuery('.policy-terms-actions').click(function () {
+    jQuery('.policy-section-actions').click(function () {
         document.cookie = 'diatonic-policy=true; path=/; max-age=86400;';
         popup.fadeOut();
     });
@@ -2598,22 +2598,30 @@ SITE.App.prototype.showSettings = function() {
             evt.preventDefault();
             this.blur();
             that.Back.push({listener:that, method:'closeModal'}); 
+
             if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
-                that.modal.show('PrivacyTitle', '', 'privacidade/politica.html' );
+                that.modal.show('PrivacyTitle', '', 'privacy/policy.pt-BR.html');
+            } else if( SITE.properties.options.language.toUpperCase().indexOf('ES')>=0 )  {
+                that.modal.show('PrivacyTitle', '', 'privacy/policy.es-ES.html');
             } else {
-                that.modal.show('PrivacyTitle', '', 'privacy/policy.html');
+                that.modal.show('PrivacyTitle', '', 'privacy/policy.en-US.html' );
             }
+
         }, false );
     
         this.aTerms.addEventListener("click", function(evt) {
             evt.preventDefault();
             this.blur();
             that.Back.push({listener:that, method:'closeModal'}); 
+
             if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
-                that.modal.show('TermsTitle', '', 'privacidade/termos.e.condicoes.html' );
+                that.modal.show('TermsTitle', '', 'privacy/terms.pt-BR.html');
+            } else if( SITE.properties.options.language.toUpperCase().indexOf('ES')>=0 )  {
+                that.modal.show('TermsTitle', '', 'privacy/terms.es-ES.html');
             } else {
-                that.modal.show('TermsTitle', '', 'privacy/terms.n.conditions.html' );
+                that.modal.show('TermsTitle', '', 'privacy/terms.en-US.html' );
             }
+
         }, false );
 
         var impar = (SITE.properties.options.tabFormat % 2 );
@@ -2811,11 +2819,15 @@ SITE.App.prototype.setVersionLang = function (  ) {
         evt.preventDefault();
         this.blur();
         that.Back.push({listener:that, method:'closeModal'}); 
+
         if( SITE.properties.options.language.toUpperCase().indexOf('PT')>=0 )  {
-            that.modal.show('AboutAppTitle', '', 'privacidade/sobreApp.html');
+            that.modal.show('AboutAppTitle', '', 'privacy/aboutApp.pt-BR.html');
+        } else if( SITE.properties.options.language.toUpperCase().indexOf('ES')>=0 )  {
+            that.modal.show('AboutAppTitle', '', 'privacy/aboutApp.es-ES.html');
         } else {
-            that.modal.show('AboutAppTitle', '', 'privacy/aboutApp.html' );
+            that.modal.show('AboutAppTitle', '', 'privacy/aboutApp.en-US.html' );
         }
+
     }, false );
 };
 

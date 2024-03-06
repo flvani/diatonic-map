@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset='utf-8'>
   <meta name='viewport' content='width=device-width'>
   <title>Privacy Policy</title>
-  
-  <script>
-      var language = window.navigator.userLanguage || window.navigator.language; 
 
-      if( language.toUpperCase().indexOf('PT')>=0 )  {
-        window.location.href = "/tablature/index.pt-BR.html"; // show portuguese version
-      } else if( language.toUpperCase().indexOf('ES')>=0 )  {
-        window.location.href = "/tablature/index.pt-BR.html"; // show portuguese version
-      } else {
-        window.location.href = "/tablature/index.pt-BR.html"; // show portuguese version
-      }
+  <script>
+    var language = window.navigator.userLanguage || window.navigator.language;
+
+    if (language.toUpperCase().indexOf('PT') >= 0) {
+      window.location.href = "/tablature/tablature.pt-BR.html"; // show portuguese version
+    } else if (language.toUpperCase().indexOf('ES') >= 0) {
+      window.location.href = "/tablature/tablature.es-ES.html"; // show spanish version
+    } else {
+      window.location.href = "/tablature/tablature.en-US.html"; // show english version
+    }
   </script>
 
 </head>
+
 <body>
 
 </body>
+
 </html>
-                

@@ -1,178 +1,196 @@
 <html>
-    <head>
-        <title data-translate="appName" >Mapa para Acordeões Diatônicos</title>
-        <meta charset="UTF-8" />
-        <link rel="icon" type="image/icon" href="images/favicon.ico"/>
-        <meta name="viewport" content="height=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0" />
-        
-        <meta name="robots" content="index,follow"/>
-        <meta name="revisit-after" content="7 days"/>
-        <meta name="description" data-translate="description" content="Um mapa de referência para a aprendizagem de acordeões diatônicos" />
 
-        <meta name="author" content="Flávio Luiz Vani"/>
+<head>
+  <title data-translate="appName">Mapa para Acordeões Diatônicos</title>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/icon" href="images/favicon.ico" />
+  <meta name="viewport" content="height=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0" />
 
-        <meta name="keywords" content="diatonic accordion, notation, learning, practice, repertoire, abc tunes, midi, tablature
+  <meta name="robots" content="index,follow" />
+  <meta name="revisit-after" content="7 days" />
+  <meta name="description" data-translate="description" content="Um mapa de referência para a aprendizagem de acordeões diatônicos" />
+
+  <meta name="author" content="Flávio Luiz Vani" />
+
+  <meta name="keywords" content="diatonic accordion, notation, learning, practice, repertoire, abc tunes, midi, tablature
 acordeão diatônico, gaita de oito baixos, gaita ponto, notação musical, aprendizagem, prática, repertorio, 
-notação abc, tablatura " />   
-        
-        <link rel="stylesheet" href="fontsIco/fontsAbcx.css" />
-        <link rel="stylesheet" href="fontsGoogle/fontsGoogle.css" />
+notação abc, tablatura " />
 
-        <link rel="stylesheet" href="css/styles4abcx.css" />
-        <link rel="stylesheet" href="css/media.css" />
-        <link rel="stylesheet" href="css/mapa.css" />
+  <link rel="stylesheet" href="fontsIco/fontsAbcx.css" />
+  <link rel="stylesheet" href="fontsGoogle/fontsGoogle.css" />
 
-        <style>
-          .myTopBar {
-              position:fixed; top: 0px; 
-              left:0px; 
-              margin:0; 
-              padding-top: 20px; 
-              padding-left: 30px;
-          }
+  <link rel="stylesheet" href="css/styles4abcx.css" />
+  <link rel="stylesheet" href="css/media.css" />
+  <link rel="stylesheet" href="css/mapa.css" />
 
-          .myDiv {
-            font-family: Merienda; 
-            position: relative;   
-            display: none; 
-            top: 30px; 
-            left: 30px;
-          }
+  <style>
+    .myTopBar {
+      position: fixed;
+      top: 0px;
+      left: 0px;
+      margin: 0;
+      padding-top: 20px;
+      padding-left: 30px;
+    }
 
-        </style>
+    .myDiv {
+      font-family: Merienda;
+      position: relative;
+      display: none;
+      top: 30px;
+      left: 30px;
+    }
+  </style>
 
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3RXNND5N5Y"></script>
-        <script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-3RXNND5N5Y"></script>
+  <script>
 
-          "use strict";
+    "use strict";
 
-          window.addEventListener("DOMContentLoaded", function() {   
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
+    window.addEventListener("DOMContentLoaded", function () {
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
 
-              var language = window.navigator.userLanguage || window.navigator.language; 
-              var d;  
-              var a = document.getElementById("appName");
-              var s = document.getElementById("oSite");
+      var language = window.navigator.userLanguage || window.navigator.language;
+      var d;
+      var a = document.getElementById("appName");
+      var s = document.getElementById("oSite");
 
-              if( language.toUpperCase().indexOf('PT')>=0 )  {
-                d = document.getElementById( 'pt-BR-div' );
-                a.innerHTML = "Mapa para Acordeões Diatônicos";  
-                s.innerHTML = "(o site)";
-                document.title = "Mapa para Acordeões - o site";  
-              } else if( language.toUpperCase().indexOf('ES')>=0 )  {
-                d = document.getElementById( 'es-ES-div');
-                a.innerHTML = "Mapa para Acordeones Diatónicos";
-                s.innerHTML = "(el sitio)";
-                document.title = "Mapa para Acordeones - el sitio";  
-              } else {
-                d = document.getElementById( 'en-US-div');
-                document.title = "Map for acorddions - the site";  
-                a.innerHTML = "Map for Diatonic Accordions";
-                s.innerHTML = "(the site)";
-              }
+      if (language.toUpperCase().indexOf('PT') >= 0) {
+        d = document.getElementById('pt-BR-div');
+        a.innerHTML = "Mapa para Acordeões Diatônicos";
+        s.innerHTML = "(o site)";
+        document.title = "Mapa para Acordeões - o site";
+      } else if (language.toUpperCase().indexOf('ES') >= 0) {
+        d = document.getElementById('es-ES-div');
+        a.innerHTML = "Mapa para Acordeones Diatónicos";
+        s.innerHTML = "(el sitio)";
+        document.title = "Mapa para Acordeones - el sitio";
+      } else {
+        d = document.getElementById('en-US-div');
+        document.title = "Map for acorddions - the site";
+        a.innerHTML = "Map for Diatonic Accordions";
+        s.innerHTML = "(the site)";
+      }
 
-              d.style.display='inline-block';
-          }); 
+      d.style.display = 'inline-block';
+    });
 
-        </script>
-       
-    </head>
-    <body>
-      <div id="topBar" class="topBar gradiente myTopBar" style="">
-        <span id="appName" class="topTitle">Mapa para Acordeões Diatônicos</span>
-        <span id="oSite">(the site)</span>
-      </div>
-      <div id="en-US-div" class="myDiv">
-          <h2>Welcome to the new "Map for Accordions" website!</h2>
-          <ul >
-            <li id="i1">
-              <a target="_blank" href="/mapa.html">
-                <h3>Access the Map – desktop version.</h3>
-              </a>
-            </li>
-            <li id="i1">
-              <a target="_blank" href="/app.html">
-                <h3>Access the App – desktop version.</h3>
-              </a>
-            </li>
-            <li id="i1">
-              <a target="_blank" href="https://play.google.com/store/apps/details?id=br.com.diatonicmap.app">
-                <h3>Download the app for Android phones from Playstore.</h3>
-              </a>
-            </li>
-            <li id="i1">
-              <a target="_blank" href="/tablature">
-                <h3>Learn more about accordion tablatures.</h3>
-              </a>
-            </li>
-            <li id="i1">
-              <a target="_blank" href="/repertorio">
-                <h3>Discover the entire repertoire available.</h3>
-              </a>
-            </li>
-          </ul>
-      </div>
-      <div id="es-ES-div" class="myDiv">
-           <h2>¡Bienvenidos al nuevo sitio web "Mapa para Acordeones"!</h2>
-           <ul >
-             <li id="i1">
-               <a target="_blank" href="/map.html">
-                 <h3>Acceda al Mapa - versión de escritorio.</h3>
-               </a>
-             </li>
-             <li id="i1">
-               <a target="_blank" href="/app.html">
-                 <h3>Acceda a la Aplicación – versión de escritorio.</h3>
-               </a>
-             </li>
-             <li id="i1">
-               <a target="_blank" href="https://play.google.com/store/apps/details?id=br.com.diatonicmap.app">
-                 <h3>Descarga la aplicación para teléfonos Android desde Playstore.</h3>
-               </a>
-             </li>
-             <li id="i1">
-               <a target="_blank" href="/tablature">
-                 <h3>Obtenga más información sobre las tablaturas de acordeón.</h3>
-               </a>
-             </li>
-             <li id="i1">
-               <a target="_blank" href="/repertorio">
-                 <h3>Descubre todo el repertorio disponible.</h3>
-               </a>
-             </li>
-           </ul>
-      </div>
-      <div id="pt-BR-div" class="myDiv">
-          <h2>Bem-vindo ao novo site do "Mapa para Acordeões"!</h2>
-          <ul >
-            <li id="i1">
-              <a target="_blank" href="/mapa.html">
-                <h3>Acesse o Mapa - versão desktop.</h3>
-              </a>
-            </li>
-            <li id="i1">
-              <a target="_blank" href="/app.html">
-                <h3>Acesse o Aplicativo – versão desktop.</h3>
-              </a>
-            </li>
-            <li id="i1">
-              <a target="_blank" href="https://play.google.com/store/apps/details?id=br.com.diatonicmap.app">
-                <h3>Baixe, da Playstore, o App para celulares Android.</h3>
-              </a>
-            </li>
-            <li id="i1">
-              <a target="_blank" href="/tablature">
-                <h3>Saiba mais sobre tablaturas de acordeão.</h3>
-              </a>
-            </li>
-            <li id="i1">
-              <a target="_blank" href="/repertorio">
-                <h3>Descubra todo o repertório disponível.</h3>
-              </a>
-            </li>
-          </ul>
-        </div>
-    </body>
+  </script>
+
+</head>
+
+<body>
+  <div id="topBar" class="topBar gradiente myTopBar" style="">
+    <span id="appName" class="topTitle">Mapa para Acordeões Diatônicos</span>
+    <span id="oSite">(the site)</span>
+  </div>
+  <div id="en-US-div" class="myDiv">
+    <h2>Welcome to the new "Map for Accordions" website!</h2>
+    <ul>
+      <li id="i1">
+        <a target="_blank" href="/mapa.html">
+          <h3>Access the Map – desktop version.</h3>
+        </a>
+      </li>
+      <li id="i1">
+        <a target="_blank" href="/app.html">
+          <h3>Access the App – desktop version.</h3>
+        </a>
+      </li>
+      <li id="i1">
+        <a target="_blank" href="https://play.google.com/store/apps/details?id=br.com.diatonicmap.app">
+          <h3>Download the app for Android phones from Playstore.</h3>
+        </a>
+      </li>
+      <li id="i1">
+        <a target="_blank" href="/tablature">
+          <h3>Learn more about accordion tablatures.</h3>
+        </a>
+      </li>
+      <li id="i1">
+        <a target="_blank" href="/repertorio">
+          <h3>Discover the entire repertoire available.</h3>
+        </a>
+      </li>
+      <li id="i1">
+        <a target="_blank" href="/privacy">
+          <h3>Read our Privacy Policy.</h3>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div id="es-ES-div" class="myDiv">
+    <h2>¡Bienvenidos al nuevo sitio web "Mapa para Acordeones"!</h2>
+    <ul>
+      <li id="i1">
+        <a target="_blank" href="/map.html">
+          <h3>Acceda al Mapa - versión de escritorio.</h3>
+        </a>
+      </li>
+      <li id="i1">
+        <a target="_blank" href="/app.html">
+          <h3>Acceda a la Aplicación – versión de escritorio.</h3>
+        </a>
+      </li>
+      <li id="i1">
+        <a target="_blank" href="https://play.google.com/store/apps/details?id=br.com.diatonicmap.app">
+          <h3>Descarga la aplicación para teléfonos Android desde Playstore.</h3>
+        </a>
+      </li>
+      <li id="i1">
+        <a target="_blank" href="/tablature">
+          <h3>Obtenga más información sobre las tablaturas de acordeón.</h3>
+        </a>
+      </li>
+      <li id="i1">
+        <a target="_blank" href="/repertorio">
+          <h3>Descubre todo el repertorio disponible.</h3>
+        </a>
+      </li>
+      <li id="i1">
+        <a target="_blank" href="/privacy">
+          <h3>Lea nuestra Política de Privacidad.</h3>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div id="pt-BR-div" class="myDiv">
+    <h2>Bem-vindo ao novo site do "Mapa para Acordeões"!</h2>
+    <ul>
+      <li id="i1">
+        <a target="_blank" href="/mapa.html">
+          <h3>Acesse o Mapa - versão desktop.</h3>
+        </a>
+      </li>
+      <li id="i1">
+        <a target="_blank" href="/app.html">
+          <h3>Acesse o Aplicativo – versão desktop.</h3>
+        </a>
+      </li>
+      <li id="i1">
+        <a target="_blank" href="https://play.google.com/store/apps/details?id=br.com.diatonicmap.app">
+          <h3>Baixe, da Playstore, o App para celulares Android.</h3>
+        </a>
+      </li>
+      <li id="i1">
+        <a target="_blank" href="/tablature">
+          <h3>Saiba mais sobre tablaturas de acordeão.</h3>
+        </a>
+      </li>
+      <li id="i1">
+        <a target="_blank" href="/repertorio">
+          <h3>Descubra todo o repertório disponível.</h3>
+        </a>
+      </li>
+      <li id="i1">
+        <a target="_blank" href="/privacy">
+          <h3>Leia nossa Política de Privacidade.</h3>
+        </a>
+      </li>
+    </ul>
+  </div>
+</body>
+
 </html>

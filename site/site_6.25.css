@@ -1,5 +1,5 @@
 
-section.policy-terms {
+section.policy-section {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -15,12 +15,12 @@ section.policy-terms {
     box-shadow: 0 5px 12px 14px rgba(0, 0, 0, .06);
     z-index: 1050;
 }
-.policy-terms p {
+.policy-section p {
     margin: 20px;
     max-width: 900px;
     text-align: left;
 }
-section.policy-terms a {
+section.policy-section a {
     color: #ffffff;
     text-decoration: underline;
 }
@@ -29,7 +29,7 @@ section.policy-terms a {
     display: flex;
     flex-direction: column;
 }
-.policy-terms-actions span.accept-policy-terms {
+.policy-section-actions span.accept-policy-section {
     margin: 5px;
     padding: 5px 30px;
     border-radius: 6px;
@@ -39,19 +39,19 @@ section.policy-terms a {
     border: 1px solid;
     white-space: nowrap;
 }
-.policy-terms-actions span.accept-policy-terms:hover {
+.policy-section-actions span.accept-policy-section:hover {
     background: #ffffff;
     color: #1f4f66;
 }
 
 @media (max-width: 1024px) {
-    section.policy-terms { width: initial; }
-    section.policy-terms br { display: none; }
+    section.policy-section { width: initial; }
+    section.policy-section br { display: none; }
 }
 @media (max-width: 579px) {
-    section.policy-terms { flex-direction: column; }
-    .policy-terms p { margin: 0; text-align: center; }
-    .policy-terms-actions { margin: 10px 0 5px; }
+    section.policy-section { flex-direction: column; }
+    .policy-section p { margin: 0; text-align: center; }
+    .policy-section-actions { margin: 10px 0 5px; }
 }
 
 .enjoy_hint_label {
