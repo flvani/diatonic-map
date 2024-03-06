@@ -26,6 +26,7 @@ body {
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    user-select: none;
     /* fim - evita que textos fiquem selecionáveis */
 
     background-color: white;
