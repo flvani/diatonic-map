@@ -159,9 +159,10 @@ g_enjoyhint_text[pt_BR] = [ 'dummy',
         "<text class='hint_tryit'>Experimente agora!</text>"
 
 ,//7
-    "Altera entre as diferentes representações da tablatura. Atualmente há 6 modos distintos.&nbsp;"+
+    "Altera entre as diferentes representações da tablatura. Atualmente há 3 formatos distintos.&nbsp;"+
         "<text class='hint_tryit'>Experimente agora!</text><br>"+
-        "<text class='hint_laranja'>Observação: Maiores detalhes podem ser vistos no menu de Informações.<br>"
+        "<text class='hint_laranja'>Observação: Maiores detalhes podem ser vistos na página \"https://diatonicmap.x10.mx/tablature\"</text>"
+
 ,//8
     "Permite selecionar entre as abas \"Acordes\", \"Exercícios\" e \"Músicas\".&nbsp;"+
         "<text class='hint_tryit'>Experimente agora!</text><br>"+
@@ -239,9 +240,10 @@ g_enjoyhint_text[es_ES] = [ 'dummy',
          "<text class='hint_tryit'>¡Pruébalo ahora!</text>"
 
 ,//7
-     "Cambia entre las diferentes representaciones de tablatura. Actualmente hay 6 modos diferentes."+
-         "<text class='hint_tryit'>¡Pruébalo ahora!</text><br>"+
-         "<text class='hint_laranja'>Nota: Se pueden ver más detalles en el menú Información.<br>"
+    "Cambia entre las diferentes representaciones de tablatura. Actualmente hay 3 formatos diferentes."+
+        "<text class='hint_tryit'>¡Pruébalo ahora!</text><br>"+
+        "<text class='hint_laranja'>Nota: Más detalles se pueden ver en la página \"https://diatonicmap.x10.mx/tablature\"</text>"
+
 ,//8
      "Le permite seleccionar entre las pestañas \"Acordes\", \"Ejercicios\" y \"Canciones\".&nbsp;"+
          "<text class='hint_tryit'>¡Pruébalo ahora!</text><br>"+
@@ -317,9 +319,10 @@ g_enjoyhint_text[en_US] = [ 'dummy',
          "<text class='hint_tryit'>Try it now!</text>"
 
 ,//7
-     "Switches between the different tablature representations. Currently there are 6 different modes.&nbsp;"+
+    "Switches between the different tablature representations. Currently there are 3 different formats.&nbsp;"+
          "<text class='hint_tryit'>Try it now!</text><br>"+
-         "<text class='hint_laranja'>Note: More details can be seen in the Information menu.<br>"
+         "<text class='hint_laranja'>Note: More details can be seen on the page \"https://diatonicmap.x10.mx/tablature\"</text>"
+
 ,//8
      "Allows you to select between the \"Chords\", \"Exercises\" and \"Songs\" tabs.&nbsp;"+
          "<text class='hint_tryit'>Try it now!</text><br>"+

@@ -182,127 +182,6 @@ function initEnjoyVars()
     ];
 }
 
-g_enjoyhint_text[en_US] = [ 'dummy',
-    //1
-        "Let's learn about the main features of this App?<br>"+
-        "<text class='hint_laranja'>Note: You can always restart this tour by clicking <i class='ico-menu'></i> on left-top corner of the App.</text>"
-
-    ,//2    
-        "Use the \"Settings\" menu to change stuff such as the language <br>or to use piano sounds and more."
-
-    ,//3    
-        "Checkout the accordion listbox <br>and choose the one of your prefference."
-
-    ,//4    
-        "Also, choose an available song from the list.<br>"+
-            "<text class='hint_laranja'>Note: Only this time, I'll choose you a song<br>for a better demonstration.</text>"
-
-    ,//5    
-        "Now, click the \"Open\" button to start learning!"
-
-    ,//6    
-        "Are you ready to know the facilities on the menu bar?"
-
-    ,//7    
-        "This button shows/hides the keyboard layout. "+
-            "<text class='hint_tryit'>Try it now!</text>"
-
-    ,//8
-        "The keyboard itself also has some useful controls:<br>"+
-            "<div style='text-align:left; margin-left:3em'>"+
-                "<text class='hint_azul'><i class='ico-rotate' ></i> - </text>"+
-                    "<text class='hint_verde'>Mirrors the keyboard's buttons (vertical flip);</text><br>"+
-                "<text class='hint_azul'><i class='ico-world' ></i> - </text>"+
-                    "<text class='hint_verde'>Changes the note names notation; and</text><br>"+
-                "<text class='hint_azul'><i class='ico-open-right'></i> - </text>"+
-                "<text class='hint_verde'>Shifts the keyboard side: left/right.</text>"+
-            "<div>"
-
-    ,//9
-        'Shows a print preview for the current song.'
-
-    ,//10    
-        "Switches among different formats for tablature numbering. <text class='hint_tryit'>Try it now!</text><br><br>"+
-            "São três formatos distintos, cada um com duas variantes:<br>Formato alemão, numérico ciclíco e numérico contínuo.<br><br>"+
-            "<text class='hint_laranja'>Note: Maiores detalhes você encontra no site.</text>"+
-            "<!--div style='text-align:left; margin-left:3em'>"+
-                "<text class='hint_azul'>Formato alemão: </text>"+
-                    "<text class='hint_verde'>Os botões em cada ilheira são numeraods de 1 a n, e a ilheira é marcada com apóstrofes ou números; </text><br>"+
-                "<text class='hint_azul'>Numérica cíclica: </text>"+
-                    "<text class='hint_verde'>Os botões em cada ilheira são numerados em uma dezena diferente; e</text><br>"+
-                "<text class='hint_azul'>Numérica contínua:</text>"+
-                "<text class='hint_verde'>Os botões são numerados sequencialmente, de 1 a n.</text>"+
-                "<text class='hint_laranja'>Note: Maiores detalhes você encontra no site.</text>"+
-                    "<text class='hint_link'>https://diatonicmap.com.br/tablature</text>"+
-            "<div -->"
-
-    ,//11    
-        "This button shows/hides the tablature fingering (if present). <text class='hint_tryit'>Try it now!</text>"
-
-    ,//12    
-        "This button shows/hides the song lyrics (if present). <text class='hint_tryit'>Try it now!</text>"
-
-    ,//13    
-        'This button mutes/unmutes the sound of the melody during the MIDI execution.'
-
-    ,//14    
-        'This button mutes/unmutes the sound of the bass rhythm during the MIDI execution.'
-
-    ,//15    
-        'This button enables/disables a short timer before start playing.'
-
-    ,//16    
-        'This slide the button to controls the "Tempo" (velocity) of the MIDI execution.'
-
-    ,//17    
-        "This button switches between the normal execution mode and the learning mode:<br>"+
-        "<text class='hint_azul'><i class='ico-listening'></i>&nbsp;Normal Mode:&nbsp;</text>"+
-            "<text class='hint_verde'>Comprises a simple Play/Pause <i class='ico-play'></i>/<i class='ico-pause'></i>"+
-            " and Stop <i class='ico-stop'></i><br>set of buttons to execute the partiture;</text><br>" +
-        "<text class='hint_azul'><i class='ico-learning'></i>&nbsp;Learning Mode:&nbsp;</text>"+
-            "<text class='hint_verde'>This mode adds a set of handful options<br>to use while you are studying the partiture.<br>"+
-        "<text class='hint_laranja'>Note: Next, I will adjust the \"Learning Mode\" for the final part of the demonstration.</text>"
-
-    ,//18    
-        'In the \"Learning Mode\", this plays one note at time, in a step-by-step fashion.'
-
-    ,//19    
-        'This button plays one measure at a time or the current one until its end.'
-
-    ,//20    
-        'Use these text boxes to limit a set of numbered measures.<br>'+
-        'If you only fill in the first field, then the chosen measure will be repeated.<br>'+
-        'However, by filling both with appropriate numbers, the interval will be repeated.'
-
-    ,//21    
-        'This button will apply and execute the repetition you configured in the previous fields.'
-
-    ,//22    
-        'This stops any playback in progress and places the MIDI cursor at the starting point.'
-
-    ,//23    
-        'This opens a window linked to Youtube video lessons (if present).'
-
-    ,//24    
-        "<div class='enjoy_hint_backgr'>"+
-            "This is the final product of this app: a partiture with tablature.<br>"+
-            "To learn more about this tablature for accordions methodology, please, take a look at:<br>"+ 
-                "<text class='hint_link'>https://diatonicmap.com.br/tablature</text><br>"+
-            "You can also checkout the website version:<br>"+
-                "<text class='hint_link'>https://diatonicmap.com.br</text><br>"+
-            "<text class='hint_black'>Enjoy all the convenience of a bigger screen, with the same repertoire and many extra editing features!</text>"+
-        "</div>"
-
-    ,//25    
-        "<div class='enjoy_hint_backgr'>"+
-        "Finally, click <i class='ico-home'> to go back to the initial page and finish this tour.<br>"+
-        "Thank you for following this until here and I hope you enjoy this app.<br>"+
-        "You can reach me at <text class='hint_link'>flavio.vani@gmail.com</text><br>"+
-        "<text class='hint_black'>Your comments/suggestions/compliments or criticisms are welcome!</text><br>"+
-        "</div>"
-    
-];
-
 g_enjoyhint_text[pt_BR] = [ 'dummy',
 
 //1
@@ -345,7 +224,9 @@ g_enjoyhint_text[pt_BR] = [ 'dummy',
     "Mostra uma prévia da impressão da música atual."
 
 ,//10
-    "Alterna entre dois formatos diferentes para numeração de tablaturas. <text class='hint_tryit'>Experimente agora!</text>"
+    "Altera entre as diferentes representações da tablatura. Atualmente há 3 formatos distintos.&nbsp;"+
+        "<text class='hint_tryit'>Experimente agora!</text><br>"+
+        "<text class='hint_laranja'>Observação: Maiores detalhes podem ser vistos na página \"https://diatonicmap.x10.mx/tablature\"</text>"
 
 ,//11
     "Este botão mostra/oculta os dedilhados da tablatura (se presentes). <text class='hint_tryit'>Experimente agora!</text>"
@@ -452,7 +333,9 @@ g_enjoyhint_text[es_ES] = [ 'dummy',
     "Muestra una vista previa de impresión de la canción actual."
 
 ,//10
-    "Cambie entre dos formatos diferentes para la numeración de la tablatura. <text class='hint_tryit'>¡Pruébelo ahora!</text>"
+    "Cambia entre las diferentes representaciones de tablatura. Actualmente hay 3 formatos diferentes."+
+        "<text class='hint_tryit'>¡Pruébalo ahora!</text><br>"+
+        "<text class='hint_laranja'>Nota: Más detalles se pueden ver en la página \"https://diatonicmap.x10.mx/tablature\"</text>"
 
 ,//11
     "Este botón muestra/oculta las digitaciones de la tablatura (si están presentes). <text class='hint_tryit'>¡Pruébalo ahora!</text>"
@@ -514,3 +397,114 @@ g_enjoyhint_text[es_ES] = [ 'dummy',
          "<text class='enjoy_hint_note_footrodape'>¡Tus comentarios/sugerencias/elogios o críticas son bienvenidos!</text><br>"+
      "</div>"
 ];
+
+g_enjoyhint_text[en_US] = [ 'dummy',
+//1
+    "Let's learn about the main features of this App?<br>"+
+        "<text class='hint_laranja'>Note: You can always restart this tour by clicking <i class='ico-menu'></i> on left-top corner of the App.</text>"
+
+,//2    
+    "Use the \"Settings\" menu to change stuff such as the language <br>or to use piano sounds and more."
+
+,//3    
+    "Checkout the accordion listbox <br>and choose the one of your prefference."
+
+,//4    
+    "Also, choose an available song from the list.<br>"+
+        "<text class='hint_laranja'>Note: Only this time, I'll choose you a song<br>for a better demonstration.</text>"
+
+,//5    
+    "Now, click the \"Open\" button to start learning!"
+
+,//6    
+    "Are you ready to know the facilities on the menu bar?"
+
+,//7    
+    "This button shows/hides the keyboard layout. "+
+        "<text class='hint_tryit'>Try it now!</text>"
+
+,//8
+    "The keyboard itself also has some useful controls:<br>"+
+        "<div style='text-align:left; margin-left:3em'>"+
+            "<text class='hint_azul'><i class='ico-rotate' ></i> - </text>"+
+                "<text class='hint_verde'>Mirrors the keyboard's buttons (vertical flip);</text><br>"+
+            "<text class='hint_azul'><i class='ico-world' ></i> - </text>"+
+                "<text class='hint_verde'>Changes the note names notation; and</text><br>"+
+            "<text class='hint_azul'><i class='ico-open-right'></i> - </text>"+
+            "<text class='hint_verde'>Shifts the keyboard side: left/right.</text>"+
+        "<div>"
+
+,//9
+    'Shows a print preview for the current song.'
+
+,//10    
+    "Switches between the different tablature representations. Currently there are 3 different formats.&nbsp;"+
+        "<text class='hint_tryit'>Try it now!</text><br>"+
+        "<text class='hint_laranja'>Note: More details can be seen on the page \"https://diatonicmap.x10.mx/tablature\"</text>"
+,//11    
+    "This button shows/hides the tablature fingering (if present). <text class='hint_tryit'>Try it now!</text>"
+
+,//12    
+    "This button shows/hides the song lyrics (if present). <text class='hint_tryit'>Try it now!</text>"
+
+,//13    
+    'This button mutes/unmutes the sound of the melody during the MIDI execution.'
+
+,//14    
+    'This button mutes/unmutes the sound of the bass rhythm during the MIDI execution.'
+
+,//15    
+    'This button enables/disables a short timer before start playing.'
+
+,//16    
+    'This slide the button to controls the "Tempo" (velocity) of the MIDI execution.'
+
+,//17    
+    "This button switches between the normal execution mode and the learning mode:<br>"+
+    "<text class='hint_azul'><i class='ico-listening'></i>&nbsp;Normal Mode:&nbsp;</text>"+
+        "<text class='hint_verde'>Comprises a simple Play/Pause <i class='ico-play'></i>/<i class='ico-pause'></i>"+
+        " and Stop <i class='ico-stop'></i><br>set of buttons to execute the partiture;</text><br>" +
+    "<text class='hint_azul'><i class='ico-learning'></i>&nbsp;Learning Mode:&nbsp;</text>"+
+        "<text class='hint_verde'>This mode adds a set of handful options<br>to use while you are studying the partiture.<br>"+
+    "<text class='hint_laranja'>Note: Next, I will adjust the \"Learning Mode\" for the final part of the demonstration.</text>"
+
+,//18    
+    'In the \"Learning Mode\", this plays one note at time, in a step-by-step fashion.'
+
+,//19    
+    'This button plays one measure at a time or the current one until its end.'
+
+,//20    
+    'Use these text boxes to limit a set of numbered measures.<br>'+
+    'If you only fill in the first field, then the chosen measure will be repeated.<br>'+
+    'However, by filling both with appropriate numbers, the interval will be repeated.'
+
+,//21    
+    'This button will apply and execute the repetition you configured in the previous fields.'
+
+,//22    
+    'This stops any playback in progress and places the MIDI cursor at the starting point.'
+
+,//23    
+    'This opens a window linked to Youtube video lessons (if present).'
+
+,//24    
+    "<div class='enjoy_hint_backgr'>"+
+        "This is the final product of this app: a partiture with tablature.<br>"+
+        "To learn more about this tablature for accordions methodology, please, take a look at:<br>"+ 
+            "<text class='hint_link'>https://diatonicmap.com.br/tablature</text><br>"+
+        "You can also checkout the website version:<br>"+
+            "<text class='hint_link'>https://diatonicmap.com.br</text><br>"+
+        "<text class='hint_black'>Enjoy all the convenience of a bigger screen, with the same repertoire and many extra editing features!</text>"+
+    "</div>"
+
+,//25    
+    "<div class='enjoy_hint_backgr'>"+
+    "Finally, click <i class='ico-home'> to go back to the initial page and finish this tour.<br>"+
+    "Thank you for following this until here and I hope you enjoy this app.<br>"+
+    "You can reach me at <text class='hint_link'>flavio.vani@gmail.com</text><br>"+
+    "<text class='hint_black'>Your comments/suggestions/compliments or criticisms are welcome!</text><br>"+
+    "</div>"
+
+];
+
