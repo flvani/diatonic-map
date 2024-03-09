@@ -24,9 +24,6 @@ notação abc, tablatura " />
   <link rel="stylesheet" href="css/mapa.css" />
 
   <style>
-    body {
-      overflow: hidden;
-    }
     .myTopBar {
       position: fixed;
       top: 0px;
@@ -70,8 +67,10 @@ notação abc, tablatura " />
 
     .backgroundDivStyle {
       position: absolute;
-      height: 100vh;
-      width: 100vw;
+      top:0;
+      bottom:0;
+      height: 100%;
+      width: 100%;
       opacity: 0.5;
       background-image: url("../images/accordions/flowers.background.png");
     }
@@ -81,6 +80,10 @@ notação abc, tablatura " />
          .topTitle { min-width: 300px; width: auto;}
     }
 
+    @media (max-height: 500px) {
+         body { min-height: 540px; overflow-y: auto;}
+         .devTitle { position: relative; top: 150px;}
+    }
 
   </style>
 
