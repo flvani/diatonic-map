@@ -1,3 +1,104 @@
+
+section.policy-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: #1f4f66;
+    padding: 5px 20px;
+    line-height: 24px;
+    font-family: Merienda, Casino, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #ffffff;
+    box-shadow: 0 5px 12px 14px rgba(0, 0, 0, .06);
+    z-index: 1050;
+}
+.policy-section p {
+    margin: 20px;
+    max-width: 900px;
+    text-align: left;
+}
+section.policy-section a {
+    color: #ffffff;
+    text-decoration: underline;
+}
+.policy-actions {
+    margin: 20px;
+    display: flex;
+    flex-direction: column;
+}
+.policy-section-actions span.accept-policy-section {
+    margin: 5px;
+    padding: 5px 30px;
+    border-radius: 6px;
+    color: #ffffff;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid;
+    white-space: nowrap;
+}
+.policy-section-actions span.accept-policy-section:hover {
+    background: #ffffff;
+    color: #1f4f66;
+}
+
+@media (max-width: 500px) {
+    section.policy-section { flex-direction: column; }
+    .policy-section p { margin: 0; text-align: center; }
+    .policy-section-actions { margin: 10px 0 5px; }
+}
+
+.enjoy_hint_label {
+    z-index: 107;
+    color: white !important;
+    font-size: 24px !important;
+    font-family: Merienda, Casino !important;
+    background-color: rgb(0, 0, 0, 0) !important;
+    border-radius: 1.5em;
+    padding: 0.5em;
+}
+
+.enjoy_hint_backgr {
+    background-color: rgb(37, 207, 156) !important;
+    border-radius: 1.5em;
+    padding: 0.5em;
+}
+
+
+.hint_laranja {
+    color: rgb(252, 169, 3);
+    font-size: 19px;
+    font-style: italic;
+}
+
+.hint_link {
+    color: rgb(32, 79, 189);
+}
+
+.hint_tryit {
+    color: #2bff3c;
+}
+
+.hint_azul {
+    color: #00c8ff;
+}
+
+.hint_verde {
+    color: #2bff3c;
+}
+
+.hint_black {
+    color: black;
+    font-size: 19px;
+    font-style: italic;
+}
+
+.myClose {
+    top: 100px;
+}
+
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -227,10 +328,8 @@ body {
     margin: 0;
     padding: 0;
     height: 100%;
-    padding-top: 75px;  
-    
-    overflow: auto;
-    
+    padding-top: 75px;
+
     /* inicio - evita que textos fiquem selecionáveis */
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -247,36 +346,42 @@ body {
     */
     background-color: white;
 }
-    
+
 .topSettings {
-    position:absolute; 
-    top:10px; 
-    right:20px; 
+    position: absolute;
+    top: 10px;
+    right: 20px;
     font-size: 50px;
     color: #dab390;
-}    
+}
+
+.topDownload {
+    position: absolute;
+    top: 10px;
+    right: 150px;
+}
 
 .oldVersion {
-    position:absolute; 
-    top:60px; 
-    right:10px; 
+    position: absolute;
+    top: 60px;
+    right: 10px;
     font-size: 14px;
     color: #dab390;
     text-decoration: none;
-}    
+}
 
 .oldVersion:hover,
 .topSettings:hover {
-    color:#ff9922;
+    color: #ff9922;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    cursor:pointer;
-}    
+    cursor: pointer;
+}
 
 .topBar {
     z-index: 100;
     position: fixed;
     display: block;
-    top: 0; 
+    top: 0;
     left: 0;
     min-height: 70px;
     min-width: 640px;
@@ -285,12 +390,12 @@ body {
     padding: 0;
     padding-top: 4px;
     padding-left: 5px;
-    box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
-    -webkit-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
-    -moz-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
-    -ms-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
-    -o-box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.7);
-    
+    box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.7);
+    -webkit-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.7);
+    -ms-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.7);
+    -o-box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.7);
+
 }
 
 .gradiente {
@@ -301,21 +406,21 @@ body {
     background: linear-gradient(left, #003050 0%, black 100%);
     color: orange;
     color: #ff9922;
-    cursor:default;
+    cursor: default;
 }
 
 .topTitle {
     position: relative;
     float: left;
-    width: 100%;
-    font-family: 'RockSalt','RobotoBold';
+    width: max-content;
+    font-family: 'RockSalt', 'RobotoBold';
     font-weight: normal;
     font-size: 28px;
     text-align: left;
     line-height: 34px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     margin-top: 4px;
-    margin-bottom: 4px;
+    margin-bottom: 0;
     color: orange;
     color: #ff9922;
 
@@ -323,15 +428,14 @@ body {
 
 .topMenu {
     position: relative;
-    float: left;
-    display: anything;
+    display: inline-block;
     border: none;
     background: none;
     margin-top: 0px;
 }
 
 .mapaDiv {
-    position:absolute;
+    position: absolute;
     display: block;
     top: 75px;
     width: auto;
@@ -341,36 +445,39 @@ body {
 }
 
 .keyboardContainerStyle {
-    position: relative; 
-    top: 0; 
-    left: 0; 
-    padding-right: 130px; 
-    padding-bottom: 10px; 
-    min-height: 180px; 
-    height: auto; 
+    position: relative;
+    top: 0;
+    left: 0;
+    padding-right: 130px;
+    padding-bottom: 10px;
+    min-height: 180px;
+    height: auto;
     width: auto;
 }
 
 .accordionImageStyle {
-    position: absolute; 
-    top: 0; 
-    right: 0; 
+    position: absolute;
+    top: 0;
+    right: 0;
     margin-right: 15px;
 }
 
 .abcxVersionStyle {
-    position: absolute; 
-    bottom: 2px; 
+    position: absolute;
+    bottom: 2px;
     right: 5px;
-    color: rgba(0,0,0,0.8); 
-    font-family: 'Merienda'; 
-    font-size:12px; 
+    color: rgba(0, 0, 0, 0.8);
+    font-family: 'Merienda';
+    font-size: 12px;
 }
 
 .menu-group {
-    margin:20px;
+    margin: 20px;
 }
 
+.btn-group {
+    display: inline-flex;
+}
 
 .btn-group b,
 .btn-group label,
@@ -383,7 +490,7 @@ body {
 }
 
 .btn-group input[type="text"] {
-    margin-top:0px;
+    margin-top: 0px;
     font-family: "Merienda";
 }
 
@@ -396,30 +503,37 @@ body {
     background-color: #D4482D;
 }
 
-.dButton > a { color: #dab390; text-decoration: none }
-.dButton > a { color: white; text-decoration: none }
+.dButton>a {
+    color: #dab390;
+    text-decoration: none
+}
+
+.dButton>a {
+    color: white;
+    text-decoration: none
+}
 
 
 .dropdown-menu .selected {
-    background:  #6E2518 !important;
+    background: #6E2518 !important;
 }
- 
+
 .printPreviewClass {
-    position:absolute;
-    display:none;
-    top:0;
-    left:0;
+    position: absolute;
+    display: none;
+    top: 0;
+    left: 0;
     margin: 0;
     padding: 0;
-    width:100%; 
-    height: 100%; 
+    width: 100%;
+    height: 100%;
     background-color: #fff;
     z-index: 1000;
 }
 
 .studioDiv {
     position: absolute;
-    display:none;
+    display: none;
     left: 0;
     top: 78px;
     width: 100%;
@@ -428,7 +542,7 @@ body {
 }
 
 .controlDiv {
-    clear:both;
+    clear: both;
     position: relative;
     display: inline-block;
     margin: 0;
@@ -440,7 +554,7 @@ body {
     background-color: #e9edf0;
     border-bottom: 1px solid rgba(255, 0, 0, 0.1);
     border-bottom: 1px solid rgba(255, 153, 34, 0.2);
-/*
+    /*
     box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
     -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
     -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
@@ -450,7 +564,7 @@ body {
 }
 
 .warningsDiv {
-    clear:both;
+    clear: both;
     position: relative;
     display: inline-block;
     margin: 0;
@@ -466,7 +580,7 @@ body {
 }
 
 .studioCanvasDiv {
-    clear:both;
+    clear: both;
     position: relative;
     display: block;
     margin: 0px;
@@ -482,24 +596,24 @@ body {
 
 
 .canvasDiv {
-    clear:both;
+    clear: both;
     position: relative;
     display: inline-block;
     padding: 3px;
     margin: 4px;
-    border: 1px solid rgba(159,159,159,0.2);
-    background-color: #f1f1dd; 
-    background-color: honeydew; 
-    background-color: ivory; 
-    background-color: aliceblue; 
-    background-color: azure; 
-    background-color: mintcream; 
+    border: 1px solid rgba(159, 159, 159, 0.2);
+    background-color: #f1f1dd;
+    background-color: honeydew;
+    background-color: ivory;
+    background-color: aliceblue;
+    background-color: azure;
+    background-color: mintcream;
     width: auto;
     height: auto;
-    min-width: 800px; 
-    box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-    -webkit-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-    -moz-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-    -ms-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
-    -o-box-shadow: 6px 6px 6px -3px rgba(0,0,0,0.7);
+    min-width: 800px;
+    box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -webkit-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -ms-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -o-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
 }

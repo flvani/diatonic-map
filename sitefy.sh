@@ -2,8 +2,8 @@
 
 assets_folder="../site-hostinger"
 
-FILES="./privacy ./privacidade ./app ./site ./soundfont ./ace4abcx ./fontsGoogle ./fontsIco ./chords ./accordions ./tabs ./images \
-       ./css ./html ./src ./languages ./diatonic ./file ./practices ./repertorio ./tablature ./abcxjs ./jslib ./jquery \
+FILES="./privacy ./lib ./app ./mapa ./soundfont ./ace4abcx ./fontsGoogle ./fontsIco ./chords ./accordions ./tabs ./images \
+       ./css ./html ./src ./languages ./diatonic ./file ./practices ./repertorio ./tablature ./abcxjs ./jslib  \
        ./.htaccess ./index.html ./mapa.html ./mapa-debug.html ./app.html ./app-debug.html"
 
 rm -rf $assets_folder/*

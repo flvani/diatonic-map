@@ -44,11 +44,7 @@ section.policy-section a {
     color: #1f4f66;
 }
 
-@media (max-width: 1024px) {
-    section.policy-section { width: initial; }
-    section.policy-section br { display: none; }
-}
-@media (max-width: 579px) {
+@media (max-width: 500px) {
     section.policy-section { flex-direction: column; }
     .policy-section p { margin: 0; text-align: center; }
     .policy-section-actions { margin: 10px 0 5px; }

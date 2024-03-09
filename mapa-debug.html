@@ -30,7 +30,7 @@ notação abc, tablatura " />
         <link rel="stylesheet" href="css/mapa.css" />
         <link rel="stylesheet" href="css/enjoyhint.css" >
         <link rel="stylesheet" href="css/enjoyhint.extras.css" >
-        <link rel="stylesheet" href="css/policy-section.css" >
+        <link rel="stylesheet" href="css/policy-terms.css" >
 
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-3RXNND5N5Y"></script>
@@ -45,7 +45,7 @@ notação abc, tablatura " />
     <body>
         
         <script type="text/javascript" src="jslib/proto_noconflict.js" ></script>
-        <script type="text/javascript" src="jquery/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript" src="jslib/jquery-3.7.1.min.js"></script>
         
         <!-- suporte a arquivos ABC -->
         <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs.js" ></script>
@@ -278,8 +278,8 @@ notação abc, tablatura " />
         <div id="tipsDiv" class="tips" style="transform:scale(0.8);" ><a href="html/release.pt_BR.html" target="_blank" ><span data-translate="ReleaseNotesNotice"></span></a></div>
 
         <section class="policy-section" style="display: none;">
-            <p><span data-translate="PrivacyDesc">We use cookies to improve the "Map for Accordions" experience. To learn more, read our</span>&nbsp;
-                 <a data-translate="PrivacyLink" href="/privacy/policy.html" target="_blank"><span data-translate="PrivacyTitle">Privacy Policy</span></a>.</p>
+            <p><span data-translate="PrivacyDesc">We use cookies to improve the "Map for Accordions" experience.<br>To learn more, read our</span>&nbsp;
+                 <a data-translate="PrivacyLink" href="/privacy" target="_blank"><span data-translate="PrivacyTitle">Privacy Policy</span></a>.</p>
             <div class="policy-section-actions policy-section">
                 <span data-translate="GotIt" class="accept-policy-section">Got It!</span>
             </div>
@@ -505,9 +505,6 @@ notação abc, tablatura " />
                     }, 5000);
                 }
                 
-                //(new SITE.Repertorio()).compileAll();
-                //(new SITE.Repertorio()).geraIndex();
-
                 if(!SITE.properties.options.guidedTour){
 
                     initEnjoyVars(); 
@@ -520,6 +517,10 @@ notação abc, tablatura " />
                     SITE.myTour.run();
                     
                 }
+
+                //(new SITE.Repertorio()).compileAll();
+                //(new SITE.Repertorio()).geraIndex();
+
                 
             }
             

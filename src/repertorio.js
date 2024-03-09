@@ -324,7 +324,7 @@ h += '<h2>Repertório Geral</h2>\n\
 };        
 
 SITE.Repertorio.prototype.makeAnchor = function( map, accordionId, songId  ) {
-    var path = '/';
+    var path = '/mapa';
     var anchor = '<img alt="nao" src="/images/nao.png" >';
     if( songId > 0 ) {
         if( map ) {

@@ -44,11 +44,7 @@ section.policy-section a {
     color: #1f4f66;
 }
 
-@media (max-width: 1024px) {
-    section.policy-section { width: initial; }
-    section.policy-section br { display: none; }
-}
-@media (max-width: 579px) {
+@media (max-width: 500px) {
     section.policy-section { flex-direction: column; }
     .policy-section p { margin: 0; text-align: center; }
     .policy-section-actions { margin: 10px 0 5px; }
@@ -326,6 +322,10 @@ and open the template in the editor.
     Author     : Flávio Vani 
 */
 
+html {
+    height: calc(100% - 75px);
+}
+
 body {
     font-family: 'Arial';
     font-size: 16px;
@@ -340,45 +340,21 @@ body {
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
+    user-select: none;
     /* fim - evita que textos fiquem selecionáveis */
-    /*
-    background:url("../images/background.fole.png");
-    background-repeat: repeat;
-    background-size:  100%, 100%;
-    background-origin: content-box;
-    background-color: #ededed;
-    */
+
     background-color: white;
 }
 
-.topSettings {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 50px;
-    color: #dab390;
-}
-
-.topDownload {
-    position: absolute;
-    top: 10px;
-    right: 150px;
-}
-
-.oldVersion {
-    position: absolute;
-    top: 60px;
-    right: 10px;
-    font-size: 14px;
-    color: #dab390;
-    text-decoration: none;
-}
-
-.oldVersion:hover,
-.topSettings:hover {
+.gradiente {
+    background: -moz-linear-gradient(left, #003050 0%, black 100%);
+    background: -webkit-linear-gradient(left, #003050 0%, black 100%);
+    background: -o-linear-gradient(left, #003050 0%, black 100%);
+    background: -ms-linear-gradient(left, #003050 0%, black 100%);
+    background: linear-gradient(left, #003050 0%, black 100%);
+    color: orange;
     color: #ff9922;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
+    cursor: default;
 }
 
 .topBar {
@@ -402,68 +378,77 @@ body {
 
 }
 
-.gradiente {
-    background: -moz-linear-gradient(left, #003050 0%, black 100%);
-    background: -webkit-linear-gradient(left, #003050 0%, black 100%);
-    background: -o-linear-gradient(left, #003050 0%, black 100%);
-    background: -ms-linear-gradient(left, #003050 0%, black 100%);
-    background: linear-gradient(left, #003050 0%, black 100%);
-    color: orange;
+.topSettings {
+    position: absolute;
+    top: 10px;
     color: #ff9922;
-    cursor: default;
+    font-size: 46px;
+    left: 25px !important;
+    width: fit-content;
+}
+
+.topSettings:hover {
+    color: #ff9922;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
 }
 
 .topTitle {
     position: relative;
     float: left;
-    width: max-content;
+    width: 100%;
     font-family: 'RockSalt', 'RobotoBold';
     font-weight: normal;
-    font-size: 28px;
     text-align: left;
-    line-height: 34px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     margin-top: 4px;
-    margin-bottom: 0;
-    color: orange;
+    margin-bottom: 4px;
     color: #ff9922;
-
+    left: 80px;
+    line-height: 63px;
+    font-size: 32px;
 }
 
 .topMenu {
     position: relative;
-    display: inline-block;
+    float: left;
+    display: anything;
     border: none;
     background: none;
     margin-top: 0px;
 }
 
-.mapaDiv {
-    position: absolute;
-    display: block;
-    top: 75px;
-    width: auto;
-    height: auto;
-    z-index: 50;
-    margin-left: 2px;
+
+.appDiv {
+    display: none;
 }
 
-.keyboardContainerStyle {
-    position: relative;
-    top: 0;
-    left: 0;
-    padding-right: 130px;
-    padding-bottom: 10px;
-    min-height: 180px;
-    height: auto;
-    width: auto;
+.backgroundDivStyle {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    opacity: 0.5;
+    background-image: url("../images/accordions/flowers.background.png");
 }
+
 
 .accordionImageStyle {
     position: absolute;
-    top: 0;
-    right: 0;
-    margin-right: 15px;
+    right: 40px;
+    top: 40px;
+}
+
+.shadow {
+    position: absolute;
+    bottom: 40px;
+    left: 25%;
+    width: 60%;
+    height: 15px;
+    /*z-index: 100;*/
+    border: none;
+    border-radius: 67%;
+    background: rgba(100, 100, 100, 0.4);
+    box-shadow: 0 0 15px 15px rgba(100, 100, 100, 0.4);
 }
 
 .abcxVersionStyle {
@@ -471,16 +456,22 @@ body {
     bottom: 2px;
     right: 5px;
     color: rgba(0, 0, 0, 0.8);
+    left: 20px;
+    bottom: 20px;
+    width: 100%;
+}
+
+.abcxVersionStyle a {
+    text-decoration: none;
     font-family: 'Merienda';
-    font-size: 12px;
+    font-size: 18px;
+    position: absolute;
+    right: 100px;
+    bottom: 0px;
 }
 
 .menu-group {
     margin: 20px;
-}
-
-.btn-group {
-    display: inline-flex;
 }
 
 .btn-group b,
@@ -498,18 +489,31 @@ body {
     font-family: "Merienda";
 }
 
+.btn-group button {
+    height: 44px;
+}
+
 .btn-group button:hover {
-    background-color: lavenderblush;
+    height: 40px;
+    background: lavender;
+    cursor: pointer;
 }
 
-.dropdown-menu .hover {
-    background-color: #ff3a3a;
-    background-color: #D4482D;
+.btn-subgroup {
+    height: 44px;
 }
 
-.dButton>a {
-    color: #dab390;
-    text-decoration: none
+.input-group {
+    float: left;
+    margin-top: -2px;
+    font-size: 20px;
+    height: 44px !important;
+    line-height: 44px !important;
+}
+
+.input-group>input {
+    font-size: 18px;
+    width: 2.5em;
 }
 
 .dButton>a {
@@ -517,9 +521,22 @@ body {
     text-decoration: none
 }
 
+.dropdown-menu {
+    border-radius: 5px;
+}
+
+.dropdown-menu .hover {
+    background-color: #ff3a3a;
+    background-color: #D4482D;
+}
 
 .dropdown-menu .selected {
     background: #6E2518 !important;
+}
+
+.dropdown-menu li {
+    font-size: 28px;
+    line-height: 28px;
 }
 
 .printPreviewClass {
@@ -535,89 +552,186 @@ body {
     z-index: 1000;
 }
 
-.studioDiv {
+.rounded-corners {
+    min-width: 510px;
+    background: -moz-linear-gradient(left, #003050 0%, black 100%);
+    background: -webkit-linear-gradient(left, #003050 0%, black 100%);
+    background: -o-linear-gradient(left, #003050 0%, black 100%);
+    background: -ms-linear-gradient(left, #003050 0%, black 100%);
+    background: linear-gradient(left, #003050 0%, black 100%);
+}
+
+.rounded-corners>h1 {
+    background: transparent;
     position: absolute;
-    display: none;
-    left: 0;
-    top: 78px;
+    width: fit-content;
+    left: 0px;
+    top: -38px;
+    font-size: 20px;
+    padding: 0 5px 0 5px;
+}
+
+.rounded-corners>button {
     width: 100%;
-    height: auto;
-    z-index: 50;
+}
+
+.slide-thumb>span {
+    opacity: 0.6;
+    font-size: 18px;
+}
+
+.draggableToolBarApp {
+    clear: both;
+    font-family: "abcx";
+    height: 44px;
+    line-height: 44px;
+    width: calc(100% - 2px);
+    font-size: 16px;
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    padding: 1px;
+    pointer-events: auto;
+    background: lightblue;
+    background-color: #EBEBEB;
+    background: #e9edf0;
+    border-bottom: 1px solid rgba(100, 100, 100, 0.5);
+    /*
+    background: -moz-linear-gradient(left, #003050 0%, black 100%) !important;
+    background: -webkit-linear-gradient(left, #003050 0%, black 100%) !important;
+    background: -o-linear-gradient(left, #003050 0%, black 100%) !important;
+    background: -ms-linear-gradient(left, #003050 0%, black 100%) !important;
+    background: linear-gradient(left, #003050 0%, black 100%) !important;
+*/
+}
+
+.draggableToolBarApp button {
+    position: relative;
+    display: block;
+    float: left;
+    text-align: left;
+    font-family: 'Milonga', 'Arial';
+    font-weight: normal;
+    font-size: 32px;
+    line-height: 32px;
+    height: 32px;
+    width: auto;
+    text-shadow: 2px 1px 2px rgba(50, 50, 50, 0.8);
+    left: 0;
+    margin: 0;
+    margin-left: 4px;
+    padding: 4px;
+    outline: none !important;
+    border: none;
+    color: #ff9922;
+    color: red;
+    background-color: transparent;
+
+}
+
+.playtime-label {
+    height: 20px !important;
+    line-height: 20px !important;
+    width: 90px !important;
+    font-size: 28px !important;
+    margin: 2px 4px 1px 4px;
+    color: #ff9922 !important;
+    color: red !important;
+
 }
 
 .controlDiv {
     clear: both;
     position: relative;
     display: inline-block;
-    margin: 0;
-    padding: 3px;
-    /* font-size: 15px; */
-    width: inherit;
-    height: auto;
-    background-color: #dadada;
-    background-color: #e9edf0;
-    border-bottom: 1px solid rgba(255, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(255, 153, 34, 0.2);
-    /*
-    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
-    -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
-    -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
-    -ms-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
-    -o-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.7);
-    */
-}
-
-.warningsDiv {
-    clear: both;
-    position: relative;
-    display: inline-block;
-    margin: 0;
-    padding: 3px;
-    padding-left: 13px;
-    /* font-size: 15px; */
-    width: inherit;
-    height: auto;
-    background-color: #dadada;
-    background-color: #e9edf0;
-    border-bottom: 1px solid rgba(255, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(255, 153, 34, 0.2);
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    background-color: #f1f1f1 !important;
+    border-bottom: 2px solid rgba(255, 153, 34, 0.2) !important;
 }
 
 .studioCanvasDiv {
-    clear: both;
     position: relative;
-    display: block;
-    margin: 0px;
-    /*
-    margin-top: 6px;
-    margin-left: 4px;
-    */
-    width: auto;
+    left: 0;
+    top: 0;
+    padding: 0 !important;
+    width: 100%;
     height: auto;
-    overflow-y: auto;
-    background-color: #e9edf0;
+    float: left;
+    overflow: hidden;
+    background-color: white;
+
+    /*    
+    background-color: #f1f1f1;
+    background-color: rosybrown;
+    margin: 0 !important;
+    margin-top: 2px !important;
+*/
+
 }
 
-
-.canvasDiv {
-    clear: both;
-    position: relative;
+.outerKeyboardDiv {
     display: inline-block;
-    padding: 3px;
-    margin: 4px;
-    border: 1px solid rgba(159, 159, 159, 0.2);
-    background-color: #f1f1dd;
-    background-color: honeydew;
-    background-color: ivory;
-    background-color: aliceblue;
-    background-color: azure;
-    background-color: mintcream;
-    width: auto;
-    height: auto;
-    min-width: 800px;
+    position: relative;
+    vertical-align: top;
+    background-color: #f1f1f1 !important;
     box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
     -webkit-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
     -moz-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
     -ms-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
     -o-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 4px;
+}
+
+.outerCanvasDiv {
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -webkit-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -moz-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -ms-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    -o-box-shadow: 6px 6px 6px -3px rgba(0, 0, 0, 0.7);
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-right: 4px;
+}
+
+.keyboardDiv {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.keyboardDivLeft {
+    float: left;
+}
+
+
+.canvasDiv {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    background-color: yellowgreen;
+    background-color: honeydew;
+    background-color: mintcream;
+}
+
+/*
+    background-color: #f1f1dd;
+    background-color: honeydew;
+    background-color: ivory;
+    background-color: mintcream;
+    background-color: aliceblue;
+    background-color: azure; 
+*/
+
+.flip-vert {
+    -moz-transform: scale(-1, 1);
+    -o-transform: scale(-1, 1);
+    -webkit-transform: scale(-1, 1);
+    transform: scale(-1, 1);
 }

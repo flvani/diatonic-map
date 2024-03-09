@@ -4,7 +4,7 @@
   <title data-translate="appName">Mapa para Acordeões Diatônicos</title>
   <meta charset="UTF-8" />
   <link rel="icon" type="image/icon" href="images/favicon.ico" />
-  <meta name="viewport" content="height=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0" />
+  <meta name="viewport" content="initial-scale=1.0" />
 
   <meta name="robots" content="index,follow" />
   <meta name="revisit-after" content="7 days" />
@@ -24,6 +24,9 @@ notação abc, tablatura " />
   <link rel="stylesheet" href="css/mapa.css" />
 
   <style>
+    body {
+      overflow: hidden;
+    }
     .myTopBar {
       position: fixed;
       top: 0px;
@@ -72,6 +75,13 @@ notação abc, tablatura " />
       opacity: 0.5;
       background-image: url("../images/accordions/flowers.background.png");
     }
+
+    @media (max-width: 500px) {
+         .myTopBar { min-width: 300px; width: auto;}
+         .topTitle { min-width: 300px; width: auto;}
+    }
+
+
   </style>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -131,12 +141,12 @@ notação abc, tablatura " />
     <h2>Welcome to the new "Map for Accordions" website!</h2>
     <ul>
       <li id="i1">
-        <a target="_blank" href="/mapa.html">
+        <a target="_blank" href="/mapa">
           <h3>Access the Map – desktop version.</h3>
         </a>
       </li>
       <li id="i1">
-        <a target="_blank" href="/app.html">
+        <a target="_blank" href="/app">
           <h3>Access the App – desktop version.</h3>
         </a>
       </li>
@@ -160,18 +170,23 @@ notação abc, tablatura " />
           <h3>Read the Privacy Policy.</h3>
         </a>
       </li>
+      <li id="i1">
+        <a target="_blank" href="/privacy/about">
+          <h3>Read about this project.</h3>
+        </a>
+      </li>
     </ul>
   </div>
   <div id="es-ES-div" class="myDiv">
     <h2>¡Bienvenidos al nuevo sitio web "Mapa para Acordeones"!</h2>
     <ul>
       <li id="i1">
-        <a target="_blank" href="/mapa.html">
+        <a target="_blank" href="/mapa">
           <h3>Acceda al Mapa - versión de escritorio.</h3>
         </a>
       </li>
       <li id="i1">
-        <a target="_blank" href="/app.html">
+        <a target="_blank" href="/app">
           <h3>Acceda a la Aplicación – versión de escritorio.</h3>
         </a>
       </li>
@@ -195,18 +210,23 @@ notação abc, tablatura " />
           <h3>Lea la Política de Privacidad.</h3>
         </a>
       </li>
+      <li id="i1">
+        <a target="_blank" href="/privacy/about">
+          <h3>Lea acerca de este proyecto.</h3>
+        </a>
+      </li>
     </ul>
   </div>
   <div id="pt-BR-div" class="myDiv">
     <h2>Bem-vindo ao novo site do "Mapa para Acordeões"!</h2>
     <ul>
       <li id="i1">
-        <a target="_blank" href="/mapa.html">
+        <a target="_blank" href="/mapa">
           <h3>Acesse o Mapa - versão desktop.</h3>
         </a>
       </li>
       <li id="i1">
-        <a target="_blank" href="/app.html">
+        <a target="_blank" href="/app">
           <h3>Acesse o Aplicativo – versão desktop.</h3>
         </a>
       </li>
@@ -228,6 +248,11 @@ notação abc, tablatura " />
       <li id="i1">
         <a target="_blank" href="/privacy">
           <h3>Leia a Política de Privacidade.</h3>
+        </a>
+      </li>
+      <li id="i1">
+        <a target="_blank" href="/privacy/about">
+          <h3>Leia sobre este projeto.</h3>
         </a>
       </li>
     </ul>

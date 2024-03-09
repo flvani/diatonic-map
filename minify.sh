@@ -23,21 +23,21 @@ cat tmp/site-part.js src/partgen.js src/partedit.js src/tabgen.js src/t2p_parser
 
 cat css/policy-terms.css css/enjoyhint.extras.css css/media.css css/mapa.css > tmp/site.css
 
-cp tmp/site.css site/site_$1.css
-cp tmp/site.js  site/site_$1.js
+cp tmp/site.css lib/site_$1.css
+cp tmp/site.js  lib/site_$1.js
 
 echo "Concatenating app files..."
 cat src/properties.js src/translate.js src/media.js src/modal.js src/appview.js src/app.js src/app.tour.js > tmp/libapp.js
 
 cat css/policy-terms.css css/enjoyhint.extras.css css/media.css css/app.css > tmp/libapp.css
 
-cp tmp/libapp.css app/libapp_$2.css
-cp tmp/libapp.js  app/libapp_$2.js
+cp tmp/libapp.css lib/libapp_$2.css
+cp tmp/libapp.js  lib/libapp_$2.js
 
 echo "Compressing Site $1..."
-java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o  site/site_$1-min.js tmp/site.js
-java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o  site/site_$1-min.css tmp/site.css
+java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o  lib/site_$1-min.js tmp/site.js
+java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o  lib/site_$1-min.css tmp/site.css
 
 echo "Compressing Lib App $2..."
-java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o  app/libapp_$2-min.js tmp/libapp.js
-java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o  app/libapp_$2-min.css tmp/libapp.css
+java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o  lib/libapp_$2-min.js tmp/libapp.js
+java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o  lib/libapp_$2-min.css tmp/libapp.css
