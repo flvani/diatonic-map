@@ -2,337 +2,421 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN" "http://www.w3.org/Math/DTD/mathml2/xhtml-math11-f.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="pt-BR">
 
-<head>
-    <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
-    <title xml:lang="en-US">Accordion Diatonic Tablature</title>
-    <link rel="icon" type="image/icon" href="images/favicon.ico" />
-    <link rel="stylesheet" href="../fontsGoogle/fontsGoogle.css" />
-    <link rel="stylesheet" href="tablature.css" />
-</head>
+    <head>
+        <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+        <title xml:lang="en-US">Diatonic Accordion Tablature</title>
+        <link rel="icon" type="image/icon" href="images/favicon.ico" />
+        <link rel="stylesheet" href="../fontsGoogle/fontsGoogle.css" />
+        <link rel="stylesheet" href="tablature.css" />
+    </head>
 
-<body dir="ltr" style="max-width:21cm; margin-top:1cm; margin-bottom:1cm; margin-left:1cm; margin-right:1cm; ">
-    <div class="idiom">
-        <button style="display:none;" onclick="window.location.href = '/tablature/tablature.en-US.html'">
-            <img src="../images/en_US.png">&nbsp;English</button>
-        <button style="display:inline;" onclick="window.location.href = '/tablature/tablature.es-ES.html'">
-            <img src="../images/es_ES.png">&nbsp;Español</button>
-        <button style="display:inline;" onclick="window.location.href = '/tablature/tablature.pt-BR.html'">
-            <img src="../images/pt_BR.png">&nbsp;Português</button>
-    </div>
-    <p class="h1">Accordion Diatonic Tablature</p>
-    <p>Diatonic accordion tablature represents a valuable and accessible tool for musical initiation, especially for those without
-        traditional training in sheet music reading. Before addressing the specifics and benefits of tablature for this peculiar instrument,
-        it's important to understand what it means and how it differs from conventional music notation.</p>
-    <p class="h2">What is Tablature?</p>
-    <p>Tablature is an alternative form of music notation intended to simplify the learning of an instrument. Unlike traditional sheet
-        music, which requires knowledge of music notation to interpret notes and rhythms, tablature provides direct indications on how to
-        play the instrument. In the context of the diatonic accordion, this involves indicating which button to press and, in some cases,
-        whether the bellows should be open or closed.</p>
-    <p class="h2">Specificity of the Diatonic Accordion</p>
-    <p>The diatonic accordion differs from other instruments, such as the piano, due to its unique organization of notes. While the piano
-        presents a linear sequence of notes, from low to high, the diatonic accordion organizes the notes in a less intuitive way for
-        beginners. This characteristic makes tablature particularly useful for this instrument, as it can guide the learner on which button
-        to press without the need to understand the complex arrangement of notes on the instrument.</p>
-    <p class="h2">Bissonority</p>
-    <p>One fundamental characteristic of the diatonic accordion still remains to be mapped. Bissonority, meaning the functionality that each
-        button has to emit two different sounds: opening the bellows plays one note or chord and, closing the bellows, another different
-        one.</p>
-    <p>In our Map, we use split circles to represent the accordion buttons. Always, the upper half of the button represents the note (or
-        chord) when the bellows are closed and the lower half, the note (or chord) that sounds when opening the bellows.</p>
-    <p class="h2">Limitations of Tablature</p>
-    <p>Despite its advantages in facilitating initial learning, tablature for the diatonic accordion has limitations. One of the main ones
-        is the absence of indication about the duration of the notes. While traditional sheet music provides a complete understanding of the
-        musical piece, including rhythm and dynamics, tablature mainly focuses on the location of the notes. This means that musical
-        interpretation and expressiveness can be compromised if the musician relies exclusively on tablature.</p>
-    <p>Another aspect is that tablature is generated, particularly, for each instrument. For example, suppose there is a "G" note in a given
-        score. The tablature will indicate exactly which button should be pressed on this instrument, let's say, the fifth button of the
-        inner row. If we change instruments, it may be that the same "G" note is present in a completely different position or it may not
-        even exist on this new instrument.</p>
-    <p class="h2">Diversity and Challenges of Tablature Models</p>
-    <p>Tablature stands out for its simplified language, a less formal alternative to the conventional notation found in sheet music. This
-        simplicity allows tablature models to take on varied forms, reflecting the flexibility and adaptability of this notation system.
-        Although this variety brings the advantage of decentralizing the representative process, making tablatures potentially more
-        accessible to different learning styles, it can also introduce significant challenges. The diversity of formats, while reflecting
-        the customization of learning, can complicate the exchange of information between musicians. Each variation of tablature, being
-        unique to the instrument or to the individual preference of the musician, may not be immediately understandable to others, requiring
-        a period of adaptation or even the search for a common denominator in terms of graphical representation and symbols used.</p>
-    <p class="h2">Importance of Standardization</p>
-    <p>Standardizing basic elements in tablatures can be an effective solution to facilitate communication and exchange of musical pieces
-        between musicians from different schools. The creation of a set of guidelines or universal symbols that allow clear representation
-        of specific actions, such as the direction of the bellows in the diatonic accordion, button and row numbering, as well as the way to
-        represent bass buttons, among others, is proposed. This approach would maintain the accessible and uncomplicated nature of
-        tablatures, while providing a common basis to significantly improve the exchange of musical information. It is important to note
-        that this standardization would not eliminate customization and flexibility, characteristics that make tablatures especially
-        attractive to musicians.</p>
+    <body dir="ltr" style="max-width:21cm; margin-top:1cm; margin-bottom:1cm; margin-left:1cm; margin-right:1cm; ">
+        <div class="idiom">
+            <button style="display:none;" onclick="window.location.href = '/tablature/tablature.en-US.html'">
+                <img src="../images/en_US.png">&nbsp;English</button>
+            <button style="display:inline;" onclick="window.location.href = '/tablature/tablature.es-ES.html'">
+                <img src="../images/es_ES.png">&nbsp;Español</button>
+            <button style="display:inline;" onclick="window.location.href = '/tablature/tablature.pt-BR.html'">
+                <img src="../images/pt_BR.png">&nbsp;Português</button>
+        </div>
+        <p class="h1">Diatonic Accordion Tablature</p>
 
-    <p class="h2">Tablature Formats Used</p>
+        <p>Diatonic accordion tablature represents a valuable and accessible tool for musical initiation, especially for
+            those without
+            traditional training in sheet music reading. Before addressing the specifics and benefits of tablature for
+            this peculiar instrument,
+            it's important to understand what it means and how it differs from conventional music notation.</p>
 
-    <p>In our "Map for Diatonic Accordions", we have chosen 3 different formats to offer some different options to those learning the
-        instrument and, at the same time, not create too many differentiations. These are:</p>
-    <section class="s1">
-        <ul>
-            <li>
-                <p>German Format</p>
-            </li>
-            <li>
-                <p>Cyclical Numeric Format</p>
-            </li>
-            <li>
-                <p>Continuous Numeric Format</p>
-            </li>
-        </ul>
-    </section>
-    <p>Note: For each of them, there may be variations, as we will explain below.</p>
+        <p class="h2">What is Tablature?</p>
+        <p>Tablature is an alternative form of musical notation aimed at simplifying the learning of an
+            instrument. Unlike traditional sheet music, which requires knowledge of musical notation to
+            interpret notes and rhythms, tablature provides direct indications on how to play the instrument. In
+            the context of the diatonic accordion, this means indicating which button should be pressed and whether the
+            bellows should be pulled or pushed.</p>
 
-    <p class="h2">German Format</p>
+        <p class="h2">The Specificity of the Diatonic Accordion</p>
+        <p>The diatonic accordion is distinguished from other instruments, like the piano, by its unique organization of
+            notes. While the piano displays a linear sequence of notes, from low to high, the diatonic accordion
+            organizes notes in a way that is less intuitive for the novice. This feature makes tablature
+            particularly useful for this instrument, as it can guide the learner on which button to press without the
+            need to understand the complex arrangement of notes on the instrument.</p>
 
-    <p>This format is called "German Format" because it has been derived from the teachings of Yann Dour, in his book "Schule für
-        Diatonisches Akkordion – Band 1". Essentially, the buttons in each row are numbered, from top to bottom, that is, from the chin
-        towards the knees, from 1 to "n", where "n" represents the last button of the row. Apostrophes "'" are used to differentiate the
-        rows, where the first row (the outermost one) does not have any apostrophe; the second row has one character; the third row has two
-        characters "''" and so on, adding an extra apostrophe to each new row.</p>
+        <p class="h2">Bisonority</p>
+        <p>Another fundamental characteristic of the diatonic accordion is bisonority, that is, the capability of each
+            button to produce two different sounds: one note (or chord) will sound when pulling the bellows and, when
+            pushing the bellows, pressing the same button, a different note (or chord) will be heared.
+            For this reason, the tablature for the diatonic accordion necessarily needs to indicate the movement of the
+            bellows.</p>
 
-    <section class="s3">
-        <p class="h3">Note about the bass:</p>
-        <p class="p3">In our project, for any tablature format, the bass will always be represented by the
-            <a href="#cifras">"Chord Notation System"</a>. We understand that when dealing with diatonic accordions,
-            we are talking about a very limited number of buttons in the bass section (usually 8 or 12), making
-            them easy to memorize. Some tablature systems number both the melody lines
-            (right hand) and the bass lines (left hand).
+        <p class="h2">Limitations of Tablature</p>
+        <p>Despite its advantages in facilitating initial learning, tablature for the diatonic accordion
+            has limitations. Maybe, the more significative one is the absence of indication of the notes' duration.
+            While traditional sheet music provides a complete understanding of the musical piece, including rhythm and
+            dynamics, tablature focuses mainly on the location of notes. This means that musical interpretation and
+            expressiveness can be compromised if the musician relies exclusively on tablature. To overcome this
+            limitation, and, as a way to encourage reading traditional sheet music, tablatures are always shown
+            immediately below the staff of the sheet music.
         </p>
-        <p class="p3">Another peculiarity of the bass buttons is that they can represent individual notes or
-            chords (which can be major or minor). For these representations, we have adopted the following patterns:</p>
-        <ul>
-            <li>
-                <p class="p3">Bass note: Uppercase letter - e.g., Note “A”, letter “A”</p>
-            </li>
-            <li>
-                <p class="p3">Major chord: Lowercase letter - e.g., Major chord “A”, letter “a”</p>
-            </li>
-            <li>
-                <p class="p3">Minor chord: Lowercase letter and hyphen - e.g., Minor chord "A minor”, letter “a-”</p>
-            </li>
-        </ul>
-    </section>
+        <p>Another relevant aspect of tablature is that it is generated, particularly, for each instrument.
+            Suppose there is a "G" note in a given sheet music.
+            The tablature will indicate exactly, for the instrument in question, which button should be pressed,
+            for example, "the fifth button of the inner row, pushing the bellows".
+            If we change the instrument, it may be possible that the same "G" note is present in a completely different
+            position
+            or it may does not even exist on this new instrument. The initial tablature becomes invalid and
+            needs to be recreated.</p>
 
-    <p>Consider the key layout of a given accordion, as shown in the image below and to the left:</p>
+        <p class="h2">Diversity and Challenges of Tablature Formats</p>
+        <p>Tablature stands out for its simplified language, a less formal alternative to the
+            conventional notation found in sheet music. This simplicity allows tablature models to take
+            various forms, reflecting the flexibility and adaptability of this notation system. Although such variety
+            brings
+            the advantage of decentralizing the representative process, making tablatures potentially more
+            accessible to different learning styles, it also can introduce significant challenges.</p>
+        <p> The diversity of formats, while reflecting the personalization of learning, can complicate the sharing of
+            information among musicians. Each variation of tablature, being unique to the instrument or to the
+            individual preference of the musician, may not be immediately understandable to others, requiring a period
+            of adaptation or
+            even the search for a common denominator in terms of graphic representation and symbols used.</p>
 
-    <div style="display: inline-block; width: 100%;">
-        <div id="Image1" style="width: 40%; display: inline-flex; float: left;">
-            <img style="margin-left:3em; height:16cm;" alt="" src="fig01.png" />
+        <p>For this reason, a certain degree of standardization is desirable. Guidelines or universal symbols that allow
+            clear representation
+            of specific actions, like the direction of bellows movement in the diatonic accordion, the numbering of
+            buttons and rows,
+            and how to represent the bass buttons, among others, are necessary elements.</p>
+
+        <p> This approach maintains the accessible and uncomplicated nature of tablatures, at
+            the same time as it provides a common base to significantly improve the exchange of musical
+            information. It is important to stress, such standardization does not eliminate personalization and
+            flexibility, features
+            that make tablatures especially attractive to musicians.</p>
+
+        <p class="h2">Tablature Formats in This Project </p>
+
+        <p>In our “Map”, we chose 3 different tablature formats that can be used in learning. Are they:</p>
+        <section class="s1">
+            <ul>
+                <li>
+                    <p>German Format</p>
+                </li>
+                <li>
+                    <p>Cyclical Numeric Format</p>
+                </li>
+                <li>
+                    <p>Continuous Numeric Format</p>
+                </li>
+            </ul>
+        </section>
+        <p>Note: For each of them, there may be variations, as we will explain later.</p>
+
+        <p class="h2">The German Format</p>
+
+        <p>This was the basic tablature format we adopted since the beginning of this project.
+            We call this format the “German Format” because it was derived from the teachings of Yann Dour,
+            in his book “<span class="ti">Schule für Diatonisches Akkordion – Band 1</span>”.
+        </p>
+
+        <p>Essentially, the format consists of numbering the buttons, in each row, from top to bottom,
+            that is, from the chin towards the knees, from 1 to “n”, where “n” means the last button on the row.
+            To differentiate the rows, apostrophes [ ' ] are used;
+            the first row (the outermost) will not be marked with any apostrophe;
+            the second row receives one character; the third row (if it exists) will receive two characters [ '' ]
+            and so, successively, to each new line, an extra apostrophe will be added.</p>
+
+        <p>Consider the arrangement of the buttons on a given accordion, as seen in the below-left image:</p>
+
+        <div style="display: inline-block; width: 100%;">
+            <div id="Image1" style="width: 40%; display: inline-flex; float: left;">
+                <img style="margin-left:3em; height:16cm;" alt="" src="fig01.png" />
+            </div>
+            <div style="display: inline-flex; width: 60%;">
+                <p style="margin-left: 1em; margin-top:0">Using the tablature format description from the paragraph
+                    above and considering only
+                    the melody buttons (right hand), the numbering would be as follows:</p>
+            </div>
+            <div id="Image2" style="display: inline-flex; float:right; width: 60%; padding:0; position:relative;">
+                <img style="margin-left:3em; height:14cm;" alt="" src="fig02.png" />
+            </div>
         </div>
-        <div style="display: inline-flex; width: 60%;">
-            <p style="margin-left: 1em; margin-top:0">Using the tablature format description from the paragraph above and considering only
-                the melody buttons (right hand), the numbering would be as follows:</p>
+
+        <p>This way of numbering the buttons is very intuitive and can be applied to any accordion.</p>
+
+        <p class="h2">Note about the keyboard layout</p>
+
+        <p>Before we continue talking about the tablature format itself, let's focus on how we represent the layout of
+            the accordions' keyboards in this project. Look at the above-left figure</p>
+
+        <p> Notice that we use the symbols from the "Chord Notation System"
+            <a style="text-decoration: none; color:blue;" href="#chords"><sup>(explanatory note)</sup></a>
+            to represent the notes and chords on the buttons - it is also possible to display the Latin names of the
+            notes, as we will see later.
+            We know that the "Chord Notation System" is primarily used to designate chords, so, in order to make it
+            compatible,
+            in this material we adopt the following conventions:
+        </p>
+        <section class="s1">
+            <ul>
+                <li>
+                    <p class="p3">We call "melody buttons" the buttons that are played with the right hand and
+                        "bass buttons" those that are played with the left hand.
+                    </p>
+                </li>
+                <li>
+                    <p class="p3">We use bipartite circles to represent the bisonority of the accordion buttons.
+                        Always, the
+                        upper half of the button represents the note (or chord) that will sound when pushing the
+                        bellows,
+                        and the lower half, the note (or chord) that eill sound when pulling the bellows.</p>
+                </li>
+                <li>
+                    <p class="p3">The notes (both melody and bass) are represented by uppercase letters.
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - For example, the note “Mi” is represented by the letter “E”
+                    </p>
+                </li>
+                <li>
+                    <p class="p3">Accidentals, like sharps and flats, are normally represented.
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - For example, the note "Fá sharp”, is represented by “F#”
+                    </p>
+                </li>
+                <li>
+                    <p class="p3">The chords (of the bass) are represented by lowercase letters.
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - For example, the chord “Ré major”, is represented by the
+                        letter “d”
+                    </p>
+
+                </li>
+                <li>
+                    <p class="p3">Minor chords, in addition to the lowercase letter, are complemented with a hyphen (-).
+                        <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - For example, the chord "Lá minor”, is represented by “a-”
+                    </p>
+                </li>
+            </ul>
+        </section>
+        <p class="h2">Finally, the Tablature: Putting it all together</p>
+
+        <p>Now that we have learned how to number the melody buttons and how to represent the bass, let's see how we
+            will combine all this in the tablature.</p>
+        <p>An accordion tablature can be well represented by a table with 3 rows:</p>
+        <section class="s1">
+            <ul>
+                <li>
+                    <p>The top row represents the bass notes (left hand).</p>
+                </li>
+                <li>
+                    <p>The second and third rows display the buttons played with the right hand, where the second row
+                        shows which buttons should be pressed while pushing the bellows and the third row shows the
+                        buttons pressed when pulling the bellows.
+                    </p>
+                </li>
+                <li>
+                    <p>The vertical lines represent the bar lines.</p>
+                </li>
+            </ul>
+        </section>
+        <div id="Image3" style=" position:relative; padding:0; left:3em; top:0;">
+            <img style="height:2.4cm;" alt="" src="fig03.en.png" />
         </div>
-        <div id="Image2" style="display: inline-flex; float:right; width: 60%; padding:0; position:relative;">
-            <img style="margin-left:3em; height:14cm;" alt="" src="fig02.png" />
+        <p>Despite the simple design of the example above, a lot of information is shown simultaneously. Two measures
+            are represented, as seen:
+        </p>
+        <p>In the first, pushing the bellows, the "G bass" note (G) is played while, simultaneously, the button 5 of the
+            inner row (notice the apostrophe) is pressed. Next, the "G major" chord (g) is played, still pushing the
+            bellows, along with button 5 on the inner row.
+        </p>
+        <p>The second measure indicates the D "bass note" (D) execution along with the button number 6 of the first
+            (outer) row,
+            this time, pulling the bellows. Then, it shows the playing the "D major" chord while pressing button number
+            6 on the first (outer) row, still pulling the bellows.
+        </p>
+
+        <p>As you can see, we use letters from the "Chord Notation System", in accordance with our conventions, to
+            represent the basses, just as, to represent the notes of the melody, we use numbers (with or without apostrophes) in the
+            manner described for this format.</p>
+
+        <section class="s3">
+            <p class="h3">Note about the basses:</p>
+            <p class="p3">In our project, for any tablature format, the basses will always be represented
+                by the "Chord Notation System". We understand that, when we talk about diatonic accordions, we are talking about
+                a very small number of bass buttons (8 or 12 normally), making it easy to memorize.
+                Some tablature systems number both the melody rows (right hand) and the basse rows (left hand).
+            </p>
+        </section>
+
+        <p>The tablature that will be produced by our "Mapa" is very similar to the example above. It will be shown like this:</p>
+
+        <div id="Image4" style=" position:relative; padding:0; left:3em; top:0;">
+            <img alt="" src="fig04.png" />
         </div>
-    </div>
 
-    <p>This way of numbering the buttons is very intuitive and can be applied to any accordion. Still observing the image above, the
-        nomenclature used in the bass buttons (left hand) is also noticeable, with their notes (uppercase letters), their major chords
-        (lowercase letters), and, in the case, a single minor chord, A minor, represented by "a-".</p>
-    <p>The melody buttons (right hand) follow the same nomenclature, with the difference that here there are only individual notes, so all
-        are represented by uppercase letters.</p>
-    <p>In the tablature, we will use numbers (with or without apostrophes) to represent the melody notes and letters from the "Chord
-        Notation System"
-        to represent the bass.</p>
-    <p class="h2">Finally, The Tablature: Bringing it all together</p>
-    <p>Now that we have learned how to number the melody buttons and how to represent the bass, let's see how we will combine all this in
-        the tablature.</p>
-    <p>Accordion tablature can be well represented by a table with 3 rows:</p>
-    <section class="s1">
-        <ul>
-            <li>
-                <p>The top row represents the bass notes (left hand).</p>
-            </li>
-            <li>
-                <p>The second and third rows display the buttons played with the right hand, where the second row
-                    shows which buttons should be
-                    pressed with the bellows closing and the third row shows the buttons pressed with the bellows opening.
-                </p>
-            </li>
-            <li>
-                <p>The vertical lines represent the bar lines.</p>
-            </li>
-        </ul>
-    </section>
-    <div id="Image3" style=" position:relative; padding:0; left:3em; top:0;">
-        <img style="height:2.4cm;" alt="" src="fig03.en.png" />
-    </div>
-    <p>Despite the simple design, many pieces of information are represented simultaneously. Note that, in the example
-        above, we have the representation of two measures.</p>
-    <p>In the first one, G basses are played (G and g),
-        respectively, the note G and the G Major chord, while button number 6 of the
-        first row (outer) is pressed, with the bellows closing.</p>
-    <p>The second measure indicates the execution of D basses (D and d), respectively the note D and the D Major chord,
-        also pressing, simultaneously, button number 6 of the first row (outer), with the bellows opening.</p>
-    <p>On the website, a tablature similar to the example above will be displayed as follows:</p>
-    <div id="Image4" style=" position:relative; padding:0; left:3em; top:0;">
-        <img alt="" src="fig04.png" />
-    </div>
-    <p>The main difference appears in the first column on the left: we use the word <b>“Bass”</b> to identify
-        the bass line (left hand) and the melody lines (right hand) are identified by the symbol <b>“TAB”</b>,
-        adding the symbol <b>“&gt;&gt;&lt;&lt;”</b> to identify the line when the bellows movement is closing and
-        the symbol <b>“&lt;&lt;&gt;&gt;”</b> to identify the line showing the bellows opening.
-        Otherwise, each measure will be separated by the vertical bar and will contain as many columns as necessary.</p>
+        <p>The main difference appears in the first column on the left: we use the word <b>“Bass”</b> to identify
+            the bass line (left hand) and the melody lines (right hand) are identified by the symbol <b>“TAB”</b>,
+            adding the symbols <b>“&gt;&gt;&lt;&lt;”</b> to identify the line when pushing the bellows and
+            the symbols <b>“&lt;&lt;&gt;&gt;”</b> to identify the line when pulling the bellows.
+            By the end, each measure will be separated by the vertical bar and will contain as many columns as necessary.
+        </p>
 
-    <p class="h2">German Format – Numbered Rows</p>
+        <p class="h2">Teh German Format – Numbered Rows</p>
 
-    <p>So far, we have described the basic tablature model that we have adopted in this project. Let's add
-        a small variation: instead of marking the rows with apostrophes, let's number them, starting from the
-        outer row, which will be number 1, counting increasingly, up to n, when the inner row is reached.
-        It would look like this:</p>
+        <p>So far, we have described the basic tablature model that we adopted in this project. Let's add a small variation, which we will
+            call "Numbered rows": instead of marking the rows with apostrophes, let's number them, starting from the outer row, which
+            will be indexed with the number 1, counting up to “n”, towards the innermost row, this way:
+        </p>
 
-    <div id="Image5" style=" position:relative; padding:0; left:3em; top:0;">
-        <img alt="" style="height:13cm;" src="fig05.png" />
-    </div>
-
-    <p>In this new model, the same example of the previous tablature is represented as follows:</p>
-
-    <div id="Image6" style=" position:relative; padding:0; left:3em; top:0;">
-        <img alt="" src="fig06.png" />
-    </div>
-
-    <p>Note that instead of the apostrophe, we use a numeric index to represent the row.</p>
-
-    <p class="h2">Cyclic Numeric Format</p>
-
-    <p>This new format, which we call Cyclic Numeric, eliminates the need to number the rows
-        because they are numbered starting with a different decade each. Of course, the rows can have
-        more than 10 buttons, which would cause the repetition of button numbers. This, in fact, happens, but can be
-        overcome with some trickery, such as adding an additional character to differentiate the
-        buttons with repeated numbers.</p>
-    <p class="P17">For this new format, in addition to changes in the tablature, the keyboard layout map itself
-        will be shown differently. We will have two variants, which we will call cyclic numeric format
-        with notes or only numbers, like this:</p>
-
-    <div style="display: inline-block; width: 100%;">
-        <div id="Image7" style="padding:0; float:left; position:relative; width: 40%;">
-            <img style="margin-left: 3em; height:14cm" alt="" src="fig07.png" />
+        <div id="Image5" style=" position:relative; padding:0; left:3em; top:0;">
+            <img alt="" style="height:13cm;" src="fig05.png" />
         </div>
-        <div id="Image8" style=" padding:0; float:left; position:relative;">
-            <img style="height:14cm" alt="" src="fig08.png" />
+
+        <p>In this new model, the same example of the previous tablature is represented as follows:</p>
+
+        <div id="Image6" style=" position:relative; padding:0; left:3em; top:0;">
+            <img alt="" src="fig06.png" />
         </div>
-    </div>
 
-    <p>The figures above show the two variants of this format: in the left figure, the names
-        of the notes remain, however, thumbnails indicating the numbering are added; in the second
-        variant (on the right), the names of the notes disappear from the keyboard layout, leaving only the numbers.
-    </p>
-    <p>In the example above, it is also possible to see that it was necessary to disambiguate button 11, which occurs at the end
-        external row, from that which starts the second row (internal). The letter "A" was used to differentiate them.
-        Note that this same letter will also appear in the tablature, if the button in question is used in the music.
-    </p>
-    <p>The tablature, in turn, will remain like this:</p>
-    <div id="Image9">
-        <img style=" margin-left: 3em;" src="fig09.png" />
-    </div>
-    <p class="h2">Continuous Numeric Format</p>
-    <p>The third (and last) format that we present was inspired by the numbering that some manufacturers use
-        to differentiate the buttons.</p>
-    <p>Starting from the outermost button, at the top, count from 1 to "n", with "n" being the
-        last button of the innermost row. Thus, the need to use extra characters to differentiate buttons is eliminated,
-        but, like the cyclic numeric format, in this format some problems can also appear
-        depending on the keyboard layouts. To solve these difficulties in identifying each button, the keyboard map
-        will have to be shown differently again, like this:</p>
+        <p>In this new format, using the same tablature as the previous item as an example, the representation looks like this:</p>
 
-    <div style="display: inline-block; width: 100%;">
-        <div id="Image10" style="padding:0; float:left; position:relative; width: 40%;">
-            <img style="margin-left: 3em; height:14cm" alt="" src="fig10.png" />
+        <p class="h2">The Cyclic Numeric Format</p>
+
+        <p>This new format, which we call "Cyclic Numeric", eliminates the need to number the rows because they are numbered, each starting
+            with a different ten. Of course, the rows may have more than 10 buttons, which will cause button numbers to be repeated. This
+            actually happens, but it can be overcome with some subterfuge, such as adding an additional character to differentiate the
+            buttons with repeating numbers.</p>
+
+        <p class="P17">For this new format, in addition to changes in the tablature, the keyboard layout map itself will be shown
+            differently. We will have two variants, which we will call the "Numeric
+            Cyclic" and "Numeric Cyclic - Numbers Only", like that:</p>
+
+        <div style="display: inline-block; width: 100%;">
+            <div id="Image7" style="padding:0; float:left; position:relative; width: 40%;">
+                <img style="margin-left: 3em; height:14cm" alt="" src="fig07.png" />
+            </div>
+            <div id="Image8" style=" padding:0; float:left; position:relative;">
+                <img style="height:14cm" alt="" src="fig08.png" />
+            </div>
         </div>
-        <div id="Image11" style=" padding:0; float:left; position:relative;">
-            <img style="height:14cm" alt="" src="fig11.png" />
+
+        <p>The figures above show the two variants of this format: in the left figure, the names
+            of the notes remain, however, thumbnails indicating the numbering are added; in the second variant (on the right), the names of
+            the notes disappear from the keyboard layout, leaving only the numbers.
+        </p>
+        <p>In the example above, it is also possible to see that it was necessary to disambiguate button 11, which occurs at the end of
+            external row, from the button which starts the second row (inner). The letter "A" was used to differentiate them.
+        </p>
+
+        <p>Note: This same letter "A" will also appear in the tablature, if the button in question is used in the song.</p>
+
+        <p>The tablature, in turn, will look like this:</p>
+
+        <div id="Image9">
+            <img style=" margin-left: 3em;" src="fig09.png" />
         </div>
-    </div>
+        <p class="h2">The Continuous Numeric Format</p>
 
-    <p>This format is very similar to the previous one, but some changes are visible. Note that there is no
-        duplication in button 11, however, the second row starts with number 12. Observe the
-        tablature segment that (it is the same as the previous example) and notice that the note "G" is now counted as
-        button 16 (before it was number 15).</p>
+        <p>The third (and the last) format that we now present was inspired by the numbering that some manufacturers use
+            to differentiate the buttons.</p>
+        <p>Starting from the outermost button, at the top, count from 1 to "n", with "n" being the
+            last button of the innermost row. This eliminates both the need to number the rows and
+            the need to use extra characters to differentiate buttons, but, just as in the cyclic numeric format,
+            this format also presents problems due to the keyboard layout.</p>
+        <p>To overcome these difficulties in identifying each button, the keyboard map must again show the respective numbering.
+            In this way, as in the previous format, we have two variants that we will call "Continuous Numeric" and "Continuous Numeric -
+            Numbers Only", as seen below:</p>
 
-    <div id="Image12">
-        <img style=" margin-left: 3em;" src="fig12.png" />
-    </div>
+        <div style="display: inline-block; width: 100%;">
+            <div id="Image10" style="padding:0; float:left; position:relative; width: 40%;">
+                <img style="margin-left: 3em; height:14cm" alt="" src="fig10.png" />
+            </div>
+            <div id="Image11" style=" padding:0; float:left; position:relative;">
+                <img style="height:14cm" alt="" src="fig11.png" />
+            </div>
+        </div>
 
-    <p class="h2">Other Elements of the Tablature</p>
+        <p>This format is very similar to the previous one, but some changes are visible. Note that there is no
+            duplication in button 11, however, the second row starts with number 12.
+        </p>
+        <p>Observe the segment of the tablature below (it is the same as the previous example) and notice that the note “G“ is now counted
+            as button 16 (previously it was number 15).
+        </p>
 
-    <p>As seen in the tablature excerpt above, some extra elements can appear.</p>
-    <p>In the first measure, for example, there are no bass sounds; only melody notes sound, represented by 2 touches on button 16.
-        Note that, in the first third of the measure, there is no sound (it is a pause).
-        Thus, to represent the pause, a bar, similar to a dash "–", was used.</p>
-    <p>Another very common element is the sound continuity symbol. For example, in the second measure,
-        the A minor chord "a-" starts with the note from button 16 and should last during the execution of this note and the next (button
-        15).
-        An arrow "→" is used to represent this continuity. That is, the A minor chord is played along with note 16
-        and this will be maintained until the time of note 15 ends.</p>
+        <div id="Image12">
+            <img style=" margin-left: 3em;" src="fig12.png" />
+        </div>
 
-    <p id="cifras" class="h2">Chord Notation System</p>
+        <p class="h2">Other Elements of the Tablature</p>
 
-    <p>The "Chord Notation System" is a globally recognized convention for the notation of musical chords, used to simplify the reading and
-        sharing of musical compositions among musicians from different languages and cultures. This system uses letters from the Latin
-        alphabet to
-        represent the chords, accompanied by numbers and symbols that indicate modifications, such as minor, augmented, diminished chords,
-        and other variations.</p>
-    <p>Here, in the Map, we use this convention to represent not only chords but also musical notes. As we know, the monosyllabic indicators
-        of sound pitch were introduced by Guido d'Arezzo, are predominantly used in Latin-speaking countries and correspond to the seven
-        letters
-        (alphabetic system introduced by Pope Gregory I in the 6th century) used in English, German, Greek, etc. They are:</p>
+        <p>As seen in the tablature excerpt above, some extra elements can appear.</p>
+        <p>In the first measure, for example, there are no bass sounds; only melody notes as listed, represented by 2
+            times the button 16.
+            Note that, in the first third of the measure, there is no sound at all (it is a pause).
+            Thus, to represent the pause, a bar, similar to a dash "–", was used.</p>
+        <p>Another very common element is the sound continuity symbol. For example, in the second measure,
+            the A minor chord "a-" starts along the note from button 16 and should last during the execution of this note
+            and the next (button 15). An arrow "→" is used to represent this continuity. That is, the "A minor" chord is played along with
+            note 16 and this will be maintained until the time of note 15 ends.</p>
 
-    <table class="tabCifra">
-        <tbody>
-            <tr>
-                <th></th>
-                <th>Do</th>
-                <th>Re</th>
-                <th>Mi</th>
-                <th>Fa</th>
-                <th>Sol</th>
-                <th>La</th>
-                <th>Si</th>
-            </tr>
-            <tr>
-                <th>English</th>
-                <td>C</td>
-                <td>D</td>
-                <td>E</td>
-                <td>F</td>
-                <td>G</td>
-                <td>A</td>
-                <td>B</td>
-            </tr>
-            <tr>
-                <th>German</th>
-                <td>C</td>
-                <td>D</td>
-                <td>E</td>
-                <td>F</td>
-                <td>G</td>
-                <td>A</td>
-                <td>H</td>
-            </tr>
-        </tbody>
-    </table>
+        <p id="cifras" class="h2">Chord Notation System</p>
 
-    <p>Note: In English, the letter "B" represents the note "B"; in German, the letter "B" represents the note "B flat," and "B" is
-        represented by "H." In this project, we use the English nomenclature.</p>
+        <p>The "Chord Notation System" is a globally recognized convention for the notation of musical chords, used to simplify the reading
+            and sharing of musical compositions among musicians from different languages and cultures. This system uses letters from the
+            Latin alphabet to represent the chords, accompanied by numbers and symbols that indicate modifications, such as minor,
+            augmented, diminished chords and other variations.</p>
+        <p>In this project, we use this convention to represent not only chords, but also individual musical notes. As we know,
+            the monosyllables (musical notes) indicating the pitch of the sound were introduced by Guido d’Arezzo.
+            They are predominantly used in Latin-speaking countries and correspond to the seven letters (alphabetical system introduced by
+            Pope Gregory I, in the 6th century) used in English, German, Greek, among others. Are they:/p>
 
-    <p>Numbers and symbols are used to indicate specific alterations in basic chords, such as 7 (seventh), m (minor), or # (sharp), among
-        others. However, diatonic accordions with 8 or 12 bass buttons have only major and minor chords. As mentioned earlier, here we use
-        uppercase letters to represent notes and lowercase letters for chords. When it comes to minor chords, we opt for the hyphen "-"
-        instead of the letter "m".</p>
+        <table class="tabCifra">
+            <tbody>
+                <tr>
+                    <th></th>
+                    <th>Do</th>
+                    <th>Re</th>
+                    <th>Mi</th>
+                    <th>Fa</th>
+                    <th>Sol</th>
+                    <th>La</th>
+                    <th>Si</th>
+                </tr>
+                <tr>
+                    <th>English</th>
+                    <td>C</td>
+                    <td>D</td>
+                    <td>E</td>
+                    <td>F</td>
+                    <td>G</td>
+                    <td>A</td>
+                    <td>B</td>
+                </tr>
+                <tr>
+                    <th>German</th>
+                    <td>C</td>
+                    <td>D</td>
+                    <td>E</td>
+                    <td>F</td>
+                    <td>G</td>
+                    <td>A</td>
+                    <td>H</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <p>Keyboard layouts can be shown using both the English convention and the Latin names of the notes, like this:</p>
+        <p>Note: In English, the letter “B” represents the Latin note “Si”; in German, the letter “B” represents the Latin note “Si flat” while the note
+            "Si" is represented by "H". In this project, we consider the English nomenclature.</p>
 
-    <div id="Image13a">
-        <img style="margin-left: 3em; height: 7cm;" src="fig13a.png" />
-    </div>
+        <p>Numbers and symbols are used to indicate specific alterations in basic chords, such as 7 (seventh), m (minor), or # (sharp),
+            among others. However, diatonic accordions with 8 or 12 bass buttons have only major and minor chords. As mentioned earlier,
+            here we use uppercase letters to represent notes and lowercase letters for chords. When it comes to minor chords, we opt for the addition of an
+            hyphen "-" instead of the letter "m".</p>
 
-    <div id="Image13b">
-        <img style="margin-top: 1em; margin-left: 3em; height: 7cm; float:right;" src="fig13b.png" />
-    </div>
+        <p>Keyboard layouts can be shown using both the English convention and the Latin names of the notes, like this:</p>
 
-</body>
+        <div id="Image13a">
+            <img style="margin-left: 3em; height: 7cm;" src="fig13a.png" />
+        </div>
+
+        <div id="Image13b">
+            <img style="margin-top: 1em; margin-left: 3em; height: 7cm; float:right;" src="fig13b.png" />
+        </div>
+
+    </body>
 
 </html>
