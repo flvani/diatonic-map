@@ -274,9 +274,9 @@ g_enjoyhint_text[pt_BR] = [ 'dummy',
     "<div class='enjoy_hint_backgr'>"+
         "Este é o produto final deste aplicativo: uma partitura com tablatura.<br>"+
         "Para saber mais sobre esta metodologia de tablaturas para acordeão, dê uma olhada em:<br>"+
-            "<text class='hint_link'>https://diatonicmap.com.br/tablature</text><br>"+
+            "<text class='hint_link'>https://diatonicmap.x10.mx/tablature</text><br>"+
         "Você também pode conferir a versão para website do aplicativo:<br>"+
-            "<text class='hint_link'>https://diatonicmap.com.br</text><br>"+
+            "<text class='hint_link'>https://diatonicmap.x10.mx</text><br>"+
         "<text class='hint_black'>Aproveite toda a comodidade de uma tela maior, com o mesmo repertório e muitos recursos extras de edição!</text>"+
     "</div>"
 
@@ -383,9 +383,9 @@ g_enjoyhint_text[es_ES] = [ 'dummy',
      "<div class='enjoy_hint_backgr'>"+
          "Este es el producto final de esta aplicación: una partitura con tablatura.<br>"+
          "Para aprender más sobre esta metodología de tablaturas de acordeón, echa un vistazo a:<br>"+
-             "<text class='hint_link'>https://diatonicmap.com.br/tablature</text><br>"+
+             "<text class='hint_link'>https://diatonicmap.x10.mx/tablature</text><br>"+
          "También puedes consultar la versión del sitio web de la aplicación:<br>"+
-             "<text class='hint_link'>https://diatonicmap.com.br</text><br>"+
+             "<text class='hint_link'>https://diatonicmap.x10.mx</text><br>"+
          "<text class='hint_black'>¡Disfruta de toda la comodidad de una pantalla más grande, con el mismo repertorio y muchas funciones de edición adicionales!</text>"+
      "</div>"
 
@@ -492,9 +492,9 @@ g_enjoyhint_text[en_US] = [ 'dummy',
     "<div class='enjoy_hint_backgr'>"+
         "This is the final product of this app: a partiture with tablature.<br>"+
         "To learn more about this tablature for accordions methodology, please, take a look at:<br>"+ 
-            "<text class='hint_link'>https://diatonicmap.com.br/tablature</text><br>"+
+            "<text class='hint_link'>https://diatonicmap.x10.mx/tablature</text><br>"+
         "You can also checkout the website version:<br>"+
-            "<text class='hint_link'>https://diatonicmap.com.br</text><br>"+
+            "<text class='hint_link'>https://diatonicmap.x10.mx</text><br>"+
         "<text class='hint_black'>Enjoy all the convenience of a bigger screen, with the same repertoire and many extra editing features!</text>"+
     "</div>"
 
