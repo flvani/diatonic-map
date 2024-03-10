@@ -9,7 +9,7 @@ FILES="\
     ./abcxjs/abcxjs_${v_abcx}-min.js ./diatonic/diatonic_${v_abcx}-min.js \
     ./file/filemanager_${v_abcx}-min.js ./css/modal.css ./css/styles4abcx_${v_abcx}-min.css \
     ./jslib/jquery-3.7.1.min.js ./jslib/MIDI_5.25-min.js \
-    .jslib/enjoyhint.min.js jslib/jquery-scrollto-2.1.3.min.js jslib/kinetic-v5.1.0.js css/enjoyhint.css\
+    ./jslib/enjoyhint.min.js jslib/jquery-scrollto-2.1.3.min.js jslib/kinetic-v5.1.0.js css/enjoyhint.css\
     ./jslib/proto_noconflict.js ./jslib/html5kellycolorpicker.min.js ./jslib/waterbug.js"
 
 FOLDERS="\
