@@ -37,6 +37,7 @@ notação abc, tablatura " />
       font-family: Merienda;
       position: relative;
       display: none;
+      width: 100%;
       top: 30px;
       left: 30px;
     }
@@ -76,13 +77,13 @@ notação abc, tablatura " />
     }
 
     @media (max-width: 500px) {
-         .myTopBar { min-width: 300px; width: auto;}
+         .myTopBar { min-width: 300px; width: auto; height: 100px;}
          .topTitle { min-width: 300px; width: auto;}
     }
 
     @media (max-height: 500px) {
          body { min-height: 540px; overflow-y: auto;}
-         .devTitle { position: relative; top: 150px;}
+         .myBotBar { position: relative; display: inline; float: right; width: auto; }
     }
 
   </style>
@@ -136,10 +137,6 @@ notação abc, tablatura " />
     <span id="appName" class="topTitle">Mapa para Acordeões Diatônicos</span>
     <span id="oSite">(the site)</span>
   </div>
-  <div id="botBar" class="myBotBar" >
-    <span id="devName" class="devTitle">Desenvolvido por Flávio Luiz Vani.</span>
-  </div>
-
   <div id="en-US-div" class="myDiv">
     <h2>Welcome to the new "Map for Accordions" website!</h2>
     <ul>
@@ -259,6 +256,9 @@ notação abc, tablatura " />
         </a>
       </li>
     </ul>
+  </div>
+  <div id="botBar" class="myBotBar" >
+    <span id="devName" class="devTitle">Desenvolvido por Flávio Luiz Vani.</span>
   </div>
 </body>
 
