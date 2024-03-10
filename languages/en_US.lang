@@ -186,6 +186,7 @@
         ,"Song": "Song"
         ,"AboutAppTitle": "About this application"
         ,"PrivacyTitle": "Privacy Policy"
+        ,"PrivacyLink": "privacy/policy.en-US.html"
         ,"TermsTitle": "Terms  &amp; Conditions"
         ,"PrefsPropsChkSuppressTitles": "Suppress window titles"
         ,"cookiePrefs":"Click here to reset cookie preferences"
