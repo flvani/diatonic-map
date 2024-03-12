@@ -55,7 +55,7 @@ SITE.ga = function () {
         //return;
     }
 
-    if( gtag && ( window.location.href.indexOf( 'diatonicmap.x10.mx') >= 0 || window.location.href.indexOf( 'androidplatform') >= 0 )
+    if( gtag && ( window.location.href.indexOf( 'diatonicmap') >= 0 || window.location.href.indexOf( 'androidplatform') >= 0 )
            && SITE.getVersion('mainSITE', '' ) !== 'debug' 
            && SITE.getVersion('mainSITE', '' ) !== 'unknown' ) {
                
