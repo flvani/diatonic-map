@@ -411,7 +411,7 @@ SITE.App.prototype.showSettings = function() {
               </tr>\
               <tr style="height:30px; white-space:nowrap; font-family: Merienda;">\
                 <td> </td><td colspan="2">\
-                <a href="https://diatonicmap.x10.mx" target="_blank" style="width:25%; display:block; float: left;" >www.diatonicmap.x10.mx</a>\
+                <a href="https://diatonicmap.com.br" target="_blank" style="width:25%; display:block; float: left;" >www.diatonicmap.com.br</a>\
                 </td>\
               </tr>\
               </table>\

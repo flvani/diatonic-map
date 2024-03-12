@@ -226,7 +226,7 @@ g_enjoyhint_text[pt_BR] = [ 'dummy',
 ,//10
     "Altera entre as diferentes representações da tablatura. Atualmente há 3 formatos distintos.&nbsp;"+
         "<text class='hint_tryit'>Experimente agora!</text><br>"+
-        "<text class='hint_laranja'>Observação: Maiores detalhes podem ser vistos na página \"https://diatonicmap.x10.mx/tablature\"</text>"
+        "<text class='hint_laranja'>Observação: Maiores detalhes podem ser vistos na página \"https://diatonicmap.com.br/tablature\"</text>"
 
 ,//11
     "Este botão mostra/oculta os dedilhados da tablatura (se presentes). <text class='hint_tryit'>Experimente agora!</text>"
@@ -274,9 +274,9 @@ g_enjoyhint_text[pt_BR] = [ 'dummy',
     "<div class='enjoy_hint_backgr'>"+
         "Este é o produto final deste aplicativo: uma partitura com tablatura.<br>"+
         "Para saber mais sobre esta metodologia de tablaturas para acordeão, dê uma olhada em:<br>"+
-            "<text class='hint_link'>https://diatonicmap.x10.mx/tablature</text><br>"+
+            "<text class='hint_link'>https://diatonicmap.com.br/tablature</text><br>"+
         "Você também pode conferir a versão para website do aplicativo:<br>"+
-            "<text class='hint_link'>https://diatonicmap.x10.mx</text><br>"+
+            "<text class='hint_link'>https://diatonicmap.com.br</text><br>"+
         "<text class='hint_black'>Aproveite toda a comodidade de uma tela maior, com o mesmo repertório e muitos recursos extras de edição!</text>"+
     "</div>"
 
@@ -335,7 +335,7 @@ g_enjoyhint_text[es_ES] = [ 'dummy',
 ,//10
     "Cambia entre las diferentes representaciones de tablatura. Actualmente hay 3 formatos diferentes."+
         "<text class='hint_tryit'>¡Pruébalo ahora!</text><br>"+
-        "<text class='hint_laranja'>Nota: Más detalles se pueden ver en la página \"https://diatonicmap.x10.mx/tablature\"</text>"
+        "<text class='hint_laranja'>Nota: Más detalles se pueden ver en la página \"https://diatonicmap.com.br/tablature\"</text>"
 
 ,//11
     "Este botón muestra/oculta las digitaciones de la tablatura (si están presentes). <text class='hint_tryit'>¡Pruébalo ahora!</text>"
@@ -383,9 +383,9 @@ g_enjoyhint_text[es_ES] = [ 'dummy',
      "<div class='enjoy_hint_backgr'>"+
          "Este es el producto final de esta aplicación: una partitura con tablatura.<br>"+
          "Para aprender más sobre esta metodología de tablaturas de acordeón, echa un vistazo a:<br>"+
-             "<text class='hint_link'>https://diatonicmap.x10.mx/tablature</text><br>"+
+             "<text class='hint_link'>https://diatonicmap.com.br/tablature</text><br>"+
          "También puedes consultar la versión del sitio web de la aplicación:<br>"+
-             "<text class='hint_link'>https://diatonicmap.x10.mx</text><br>"+
+             "<text class='hint_link'>https://diatonicmap.com.br</text><br>"+
          "<text class='hint_black'>¡Disfruta de toda la comodidad de una pantalla más grande, con el mismo repertorio y muchas funciones de edición adicionales!</text>"+
      "</div>"
 
@@ -440,7 +440,7 @@ g_enjoyhint_text[en_US] = [ 'dummy',
 ,//10    
     "Switches between the different tablature representations. Currently there are 3 different formats.&nbsp;"+
         "<text class='hint_tryit'>Try it now!</text><br>"+
-        "<text class='hint_laranja'>Note: More details can be seen on the page \"https://diatonicmap.x10.mx/tablature\"</text>"
+        "<text class='hint_laranja'>Note: More details can be seen on the page \"https://diatonicmap.com.br/tablature\"</text>"
 ,//11    
     "This button shows/hides the tablature fingering (if present). <text class='hint_tryit'>Try it now!</text>"
 
@@ -492,9 +492,9 @@ g_enjoyhint_text[en_US] = [ 'dummy',
     "<div class='enjoy_hint_backgr'>"+
         "This is the final product of this app: a partiture with tablature.<br>"+
         "To learn more about this tablature for accordions methodology, please, take a look at:<br>"+ 
-            "<text class='hint_link'>https://diatonicmap.x10.mx/tablature</text><br>"+
+            "<text class='hint_link'>https://diatonicmap.com.br/tablature</text><br>"+
         "You can also checkout the website version:<br>"+
-            "<text class='hint_link'>https://diatonicmap.x10.mx</text><br>"+
+            "<text class='hint_link'>https://diatonicmap.com.br</text><br>"+
         "<text class='hint_black'>Enjoy all the convenience of a bigger screen, with the same repertoire and many extra editing features!</text>"+
     "</div>"
 

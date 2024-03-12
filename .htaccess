@@ -1,14 +1,14 @@
 
-# DO NOT REMOVE THIS LINE AND THE LINES BELLOW SSL_REDIRECT:diatonicmap.x10.mx
+# DO NOT REMOVE THIS LINE AND THE LINES BELLOW SSL_REDIRECT:diatonicmap.com.br
 RewriteEngine on
 RewriteCond %{HTTPS} off
-RewriteCond %{HTTP_HOST} (www\.)?diatonicmap.x10.mx
+RewriteCond %{HTTP_HOST} (www\.)?diatonicmap.com.br
 RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-# DO NOT REMOVE THIS LINE AND THE LINES BELLOW SSL_REDIRECT:diatonicmap.x10.mx
+# DO NOT REMOVE THIS LINE AND THE LINES BELLOW SSL_REDIRECT:diatonicmap.com.br
 
-# DO NOT REMOVE THIS LINE AND THE LINES BELLOW UPGRADE_INSECURE_REQUESTS:diatonicmap.x10.mx
+# DO NOT REMOVE THIS LINE AND THE LINES BELLOW UPGRADE_INSECURE_REQUESTS:diatonicmap.com.br
 Header always set Content-Security-Policy: upgrade-insecure-requests
-# DO NOT REMOVE THIS LINE AND THE LINES BELLOW UPGRADE_INSECURE_REQUESTS:diatonicmap.x10.mx
+# DO NOT REMOVE THIS LINE AND THE LINES BELLOW UPGRADE_INSECURE_REQUESTS:diatonicmap.com.br
 
 #Desabilita a listagem de diretórios
 Options -Indexes

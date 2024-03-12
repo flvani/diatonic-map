@@ -161,7 +161,7 @@ g_enjoyhint_text[pt_BR] = [ 'dummy',
 ,//7
     "Altera entre as diferentes representações da tablatura. Atualmente há 3 formatos distintos.&nbsp;"+
         "<text class='hint_tryit'>Experimente agora!</text><br>"+
-        "<text class='hint_laranja'>Observação: Maiores detalhes podem ser vistos na página \"https://diatonicmap.x10.mx/tablature\"</text>"
+        "<text class='hint_laranja'>Observação: Maiores detalhes podem ser vistos na página \"https://diatonicmap.com.br/tablature\"</text>"
 
 ,//8
     "Permite selecionar entre as abas \"Acordes\", \"Exercícios\" e \"Músicas\".&nbsp;"+
@@ -207,7 +207,7 @@ g_enjoyhint_text[pt_BR] = [ 'dummy',
     "<div class='enjoy_hint_backgr' style='text-align:left; margin-left:3em'>"+
         "Aqui, encerramos este tour, lembrando que é está disponível para baixar o aplicativo<br>para celulares Android na loja da Google.<br>"+
         "Obrigado por ter acompanhado este tutorial até aqui e espero que você goste deste<br>mapa de referência para acordeões diatônicos.<br>"+
-        "Encontre mais recursos acessando o site <text class='hint_link'>https://diatonicmap.x10.mx</text><br>"+
+        "Encontre mais recursos acessando o site <text class='hint_link'>https://diatonicmap.com.br</text><br>"+
         "Você pode entrar em contato comigo pelo e-mail <text class='hint_link'>flavio.vani@gmail.com</text><br>"+
         "<text class='hint_black'>Seus comentários/sugestões/elogios ou críticas são sempre bem-vindos!</text><br>"+
     "</div>"
@@ -242,7 +242,7 @@ g_enjoyhint_text[es_ES] = [ 'dummy',
 ,//7
     "Cambia entre las diferentes representaciones de tablatura. Actualmente hay 3 formatos diferentes."+
         "<text class='hint_tryit'>¡Pruébalo ahora!</text><br>"+
-        "<text class='hint_laranja'>Nota: Más detalles se pueden ver en la página \"https://diatonicmap.x10.mx/tablature\"</text>"
+        "<text class='hint_laranja'>Nota: Más detalles se pueden ver en la página \"https://diatonicmap.com.br/tablature\"</text>"
 
 ,//8
      "Le permite seleccionar entre las pestañas \"Acordes\", \"Ejercicios\" y \"Canciones\".&nbsp;"+
@@ -288,7 +288,7 @@ g_enjoyhint_text[es_ES] = [ 'dummy',
      "<div class='enjoy_hint_backgr' style='text-align:left; margin-left:3em'>"+
          "Aquí finalizamos este recorrido, recordando que la aplicación está disponible para descargar para celulares Android desde la tienda de Google.<br>"+
          "Gracias por seguir este tutorial hasta ahora y espero que disfrutes de este<br>mapa de referencia para acordeones diatónicos.<br>"+
-         "Encuentre más recursos visitando <text class='hint_link'>https://diatonicmap.x10.mx</text><br>"+
+         "Encuentre más recursos visitando <text class='hint_link'>https://diatonicmap.com.br</text><br>"+
          "Puedes contactarme en <text class='hint_link'>flavio.vani@gmail.com</text><br>"+
          "<text class='hint_black'>¡Tus comentarios/sugerencias/elogios o críticas siempre son bienvenidos!</text><br>"+
      "</div>"
@@ -321,7 +321,7 @@ g_enjoyhint_text[en_US] = [ 'dummy',
 ,//7
     "Switches between the different tablature representations. Currently there are 3 different formats.&nbsp;"+
          "<text class='hint_tryit'>Try it now!</text><br>"+
-         "<text class='hint_laranja'>Note: More details can be seen on the page \"https://diatonicmap.x10.mx/tablature\"</text>"
+         "<text class='hint_laranja'>Note: More details can be seen on the page \"https://diatonicmap.com.br/tablature\"</text>"
 
 ,//8
      "Allows you to select between the \"Chords\", \"Exercises\" and \"Songs\" tabs.&nbsp;"+
@@ -367,7 +367,7 @@ g_enjoyhint_text[en_US] = [ 'dummy',
      "<div class='enjoy_hint_backgr' style='text-align:left; margin-left:3em'>"+
          "Here, we end this tour, remembering that the application is available to download for Android cell phones from the Google store.<br>"+
          "Thank you for following this tutorial this far and I hope you enjoy this<br>reference map for diatonic accordions.<br>"+
-         "Find more resources by visiting <text class='hint_link'>https://diatonicmap.x10.mx</text><br>"+
+         "Find more resources by visiting <text class='hint_link'>https://diatonicmap.com.br</text><br>"+
          "You can reach me at <text class='hint_link'>flavio.vani@gmail.com</text><br>"+
          "<text class='hint_black'>Your comments/suggestions/compliments or criticism are always welcome!</text><br>"+
      "</div>"    
