@@ -18,5 +18,5 @@ done
 
 zip -r x10.zip  ../$assets_folder -x ../$assets_folder/.git/**\*
 
-#ftp ftp://phvjtadr:Drao1317@ftp.diatonicmap.x10.mx
+#ftp ftp://phvjtadr:Drao1317@ftp.diatonicmap.com.br
 
