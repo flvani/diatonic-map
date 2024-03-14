@@ -179,10 +179,16 @@ notação abc, tablatura " />
         var myApp;
 
         window.onAppResumeEvent = new Event('appResumeEvent');
+        window.onAppEndPreview = new Event('appEndPreview');
         window.onAppStopEvent = new Event('appStopEvent');
         window.onAppBack = new Event('appBack');
 
         window.addEventListener('appResumeEvent', function () {
+        }, false);
+
+        window.addEventListener('appEndPreview', function () {
+            if (!myApp || !myApp.appView) return true;
+            myApp.appView.endPreview();
         }, false);
 
         window.addEventListener('appStopEvent', function () {
