@@ -29,7 +29,7 @@ ABCXJS.Tab2Part = function (toClub, fromClub ) {
     this.barAccidentals = [];
     this.barBassAccidentals = [];
     
-    this.startSyms = "|/+%f";
+    this.startSyms = "]|/+%f";
     this.barSyms = ":]|[";
     this.spaces = "-.\ \t";
 
@@ -105,13 +105,15 @@ ABCXJS.Tab2Part.prototype.parse = function (text, keyboard, toClub, fromClub ) {
         });
         this.addLine( t.slice(0,-1) );
 
-        //adicionar vozes bass
-        this.addLine( 'V:2 bass' );
-        var t= "";
-        this.parsedLines.forEach( function(item) {
-           t += item.basses[0]  + '\n';   
-        });
-        this.addLine( t.slice(0,-1) );
+        if( this.hasBass ) {
+            //adicionar vozes bass
+            this.addLine( 'V:2 bass' );
+            var t= "";
+            this.parsedLines.forEach( function(item) {
+            t += item.basses[0]  + '\n';   
+            });
+            this.addLine( t.slice(0,-1) );
+        }
 
         //adicionar accordionTab
         this.addLine( 'V:3 accordionTab' );
@@ -145,7 +147,7 @@ ABCXJS.Tab2Part.prototype.extractLines = function () {
 
 ABCXJS.Tab2Part.prototype.parseLine = function () {
     //var header = lines[l].match(/^([CKLMT]\:*[^\r\n\t]*)/g); - assim não remove comentarios
-    var header = this.tabLines[this.currLine].match(/^([ACRFKLMNTQZ]\:*[^\r\n\t\%]*)/g);
+    var header = this.tabLines[this.currLine].match(/^([ACRFKLMNTQZX]\:*[^\r\n\t\%]*)/g);
     var commentOrDirective = this.tabLines[this.currLine].match(/^\%/);
     
     if( commentOrDirective ) {
@@ -162,7 +164,7 @@ ABCXJS.Tab2Part.prototype.parseLine = function () {
         }
         
     } else if ( header ) {
-        var key = this.tabLines[this.currLine].match(/^([ACRFKLMNTQZ]\:)/g);
+        var key = this.tabLines[this.currLine].match(/^([ACRFKLMNTQZX]\:)/g);
         switch( key[0] ) {
             case 'K:': 
                 var k = ABCXJS.parse.denormalizeAcc(header[0].trim().substr(2));
@@ -242,6 +244,11 @@ ABCXJS.Tab2Part.prototype.parseStaff = function () {
 ABCXJS.Tab2Part.prototype.addBar = function (staffs, bar ) {
     var startTreble = true;
     
+    //tratar a gambiarra que inventei de começar linhas de baixo com ']'
+    if( bar.charAt(0) === ']' ) {
+        bar = '|' + bar.slice(1);
+    }
+
     // neste caso, todas as vozes da staff são "bar", mesmo que algumas já terminaram 
     this.addTabElem(bar + ' ');
     
@@ -597,18 +604,27 @@ ABCXJS.Tab2Part.prototype.idStaff = function () {
     this.durationLine = null;
     this.columnDuration = null;
     this.trebleStaffs = { open: null, close: null};
+    this.hasBass = false;
     
     this.parsedLines[++this.currStaff] = new ABCXJS.Tab2PartLine();
-    
+
+    // vou mudar o comportamento: terei linhas de baixo que podem ser explicitamente declaradas
+    // ou podem ser inferidas se tiverem os simbolos dos baixos 
     while(this.currLine < this.tabLines.length &&
             this.tabLines[this.currLine].trim().length && 
                 this.startSyms.indexOf(this.tabLines[this.currLine].charAt(0)) >= 0 ) {
         var valid = true;
         switch( this.tabLines[this.currLine].charAt(0) ) {
+            case ']': // linha explicitamente declarada como baixo
+                p[++i] = { hasToken:false, bass:true, idBass: ++cntBasses, linhas: [{l:this.currLine, pos:0}], st:'waiting for data' };
+                this.parsedLines[this.currStaff].basses[cntBasses]="";
+                this.hasBass = true;
+                break;
             case '|':
                 if( this.tabLines[this.currLine].match(/[ABCDFEGabcdefg]/) ){
                    p[++i] = { hasToken:false, bass:true, idBass: ++cntBasses, linhas: [{l:this.currLine, pos:0}], st:'waiting for data' };
                    this.parsedLines[this.currStaff].basses[cntBasses]="";
+                    this.hasBass = true;
                 } else {
                    open = !open;
                    p[++i] = { hasToken:false, bass:false, open: open,  linhas: [{l:this.currLine, pos:0}], st:'waiting for data' };

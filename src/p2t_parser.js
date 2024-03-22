@@ -166,10 +166,10 @@ ABCXJS.Part2Tab.prototype.extractLines = function () {
 
 ABCXJS.Part2Tab.prototype.parseLine = function () {
     //var header = lines[l].match(/^([CKLMT]\:*[^\r\n\t]*)/g); - assim não remove comentarios
-    var header = this.partLines[this.currLine].match(/^([ACFKLMNTQVZ]\:*[^\r\n\t\%]*)/g);
+    var header = this.partLines[this.currLine].match(/^([ACFKLMNTQVZX]\:*[^\r\n\t\%]*)/g);
     
     if( header ) {
-        var key = this.partLines[this.currLine].match(/^([ACFKLMNTQVZ]\:)/g);
+        var key = this.partLines[this.currLine].match(/^([ACFKLMNTQVZX]\:)/g);
         switch( key[0] ) {
             case 'V:': 
                  var a = (header[0].match(/accordionTab/g) !== null);
