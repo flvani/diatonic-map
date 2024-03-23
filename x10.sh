@@ -2,16 +2,11 @@
 
 assets_folder="./site.x10"
 
-FILES="app|* mapa|* lib|* ace4abcx|* css|* fontsGoogle|* fontsIco|* html|* 
+FILES="app|* mapa|* lib|* ace4abcx|* css|* fontsGoogle|* fontsIco|* html|* .well-known|*
        accordions|* songs|*.abcx chords|* practices|* tabs|* images|*.* images/accordions|*.* 
        abcxjs|* diatonic|* file|* jslib|*
        languages|* privacy|* privacy/terms|* privacy/about|* src|* soundfont|* repertorio|* tablature|*
-       .|.htaccess .|app.html .|app-debug.html .|index.html .|mapa.html .|mapa-debug.html"
-
-#mkdir -p $assets_folder/songs 
-#cp -pr songs/*repertorio.abcx $assets_folder/songs/
-
-#rm -rf $assets_folder/*
+       .|.htaccess .|app.html .|app-debug.html .|index.html .|mapa.html .|mapa-debug.html .|robots.txt"
 
 for f in $FILES
 do
@@ -27,14 +22,15 @@ do
 done
 
 cd $assets_folder
+ln -s privacy privacidade
 zip -r ../site.x10.zip  . -x .$assets_folder/.git/**\*
 cd - 
 
-#ftp 
-ftp ftp://phvjtadr:senha@diatonicmap.com.br << EOF!
-cd /tmp
-bin
+ftp -nv $HOST<<EOF!
+quote USER $USER
+quote PASS $PASSWD
+binary
 put site.x10.zip
+quit
 EOF!
-
 

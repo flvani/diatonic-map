@@ -1,0 +1,36 @@
+X:1076
+%%barnumbers 0
+%%papersize A4
+%barsperstaff 6
+%staffsep 20
+%pagenumbering
+%stretchlast
+%landscape
+T:La valse d'Amélie
+C:Yann Tiersen
+Z:Flávio Vani
+F:https://www.youtube-nocookie.com/embed/v9EZjtQiAlg
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:3/4
+L:1/4
+Q:1/4=180
+K:Am
+V:1 treble
+ A B | c B c |: +segno+ d3- | d2- d/c/ | B3 | A3 | d3- | d/e/ d/c/ B/c/ | 
+f: 3 2  4 2 4 3 * 4 2 3 3 5 3 4 2 4
+| B3 | A3 | c3- | c2- c/B/ | E3- | E2 F | c3- | c/d/ c/B/ c/B/ | 
+f: 2 3 3 * 4 2 * 2 3 5 3 4 3 4
+|1 E3- | E F E :|2 E3- | E3 |: d/E/ F/E/ F/E/ | d/E/ F/E/ F/c/ | B/D/ E/D/ E/D/ |
+f: 2 | 2 2 | 2 | 5 3 2 3 2 3 | 5 3 2 3 2 5 | 4 2 3 2 3 2 |
+| A/D/ E/D/ E/D/ :||: c/D/ E/D/ E/D/ | c/D/ E/D/ E/B/ | G/C/ D/C/ D/C/ | G/C/ D/C/ D/C/ +D.S.+:| 
+f: 5 2 3 2 3 2 | 4 3 2  3 2 3 | 4 3 2  3 2 5 | 4 2 3 2 3 2 | 4 2 3 2 3 2 |
+V:2 bass
+ z2 | z3 |: D,, [F,A,C] [F,A,C] | D,, [F,A,C] [F,A,C] | A,, [A,CE] [A,CE] | A,, [A,CE] [A,CE] | D,, [F,A,C] [F,A,C] | D,, [F,A,C] [F,A,C] | 
+| A,, [A,CE] [A,CE] | A,, [A,CE] [A,CE] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [G,B,D] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | 
+|1 C,, [C,E,G,] [C,E,G,] | C,, [G,B,D] [C,E,G,] :|2 C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] |: D,, [F,A,C] [F,A,C] | D,, [F,A,C] [F,A,C] | A,, [A,CE] [A,CE] |
+| A,, [A,CE] [A,CE] :||: F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] :| 
+V:3 accordionTab
+ z-7 z-6' | z-8 z-6' z-8 |: D-7' f-> f-> | D-> f-> f-7'0.5 >-80.5 | A-6' am-> am-> | A-7 am-> am-> | D-7' f-> f-> | D->0.5 >-90.5 f-7'0.5 >-80.5 f-6'0.5 >-80.5 | 
+| A-6' am-> am-> | A-7 am-> am-> | F+6' f+> f+> | F+> f+> f+6'0.5 >+70.5 | C+4' c+> c+> | C+4' c+> g-4' | F+6' f+> f+> | F+>0.5 >+80.5 f+6'0.5 >+70.5 f+6'0.5 >+70.5 | 
+|1 C+4' c+> c+> | C+> g-4' c+4' :|2 C+4' c+> c+> | C+> c+> c+> |: D-7'0.5 >-50.5 f-4'0.5 >-50.5 f-4'0.5 >-50.5 | D-7'0.5 >-50.5 f-4'0.5 >-50.5 f-4'0.5 >-80.5 | A-6'0.5 >-3'0.5 am-50.5 >-3'0.5 am-50.5 >-3'0.5 |
+| A-70.5 >-3'0.5 am-50.5 >-3'0.5 am-50.5 >-3'0.5 :||: F+6'0.5 >+50.5 f+4'0.5 >+50.5 f+4'0.5 >+50.5 | F+6'0.5 >+50.5 f+4'0.5 >+50.5 f+4'0.5 >+70.5 | C+60.5 >+3'0.5 c+50.5 >+3'0.5 c+50.5 >+3'0.5 | C+60.5 >+3'0.5 c+50.5 >+3'0.5 c+50.5 >+3'0.5 :|

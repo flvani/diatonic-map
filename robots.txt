@@ -1,0 +1,7 @@
+User-agent: *
+allow: /html/
+allow: /tablature/
+Disallow: /privacy/
+Disallow: /songs/
+Disallow: /lib/
+Disallow: /jslib/

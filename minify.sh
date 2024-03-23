@@ -1,15 +1,19 @@
 #!/bin/sh
-die () {
-    echo >&2 "$@"
-    exit 1
-}
 
-[ "$#" -eq 2 ] || die "Informe como argumentos, 
-   - o número de versão do Site, no formato (x.y)
-   - o número de versão do App, no formato (x.y.z)"
+# die () {
+#     echo >&2 "$@"
+#     exit 1
+# }
 
-echo $1 | grep -E -q '^[1-9]\.[0-9]+$' || die "Site Version number argument required (x.y), $1 provided"
-echo $2 | grep -E -q '^[0-9]\.[0-9]+\.[0-9]+$' || die "App Version number argument required (x.y.z), $2 provided"
+# [ "$#" -eq 2 ] || die "Informe como argumentos, 
+#    - o número de versão do Site, no formato (x.y)
+#    - o número de versão do App, no formato (x.y.z)"
+
+# echo $vsite | grep -E -q '^[1-9]\.[0-9]+$' || die "Site Version number argument required (x.y), $vsite provided"
+# echo $vapp | grep -E -q '^[0-9]\.[0-9]+\.[0-9]+$' || die "App Version number argument required (x.y.z), $vapp provided"
+
+vsite=6.27
+vapp=2.24.4
 
 echo "Concatenating all files..."
 
@@ -23,21 +27,21 @@ cat tmp/site-part.js src/partgen.js src/partedit.js src/tabgen.js src/t2p_parser
 
 cat css/policy-terms.css css/enjoyhint.extras.css css/media.css css/mapa.css > tmp/site.css
 
-cp tmp/site.css lib/site_$1.css
-cp tmp/site.js  lib/site_$1.js
+cp tmp/site.css lib/site_$vsite.css
+cp tmp/site.js  lib/site_$vsite.js
 
 echo "Concatenating app files..."
 cat src/properties.js src/translate.js src/media.js src/modal.js src/appview.js src/app.js src/app.tour.js > tmp/libapp.js
 
 cat css/policy-terms.css css/enjoyhint.extras.css css/media.css css/app.css > tmp/libapp.css
 
-cp tmp/libapp.css lib/libapp_$2.css
-cp tmp/libapp.js  lib/libapp_$2.js
+cp tmp/libapp.css lib/libapp_$vapp.css
+cp tmp/libapp.js  lib/libapp_$vapp.js
 
-echo "Compressing Site $1..."
-java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o  lib/site_$1-min.js tmp/site.js
-java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o  lib/site_$1-min.css tmp/site.css
+echo "Compressing Site $vsite..."
+java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o  lib/site_$vsite-min.js tmp/site.js
+java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o  lib/site_$vsite-min.css tmp/site.css
 
-echo "Compressing Lib App $2..."
-java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o  lib/libapp_$2-min.js tmp/libapp.js
-java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o  lib/libapp_$2-min.css tmp/libapp.css
+echo "Compressing Lib App $vapp..."
+java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o  lib/libapp_$vapp-min.js tmp/libapp.js
+java -Dfile.encoding=utf-8 -jar yuicompressor-2.4.8.jar  --line-break 7000 -o  lib/libapp_$vapp-min.css tmp/libapp.css
