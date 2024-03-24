@@ -1,0 +1,33 @@
+X:1078
+%%barnumbers 0
+%%papersize A4
+%barsperstaff 6
+%staffsep 20
+%pagenumbering
+%stretchlast
+%landscape
+%%tabinferenceopts +1
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+F:https://www.youtube-nocookie.com/embed/2vfdhZv1UfM
+T:Luna San Juanera G
+C:Roberto Calderón
+M:4/4
+L:1/8
+Q:110
+K:G
+V:1 treble
+| z2 DE |: FG A[GB] [GB][GB] [Bd][GB] | [Bd][GB] [Bd][GB]2 z2  G | gd BG2 z GA | Bc d[ce] [ce][ce] [eg][ce] | 
+f: 2 2 3 2 4 23 * * 34 23 | 34 23 34 23 2 | 5 4 3 2  2 4 | 4 3 5 23 * * 34 23 |
+| [eg][ce] [eg][ce]2 z2 c | c'g ec2 z AB | cd e[df] [df][df] [ce][df] | [ce][df] [ce][df]2 z [ce][df] | 
+f: 34 23  34 23  2 | 5 4 3 2 3 2 | 3 2 3 25 * * 34 25 | 34 25 34 25 34 25 |
+| [ce][df] [ce][Bd]2 z [Bd][ce] | [Bd][ce] [Bd] [Ac]2 z [Ac][Bd] | [Ac][Bd] [Ac] [GB]2 z2 G |1 gd BG2 z DE :|2 gd BG2 z2 z | 
+f: 34 25 34 34 34 23 | 34 23 34 23 23  23 | 23  23 23 23 2 | 5 4 3 2 3 3 | 5 4 3 2 |
+V:2 bass
+| z4 |: z2 z [G,B,D] G,, [G,B,D][G,B,D] z | z [G,B,D] z [G,B,D] G,, [G,B,D][G,B,D] z | z [G,B,D] z [G,B,D] G,, [G,B,D][G,B,D] z | z [G,B,D] z [C,E,G,] C,, [C,E,G,][C,E,G,] z | 
+| z [C,E,G,] z [C,E,G,] C,, [C,E,G,][C,E,G,] z | z [C,E,G,] z [C,E,G,] C,, [C,E,G,][D,F,A,] z | z [D,F,A,] z [D,F,A,] D,, [D,F,A,][D,F,A,] z | z [D,F,A,] z [D,F,A,] D,, [D,F,A,][D,F,A,] z | 
+| z [D,F,A,] z [G,B,D] G,, [G,B,D][G,B,D] z | z [C,E,G,] z [D,F,A,] D,, [D,F,A,][D,F,A,] z | z [D,F,A,] z [G,B,D] G,, [G,B,D][G,B,D] z |1 z [G,B,D] z [G,B,D] G,, [G,B,D][G,B,D] z :|2  z [G,B,D] z [G,B,D] G,, [G,B,D][G,B,D] z | 
+V:3 accordionTab
+| z+z2 z+5 z-5 |: z-6 z-5' z-7 g-[5'6'] G-[5'6'] g-[5'6'] g-[6'7'] z-[5'6'] | z-[6'7'] g-[5'6'] z-[6'7'] g-[5'6'] G-[>>] g-z g-z z-5' | z-9' g-7' z-6' g-5' G-> g-z g-5' z-7 | z+7 g+6' z+8 c+[6'7'] C+[6'7'] c+[6'7'] c+[7'8'] z+[6'7'] |
+| z+[7'8'] c+[6'7'] z+[7'8'] c+[6'7'] C+[>>] c+z c+z z+6' | z+9' c+8' z+7' c+6' C+> c+z d-7 z-6' | z-8 d-7' z-9 d-[7'a] D-[7'a] d-[7'a] d-[89] z-[7'a] | z-[89] d-[7'a] z-[89] d-[7'a] D-[>>] d-z d-[89] z-[7'a] |
+| z-[89] d-[7'a] z+[6'7'] g+[78] G+[>>] g+z g+[78] z+[6'7'] | z+[78] c+[6'7'] z-[6'7'] d-[78] D-[>>] d-z d-[78] z-[6'7'] | z-[78] d-[6'7'] z-[78] g-[5'6'] G-[>>] g+z g+z z-5' |1 z-9' g-7' z-6' g-5' G-> g-z g-3' z-5 :|2 z+9 g+8 z+7 g+6 G+> g+z g+z z+z |

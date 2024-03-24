@@ -1,8 +1,10 @@
 X:1005
 %%barnumbers 0
 %%papersize A4
+%landscape
+%%barsperstaff 7
 %%pagenumbering
-%%staffsep 15
+%%staffsep 17
 T:Felicidade
 C:Lupicínio Rodrigues
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
@@ -14,11 +16,27 @@ L:1/8
 Q:80
 K:G
 V:1 treble
-| z BBc |:+segno+ d3 B | b3 g | ef ed | cd cB | A3 F | 
+| z B Bc |:+segno+ d3 B | b3 g | ef ed | cd cB | A3 F | 
+w:Fe-li-ci-da-de foi-se'em-bo-ra e~a sau-da-de no meu pei-to
+w: . . . . . . . . . . . . . . . . . .
+f: 3 3 2 3 2 5 4 | 4 5 4 2 | 3 2 3 2 3 2
 | f3 e | de dc | Bc BA | G3 B | e3 d | cd cB | 
+w:ain-da mo-ra~e é por is-so que eu gos-to lá de fo-ra por-que
+w: . . . . . . . . . . . . . . . . . .
+f:5 4 3 2 3 2 | 3 2 2 3 |2 3 4 4 | 5 4 5 3
 | AB AG | F3 D | B3 A | G4 |1 z B Bc :|2 z [Bd] [Bd][ce] | 
+w:sei que~a~fal -si-da-de não vi-gora! | Fe-li-ci- | A mi-nha
+w: . . . . . . . . . . . . . . . 
+f:4 3 4 2 | 3 2 4 5 4 | 3 3 2 | 34 * 23
 |: [ce][Bd] [Bd][ce] | [ce][Bd] [Bd][df] | [df][ce] [ce][df] | [df][ce] [ce][df] | [df][ce] [ce][df] | 
+w:ca-sa fi-ca lá de-trás do mun-do, on-de vou em um se-gun-do quan-do
+w:men-to pa-re-ce uma coi-sa~a-toa, mas co-mo é que a gen-te voa quan-do
+f: * 34 * 23 | * 34 23 25 | 25 34 * 25 | * 34 * 25 | * 34 * 25 | 
 | [df][ce] [ce][Bd] | [Bd]2 z2 |1 z [Bd] [Bd][ce] :|2 z B Bc +dasegno+ |
+f: * 34 * 23 | 34 | 34 * 23 | 3 3 2
+w:co-me-ço~a pen-sar. | E~o pen-sa- | . . .
+w:co-me-ça~a pen-sar. | . . . | Fe-li-ci-
+f: 
 V:2 bass
 | z4 |: G,,2 [G,,B,,D,]2 | E,,2 [G,,B,,D,]2 | A,,2 [A,,C,E,]2 | A,,2 [A,,C,E,]2 | D,,2 [D,F,A,]2 | 
 | D,,2 [D,F,A,]2 | G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,] z | E,,2 [G,,B,,D,]2 | E,,2 [G,,B,,D,] z | A,,2 [A,,C,E,]2 | 
@@ -26,8 +44,8 @@ V:2 bass
 |: G,,2 [G,,B,,D,]2 | G,,2 [G,,B,,D,] z | A,,2 [A,,C,E,]2 | A,,2 [A,,C,E,]2 | D,,2 [D,F,A,]2 | 
 | D,,2 [D,F,A,] z | G,,2 [G,,B,,D,]2 |1 G,,2 [G,,B,,D,]2 :|2 G,,2 [G,,B,,D,]2 | 
 V:3 accordionTab
-| z+z z+7 z+7 z+6' |: G+82 g+> >+7 | E+a2 g+> >-9' | A-9 >-a am-9 >-7' | A-8 >-7' am-8 >-6' | D-72 d-> >-6 | 
-| D-a2 d-> >-9 | G+8 >+7' g+8 >+6' | G+7 >+6' g+7 z-7 | E+62 g+> >+7 | E+7'2 g+> z-7' | A-8 >-7' am-8 >-6' | 
+| z+z z+7 z+7 z+6' |: G+82 g+> >+7 | E+a2 g+> >+9 | A-9 >-a am-9 >-7' | A-8 >-7' am-8 >-6' | D-72 d-> >-6 | 
+| D-a2 d-> >-9 | G+8 >+7' g+8 >+6' | G+7 >+6' g-6' z-7 | E+62 g+> >+7 | E+7'2 g+> z-7' | A-8 >-7' am-8 >-6' | 
 | A-7 >-6' am-7 >-5' | D-62 d-> >-3' | D-6'2 d-> >-7 | G+62 g+>2 |1 G+z >+7 g+7 >+6' :|2 G+z >+[78] g+[78] >+[6'7'] | 
-|: G+[6'7'] >+[78] g+[78] >+[6'7'] | G+[6'7'] >+[78] g+[78] z-[7'a] | A-[7'a] >-[89] am-[89] >-[7'a] | A-[7'a] >-[89] am-[89] >-[7'a] | D-[7'a] >-[89] d-[89] >-[7'a] | 
-| D-[7'a] >-[89] d-[89] z+[78] | G+[78]2 g+z2 |1 G+z >+[78] g+[78] >+[6'7'] :|2 G+z >+7 g+7 >+6' |
+|: G+[6'7'] >+[78] g+[78] >+[6'7'] | G+[6'7'] >+[78] g-[6'7'] z-[7'a] | A-[7'a] >-[89] am-[89] >-[7'a] | A-[7'a] >-[89] am-[89] >-[7'a] | D-[7'a] >-[89] d-[89] >-[7'a] | 
+| D-[7'a] >-[89] d-[89] z-[6'7'] | G+[78]2 g+z2 |1 G+z >+[78] g+[78] >+[6'7'] :|2 G+z >+7 g+7 >+6' |

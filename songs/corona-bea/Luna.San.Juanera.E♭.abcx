@@ -6,7 +6,6 @@ X:7024
 %pagenumbering
 %stretchlast
 %landscape
-%%barnumbers 1
 %%tabinferenceopts +1
 Z:Flávio Vani
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
@@ -18,14 +17,17 @@ L:1/8
 Q:110
 K:Eb
 V:1 treble
-| z2 B,C | DE F[EG] [EG][EG] [GB][EG] | [GB][EG] [GB][EG]2 z2  E | eB GE2 z EF | GA B[Ac] [Ac][Ac] [ce][Ac] | 
+| z2 B,C |: DE F[EG] [EG][EG] [GB][EG] | [GB][EG] [GB][EG]2 z2  E | eB GE2 z EF | GA B[Ac] [Ac][Ac] [ce][Ac] | 
+f: 3 3  2 3 2 23 * * 34 23 | 34 23 34 23 2 | 5 4 3 2  3 3 | 2 3 2 23 * * 34 23 |
 | [ce][Ac] [ce][Ac]2 z2 A | ae cA2 z FG | AB c[Bd] [Bd][Bd] [Ac][Bd] | [Ac][Bd] [Ac][Bd]2 z [Ac][Bd] | 
-| [Ac][Bd] [Ac][GB]2 z [GB][Ac] | [GB][Ac] [GB] [FA]2 z [FA][GB] | [FA][GB] [FA] [EG]2 z2 E | eB GE2 z2 z | 
+f: 34 23  34 23  2 | 5 4 3 2 3 2 | 3 2 3 25 * * 34 25 | 34 25 34 25 34 25 |
+| [Ac][Bd] [Ac][GB]2 z [GB][Ac] | [GB][Ac] [GB] [FA]2 z [FA][GB] | [FA][GB] [FA] [EG]2 z2 E |1 eB GE2 z B,C :|2 eB GE2 z2 z | 
+f: 34 25 34 34 34 23 | 34 23 34 23 23  23 | 23  23 23 23 2 | 5 4 3 2 3 3 | 5 4 3 2 |
 V:2 bass
-| z4 | z2 z [E,G,B,] E,, [E,G,B,][E,G,B,] z | z [E,G,B,] z [E,G,B,] E,, [E,G,B,][E,G,B,] z | z [E,G,B,] z [E,G,B,] E,, [E,G,B,][E,G,B,] z | z [E,G,B,] z [A,CE] A,, [A,CE][A,CE] z | 
+| z4 |: z2 z [E,G,B,] E,, [E,G,B,][E,G,B,] z | z [E,G,B,] z [E,G,B,] E,, [E,G,B,][E,G,B,] z | z [E,G,B,] z [E,G,B,] E,, [E,G,B,][E,G,B,] z | z [E,G,B,] z [A,CE] A,, [A,CE][A,CE] z | 
 | z [A,CE] z [A,CE] A,, [A,CE][A,CE] z | z [A,CE] z [A,CE] A,, [A,CE][B,DF] z | z [B,DF] z [B,DF] B,, [B,DF][B,DF] z | z [B,DF] z [B,DF] B,, [B,DF][B,DF] z | 
-| z [B,DF] z [E,G,B,] E,, [E,G,B,][E,G,B,] z | z [A,CE] z [B,DF] B,, [B,DF][B,DF] z | z [B,DF] z [E,G,B,] E,, [E,G,B,] [E,G,B,] z | z [E,G,B,] z [E,G,B,] E,, [E,G,B,][E,G,B,] z | 
+| z [B,DF] z [E,G,B,] E,, [E,G,B,][E,G,B,] z | z [A,CE] z [B,DF] B,, [B,DF][B,DF] z | z [B,DF] z [E,G,B,] E,, [E,G,B,][E,G,B,] z |1 z [E,G,B,] z [E,G,B,] E,, [E,G,B,][E,G,B,] z :|2  z [E,G,B,] z [E,G,B,] E,, [E,G,B,][E,G,B,] z | 
 V:3 accordionTab
-| z+z2 z+2 z-2 | z-2' z-3 z-3' e♭+[3'4'] E♭+[3'4'] e♭+[3'4'] e♭+[4'5'] z+[3'4'] | z+[4'5'] e♭+[3'4'] z+[4'5'] e♭+[3'4'] E♭+[>>] e♭+z e♭+z z+3' | z+6' e♭+5' z+4' e♭+3' E♭+> e♭+z e♭+3' z-3' | z-2'' e♭-4' z-3'' a♭+[3''4''] A♭+[3''4''] a♭+[3''4''] a♭+[4''5''] z+[3''4''] | 
+| z+z2 z+2 z-2 |: z-2' z-3 z-3' e♭+[3'4'] E♭+[3'4'] e♭+[3'4'] e♭+[4'5'] z+[3'4'] | z+[4'5'] e♭+[3'4'] z+[4'5'] e♭+[3'4'] E♭+[>>] e♭+z e♭+z z+3' | z+6' e♭+5' z+4' e♭+3' E♭+> e♭+z e♭+3' z-3' | z-2'' e♭-4' z-3'' a♭+[3''4''] A♭+[3''4''] a♭+[3''4''] a♭+[4''5''] z+[3''4''] | 
 | z+[4''5''] a♭+[3''4''] z+[4''5''] a♭+[3''4''] A♭+[>>] a♭+z a♭+z z+3'' | z+6'' a♭+5'' z+4'' a♭+3'' A♭+> a♭+z b♭-3' z-2'' | z-4' b♭-3'' z-5' b♭-[3''6'] B♭-[3''6'] b♭-[3''6'] b♭-[4'5'] z-[3''6'] | z-[4'5'] b♭-[3''6'] z-[4'5'] b♭-[3''6'] B♭-[>>] b♭-z b♭-[4'5'] z-[3''6'] | 
-| z-[4'5'] b♭-[3''6'] z-[4'5'] e♭+[4'5'] E♭+[>>] e♭+z e♭+[4'5'] z+[3''4''] | z+[4'5'] a♭+[3''4''] z+[4'5'] b♭-[3'4'] B♭-[>>] b♭-z b♭-[3'4'] z-[2''3''] | z-[3'4'] b♭-[2''3''] z-[3'4']  e♭+[3'4'] E♭+[>>] e♭+z e♭+z z+3' | z+6' e♭+5' z+4' e♭+3' E♭+> e♭+z e♭+z z+z |
+| z-[4'5'] b♭-[3''6'] z-[4'5'] e♭+[4'5'] E♭+[>>] e♭+z e♭+[4'5'] z+[3''4''] | z+[4'5'] a♭+[3''4''] z+[4'5'] b♭-[3'4'] B♭-[>>] b♭-z b♭-[3'4'] z-[2''3''] | z-[3'4'] b♭-[2''3''] z-[3'4']  e♭+[3'4'] E♭+[>>] e♭+z e♭+z z+3' |1 z+6' e♭+5' z+4' e♭+3' E♭+> e♭+z e♭+2 z-2 :|2 z+6' e♭+5' z+4' e♭+3' E♭+> e♭+z e♭+z z+z |
