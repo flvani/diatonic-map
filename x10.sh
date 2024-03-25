@@ -21,16 +21,23 @@ do
     fi
 done
 
-cd $assets_folder
-ln -s privacy privacidade
-zip -r ../site.x10.zip  . -x .$assets_folder/.git/**\*
-cd - 
+export HOST='diatonicmap.com.br'
+export USER='flvani@diatonicmap.x10.mx'
 
-ftp -nv $HOST<<EOF!
-quote USER $USER
-quote PASS $PASSWD
-binary
-put site.x10.zip
-quit
+if [ -z "$HOST" ] || [ -z "$USER" ] || [ -z "$PASSWD" ]; then
+    echo "Informe valores para as tres variávieis HOST, USER e PASSWD"
+else
+    cd $assets_folder
+    ln -s privacy privacidade
+    zip -r ../site.x10.zip  . -x .$assets_folder/.git/**\*
+    cd - 
+
+    ftp -nv $HOST<<EOF!
+    quote USER $USER
+    quote PASS $PASSWD
+    binary
+    put site.x10.zip
+    quit
 EOF!
+fi
 
