@@ -12,8 +12,8 @@
 # echo $vsite | grep -E -q '^[1-9]\.[0-9]+$' || die "Site Version number argument required (x.y), $vsite provided"
 # echo $vapp | grep -E -q '^[0-9]\.[0-9]+\.[0-9]+$' || die "App Version number argument required (x.y.z), $vapp provided"
 
-vsite=6.27
-vapp=2.24.4
+vsite=6.28
+vapp=2.24.5
 
 echo "Concatenating all files..."
 

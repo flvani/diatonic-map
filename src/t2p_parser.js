@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+'use strict'
+
 if (!window.ABCXJS)
     window.ABCXJS = {};
 
@@ -24,17 +26,11 @@ ABCXJS.Tab2Part = function (toClub, fromClub ) {
     this.toClub = toClub || false;
     this.fromClub = fromClub || false;
     
-    this.ties = [];
-    this.keyAcidentals = [];
-    this.barAccidentals = [];
-    this.barBassAccidentals = [];
-    
     this.startSyms = "]|/+%f";
     this.barSyms = ":]|[";
     this.spaces = "-.\ \t";
 
     this.bassOctave = 2;
-    this.inTriplet = false;
     this.init();
     
     this.addWarning = function ( msg ) {
@@ -62,7 +58,12 @@ ABCXJS.Tab2Part.prototype.init = function () {
     this.alertedBarNumber = 0;
     this.currBar = 0;
     this.currStaff = -1;   
+    this.inTriplet = false;
     
+    this.ties = [];
+    this.keyAcidentals = [];
+    this.barAccidentals = [];
+    this.barBassAccidentals = [];
     this.warnings = [];
 };
 
@@ -346,27 +347,19 @@ ABCXJS.Tab2Part.prototype.addNotes = function(staffs) {
                 
                 if( (opening && staffs[i].open) || (!opening && !staffs[i].open) ) {
                     
-                    if( this.ties.length > 0 )  {
-                        var t = this.ties.pop();
-                        if( t !== str ) {
-                            this.ties.push(t);
-                        } else {
-                            str = "";
-                            for(var j = 0; j < staffs[i].token.aStr.length; j ++ ) {
-                                  str += ">";
-                            }  
-                            if(staffs[i].token.aStr.length > 1) {
-                                str = '['+str+']';
-                            }
-                        }
-                    }  else {
+                    str = this.checkTies(str);
+                    let ties = '';
 
-                        if(staffs[i].token.lastChar.indexOf( '-' )>=0) {
-                            //staffs[i].token.lastChar = '';
-                            this.ties.push(str);
+                    if(staffs[i].token.lastChar.indexOf( '-' )>=0) {
+                        for (let j = 0; j < staffs[i].token.aStr.length; j++) {
+                            if( staffs[i].token.lastChar[j] === '-' )
+                                ties += this.toHex(staffs[i].token.aStr[j]);
                         }
-                    }  
+                        this.ties.push(ties);
+                    }
+
                     this.addTabElem(str);
+
                     if(  (this.trebleStaffs.open && this.trebleStaffs.open.token.afinal) 
                             || (this.trebleStaffs.close && this.trebleStaffs.close.token.afinal)){
                         this.addTrebleElem(staffs[i]);
@@ -397,6 +390,54 @@ ABCXJS.Tab2Part.prototype.addNotes = function(staffs) {
     this.addTabElem(' ');
    
 };
+
+
+ABCXJS.Tab2Part.prototype.checkTies = function (str) {
+
+    //any ties? 
+    if( this.ties.length === 0 )  return str;
+
+    //desempinha uma ligadura
+    let t = this.ties.pop();
+
+    let notas = t.match(/(?:[0-9a-fA-F]'{0,})/g);
+
+    // t pode ser um subconjunto de str, assim o correto é 
+    // procurar cada correspondência de t em str e substituir por ">" 
+
+    let letrasSubstituidas = '';
+    let coincide = false;
+
+    // Verificar se pelo menos uma nota em t coincide com str
+    for (let i = 0; i < notas.length; i++) {
+        if (str.includes(notas[i])) {
+            coincide = true;
+            break;
+        }
+    }
+
+    if (!coincide) {
+        // como não encontrou coincidencias, empilha novamente a ligadura
+        this.ties.push(t);
+        return str; // Se não houver coincidência, retornar a string original
+    } 
+
+    // Substituir cada letra de t por ">" na mesma posição em str
+    for (let i = 0; i < notas.length; i++) {
+        if (str.includes(notas[i])) {
+            str = str.split(notas[i]).join('>');
+            t = t.split(notas[i]).join('');
+        }
+    }
+
+    if (t.length > 0) {
+        // ainda restou alguma coisa? emplilha
+        this.ties.push(t);
+    } 
+
+    return str;
+}
+
 
 ABCXJS.Tab2Part.prototype.addTabElem = function (el) {
     this.parsedLines[this.currStaff].tablature += el;
