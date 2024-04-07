@@ -101,6 +101,7 @@
     overflow: auto !important;
   }
 }
+
 @media all {
     .page-break	{ display: none; }
     .info   	{ display: none; }
@@ -265,6 +266,7 @@ pre {
   stroke: blue; 
   text-decoration: none; 
 }
+
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -378,6 +380,7 @@ and open the template in the editor.
     font-kerning: normal;
     font-size: 20px;
 }   
+
 
 .btn-group ,
 .dropdown-group {
@@ -603,7 +606,8 @@ and open the template in the editor.
     top: -28px;
     font-size: 20px;
     padding: 0 5px 0 5px;
-}  /*
+}  
+/*
     To change this license header, choose License Headers in Project Properties.
     To change this template file, choose Tools | Templates
     and open the template in the editor.
@@ -783,6 +787,7 @@ and open the template in the editor.
     height: 240px;
     overflow: auto;
 }
+
 /*
 To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
@@ -1092,6 +1097,7 @@ and open the template in the editor.
 .dialog .text-group input[type="text"] {
   width: 300px;   
 }
+
 
 /*
 To change this license header, choose License Headers in Project Properties.

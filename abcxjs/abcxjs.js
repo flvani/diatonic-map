@@ -165,6 +165,7 @@ function renderEngine(callback, output, abc, parserParams, renderParams) {
 }
 
 })();
+
 //    abc_tune.js: a computer usable internal structure representing one tune.
 //    Copyright (C) 2010 Paul Rosen (paul at paulrosen dot net)
 //
@@ -1163,6 +1164,7 @@ window.ABCXJS.data.Tune = function() {
     this.reset();
 
 };
+
 //    abc_parse.js: parses a string representing ABC Music Notation into a usable internal structure.
 //    Copyright (C) 2010 Paul Rosen (paul at paulrosen dot net)
 //
@@ -1182,14 +1184,14 @@ window.ABCXJS.data.Tune = function() {
 if (!window.ABCXJS)
 	window.ABCXJS = {};
 
-if (!window.ABCXJS.parse)
+if (!window.ABCXJS.math)
 	window.ABCXJS.math = {};
     
 window.ABCXJS.math.isNumber = function (n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 };    
 
-if (!window.ABCXJS.parse)
+if (!window.ABCXJS.misc)
 	window.ABCXJS.misc = {};
     
 window.ABCXJS.misc.isOpera = function() { // Opera 8.0+
@@ -1503,6 +1505,7 @@ String.prototype.replaceAll = function(search, replacement) {
     var target = this;
     return target.split(search).join(replacement);
 };
+
 //    abc_parse.js: parses a string representing ABC Music Notation into a usable internal structure.
 //    Copyright (C) 2010 Paul Rosen (paul at paulrosen dot net)
 //
@@ -2441,7 +2444,7 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                         state = 'octave';
                         // At this point we have a valid note. The rest is optional. Set the duration in case we don't get one below
                         if (canHaveBrokenRhythm && multilineVars.next_note_duration !== 0) {
-                            el.duration = multilineVars.next_note_duration;
+                            el.duration = multilineVars.next_note_duration; 
                             multilineVars.next_note_duration = 0;
                             durationSetByPreviousNote = true;
                         } else
@@ -3113,8 +3116,7 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                     // handle chords.
                     if (line.charAt(i) === '[') {
                         i++;
-                        var chordDuration = null;
-
+                        var chordDuration = null;    
                         var done = false;
                         while (!done) {
                             var chordNote = getCoreNote(line, i, {}, true); //brokenR: um acorde não pode ter broken rhythm
@@ -3194,8 +3196,9 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                                             case '>':
                                             case '<':
                                                 var br2 = getBrokenRhythm(line, i);
-                                                i += br2[0] - 1;	// index gets incremented below, so we'll let that happen
-                                                multilineVars.next_note_duration = br2[2];
+                                                i += br2[0] - 1; // index gets incremented below, so we'll let that happen
+                                                multilineVars.next_note_duration = br2[2] * el.duration;
+                                                //multilineVars.next_note_duration = br2[2]; //bug: acorde antes do broken rhythm
                                                 chordDuration = br2[1];
                                                 break;
                                             case '1':
@@ -3552,6 +3555,7 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
         }
     };
 };
+
 /*global window */
 
 if (!window.ABCXJS)
@@ -4118,6 +4122,7 @@ window.ABCXJS.parse.parseDirective = {};
 	};
 
 })();
+
 //    abc_parse_header.js: parses a the header fields from a string representing ABC Music Notation into a usable internal structure.
 //    Copyright (C) 2010 Paul Rosen (paul at paulrosen dot net)
 //
@@ -4539,7 +4544,7 @@ window.ABCXJS.parse.ParseHeader = function(tokenizer, warn, multilineVars, tune,
 		S: 'source',
 		W: 'unalignedWords',
 		Z: 'transcription',
-                X: 'pieceId'
+		X: 'pieceId'
 	};
 
 	this.parseHeader = function(line, lineNumber ) {
@@ -4646,6 +4651,7 @@ window.ABCXJS.parse.ParseHeader = function(tokenizer, warn, multilineVars, tune,
 		return {regular: true, str: line};
 	};
 };
+
 /*global window */
 
 if (!window.ABCXJS)
@@ -5466,6 +5472,7 @@ window.ABCXJS.parse.parseKeyVoice = {};
 
 })();
 
+
 //    abc_tokenizer.js: tokenizes an ABC Music Notation string to support abc_parse.
 //    Copyright (C) 2010 Paul Rosen (paul at paulrosen dot net)
 //
@@ -6253,6 +6260,7 @@ window.ABCXJS.parse.tokenizer = function() {
 //		}
 	};
 };
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -6949,6 +6957,148 @@ window.ABCXJS.parse.Transposer.prototype.makeElem = function(abcNote){
    }
    return ( acc ? { pitch: pitch, accidental: acc } : { pitch: pitch } );
 };
+
+/* 
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+"use strict"
+
+/*global window */
+
+if (!window.ABCXJS)
+	window.ABCXJS = {};
+
+if (!window.ABCXJS.parse)
+	window.ABCXJS.parse = {};
+    
+window.ABCXJS.parse.rebalance = function ( text ) {
+
+    alert( 'A função rebalance é experimental!\n' +
+            'O objetivo é alinhar a quantidade de compassos de\n' +
+            'melodia e baixos por linha.\n' +
+            'Por hora, a diretiva %%barsperstaff é considerada\n' + 
+            'e, na sua ausência, são distribuídos 6 compassos por linha.\n' + 
+            'Linebreaks são ignorados.\n' + 
+            'Espera-se que as vozes V:1 e V:2 bass sejam bem definidas.'
+        );
+
+    var strTune = text;
+
+    // Take care of whatever line endings come our way
+    strTune = window.ABCXJS.parse.gsub(strTune, '\r\n', '\n');
+    strTune = window.ABCXJS.parse.gsub(strTune, '\r', '\n');
+    strTune += strTune.charAt(strTune.length-1) === '\n' ? '' : '\n';
+    strTune = strTune.replace(/\n\\.*\n/g, "\n");	// get rid of latex commands.
+    
+    var continuationReplacement = function(all, backslash, comment) {
+        var spaces = "                                                                                                                                                                                                     ";
+        var padding = comment ? spaces.substring(0, comment.length) : "";
+        return backslash + " \x12" + padding;
+    };
+    
+    // take care of line continuations right away, but keep the same number of characters
+    strTune = strTune.replace(/\\([ \t]*)(%.*)*\n/g, continuationReplacement);	
+    
+    var lines = strTune.split('\n');
+
+    var barsperstaff = 6;
+    var linebreak ='$'
+    var inTreble = false;
+    var inBass= false;
+    var trebleText ='';
+    var bassText ='';
+    var regularLine = true;
+    var liTreble = -1;
+    var lfTreble = -1;
+    var liBass = -1;
+    var lfBass = -1;
+
+    var split = function( text, maxbars ) {
+        var x0 = 0;
+        var x1 = 0;
+        var xi = 0;
+        var cnt = 0;
+        var newLines = [];
+        var regex = /(?:[\:\|]|\[\|)+[\:\|\]]{0,}/; // identifica as barras de compasso
+
+        var bar = text.substring(xi).match(regex);
+
+        while (bar) {
+            bar = text.substring(xi).match(regex);
+            if(bar) {
+               xi += (bar.index+bar[0].length);
+               cnt += 1;
+            } else {
+                // força a saida
+                xi = text.length;
+                cnt = maxbars;
+            }
+            if ( cnt === maxbars ) {
+                cnt = 0;
+                x1 = xi;
+                newLines.push( text.substring(x0, x1) )
+                x0=x1;
+            }
+        }
+        return newLines;
+    }
+
+    for (let index = 0; index < lines.length; index++){
+        const element = lines[index];
+        if (element.match(/^[V]:.*/)){
+            if( element.includes('bass') ){
+                inBass = true;
+                inTreble = false;
+            } else {
+                inBass = false;
+                inTreble = true;
+            }
+            // antes de continuar, verificar se V inline
+            continue;
+        }
+        if (element.includes('linebreak')){
+            linebreak = element.substring(element.indexOf(' ')+1);
+        }
+        if (element.includes('%%barsperstaff')){
+            barsperstaff = parseInt( element.substring(element.indexOf(' ')+1));
+        }
+        if(regularLine && (inBass || inTreble)){
+            var commentX = element.indexOf('%');
+
+            commentX = commentX === -1? element.length : commentX;
+
+            if(inBass) {
+               liBass = liBass === -1? index : liBass;
+               lfBass = index;
+               bassText += element.substring(0,commentX);
+            } 
+            if( inTreble){
+               liTreble = liTreble === -1? index : liTreble;
+               lfTreble = index;
+               trebleText += element.substring(0,commentX);
+            }
+        }
+    }
+
+
+    var newTrebleLines = split( trebleText, barsperstaff );
+    var newBassLines = split( bassText, barsperstaff );
+
+    let nl = [
+        ...lines.slice(0, liTreble),
+        ...newTrebleLines,
+        ...lines.slice(lfTreble + 1, liBass),
+        ...newBassLines,
+        ...lines.slice(lfBass + 1)
+    ];
+
+    return nl.join('\n')
+    
+};
+
 /*global window, ABCXJS */
 
 if (!window.ABCXJS)
@@ -7169,6 +7319,7 @@ ABCXJS.write.Glyphs = function () {
         }
     };
 };
+
 //    abc_graphelements.js: All the drawable and layoutable datastructures to be printed by ABCXJS.write.Printer
 //    Copyright (C) 2010 Gregory Dyke (gregdyke at gmail dot com)
 //
@@ -8214,6 +8365,7 @@ ABCXJS.write.BeamElem.prototype.drawAuxBeams = function(printer) {
         }
     }
 };
+
 //    abc_layout.js: Creates a data structure suitable for printing a line of abc
 //    Copyright (C) 2010 Gregory Dyke (gregdyke at gmail dot com)
 //
@@ -9462,6 +9614,7 @@ ABCXJS.write.Layout.prototype.printTimeSignature= function(elem) {
   this.startlimitelem = abselem; // limit ties here
   return abselem;
 };
+
 //    abc_write.js: Prints an abc file parsed by abc_parse.js
 //    Copyright (C) 2010 Gregory Dyke (gregdyke at gmail dot com)
 //
@@ -10127,6 +10280,7 @@ ABCXJS.write.Printer.prototype.printExtraText = function(text, x) {
 ABCXJS.write.Printer.prototype.printSubtitleLine = function(subtitle) {
     this.paper.text(this.width/2, this.y+2, subtitle, 'abc_subtitle', 'middle');
 };
+
     /**
  * sprintf() for JavaScript v.0.4
  *
@@ -10188,6 +10342,7 @@ ABCXJS.write.sprintf = function() {
   }
   return o.join('');
 };
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10569,6 +10724,7 @@ SVG.Printer.prototype.printButton = function (id, x, y, options) {
 
 };
 
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10829,6 +10985,7 @@ SVG.Glyphs = function () {
         return '\n' +  g;
     };
 };
+
 /* abc_selectors.js
    Implenta alguns objetos para controle de tela, tais como o um seletor de acordeons e um seletor de tonalidades
  */
@@ -10936,6 +11093,7 @@ ABCXJS.edit.KeySelector.prototype.populate = function(offSet) {
       
     }
 };
+
 
 // EditArea is an example of using a ace editor as the control that is shown to the user. As long as
 // the same interface is used, ABCXJS.Editor can use a different type of object.
@@ -11441,6 +11599,7 @@ ABCXJS.edit.EditArea.prototype.retrieveProps = function( props ) {
         props.height = k.height;
     }
 };
+
 if (!window.ABCXJS)
     window.ABCXJS = {};
 
@@ -11459,6 +11618,7 @@ for (var n = window.ABCXJS.midi.minNote; n <= window.ABCXJS.midi.maxNote; n++) {
     name = ABCXJS.parse.number2keyflat[n % 12] + octave;
     ABCXJS.midi.keyToNote[name] = n;
 }
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12333,6 +12493,7 @@ ABCXJS.midi.Parse.prototype.getButton = function( b ) {
         return kb.keyMap[row][button];
     return null;
 };
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -12760,6 +12921,7 @@ ABCXJS.midi.Player.prototype.getTime = function() {
     var cTimeMiScs  = pad(mins,2) + ':' + pad(secs,2) + '.' + pad(cs,2);
     return { cTime: cTimeMiS, cTimeMiScs: cTimeMiScs, time: time };
 };
+
 
 /*!
  * perfect-scrollbar v1.3.0
@@ -14106,6 +14268,7 @@ PerfectScrollbar.prototype.removePsClasses = function removePsClasses () {
 return PerfectScrollbar;
 
 })));
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -14802,6 +14965,7 @@ DRAGGABLE.ui.PushButton = function( item, claz, ico, act, text, janela) {
         janela.eventsCentral(act.toUpperCase(), item);
     }, false );
 };
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15385,6 +15549,7 @@ DRAGGABLE.ui.DropdownMenu.prototype.addAction = function( ddm, action, div, self
     }, false);
     
 };
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15670,6 +15835,7 @@ DRAGGABLE.ui.ColorPicker.prototype.activate = function( parent ) {
     this.container.topDiv.style.left = bounds.left + bounds.width + 5 + "px";
     this.container.setVisible(true);
 };
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -15797,7 +15963,8 @@ DRAGGABLE.ui.Slider.prototype.getValue = function( ) {
 DRAGGABLE.ui.Slider.prototype.getBoolValue = function( ) {
     return (this.slider.value != 0);
  };
- /* 
+ 
+/* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -16046,6 +16213,7 @@ ABCXJS.tablature.Accordion.prototype.getTabLines = function () {
     this.tabLines = [];
     return ret;
 };
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -16556,6 +16724,7 @@ ABCXJS.tablature.Parse.prototype.registerInvalidBass = function (barNumber) {
         this.vars.InvalidBass += barNumber + ',';
     }
 };
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -17230,6 +17399,7 @@ ABCXJS.tablature.Infer.prototype.elegeBotao = function( array ) {
     this.lastButton = parseInt(isNaN(b.substr(0,2))? b.substr(0,1): b.substr(0,2));
     return b;
 };
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates

@@ -51,6 +51,7 @@ DIATONIC.map.sortAccordions = function () {
         return parseInt(a.menuOrder) - parseInt(b.menuOrder);
     });
 };
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -211,6 +212,7 @@ DIATONIC.map.AccordionMap.prototype.loadABCX = function(pathList, cb ) {
     }
     return objRet;
 };
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -740,6 +742,7 @@ DIATONIC.map.Keyboard.prototype.clear = function (full) {
     }
     this.modifiedItems = new Array();
 };
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates

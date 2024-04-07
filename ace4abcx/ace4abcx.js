@@ -19148,7 +19148,8 @@ exports.version = "1.2.6";
                         window.ace[key] = a[key];
                 });
             })();
-        define("ace/mode/abcx_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function (require, exports, module) {
+        
+define("ace/mode/abcx_highlight_rules",["require","exports","module","ace/lib/oop","ace/mode/text_highlight_rules"], function (require, exports, module) {
     "use strict";
 
     var oop = require("../lib/oop");
@@ -19417,6 +19418,7 @@ define("ace/mode/abcx",["require","exports","module","ace/lib/oop","ace/mode/tex
 
     exports.Mode = Mode;
 });
+
 define("ace/theme/abcx",["require","exports","module","ace/lib/dom"], function(require, exports, module) {
 "use strict";
 

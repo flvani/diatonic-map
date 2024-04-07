@@ -101,6 +101,7 @@
     overflow: auto !important;
   }
 }
+
 @media all {
     .page-break	{ display: none; }
     .info   	{ display: none; }
