@@ -121,6 +121,7 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
     this.fileLoadABC = document.getElementById('fileLoadABC');
     this.fileLoadABC.addEventListener('change', function(event) { that.carregaPartitura(event); }, false);        
 
+    this.chkRebalance = document.getElementById(interfaceParams.chkRebalance);
     
     this.showEditorButton = document.getElementById(interfaceParams.showEditorBtn);
     this.showMapButton = document.getElementById(interfaceParams.showMapBtn);
@@ -140,6 +141,12 @@ SITE.PartEdit = function( mapa, interfaceParams ) {
         that.showEditor();
     }, false);
     
+    this.chkRebalance.addEventListener("click", function() {
+        that.rebalance = !!this.checked;
+        that.fireChanged();
+    }, false);
+
+
     this.showMapButton.addEventListener("click", function (evt) {
         evt.preventDefault();
         this.blur();
@@ -430,6 +437,10 @@ SITE.PartEdit.prototype.fireChanged = function(transpose) {
     if(text !== "" ) {
     
         FILEMANAGER.saveLocal( 'ultimaPartituraEditada', text );
+
+        if(this.rebalance){
+            text = ABCXJS.parse.rebalance(text);
+        }
 
         this.parseABC(text, transpose);
         this.printABC();

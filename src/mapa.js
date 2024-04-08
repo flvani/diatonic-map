@@ -479,6 +479,7 @@ SITE.Mapa.prototype.openABC2Part = function () {
                ,playBtn: "a2pPlayBtn"
                ,stopBtn: "a2pStopBtn"
                ,btShowMedia: 'a2pbuttonShowMedia'
+               ,chkRebalance:'chkRebalance'
                ,currentPlayTimeLabel: "a2pCurrentPlayTimeLabel"
                ,generate_tablature: 'accordion'
                ,accordion_options: {
