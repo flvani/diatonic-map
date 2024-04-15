@@ -1,0 +1,64 @@
+X:1
+T:La Noyée
+C:Yann Tiersen
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
+F:https://www.youtube-nocookie.com/embed/w6FcNlKkJac;&T:Completa;
+F:https://www.youtube-nocookie.com/embed/nDMDRi5mV_I;&T:Passo-a-passo - Partes I e II;
+Z:Flávio Vani
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+%%barnumbers 1
+L:1/8
+Q:1/4=120
+M:6/8
+K:Am
+V:1 treble stem=down
+| z6 | z6 | z6 | z6 |
+| z6 | z6 | z6 | z6 |
+| z6 | z6 |: A3 B3 | cBc dc>B |
+| cBc dc>B | c3 d3 |  B3 c3 | dcd ef>e |
+| d3 e3 | ded cd>c | B3 c3 | dcB dc>B :|
+| c3 cB>A | c3 cB>A | G3 GA>B |  G3 GA>B |
+| d3 dc>B | d3 dc>B | A3 AB>c | A3 AB>c |
+| ^G3 GA>B | ^GE^F GAB | [ce]3 [ce]B>A |  [ce]3 [ce]B>A |
+| [Ge]3 [Ge]A>B | [Ge]3 [Ge]A>B | [dg]3 [dg]c>B x | [dg]3 [dg]c>B |
+| [Af]3 [Af]B>c |  [Af]3 [Af]B>c | [^Ge]3 [Ge]A>B | [^Ge]E^F [Ge]AB |
+|: [Ac]3 [Bd]3 | [ce][Bd][ce] [df][ce]>[Bd] |  [ce][Bd][ce] [df][ce]>[Bd] | [ce]3 [df]3 |
+| [Bd]3 [ce]3 | [df][ce][df] [eg][fa]>[eg] |  [df]3 [eg]3 | [df][eg][df] [ce][df]>[ce] |
+| [Bd]3 [ce]3 | [df][ce][Bd] [df][ce]>[Bd] :|:  e/A/B/c/B/A/ e/A/B/c/B/A/ | e/A/B/c/B/A/ f/A/e/A/d/A/ |
+| e/G/B/c/B/G/ e/G/B/c/B/G/ |  e/G/B/c/B/G/ f/G/f/G/e/G/ | d/G/A/B/A/G/ d/G/A/B/A/G/ | d/G/A/B/A/G/ f/G/e/G/d/G/ |
+| d/F/G/A/G/F/ d/F/G/A/G/F/ | d/F/G/A/G/F/ e/F/d/F/c/F/ | B/E/^F/^G/F/E/ B/E/F/G/F/E/ |  B/E/^F/^G/A/B/ c/d/e/d/c/B/ :|
+| B/E/^F/^G/ A/B/ c/d/e/d/c/B/ | !fermata![Acea]6 |] 
+V:2 bass stem=up
+| (A,,[A,CE]) z [A,CE] z [A,CE] | (A,,[A,CE]) z [A,CE] z [A,CE] |  C,,[C,E,G,] z [C,E,G,] z [C,E,G,] | C,,[C,E,G,] z [C,E,G,] z [C,E,G,] |
+| (G,,[G,B,D]) z [G,B,D] z [G,B,D] | (G,,[G,B,D]) z [G,B,D] z [G,B,D] |  D,,[F,A,C] z [F,A,C] z [F,A,C] | D,,[F,A,C] z [F,A,C] z [F,A,C] |
+| (E,,.[E,^G,B,]) z [E,G,B,] z [E,G,B,] | E,,[E,^G,B,] z [E,G,B,] z [E,G,B,] |:  (A,,[A,CE]) z [A,CE] z [A,CE] | (A,,[A,CE]) z [A,CE] z [A,CE] |
+| C,,[C,E,G,] z [C,E,G,] z [C,E,G,] | C,,[C,E,G,] z [C,E,G,] z [C,E,G,] |  (G,,[G,B,D]) z [G,B,D] z [G,B,D] | (G,,[G,B,D]) z [G,B,D] z [G,B,D] |
+| D,,[F,A,C] z [F,A,C] z [F,A,C] | D,,[F,A,C] z [F,A,C] z [F,A,C] |  E,,[E,^G,B,] z [E,G,B,]z [E,G,B,] | E,,[E,^G,B,] z [E,G,B,] z [E,G,B,] :|
+| (A,,.[A,CE]).[A,CE] (A,,.[A,CE]).[A,CE] |  (A,,.[A,CE]).[A,CE] (A,,.[A,CE]).[A,CE] | C,,.[C,E,G,].[C,E,G,] C,,.[C,E,G,].[C,E,G,] |  C,,.[C,E,G,].[C,E,G,] C,,.[C,E,G,].[C,E,G,] |
+| (G,,[G,B,D]).[G,B,D] (G,,[G,B,D]).[G,B,D] |  G,,[G,B,D].[G,B,D] G,,[G,B,D].[G,B,D] | D,,[F,A,C][F,A,C] D,,[F,A,C][F,A,C] |  D,,[F,A,C][F,A,C] D,,[F,A,C][F,A,C] |
+| E,,.[E,^G,B,].[E,G,B,] E,,.[E,G,B,].[E,G,B,] |  E,,.[E,^G,B,].[E,G,B,] E,,.[E,G,B,].[E,G,B,] | (A,,.[A,CE]).[A,CE] (A,,.[A,CE]).[A,CE] |  (A,,.[A,CE]).[A,CE] (A,,.[A,CE]).[A,CE] |
+| C,,.[C,E,G,].[C,E,G,] C,,.[C,E,G,].[C,E,G,] |  C,,.[C,E,G,].[C,E,G,] C,,.[C,E,G,].[C,E,G,] | x G,.[G,B,D] .[G,B,D] G,.[G,B,D].[G,B,D] |  G,.[G,B,D].[G,B,D] G,.[G,B,D].[G,B,D] |
+| D,,[F,A,C][F,A,C] D,,[F,A,C][F,A,C] |  D,,[F,A,C][F,A,C] D,,[F,A,C][F,A,C] | E,,.[E,^G,B,].[E,G,B,] E,,.[E,G,B,].[E,G,B,] |  E,,.[E,^G,B,].[E,G,B,] E,,.[E,G,B,].[E,G,B,] |
+|: (A,,.[A,CE]).[A,CE] (A,,.[A,CE]).[A,CE] |  A,,.[A,CE].[A,CE] (A,,.[A,CE]).[A,CE] | C,,.[C,E,G,].[C,E,G,] C,,.[C,E,G,].[C,E,G,] |  C,,.[C,E,G,].[C,E,G,] C,,.[C,E,G,].[C,E,G,] |
+| (G,,[G,B,D]).[G,B,D] G,,[G,B,D].[G,B,D] | G,,[G,B,D].[G,B,D] (G,,[G,B,D]).[G,B,D] | D,,[F,A,C][F,A,C] D,,[F,A,C][F,A,C] |  D,,[F,A,C][F,A,C] D,,[F,A,C][F,A,C] |
+| E,,.[E,^G,B,].[E,G,B,] E,,.[E,G,B,].[E,G,B,] |  E,,.[E,^G,B,].[E,G,B,] E,,.[E,G,B,].[E,G,B,] :|: (A,,.[A,CE]).[A,CE] (A,,.[A,CE]).[A,CE] |  (A,,.[A,CE]).[A,CE] (A,,.[A,CE]).[A,CE] |
+| C,,.[C,E,G,].[C,E,G,] C,,.[C,E,G,].[C,E,G,] |  C,,.[C,E,G,].[C,E,G,] C,,.[C,E,G,].[C,E,G,] | (G,,[G,B,D]).[G,B,D] (G,,[G,B,D]).[G,B,D] |  (G,,[G,B,D]).[G,B,D] (G,,[G,B,D]).[G,B,D] |
+| (D,,[F,A,C])[F,A,C] (D,,[F,A,C])[F,A,C] |  (D,,[F,A,C])[F,A,C] (D,,[F,A,C])[F,A,C] | (E,,.[E,^G,B,]).[E,G,B,] (E,,.[E,G,B,]).[E,G,B,] |  (E,,.[E,^G,B,]).[E,G,B,] (E,,.[E,G,B,]).[E,G,B,] :|
+| (E,,.[E,^G,B,]).[E,G,B,] (E,,.[E,G,B,]).[E,G,B,] |  !fermata!A,,6 |] 
+V:3 accordionTab
+| A-z am-z z-z am-z z-z am-z | A-z am-z z+z am-z z-z am-z | C+z c+z z+z c+z z+z c+z | C+z c+z z-z c+z z+z c+z |
+| G+z g+z z+z g-z z-z g-z | G-z g-z z-z g+z z+z g+z | D-z f-z z-z f-z z-z f-z | D-z f+z z+z f+z z+z f+z |
+| E+z e+z z-z e+z z+z e+z | E+z e+z z+z e+z z-z e+z |: A-7 am-> z-> am-6' z-> am-> | A-8 am-6' z+6' am-7' z-8 am->0.5 >-6'0.5 |
+| C+6' c+7 z+6' c+8 z+6' c+>0.5 >+70.5 | C+6' c+> z+> c+8 z+> c+> | G-6' g-> z-> g-8 z-> g-> | G+8 g+6' z+8 g+7' z-8' g->0.5 >-90.5 |
+| D-7' f-> z-> f-9 z-> f-> | D-7' f+7' z+8 f+6' z+8 f+>0.5 >+6'0.5 | E+7 e+> z+> e+6' z+> >+> | E+8 e+6' z-6' e+8 z+6' >+>0.5 >+70.5 :|
+| A-8 am-> am-> A-8 am-6' am->0.5 >-70.5 | A-8 am-> am-> A-8 am-6' am->0.5 >-70.5 | C+6 c+> c+> C+6 c+x c+>0.5 >+70.5 | C+6 c+> c+> C+6 c+x c+>0.5 >+70.5 |
+| G-7' g-> g-> G-7' g-8 g->0.5 >-6'0.5 | G+8 g+> g+> G+8 g+6' g+>0.5 >+70.5 | D-7 f-> f-> D-7 f-6' f->0.5 >-80.5 | D-7 f-> f-> D-7 f+7 f+>0.5 >+6'0.5 |
+| E+x e+x e+x E+x e+x e+>0.5 >+70.5 | E+x e+4' e+x E+x e+x e+7 | A-[89] am-[>>] am-[>>] A-[89] am-6' am->0.5 >-70.5 | A-[89] am-[>>] am-[>>] A-[89] am-6' am->0.5 >-70.5 |
+| C+[5'7'] c+[>>] c+[>>] C+[67'] c+x c+>0.5 >+70.5 | C+[67'] c+[>>] c+[>>] C+[67'] c+x c+>0.5 >+70.5 | -[7'9'] G-[>>] g-[>>] g-[7'9'] G-8 g->0.5 >-6'0.5 g+z| G+[88'] g+[>>] g+[>>] G+[88'] g+6' g+>0.5 >+70.5 |
+| D-[78'] f-[>>] f-[>>] D-[78'] f-6' f->0.5 >-80.5 | D-[78'] f-[>>] f-[>>] D-[78'] f+7 f+>0.5 >+6'0.5 | E+[x7'] e+[x>] e+[x>] E+[x7'] e+x e+>0.5 >+70.5 | E+[x7'] e+4' e+x E+[x7'] e+x e+7 |
+|: A-[78] am-[>>] am-[>>] A-[6'7'] am-[>>] am-[>>] | A-[89] am-[6'7'] am-[89] A-[7'8'] am-[89] am-[>>]0.5 >-[6'7']0.5 | C+[6'7'] c+[78] c+[6'7'] C+[8x] c+[6'7'] c+[>>]0.5 >+[78]0.5 | C+[6'7'] c+[>>] c+[>>] C+[8x] c+[>>] c+[>>] |
+| G-[6'7'] g-[>>] g-[>>] G-[89] g-[>>] g-[>>] | G-[7'8'] g+[6'7'] g-[7'8'] G-[99'] g-[8'b] g-[>>]0.5 >-[99']0.5 | D-[7'8'] f-[>>] f-[>>] D-[99'] f-[>>] f-[>>] | D-[7'8'] f+[7'8'] f-[7'8'] D-[89] f-[7'8'] f-[>>]0.5 >-[89]0.5 |
+| E+[78] e+[>>] e+[>>] E+[6'7'] e+[>>] e+[>>] | E+[8x] e+[6'7'] e+[78] E+[8x] e+[6'7'] e+[>>]0.5 >+[78]0.5 :|: A-90.5 >-70.5 am-6'0.5 >-80.5 am-6'0.5 >-70.5 A-90.5 >-70.5 am-6'0.5 >-80.5 am-6'0.5 >-70.5 | A-90.5 >-70.5 am-6'0.5 >-80.5 am-6'0.5 >-70.5 A-8'0.5 >-70.5 am-90.5 >-70.5 am-7'0.5 >-70.5 |
+| C+7'0.5 >+60.5 c+70.5 >+6'0.5 c+70.5 >+60.5 C+7'0.5 >+60.5 c+70.5 >+6'0.5 c+70.5 >+60.5 | C+7'0.5 >+60.5 c+70.5 >+6'0.5 c+70.5 >+60.5 C+x0.5 >+60.5 c+x0.5 >+60.5 c+7'0.5 >+60.5 | G-7'0.5 >-5'0.5 g-70.5 >-6'0.5 g-70.5 >-5'0.5 G-7'0.5 >-5'0.5 g-70.5 >-6'0.5 g-70.5 >-5'0.5 | G+80.5 >+60.5 g-70.5 >-6'0.5 g-70.5 >-5'0.5 G-8'0.5 >-5'0.5 g-90.5 >-5'0.5 g-7'0.5 >-5'0.5 |
+| D-7'0.5 >-4'0.5 f+5'0.5 >+x0.5 f+5'0.5 >+x0.5 D-7'0.5 >-4'0.5 f-5'0.5 >-70.5 f-5'0.5 >-4'0.5 | D-7'0.5 >-4'0.5 f-5'0.5 >-70.5 f-5'0.5 >-4'0.5 D-90.5 >-4'0.5 f+80.5 >+x0.5 f+6'0.5 >+x0.5 | E+70.5 >+4'0.5 e+x0.5 >+x0.5 e+x0.5 >+4'0.5 E+70.5 >+4'0.5 e+x0.5 >+x0.5 e+x0.5 >+4'0.5 | E+70.5 >+4'0.5 e+x0.5 >+x0.5 e+x0.5 >+70.5 E+6'0.5 >+80.5 e+7'0.5 >+80.5 e+6'0.5 >+70.5 :|
+| E+70.5 >+4'0.5 e+x0.5 >+x0.5 e+x0.5 >+70.5 E+6'0.5 >+80.5 e+7'0.5 >+80.5 e+6'0.5 >+70.5 | A-[789b]6 |]
