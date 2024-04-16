@@ -1,0 +1,22 @@
+%%barnumbers 0
+%%papersize A4
+%barsperstaff 6
+%staffsep 20
+%pagenumbering
+%stretchlast
+%landscape
+X:1080
+T:Partes
+Z:Flávio Vani
+F:https://www.youtube-nocookie.com/embed/izQ_NEBL1vI
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:4/4
+L:1/8
+Q:1/4=100
+K:Am
+V:1 treble
+| [EB]3 [EB] c d2 | [EB] E ^F G, A B | 
+V:2 bass
+| E,, [E,^G,B,] z [E,^G,B,] z2 [E,^G,B,] | E,, z z D,, z z | 
+V:3 accordionTab
+| E+[4'7] e+[>>] z+[>>] e+[4'7] z+6' z+8 e+> | E+[4'7] z-5 z-6 D-1' z-7 z-6' | 
