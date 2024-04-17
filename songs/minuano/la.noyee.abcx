@@ -48,10 +48,10 @@ V:2 bass stem=up
 |  (G,,[G,B,D]) z [G,B,D] z [G,B,D] | (D,,[F,A,C]) z [F,A,C] z [F,A,C] | (D,,[F,A,C]) z [F,A,C] z [F,A,C] | (E,,[E,^G,B,]) z [E,G,B,]z [E,G,B,] |  E,, z z D,, z z | 
 |  (A,,[A,CE]) z [A,CE] z [A,CE] | (A,,[A,CE]) z [A,CE] z [A,CE] | (C,,[C,E,G,]) z [C,E,G,] z [G,B,D] | (C,,[C,E,G,]) z [C,E,G,] z [G,B,D] | (G,,[G,B,D]) z [G,B,D] z [G,B,D] |
 |  (G,,[G,B,D]) z [G,B,D] z [G,B,D] | (D,,[F,A,C]) z [F,A,C] z [F,A,C] | (D,,[F,A,C]) z [F,A,C] z [F,A,C] | (E,,[E,^G,B,]) z [E,G,B,] z [E,G,B,] | E,, z z D,, z z |
-|: (A,,[A,CE]) z [A,CE] z [A,CE] | (A,,[A,CE]) z [A,CE] z [A,CE] | (C,,[C,E,G,]) z [C,E,G,] z [C,E,G,] | (C,,[C,E,G,]) z [G,B,D] z [C,E,G,] | (G,,[G,B,D]) z [G,B,D] z [G,B,D] |
+|: (A,,[A,CE]) z [A,CE] z [A,CE] | (A,,[A,CE]) z [A,CE] z [A,CE] | (C,,[C,E,G,]) z [G,B,D] z [C,E,G,] | (C,,[C,E,G,]) z [G,B,D] z [G,B,D] | (G,,[G,B,D]) z [G,B,D] z [G,B,D] |
 |  (G,,[G,B,D]) z [G,B,D] z [G,B,D] | (D,,[F,A,C]) z [F,A,C] z [F,A,C] | (D,,[F,A,C]) z [F,A,C] z [F,A,C] | (F,,[E,^G,B,]) z [E,G,B,] z [E,G,B,] | (F,, [E,^G,B,]) z [F,A,C] z [E,G,B,] :|
-|: (A,,[A,CE]) z [A,CE] z [A,CE] | (A,,[A,CE]) z [A,CE] z [A,CE] | (C,,[C,E,G,]) z [C,E,G,] z [C,E,G,] | (C,,[C,E,G,]) z [C,E,G,] z [C,E,G,] | 
-|  (G,,[G,B,D]) z [G,B,D] z [G,B,D] | (G,,[G,B,D]) z [G,B,D] z [G,B,D] | (D,,[F,A,C]) z [F,A,C] z [F,A,C] | (D,,[F,A,C])  z [F,A,C] z [F,A,C] | 
+|: (A,,[A,CE]) z [A,CE] z [A,CE] | (A,,[A,CE]) z [A,CE] z [A,CE] | (C,,[C,E,G,]) z [C,E,G,] z [C,E,G,] | (C,,[C,E,G,]) z [C,E,G,] z [C,E,G,] |
+|  (G,,[G,B,D]) z [G,B,D] z [G,B,D] | (G,,[G,B,D]) z [G,B,D] z [G,B,D] | (D,,[F,A,C]) z [F,A,C] z [F,A,C] | (D,,[F,A,C])  z [F,A,C] z [F,A,C] |
 |  (E,,[E,^G,B,]) z [E,^G,B,] z [E,^G,B,] | (E,,[E,^G,B,])  z [E,^G,B,] z [E,^G,B,] :| (E,,[E,^G,B,]) z [E,G,B,]z [E,G,B,] |  !fermata!A,,6 |] 
 |: (A,,[A,CE]) z [A,CE] z [A,CE] | (A,,[A,CE]) z [A,CE] z [A,CE] | (C,,[C,E,G,]) z [C,E,G,] z [C,E,G,] | (C,,[C,E,G,]) z [C,E,G,] z [C,E,G,] | (G,,[G,B,D]) z [G,B,D] z [G,B,D] |
 |  (G,,[G,B,D]) z [G,B,D] z [G,B,D] | (D,,[F,A,C]) z [F,A,C] z [F,A,C] | (D,,[F,A,C]) z [F,A,C] z [F,A,C] | (E,,[E,^G,B,]) z [E,G,B,]z [E,G,B,] | (E,,[E,^G,B,]) z [E,G,B,]z [E,G,B,] :|
