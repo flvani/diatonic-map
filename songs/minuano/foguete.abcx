@@ -1,0 +1,35 @@
+X:1099
+%%barnumbers 1
+%%papersize A4
+%barsperstaff 6
+%staffsep 20
+%pagenumbering
+%stretchlast
+%landscape
+T:Foguete (introdução)
+C:Roque Ferreira e J. Velloso
+F:https://www.youtube-nocookie.com/embed/VsaFrij-NL4
+Z:Flávio Vani
+L:1/8
+Q:1/4=120
+M:4/4
+K:Am
+V:1 treble
+%| cc AA FF DD | z2 cc cc cA | B2- [BGDE]6 | z8 | 
+%f: 5 5 4 4 3 3 2 2          5 * * * * 4    5 2345
+%| AA FF DD B,B, | z2 BA EE cB | A8 | 
+%f: 5 5 4 4 3 3 2 2      |  5 *  2  *  4 5    5
+| cc AA FF DD | z2 cc cc cA | B2- [BGDE]6 | z8 | 
+f: 5 5 4 4 3 3 2 2          5 * * * * 4    5 2345
+| AA FF DD B,B, | z2 BA EE cB | A8 | 
+f: 5 5 4 4 3 3 2 2      |  5 *  2  *  4 5    5
+V:2 bass
+%| D,,2 [F,A,C]2 D,,2 [F,A,C]2 | D,,2 [F,A,C]2 D,,2 [F,A,C]2 | E,,2 [G,B,D]2 E,,2 [G,B,D]2 | A,,2 [G,B,D]2 A,,2 [G,B,D]2 | 
+%| D,,2 [F,A,C]2 D,,2 [F,A,C]2 | E,,2 [E,^G,B,] z E,,2 [E,^G,B,]2 | A,,8 | 
+| D,,2 [F,A,C]2 z2 [F,A,C]2 | D,,2 [F,A,C]2 z2 [F,A,C]2 | E,,2 [G,B,D]2 z2 [G,B,D]2 | A,,2 [G,B,D]2 z2 [G,B,D]2 | 
+| D,,2 [F,A,C]2 z2 [F,A,C]2 | E,,2 [E,^G,B,] z z2 [E,^G,B,]2 | A,,8 | 
+V:3 accordionTab
+%| D-8 >-8 f-7 >-7 D-4' >-4' f-3' >-3' | D-z2 f-8 >-8 D-8 >-8 f-8 >-7 | E+72 g+[>654']2 E+[>>>>]2 g+[>>>>]2 | A-z2 g-z2 A-z2 g-z2 | 
+%| D-7 >-7 f-4' >-4' D-3' >-3' f-2' >-2' | E+z2 e+7 z-7 E+4' >+4' e+6' >+7 | A-78 | 
+| D-8 >-8 f-7 >-7 z-4' z-4' f-3' >-3' | D-z2 f-8 >-8 z-8 z-8 f-8 >-7 | E+72 g+[>654']2 z+[>>>>]2 g+[>>>>]2 | A-z2 g-z2 z-z2 g-z2 | 
+| D-7 >-7 f-4' >-4' z-3' z-3' f-2' >-2' | E+z2 e+7 z-7 z+4' z+4' e+6' >+7 | A-78 | 
