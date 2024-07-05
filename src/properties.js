@@ -24,13 +24,13 @@ SITE.checkCookieConsent = function ( ) {
         }
     }, 3000);
     jQuery('.policy-section-actions').click(function () {
-        document.cookie = 'diatonic-policy=true; path=/; max-age=86400;';
+        document.cookie = 'diatonic-policy=true; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT;';
         popup.fadeOut();
     });
 }
 
 SITE.clearCookieConsent = function () {
-    document.cookie = 'diatonic-policy=; path=/; max-age=86400;';
+    document.cookie = 'diatonic-policy=; path=/; expires=Fri, 31 Dec 9999 23:59:59 GMT;';
 }
 
 SITE.sizeOfThings = function () {

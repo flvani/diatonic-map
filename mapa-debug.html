@@ -6,525 +6,566 @@ and open the template in the editor.
 teste.
 -->
 <html>
-    <head>
-        <title data-translate="appName" >Mapa para Acordeões Diatônicos</title>
-        <meta charset="UTF-8" />
-        <link rel="icon" type="image/icon" href="images/favicon.ico"/>
-        <meta name="viewport" content="height=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0" />
-        
-        <meta name="robots" content="index,follow"/>
-        <meta name="revisit-after" content="7 days"/>
-        <meta name="description" data-translate="description" content="Um mapa de referência para a aprendizagem de acordeões diatônicos" />
 
-        <meta name="author" content="Flávio Luiz Vani"/>
+<head>
+    <title data-translate="appName">Mapa para Acordeões Diatônicos</title>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/icon" href="images/favicon.ico" />
+    <meta name="viewport" content="height=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0" />
 
-        <meta name="keywords" content="diatonic accordion, notation, learning, practice, repertoire, abc tunes, midi, tablature
+    <meta name="robots" content="index,follow" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="description" data-translate="description" content="Um mapa de referência para a aprendizagem de acordeões diatônicos" />
+
+    <meta name="author" content="Flávio Luiz Vani" />
+
+    <meta name="keywords" content="diatonic accordion, notation, learning, practice, repertoire, abc tunes, midi, tablature
 acordeão diatônico, gaita de oito baixos, gaita ponto, notação musical, aprendizagem, prática, repertorio, 
-notação abc, tablatura " />   
-        
-        <link rel="stylesheet" href="fontsIco/fontsAbcx.css" />
-        <link rel="stylesheet" href="fontsGoogle/fontsGoogle.css" />
+notação abc, tablatura " />
 
-        <link rel="stylesheet" href="css/styles4abcx.css" />
-        <link rel="stylesheet" href="css/media.css" />
-        <link rel="stylesheet" href="css/mapa.css" />
-        <link rel="stylesheet" href="css/enjoyhint.css" >
-        <link rel="stylesheet" href="css/enjoyhint.extras.css" >
-        <link rel="stylesheet" href="css/policy-terms.css" >
+    <link rel="stylesheet" href="fontsIco/fontsAbcx.css" />
+    <link rel="stylesheet" href="fontsGoogle/fontsGoogle.css" />
 
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-3RXNND5N5Y"></script>
-        <script>
+    <link rel="stylesheet" href="css/styles4abcx.css" />
+    <link rel="stylesheet" href="css/media.css" />
+    <link rel="stylesheet" href="css/mapa.css" />
+    <link rel="stylesheet" href="css/enjoyhint.css">
+    <link rel="stylesheet" href="css/enjoyhint.extras.css">
+    <link rel="stylesheet" href="css/policy-terms.css">
 
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3RXNND5N5Y"></script>
+    <script>
 
-        </script>
-        
-    </head>
-    <body>
-        
-        <script type="text/javascript" src="jslib/proto_noconflict.js" ></script>
-        <script type="text/javascript" src="jslib/jquery-3.7.1.min.js"></script>
-        
-        <!-- suporte a arquivos ABC -->
-        <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs.js" ></script>
-        
-        <!-- suporte a MIDI -->
-        <script type="text/javascript" src="jslib/MIDI.js"></script>
-        
-        <!-- Kelly color picker  -->
-        <script type="text/javascript" src="jslib/html5kellycolorpicker.js"></script>
-        
-        <!-- suporte a arquivos -->
-        <script type="text/javascript" src="file/filemanager.js"></script>
-        
-        <!-- suporte mapas de acordeões -->
-        <script type="text/javascript" src="diatonic/diatonic.js"></script>
-        
-        <!-- ACE Editor -->
-        <script type="text/javascript" src="ace4abcx/ace4abcx.js"></script>
-       
-        <!-- console personalizada para Javascript -->
-        <script type="text/javascript" src="jslib/waterbug.js"></script> 
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
 
-        <!-- Enjoyhint library -->
-        <script type="text/javascript"src="jslib/kinetic-v5.1.0.js"></script>
-        <script type="text/javascript"src="jslib/jquery-scrollto-2.1.3.min.js"></script>
-        <script type="text/javascript" src="jslib/enjoyhint.js"></script>        
+    </script>
+
+</head>
+
+<body>
+
+    <script type="text/javascript" src="jslib/proto_noconflict.js"></script>
+    <script type="text/javascript" src="jslib/jquery-3.7.1.min.js"></script>
+
+    <!-- suporte a arquivos ABC -->
+    <script id="mainABCX" type="text/javascript" src="abcxjs/abcxjs.js"></script>
+
+    <!-- suporte a MIDI -->
+    <script type="text/javascript" src="jslib/MIDI.js"></script>
+
+    <!-- Kelly color picker  -->
+    <script type="text/javascript" src="jslib/html5kellycolorpicker.js"></script>
+
+    <!-- suporte a arquivos -->
+    <script type="text/javascript" src="file/filemanager.js"></script>
+
+    <!-- suporte mapas de acordeões -->
+    <script type="text/javascript" src="diatonic/diatonic.js"></script>
+
+    <!-- ACE Editor -->
+    <script type="text/javascript" src="ace4abcx/ace4abcx.js"></script>
+
+    <!-- console personalizada para Javascript -->
+    <script type="text/javascript" src="jslib/waterbug.js"></script>
+
+    <!-- Enjoyhint library -->
+    <script type="text/javascript" src="jslib/kinetic-v5.1.0.js"></script>
+    <script type="text/javascript" src="jslib/jquery-scrollto-2.1.3.min.js"></script>
+    <script type="text/javascript" src="jslib/enjoyhint.js"></script>
 
 
-        <script id="mainSITE" type="text/javascript" src="src/mapa.js"></script>
-        <script type="text/javascript" src="src/media.js"></script>
-        <script type="text/javascript" src="src/modal.js"></script>
-        <script type="text/javascript" src="src/properties.js"></script>
-        <script type="text/javascript" src="src/translate.js"></script>
-        <script type="text/javascript" src="src/estudio.js"></script>
-        <script type="text/javascript" src="src/partgen.js"></script>
-        <script type="text/javascript" src="src/partedit.js"></script>
-        <script type="text/javascript" src="src/tabgen.js"></script>
-        <script type="text/javascript" src="src/t2p_parser.js"></script>
-        <script type="text/javascript" src="src/p2t_parser.js"></script>
-        <script type="text/javascript" src="src/repertorio.js"></script>
+    <script id="mainSITE" type="text/javascript" src="src/mapa.js"></script>
+    <script type="text/javascript" src="src/media.js"></script>
+    <script type="text/javascript" src="src/modal.js"></script>
+    <script type="text/javascript" src="src/properties.js"></script>
+    <script type="text/javascript" src="src/translate.js"></script>
+    <script type="text/javascript" src="src/estudio.js"></script>
+    <script type="text/javascript" src="src/partgen.js"></script>
+    <script type="text/javascript" src="src/partedit.js"></script>
+    <script type="text/javascript" src="src/tabgen.js"></script>
+    <script type="text/javascript" src="src/t2p_parser.js"></script>
+    <script type="text/javascript" src="src/p2t_parser.js"></script>
+    <script type="text/javascript" src="src/repertorio.js"></script>
 
-        <script type="text/javascript" src="src/mapa.tour.js"></script>
+    <script type="text/javascript" src="src/mapa.tour.js"></script>
 
-        <div id="topBar" class="topBar gradiente" style="transform:scale(1);">
-            <div style="width: 100%; display: inline-block;">
-                <span id="appTitle" class="topTitle" data-translate="appName">Mapa para Acordeões Diatônicos</span>
-                <div id="downloadApp" class="topDownload" style="display: none;">
-                    <a href="https://play.google.com/store/apps/details?id=br.com.diatonicmap.app"  target="_blank" >
-                        <img src="images/google.play.png" title="Baixe o aplicativo no Google Play"/></a>
-                </div>
-                <a id="topSettings" class="topSettings" ><i class="ico-cogs" title="Ajustes" data-translate="topSettings" ></i></a>
+    <div id="topBar" class="topBar gradiente" style="transform:scale(1);">
+        <div style="width: 100%; display: inline-block;">
+            <span id="appTitle" class="topTitle" data-translate="appName">Mapa para Acordeões Diatônicos</span>
+            <div id="downloadApp" class="topDownload" style="display: none;">
+                <a href="https://play.google.com/store/apps/details?id=br.com.diatonicmap.app" target="_blank">
+                    <img src="images/google.play.png" title="Baixe o aplicativo no Google Play" /></a>
             </div>
-            <!--a class="oldVersion" href="mapa-4.22.html" data-translate="oldVersion" onclick="" >Usar a versão anterior</a-->
-            <div class="dropdown-group">
-                <input id="fileLoadMap" type="file" accept="text/abc" multiple style="display: none;"/>
-                <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" multiple="multiple" style="display: none;"/>
-                <div id="mapMenu" class="topMenu"></div>
+            <a id="topSettings" class="topSettings"><i class="ico-cogs" title="Ajustes" data-translate="topSettings"></i></a>
+        </div>
+        <!--a class="oldVersion" href="mapa-4.22.html" data-translate="oldVersion" onclick="" >Usar a versão anterior</a-->
+        <div class="dropdown-group">
+            <input id="fileLoadMap" type="file" accept="text/abc" multiple style="display: none;" />
+            <input id="fileLoadRepertoire" type="file" accept="text/abcx, text/abc" multiple="multiple" style="display: none;" />
+            <div id="mapMenu" class="topMenu"></div>
+        </div>
+    </div> <!-- topBar -->
+    <div id="mapaDiv" class="mapaDiv" style="transform:scale(1); transform-origin: top left;">
+        <div id="section1" class="tabs">
+            <input type="radio" checked="checked" />
+            <label id="a_nome_gaita">...</label>
+            <div class="btn-group">
+                <button id="buttonChangeNotation">
+                    <i class="ico-world-2"></i>&nbsp;<span data-translate="chLabel">Mudar a notação</span>
+                </button>
+                <button id="buttonTabFormat">
+                    <i class="ico-tabformat"></i>&nbsp;<span data-translate="tabFormat">Formato da Tablatura</span>
+                </button>
             </div>
-        </div> <!-- topBar -->
-        <div id="mapaDiv" class="mapaDiv" style="transform:scale(1); transform-origin: top left;">
-            <div id="section1" class="tabs" >
-                <input type="radio" checked="checked" />
-                <label id="a_nome_gaita">...</label>
-                <div class="btn-group">
-                    <button id="buttonChangeNotation" >
-                        <i class="ico-world-2"></i>&nbsp;<span data-translate="chLabel">Mudar a notação</span>
-                    </button>
-                    <button id="buttonTabFormat" >
-                        <i class="ico-tabformat"></i>&nbsp;<span data-translate="tabFormat">Formato da Tablatura</span>
-                    </button>
-                </div>
-                <div class="tv-container-always">
-                    <div id="keyboardContainerDiv" class="keyboardContainerStyle"></div>
-                    <div id="accordionImageDiv" class="accordionImageStyle"></div>
-                    <div id="divABCXversion" class="abcxVersionStyle"></div>
-                </div>
-                <div style="z-index: 50; position: fixed; right: 100px; top:100px;">
-                    <h3>Window size is <span class="window-size"></span></h3>
-                    <p>Knowing this number you can make decisions based in breakpoints of window.</p>
-                    <hr>
-                    <h3>Screen size is <span class="screen-size"></span></h3>
-                    <p>Here you have an idea of device screen size. </p>
-                    <hr>
-                </div>
+            <div class="tv-container-always">
+                <div id="keyboardContainerDiv" class="keyboardContainerStyle"></div>
+                <div id="accordionImageDiv" class="accordionImageStyle"></div>
+                <div id="divABCXversion" class="abcxVersionStyle"></div>
             </div>
-            
-            <div id="mapaWarningsDiv"></div>
+            <div style="z-index: 50; position: fixed; right: 100px; top:100px;">
+                <h3>Window size is <span class="window-size"></span></h3>
+                <p>Knowing this number you can make decisions based in breakpoints of window.</p>
+                <hr>
+                <h3>Screen size is <span class="screen-size"></span></h3>
+                <p>Here you have an idea of device screen size. </p>
+                <hr>
+            </div>
+        </div>
 
-            <div id="section2" class="tabs">
-                <input id="chordsTab" type="radio" name="tabControl" class="tab-selector-1" />
-                <label id="chordsTabL" for="chordsTab" class="tab-label-1" data-translate="tabChords" >Acordes</label>
+        <div id="mapaWarningsDiv"></div>
 
-                <input id="practicesTab" type="radio" name="tabControl" class="tab-selector-2" />
-                <label id="practicesTabL" for="practicesTab" class="tab-label-2" data-translate="tabPractices" >Exercícios</label>
+        <div id="section2" class="tabs">
+            <input id="chordsTab" type="radio" name="tabControl" class="tab-selector-1" />
+            <label id="chordsTabL" for="chordsTab" class="tab-label-1" data-translate="tabChords">Acordes</label>
 
-                <input id="songsTab" type="radio" name="tabControl" class="tab-selector-3" />
-                <label id="songsTabL" for="songsTab" class="tab-label-3" data-translate="tabTunes" >Músicas</label>
+            <input id="practicesTab" type="radio" name="tabControl" class="tab-selector-2" />
+            <label id="practicesTabL" for="practicesTab" class="tab-label-2" data-translate="tabPractices">Exercícios</label>
 
-                <div id="controlDiv" class="btn-group" >
-                    <div id="menuChords" class="topMenu" style="display:none;"></div>
-                    <div id="menuPractices" class="topMenu" style="display:none;"></div>
-                    <div id="menuSongs" class="topMenu" style="display:none;"></div>
-                    <button id="buttonTools" data-translate="openStudioTip">
-                        <i class="ico-wrench"></i>&#160;<span data-translate="toolsBtn">Ferramentas</span>
-                    </button>
-                    <button id="buttonPrinter" data-translate="printPreviewTip" >
-                        <i class="ico-printer"></i>&#160;<span data-translate="printBtn">Imprimir</span>
-                    </button>
-                    <button id="buttonPlay" data-translate="playBtn" ><i class="ico-play"></i></button>
-                    <button id="buttonStop" data-translate="stopBtn" ><i class="ico-stop"></i></button>
-                    <label id="currentPlayTimeLabel" class="playtime-label" style="margin-left: 10px;">00:00</label>
-                    <button id="buttonShowMedia" style="display:none; float:right;" >
-                        <i class="ico-vplayer"></i>&nbsp;<span id="spanShowMedia" data-translate="showMedia">Videoaula</span>
-                    </button>
+            <input id="songsTab" type="radio" name="tabControl" class="tab-selector-3" />
+            <label id="songsTabL" for="songsTab" class="tab-label-3" data-translate="tabTunes">Músicas</label>
+
+            <div id="controlDiv" class="btn-group">
+                <div id="menuChords" class="topMenu" style="display:none;"></div>
+                <div id="menuPractices" class="topMenu" style="display:none;"></div>
+                <div id="menuSongs" class="topMenu" style="display:none;"></div>
+                <button id="buttonTools" data-translate="openStudioTip">
+                    <i class="ico-wrench"></i>&#160;<span data-translate="toolsBtn">Ferramentas</span>
+                </button>
+                <button id="buttonPrinter" data-translate="printPreviewTip">
+                    <i class="ico-printer"></i>&#160;<span data-translate="printBtn">Imprimir</span>
+                </button>
+                <button id="buttonPlay" data-translate="playBtn"><i class="ico-play"></i></button>
+                <button id="buttonStop" data-translate="stopBtn"><i class="ico-stop"></i></button>
+                <label id="currentPlayTimeLabel" class="playtime-label" style="margin-left: 10px;">00:00</label>
+                <button id="buttonShowMedia" style="display:none; float:right;">
+                    <i class="ico-vplayer"></i>&nbsp;<span id="spanShowMedia" data-translate="showMedia">Videoaula</span>
+                </button>
+            </div>
+
+            <div id="tuneContainerDiv" class="tv-container">
+                <div class="tv-selector-1">
+                    <div id="tabChordsDiv" class="tv-content"></div>
                 </div>
+                <div class="tv-selector-2">
+                    <div id="tabPracticesDiv" class="tv-content"></div>
+                </div>
+                <div class="tv-selector-3">
+                    <div id="tabSongsDiv" class="tv-content"></div>
+                </div>
+            </div>
 
-                <div id="tuneContainerDiv" class="tv-container">
-                    <div class="tv-selector-1"><div id="tabChordsDiv" class="tv-content" ></div></div>
-                    <div class="tv-selector-2"><div id="tabPracticesDiv" class="tv-content"></div></div>
-                    <div class="tv-selector-3"><div id="tabSongsDiv" class="tv-content" ></div></div>    
-                </div>
-                
+        </div>
+    </div> <!-- mapaDiv -->
+    <div id="studioDiv" class="studioDiv"></div>
+    <div id="partGenDiv" class="studioDiv"></div>
+    <div id="partEditDiv" class="studioDiv"></div>
+    <div id="tabGenDiv" class="studioDiv"></div>
+    <div id="studioControlDiv" style="display:none;">
+        <div id="controlDiv1" class="btn-subgroup">
+            <button id="showEditorBtn" data-translate="showEditorTip"><i id="I_showEditor" class="ico-folder"></i>&#160;<span
+                    data-translate="showEditorBtn">Editor</span></button>
+            <button id="showMapBtn" data-translate="showMapTip"><i id="I_showMap" class="ico-folder"></i>&#160;<span
+                    data-translate="showMapBtn">Teclado</span></button>
+            <button id="forceRefresh" data-translate="forceRefreshBtn"><i class="ico-bolt"></i>&#160<span
+                    data-translate="forceRefreshBtn">Atualizar</span></button>
+            <button id="saveBtn" data-translate="savePartTip"><i class="ico-download"></i>&#160;<span
+                    data-translate="saveBtn">Salvar</span></button>
+            <button id="printBtn" data-translate="printPreviewTip"><i class="ico-printer"></i>&#160;<span
+                    data-translate="printBtn">Impimir</span></button>
+            <button id="tabformatBtn" data-translate="tabformatBtn"><i class="ico-tabformat"></i></button>
+            <button id="fingeringBtn" data-translate="fingeringBtn"><i class="ico-alien-fingering2"></i></button>
+            <button id="lyricsBtn" data-translate="lyricsBtn"><i class="ico-letter-l"></i></button>
+            <button id="GClefBtn" data-translate="GClefBtn"><i class="ico-clef-treble"></i></button>
+            <button id="FClefBtn" data-translate="FClefBtn"><i class="ico-clef-bass"></i></button>
+            <button id="timerBtn" data-translate="timerBtn"><i class="ico-timer-00"></i></button>
+            <button>
+                <div id="tempoSld" data-translate="tempoBtn"></div>
+            </button>
+            <button id="modeBtn" data-translate="modeBtn"><i class="ico-listening"></i></button>
+        </div>
+        <div id="divNormalPlayControls" class="btn-subgroup">
+            <button id="playBtn2" data-translate="playBtn">&#160;<i class="ico-play"></i>&#160;</button>
+            <button id="stopBtn2" data-translate="stopBtn">&#160;<i class="ico-stop"></i>&#160;</button>
+            <label id="currentPlayTimeLabel2" class="playtime-label">00:00</label>
+        </div>
+        <div id="divDidacticPlayControls" class="btn-subgroup" style="display: none;">
+            <button id="stepBtn" data-translate="stepBtn">&#160;<i class="ico-play"></i>&#160;</button>
+            <button id="stepMeasureBtn" data-translate="stepMeasureBtn">&#160;<i class="ico-forward"></i>&#160;</button>
+            <div style="float:left;">
+                <input id="gotoMeasureBtn" type="text" data-translate="gotoMeasure" value="Ir para..." />
+                <b>..</b>
+                <input id="untilMeasureBtn" type="text" data-translate="untilMeasure" value="até..." />
             </div>
-        </div> <!-- mapaDiv -->
-        <div id="studioDiv" class="studioDiv" ></div>
-        <div id="partGenDiv" class="studioDiv" ></div>
-        <div id="partEditDiv" class="studioDiv" ></div>
-        <div id="tabGenDiv" class="studioDiv" ></div>
-        <div id="studioControlDiv" style="display:none;">
-            <div id="controlDiv1" class="btn-subgroup" >
-                <button id="showEditorBtn" data-translate="showEditorTip"><i id="I_showEditor" class="ico-folder"></i>&#160;<span data-translate="showEditorBtn">Editor</span></button>
-                <button id="showMapBtn" data-translate="showMapTip"><i id="I_showMap" class="ico-folder"></i>&#160;<span data-translate="showMapBtn">Teclado</span></button>
-                <button id="forceRefresh" data-translate="forceRefreshBtn" ><i class="ico-bolt"></i>&#160<span data-translate="forceRefreshBtn">Atualizar</span></button>
-                <button id="saveBtn" data-translate="savePartTip"><i class="ico-download"></i>&#160;<span data-translate="saveBtn">Salvar</span></button>
-                <button id="printBtn" data-translate="printPreviewTip"><i class="ico-printer"></i>&#160;<span data-translate="printBtn">Impimir</span></button>
-                <button id="tabformatBtn" data-translate="tabformatBtn" ><i class="ico-tabformat" ></i></button>
-                <button id="fingeringBtn" data-translate="fingeringBtn" ><i class="ico-alien-fingering2" ></i></button>
-                <button id="lyricsBtn" data-translate="lyricsBtn" ><i class="ico-letter-l" ></i></button>
-                <button id="GClefBtn" data-translate="GClefBtn" ><i class="ico-clef-treble" ></i></button>
-                <button id="FClefBtn" data-translate="FClefBtn" ><i class="ico-clef-bass" ></i></button>
-                <button id="timerBtn" data-translate="timerBtn" ><i class="ico-timer-00" ></i></button>
-                <button ><div id="tempoSld" data-translate="tempoBtn" ></div></button>
-                <button id="modeBtn" data-translate="modeBtn" ><i class="ico-listening" ></i></button>
-            </div>
-            <div id="divNormalPlayControls" class="btn-subgroup" >
-                <button id="playBtn2" data-translate="playBtn" >&#160;<i class="ico-play"></i>&#160;</button>
-                <button id="stopBtn2" data-translate="stopBtn" >&#160;<i class="ico-stop"></i>&#160;</button>
-                <label id="currentPlayTimeLabel2" class="playtime-label" >00:00</label>
-            </div>
-            <div id="divDidacticPlayControls" class="btn-subgroup" style="display: none;" >
-                <button id="stepBtn" data-translate="stepBtn" >&#160;<i class="ico-play"></i>&#160;</button>
-                <button id="stepMeasureBtn" data-translate="stepMeasureBtn" >&#160;<i class="ico-forward"></i>&#160;</button>
-                <div style="float:left;">
-                    <input id="gotoMeasureBtn" type="text" data-translate="gotoMeasure" value="Ir para..."/>
-                    <b>..</b>
-                    <input id="untilMeasureBtn" type="text" data-translate="untilMeasure" value="até..."/>
-                </div>
-                <button id="repeatBtn" data-translate="repeatBtn" >&#160;<i class="ico-repeat-cw"></i>&#160;</button>
-                <button id="clearBtn" data-translate="clearBtn" >&#160;<i class="ico-stop"></i>&#160;</button>
-            </div>
+            <button id="repeatBtn" data-translate="repeatBtn">&#160;<i class="ico-repeat-cw"></i>&#160;</button>
+            <button id="clearBtn" data-translate="clearBtn">&#160;<i class="ico-stop"></i>&#160;</button>
+        </div>
+        <div class="btn-subgroup">
+            <button id="buttonShowMedia2" style="display:none;">
+                <i class="ico-vplayer" data-translate="showMedia"></i>&nbsp;
+            </button>
+        </div>
+    </div> <!-- controlDiv - este bloco é tratado internamente -->
+    <div id="p2tControlDiv-raw" style="display:none;"> <!-- extrair tablatura -->
+        <div id="p2tControlDiv1" class="btn-subgroup">
+            <button id="p2tForceRefresh" data-translate="TabGenRefreshTip"><i class="ico-bolt"></i>&#160;<span
+                    data-translate="TabGenRefreshBtn">Extrair</span></button>
+            <button id="p2tOpenInGenerator" data-translate="TabGenOpenInTip"><i class="ico-edit"></i>&#160;<span
+                    data-translate="TabGenOpenInBtn">Abrir no gerador de partitura</span></button>
+            <button id="p2tSaveBtn" data-translate="saveTabTip"><i class="ico-download"></i>&#160;<span
+                    data-translate="TabGenSaveBtn">Salvar Tablatura</span></button>
+            <span id="useBeams" style="display: inline;"><input type="checkbox" id="ckUseBeams">&#160;<span
+                    data-translate="chkUseBeams">Unir notas com barras</span></span>
+        </div> <!-- p2tcontrolDiv - este bloco é tratado internamente -->
+    </div>
+    <div id="t2pControlDiv-raw" style="display:none;"><!-- gerador de partitura -->
+        <div id="t2pControlDiv1" class="btn-subgroup">
+            <input id="fileLoadTab" type="file" accept="text/tab" style="display: none;" />
+            <button id="t2pShowEditorBtn" data-translate="showEditorTip"><i id="t2pI_showEditor" class="ico-folder"></i>&#160;<span
+                    data-translate="showEditorBtn">Editor</span></button>
+            <button id="t2pShowMapBtn" data-translate="showMapTip"><i id="t2pI_showMap" class="ico-folder"></i>&#160;<span
+                    data-translate="showMapBtn">Teclado</span></button>
+            <button id="t2pForceRefresh" data-translate="forceRefreshBtn"><i class="ico-bolt"></i>&#160<span
+                    data-translate="forceRefreshBtn">Atualizar</span></button>
+            <button id="t2pLoadBtn" data-translate="loadTabTip"><i class="ico-upload"></i>&#160;<span
+                    data-translate="loadBtn">Carregar</span></button>
+            <button id="t2pSaveBtn" data-translate="saveTabTip"><i class="ico-download"></i>&#160;<span
+                    data-translate="saveBtn">Salvar</span></button>
+            <button id="t2pOpenInPartEditBtn" data-translate="PartGenOpenInTip"><i class="ico-edit"></i>&#160;<span
+                    data-translate="PartGenOpenInBtn">Editar partitura</span></button>
+            <button id="t2pSavePartBtn" data-translate="savePartTip"><i class="ico-download"></i>&#160;<span
+                    data-translate="PartGenSavePartBtn">Salvar Partitura</span></button>
             <div class="btn-subgroup">
-                <button id="buttonShowMedia2" style="display:none;" >
+                <button id="t2pbuttonShowMedia" style="display:none;">
                     <i class="ico-vplayer" data-translate="showMedia"></i>&nbsp;
                 </button>
             </div>
-        </div>  <!-- controlDiv - este bloco é tratado internamente -->  
-        <div id="p2tControlDiv-raw" style="display:none;"> <!-- extrair tablatura -->  
-            <div id="p2tControlDiv1" class="btn-subgroup" >
-                <button id="p2tForceRefresh" data-translate="TabGenRefreshTip"><i class="ico-bolt"></i>&#160;<span data-translate="TabGenRefreshBtn">Extrair</span></button>
-                <button id="p2tOpenInGenerator" data-translate="TabGenOpenInTip"><i class="ico-edit"></i>&#160;<span data-translate="TabGenOpenInBtn">Abrir no gerador de partitura</span></button>
-                <button id="p2tSaveBtn" data-translate="saveTabTip"><i class="ico-download"></i>&#160;<span data-translate="TabGenSaveBtn">Salvar Tablatura</span></button>
-                <span id="useBeams" style="display: inline;"><input type="checkbox" id="ckUseBeams">&#160;<span data-translate="chkUseBeams">Unir notas com barras</span></span>
-            </div> <!-- p2tcontrolDiv - este bloco é tratado internamente -->     
-        </div>    
-        <div id="t2pControlDiv-raw" style="display:none;"><!-- gerador de partitura -->  
-            <div id="t2pControlDiv1" class="btn-subgroup" >
-                <input id="fileLoadTab" type="file" accept="text/tab" style="display: none;"/>
-                <button id="t2pShowEditorBtn" data-translate="showEditorTip"><i id="t2pI_showEditor" class="ico-folder"></i>&#160;<span data-translate="showEditorBtn">Editor</span></button>
-                <button id="t2pShowMapBtn" data-translate="showMapTip"><i id="t2pI_showMap" class="ico-folder"></i>&#160;<span data-translate="showMapBtn">Teclado</span></button>
-                <button id="t2pForceRefresh" data-translate="forceRefreshBtn" ><i class="ico-bolt"></i>&#160<span data-translate="forceRefreshBtn">Atualizar</span></button>
-                <button id="t2pLoadBtn" data-translate="loadTabTip"><i class="ico-upload"></i>&#160;<span data-translate="loadBtn">Carregar</span></button>
-                <button id="t2pSaveBtn" data-translate="saveTabTip"><i class="ico-download"></i>&#160;<span data-translate="saveBtn">Salvar</span></button>
-                <button id="t2pOpenInPartEditBtn" data-translate="PartGenOpenInTip"><i class="ico-edit"></i>&#160;<span data-translate="PartGenOpenInBtn">Editar partitura</span></button>
-                <button id="t2pSavePartBtn" data-translate="savePartTip"><i class="ico-download"></i>&#160;<span data-translate="PartGenSavePartBtn">Salvar Partitura</span></button>
-                <div class="btn-subgroup">
-                    <button id="t2pbuttonShowMedia" style="display:none;" >
-                        <i class="ico-vplayer" data-translate="showMedia"></i>&nbsp;
-                    </button>
-                </div>
+        </div>
+        <div id="group" style="width:100%; margin: 0; padding: 0; display: inline-block;">
+            <div id="t2pDivNormalPlayControls" class="btn-subgroup">
+                <input id="t2pGotoMeasureBtn" type="text" data-translate="gotoMeasure" value="Ir para..." style="float: left;" />
+                <button id="t2pPlayBtn" data-translate="playBtn" onclick="">&#160;<i class="ico-play"></i>&#160;</button>
+                <button id="t2pStopBtn" data-translate="stopBtn" onclick="">&#160;<i class="ico-stop"></i>&#160;</button>
+                <label id="t2pCurrentPlayTimeLabel" class="playtime-label">00:00</label>
             </div>
-            <div id="group" style="width:100%; margin: 0; padding: 0; display: inline-block;" >
-                <div id="t2pDivNormalPlayControls" class="btn-subgroup" >
-                    <input id="t2pGotoMeasureBtn" type="text" data-translate="gotoMeasure" value="Ir para..." style="float: left;" />
-                    <button id="t2pPlayBtn" data-translate="playBtn" onclick="">&#160;<i class="ico-play"></i>&#160;</button>
-                    <button id="t2pStopBtn" data-translate="stopBtn" onclick="">&#160;<i class="ico-stop"></i>&#160;</button>
-                    <label id="t2pCurrentPlayTimeLabel" class="playtime-label">00:00</label>
-                </div>
-                <div id="t2pDivChecks" class="btn-subgroup" style="padding: 3px;" >
-                    <input type="checkbox" id="ckShowABC" checked >&#160;<span data-translate="chkShowABCXText" >Mostrar o texto ABCX</span>
-                    <span id="convertToClub" style="display: none;"><input type="checkbox" id="ckConvertToClub">&#160;<span data-translate="chkConvertToClub">Converter para Club IIIM (br)</span></span>
-                    <span id="convertFromClub" style="display: none;"><input type="checkbox" id="ckConvertFromClub">&#160;<span data-translate="chkConvertFromClub">Converter de Club IIIM (br)</span></span>
-                </div>
+            <div id="t2pDivChecks" class="btn-subgroup" style="padding: 3px;">
+                <input type="checkbox" id="ckShowABC" checked>&#160;<span data-translate="chkShowABCXText">Mostrar o texto ABCX</span>
+                <span id="convertToClub" style="display: none;"><input type="checkbox" id="ckConvertToClub">&#160;<span
+                        data-translate="chkConvertToClub">Converter para Club IIIM (br)</span></span>
+                <span id="convertFromClub" style="display: none;"><input type="checkbox" id="ckConvertFromClub">&#160;<span
+                        data-translate="chkConvertFromClub">Converter de Club IIIM (br)</span></span>
             </div>
-        </div> <!-- t2pcontrolDiv - este bloco é tratado internamente -->     
-        <div id="a2pControlDiv-raw" style="display:none;"><!-- editor de partitura -->  
-            <div id="a2pControlDiv1" class="btn-subgroup" >
-                <input id="fileLoadABC" type="file" accept="text/abc, text/abcx" style="display: none;"/>
-                <button id="a2pShowEditorBtn" data-translate="showEditorTip"><i id="a2pI_showEditor" class="ico-folder"></i>&#160;<span data-translate="showEditorBtn">Editor</span></button>
-                <button id="a2pShowMapBtn" data-translate="showMapTip"><i id="a2pI_showMap" class="ico-folder"></i>&#160;<span data-translate="showMapBtn">Teclado</span></button>
-                <button id="a2pForceRefresh" data-translate="forceRefreshBtn" ><i class="ico-bolt"></i>&#160<span data-translate="forceRefreshBtn">Atualizar</span></button>
-                <button id="a2pLoadBtn" data-translate="loadPartTip"><i class="ico-upload"></i>&#160;<span data-translate="loadBtn">Carregar</span></button>
-                <button id="a2pSaveBtn" data-translate="savePartTip"><i class="ico-download"></i>&#160;<span data-translate="saveBtn">Salvar</span></button>
-                <button id="a2pPrintBtn" data-translate="printPreviewTip"><i class="ico-printer"></i>&#160;<span data-translate="printBtn">Impimir</span></button>
-            </div>
-            <div id="a2pDivNormalPlayControls" class="btn-subgroup" >
-                <button id="a2pPlayBtn" data-translate="playBtn" onclick="">&#160;<i class="ico-play"></i>&#160;</button>
-                <button id="a2pStopBtn" data-translate="stopBtn" onclick="">&#160;<i class="ico-stop"></i>&#160;</button>
-            </div>
-            <div class="btn-subgroup" >
-                <label id="a2pCurrentPlayTimeLabel" class="playtime-label">00:00</label>
-            </div>
-            <div class="btn-subgroup">
-                <button id="a2pbuttonShowMedia" style="display:none;" >
-                    <i class="ico-vplayer" data-translate="showMedia"></i>&nbsp;
-                </button>
-                <span id="rebalance" style="display: inline;"><input type="checkbox" id="chkRebalance">&#160;<span data-translate="chkRebalance">Rebalancear compassos por linha</span></span>
-            </div>
-        </div> <!-- a2pcontrolDiv - este bloco é tratado internamente -->
-        
-        <div id="printPreviewDiv" class="printPreviewClass"></div>
-        <div id="tipsDiv" class="tips" style="transform:scale(0.8);" ><a href="html/release.pt_BR.html" target="_blank" ><span data-translate="ReleaseNotesNotice"></span></a></div>
+        </div>
+    </div> <!-- t2pcontrolDiv - este bloco é tratado internamente -->
+    <div id="a2pControlDiv-raw" style="display:none;"><!-- editor de partitura -->
+        <div id="a2pControlDiv1" class="btn-subgroup">
+            <input id="fileLoadABC" type="file" accept="text/abc, text/abcx" style="display: none;" />
+            <button id="a2pShowEditorBtn" data-translate="showEditorTip"><i id="a2pI_showEditor" class="ico-folder"></i>&#160;<span
+                    data-translate="showEditorBtn">Editor</span></button>
+            <button id="a2pShowMapBtn" data-translate="showMapTip"><i id="a2pI_showMap" class="ico-folder"></i>&#160;<span
+                    data-translate="showMapBtn">Teclado</span></button>
+            <button id="a2pForceRefresh" data-translate="forceRefreshBtn"><i class="ico-bolt"></i>&#160<span
+                    data-translate="forceRefreshBtn">Atualizar</span></button>
+            <button id="a2pLoadBtn" data-translate="loadPartTip"><i class="ico-upload"></i>&#160;<span
+                    data-translate="loadBtn">Carregar</span></button>
+            <button id="a2pSaveBtn" data-translate="savePartTip"><i class="ico-download"></i>&#160;<span
+                    data-translate="saveBtn">Salvar</span></button>
+            <button id="a2pPrintBtn" data-translate="printPreviewTip"><i class="ico-printer"></i>&#160;<span
+                    data-translate="printBtn">Impimir</span></button>
+        </div>
+        <div id="a2pDivNormalPlayControls" class="btn-subgroup">
+            <button id="a2pPlayBtn" data-translate="playBtn" onclick="">&#160;<i class="ico-play"></i>&#160;</button>
+            <button id="a2pStopBtn" data-translate="stopBtn" onclick="">&#160;<i class="ico-stop"></i>&#160;</button>
+        </div>
+        <div class="btn-subgroup">
+            <label id="a2pCurrentPlayTimeLabel" class="playtime-label">00:00</label>
+        </div>
+        <div class="btn-subgroup">
+            <button id="a2pbuttonShowMedia" style="display:none;">
+                <i class="ico-vplayer" data-translate="showMedia"></i>&nbsp;
+            </button>
+            <span id="rebalance" style="display: inline;"><input type="checkbox" id="chkRebalance">&#160;<span
+                    data-translate="chkRebalance">Rebalancear compassos por linha</span></span>
+        </div>
+    </div> <!-- a2pcontrolDiv - este bloco é tratado internamente -->
 
-        <section class="policy-section" style="display: none;">
-            <p><span data-translate="PrivacyDesc">We use cookies to improve the "Map for Accordions" experience.<br>To learn more, read our</span>&nbsp;
-                 <a data-translate="PrivacyLink" href="/privacy" target="_blank"><span data-translate="PrivacyTitle">Privacy Policy</span></a>.</p>
-            <div class="policy-section-actions policy-section">
-                <span data-translate="GotIt" class="accept-policy-section">Got It!</span>
-            </div>
-        </section>
+    <div id="printPreviewDiv" class="printPreviewClass"></div>
+    <div id="tipsDiv" class="tips" style="transform:scale(0.8);"><a href="html/release.pt_BR.html" target="_blank"><span
+                data-translate="ReleaseNotesNotice"></span></a></div>
 
-        <div id="askHelpDiv" class="mediaTips" ></div>
-        
-        <script id="mainScript" type="text/javascript">
+    <section class="policy-section" style="display: none;">
+        <p><span data-translate="PrivacyDesc">We use cookies to improve the "Map for Accordions" experience.<br>To learn more, read
+                our</span>&nbsp;
+            <a data-translate="PrivacyLink" href="/privacy" target="_blank"><span data-translate="PrivacyTitle">Privacy Policy</span></a>.
+        </p>
+        <div class="policy-section-actions policy-section">
+            <span data-translate="GotIt" class="accept-policy-section">Got It!</span>
+        </div>
+    </section>
+
+    <div id="askHelpDiv" class="mediaTips"></div>
+
+    <script id="mainScript" type="text/javascript">
+
+        SITE.sizeOfThings();
+        document.querySelector('.window-size').innerHTML = SITE.winSize.w + 'x' + SITE.winSize.h;
+        document.querySelector('.screen-size').innerHTML = SITE.size.w + 'x' + SITE.size.h;
+
+        window.addEventListener('resize', function () {
 
             SITE.sizeOfThings();
             document.querySelector('.window-size').innerHTML = SITE.winSize.w + 'x' + SITE.winSize.h;
             document.querySelector('.screen-size').innerHTML = SITE.size.w + 'x' + SITE.size.h;
 
-            window.addEventListener('resize', function(){
+        });
 
-                SITE.sizeOfThings();
-                document.querySelector('.window-size').innerHTML = SITE.winSize.w + 'x' + SITE.winSize.h;
-                document.querySelector('.screen-size').innerHTML = SITE.size.w + 'x' + SITE.size.h;
+        SITE.abcxVersion = SITE.getVersion('mainABCX', ''); // Obtem e mostra a versão corrente da lib ABCX 
+        SITE.siteVersion = SITE.getVersion('mainSITE', 'v'); // Obtem e mostra a versão corrente da lib do site
 
-            });            
-            
-            SITE.abcxVersion = SITE.getVersion('mainABCX', '' ); // Obtem e mostra a versão corrente da lib ABCX 
-            SITE.siteVersion = SITE.getVersion('mainSITE', 'v' ); // Obtem e mostra a versão corrente da lib do site
-            
-            document.getElementById("divABCXversion").innerHTML = '<i>Powered by ABCXJS version '+SITE.abcxVersion+'</i>';
-            
-            var debug=false; // eliminar esta variável assim que possível
-            
-            var myMap;
+        document.getElementById("divABCXversion").innerHTML = '<i>Powered by ABCXJS version ' + SITE.abcxVersion + '</i>';
 
-            window.onblur = function() {
-                if( !myMap ) return;
-                myMap.silencia();
-            };
-            
-            window.onfocus = function() {
-                if( !myMap ) return;
-                myMap.setFocus();
-            };
-            
-            window.onresize = function() {
-                if( !myMap ) return;
-                myMap.resizeActiveWindow();
-            };
-            
-            document.addEventListener( 'touchend', function(event) {
-                if( event.touches.length === 0 || !myMap ) return;
-                myMap.resizeActiveWindow();
-            }, false);
-            
-            $(document).ready(function() { // to avoid ajax cache
-                $.ajaxSetup({ cache: false });
-                SITE.checkCookieConsent();
+        var debug = false; // eliminar esta variável assim que possível
+
+        var myMap;
+
+        window.onblur = function () {
+            if (!myMap) return;
+            myMap.silencia();
+        };
+
+        window.onfocus = function () {
+            if (!myMap) return;
+            myMap.setFocus();
+        };
+
+        window.onresize = function () {
+            if (!myMap) return;
+            myMap.resizeActiveWindow();
+        };
+
+        document.addEventListener('touchend', function (event) {
+            if (event.touches.length === 0 || !myMap) return;
+            myMap.resizeActiveWindow();
+        }, false);
+
+        $(document).ready(function () { // to avoid ajax cache
+            $.ajaxSetup({ cache: false });
+            SITE.checkCookieConsent();
+        });
+
+        window.onload = function () {
+
+            SITE.LoadProperties();
+            SITE.ga('set', 'page_path', '/mapa-debug');
+
+            SITE.translator = new SITE.Translator({ language: SITE.properties.options.language, callback: initApp });
+
+        };
+
+        function initApp() {
+
+            //waterbug.log( 'initApp');
+            //waterbug.show();
+
+            SITE.translator.translate();
+
+            if (ABCXJS.misc.isIE()) {
+
+                $('#mapaDiv').hide();
+
+                SITE.ga('event', 'exception', {
+                    event_category: 'Error'
+                    , description: 'MS-IE: Browser not supported.'
+                    , fatal: true
+                });
+
+                new DRAGGABLE.ui.Alert(
+                    null, null
+                    , '<br>' + SITE.translator.getResource('IEMsgTitle')
+                    , SITE.translator.getResource('IEMsgDescription')
+                    + "<ul><li>Chrome (chromium)</li><li>Firefox</li><li>Safari</li><li>MS-Edge</li></ul>"
+                    , { translator: SITE.translator }
+                );
+                return;
+            }
+
+            MIDI.widget = new sketch.ui.Timer({
+                size: 180
+                , container: document.getElementById('mapaDiv')
+                , cor1: SITE.properties.colors.close, cor2: SITE.properties.colors.open
             });
 
-            window.onload = function () {
-                
-                SITE.LoadProperties();
-                SITE.ga( 'set', 'page_path', '/mapa-debug');
+            MIDI.widget.setFormat(SITE.translator.getResource('loading'));
 
-                SITE.translator = new SITE.Translator( { language: SITE.properties.options.language, callback: initApp } );
-
-            };
-            
-            function initApp() {
-                
-                //waterbug.log( 'initApp');
-                //waterbug.show();
-
-                SITE.translator.translate();
-                
-                if( ABCXJS.misc.isIE() ){
-                    
-                    $('#mapaDiv').hide();
-                    
-                    SITE.ga('event', 'exception', {
-                             event_category: 'Error'
-                            ,description: 'MS-IE: Browser not supported.'
-                            ,fatal: true        
+            DIATONIC.map.loadAccordionMaps(
+                [
+                    'accordions/minuano.gc.accordion'
+                    , 'accordions/minuano.bc.transportada.accordion'
+                    , 'accordions/hohner.cf.club.br.accordion'
+                    , 'accordions/hohner.gcf.corona.accordion'
+                    , 'accordions/hohner.adg.corona.accordion'
+                    , 'accordions/hohner.bea.b.corona.accordion'
+                    , 'accordions/concertina.gcf.portuguesa.accordion'
+                    , 'accordions/hohner.be.morino.accordion'
+                    // 'accordions/hohner.gc.accordion'
+                    //,'accordions/hohner.cf.club.accordion'
+                ]
+                , { isApp: false }
+                , function () {
+                    FILEMANAGER.waitResources({
+                        onProgress: function (event) {
+                            MIDI.widget.setValue(0 + Math.round(event.perc * .15));
+                        }
+                        , onLoad: loadMIDI
                     });
-
-                    new DRAGGABLE.ui.Alert( 
-                         null, null
-                        ,'<br>'+SITE.translator.getResource('IEMsgTitle')
-                        ,SITE.translator.getResource('IEMsgDescription')
-                            + "<ul><li>Chrome (chromium)</li><li>Firefox</li><li>Safari</li><li>MS-Edge</li></ul>"
-                        ,{ translator: SITE.translator }
-                    );    
-                    return;
                 }
-        
-                MIDI.widget = new sketch.ui.Timer({
-                    size:180
-                    , container: document.getElementById('mapaDiv')
-                    , cor1:SITE.properties.colors.close, cor2: SITE.properties.colors.open});
-                
-                MIDI.widget.setFormat( SITE.translator.getResource('loading'));
+            );
+        }
 
-                DIATONIC.map.loadAccordionMaps(
-                    [
-                        'accordions/minuano.gc.accordion'
-                       ,'accordions/minuano.bc.transportada.accordion'
-                       ,'accordions/hohner.cf.club.br.accordion'
-                       ,'accordions/hohner.gcf.corona.accordion'
-                       ,'accordions/hohner.adg.corona.accordion'
-                       ,'accordions/hohner.bea.b.corona.accordion'
-                       ,'accordions/concertina.gcf.portuguesa.accordion'
-                       // 'accordions/hohner.gc.accordion'
-                       //,'accordions/hohner.cf.club.accordion'
-                    ]
-                    ,{ isApp: false }
-                    , function () { 
-                        FILEMANAGER.waitResources( { 
-                            onProgress: function(event) {
-                                MIDI.widget.setValue(0+Math.round(event.perc*.15));
-                            }
-                            ,onLoad: loadMIDI 
-                        });
-                    } 
-                );
-            }
-            
-            function loadMIDI(success) {
-                //waterbug.log( 'loadMIDI');
-                //waterbug.show();
-                if(! success ) {
-                    MIDI.widget.hide();
-                    
-                    SITE.ga('event', 'exception', {
-                             event_category: 'Error'
-                            ,description: 'MIDI: Could not load some resources.'
-                            ,fatal: true        
-                    });
+        function loadMIDI(success) {
+            //waterbug.log( 'loadMIDI');
+            //waterbug.show();
+            if (!success) {
+                MIDI.widget.hide();
 
-                    new DRAGGABLE.ui.Alert( 
-                        null, null, 
-                        '<br>'+SITE.translator.getResource('ErrLoadingTitle'),
-                        '<br>'+SITE.translator.getResource('ErrLoadingDescription1')+
-                        '<br>'+SITE.translator.getResource('ErrLoadingDescription2')+
-                        '&nbsp;<b><a href="mailto:flavio.vani@gmail.com">flavio.vani@gmail.com</a></b>'
-                        , {y:83, translator: SITE.translator }
-                    );
-                    return;
-                }
-                
-                var instrument = SITE.properties.options.pianoSound ?  "acoustic_grand_piano" : "accordion" ;
-                
-                MIDI.loadPlugin({
-                     soundfontUrl: "./soundfont/"
-                    ,instruments: instrument
-                    ,onprogress: function( total, done, currentPercent ) {
-                        var percent = ((done*100)+currentPercent)*85/(total*100);
-                        MIDI.widget.setValue(15+Math.round(percent));
-                    }
-                    ,callback: createMap
+                SITE.ga('event', 'exception', {
+                    event_category: 'Error'
+                    , description: 'MIDI: Could not load some resources.'
+                    , fatal: true
                 });
-            }
-            
-            function createMap() {
-                
-                var accordionId = SITE.findGetParameter("accordion");
-                var songId = SITE.findGetParameter("id");
-                
-                var accordion = accordionId || FILEMANAGER.loadLocal( 'property.accordion') || 'GAITA_MINUANO_GC';
 
-                myMap = new SITE.Mapa(
-                    {   // interfaceParams
-                        accordionNamePlaceHolder: 'a_nome_gaita'
-                      , accordionImagePlaceHolder: 'accordionImageDiv'
-                      , btShowMedia: 'buttonShowMedia'
-                      , btChangeNotation: 'buttonChangeNotation'
-                      , btTabFormat: 'buttonTabFormat'
-                      , printBtn: 'buttonPrinter'
-                      , toolsBtn: 'buttonTools'
-                      , mapDiv: 'mapaDiv'
-                      , mapMenuDiv: 'mapMenu'
-                      , settingsMenu:'topSettings'
-                      , keyboardDiv: "keyboardContainerDiv"
-                      , songId: songId
-                      , accordion_options: {
-                             id: accordion
-                            ,accordionMaps: DIATONIC.map.accordionMaps
-                            ,translator: SITE.translator 
-                            ,render_keyboard_opts:{
-                                 transpose:true
-                                ,mirror:false
-                                ,scale:1
-                                ,draggable:false
-                                ,show:true
-                                ,label:false
-                            }
+                new DRAGGABLE.ui.Alert(
+                    null, null,
+                    '<br>' + SITE.translator.getResource('ErrLoadingTitle'),
+                    '<br>' + SITE.translator.getResource('ErrLoadingDescription1') +
+                    '<br>' + SITE.translator.getResource('ErrLoadingDescription2') +
+                    '&nbsp;<b><a href="mailto:flavio.vani@gmail.com">flavio.vani@gmail.com</a></b>'
+                    , { y: 83, translator: SITE.translator }
+                );
+                return;
+            }
+
+            var instrument = SITE.properties.options.pianoSound ? "acoustic_grand_piano" : "accordion";
+
+            MIDI.loadPlugin({
+                soundfontUrl: "./soundfont/"
+                , instruments: instrument
+                , onprogress: function (total, done, currentPercent) {
+                    var percent = ((done * 100) + currentPercent) * 85 / (total * 100);
+                    MIDI.widget.setValue(15 + Math.round(percent));
+                }
+                , callback: createMap
+            });
+        }
+
+        function createMap() {
+
+            var accordionId = SITE.findGetParameter("accordion");
+            var songId = SITE.findGetParameter("id");
+
+            var accordion = accordionId || FILEMANAGER.loadLocal('property.accordion') || 'GAITA_MINUANO_GC';
+
+            myMap = new SITE.Mapa(
+                {   // interfaceParams
+                    accordionNamePlaceHolder: 'a_nome_gaita'
+                    , accordionImagePlaceHolder: 'accordionImageDiv'
+                    , btShowMedia: 'buttonShowMedia'
+                    , btChangeNotation: 'buttonChangeNotation'
+                    , btTabFormat: 'buttonTabFormat'
+                    , printBtn: 'buttonPrinter'
+                    , toolsBtn: 'buttonTools'
+                    , mapDiv: 'mapaDiv'
+                    , mapMenuDiv: 'mapMenu'
+                    , settingsMenu: 'topSettings'
+                    , keyboardDiv: "keyboardContainerDiv"
+                    , songId: songId
+                    , accordion_options: {
+                        id: accordion
+                        , accordionMaps: DIATONIC.map.accordionMaps
+                        , translator: SITE.translator
+                        , render_keyboard_opts: {
+                            transpose: true
+                            , mirror: false
+                            , scale: 1
+                            , draggable: false
+                            , show: true
+                            , label: false
                         }
                     }
-                  , {   // tabParams
-                        tabRadioGroup: 'tabControl'
-                      , tuneContainerDiv: 'tuneContainerDiv'
-                      , songSelectorParms: { tabDiv: 'tabSongsDiv', menuDiv: 'menuSongs' }
-                      , chordSelectorParms:  { tabDiv: 'tabChordsDiv', menuDiv: 'menuChords' }
-                      , practiceSelectorParms: { tabDiv: 'tabPracticesDiv', menuDiv: 'menuPractices' }
-                    }
-                  , {   // playerParams
-                        playBtn: "buttonPlay"
-                      , stopBtn: "buttonStop"
-                      , currentPlayTimeLabel: "currentPlayTimeLabel"
-                    } 
-                );
-                
-                SITE.ga( 'event', 'language', { 
-                          event_category: 'Configuration'  
-                         ,event_label: SITE.properties.options.language 
-                         ,non_interaction: true
-                });
-                
-                if( SITE.getDate() <= 20210919 ) {
-                    $('#tipsDiv').fadeIn('slow');
-                    setTimeout(function() { 
-                        $('#tipsDiv').fadeOut('slow'); 
-                        $('#downloadApp').fadeIn('slow'); 
-                    }, 5000);
-                }else {
-                    setTimeout(function() { 
-                        $('#downloadApp').fadeIn('slow'); 
-                    }, 5000);
                 }
-                
-                if(!SITE.properties.options.guidedTour){
-
-                    initEnjoyVars(); 
-                    SITE.myTour = new EnjoyHint(g_enjoyhint_opts);
-
-                    //set script config
-                    SITE.myTour.set(g_enjoyhint_script_steps);
-
-                    //run Enjoyhint script
-                    SITE.myTour.run();
-                    
+                , {   // tabParams
+                    tabRadioGroup: 'tabControl'
+                    , tuneContainerDiv: 'tuneContainerDiv'
+                    , songSelectorParms: { tabDiv: 'tabSongsDiv', menuDiv: 'menuSongs' }
+                    , chordSelectorParms: { tabDiv: 'tabChordsDiv', menuDiv: 'menuChords' }
+                    , practiceSelectorParms: { tabDiv: 'tabPracticesDiv', menuDiv: 'menuPractices' }
                 }
+                , {   // playerParams
+                    playBtn: "buttonPlay"
+                    , stopBtn: "buttonStop"
+                    , currentPlayTimeLabel: "currentPlayTimeLabel"
+                }
+            );
 
-                //(new SITE.Repertorio()).compileAll();
-                //(new SITE.Repertorio()).geraIndex();
+            SITE.ga('event', 'language', {
+                event_category: 'Configuration'
+                , event_label: SITE.properties.options.language
+                , non_interaction: true
+            });
 
-                
+            if (SITE.getDate() <= 20210919) {
+                $('#tipsDiv').fadeIn('slow');
+                setTimeout(function () {
+                    $('#tipsDiv').fadeOut('slow');
+                    $('#downloadApp').fadeIn('slow');
+                }, 5000);
+            } else {
+                setTimeout(function () {
+                    $('#downloadApp').fadeIn('slow');
+                }, 5000);
             }
-            
-        </script> <!-- mainScript -->
-    </body>
+
+            if (!SITE.properties.options.guidedTour) {
+
+                initEnjoyVars();
+                SITE.myTour = new EnjoyHint(g_enjoyhint_opts);
+
+                //set script config
+                SITE.myTour.set(g_enjoyhint_script_steps);
+
+                //run Enjoyhint script
+                SITE.myTour.run();
+
+            }
+
+            //(new SITE.Repertorio()).compileAll();
+            //(new SITE.Repertorio()).geraIndex();
+
+
+        }
+
+    </script> <!-- mainScript -->
+</body>
+
 </html>

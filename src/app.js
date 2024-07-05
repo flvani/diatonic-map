@@ -187,6 +187,7 @@ SITE.App.prototype.menuCallback = function (ev) {
     switch(ev) {
         case 'GAITA_MINUANO_GC':
         case 'CONCERTINA_PORTUGUESA':
+        case 'GAITA_HOHNER_MORINO':
         case 'GAITA_HOHNER_CORONA_GCF':
         case 'GAITA_HOHNER_CORONA_BEA':
         case 'GAITA_HOHNER_CORONA_ADG':

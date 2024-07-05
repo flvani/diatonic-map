@@ -994,7 +994,7 @@ ABCXJS.Tab2Part.prototype.checkBass = function( b, opening ) {
     if( b === 'z' ) return true;
     var kb = this.keyboard;
     var nota = kb.parseNote(b.replace("m", ":m"), true );
-    for( var j = kb.keyMap.length; j > kb.keyMap.length - 2; j-- ) {
+    for( var j = kb.keyMap.length; j > kb.keyMap.length - kb.basses.close.length; j-- ) {
         for( var i = 0; i < kb.keyMap[j-1].length; i++ ) {
             var tecla = kb.keyMap[j-1][i];
             if( (opening && tecla.openNote.key === nota.key && nota.isMinor === tecla.openNote.isMinor )

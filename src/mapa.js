@@ -323,6 +323,7 @@ SITE.Mapa.prototype.menuCallback = function (ev) {
             break;
         case 'GAITA_MINUANO_GC':
         case 'CONCERTINA_PORTUGUESA':
+        case 'GAITA_HOHNER_MORINO':
         case 'GAITA_HOHNER_CORONA_GCF':
         case 'GAITA_HOHNER_CORONA_BEA':
         case 'GAITA_HOHNER_CORONA_ADG':
@@ -720,7 +721,7 @@ SITE.Mapa.prototype.loadMap = function(evt) {
     var that = this;
     evt.preventDefault();
     FILEMANAGER.loadLocalFiles(evt, function() {
-        var loader = that.startLoader( "LoadRepertoire", that.tuneContainerDiv  );
+        var loader = SITE.startLoader( "LoadRepertoire", that.tuneContainerDiv  );
         loader.start(  function() { that.doLoadMap(FILEMANAGER.files, loader ); }
                 , '<br/>&#160;&#160;&#160;'+SITE.translator.getResource('wait')+'<br/><br/>' );
         evt.target.value = "";
