@@ -642,7 +642,16 @@ DIATONIC.map.Keyboard.prototype.getNoteVal = function (note) {
     //Baixos serão = 0 a 11
     //Acordes Maiores de -12 a -1
     //Acordes menores de -24 a -13
-    return ABCXJS.parse.key2number[note.key.toUpperCase()] + (note.isBass ? (note.isChord ? (note.isMinor ? -24 : -12) : 0) : note.octave * 12);
+    //Acordes Maiores com sétima de -36 a -25
+    //Acordes Menores com sétima de -48 a -37
+    let delta  = 0;
+    if (note.isBass && note.isChord ) {
+        delta = -12;
+        if(note.isMinor) delta -= 12;
+        if(note.isSetima) delta -= 24;
+    }
+
+    return ABCXJS.parse.key2number[note.key.toUpperCase()] + (note.isBass ? delta : note.octave * 12);
 };
 
 DIATONIC.map.Keyboard.prototype.getLayout = function (r) {
@@ -668,11 +677,25 @@ DIATONIC.map.Keyboard.prototype.isPedal = function (i, j) {
 
 DIATONIC.map.Keyboard.prototype.parseNote = function (txtNota, isBass) {
 
-    var nota = {};
-    var s = txtNota.split(":");
-    var k = s[0].charAt(s[0].length - 1);
+    var nota = { key: undefined, value: undefined, octave: 4, isBass: false, isChord: false, isMinor: false, isSetima: false };
 
-    nota.key = parseInt(k) ? s[0].replace(k, '') : s[0];
+    var s = txtNota;
+    var minor = s.indexOf('m')>=0;
+    var sept = s.indexOf('7')>=0;
+    var k = s.charAt(s.length - 1);
+
+    if(isBass){
+        s = s.replace(':','');
+        if(minor) s = s.replace('m','');
+        if(sept) s = s.replace('7','');
+        nota.isBass = isBass;
+        nota.isChord = (s === s.toLowerCase());
+        nota.isMinor = minor;
+        nota.isSetima = sept;
+        k = s.charAt(s.length - 1);
+    }
+
+    nota.key = parseInt(k) ? s.replace(k, '') : s;
 
     { // tratar o conceito de variantes de botões - para diferenciar quando há dois baixos iguais no mesmo movimento de fole.
         nota.variant = this.getVariant(nota.key.charAt(nota.key.length - 1))
@@ -684,13 +707,9 @@ DIATONIC.map.Keyboard.prototype.parseNote = function (txtNota, isBass) {
     }
 
     nota.octave = parseInt(k) ? parseInt(k) : 4;
-    nota.complement = s[1] ? s[1] : "";
     nota.value = ABCXJS.parse.key2number[nota.key.toUpperCase()];
-    nota.isChord = (nota.key === nota.key.toLowerCase());
-    nota.isBass = isBass;
-    nota.isMinor = nota.complement.substr(0, 2).indexOf('m') >= 0;
-    nota.isSetima = nota.complement.substr(0, 2).indexOf('7') >= 0;
 
+    //nota.complement = s[1] ? s[1] : "";
     //  if( nota.key.indexOf( '♯' ) >= 0 || nota.key.indexOf( '♭' ) >= 0 ) {
     //      if(nota.key.indexOf( '♯' ) >= 0) {
     //            window.ABCXJS.parse.number2key[nota.value] = window.ABCXJS.parse.number2keysharp[nota.value];
@@ -902,6 +921,9 @@ DIATONIC.map.Button.prototype.getLabel = function(nota, showLabel) {
     
     if( nota.isMinor ) {
         l+='-';
+    }
+    if( nota.isSetima ) {
+        l+='7';
     }
     return l;
 };
