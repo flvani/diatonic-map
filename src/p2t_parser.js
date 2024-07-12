@@ -19,8 +19,8 @@ function toDecimalNote(str) {
     return r;
 };
 
-function regexp_match(str,re) {
-    var m, n=[];
+function regexp_match(str, re) {
+    var m, n = [];
 
     while ((m = re.exec(str)) !== null) {
         n.push(m);
@@ -34,28 +34,28 @@ function regexp_match(str,re) {
 
 // left padding s with c to a total of n chars
 function lpad(s, c, n) {
-  if (! s || ! c || s.length >= n) {
+    if (!s || !c || s.length >= n) {
+        return s;
+    }
+    var max = (n - s.length) / c.length;
+    for (var i = 0; i < max; i++) {
+        s = c + s;
+    }
     return s;
-  }
-  var max = (n - s.length)/c.length;
-  for (var i = 0; i < max; i++) {
-    s = c + s;
-  }
-  return s;
 }
- 
+
 // right padding s with c to a total of n chars
 function rpad(s, c, n) {
-  if (! s || ! c || s.length >= n) {
+    if (!s || !c || s.length >= n) {
+        return s;
+    }
+    var max = (n - s.length) / c.length;
+    for (var i = 0; i < max; i++) {
+        s += c;
+    }
     return s;
-  }
-  var max = (n - s.length)/c.length;
-  for (var i = 0; i < max; i++) {
-    s += c;
-  }
-  return s;
 }
- 
+
 if (!window.ABCXJS)
     window.ABCXJS = {};
 
@@ -64,38 +64,39 @@ ABCXJS.Part2TabLine = function () {
     this.sparring = "";
     this.close = [""];
     this.open = [""];
-    this.duration ="";
+    this.duration = "";
     this.pos = 0;
+    this.bassPos = 0;
 };
 
 ABCXJS.Part2Tab = function () {
-    
-    this.validBars = { 
-          "|"   : "bar_thin"
-        , "||"  : "bar_thin_thin"
-        , "[|"  : "bar_thick_thin"
-        , "|]"  : "bar_thin_thick"
-        , ":|:" : "bar_dbl_repeat"
+
+    this.validBars = {
+        "|": "bar_thin"
+        , "||": "bar_thin_thin"
+        , "[|": "bar_thick_thin"
+        , "|]": "bar_thin_thick"
+        , ":|:": "bar_dbl_repeat"
         , ":||:": "bar_dbl_repeat"
-        , "::"  : "bar_dbl_repeat" 
-        , "|:"  : "bar_left_repeat"
-        , "||:" : "bar_left_repeat"
-        , "[|:" : "bar_left_repeat"
-        , ":|"  : "bar_right_repeat"
-        , ":||" : "bar_right_repeat"
-        , ":|]" : "bar_right_repeat"
+        , "::": "bar_dbl_repeat"
+        , "|:": "bar_left_repeat"
+        , "||:": "bar_left_repeat"
+        , "[|:": "bar_left_repeat"
+        , ":|": "bar_right_repeat"
+        , ":||": "bar_right_repeat"
+        , ":|]": "bar_right_repeat"
     };
-    
+
     this.validBasses = 'abcdefgABCDEFGz>+-';
     this.startSyms = "[|:";
     this.spaces = "\ \t";
-    
+
     this.init();
-    
-    this.addWarning = function ( msg ) {
+
+    this.addWarning = function (msg) {
         this.warnings.push(msg);
     };
-    
+
     this.getWarnings = function () {
         return this.warnings.join('<br>');
     };
@@ -117,127 +118,127 @@ ABCXJS.Part2Tab.prototype.init = function () {
     this.finalTabLines = [];
 };
 
-ABCXJS.Part2Tab.prototype.parse = function (text, keyboard ) {
+ABCXJS.Part2Tab.prototype.parse = function (text, keyboard) {
     this.init();
-    this.partText   = text;
-    this.partLines  = this.extractLines();
-    this.keyboard  = keyboard;
+    this.partText = text;
+    this.partLines = this.extractLines();
+    this.keyboard = keyboard;
     this.hasErrors = false;
     this.title = undefined;
-    
-    while((!this.hasErrors) && this.currLine < this.partLines.length) {
-        if( this.skipEmptyLines() ) {
+
+    while ((!this.hasErrors) && this.currLine < this.partLines.length) {
+        if (this.skipEmptyLines()) {
             this.parseLine();
             this.currLine++;
         }
     }
-    
+
     // each parsed line is stored in finalTabLines array
     var tabL = this.finalTabLines;
-    
-    for(var t =0; t < tabL.length; t++ ) {
-        this.addLine( tabL[t].basses);
-        for( var r =0; r <tabL[t].close.length; r++){
-            this.addLine( tabL[t].close[r]);
+
+    for (var t = 0; t < tabL.length; t++) {
+        this.addLine(tabL[t].basses);
+        for (var r = 0; r < tabL[t].close.length; r++) {
+            this.addLine(tabL[t].close[r]);
         }
-        for( var r =0; r <tabL[t].open.length; r++){
-            this.addLine( tabL[t].open[r]);
+        for (var r = 0; r < tabL[t].open.length; r++) {
+            this.addLine(tabL[t].open[r]);
         }
-        this.addLine( tabL[t].duration );
-        
-        if( this.fingerLine[t] && this.fingerLine[t] !== "" ) {
-            this.addLine( this.fingerLine[t]+'\n');
+        this.addLine(tabL[t].duration);
+
+        if (this.fingerLine[t] && this.fingerLine[t] !== "") {
+            this.addLine(this.fingerLine[t] + '\n');
         } else {
-            this.addLine( '\n' );
+            this.addLine('\n');
         }
     }
-        
+
     return this.tabText;
 };
 
 ABCXJS.Part2Tab.prototype.extractLines = function () {
     var v = this.partText.split('\n');
-    v.forEach( function(linha, i) { 
+    v.forEach(function (linha, i) {
         var l = linha.split('%');
-        v[i] = l[0].trim(); 
-    } );
+        v[i] = l[0].trim();
+    });
     return v;
 };
 
 ABCXJS.Part2Tab.prototype.parseLine = function () {
     //var header = lines[l].match(/^([CKLMT]\:*[^\r\n\t]*)/g); - assim não remove comentarios
-    var header = this.partLines[this.currLine].match(/^([ACFKLMNTQVZX]\:.*[^\r\n\t\%]*)/g);
-    
-    if( header ) {
-        var key = this.partLines[this.currLine].match(/^([ACFKLMNTQVZX]\:)/g);
-        switch( key[0] ) {
-            case 'V:': 
-                 var a = (header[0].match(/accordionTab/g) !== null);
-                 var b = (header[0].match(/bass/g) !== null);
-                 var t = (header[0].match(/treble/g) !== null);
-                 
+    var header = this.partLines[this.currLine].match(/^([ACFKLMNTQVZWX]\:.*[^\r\n\t\%]*)/g);
+
+    if (header) {
+        var key = this.partLines[this.currLine].match(/^([ACFKLMNTQVZWX]\:)/g);
+        switch (key[0]) {
+            case 'V:':
+                var a = (header[0].match(/accordionTab/g) !== null);
+                var b = (header[0].match(/bass/g) !== null);
+                var t = (header[0].match(/treble/g) !== null);
+
                 this.inTab = a;
-                this.inTreble = t || ! (a || b);
-                
-                if( this.inTreble ) {
+                this.inTreble = t || !(a || b);
+
+                if (this.inTreble) {
                     var v = this.partLines[this.currLine].match(/^(V:\S.)/);
                     this.trebleVoice = v[0].trim();
                 }
-                
-                 break;
-            case 'T:': 
-                if(!this.title)
+
+                break;
+            case 'T:':
+                if (!this.title)
                     this.title = ABCXJS.parse.denormalizeAcc(header[0].trim().substr(2));
-                 break;
-            case 'K:': 
+                break;
+            case 'K:':
                 var k = ABCXJS.parse.denormalizeAcc(header[0].trim().substr(2));
                 header[0] = 'K:' + k;
                 this.keyAcidentals = ABCXJS.parse.parseKeyVoice.standardKey(k);
                 break;
         }
-        if(key[0] !== 'V:' )  {
-           this.addLine( header[0] );
-        }  
+        if (key[0] !== 'V:' && key[0] !== 'W:') {
+            this.addLine(header[0]);
+        }
     } else {
-        if( this.inTab ) {
-           //Salva as linhas para inserção ao final - há relações inter linhas
-           this.finalTabLines.push( this.parseTab() );
+        if (this.inTab) {
+            //Salva as linhas para inserção ao final - há relações inter linhas
+            this.finalTabLines.push(this.parseTab());
         } else {
             var v = this.partLines[this.currLine].match(/\[(V:\S)\]/);
             var f = (this.partLines[this.currLine].match(/^(f\:)/g) !== null);
             var w = (this.partLines[this.currLine].match(/^(w\:)/g) !== null);
-            
-            if( v ) 
-                this.inTreble = ( this.trebleVoice !== "" && v[1] === this.trebleVoice );
-             
-            
-            if( this.inTreble ) {
-                if( f ) 
-                    this.fingerLine[this.fingerLine.length-1] = this.partLines[this.currLine];
-                else if( ! w )
+
+            if (v)
+                this.inTreble = (this.trebleVoice !== "" && v[1] === this.trebleVoice);
+
+
+            if (this.inTreble) {
+                if (f)
+                    this.fingerLine[this.fingerLine.length - 1] = this.partLines[this.currLine];
+                else if (!w)
                     this.fingerLine.push("");
-                
+
             }
         }
-        
+
     }
 };
 
 ABCXJS.Part2Tab.prototype.parseTab = function () {
-    var line = { str:this.partLines[this.currLine], posi:0, pos:0, tokenType:1,currToken:''};
+    var line = { str: this.partLines[this.currLine], posi: 0, pos: 0, tokenType: 1, currToken: '' };
     var tabline = new ABCXJS.Part2TabLine();
-    
-    if( line.length === 0 ) {
+
+    if (line.length === 0) {
         this.hasErrors = true;
         return;
     }
-    
+
     var cnt = 1000; // limite de saida para o caso de erro de alinhamento do texto
-    while( line.tokenType > 0 && --cnt ) {
-        
+    while (line.tokenType > 0 && --cnt) {
+
         this.getToken(line, tabline);
 
-        switch(line.tokenType){
+        switch (line.tokenType) {
             case 1: // bar
                 this.addBar(tabline, line.currToken);
                 break;
@@ -248,149 +249,168 @@ ABCXJS.Part2Tab.prototype.parseTab = function () {
                 this.addTriplet(tabline, line);
                 break;
         }
-    } 
-    
-    if( line.tokenType < 0 ) {
-        this.addWarning('Encontrados símbolos inválidos na linha ('+(this.currLine+1)+','+(line.posi+1)+') .');
+    }
+
+    if (line.tokenType < 0) {
+        this.addWarning('Encontrados símbolos inválidos na linha (' + (this.currLine + 1) + ',' + (line.posi + 1) + ') .');
         this.hasErrors = true;
     }
-    if( ! cnt ) {
+    if (!cnt) {
         this.addWarning('Não pude processar tablatura após 1000 ciclos. Possivel desalinhamento de texto.');
         this.hasErrors = true;
     }
+    tabline.basses = tabline.basses.replaceAll('♭', 'b').replaceAll('♯', '#');
     return tabline;
 };
 
 ABCXJS.Part2Tab.prototype.addBar = function (tabline, token) {
-    
+
     var l = token.length;
-    
-    tabline.basses += token + ' ';
-    for(var r=0; r < tabline.close.length; r++){
+    var b = token.replace('|', ']');
+
+    tabline.basses += (tabline.basses.length == 0 ? b : token) + ' ';
+
+    for (var r = 0; r < tabline.close.length; r++) {
         tabline.close[r] += token + ' ';
     }
-    for(var r=0; r < tabline.open.length; r++){
+    for (var r = 0; r < tabline.open.length; r++) {
         tabline.open[r] += token + ' ';
     }
-    
-    if(tabline.pos===0){
-        tabline.sparring += '/' + rpad( ' ', ' ', l);
-        tabline.duration = '+'  + rpad( ' ', ' ', l);
+
+    if (tabline.pos === 0) {
+        tabline.sparring += '/' + rpad(' ', ' ', l);
+        tabline.duration = '+' + rpad(' ', ' ', l);
     } else {
         tabline.sparring += token + ' ';
-        tabline.duration += rpad( ' ', ' ', l+1);
+        tabline.duration += rpad(' ', ' ', l + 1);
     }
-    
-    tabline.pos +=( l+1);
-    
+
+    tabline.pos += (l + 1);
+
 };
 
-ABCXJS.Part2Tab.prototype.addTriplet = function(tabline, line) {
-    var l = line.currToken.length+1;
-    
+ABCXJS.Part2Tab.prototype.addTriplet = function (tabline, line) {
+    var l = line.currToken.length + 1;
+
     tabline.basses += line.currToken + ' ';
-    
-    for(var r=0; r < tabline.open.length; r++){
-        tabline.open[r] +=  line.currToken + ' ';
+
+    for (var r = 0; r < tabline.open.length; r++) {
+        tabline.open[r] += line.currToken + ' ';
     }
-    for(var r=0; r < tabline.close.length; r++){
-        tabline.close[r] +=  line.currToken + ' ';
+    for (var r = 0; r < tabline.close.length; r++) {
+        tabline.close[r] += line.currToken + ' ';
     }
-    
-    tabline.sparring += rpad( ' ', ' ', l);
-    tabline.duration += rpad( ' ', ' ', l);
-    
+
+    tabline.sparring += rpad(' ', ' ', l);
+    tabline.duration += rpad(' ', ' ', l);
+
     tabline.pos += l;
 };
 
-ABCXJS.Part2Tab.prototype.addNotes = function(tabline, line) {
-    
+ABCXJS.Part2Tab.prototype.addNotes = function (tabline, line) {
+
     var parsedNotes = line.parsedNotes;
-    
-    if( parsedNotes.empty &&  (line.parsedNotes.bas.trim().length === 0 || line.parsedNotes.currBar !== this.lastParsed.notes.currBar )) {
-        this.lastParsed.notes.currBar = line.parsedNotes.currBar;
+
+    if (parsedNotes.empty && (line.parsedNotes.bas.trim().length === 0 || line.parsedNotes.currBar !== this.lastParsed.notes.currBar)) {
+        var i = 0;
+
+        //flavio 9/7/24 tratar casos em que algumas notas estão vazias e outras não.
+        for (var r = 0; r < parsedNotes.notes.length; r++) {
+            if (this.lastParsed.notes.notes.length > r && parsedNotes.notes[r].trim().length === 0) {
+                parsedNotes.notes[r] = this.lastParsed.notes.notes[r];
+            }
+        }
+
+        this.lastParsed.notes.currBar = parsedNotes.currBar;
+        this.lastParsed.notes.notes = parsedNotes.notes;
         var lastNotes = this.lastParsed.notes.notes;
         var lastTabline = this.lastParsed.tabLine;
-        if(parsedNotes.closing) {
-            var i = lastTabline.close[0].lastIndexOf( lastNotes[0] ) + this.lastParsed.notes.maxL;
-            for(var r=0; r < lastTabline.close.length; r++){
-               var str = lastTabline.close[r];
-                if(r<parsedNotes.notes.length) {
+
+        parsedNotes.maxL = Math.max(parsedNotes.maxL, this.lastParsed.notes.maxL);
+
+        if (parsedNotes.closing) {
+            i = lastTabline.close[0].lastIndexOf(lastNotes[0]) + parsedNotes.maxL; //this.lastParsed.notes.maxL;
+            for (var r = 0; r < lastTabline.close.length; r++) {
+                var str = lastTabline.close[r];
+                if (r < parsedNotes.notes.length) {
                     var n = str.lastIndexOf(lastNotes[r]);
-                    lastTabline.close[r] = str.slice(0, n) + str.slice(n).replace(lastNotes[r],lastNotes[r]+'-');
+                    lastTabline.close[r] = str.slice(0, n) + str.slice(n).replace(lastNotes[r], lastNotes[r] + '-');
+
                 } else {
-                    lastTabline.close[r] = str.slice(0, i) +' '+ str.slice(i); 
+                    lastTabline.close[r] = str.slice(0, i) + ' ' + str.slice(i);
                 }
             }
-            for(var r=0; r < lastTabline.open.length; r++){
+            for (var r = 0; r < lastTabline.open.length; r++) {
                 var str = lastTabline.open[r];
-                lastTabline.open[r] = str.slice(0, i) +' '+ str.slice(i); 
+                lastTabline.open[r] = str.slice(0, i) + ' ' + str.slice(i);
             }
         } else {
-            var i = lastTabline.open[0].lastIndexOf( lastNotes[0] ) + this.lastParsed.notes.maxL;
-            for(var r=0; r < lastTabline.open.length; r++){
-               var str = lastTabline.open[r];
-                if(r<parsedNotes.notes.length) {
+            i = lastTabline.open[0].lastIndexOf(lastNotes[0]) + parsedNotes.maxL; //this.lastParsed.notes.maxL;
+            for (var r = 0; r < lastTabline.open.length; r++) {
+                var str = lastTabline.open[r];
+                if (r < parsedNotes.notes.length) {
                     var n = str.lastIndexOf(lastNotes[r]);
-                    lastTabline.open[r] = str.slice(0, n) + str.slice(n).replace(lastNotes[r],lastNotes[r]+'-');
+                    lastTabline.open[r] = str.slice(0, n) + str.slice(n).replace(lastNotes[r], lastNotes[r] + '-');
                 } else {
-                    lastTabline.open[r] = str.slice(0, i) +' '+ str.slice(i); 
+                    lastTabline.open[r] = str.slice(0, i) + ' ' + str.slice(i);
                 }
             }
-            for(var r=0; r < lastTabline.close.length; r++){
-                 var str = lastTabline.close[r];
-                lastTabline.close[r] = str.slice(0, i) +' '+ str.slice(i); 
+            for (var r = 0; r < lastTabline.close.length; r++) {
+                var str = lastTabline.close[r];
+                lastTabline.close[r] = str.slice(0, i) + ' ' + str.slice(i);
             }
         }
-        lastTabline.duration = lastTabline.duration.slice(0, i) +' '+ lastTabline.duration.slice(i); 
-        lastTabline.sparring = lastTabline.sparring.slice(0, i) +' '+ lastTabline.sparring.slice(i); 
-        lastTabline.basses = lastTabline.basses.slice(0, i) +' '+ lastTabline.basses.slice(i); 
+        //como acrescentou alguma ligadura (hifen), acrescenta um espçao no local adequado 
+        lastTabline.basses = lastTabline.basses.slice(0, lastTabline.bassPos) + ' ' + lastTabline.basses.slice(lastTabline.bassPos);
+        lastTabline.duration = lastTabline.duration.slice(0, i) + ' ' + lastTabline.duration.slice(i);
+        lastTabline.sparring = lastTabline.sparring.slice(0, i) + ' ' + lastTabline.sparring.slice(i);
+
         line.parsedNotes = window.ABCXJS.parse.clone(this.lastParsed.notes);
         parsedNotes.notes = lastNotes;
-        parsedNotes.maxL = Math.max( parsedNotes.maxL, this.lastParsed.notes.maxL );
     }
-    
-    var l = parsedNotes.maxL+1;
-    
-    tabline.basses += parsedNotes.bas+ rpad( ' ', ' ', l-parsedNotes.bas.length);
-    
-    if( parsedNotes.closing) {
+
+    var l = parsedNotes.maxL + 1;
+
+    tabline.basses += parsedNotes.bas + rpad(' ', ' ', l - parsedNotes.bas.length);
+    tabline.bassPos = tabline.basses.length;
+
+    if (parsedNotes.closing) {
         while (tabline.close.length < parsedNotes.notes.length) {
-           tabline.close.push(window.ABCXJS.parse.clone(tabline.sparring) );
+            tabline.close.push(window.ABCXJS.parse.clone(tabline.sparring));
         }
-        for(var r=0; r < tabline.close.length; r++){
-            if(r<parsedNotes.notes.length) {
-                tabline.close[r] += parsedNotes.notes[r] + rpad( ' ', ' ', l-parsedNotes.notes[r].length);
+        for (var r = 0; r < tabline.close.length; r++) {
+            if (r < parsedNotes.notes.length) {
+                tabline.close[r] += parsedNotes.notes[r] + rpad(' ', ' ', l - parsedNotes.notes[r].length);
             } else {
-                tabline.close[r] += rpad( ' ', ' ', l);
+                tabline.close[r] += rpad(' ', ' ', l);
             }
         }
-        for(var r=0; r < tabline.open.length; r++){
-            tabline.open[r] += rpad( ' ', ' ', l);
+        for (var r = 0; r < tabline.open.length; r++) {
+            tabline.open[r] += rpad(' ', ' ', l);
         }
-        
-    }    else {
-        while (tabline.open.length < parsedNotes.notes.length) {
-           tabline.open.push(window.ABCXJS.parse.clone(tabline.sparring) );
-        }
-        for(var r=0; r < tabline.open.length; r++){
-            if(r<parsedNotes.notes.length) {
-                tabline.open[r] += parsedNotes.notes[r] + rpad( ' ', ' ', l-parsedNotes.notes[r].length);
-            } else {
-                tabline.open[r] += rpad( ' ', ' ', l);
-            }
-        }
-        for(var r=0; r < tabline.close.length; r++){
-            tabline.close[r] += rpad( ' ', ' ', l);
-        }
-        
-    }
-    tabline.sparring += rpad( ' ', ' ', l);
-    
-    if( parsedNotes.duration === "1" ||  parsedNotes.duration === "") {
-        tabline.duration += rpad( ' ', ' ', l);
+
     } else {
-        tabline.duration += parsedNotes.duration + rpad( ' ', ' ', l-parsedNotes.duration.length);
+        while (tabline.open.length < parsedNotes.notes.length) {
+            tabline.open.push(window.ABCXJS.parse.clone(tabline.sparring));
+        }
+        for (var r = 0; r < tabline.open.length; r++) {
+            if (r < parsedNotes.notes.length) {
+                tabline.open[r] += parsedNotes.notes[r] + rpad(' ', ' ', l - parsedNotes.notes[r].length);
+            } else {
+                tabline.open[r] += rpad(' ', ' ', l);
+            }
+        }
+        for (var r = 0; r < tabline.close.length; r++) {
+            tabline.close[r] += rpad(' ', ' ', l);
+        }
+
+    }
+    tabline.sparring += rpad(' ', ' ', l);
+
+    if (parsedNotes.duration === "1" || parsedNotes.duration === "") {
+        tabline.duration += rpad(' ', ' ', l);
+    } else {
+        tabline.duration += parsedNotes.duration + rpad(' ', ' ', l - parsedNotes.duration.length);
     }
     tabline.pos += l;
 };
@@ -399,11 +419,11 @@ ABCXJS.Part2Tab.prototype.getNotes = function (strBass, strNote, closing) {
     var t, n = [], d, nn, b, l = 0;
 
     //parse do baixo
-    b = strBass.match(/(A|B|C|D|E|F|G|z|>)[(♭|♯|m)]{0,1}/gi);
+    b = strBass.match(/(A|B|C|D|E|F|G|z|>)[(♭|♯|m|7)]{0,1}/gi);
     if (b.length < 1) {
         return null;
     } else {
-         b[0] = b[0]=== '>' ? ' ': b[0]; // flavio
+        b[0] = b[0] === '>' ? ' ' : b[0]; // flavio
         l = Math.max(l, b[0].length);
     }
 
@@ -433,78 +453,79 @@ ABCXJS.Part2Tab.prototype.getNotes = function (strBass, strNote, closing) {
             return null;
         }
     }
-    
-    var pn = {bas: b[0], notes: n, duration: d, closing: closing, maxL: l, currBar: this.currBar, empty:false };
-    var checkEmpty = ' '; //pn.bas;
-    pn.notes.forEach( function(e) { checkEmpty+=e;});
-    if( checkEmpty.trim().length === 0 ) {
-       pn.empty = true; 
-    }
-    
+
+    var pn = { bas: b[0], notes: n, duration: d, closing: closing, maxL: l, currBar: this.currBar, empty: false };
+    // falvio 9/7/24  - aqui preciso testar se qualquer uma das notas seja vazia
+    pn.notes.forEach(function (e) {
+        if (e.trim().length === 0) {
+            pn.empty = true;
+        }
+    });
+
     return pn;
 };
 
-ABCXJS.Part2Tab.prototype.parseNotes = function( token) {
+ABCXJS.Part2Tab.prototype.parseNotes = function (token) {
     var v, notes, closing = false;
-    
+
     //padroniza sintaxe quando o baixo inexistente significa pausa.
-    if( token.charAt(0) === '+' || token.charAt(0) === '-') {
+    if (token.charAt(0) === '+' || token.charAt(0) === '-') {
         token = 'z' + token;
     }
-    
-    if( token.indexOf('+') > 0 ){
-       v = token.split('+');
-       closing = true;
+
+    if (token.indexOf('+') > 0) {
+        v = token.split('+');
+        closing = true;
     }
-    
-    if( token.indexOf('-') > 0 ){
+
+    if (token.indexOf('-') > 0) {
         v = token.split('-');
     }
-    
-    if( ! v ) return null;
-    
-    notes = this.getNotes(v[0],v[1], closing);
-    
+
+    if (!v) return null;
+
+    notes = this.getNotes(v[0], v[1], closing);
+
     return notes;
 };
 
-ABCXJS.Part2Tab.prototype.getToken = function(line, tabline ) {
+ABCXJS.Part2Tab.prototype.getToken = function (line, tabline) {
     var found = false;
     var c = '';
-    
-    this.skipSyms(line, this.spaces );
-    
+
+    this.skipSyms(line, this.spaces);
+
     line.currToken = '';
     line.tokenType = 0;
     line.posi = line.pos;
-    
-    while (  line.pos < line.str.length && ! found ) {
+
+    while (line.pos < line.str.length && !found) {
         c = line.str.charAt(line.pos);
-        
-        if(c===' ')  {
-            found=true; continue;
+
+        if (c === ' ') {
+            found = true; continue;
         }
-        
-        if( line.tokenType === 0 ) {
-            if( this.validBars[ c ]  ) {
+
+        if (line.tokenType === 0) {
+            if (this.validBars[c]) {
                 line.tokenType = 1; // bar
-            } else if(this.validBasses.indexOf( c )>=0)  {
+            } else if (this.validBasses.indexOf(c) >= 0) {
                 line.tokenType = 2; // note
-            } else if(c==="(" || c===")" )  {
+            } else if (c === "(" || c === ")") {
                 line.tokenType = 3;
-            } else if(this.startSyms.indexOf( c )<0)  {
+            } else if (this.startSyms.indexOf(c) < 0) {
                 line.tokenType = -1;
             }
         } else {
-            switch(line.tokenType) {
+            switch (line.tokenType) {
                 case 1:
-                    if(!c.match(/(\||\d|\:|\])/g)) {
-                        found=true; continue;
+                    if (!c.match(/(\||\d|\:|\])/g)) {
+                        found = true; continue;
                     }
                     break;
                 case 2:
-                    if(c.match(/(\||\:)/g)){
-                        found=true; continue;
+                    if (c.match(/(\||\:)/g)) {
+                        found = true; continue;
                     }
                     break;
                 case 3:
@@ -512,35 +533,35 @@ ABCXJS.Part2Tab.prototype.getToken = function(line, tabline ) {
             }
         }
         line.currToken += c;
-        line.pos ++;
-        if( line.tokenType === 1 ) {
+        line.pos++;
+        if (line.tokenType === 1) {
             this.currBar++;
         }
-    }   
-    
-    if(found && line.tokenType===2) {
-        if( line.parsedNotes !== undefined && ! line.parsedNotes.empty ) {
+    }
+
+    if (found && line.tokenType === 2) {
+        if (line.parsedNotes !== undefined && !line.parsedNotes.empty) {
             this.lastParsed.notes = line.parsedNotes;
             this.lastParsed.tabLine = tabline;
         }
-        line.parsedNotes = this.parseNotes( line.currToken ) ;
-        if( line.parsedNotes === null ) {
-            line.tokenType=-1;
+        line.parsedNotes = this.parseNotes(line.currToken);
+        if (line.parsedNotes === null) {
+            line.tokenType = -1;
         }
     }
 };
 
-ABCXJS.Part2Tab.prototype.skipSyms = function( linha, syms ) {
+ABCXJS.Part2Tab.prototype.skipSyms = function (linha, syms) {
     while (linha.pos < linha.str.length
-              && syms.indexOf(linha.str.charAt(linha.pos)) >= 0) {
-        linha.pos++ ;
+        && syms.indexOf(linha.str.charAt(linha.pos)) >= 0) {
+        linha.pos++;
     }
 };
 
 ABCXJS.Part2Tab.prototype.skipEmptyLines = function () {
-    while(this.currLine < this.partLines.length) {
-        if(  this.partLines[this.currLine].charAt(0) !== '%' && this.partLines[this.currLine].match(/^[\s\r\t]*$/) === null ) {
-           return true;
+    while (this.currLine < this.partLines.length) {
+        if (this.partLines[this.currLine].charAt(0) !== '%' && this.partLines[this.currLine].match(/^[\s\r\t]*$/) === null) {
+            return true;
         };
         this.currLine++;
     }

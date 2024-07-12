@@ -508,11 +508,18 @@ SITE.PartGen.prototype.fireChanged = function() {
     
         FILEMANAGER.saveLocal( 'ultimaTablaturaEditada', text );
 
-        this.renderedTune.text = this.tabParser.parse(
-            text
-           ,this.accordion.loadedKeyboard
-           ,this.ckConvertToClub.checked
-           ,this.ckConvertFromClub.checked );
+        try {
+            this.renderedTune.text = this.tabParser.parse(
+                text
+            ,this.accordion.loadedKeyboard
+            ,this.ckConvertToClub.checked
+            ,this.ckConvertFromClub.checked );
+            }
+        catch(err) {
+            this.renderedTune.text  = FILEMANAGER.loadLocal("ultimaTablaturaEditada");
+            waterbug.log( "Failed to parse tab" + '...\n' + err );
+            waterbug.show();
+        }
 
         this.printABC();
         
