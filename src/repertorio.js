@@ -76,7 +76,7 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
 
     var lista  = null;
     var tipo   = 'geral';
-    var repertorio = { geral: [], transportada: [], corona: [], portuguesa: [] };
+    var repertorio = { geral: [], transportada: [], corona: [], portuguesa: [], morino:[] };
     
     for(var a = 0; a < this.accordion.accordions.length; a ++ ) {
         this.accordion.load( a );
@@ -104,6 +104,9 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
             case 'CONCERTINA_PORTUGUESA':
                 lista = repertorio.portuguesa;
                 break;
+            case 'GAITA_HOHNER_MORINO':
+                lista = repertorio.morino;
+                break;
             case 'GAITA_MINUANO_BC_TRANSPORTADA':
                 lista = repertorio.transportada;
                 break;
@@ -117,6 +120,7 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
 
             var title = t.replace( '(club)', '' )
                         .replace( '(corona)', '' )
+                        .replace( '(morino)', '' )
                         .replace( '(corona-gcf)', '' )
                         .replace( '(corona-adg)', '' )
                         .replace( '(corona-bea)', '' )
@@ -168,6 +172,7 @@ SITE.Repertorio.prototype.geraIndex = function( map ) {
     repertorio.transportada.sort( ordenador );    
     repertorio.corona.sort( ordenador );    
     repertorio.portuguesa.sort( ordenador );    
+    repertorio.morino.sort( ordenador );    
 
     var h = '\
 <html>\n\
@@ -277,6 +282,22 @@ h += '<h2>Repertório Geral</h2>\n\
     }
     
     h += '\
+</table>\n\
+<br><h2>Morino Club</h2>\n\
+<h3>Tablaturas para Hohner Morino Bb/Eb</h3>\n\
+<table class="interna"><tr><th>Título</th>'+(map?'':'<th>Autor(es)</th>')+'<th class="center">Bb/Eb</th></tr>\n\
+';
+                    
+    for( var r = 0; r < repertorio.morino.length; r ++ ) {
+        h += '<tr>'
+            +'<td class="title" >'+repertorio.morino[r].title+'</td>'
+            + (map? '\n': '<td class="composer" >'+repertorio.morino[r].composer+'</td>\n')
+            +'<td class="center">' + this.makeAnchor( map, 'GAITA_HOHNER_MORINO', repertorio.morino[r].geral ) 
+            +'</td></tr>\n';
+    }
+    
+    h += '\
+</table>\n\
 <br>\n\
 </body>\n\
 </html>\n\
