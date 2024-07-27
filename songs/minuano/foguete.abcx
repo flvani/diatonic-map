@@ -15,22 +15,27 @@ K:Am
 V:1 treble
 | cc AA | FF DD | z2 cc | cc cA | B2- [BGDE]2- | [BGDE]4 | z4 | z4 | 
 f: 5 * 4 * 3 * 2 *          5 * * * * 4    5 2345
-| AA FF | DD B,B, | z2 BA | EE cB | A2 A,C | EE ED | F2 z2 | 
+| AA FF | DD B,B, | z2 BA | EE cB | A2 A,C |: EE ED | F2 z2 | 
 w: * | * | * | * | . Quantas * ve-zes eu sol-tei
 f: 5 * 4 * 3 * 2 *      |  5 *  2  *  4 5      | 5 2 3 | 4 * *  2  | 3    |
-| E2 D2- | D2 B,B, | DD DD | CC CC | B,A, CA, | z2 A,C | 
-w:fo-gue- *te, * * i-ma-gi-nan-do que vo-cê já vi-nha Fi-ca-
-f:4 3   |    2  *  | 3 * * *     | 3 * * *     | 4  2  4  2 |    2 3  |
-| EE ED | F2 z2 | E2 C2- | C2 A,D | FF EE | DB, B,D | CB, A,2 | 
-f: 4 * * 2  | 3    | 4 3        2  2  | 3 * 4 *   | 4 3 * 4   2 3 2
-w:va cá no meu canto, ca-la- * do, ouvin-do~a ba-ru-lhei-ra que a~sauda- * de ti-nha
+| z E D2- | D2 B,B, | DD DD | CC CC | B,A, C2- | CA, A,C | 
+w:fo-gue- *te, * * i-ma-gi-nan-do que vo-cê já vin-* nha * Fi-ca-
+f:4 3   |    2  *  | 3 * * *     | 3 * * *     | 4  2  4 | 2 2 3  |
+| EE ED | F4 | z E C2- | C2 A,D | FF EE | DB, B,D | CB, A,2 |
+f: 4 * * 2  | 3    | 4 3        2  2  | 3 * 4 *   | 4 3 * 4  * 2 3 2
+w:va cá no meu canto, ca-la- * do, ouvin-do~a ba-ru-lhei-ra que a~sauda- * de ti-nha |
+|1  z2 A,C :|2 A,4 | 
+f:2 3
+w: Quantas * |
 V:2 bass
 | D,,2 [F,A,C]2 | z2 [F,A,C]2 | D,,2 [F,A,C]2 | z2 [F,A,C]2 | E,,2 [G,B,D]2 | z2 [G,B,D]2 | A,,2 [G,B,D]2 | z2 [G,B,D]2 | 
-| D,,2 [F,A,C]2 | z2 [F,A,C]2 | E,,2 [E,^G,B,] z | z2 [E,^G,B,]2 | A,,2 z2 | z4 | z2 [A,,G,B,D]2 | 
+| D,,2 [F,A,C]2 | z2 [F,A,C]2 | E,,2 [E,^G,B,] z | z2 [E,^G,B,]2 | A,,2 z2 |: z4 | z2 [A,,G,B,D]2 | 
 | z4 | D,,2 [F,A,C]2 | D,,2 [F,A,C]2 | E,,2 [E,^G,B,]2 | E,, z [A,CE]2 | A,,2 [A,CE]2 | 
-| A,,2 [A,CE]2 | D,,2 [F,A,C]2 | G,,2 [C,E,G,]2 | C,,2 [A,CE]2 | F,,2 [F,A,C]2 | E,,2 [E,^G,B,]2 | E,,2 [A,CE]2 | 
+| A,,2 [A,CE]2 | D,,2 [F,A,C]2 | G,,2 [C,E,G,]2 | C,,2 [A,CE]2 | F,,2 [F,A,C]2 | E,,2 [E,^G,B,]2 | E,,2 [A,CE]2 |
+|1 A,,2 z2 :|2 A,,4 |
 V:3 accordionTab
 | D-8 >-8 f-7 >-7 | z-4' z-4' f-3' >-3' | D-z2 f-8 >-8 | z-8 z-8 f-8 >-7 | E+72 g+[>654']2 | z+[>>>>]2 g+[>>>>]2 | A-z2 g-z2 | z-z2 g-z2 | 
-| D-7 >-7 f-4' >-4' | z-3' z-3' f-2' >-2' | E+z2 e+7 z-7 | z+4' z+4' e+6' >+7 | A-72 z-3 z-4 | z-5 z-5 z-5 z-3' | z-4'2 Ag-z2 | 
-| z-52 z-3'2 | D->2 f-2' >-2' | D-3' >-3' f-3' >-3' | E+3' >+3' e+3' >+3' | E+4 z-3 am-4 >-3 | A-z2 am-3 >-4 | 
-| A-5 >-5 am-5 >-3' | D-4'2 f+z2 | G-52 c+3'2 | C+>2 am-3 >-3' | F-4' >-4' f-5 >-5 | E+5 >+4 e+4 >+5 | E+3' >+4 am-32 | 
+| D-7 >-7 f-4' >-4' | z-3' z-3' f-2' >-2' | E+z2 e+7 z-7 | z+4' z+4' e+6' >+7 | A-72 z-3 z-4 |: z-5 z-5 z-5 z-3' | z-4'2 Ag-z2 | 
+| z-z z-5 z-3'2 | D->2 f-2' >-2' | D-3' >-3' f-3' >-3' | E+3' >+3' e+3' >+3' | E+4 z-3 am-42 | A-> >-3 am-3 >-4 | 
+| A-5 >-5 am-5 >-3' | D-4'2 f->2 | G-z >-5 c+3'2 | C+>2 am-3 >-3' | F-4' >-4' f-5 >-5 | E+5 >+4 e+4 >+5 | E+3' >+4 am-32 |
+|1 A-z2 z-3 z-4 :|2 A-34 |

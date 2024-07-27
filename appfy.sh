@@ -24,6 +24,7 @@ mkdir -p $assets_folder/songs
 #mkdir -p $assets_folder/css
 
 cp -pr songs/*repertorio.abcx $assets_folder/songs/
+cp -pr songs/*morino*abcx $assets_folder/songs/
 
 for f in $FILES
 do
