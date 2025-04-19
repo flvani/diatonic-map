@@ -9,7 +9,7 @@ T:A casa (corona-gcf)
 C:Vinícius de Moraes
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
 %F:https://www.youtube-nocookie.com/embed/dOGbiL3ZxPY;&T:Completa
-Z:Flávio Vani
+Z:Flávio Vanni
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 M:3/4
 L:1/8
@@ -64,7 +64,7 @@ C:Alceu Valença
 %F:https://www.youtube-nocookie.com/embed/XfXiLZeFxlc;&T:Parte I
 %F:https://www.youtube-nocookie.com/embed/8j_cLL23mOQ;&T:Parte II
 %F:https://www.youtube-nocookie.com/embed/diua5StgDS4;&T:Completa
-Z:Flávio Vani
+Z:Flávio Vanni
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 M:4/4
 L:1/8
@@ -104,7 +104,7 @@ X:6003
 %%tabinferenceopts -2
 T:Asa Branca (corona-gcf)
 C:Luiz Gonzaga & Humberto Teixeira
-Z:Flávio Vani
+Z:Flávio Vanni
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 %F:https://www.youtube-nocookie.com/embed/nth-lbmb7ys
 M:C
@@ -175,7 +175,7 @@ T:Banks of the Ohio (corona-gcf)
 C:Traditional
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
 F:https://www.youtube-nocookie.com/embed/__E3vmsUe9A
-Z:Flávio Vani
+Z:Flávio Vanni
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 M:4/4
 L:1/4
@@ -205,7 +205,7 @@ C:Folclore Italiano
 %C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
 %F:https://www.youtube-nocookie.com/embed/QSKXmUXiAvM&T:Bella Ciao - Parte I;
 %F:https://www.youtube-nocookie.com/embed/jlxztnV4PUw&T:Bella Ciao - Parte II;
-Z:Flávio Vani
+Z:Flávio Vanni
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 L:1/8
 Q:120
@@ -233,7 +233,7 @@ T:Llorando se fue
 C:Ulisses & Gonzalo Hermosa
 C:(versão Márcia Ferreira & José Ari)
 %C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
-Z:Flávio Vani
+Z:Flávio Vanni
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 %F:https://www.youtube-nocookie.com/embed/qx6kKvsZiis&T:Chorando se foi - Completa;
 %F:https://www.youtube-nocookie.com/embed/Jsdhh6L0aKo&T:Parte I;
@@ -266,7 +266,7 @@ X:6008
 T:Country Girl (corona-gcf)
 T:Für Zara
 R:Blues
-Z:Flávio Vani
+Z:Flávio Vanni
 F:https://www.youtube-nocookie.com/embed/jo5Hxg80Y3E;&T:C (Dur) - Corona Style
 F:https://www.youtube-nocookie.com/embed/p3xMoscy9H4;&T:G (Maior) - Hering Style
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
@@ -309,7 +309,7 @@ X:6009
 T:Despacito (corona-gcf)
 C:Luis Fonsi & Daddy Yankee
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
-Z:Flávio Vani
+Z:Flávio Vanni
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 %F:https://www.youtube-nocookie.com/embed/2uNgzZEKkGM&T:Despacito - Completa;
 %F:https://www.youtube-nocookie.com/embed/9wbyn4kIVzA&T:Parte 1 - Passo a passo;
@@ -343,6 +343,37 @@ V:3 accordionTab
 |: A-80.5 >-7'0.5 am-80.5 >-7'0.5 z-8 am-7'0.5 >-80.5 | A->0.5 >-7'0.5 am-80.5 >-7'0.5 z-8 am-8'0.5 z+6''0.5 | F+> f+6' z+> f+z | F+z0.5 >+6''0.5 f+6''0.5 >+6''0.5 z+6'' f+80.5 >+6''0.5 | G+> c+7' z+> c+> | C+z0.5 >+7'0.5 c+7'0.5 >+7'0.5 z+7'0.5 z+80.5 g+>0.5 >+6''0.5 | G+7' g+>0.5 >+70.5 z+> g+> |1 E+z g+z z+z g+z :|
 |2 G-z z-z0.5 z-5'0.5 z-7 z-70.5 z-6'0.5 |: A-6 am-6 z-70.5 z-6'0.5 am-70.5 >-6'0.5 | A-6 am->0.5 >-60.5 z-7 am-70.5 >-6'0.5 | F+4'' f+4'' z+6'0.5 z+60.5 f+6'0.5 >+60.5 | F+4'' f+>0.5 >+z0.5 z+70.5 z+70.5 f+70.5 >+6'0.5 | C+7 c+70.5 >+6'0.5 z+70.5 z+70.5 c+70.5 >+6'0.5 | C+7 c+6' z+6'0.5 z+6'0.5 c+6'0.5 >+6'0.5 | G+6 g+60.5 >+60.5 z+>0.5 z+60.5 g+4'' |
 | E+6' g+> z+6 g+> :| Aam-64 |
+X:6016
+%%barnumbers 1
+%%papersize A4
+%barsperstaff 6
+%staffsep 20
+%pagenumbering
+%stretchlast
+%landscape
+T:Es führt über den Main
+C:Text und Melodie: Felicitas Kukuck
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+Z:Flávio Vanni
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:4/4
+L:1/8
+Q:1/4=120
+K:F
+V:1 treble
+| z4 d2 | e2 de f2 | e4 de | f2 f2 g2 | a4 bc' | [bd']2 [bd']2 [db]2 | 
+f:      5   | 2   3  2   2   | 3     3  2     3  3  3  | 4    3   3   | 25  25  24
+w:Kommt ein Fuhrmann * da-her, hat ge-la-den gar schwer, sei-ner Rös-ser sind 
+%w:und sie tanzen vorbei falalalala falalala.
+| [Bg]4 ab | [ec']2 [ec']2 [ca]2 | [Af]2 fe fg | a2 gf e2 | d4 z2 +dacapo+ | 
+f: 25   5  4   | 24  24  24  | 25  4 2   4 3    | 3   3   4  3  | 3  |
+w:drei und sie tan-zen vor-bei fa-la-la-la-la fa-la-la-la.
+V:2 bass
+| D,,2 [D,F,A,]2 [D,F,A,]2 | D,,2 [D,F,A,]2 A,,2 | D,,2 [D,F,A,]2 [D,F,A,]2 | D,,2 [D,F,A,]2 A,,2 | D,,2 [D,F,A,]2 [D,F,A,] z | B,,2 [B,DF]2 [B,DF]2 | 
+| C,,2 [C,E,G,]2 [C,E,G,]2 | F,,2 [F,A,C]2 [F,A,C]2 | D,,2 [D,F,A,]2 [D,F,A,]2 | [A,,C,E,G,]2 z2 [C,,C,E,G,]2 | D,,2 [D,F,A,]2 [D,F,A,]2 | 
+V:3 accordionTab
+| D¹-z2 dm-z2 dm-7'2 | D¹-6''2 dm-7' >-6'' A+6''2 | D¹-6''2 dm->2 dm-7' >-6'' | D¹-8'2 dm-8'2 A+8'2 | D¹-9'2 dm->2 dm-8'' z+8'' | B♭-[8''b']2 b♭-[8''b']2 b♭-[7'8'']2 | 
+| C-[4''7'']2 c-[>>]2 c-9' >-8'' | F+[7'8'']2 f+[7'8'']2 f+[5''7'']2 | D¹-[5'8']2 dm-8' >-6'' dm-8' >-7'' | Ac+7''2 z-7'' z-8' Cc+7'2 | D¹-7'2 dm->2 dm-z2 | 
 X:6010
 %%papersize A4
 %%barnumbers 0
@@ -352,7 +383,7 @@ T:Maitia, nun zira? (corona-gcf)
 C:Folclore Basco
 C:(versão José Uruñuela)
 %C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
-Z:Flávio Vani
+Z:Flávio Vanni
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 %F:https://www.youtube-nocookie.com/embed/1XRnfvAlV8g
 L:1/4
@@ -386,7 +417,7 @@ T:O du stille Zeit (corona-gcf)
 C:Melodie: Cesar Bresgen
 C:Text: Joseph von Eichendorff
 F:https://www.youtube-nocookie.com/embed/5E3_K0I-khQ
-Z:Flávio Vani
+Z:Flávio Vanni
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 L:1/4
 Q:"Ruhig  " 1/4=90
@@ -417,7 +448,7 @@ X:6012
 %landscape
 %hidefingering
 %F:https://www.youtube-nocookie.com/embed/Ccu9PK29BNI&T:Ring of Fire;
-Z:Flávio Vani
+Z:Flávio Vanni
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 T:Ring of Fire (corona-gcf)
 C:Johnny Cash
@@ -484,7 +515,7 @@ X:6013
 T:Shalom chaverim (corona-gcf)
 C:Folclore Hebreu
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arr. Cezar Ferreira</a>)
-Z:Flávio Vani
+Z:Flávio Vanni
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 M:4/4
 L:1/4
@@ -516,7 +547,7 @@ C:Sadi Cardoso
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
 F:https://www.youtube-nocookie.com/embed/TdOreKoWHOk&T:Xote 1 - Parte I;
 F:https://www.youtube-nocookie.com/embed/mVvaMmwoQzA&T:Xote 1 - Parte II;
-Z:Flávio Vani
+Z:Flávio Vanni
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 L:1/8
 Q:70
@@ -552,7 +583,7 @@ C:Sadi Cardoso
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
 F:https://www.youtube-nocookie.com/embed/orYxtg1WIog&T:Xote 2 - Parte I;
 F:https://www.youtube-nocookie.com/embed/gcMcH1fzdOM&T:Xote 2 - Parte II;
-Z:Flávio Vani
+Z:Flávio Vanni
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 L:1/8
 Q:60

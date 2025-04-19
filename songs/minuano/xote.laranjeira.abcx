@@ -5,7 +5,7 @@ X:1020
 T:Xote Laranjeira
 C:Tradicional
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
-Z:Flávio Vani
+Z:Flávio Vanni
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 F:https://www.youtube-nocookie.com/embed/nSVVrA134o8
 M:C
@@ -16,17 +16,20 @@ P: Parte I - Introdução
 V:1 clef=treble
 V:2 clef=bass
 [V:1]|z GAB|:[ce][ce][ce][ce] [ce][ce][ce][Bd] | [ce]2 [ce]2   z  GAB   | [ce][ce][ce][ce] [ce][ce][ce][ce] | [Bd]2 [Bd]2 z [G][G][A] |
+f: 2 3 2 | 23 * * * * * * 23 | 23 23 2 3 2 | 23 * * * * * * * | 23 23 2 2 3
 [V:2]|z4   |: C,,2 [C,E,G,]2 C,,2 [C,E,G,]2    | C,,2 [C,E,G,]2 C,, z3  | C,,2 [C,E,G,]2 C,,2 [C,E,G,]2     | G,,2 [G,B,D]2 G,,  z3   |
 [V:1]| [Bd]2 [Bd]2 [Ac]2 [Ac]2       | [GB]2 [GB]2 [FA]2 [FA]2       | [EG]2 [EG]2 [DF]2 [DF]2        |1 [CE]2 [CEG]2 z  GAB   :|2 [CE]2 [CEG]2 z  GFE   |        
+f: 23 * 23 * | 23 * 25 * |  23 * 23 * | 23 234 3 2 3 | 23 234 3 2 3
 [V:2]|  G,,2 [G,B,D]2  F,,2 [F,A,C]2 |  G,,2 [G,B,D]2  F,,2 [F,A,C]2 |  C,,2 [C,E,G,]2 G,,2 [G,B,D]2  |1 C,,2 [C,E,G,]2 C,, z3 :|2 C,,2 [C,E,G,]2 C,, z3 | 
 [V:1]|: DG,GG, FG,ED                | CG,GG, EG,FE             | DG,GG, FG,ED                 |1 [C]2 [CEG]2 z  GFE    :|
+f: 2 2 4 2 3 2 4 3 | 3 2 4 2 3 2 3 4 | 3 2 4 2 3 2 4 3 | 3 234 3 2 3
 [V:2]|: G,,2 [G,B,D]2 G,,2 [G,B,D]2 | C,,2 [C,E,G,]2 C,,2 [G,B,D]2 | G,,2 [G,B,D]2 G,,2 [G,B,D]2 |1 C,,2 [C,E,G,]2 C,, z3 :|
 %%newpage
-[V:1]|2 [P: Parte II] C2 C2 z GA"C"B|: [ce]2[eg]2[eg]2[df]2 | [ce]2 [ce]2 z GAB | [ce]2[eg]2[eg]2[eg]2 | "G7"[df]4  z GGA|
+[V:1]|2 [P: Parte II] C2 C2 z GAB|: [ce]2[eg]2[eg]2[df]2 | [ce]2 [ce]2 z GAB | [ce]2[eg]2[eg]2[eg]2 | [df]4  z GGA|
 w: * * Mas~deixe~estar * * que eu vou m'~em-bo-ra, eu vou~vol -tar pro meu rin-cão. * Pra~beber 
 w:  ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~  Que~é~pra~co-
 [V:2]|2 C,,2 [C,E,G,]2 C,, z3 |: C,,2 [C,E,G,]2 C,,2 [G,B,D]2 | C,,2 [C,E,G,]2 C,, z3 | C,,2 [C,E,G,]2 C,,2 [C,E,G,]2 | G,,2 [G,B,D]2 G,,  z3  |
-[V:1]| [Bd]2 [Bd]2 "F"[Ac]2 [Ac]2 | "G7"[GB]2 [GB]2 "F"[FA]2 [FA]2 | "C"[EG]2 [EG]2 "G7"[DF]2 [DF]2 |1 "C"[CE]4 z  GAB  :|2 [CE]4 z  GFE |
+[V:1]| [Bd]2 [Bd]2 [Ac]2 [Ac]2 | [GB]2 [GB]2 [FA]2 [FA]2 | [EG]2 [EG]2 [DF]2 [DF]2 |1 [CE]4 z GAB :|2 [CE]4 z  GFE |
 w:á-gua dos teus o-lhos, san-gue do teu co-ra-ção * Mas~deixe~estar * * ...
 w:mer chur-ras-co gor-do, to-mar ma-te~e chi-mar- ~ ~ ~ ~ rão.
 [V:2]|  G,,2 [G,B,D]2  F,,2 [F,A,C]2 |  G,,2 [G,B,D]2  F,,2 [F,A,C]2 |  C,,2 [C,E,G,]2 G,,2 [G,B,D]2  |1 C,,2 [C,E,G,]2 C,, z3 :|2 C,,2 [C,E,G,]2 C,, z3 | 

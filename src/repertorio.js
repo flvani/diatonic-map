@@ -209,7 +209,7 @@ acordeão diatônico, gaita de oito baixos, gaita ponto, notação musical, apre
 if( ! map ) {
 h += '\
 <h1>Mapa para Acordões Diatônicos</h1>\n\
-<p class="credit">Desenvolvido por: <span class="destaque">Flávio Vani</span>\n\
+<p class="credit">Desenvolvido por: <span class="destaque">Flávio Vanni</span>\n\
 <br>Coordenação musical: <span class="destaque">prof. Cezar Ferreira</span></p>\n\
 <p>Esta página apresenta, em ordem alfabética, todo o repertório do site. O site é composto de partituras para acordeão diatônico com \n\
 tablaturas.</p>\n\
