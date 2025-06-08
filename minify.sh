@@ -13,7 +13,7 @@
 # echo $vapp | grep -E -q '^[0-9]\.[0-9]+\.[0-9]+$' || die "App Version number argument required (x.y.z), $vapp provided"
 
 vsite=6.29
-vapp=2.24.6
+vapp=2.25.1
 
 echo "Concatenating all files..."
 
