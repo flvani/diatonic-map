@@ -1,7 +1,7 @@
-X:2009
+X:6018
 %%barnumbers 0
 %%papersize A4
-T:Noite Feliz (club)
+T:Noite Feliz (corona-gcf)
 T:Stille Nacht
 C:Franz Gruber
 Z:Flávio Vanni
@@ -20,8 +20,8 @@ w:nhor, Deus de amor, po-bre-zi-nho nas-
 | c3/2 d/2 c | A3 :| g2 g | b3/2 g/2 e | f3 | 
 f: 4 5 4 | 3 | 4 4 | 5 4 3 | 3 |
 w:ceu em Be-lém. Dorme em paz, oh, Je-su-
-| a3 | f3/2 c/2 A | c3/2 B/2 G | F3 +D.C.+ | +fermata+ [FAcf]3 | 
-f: 4 | 4 3 2 | 4 3 2 | 2 | 2345
+| a3 | f3/2 c/2 A | c3/2 B/2 G | F3 +D.C.+ | +fermata+  [FAcf]3 | 
+f: 4 | 4 3 2 | 5 3 2 | 2 | 2345
 w:us, dor-me em paz, oh, Je-sus!
 V:2 bass
 | F,, [F,A,C]/2 z/2 [F,A,C] | F,, [F,A,C] [F,A,C] | F,, [F,A,C]/2 z/2 [F,A,C] | F,, [F,A,C] [F,A,C] | C,, [C,E,G,] [C,E,G,] | 
@@ -29,7 +29,7 @@ V:2 bass
 | F,, [F,A,C]/2 z/2 [F,A,C] | F,, [F,A,C] [F,A,C] :| C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] | 
 | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] | [F,,F,A,C]3 | 
 V:3 accordionTab
-| F+6' f+>0.5 z-80.5 f+6' | F+5' f+> f+> | F+6' f+>0.5 z-80.5 f+6' | F+5' f+> f+> | C-8' c-> c-8' | 
-| C-7' c-> c-> | B♭-9 b♭-> b♭-9 | F+6' f+> f+> |: B♭-8 b♭-> b♭-8 | B♭-9 b♭->0.5 >-7'0.5 b♭-8 | 
-| F+6' f+>0.5 z-80.5 f+6' | F+5' f+> f+> :| C-8' c-> c-8' | C-9' c->0.5 >-8'0.5 c-7' | F+7' f+> f+> | 
-| F+8' f+> f+> | F+7' f+>0.5 >+6'0.5 f+5' | C-6' c->0.5 >-5'0.5 c-4' | F+4' f+> f+> | Ff+[4'5'6'7']3 |
+| F+6' f+>0.5 z-7'0.5 f+6' | F+4'' f+> f+> | F+6' f+>0.5 z-7'0.5 f+6' | F+4'' f+> f+> | C-7'' c-> c-7'' |
+| C-6'' c-> c-> | B♭-8' b♭-> b♭-8' | F+5'' f+> f+> |: B♭-7' b♭-> b♭-7' | B♭-8' b♭->0.5 >-6''0.5 b♭-7' |
+| F+6' f+>0.5 z-7'0.5 f+6' | F+4'' f+> f+> :| C-7'' c-> c-7'' | C-8'' c->0.5 >-7''0.5 c-6'' | F+6'' f+> f+> |
+| F+7'' f+> f+> | F+6'' f+>0.5 >+5''0.5 f+4'' | C-7 c->0.5 >-4''0.5 c-3'' | F+3'' f+> f+> | Ff+[3''4''5''6'']3 |

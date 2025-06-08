@@ -233,6 +233,44 @@ V:3 accordionTab
 | B♭-z >-5'0.5 b♭->0.5 B♭-6 b♭-4' | C-4'1.5 c->0.5 C-6 c-> | C-z >-4'0.5 c->0.5 C-4' c-5 |1 F+4'1.5 f+>0.5 F+> f+> :|
 |:2 F+4'1.5 f+>0.5 F+7' f+6' | D-8 >-5'0.5 dm->0.5 D-6' dm-6 | B♭-5' >-4'0.5 b♭->0.5 B♭-6 b♭-5 | C-4' >-50.5 c->0.5 C-4 c-5 :| F+4'1.5 f+>0.5 F+> f+> |] 
 
+X:2075
+%%barnumbers 0
+%%papersize A4
+T:Auld lang syne (club)
+C:Volkslied im englishsprachigen Raum
+Z:Flávio Vanni
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:4/4
+L:1/8
+Q:1/4=90
+K:F
+V:1 treble
+| z2 C2 | F3 F F2 A2 | G3 F G2 AG | F3 F A2 c2 | 
+f:  2   | 3 3 3 4         | 3 4 3 5 3          | 3 2 3 4         |
+w: Should | auld ac-quain-tance | be for-got and | ne-ver brought to |
+| d6 d2 | c3 A A2 F2 | G3 F G2 AG | F3 D D2 C2 | 
+f:  5 5       | 4 3 3 2         | 2 3 4 3 4          | 3 2 2 2         |
+w: mind? Should | auld ac-quain-tance | be for-got and | days of Auld Lang | 
+| F6 d2 | c3 A A2 F2 | G3 F G2 d2 | c3 A A2 c2 | d6 d2 | 
+f:  3 5       | 4 3 3 2         | 2 3 4 5            | 4 3 3 4         |  5 5       |
+w: Syne? For | Auld Lang | Syne, my dear, for | Aud Lang | Syne, we'll |
+| c3 A A2 F2 | G3 F G2 AG | "RALL." F3 D D2 C2 | F6 z2 | 
+f:4 3 3 2         | 2 3 4 3 4          | 3 2 2 2         | 3           |
+w: take a cup of | kind-ness yet, for | Aud * Lang  *| Syne. |
+V:2 bass
+| z2 z2 | F,,3 [F,A,C] F,,2 [F,A,C]2 | C,,3 [C,E,G,] C,,2 [C,E,G,]2 | F,,3 [F,A,C] F,,2 [F,A,C]2 | 
+| B,,3 [B,DF] B,,2 [B,DF]2 | F,,3 [F,A,C] F,,2 [F,A,C]2 | C,,3 [C,E,G,] A,,2 [A,^CE]2 | D,,3 [D,F,A,] B,,2 C,,2 | 
+| F,,6 z2 | F,,3 [F,A,C] F,,2 [F,A,C]2 | C,,3 [C,E,G,] C,,2 [C,E,G,]2 | F,,3 [F,A,C] F,,2 [F,A,C]2 | B,,3 [B,DF] B,,2 [B,DF]2 | 
+| F,,3 [F,A,C] F,,2 [F,A,C]2 | C,,3 [C,E,G,] A,,2 [A,^CE]2 | D,,3 [D,F,A,] B,,2 C,,2 | F,,6 z2 | 
+V:3 accordionTab
+| z+z2 z+3'2 | F+4'3 f+4' F+4'2 f+5'2 | C-4'3 c-5 C-4'2 c-6 >-4' | F+4'3 f+4' F+5'2 f+6'2 |
+%| z+z2 z+2''2 | F+3''3 f+3''1 F+3''2 f+4''2 | C-3''3 c-4'1 C-3''2 c-5' >-3'' | F+3''3 f+3''1 F+4''2 f+5''2 | 
+| B♭-83 b♭-> B♭->2 b♭-82 | F+73 f+5' F+5'2 f+4'2 | C-4'3 c-5 A+62 a+5' >+6 | D-53 dm-4 B♭-42 C+42 |
+%| B♭-7'3 b♭->1 B♭->2 b♭-7'2 | F+5''3 f+4''1 F+4''2 f+3''2 | C-3''3 c-4'1 A+5'2 a+4'' >+5' | D-4'3 dm-3'1 B♭-3'2 C+3'2 | 
+| F+4'6 z-82 | F+6'3 f+5' F+5'2 f+4'2 | C-4'3 c-5 C-4'2 c-82 | F+73 f+5' F+5'2 f+6'2 | B♭-83 b♭-> B♭->2 b♭-82 |
+%| F+3''6 z-7'2 | F+5''3 f+4''1 F+4''2 f+3''2 | C-3''3 c-4'1 C-3''2 c-7'2 | F+5''3 f+4''1 F+4''2 f+5''2 | B♭-7'3 b♭->1 B♭->2 b♭-7'2 | 
+| F+6'3 f+5' F+5'2 f+4'2 | C-4'3 c-5 A+62 a+5' >+6 | D-53 dm-4 B♭-42 C-2'2 | F+4'6 z+z2 |
+%| F+5''3 f+4''1 F+4''2 f+3''2 | C-3''3 c-4'1 A+5'2 a+4'' >+5' | D-4'3 dm-3'1 B♭-3'2 C+3'2 | F+3''6 z-z2 |
 %%barnumbers 0
 %%papersize A4
 %%staffsep 20
@@ -1670,9 +1708,7 @@ V:3 accordionTab
 |2 F+4'3 f+> F+z2 f+z2 |: F+z >+4' >+6 f+4' F+5 >+4' f+6 >+5' | B♭-[5'8]3 b♭-[>>] B♭-[>>]2 b♭-[>>]2 | B♭-z >-5' >-6 b♭-5' B♭-[5'8]2 b♭-[>>]2 | F+[5'6']3 f+[>>] F+[>>]2 f+[>>]2 | F+z >+5' >+6 f+5' F+[5'6']2 f+[>>]2 | 
 | C-6' >-6' >-5' c-6 C-4' >-5 c-3' >-4 | C-2' >-2' >-4 c-2' C-3 >-2' c-4 >-3' |1 F+4'3 f+> F+z2 f+z2 :|2 F+4'3 f+> F+z >+6' f+7' >+5' | 
 X:2009
-%%barnumbers 1
-%%barsperstaff 6
-%%staffsep 10
+%%barnumbers 0
 %%papersize A4
 T:Noite Feliz (club)
 T:Stille Nacht
@@ -1681,32 +1717,31 @@ Z:Flávio Vanni
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 M:3/4
 L:1/4
-Q:120
-V:1 clef=treble
-V:2 clef=bass
+Q:90
 K:F
-[V:1]| c3/2 d/2 c | A3 | c3/2 d/2 c | A3 | g2 g |
-w: Noi-te Fe-liz! Noi-te Fe-liz! Oh! Se-
-[V:2]|F,, [F,A,C] [F,A,C] |F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | C, [CEG] [CEG] |  
-[V:1]| e3 | f2 f | c3 | d2 d | f3/2 e/2 d |
-w:nhor, Deus de amor! Po-bre-zi-nho nas-
-[V:2]| C, [CEG] [CEG] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | B,, [B,DF] [B,DF] | B,, [B,DF] [B,DF] |
-[V:1]| c3/2 d/2 c | A3 | d2 d | f3/2 e/2 d | c3/2 d/2 c |
-w:ceu em Be-lém. Eis na La-pa Je-sus, nos-so
-[V:2]|F,, [F,A,C] [F,A,C] |F,, [F,A,C] [F,A,C] | B,, [B,DF] [B,DF] | B,, [B,DF] [B,DF] |F,, [F,A,C] [F,A,C] |
-[V:1]| A3 | g2 g | b3/2 g/2 e | f3 | a3 |
-w:bem. Dor-me em paz, oh, Senho-oooor! 
-[V:2]| F,, [F,A,C] [F,A,C] | C, [CEG] [CEG] | C, [CEG] [CEG] | F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] |
-[V:1]| f3/2 c/2 A | c3/2 B/2 G | !dacapo! F3 | [Acf]3 |
-w:Dor-me em paz, oh, Se-nhor! 
-[V:2]| F,, [F,A,C] [F,A,C] | C, [CEG] [CEG] | F,, [F,A,C] [F,A,C] |  [F,A,C]3 |
-V:3
-K:accordionTab
-| F+6' f+>0.5 >+5''0.5 f+6' | F+5' f+> f+> | F+6' f+>0.5 >+5''0.5 f+6' | F+5' f+> f+> | C-8' c-> c-8' |
-| C-7' c-> c-> | F+7' f+> f+7' | F+6' f+> f+> | B♭-8 b♭-> b♭-8 | B♭-9 b♭->0.5 >-7'0.5 b♭-8 |
-| F+6' f+>0.5 >+5''0.5 f+6' | F+5' f+> f+> | B♭-8 b♭-> b♭-8 | B♭-9 b♭->0.5 >-7'0.5 b♭-8 | F+6' f+>0.5 >+5''0.5 f+6' |
-| F+5' f+> f+> | C-8' c-> c-8' | C-9' c->0.5 >-8'0.5 c-7' | F+7' f+> f+> | F+8' f+> f+> |
-| F+7' f+>0.5 >+6'0.5 f+5' | C-6' c->0.5 >-5'0.5 c-4' | F+4' f+> f+> | f+[5'6'7']3 |
+V:1 treble
+| c3/2 d/2 c | A3 | c3/2 d/2 c | A3 | g2 g | 
+f: 4 5 4 | 3 |  4 5 4 | 3 | 4 4 |
+w: Noi-te Fe-liz! Noi-te, Fe-liz! Oh, Se-  
+| e3 | f2 f | c3 |: d2 d | f3/2 e/2 d | 
+f: 3 | 5  5 |  2 | 4 4 | 5 3 4 |
+w:nhor, Deus de amor, po-bre-zi-nho nas-
+| c3/2 d/2 c | A3 :| g2 g | b3/2 g/2 e | f3 | 
+f: 4 5 4 | 3 | 4 4 | 5 4 3 | 3 |
+w:ceu em Be-lém. Dorme em paz, oh, Je-su-
+| a3 | f3/2 c/2 A | c3/2 B/2 G | F3 +D.C.+ | +fermata+ [FAcf]3 | 
+f: 4 | 4 3 2 | 4 3 2 | 2 | 2345
+w:us, dor-me em paz, oh, Je-sus!
+V:2 bass
+| F,, [F,A,C]/2 z/2 [F,A,C] | F,, [F,A,C] [F,A,C] | F,, [F,A,C]/2 z/2 [F,A,C] | F,, [F,A,C] [F,A,C] | C,, [C,E,G,] [C,E,G,] | 
+| C,, [C,E,G,] [C,E,G,] | B,, [B,DF] [B,DF] | F,, [F,A,C] [F,A,C] |: B,, [B,DF] [B,DF] | B,, [B,DF] [B,DF] | 
+| F,, [F,A,C]/2 z/2 [F,A,C] | F,, [F,A,C] [F,A,C] :| C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] | 
+| F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | C,, [C,E,G,] [C,E,G,] | F,, [F,A,C] [F,A,C] | [F,,F,A,C]3 | 
+V:3 accordionTab
+| F+6' f+>0.5 z-80.5 f+6' | F+5' f+> f+> | F+6' f+>0.5 z-80.5 f+6' | F+5' f+> f+> | C-8' c-> c-8' | 
+| C-7' c-> c-> | B♭-9 b♭-> b♭-9 | F+6' f+> f+> |: B♭-8 b♭-> b♭-8 | B♭-9 b♭->0.5 >-7'0.5 b♭-8 | 
+| F+6' f+>0.5 z-80.5 f+6' | F+5' f+> f+> :| C-8' c-> c-8' | C-9' c->0.5 >-8'0.5 c-7' | F+7' f+> f+> | 
+| F+8' f+> f+> | F+7' f+>0.5 >+6'0.5 f+5' | C-6' c->0.5 >-5'0.5 c-4' | F+4' f+> f+> | Ff+[4'5'6'7']3 |
 X:2032
 %%barnumbers 1
 %%papersize A4

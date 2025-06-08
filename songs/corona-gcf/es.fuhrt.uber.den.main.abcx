@@ -10,13 +10,14 @@ T:Es führt über den Main
 C:Text und Melodie: Felicitas Kukuck
 C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
 Z:Flávio Vanni
+F:https://www.youtube-nocookie.com/embed/rUr8KHDzDHA&T:Es führt über den Main;
 N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 M:4/4
 L:1/8
 Q:1/4=120
 K:F
 V:1 treble
-| z4 d2 | e2 de f2 | e4 de | f2 f2 g2 | a4 bc' | [bd']2 [bd']2 [db]2 | 
+| z4 d2 | e2 de f2 | g4 de | f2 f2 g2 | a4 bc' | [bd']2 [bd']2 [db]2 | 
 f:      5   | 2   3  2   2   | 3     3  2     3  3  3  | 4    3   3   | 25  25  24
 w:Kommt ein Fuhrmann * da-her, hat ge-la-den gar schwer, sei-ner Rös-ser sind 
 %w:und sie tanzen vorbei falalalala falalala.
@@ -27,5 +28,5 @@ V:2 bass
 | D,,2 [D,F,A,]2 [D,F,A,]2 | D,,2 [D,F,A,]2 A,,2 | D,,2 [D,F,A,]2 [D,F,A,]2 | D,,2 [D,F,A,]2 A,,2 | D,,2 [D,F,A,]2 [D,F,A,] z | B,,2 [B,DF]2 [B,DF]2 | 
 | C,,2 [C,E,G,]2 [C,E,G,]2 | F,,2 [F,A,C]2 [F,A,C]2 | D,,2 [D,F,A,]2 [D,F,A,]2 | [A,,C,E,G,]2 z2 [C,,C,E,G,]2 | D,,2 [D,F,A,]2 [D,F,A,]2 | 
 V:3 accordionTab
-| D¹-z2 dm-z2 dm-7'2 | D¹-6''2 dm-7' >-6'' A+6''2 | D¹-6''2 dm->2 dm-7' >-6'' | D¹-8'2 dm-8'2 A+8'2 | D¹-9'2 dm->2 dm-8'' z+8'' | B♭-[8''b']2 b♭-[8''b']2 b♭-[7'8'']2 | 
+| D¹-z2 dm-z2 dm-7'2 | D¹-6''2 dm-7' >-6'' A+6''2 | D¹-7''2 dm->2 dm-7' >-6'' | D¹-8'2 dm-8'2 A+8'2 | D¹-9'2 dm->2 dm-8'' z+8'' | B♭-[8''b']2 b♭-[8''b']2 b♭-[7'8'']2 | 
 | C-[4''7'']2 c-[>>]2 c-9' >-8'' | F+[7'8'']2 f+[7'8'']2 f+[5''7'']2 | D¹-[5'8']2 dm-8' >-6'' dm-8' >-7'' | Ac+7''2 z-7'' z-8' Cc+7'2 | D¹-7'2 dm->2 dm-z2 | 

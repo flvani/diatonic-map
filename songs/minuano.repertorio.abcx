@@ -396,6 +396,40 @@ V:3 accordionTab
 |: C+z >+3'0.5 c+>0.5 C+3' c+5 | C+4'1.5 c+>0.5 C+5' c+> | A-z >-5'0.5 am->0.5 A-4' am-5 | F-41.5 f->0.5 F-4' f-> |
 | F-z >-4'0.5 f->0.5 F-5 f-3' | G-3'1.5 g->0.5 G-5 g-> | G-z >-3'0.5 g->0.5 G-3' g-4 |1 C+3'1.5 c+>0.5 C+> c+> :|
 |:2 C+3'1.5 c+>0.5 C+6' c+5' | A-7 >-4'0.5 am->0.5 A-5' am-5 | F-4' >-3'0.5 f->0.5 F-5 f-4 | G-3' >-40.5 g->0.5 G-3 g-4 :| C+3'1.5 c+>0.5 C+> c+> |]
+X:1102
+T:Auld lang syne
+C:Volkslied im englishsprachigen Raum
+Z:Flávio Vanni
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:4/4
+L:1/8
+Q:1/4=90
+K:C
+V:1 treble
+| z2 G,2 | C3 C C2 E2 | D3 C D2 E D | C3 C E2 G2 | 
+f:  2   | 3 3 3 4         | 3 4 3 5 3          | 3 2 3 4         |
+w: Should | auld ac-quain-tance | be for-got and | ne-ver brought to |
+| A6 A2 | G3 E E2 C2 | D3 C D2 E D | C3 A, A,2 G,2 | 
+f:  5 5       | 4 3 3 2         | 2 3 4 3 4          | 3 2 2 2         |
+w: mind? Should | auld ac-quain-tance | be for-got and | days of Auld Lang | 
+| C6 A2 | G3 E E2 C2 | D3 C D2 A2 | G3 E E2 G2 | A6 A2 | 
+f:  3 5       | 4 3 3 2         | 2 3 4 5            | 4 3 3 4         |  5 5       |
+w: Syne? For | Auld Lang | Syne, my dear, for | Aud Lang | Syne, we'll |
+| G3 E E2 C2 | D3 C D2 E D | "RALL." C3 A, A,2 G,2 | C6 z2 | 
+f:4 3 3 2         | 2 3 4 3 4          | 3 2 2 2         | 3           |
+w: take a cup of | kind-ness yet, for | Aud * Lang  *| Syne. |
+V:2 bass
+| z2 z2 | C,,3 [C,E,G,] C,,2 [C,E,G,]2 | G,,3 [G,B,D] G,,2 [G,B,D]2 | C,,3 [C,E,G,] C,,2 [C,E,G,]2 | 
+| F,,3 [F,A,C] F,,2 [F,A,C]2 | C,,3 [C,E,G,] C,,2 [C,E,G,]2 | G,,3 [G,B,D] E,,2 [E,^G,B,]2 | A,,3 [A,CE] F,,2 G,,2 | 
+| C,,6 z2 | C,,3 [C,E,G,] C,,2 [C,E,G,]2 | G,,3 [G,B,D] G,,2 [G,B,D]2 | C,,3 [C,E,G,] C,,2 [C,E,G,]2 | F,,3 [F,A,C] F,,2 [F,A,C]2 | 
+| C,,3 [C,E,G,] C,,2 [C,E,G,]2 | G,,3 [G,B,D] E,,2 [E,^G,B,]2 | A,,3 [A,CE] F,,2 G,,2 | C,,6 z2 | 
+V:3 accordionTab
+| z+z2 z+2'2 | C+3'3 c+3' C+3'2 c+4'2 | G-3'3 g-4 G-3'2 g-5 >-3' | C+3'3 c+3' C+4'2 c+5'2 | 
+| F-73 f-> F->2 f-72 | C+63 c+4' C+4'2 c+3'2 | G-3'3 g-4 E+52 e+4' >+5 | A-43 am-3 F-32 G+32 | 
+| C+3'6 z-72 | C+5'3 c+4' C+4'2 c+3'2 | G-3'3 g-4 G-3'2 g-72 | C+63 c+4' C+4'2 c+5'2 | F-73 f-> F->2 f-72 | 
+| C+5'3 c+4' C+4'2 c+3'2 | G-3'3 g-4 E+52 e+4' >+5 | A-43 am-3 F-32 G-1'2 | C+3'6 z+z2 | 
+
+
 %%barnumbers 0
 %%papersize A4
 %barsperstaff 6
@@ -1959,33 +1993,42 @@ V:3 accordionTab
 | G-5' >-5' >-4' g-5 G-3' >-4 g-2' >-3 | G-1' >-1' >-3 g-1' G-2 >-1' g-3 >-2' |1 C+3'3 c+> C+z2 c+z2 :|2 C+3'3 c+> C+z >+5' c+6' >+4' |
 
 X:1029
-%%barnumbers 1
+%%barnumbers 0
 %%papersize A4
 T:Noite Feliz
 T:Stille Nacht
 C:Franz Gruber
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+Z:Flávio Vanni
+F:https://www.youtube-nocookie.com/embed/ZVTK01wpcjg&T:Passo-a-passo;
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
 M:3/4
 L:1/4
-Q:120
+Q:90
 K:C
 V:1 treble
-| G1.5 A0.5 G | E3 | G1.5 A0.5 G | E3 | d2 d | 
-| B3 | c2 c | G3 | A2 A | c1.5 B0.5 A | 
-| G1.5 A0.5 G | E3 | A2 A | c1.5 B0.5 A | G1.5 A0.5 G | 
-| E3 | d2 d | f1.5 d0.5 B | c3 | e3 | 
-| c1.5 G0.5 E | G1.5 F0.5 D | C3 | [EGc]3 | 
+| G3/2 A/2 G | E3 | G3/2 A/2 G | E3 | d2 d | 
+f: 4 5 4 | 3 |  4 5 4 | 3 | 4 4 |
+w: Noi-te Fe-liz! Noi-te, Fe-liz! Oh, Se-  
+| B3 | c2 c | G3 |: A2 A | c3/2 B/2 A | 
+w:nhor, Deus de amor, po-bre-zi-nho nas-
+f: 3 | 5  5 |  2 | 4 4 | 5 3 4 |
+| G3/2 A/2 G | E3 :| d2 d | f3/2 d/2 B | c3 | 
+f: 4 5 4 | 3 | 4 4 | 5 4 3 | 3 |
+w:ceu em Be-lém. Dorme em paz, oh, Je-su-
+| e3 | c3/2 G/2 E | G3/2 F/2 D | C3 +D.C.+ | +fermata+ [CEGc]3 | 
+f: 4 | 4 3 2 | 4 3 2 | 2 | 2345
+w:us, dor-me em paz, oh, Je-sus!
 V:2 bass
-| C,, [C,E,G,]/2 z/2 [C,E,G,] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,]/2 z/2 [C,E,G,] | C,, [C,E,G,] [C,E,G,] | G,, [G,,B,,D,] [G,,B,,D,] | 
-| G,, [G,,B,,D,] [G,,B,,D,] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | F,, [F,,A,,C,] [F,,A,,C,] | F,, [F,,A,,C,] [F,,A,,C,] | 
-| C,, [C,E,G,]/2 z/2 [C,E,G,] | C,, [C,E,G,] [C,E,G,] | F,, [F,,A,,C,] [F,,A,,C,] | F,, [F,,A,,C,] [F,,A,,C,] | C,, [C,E,G,]/2 z/2 [C,E,G,] | 
-| C,, [C,E,G,] [C,E,G,] | G,, [G,,B,,D,] [G,,B,,D,] | G,, [G,,B,,D,] [G,,B,,D,] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | 
-| C,, [C,E,G,] [C,E,G,] | G,, [G,,B,,D,] [G,,B,,D,] | C,, [C,E,G,] [C,E,G,] | [C,E,G,]3 | 
+| C,, [C,E,G,]/2 z/2 [C,E,G,] | C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,]/2 z/2 [C,E,G,] | C,, [C,E,G,] [C,E,G,] | G,, [G,B,D] [G,B,D] | 
+| G,, [G,B,D] [G,B,D] | F,, [F,A,C] [F,A,C] | C,, [C,E,G,] [C,E,G,] |: F,, [F,A,C] [F,A,C] | F,, [F,A,C] [F,A,C] | 
+| C,, [C,E,G,]/2 z/2 [C,E,G,] | C,, [C,E,G,] [C,E,G,] :| G,, [G,B,D] [G,B,D] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] | 
+| C,, [C,E,G,] [C,E,G,] | C,, [C,E,G,] [C,E,G,] | G,, [G,B,D] [G,B,D] | C,, [C,E,G,] [C,E,G,] | [C,,C,E,G,]3 | 
 V:3 accordionTab
 | C+5' c+>0.5 z-70.5 c+5' | C+4' c+> c+> | C+5' c+>0.5 z-70.5 c+5' | C+4' c+> c+> | G-7' g-> g-7' | 
-| G-6' g-> g-> | C+6' c+> c+6' | C+5' c+> c+> | F-7 f-> f-7 | F-8 f->0.5 >-6'0.5 f-7 | 
-| C+5' c+>0.5 z-70.5 c+5' | C+4' c+> c+> | F-7 f-> f-7 | F-8 f->0.5 >-6'0.5 f-7 | C+5' c+>0.5 z-70.5 c+5' | 
-| C+4' c+> c+> | G-7' g-> g-7' | G-8' g->0.5 >-7'0.5 g-6' | C+6' c+> c+> | C+7' c+> c+> | 
-| C+6' c+>0.5 >+5'0.5 c+4' | G-5' g->0.5 >-4'0.5 g-3' | C+3' c+> c+> | c+[4'5'6']3 |
+| G-6' g-> g-> | F-8 f-> f-8 | C+5' c+> c+> |: F-7 f-> f-7 | F-8 f->0.5 >-6'0.5 f-7 | 
+| C+5' c+>0.5 z-70.5 c+5' | C+4' c+> c+> :| G-7' g-> g-7' | G-8' g->0.5 >-7'0.5 g-6' | C+6' c+> c+> | 
+| C+7' c+> c+> | C+6' c+>0.5 >+5'0.5 c+4' | G-5' g->0.5 >-4'0.5 g-3' | C+3' c+> c+> | Cc+[3'4'5'6']3 |
 X:1042
 %%barnumbers 1
 %%papersize A4
