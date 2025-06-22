@@ -1,5 +1,7 @@
 #!/bin/sh
 
+source ./publicar
+
 assets_folder="./site.x10"
 
 FILES="app|* mapa|* lib|* ace4abcx|* css|* fontsGoogle|* fontsIco|* html|* .well-known|*
