@@ -1,0 +1,54 @@
+X:2076
+%%barnumbers 0
+%%papersize A4
+%barsperstaff 6
+%staffsep 20
+%pagenumbering
+%stretchlast
+%landscape
+T:Ksenitia Tou Erota (club)
+T:Η Ξενητειά του Έρωτα
+C:Giorgios Kalogirou
+C:(<a class="abc_link" href=https://www.facebook.com/groups/toquegaitaponto/?fref=nf target=_blank>arranjo Cezar Ferreira</a>)
+Z:Flávio Vanni
+%F:https://www.youtube-nocookie.com/embed/ZJMOXS2oODE&T:Ksenitia Tou Erota;
+N:Mapa para Acordeões Diatônicos powered by ABCXJS.
+M:4/4
+L:1/8
+Q:1/4=85
+K:F
+V:1 treble
+ z C | D2 A2 GG GF/2E/2 | F2 z E/2F/2 G2 A2 | FG EF D2 z C | 
+f: 2 | 3 5 5 5 5 3 4    | 4 2 4 3 5         | 3 5 2 4 3 2  |
+| D2 A2 GG GF/2E/2 | F2 z E/2F/2 G2 A2 | FG EF D2 z A | 
+f: 3 5 5 5 5 3 4   | 4 2 4 3 5         | 3 5 2 4 3  3 |
+| A2 AG cc cB    | A2 z A A2 AG | cc cB A2 z B | 
+f: 3 3 4 4 4 4 3 | 3 3 3 3 4    | 4 4 4 3 3 4  |
+| A2 F2 GG GF/2E/2 | F2 z E/2F/2 G2 A2 | FG EF D2 z c | 
+f:  5 4 5 5 5 3 4  | 4 2 3 4 5         | 3 5 2 4 3    |
+| d2 a2 gg gf/2e/2 | f2 z e/2f/2 g2 a2 | fg ef d2 z c | 
+f: 3 5 5 5 5 3 4   | 4 2 4 3 5         | 3 5 2 4 3 2  |
+| d2 a2 gg gf/2e/2 | f2 z e/2f/2 g2 a2 | fg ef d2 z a | 
+f: 3 5 5 5 5 3 4   | 4 2 4 3 5         | 3 5 2 4 3  3 |
+| a2 ag c'c' c'b  | a2 z a a2 ag | c'c' c'b a2 z b | 
+f: 3 3  4 4 4 4 3 | 3 3 3 3 4    | 4 4 4 3 3 4     |
+| a2 f2 gg gf/2e/2 | f2 z e/2f/2 g2 a2 | "R A L L." fg ef +fermata+ d4 | 
+f:  5 4 5 5 5 3 4  | 4 2 3 4 5         | 3 5 2 4 3                     |
+V:2 bass
+ z2 | [D,,D,F,A,]4 [C,,C,E,G,]4 | [B,,B,DF]4 [G,,B,DF]4 | [F,,F,A,C]2 [C,,C,E,G,]2 [D,,D,F,A,]3 z | 
+| [D,,D,F,A,]4 [C,,C,E,G,]4 | [B,,B,DF]4 [G,,B,DF]4 | [F,,F,A,C]2 [C,,C,E,G,]2 [D,,D,F,A,]3 z | 
+| [F,,F,A,C]4 [C,,C,E,G,]4 | [F,,F,A,C]4 [F,,F,A,C]4 | [C,,C,E,G,]4 [F,,F,A,C]3 z | 
+| [D,,D,F,A,]4 [C,,C,E,G,]4 | [B,,B,DF]4 [G,,B,DF]4 | [F,,F,A,C]2 [C,,C,E,G,]2 [D,,D,F,A,]3 z | 
+| [D,,D,F,A,]4 [C,,C,E,G,]4 | [B,,B,DF]4 [G,,B,DF]4 | [F,,F,A,C]2 [C,,C,E,G,]2 [D,,D,F,A,]3 z | 
+| [D,,D,F,A,]4 [C,,C,E,G,]4 | [B,,B,DF]4 [G,,B,DF]4 | [F,,F,A,C]2 [C,,C,E,G,]2 [D,,D,F,A,]3 z | 
+| [F,,F,A,C]4 [C,,C,E,G,]4 | [F,,F,A,C]4 [F,,F,A,C]4 | [C,,C,E,G,]4 [F,,F,A,C]3 z | 
+| [D,,D,F,A,]4 [C,,C,E,G,]4 | [B,,B,DF]4 [G,,B,DF]4 | [F,,F,A,C]2 [C,,C,E,G,]2 [D,,D,F,A,]4 | 
+V:3 accordionTab
+ z+z z+3' | Ddm-42 >-62 Cc+6 >+6 >+6 >+4'0.5 >+50.5 | B♭b♭-52 >-z >-3'0.5 >-50.5 Gb♭-4'2 >-62 | Ff+4' >+6 Cc-3' >-5 Ddm-42 >-z z+3' | 
+| Ddm-42 >-62 Cc+6 >+6 >+6 >+4'0.5 >+50.5 | B♭b♭-52 >-z >-3'0.5 >-50.5 Gb♭-4'2 >-62 | Ff+4' >+6 Cc-3' >-5 Ddm-42 >-z z+5' | 
+| Ff+5'2 >+5' >+6 Cc-6' >-6' >-6' >-5' | Ff+5'2 >+z >+5' Ff+5'2 >+5' >+6 | Cc-6' >-6' >-6' >-5' Ff+5'2 >+z z-5' | 
+| Ddm-62 >-52 Cc+6 >+6 >+6 >+4'0.5 >+50.5 | B♭b♭-52 >-z >-3'0.5 >-50.5 Gb♭-4'2 >-62 | Ff+4' >+6 Cc-3' >-5 Ddm-42 >-z z+6' | 
+| Ddm-82 >-a2 Cc+9 >+9 >+9 >+7'0.5 >+80.5 | B♭b♭-92 >+z >-7'0.5 >-90.5 Gb♭-8'2 >-a2 | Ff+7' >+9 Cc-7' >-9 Ddm-82 >-z z+6' | 
+| Ddm-82 >-a2 Cc+9 >+9 >+9 >+7'0.5 >+80.5 | B♭b♭-92 >+z >-7'0.5 >-90.5 Gb♭-8'2 >-a2 | Ff+7' >+9 Cc-7' >-9 Ddm-82 >-z z+8' | 
+| Ff+8'2 >+8' >+9 Cc-a' >-a' >-a' >-9' | Ff+8'2 >+z >+8' Ff+8'2 >+8' >+9 | Cc-a' >-a' >-a' >-9' Ff+8'2 >+z z-9' | 
+| Ddm-a2 >-92 Cc+9 >+9 >+9 >+7'0.5 >+80.5 | B♭b♭-92 >+z >-7'0.5 >-90.5 Gb♭-8'2 >-a2 | Ff+7' >+9 Cc-7' >-9 Ddm-84 | 
