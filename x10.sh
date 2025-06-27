@@ -1,6 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
 source ./publicar
+
+if ! [ -n "$PASSWD" ]; then
+  echo "A variáveis não definidas."
+  exit
+fi
 
 assets_folder="./site.x10"
 
