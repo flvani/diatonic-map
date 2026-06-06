@@ -1705,6 +1705,10 @@ window.ABCXJS.parse.Parse = function(transposer_, accordion_) {
                     if(multilineVars.lastBarElem) {
                         multilineVars.lastBarElem.barNumber = multilineVars.barNumOnNextNote;
                         multilineVars.lastBarElem.barNumberVisible = ( multilineVars.barNumOnNextNoteVisible && ( mc === undefined || (mc.staffNum === 0 && mc.index === 0 )));
+                    } else {
+                        //Flávio 2026  -- se não existe a primeira barra na linha, desconta 1 do contador. Isso é necessário para que a numeração fique correta, 
+                        // mas não sei se é a melhor forma de resolver isso. Talvez seja melhor criar uma barra fictícia no início da linha.
+                        mc.currBarNumber = mc.currBarNumber -1;
                     }
                     
                     multilineVars.barNumOnNextNote = null;
