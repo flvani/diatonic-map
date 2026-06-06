@@ -2,7 +2,7 @@
 
 v_abcx=6.46
 v_app=2.25.1
-assets_folder="/home/flavio/Projetos/diatonic-app/app/src/main/assets"
+assets_folder="/mnt/c/users/flavio/Projetos/diatonic-app/app/src/main/assets"
 
 FILES="\
     ./app.html ./lib/libapp_${v_app}-min.js ./lib/libapp_${v_app}-min.css \
