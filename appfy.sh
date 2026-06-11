@@ -37,3 +37,8 @@ do
 	echo "Processing $f"
     cp -pr $f $assets_folder/
 done
+
+rm $assets_folder/privacy/policy.html
+cp -pr ./privacy/index.html $assets_folder/privacy/policy.html
+
+
